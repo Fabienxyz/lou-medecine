@@ -1,9 +1,42 @@
-# Start here
+# Start Here
 
-Parcourez ce repository dans l'ordre suivant :
+If you are returning to the project after a break, read the following documents in order.
 
-1. **[README.md](README.md)** — comprendre ce qu'est un Knowledge Repository et son rôle par rapport au code.
-2. **[MASTER_CONTEXT.md](MASTER_CONTEXT.md)** — vue d'ensemble stable du projet (à compléter).
-3. **[CURRENT_PRIORITIES.md](CURRENT_PRIORITIES.md)** — focus actuel et questions ouvertes (mis à jour régulièrement).
-4. **Dossiers numérotés** — approfondir par domaine : fondations, business, produit, architecture, décisions.
-5. **[playground/](playground/)** — brouillons et expérimentations avant intégration dans la structure principale.
+## 1. Current priorities
+
+CURRENT_PRIORITIES.md
+
+Understand what is currently being worked on.
+
+---
+
+## 2. Foundation
+
+00-foundation/
+
+Read:
+
+1. vision.md
+2. principles.md
+
+These documents define the project's mission and immutable principles.
+
+---
+
+## 3. Research
+
+05-research/
+
+Read:
+
+- README.md
+- RESEARCH_PROTOCOL.md
+- RESEARCH_LOG.md
+
+These documents explain the current research and discoveries.
+
+---
+
+## 4. Continue
+
+Only after reading the documents above should new product or implementation work begin.

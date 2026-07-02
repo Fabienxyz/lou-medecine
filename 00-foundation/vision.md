@@ -11,203 +11,129 @@
 
 # Mission
 
-Build the world's best learning engine for medical students.
+Build a personal AI-assisted learning companion that helps Lou prepare for the EDN by automatically transforming each official college chapter into learning materials adapted to the way she understands and studies.
 
-The objective is **not** to summarize medical colleges.
+The objective is not to replace the college.
 
-The objective is to transform every college into the clearest possible learning experience by combining pedagogy, cognitive science and AI.
-
-The system should help a student deeply understand a topic before asking them to memorize it.
+The objective is to eliminate the manual work required to transform the college into effective learning material, allowing Lou to spend her time understanding, memorizing and mastering medicine.
 
 ---
 
-# The problem
+# The Problem
 
 Medical colleges are excellent scientific references.
 
-They are not optimized for learning.
+They are not designed to match Lou's way of learning.
 
-Most chapters:
+For every chapter, Lou currently spends a significant amount of time:
 
-- present information in expert language
-- introduce details before intuition
-- contain very few visual explanations
-- rarely explain *why*
-- assume the student already has the correct mental model
-- require students to create their own summaries, diagrams and flashcards
+- understanding the overall structure of the chapter;
+- reorganising information;
+- identifying the logic behind each paragraph;
+- drawing diagrams and mind maps;
+- creating memorisation material.
 
-As a consequence, students spend hundreds of hours transforming information before they can actually learn it.
+A large part of this work consists of preparing to learn rather than actually learning.
+
+This preparation should be automated whenever possible.
 
 ---
 
 # Vision
 
-Every chapter should become an exceptional teacher.
+Every official college chapter should become a complete learning workspace.
 
-Instead of reading a chapter, a student should experience a structured learning journey.
+The college always remains the medical reference.
 
-For every concept, the system should automatically produce:
+Around it, the platform automatically generates learning materials that help Lou move efficiently from first discovery to EDN mastery.
 
-- an intuitive explanation
-- the scientific explanation
-- visual representations
-- mental models
-- links with previous knowledge
-- questions that verify understanding
-- memory material
-- EDN-oriented revision material
+The platform does not decide how Lou should learn.
 
-The student should never have to decide how to study.
-
-The system designs the learning journey.
+It proposes different learning assets and progressively adapts to the ones that best fit her learning style.
 
 ---
 
-# Learning philosophy
+# Learning Journey
 
-Understanding always comes before memorization.
+Every chapter follows the same learning progression.
 
-Learning is viewed as a progression:
+## Phase 1 — Build the Mental Map
 
-Understanding
+Before studying the details, Lou should understand:
 
-↓
+- what the chapter contains;
+- how it is organised;
+- how the different concepts relate to each other.
 
-Mental model
+Typical learning assets may include:
 
-↓
-
-Visualization
-
-↓
-
-Reasoning
-
-↓
-
-Long-term memory
-
-↓
-
-EDN performance
-
-Memorization without understanding should never be the default strategy.
+- mind maps;
+- chapter roadmaps;
+- concept hierarchies.
 
 ---
 
-# Core principles
+## Phase 2 — Build Deep Understanding
 
-## 1. Scientific accuracy
+For every paragraph, the objective is to understand the underlying logic.
 
-The medical college remains the source of truth.
+The platform helps answer questions such as:
 
-The AI may improve explanations.
+- Why?
+- How?
+- What causes this?
+- What happens next?
+- Why does this treatment work?
 
-It may never change scientific facts.
+The objective is not to simplify medicine.
 
----
+The objective is to make its logic easier to understand.
 
-## 2. Pedagogy first
-
-The goal is not to compress information.
-
-The goal is to maximize understanding.
-
----
-
-## 3. Visual first
-
-Whenever possible:
-
-diagram > paragraph
-
-flowchart > list
-
-timeline > chronology
-
-mind map > hierarchy
-
-comparison table > long explanation
+This phase represents the largest opportunity to save study time.
 
 ---
 
-## 4. One learning method
+## Phase 3 — Build EDN Mastery
 
-Every chapter follows the same pedagogical sequence.
+Once understanding has been achieved, the platform helps Lou master the level of detail required for the EDN.
 
-Students should not need to invent their own study method.
+Typical learning assets may include:
 
----
-
-## 5. Active learning
-
-The system constantly asks questions.
-
-Students explain.
-
-Predict.
-
-Compare.
-
-Reason.
-
-Apply.
-
-Learning is never passive.
+- flashcards;
+- QCM;
+- clinical cases;
+- spaced repetition;
+- EDN-oriented revision material.
 
 ---
 
-## 6. Build connections
+# Success
 
-Medicine is not 367 independent items.
+The project succeeds if Lou spends significantly less time:
 
-The system should continuously connect concepts across specialties.
+- rewriting the college;
+- reorganising information;
+- creating learning materials manually.
 
----
+and significantly more time:
 
-# Non-goals (V1)
+- understanding;
+- reasoning;
+- memorising;
+- preparing for the EDN.
 
-The first version is NOT trying to:
-
-- replace medical colleges
-- replace university teaching
-- diagnose patients
-- answer every medical question
-- become a general chatbot
-
-The first objective is much smaller:
-
-Transform one medical chapter into an exceptional learning experience.
+Success is measured by time saved without compromising trust in the official college.
 
 ---
 
-# Success criteria
+# Non-Goals (V1)
 
-A student using the system should be able to say:
+The first version of the project is not intended to:
 
-"I understand this chapter better than after reading the college."
+- replace the official college;
+- replace university teaching;
+- become a general AI tutor;
+- become a commercial SaaS platform;
+- support multiple users.
 
-Not:
-
-"I have a shorter summary."
-
----
-
-# Long-term vision
-
-Every medical concept becomes a reusable knowledge object.
-
-From this knowledge object, the platform can automatically generate:
-
-- explanations
-- diagrams
-- animations
-- mind maps
-- flashcards
-- quizzes
-- clinical cases
-- revision plans
-
-The college becomes the source.
-
-The learning engine becomes the teacher.
+Its only objective is to help Lou study more effectively.

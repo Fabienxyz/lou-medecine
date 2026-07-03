@@ -805,21 +805,31 @@ body{
     `
     ];
     
-    tabs.forEach((tab,index)=>{
-    
-        tab.addEventListener("click",()=>{
-    
-            tabs.forEach(t=>t.classList.remove("active"));
-    
-            tab.classList.add("active");
-    
-            content.style.animation="none";
-            content.offsetHeight;
-            content.style.animation="";
-            content.innerHTML = pages[index];
-    
-        });
-    
+    let currentTab = 0;
+
+    function showTab(index) {
+        if (index < 0 || index >= tabs.length) return;
+        currentTab = index;
+        tabs.forEach(t => t.classList.remove("active"));
+        tabs[index].classList.add("active");
+        content.style.animation = "none";
+        content.offsetHeight;
+        content.style.animation = "";
+        content.innerHTML = pages[index];
+    }
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => showTab(index));
+    });
+
+    content.addEventListener("click", (e) => {
+        const btn = e.target.closest(".nav-btn");
+        if (!btn) return;
+        if (btn.classList.contains("primary")) {
+            showTab(currentTab + 1);
+        } else {
+            showTab(currentTab - 1);
+        }
     });
     
     </script>

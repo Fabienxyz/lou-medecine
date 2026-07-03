@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1800" width="1200" height="1800" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">Vue d'ensemble — Formation d'une plaque d'athérome</title>
+  <desc id="svg-desc">Schéma éducatif du mécanisme de formation d'une plaque d'athérome, de la dysfonction endothéliale aux conséquences cliniques.</desc>
+
+  <defs>
+    <filter id="card-shadow" x="-6%" y="-6%" width="112%" height="118%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#000000" flood-opacity="0.05"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#9CA3AF"/>
+    </marker>
+    <style>
+      .title-main { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 32px; font-weight: 700; fill: #111827; letter-spacing: -0.02em; }
+      .title-sub { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: 600; fill: #111827; letter-spacing: -0.01em; }
+      .caption { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 400; fill: #6B7280; }
+      .card-title { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px; font-weight: 600; fill: #111827; }
+      .card-title-lg { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 19px; font-weight: 700; fill: #111827; }
+      .body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #6B7280; }
+      .body-dark { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #374151; }
+      .badge-icon { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; }
+      .badge-text { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 500; fill: #374151; }
+      .step-num { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 600; fill: #6B7280; }
+      .outcome-label { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 600; fill: #111827; }
+      .outcome-emoji { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 20px; }
+      .summary-title { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px; font-weight: 600; fill: #111827; }
+      .summary-body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #374151; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="1800" fill="#FFFFFF"/>
+
+  <text x="600" y="64" text-anchor="middle" class="title-main">Vue d'ensemble</text>
+  <text x="600" y="98" text-anchor="middle" class="title-sub">Formation d'une plaque d'athérome</text>
+  <text x="600" y="126" text-anchor="middle" class="caption">Comprendre le mécanisme global</text>
+  <line x1="520" y1="142" x2="680" y2="142" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="390" y="160" width="420" height="112" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="478" cy="190" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="478" y="194" text-anchor="middle" class="step-num">①</text>
+  <text x="600" y="194" text-anchor="middle" class="card-title">Facteurs de risque</text>
+  <rect x="414" y="214" width="88" height="36" rx="18" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="428" y="237" class="badge-icon">🚬</text>
+  <text x="452" y="237" class="badge-text">Tabac</text>
+  <rect x="510" y="214" width="88" height="36" rx="18" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="524" y="237" class="badge-icon">🩸</text>
+  <text x="548" y="237" class="badge-text">HTA</text>
+  <rect x="606" y="214" width="88" height="36" rx="18" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="620" y="237" class="badge-icon">🍬</text>
+  <text x="644" y="237" class="badge-text">Diabète</text>
+  <rect x="702" y="214" width="96" height="36" rx="18" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="716" y="237" class="badge-icon">🧈</text>
+  <text x="740" y="237" class="badge-text">LDL élevé</text>
+
+  <line x1="600" y1="272" x2="600" y2="304" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="390" y="312" width="420" height="96" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="458" cy="342" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="458" y="346" text-anchor="middle" class="step-num">②</text>
+  <text x="600" y="346" text-anchor="middle" class="card-title">Dysfonction endothéliale</text>
+  <text x="600" y="374" text-anchor="middle" class="body">L'endothélium devient perméable et perd ses propriétés protectrices.</text>
+
+  <line x1="600" y1="408" x2="600" y2="440" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="390" y="448" width="420" height="56" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="478" cy="476" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="478" y="480" text-anchor="middle" class="step-num">③</text>
+  <text x="600" y="480" text-anchor="middle" class="card-title">Entrée des LDL</text>
+
+  <line x1="600" y1="504" x2="600" y2="536" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="390" y="544" width="420" height="96" rx="16" fill="#FEF3C7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="458" cy="574" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="458" y="578" text-anchor="middle" class="step-num">④</text>
+  <text x="600" y="578" text-anchor="middle" class="card-title">Oxydation des LDL</text>
+  <text x="600" y="606" text-anchor="middle" class="body">Les LDL oxydées deviennent pro-inflammatoires.</text>
+
+  <line x1="600" y1="640" x2="600" y2="672" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="390" y="680" width="420" height="56" rx="16" fill="#FDE7C7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="448" cy="708" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="448" y="712" text-anchor="middle" class="step-num">⑤</text>
+  <text x="600" y="712" text-anchor="middle" class="card-title">Recrutement des monocytes</text>
+
+  <line x1="600" y1="736" x2="600" y2="768" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="390" y="776" width="420" height="56" rx="16" fill="#FDE7C7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="478" cy="804" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="478" y="808" text-anchor="middle" class="step-num">⑥</text>
+  <text x="600" y="808" text-anchor="middle" class="card-title">Macrophages</text>
+
+  <line x1="600" y1="832" x2="600" y2="864" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="390" y="872" width="420" height="56" rx="16" fill="#FDE7C7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="458" cy="900" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="458" y="904" text-anchor="middle" class="step-num">⑦</text>
+  <text x="600" y="904" text-anchor="middle" class="card-title">Cellules spumeuses</text>
+
+  <line x1="600" y1="928" x2="600" y2="960" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="324" y="968" width="552" height="148" rx="16" fill="#EDF5FF" stroke="#2563EB" stroke-width="2.5"/>
+  </g>
+  <circle cx="442" cy="1006" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="442" y="1010" text-anchor="middle" class="step-num">⑧</text>
+  <text x="600" y="1010" text-anchor="middle" class="card-title-lg">Plaque d'athérome</text>
+  <text x="600" y="1042" text-anchor="middle" class="body-dark">Accumulation lipidique</text>
+  <text x="600" y="1066" text-anchor="middle" class="body-dark">Inflammation chronique</text>
+  <text x="600" y="1090" text-anchor="middle" class="body-dark">Cap fibreux</text>
+
+  <line x1="600" y1="1116" x2="600" y2="1136" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+  <line x1="300" y1="1136" x2="900" y2="1136" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+  <line x1="300" y1="1136" x2="300" y2="1164" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <line x1="900" y1="1136" x2="900" y2="1164" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="160" y="1172" width="280" height="108" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="300" y="1204" text-anchor="middle" class="card-title">Plaque stable</text>
+  <text x="300" y="1228" text-anchor="middle" class="body-dark">Cap fibreux épais</text>
+  <text x="300" y="1248" text-anchor="middle" class="body-dark">Inflammation faible</text>
+  <text x="300" y="1268" text-anchor="middle" class="body-dark">Évolution lente</text>
+
+  <g filter="url(#card-shadow)">
+    <rect x="760" y="1172" width="280" height="108" rx="16" fill="#FDE7C7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="838" cy="1204" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="838" y="1208" text-anchor="middle" class="step-num">⑨</text>
+  <text x="900" y="1204" text-anchor="middle" class="card-title">Plaque instable</text>
+  <text x="900" y="1228" text-anchor="middle" class="body-dark">Cap mince</text>
+  <text x="900" y="1248" text-anchor="middle" class="body-dark">Inflammation importante</text>
+  <text x="900" y="1268" text-anchor="middle" class="body-dark">Grande richesse lipidique</text>
+
+  <line x1="900" y1="1280" x2="900" y2="1312" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="760" y="1320" width="280" height="56" rx="16" fill="#FEE2E2" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="858" cy="1348" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="858" y="1352" text-anchor="middle" class="step-num">⑩</text>
+  <text x="900" y="1352" text-anchor="middle" class="card-title">Rupture</text>
+
+  <line x1="900" y1="1376" x2="900" y2="1408" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="760" y="1416" width="280" height="56" rx="16" fill="#FEE2E2" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="848" cy="1444" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="848" y="1448" text-anchor="middle" class="step-num">⑪</text>
+  <text x="900" y="1448" text-anchor="middle" class="card-title">Thrombose</text>
+
+  <line x1="900" y1="1472" x2="900" y2="1504" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+
+  <g filter="url(#card-shadow)">
+    <rect x="680" y="1512" width="440" height="124" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="900" y="1542" text-anchor="middle" class="card-title">Conséquences cliniques</text>
+
+  <g filter="url(#card-shadow)">
+    <rect x="700" y="1558" width="120" height="64" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="760" y="1584" text-anchor="middle" class="outcome-emoji">❤️</text>
+  <text x="760" y="1608" text-anchor="middle" class="outcome-label">Infarctus</text>
+
+  <g filter="url(#card-shadow)">
+    <rect x="840" y="1558" width="120" height="64" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="900" y="1584" text-anchor="middle" class="outcome-emoji">🧠</text>
+  <text x="900" y="1608" text-anchor="middle" class="outcome-label">AVC</text>
+
+  <g filter="url(#card-shadow)">
+    <rect x="980" y="1558" width="120" height="64" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="1040" y="1584" text-anchor="middle" class="outcome-emoji">🦵</text>
+  <text x="1040" y="1608" text-anchor="middle" class="outcome-label">AOMI</text>
+
+  <g filter="url(#card-shadow)">
+    <rect x="180" y="1660" width="840" height="112" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="600" y="1696" text-anchor="middle" class="summary-title">À retenir</text>
+  <text x="600" y="1724" text-anchor="middle" class="summary-body">Une seule maladie.</text>
+  <text x="600" y="1746" text-anchor="middle" class="summary-body">Le territoire atteint détermine la complication clinique.</text>
+  <text x="600" y="1768" text-anchor="middle" class="summary-body">Le danger provient principalement de la rupture de plaque et de la thrombose, plus que du degré de sténose.</text>
+</svg>

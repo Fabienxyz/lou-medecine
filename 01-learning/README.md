@@ -1,7 +1,29 @@
-# 01 — Business
+# Learning
 
-Contexte métier et stratégique du projet.
+This directory defines how an official medical college is transformed into a learning experience adapted to Lou.
 
-Y documenter la vision, le problème adressé, les utilisateurs cibles, le modèle économique et les contraintes marché.
+It does not contain prompts.
 
-Restez descriptif et factuel. Les choix techniques et produit détaillés vont dans les dossiers suivants.
+It does not contain implementation.
+
+It contains the pedagogical methodology.
+
+## Documents
+
+learning-workflow.md
+Overall learning journey.
+
+paragraph-analysis-template.md
+Standard framework used to analyse every paragraph.
+
+pedagogical-strategies.md
+Library of teaching strategies.
+
+learning-assets.md
+Library of candidate learning assets.
+
+paragraph-analysis/
+Concrete analyses of real EDN paragraphs.
+
+experiments/
+Ideas under evaluation.

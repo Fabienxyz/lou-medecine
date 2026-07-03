@@ -1,5 +1,12 @@
-# 📖 L'histoire d'une plaque d'athérome
+# 📖 Histoire
 
+| | |
+|---|---|
+| **Objectif** | Comprendre la logique complète du mécanisme |
+| **Temps estimé** | 4 à 5 min |
+| **Quand l'utiliser ?** | En premier, avant le collège ou juste après une première lecture |
+
+# 📖 L'histoire d'une plaque d'athérome
 ## L'idée principale
 
 Une plaque d'athérome n'apparaît pas d'un seul coup.

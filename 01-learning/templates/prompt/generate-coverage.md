@@ -26,8 +26,8 @@ Inventing one concept is considered a failure.
 
 You will receive:
 
-- `official-college.md`
-- `coverage-template.md`
+- official-college.md
+- coverage-template.md
 
 ---
 
@@ -37,7 +37,7 @@ You will receive:
 
 Read the entire chapter carefully.
 
-Analyse it **from beginning to end**.
+Analyse it from beginning to end.
 
 Do not skip any section.
 
@@ -47,13 +47,15 @@ Do not skip any paragraph.
 
 ### 2. Populate the Official Structure
 
-Identify every major section of the chapter.
+Identify the major sections of the official College.
+
+Keep the same organisation as the original document.
+
+Do not split sections into unnecessary subsections.
+
+The goal is to capture the overall structure of the chapter, not its detailed table of contents.
 
 Populate the **Official Structure** section of the template.
-
-Use the original College structure whenever possible.
-
-Do not invent section names.
 
 ---
 
@@ -86,35 +88,15 @@ Do **not** explain them.
 
 Do **not** summarize them.
 
-Do **not** reorganize them.
+Do **not** merge them.
 
 Simply list them.
 
-If uncertain whether a concept is important, **include it**.
+If uncertain whether a concept is important, include it.
 
 ---
 
-### 4. Identify visual opportunities
-
-Identify concepts that would clearly benefit from a dedicated illustration.
-
-Examples include:
-
-- causal chains
-- physiological mechanisms
-- pathological mechanisms
-- diagnostic algorithms
-- anatomical relationships
-- decision trees
-- timelines
-
-Do not design the illustrations.
-
-Simply identify the opportunity.
-
----
-
-### 5. Populate the template
+### 4. Populate the template
 
 Populate `coverage.md` using `coverage-template.md`.
 
@@ -132,17 +114,17 @@ Never rewrite the College.
 
 Never simplify medical information.
 
-Never merge concepts.
-
-Never rank concepts by importance.
-
 Never create stories.
 
-Never generate explanations.
+Never generate diagrams.
 
-Never produce diagrams.
+Never generate SVG ideas.
 
-This is an **analysis task**, not a synthesis task.
+Never reorganise concepts.
+
+This is an analysis task.
+
+Not a synthesis task.
 
 Information compression is forbidden.
 
@@ -154,18 +136,19 @@ Your only objective is completeness.
 
 ## Self-audit
 
-Before producing your final answer, perform a complete review of your own work.
+Before producing your final answer, perform a complete review.
 
 Verify that:
 
 - every major section of the College has been analysed
 - every paragraph has been considered
 - every important concept has been extracted
+- no concept has been omitted
 - no concept has been invented
 - no educational interpretation has been added
 - the output remains faithful to the official College
 
-If any uncertainty remains, analyse the chapter again before producing your final answer.
+If any uncertainty remains, analyse the chapter again before producing the final answer.
 
 ---
 

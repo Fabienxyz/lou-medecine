@@ -7,6 +7,13 @@
 > This document defines the pedagogical structure of the chapter.
 > It does not contain the final content.
 
+# Coverage review
+
+Every major concept listed in coverage.md must appear at least once in the storyboard.
+
+No concept may be omitted.
+
+Several concepts may be grouped into the same learning block if this improves understanding.
 ---
 
 # Learning objective

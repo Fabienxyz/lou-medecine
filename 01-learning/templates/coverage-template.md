@@ -22,13 +22,13 @@ Overall coverage: ⬜ 0%
 
 ---
 
-# 1. Official structure
+# 1. Major sections
 
-List every major section from the official College.
+Identify the major sections that organise the chapter.
 
-Use the official structure whenever possible.
+This section captures the logical organisation of the chapter, not its detailed table of contents.
 
-| Official section | Covered | Destination | Notes |
+| Major section | Covered | Destination | Notes |
 |------------------|----------|-------------|-------|
 | | ⬜ | | |
 | | ⬜ | | |

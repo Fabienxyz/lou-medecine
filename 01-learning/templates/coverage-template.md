@@ -2,10 +2,11 @@
 
 > Purpose
 >
-> Ensure that every important concept from `official-college.md` is represented somewhere in the future learning experience.
+> Ensure that no medical knowledge from `official-college.md` is lost during the production pipeline.
 >
-> This document is a production checklist.
-> It is not a learning document.
+> This document is an audit.
+>
+> It is never used directly by learners.
 
 ---
 
@@ -26,10 +27,12 @@ Overall coverage: ⬜ 0%
 
 Identify the major sections that organise the chapter.
 
-This section captures the logical organisation of the chapter, not its detailed table of contents.
+This section captures the logical organisation of the chapter.
+
+It is **not** a copy of the complete table of contents.
 
 | Major section | Covered | Destination | Notes |
-|------------------|----------|-------------|-------|
+|---------------|----------|-------------|-------|
 | | ⬜ | | |
 | | ⬜ | | |
 | | ⬜ | | |
@@ -38,9 +41,31 @@ This section captures the logical organisation of the chapter, not its detailed 
 
 ---
 
-# 2. Major concepts
+# 2. Knowledge units
 
-List every important concept introduced by the College.
+List every important knowledge unit introduced by the College.
+
+Examples include:
+
+- definitions
+- physiological mechanisms
+- pathological mechanisms
+- anatomy
+- physiology
+- classifications
+- formulas
+- diagnostic concepts
+- investigations
+- biomarkers
+- thresholds
+- treatments
+- drugs
+- procedures
+- devices
+- prognostic factors
+- complications
+- recommendations
+- clinical tools
 
 Do not explain.
 
@@ -48,10 +73,12 @@ Do not simplify.
 
 Do not reorganise.
 
-Simply list every concept that must later appear somewhere in the learning experience.
+Simply list every knowledge unit that must later appear somewhere in the learning experience.
 
-| Concept | Covered | Destination |
-|----------|----------|-------------|
+Do not include editorial references such as figure numbers, video numbers or table numbers unless they are necessary to understand the medical content.
+
+| Knowledge unit | Covered | Destination |
+|----------------|----------|-------------|
 | | ⬜ | |
 | | ⬜ | |
 | | ⬜ | |
@@ -62,10 +89,10 @@ Simply list every concept that must later appear somewhere in the learning exper
 
 # 3. Final validation
 
-- [ ] Every major section of the College is represented
-- [ ] Every important concept has been extracted
-- [ ] No concept has been omitted
-- [ ] No concept has been invented
+- [ ] Every major section is represented
+- [ ] Every important knowledge unit has been extracted
+- [ ] No knowledge has been omitted
+- [ ] No knowledge has been invented
 - [ ] Faithful to the official College
 - [ ] Ready for storyboard generation
 

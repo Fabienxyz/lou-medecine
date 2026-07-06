@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lou Learning Companion</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<span class="badge">Preview</span>
+
+<p class="header-eyebrow">Lou Learning Companion</p>
+
+<h1 id="specialty">…</h1>
+
+<p class="chapter-line" id="chapter-line">…</p>
+
+<p class="chapter-title" id="chapter-title">…</p>
+
+<div class="objectives">
+    <p class="objectives-title">À la fin de cette page, tu sauras :</p>
+    <ul id="objectives-list">
+        <li>…</li>
+    </ul>
+</div>
+
+<p class="philosophy">Comprendre avant de mémoriser. Une idée à la fois.</p>
+
+<div class="header-meta">
+    <div class="meta-item">
+        <span class="meta-label">Lecture</span>
+        <span class="meta-value" id="read-time">…</span>
+    </div>
+</div>
+
+<div class="progression">
+    <p class="progression-title">Progression</p>
+    <div class="progression-steps">
+        <span class="active">🟢 Comprendre</span>
+        <span>⚪ Mémoriser</span>
+        <span>⚪ S'entraîner</span>
+        <span>⚪ Valider</span>
+    </div>
+</div>
+
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="content" id="content"></div>
+
+</div>
+
+<script src="lib/marked.min.js"></script>
+<script src="config.js"></script>
+<script src="markdown.js"></script>
+<script src="renderer.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

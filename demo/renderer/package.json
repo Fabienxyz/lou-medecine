@@ -1,0 +1,12 @@
+{
+  "name": "lou-renderer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static chapter renderer for Lou Learning Companion",
+  "scripts": {
+    "postinstall": "mkdir -p lib && cp node_modules/marked/marked.min.js lib/marked.min.js"
+  },
+  "dependencies": {
+    "marked": "^15.0.6"
+  }
+}

@@ -2,23 +2,41 @@
 
 > Purpose
 >
-> Transform `official-college.md` into the Lou Learning Companion experience.
+> Transform `official-college.md` into the pedagogical blueprint of the Lou Learning Companion.
 >
-> This document defines the pedagogical structure of the chapter.
-> It does not contain the final content.
+> This document defines the learning architecture of the chapter.
+>
+> It does not contain the final learning content.
+
+---
+
+# Progress
+
+Overall progress: ⬜ 0%
+
+- [ ] Storyboard created
+- [ ] Coverage reviewed
+- [ ] Assets identified
+- [ ] Ready for asset generation
+- [ ] Final review
+
+---
 
 # Coverage review
 
-Every major concept listed in coverage.md must appear at least once in the storyboard.
+Every knowledge unit listed in `coverage.md` must appear at least once in the storyboard.
 
-No concept may be omitted.
+No knowledge unit may be omitted.
 
-Several concepts may be grouped into the same learning block if this improves understanding.
+Nothing may be invented.
+
+Knowledge units may be grouped together if this improves understanding.
+
 ---
 
 # Learning objective
 
-Explain the learning objective in one sentence.
+Describe in one sentence what the learner should understand after completing the chapter.
 
 TODO
 
@@ -26,7 +44,7 @@ TODO
 
 # Core idea
 
-What is the single most important idea the student should remember after studying this chapter?
+If the learner remembers only one idea after studying this chapter, it should be this.
 
 TODO
 
@@ -36,16 +54,25 @@ TODO
 
 ## 1. Histoire
 
-Purpose
+### Purpose
 
-- Introduce the chapter with an intuitive story.
-- Build intuition before introducing technical concepts.
+Build intuition before introducing technical concepts.
 
-Output
+The learner should immediately understand **why this chapter matters**.
 
-generated-assets/histoire.md
+### Learning objective
 
-Status
+TODO
+
+### Knowledge covered
+
+-
+
+### Suggested assets
+
+-
+
+### Status
 
 ⬜
 
@@ -53,18 +80,25 @@ Status
 
 ## 2. Vue d'ensemble
 
-Purpose
+### Purpose
 
-- Give a complete mental map of the chapter.
-- Allow the student to understand the whole mechanism in less than one minute.
+Give the learner a complete mental model of the chapter before exploring the details.
 
-Outputs
+The learner should understand how all major concepts fit together.
 
-generated-assets/vue-ensemble.md
+### Learning objective
 
-generated-assets/overview.svg
+TODO
 
-Status
+### Knowledge covered
+
+-
+
+### Suggested assets
+
+-
+
+### Status
 
 ⬜
 
@@ -72,37 +106,41 @@ Status
 
 ## 3. Mécanismes
 
-Purpose
+### Purpose
 
-Explain each major mechanism separately.
+Explain the major mechanisms of the chapter one at a time.
 
-For each mechanism:
+Each mechanism should answer one question.
 
-- One question
-- One short explanation
-- One dedicated figure if useful
+Repeat the following block as many times as necessary.
 
-Planned mechanisms
+---
 
-1.
+### Mechanism
 
-2.
+#### Title
 
-3.
+TODO
 
-4.
+#### Question answered
 
-5.
+TODO
 
-6.
+#### Learning objective
 
-Outputs
+TODO
 
-generated-assets/mecanismes.md
+#### Knowledge covered
 
-generated-assets/figures/
+-
 
-Status
+#### Suggested assets
+
+-
+
+---
+
+### Status
 
 ⬜
 
@@ -110,25 +148,45 @@ Status
 
 ## 4. Acteurs
 
-Purpose
+### Purpose
 
-Describe every important actor.
+Introduce the important actors involved in the chapter.
 
-Examples
+Examples:
 
-- organ
-- cell
-- hormone
-- receptor
-- molecule
-- examination
-- treatment
+- organs
+- cells
+- receptors
+- hormones
+- molecules
+- investigations
+- treatments
 
-Output
+Repeat the following block as many times as necessary.
 
-generated-assets/acteurs.md
+---
 
-Status
+### Actor
+
+#### Name
+
+TODO
+
+#### Role
+
+TODO
+
+#### Knowledge covered
+
+-
+
+#### Suggested assets
+
+-
+
+---
+
+### Status
 
 ⬜
 
@@ -136,47 +194,39 @@ Status
 
 ## 5. Suis-je prêt ?
 
-Purpose
+### Purpose
 
-Verify understanding before memorisation.
+Define what the learner should now be able to understand before moving on.
 
-Outputs
+Do not generate questions.
 
-generated-assets/pret.md
+Describe only the expected competencies.
 
-Status
+### Expected competencies
+
+-
+
+### Suggested assets
+
+-
+
+### Status
 
 ⬜
 
 ---
 
-# Assets to produce
+# Final validation
 
-- [ ] overview.svg
-
-- [ ] mechanism-01.svg
-
-- [ ] mechanism-02.svg
-
-- [ ] mechanism-03.svg
-
-- [ ] mechanism-04.svg
-
-- [ ] mechanism-05.svg
-
-- [ ] mechanism-06.svg
+- [ ] Every knowledge unit from coverage.md is represented
+- [ ] No knowledge has been omitted
+- [ ] No knowledge has been invented
+- [ ] Learning progression is coherent
+- [ ] Understanding precedes memorisation
+- [ ] Each mechanism answers a single question
+- [ ] Suggested assets are sufficient for production
+- [ ] Ready for asset generation
 
 ---
 
-# Final validation
-
-The student should be able to:
-
-- Explain the chapter without reading notes.
-- Draw the main mechanism.
-- Explain every major mechanism.
-- Connect the mechanisms together.
-
-Status
-
-⬜ Ready for production
+# Notes

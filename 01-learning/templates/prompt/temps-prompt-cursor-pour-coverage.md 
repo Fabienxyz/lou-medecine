@@ -1,0 +1,26 @@
+Working directory:
+
+01-learning/chapter-analysis/cardio/234-insuffisance-cardiaque/
+
+Inputs:
+
+- ./official-college.md
+- ../../../templates/coverage-template.md
+- ../../../templates/prompts/generate-coverage.md
+
+Task:
+
+Read and follow generate-coverage.md exactly.
+
+Generate a brand new coverage.md.
+
+Use only:
+
+- official-college.md
+- coverage-template.md
+
+Do not reuse any previous coverage file.
+
+Do not modify any other file.
+
+Output only coverage.md.

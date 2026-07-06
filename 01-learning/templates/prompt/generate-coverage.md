@@ -45,18 +45,19 @@ Do not skip any paragraph.
 
 ---
 
-### 2. Populate the Official Structure
+### 2. Identify the major sections
 
-Identify the major sections of the official College.
+Identify the 10 to 20 major sections that organise the chapter.
 
-Keep the same organisation as the original document.
+The objective is NOT to reproduce the complete table of contents.
 
-Do not split sections into unnecessary subsections.
+Merge subsections whenever they belong to the same logical topic.
 
-The goal is to capture the overall structure of the chapter, not its detailed table of contents.
+Only create a separate section when it introduces a genuinely new subject.
 
-Populate the **Official Structure** section of the template.
+The output should represent the logical organisation of the chapter, not its editorial hierarchy.
 
+Populate the **Major Sections** section of the template.
 ---
 
 ### 3. Extract every important concept

@@ -4,11 +4,11 @@
 
 You are an expert medical educator and instructional designer.
 
-Your mission is to create the **Suis-je prêt ?** asset for the Lou Learning Companion.
+Your mission is to produce the final **Suis-je prêt ?** asset for the Lou Learning Companion.
 
-This asset verifies that the learner truly understands the chapter before moving on.
+This asset helps the learner verify that the chapter has been understood before moving on to memorisation or self-assessment.
 
-Its purpose is to assess understanding and reasoning, not memorisation.
+It must be immediately usable by the renderer.
 
 The Official College remains the only medical source of truth.
 
@@ -33,69 +33,50 @@ You will receive:
 
 The learner should demonstrate understanding.
 
-Do not assess memorisation.
+Avoid simple factual recall whenever possible.
 
 ---
 
 ## 2. Integrate concepts
 
-Each competency should connect multiple mechanisms whenever appropriate.
-
-Avoid isolated factual recall.
+Competencies should naturally connect multiple concepts from the chapter.
 
 ---
 
 ## 3. Focus on reasoning
 
-The learner should be able to:
+Whenever appropriate, the learner should be able to:
 
-- explain
-- compare
-- predict
-- justify
-- distinguish
-- interpret
-- connect concepts
-
-rather than simply recall facts.
+- explain;
+- compare;
+- justify;
+- distinguish;
+- predict;
+- connect concepts.
 
 ---
 
-## 4. Reflect real medical thinking
+## 4. Prepare the next learning step
 
-Competencies should resemble the reasoning expected from a future physician.
+This asset is the final checkpoint before memorisation and question banks.
+
+It should reveal what still needs to be understood.
 
 ---
 
 # Your tasks
 
-## 1. Identify the competencies
+Complete **pret-template.md**.
 
-Using the storyboard, determine every competency that the learner should master before continuing.
+Replace every placeholder with the final learning content.
 
-Create as many competencies as necessary.
+Produce a polished asset ready for rendering.
 
----
+The final asset must include:
 
-## 2. For each competency
-
-Provide:
-
-- Title
-- The learner should be able to...
-- Depends on
-- Knowledge covered
-- Suggested assessment
-
-Follow the structure defined in `pret-template.md`.
-
----
-
-## 3. Ensure complete coverage
-
-Every major learning objective from the storyboard should be represented.
-
-Every important knowledge unit from `coverage.md` should contribute to at least one competency.
+- progressively organised competencies;
+- an auto-evaluation section;
+- the completed validation checklist.
 
 ---
 
@@ -105,17 +86,19 @@ Never invent medical information.
 
 Never contradict the Official College.
 
-Never omit knowledge units from coverage.md.
-
-Do not generate quiz questions.
+Never omit important knowledge from coverage.md.
 
 Do not generate MCQs.
+
+Do not generate quizzes.
 
 Do not generate flashcards.
 
 Do not generate mnemonics.
 
-Describe only the expected competencies and the suggested assessment methods.
+Do not modify the template structure.
+
+Keep the markdown clean and directly renderable.
 
 ---
 
@@ -123,11 +106,11 @@ Describe only the expected competencies and the suggested assessment methods.
 
 Before producing the final asset, verify that:
 
-- every major learning objective from the storyboard is represented
-- every competency evaluates understanding rather than memorisation
-- every competency reflects authentic medical reasoning
-- every relevant knowledge unit from coverage.md is represented
-- no competency unnecessarily duplicates another
+- every major learning objective from the storyboard is represented;
+- understanding precedes memorisation;
+- competencies reflect authentic medical reasoning;
+- every important knowledge unit is represented;
+- no competency unnecessarily duplicates another.
 
 Revise if necessary.
 
@@ -137,4 +120,10 @@ Revise if necessary.
 
 Produce only the completed `pret.md`.
 
-Do not output anything else.
+Do not output explanations.
+
+Do not output markdown fences.
+
+The file must be ready to save directly as:
+
+generated-assets/pret.md

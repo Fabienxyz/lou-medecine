@@ -4,11 +4,13 @@
 
 You are an expert medical educator and instructional designer.
 
-Your mission is to create the **Histoire** asset for the Lou Learning Companion.
+Your mission is to produce the final **Histoire** asset for the Lou Learning Companion.
 
-The story is not intended to teach the chapter.
+This asset is the learner's first contact with the chapter.
 
-Its purpose is to build intuition before introducing medical terminology.
+Its purpose is to build intuition before introducing technical concepts.
+
+The story must be immediately usable by the renderer.
 
 The Official College remains the only medical source of truth.
 
@@ -44,7 +46,7 @@ The story should naturally progress through:
 - an initial situation
 - a problem
 - observable consequences
-- a conceptual resolution
+- a conceptual conclusion
 
 ---
 
@@ -52,76 +54,60 @@ The story should naturally progress through:
 
 The story is an analogy.
 
-It must never contradict the Official College.
-
 It may simplify.
 
-It must never distort.
+It must never contradict the Official College.
+
+It must never invent medical facts.
 
 ---
 
 ## 4. Prepare the learner
 
-The story should prepare the learner to understand the mechanisms that follow.
+The story prepares the learner for the rest of the chapter.
 
-It should not attempt to explain every concept.
+It should create intuition.
+
+It should not attempt to teach every mechanism.
 
 ---
 
 # Your tasks
 
-## 1. Define the learning objective
+Complete **histoire-template.md**.
 
-Describe what intuitive understanding the learner should gain from the story.
+Replace every placeholder with the final learning content.
 
----
+Produce a polished asset ready for rendering.
 
-## 2. Choose the central metaphor
+The final asset must include:
 
-Select the metaphor or real-world analogy that best represents the chapter.
-
-The metaphor should remain consistent throughout the story.
-
----
-
-## 3. Build the narrative
-
-Produce:
-
-- Situation
-- Problem
-- Consequences
-- Resolution
-
-The resolution should remain conceptual.
-
-Do not explain treatments in detail.
-
----
-
-## 4. Link to the chapter
-
-List the knowledge units from `coverage.md` that this story prepares.
-
-Do not explain them.
+- a complete story
+- a memorable central intuition
+- a short "Ce qu'il faut retenir" section
+- completed validation checklist
 
 ---
 
 # Constraints
 
-Never invent medical facts.
+Never invent medical information.
 
 Never contradict the Official College.
 
-Do not explain mechanisms in detail.
+Do not explain detailed mechanisms.
 
 Do not generate diagrams.
+
+Do not generate SVG.
 
 Do not generate quizzes.
 
 Do not generate mnemonics.
 
-The story should remain concise and memorable.
+Do not modify the template structure.
+
+Keep the markdown clean and directly renderable.
 
 ---
 
@@ -129,11 +115,11 @@ The story should remain concise and memorable.
 
 Before producing the final asset, verify that:
 
-- the story is medically accurate
-- the metaphor remains consistent
-- the learner understands why the chapter matters
-- the story prepares the mechanisms without replacing them
-- all referenced knowledge units exist in coverage.md
+- the story follows the storyboard;
+- the central metaphor remains consistent;
+- the learner understands why the chapter matters;
+- the story prepares the following assets without replacing them;
+- every medical statement is supported by the Official College.
 
 Revise if necessary.
 
@@ -143,4 +129,10 @@ Revise if necessary.
 
 Produce only the completed `histoire.md`.
 
-Do not output anything else.
+Do not output explanations.
+
+Do not output markdown fences.
+
+The file must be ready to save directly as:
+
+generated-assets/histoire.md

@@ -2,91 +2,72 @@
 
 > Purpose
 >
-> Present the complete chapter on a single page.
+> Give the learner a complete mental model of the chapter before exploring the details.
 >
-> This asset gives the learner a global mental model before studying the details.
+> This asset should allow the learner to understand how all major concepts fit together.
+>
+> It must be directly displayable in the renderer.
+>
+> It is the final learning content, not a design document.
 
 ---
 
-# Learning objective
+# Progress
 
-Explain what the learner should understand after reading this overview.
+Overall progress: ⬜ 0%
 
-TODO
-
----
-
-# Central diagram
-
-Describe the single diagram that represents the entire chapter.
-
-Do not draw it.
-
-Describe:
-
-- the main components
-- how they connect
-- the overall flow of information
-
-TODO
+- [ ] Overview written
+- [ ] Medically validated
+- [ ] Consistent with the storyboard
+- [ ] Ready for rendering
+- [ ] Final review
 
 ---
 
-# Major blocks
+# Vue d'ensemble
 
-List the major conceptual blocks that appear in the overview.
+## La carte mentale
 
-1. TODO
+[[SVG:overview]]
 
-2. TODO
+Describe the chapter through a single high-level overview.
 
-3. TODO
+The accompanying SVG will illustrate this mental model.
 
-4. TODO
-
-5. TODO
+The text should explain the diagram, not duplicate it.
 
 ---
 
-# Key connections
+## Les grands blocs
 
-List the essential relationships that the learner should immediately understand.
+Describe the major conceptual blocks of the chapter.
 
-- TODO
+Explain how they connect together.
 
-- TODO
-
-- TODO
-
-- TODO
+Do not explain detailed mechanisms.
 
 ---
 
-# What this overview deliberately omits
+## Les connexions essentielles
 
-List details that should remain inside the dedicated mechanisms.
-
-- TODO
+Highlight the most important relationships the learner should immediately understand.
 
 ---
 
-# Constraints
+## Ce qui est volontairement simplifié
 
-- One single diagram.
-- Must be understandable in under one minute.
-- No unnecessary detail.
-- No exhaustive lists.
-- Focus on understanding relationships.
-- Every major block must later be explored in dedicated assets.
+Briefly explain what will be explored in the following assets (Mécanismes, Acteurs, Suis-je prêt ?).
 
 ---
 
-# Outputs
+# Final validation
 
-generated-assets/vue-ensemble.md
+- [ ] Consistent with the storyboard
+- [ ] Complete mental model established
+- [ ] Medically accurate
+- [ ] No knowledge invented
+- [ ] Ready for rendering
 
-generated-assets/overview.svg
+---
 
-Status
-
-⬜
+# Notes

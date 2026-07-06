@@ -2,94 +2,45 @@
 
 > Purpose
 >
-> Introduce the chapter through a memorable and intuitive story.
+> Build the learner's intuition before introducing the chapter.
 >
-> The story is the learner's first contact with the chapter.
+> This is the first learning asset of the Lou Learning Companion.
 >
-> Its objective is to create intuition before introducing medical terminology.
+> It must be directly displayable in the renderer.
+>
+> It is the final learning content, not a design document.
 
 ---
 
-# Learning objective
+# Progress
 
-Explain what the learner should intuitively understand after reading the story.
+Overall progress: ⬜ 0%
 
-TODO
-
----
-
-# Central metaphor
-
-Describe the metaphor or real-world analogy that best represents this chapter.
-
-TODO
+- [ ] Story written
+- [ ] Medically validated
+- [ ] Consistent with the storyboard
+- [ ] Ready for rendering
+- [ ] Final review
 
 ---
 
-# Narrative structure
-
-## Situation
-
-Describe the initial situation.
-
-TODO
+# Histoire
 
 ---
 
-## Problem
-
-Describe what goes wrong.
-
-TODO
+## Ce qu'il faut retenir
 
 ---
 
-## Consequences
+# Final validation
 
-Describe the observable consequences.
-
-TODO
-
----
-
-## Resolution
-
-Describe how the problem can be corrected.
-
-Do not explain treatments in detail.
-
-Only describe the resolution at a conceptual level.
-
-TODO
+- [ ] The story follows the storyboard
+- [ ] The story remains medically accurate
+- [ ] The central intuition is clear
+- [ ] The learner understands why the chapter matters
+- [ ] No medical knowledge has been invented
+- [ ] Ready for rendering
 
 ---
 
-# Medical concepts introduced
-
-List the concepts that this story prepares the learner to understand.
-
-- TODO
-
-- TODO
-
-- TODO
-
----
-
-# Constraints
-
-- No medical jargon unless essential.
-- No lists of facts.
-- No memorisation.
-- No drug names unless absolutely necessary.
-- The story must create intuition only.
-
----
-
-# Outputs
-
-generated-assets/histoire.md
-
-Status
-
-⬜
+# Notes

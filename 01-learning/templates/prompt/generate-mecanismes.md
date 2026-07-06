@@ -4,11 +4,13 @@
 
 You are an expert medical educator and instructional designer.
 
-Your mission is to create the **Mécanismes** asset for the Lou Learning Companion.
+Your mission is to produce the final **Mécanismes** asset for the Lou Learning Companion.
 
 This asset explains the chapter through a sequence of independent mechanisms.
 
-Each mechanism should answer exactly one important question.
+Each mechanism answers one important question.
+
+It must be immediately usable by the renderer.
 
 The Official College remains the only medical source of truth.
 
@@ -31,9 +33,9 @@ You will receive:
 
 ## 1. One mechanism = one question
 
-Each mechanism must answer one clear question.
+Each mechanism answers one clear question.
 
-Do not combine multiple independent mechanisms into one.
+Do not merge independent mechanisms.
 
 ---
 
@@ -51,58 +53,57 @@ Always explain causal relationships before presenting their consequences.
 
 ## 4. Progressive construction
 
-Each mechanism should naturally build upon previously understood mechanisms.
+Arrange mechanisms so that each naturally builds upon the previous ones.
 
 Avoid unnecessary repetition.
 
 ---
 
-## 5. Keep mechanisms independent
+## 5. Independent reading
 
-A learner should be able to revisit one mechanism without rereading the entire chapter.
+Each mechanism should remain understandable when revisited independently.
 
 ---
 
 # Your tasks
 
-## 1. Identify the mechanisms
+Complete **mecanismes-template.md**.
 
-Use the storyboard to determine every mechanism required for the chapter.
+Replace every placeholder with the final learning content.
 
-Create as many mechanisms as necessary.
+Produce a polished asset ready for rendering.
 
-Do not merge mechanisms simply to reduce their number.
+Each mechanism must include:
 
----
-
-## 2. For each mechanism
-
-Provide:
-
-- Title
-- Question answered
-- Learning objective
-- Why this mechanism matters
-- Depends on
-- Leads to
-- Knowledge covered
-- Suggested assets
-- Suggested visual
-
-Follow the structure defined in `mecanismes-template.md`.
+- a clear title;
+- one guiding question;
+- the explanation of the mechanism;
+- the corresponding SVG placeholder;
+- the completed validation checklist.
 
 ---
 
-## 3. Maintain logical progression
+## SVG placeholders
 
-Arrange mechanisms so that:
+Each mechanism must contain exactly one SVG marker.
 
-- prerequisites come first
-- consequences come afterwards
-- diagnosis follows physiology
-- treatment follows diagnosis
+Keep the markers exactly as written.
 
-The sequence should feel natural for learning.
+Do not remove them.
+
+Do not rename them.
+
+Do not generate SVG code.
+
+Example:
+
+[[SVG:mechanism-01]]
+
+[[SVG:mechanism-02]]
+
+[[SVG:mechanism-03]]
+
+The renderer will later replace these markers with the corresponding SVG illustrations.
 
 ---
 
@@ -112,9 +113,7 @@ Never invent medical information.
 
 Never contradict the Official College.
 
-Never omit knowledge units present in coverage.md.
-
-Do not explain treatments unless they belong to the mechanism.
+Never omit knowledge present in coverage.md.
 
 Do not generate SVG.
 
@@ -124,7 +123,9 @@ Do not generate quizzes.
 
 Do not generate flashcards.
 
-Describe the suggested visuals only.
+Do not modify the template structure.
+
+Keep the markdown clean and directly renderable.
 
 ---
 
@@ -132,12 +133,11 @@ Describe the suggested visuals only.
 
 Before producing the final asset, verify that:
 
-- every mechanism identified in the storyboard has been implemented
-- every knowledge unit from coverage.md is represented
-- each mechanism answers exactly one question
-- mechanisms follow a logical progression
-- no mechanism unnecessarily duplicates another
-- suggested visuals clearly support understanding
+- every mechanism from the storyboard has been implemented;
+- every knowledge unit from coverage.md is represented;
+- each mechanism answers exactly one question;
+- mechanisms follow a logical learning progression;
+- no mechanism unnecessarily duplicates another.
 
 Revise if necessary.
 
@@ -147,4 +147,10 @@ Revise if necessary.
 
 Produce only the completed `mecanismes.md`.
 
-Do not output anything else.
+Do not output explanations.
+
+Do not output markdown fences.
+
+The file must be ready to save directly as:
+
+generated-assets/mecanismes.md

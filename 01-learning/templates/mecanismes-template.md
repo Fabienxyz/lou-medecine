@@ -2,135 +2,62 @@
 
 > Purpose
 >
-> Explain the chapter through a sequence of independent mechanisms.
+> Explain the major mechanisms of the chapter one at a time.
 >
-> Each mechanism should answer one question only.
+> Each mechanism should answer one question and build understanding progressively.
 >
-> Together, the mechanisms should progressively build a complete understanding of the chapter.
+> It must be directly displayable in the renderer.
+>
+> It is the final learning content, not a design document.
 
 ---
 
-# Mechanisms
+# Progress
 
-Repeat the following structure until every mechanism identified in the storyboard has been covered.
+Overall progress: ⬜ 0%
 
-The number of mechanisms depends on the chapter.
-
-Do not merge independent mechanisms simply to reduce their number.
+- [ ] Mechanisms written
+- [ ] Medically validated
+- [ ] Consistent with the storyboard
+- [ ] Ready for rendering
+- [ ] Final review
 
 ---
 
-## Mechanism
+# Mécanismes
 
-### Title
+Repeat the following structure as many times as necessary.
+
+---
+
+## <Mechanism title>
+
+[[SVG:mechanism-XX]]
+
+**Question**
 
 TODO
 
 ---
 
-### Question answered
+Write the explanation of the mechanism here.
 
-Describe the single question answered by this mechanism.
+The explanation should:
 
-TODO
-
----
-
-### Learning objective
-
-Explain what the learner should understand after completing this mechanism.
-
-TODO
-
----
-
-### Why this mechanism matters
-
-Explain why understanding this mechanism is necessary before continuing.
-
-TODO
-
----
-
-### Depends on
-
-List any prerequisite mechanisms.
-
--
-
----
-
-### Leads to
-
-List the mechanism(s) that naturally follow.
-
--
-
----
-
-### Knowledge covered
-
-List the knowledge units from `coverage.md` covered by this mechanism.
-
--
-
----
-
-### Suggested assets
-
-Only list assets that genuinely improve understanding.
-
-Examples:
-
-- illustration
-- animation
-- flowchart
-- comparison table
-- algorithm
-- clinical example
-
--
-
----
-
-### Suggested visual
-
-Describe the figure or diagram that would best explain this mechanism.
-
-Do not generate it.
-
-TODO
-
----
-
-### Status
-
-⬜
-
----
-
-# Validation
-
-Every mechanism must:
-
-- answer exactly one question
-- have one clear learning objective
-- introduce one coherent concept
-- cover the corresponding knowledge units from `coverage.md`
-- be understandable independently
-- naturally connect to the previous and next mechanisms
-- include only assets that improve understanding
+- answer the question directly;
+- build understanding before memorisation;
+- remain medically faithful to the Official College;
+- naturally prepare the following mechanism.
 
 ---
 
 # Final validation
 
-- [ ] Every mechanism from the storyboard has been implemented
-- [ ] Every knowledge unit from coverage.md is represented
-- [ ] No knowledge has been omitted
-- [ ] No knowledge has been invented
-- [ ] Mechanisms follow a logical progression
-- [ ] Ready for asset generation
+- [ ] Every storyboard mechanism explained
+- [ ] One mechanism answers one question
+- [ ] Medically accurate
+- [ ] No knowledge invented
+- [ ] Ready for rendering
 
 ---
 

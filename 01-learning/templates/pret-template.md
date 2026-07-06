@@ -2,109 +2,85 @@
 
 > Purpose
 >
-> Verify that the learner truly understands the chapter before moving on.
+> Help the learner verify that the chapter has been understood before moving to memorisation or self-assessment.
 >
-> This asset evaluates understanding, not memorisation.
+> It must be directly displayable in the renderer.
 >
-> It identifies what the learner should now be capable of explaining, reasoning about and applying.
+> It is the final learning content, not a design document.
 
 ---
 
-# Expected competencies
+# Progress
 
-Repeat the following structure until every major competency identified in the storyboard has been covered.
+Overall progress: ⬜ 0%
 
-The number of competencies depends on the chapter.
+- [ ] Competencies written
+- [ ] Consistent with the storyboard
+- [ ] Ready for rendering
+- [ ] Final review
 
 ---
 
-## Competency
+# Suis-je prêt ?
 
-### Title
+Organise the self-check progressively.
+
+Start with intuitive understanding.
+
+Then move towards mechanisms, diagnosis, treatment and clinical reasoning.
+
+Questions should encourage reasoning rather than simple recall.
+
+---
+
+## Niveau 1 — Intuition
 
 TODO
 
 ---
 
-### The learner should be able to...
-
-Describe the expected competency.
-
-Examples:
-
-- explain
-- distinguish
-- identify
-- predict
-- interpret
-- justify
-- connect
-- reason
+## Niveau 2 — Mechanisms
 
 TODO
 
 ---
 
-### Depends on
-
-List the learning modules required to master this competency.
-
--
-
----
-
-### Knowledge covered
-
-List the corresponding knowledge units from `coverage.md`.
-
--
-
----
-
-### Suggested assessment
-
-Describe the most appropriate way to verify understanding.
-
-Examples:
-
-- explain a mechanism
-- interpret a diagram
-- analyse a clinical situation
-- compare two concepts
-- predict an outcome
-- identify an error in reasoning
-
-Do not generate the assessment itself.
+## Niveau 3 — Clinical reasoning
 
 TODO
 
 ---
 
-### Status
+## Niveau 4 — Diagnosis
 
-⬜
+TODO
 
 ---
 
-# Validation
+## Niveau 5 — Treatment
 
-Every competency must:
+TODO
 
-- evaluate understanding rather than memorisation
-- integrate one or more learning modules
-- cover the corresponding knowledge units from `coverage.md`
-- reflect real medical reasoning
+---
+
+## Niveau 6 — Integration
+
+TODO
+
+---
+
+## Auto-évaluation
+
+Summarise what the learner should now be able to do before moving on to memorisation or question banks.
 
 ---
 
 # Final validation
 
-- [ ] Every competency from the storyboard has been implemented
-- [ ] Every major learning objective has been assessed
-- [ ] Every knowledge unit from coverage.md is represented
-- [ ] No knowledge has been omitted
-- [ ] No knowledge has been invented
-- [ ] Ready for asset generation
+- [ ] Competencies match the storyboard
+- [ ] Understanding precedes memorisation
+- [ ] No knowledge invented
+- [ ] Ready for rendering
 
 ---
 

@@ -4,9 +4,11 @@
 
 You are an expert medical educator and instructional designer.
 
-Your mission is to create the **Vue d'ensemble** asset for the Lou Learning Companion.
+Your mission is to produce the final **Vue d'ensemble** asset for the Lou Learning Companion.
 
-The overview gives the learner a complete mental model of the chapter before studying the details.
+This asset gives the learner a complete mental model of the chapter before exploring the details.
+
+It must be immediately usable by the renderer.
 
 The Official College remains the only medical source of truth.
 
@@ -37,66 +39,60 @@ The learner should understand the overall system before learning individual mech
 
 Focus on how concepts connect together.
 
-The overview should emphasise interactions rather than isolated facts.
+Relationships matter more than isolated facts.
 
 ---
 
 ## 3. Reduce complexity
 
-The overview should simplify the organisation of the chapter without losing important concepts.
+Simplify the chapter without losing essential concepts.
 
 Avoid unnecessary detail.
 
 ---
 
-## 4. Prepare the mechanisms
+## 4. Prepare the following assets
 
-The overview introduces the major blocks.
+The overview prepares the learner for the Mechanisms and Actors assets.
 
-Detailed explanations belong in the Mechanisms asset.
+It should not explain mechanisms in detail.
 
 ---
 
 # Your tasks
 
-## 1. Define the learning objective
+Complete **vue-ensemble-template.md**.
 
-Describe what the learner should understand after studying this overview.
+Replace every placeholder with the final learning content.
 
----
+Produce a polished asset ready for rendering.
 
-## 2. Design the central diagram
+The final asset must include:
 
-Describe the single diagram that best represents the chapter.
-
-Do not draw it.
-
-Explain:
-
-- the major blocks
-- the flow
-- the relationships
-- the overall logic
+- the central idea of the chapter;
+- a concise overview;
+- the major conceptual blocks;
+- the essential relationships;
+- what is intentionally simplified;
+- the completed validation checklist.
 
 ---
 
-## 3. Identify the major conceptual blocks
+## SVG placeholder
 
-List the major concepts that appear in the overview.
+The template contains the marker:
 
-Keep the wording close to the Official College.
+[[SVG:overview]]
 
----
+Keep this marker exactly as written.
 
-## 4. Identify the key connections
+Do not remove it.
 
-List the essential relationships the learner should immediately understand.
+Do not replace it.
 
----
+Do not generate SVG code.
 
-## 5. Define what is intentionally omitted
-
-Identify details that belong to later assets rather than the overview.
+It indicates where the renderer will later display `overview.svg`.
 
 ---
 
@@ -106,9 +102,9 @@ Never invent medical information.
 
 Never contradict the Official College.
 
-Never omit major concepts from coverage.md.
+Never omit important knowledge from coverage.md.
 
-Do not explain mechanisms.
+Do not explain mechanisms in detail.
 
 Do not generate SVG.
 
@@ -118,7 +114,11 @@ Do not generate quizzes.
 
 Do not generate mnemonics.
 
-The overview should remain understandable in less than one minute.
+Do not modify the template structure.
+
+Keep the markdown clean and directly renderable.
+
+The asset should remain understandable in less than one minute.
 
 ---
 
@@ -126,11 +126,11 @@ The overview should remain understandable in less than one minute.
 
 Before producing the final asset, verify that:
 
-- every major block comes from coverage.md
-- the learner can understand the chapter globally
-- relationships are clearer than details
-- the overview naturally prepares the Mechanisms asset
-- no important concept has disappeared
+- every major concept comes from coverage.md;
+- the learner can understand the chapter globally;
+- relationships are clearer than details;
+- the overview naturally prepares the Mechanisms asset;
+- no important concept has disappeared.
 
 Revise if necessary.
 
@@ -140,4 +140,10 @@ Revise if necessary.
 
 Produce only the completed `vue-ensemble.md`.
 
-Do not output anything else.
+Do not output explanations.
+
+Do not output markdown fences.
+
+The file must be ready to save directly as:
+
+generated-assets/vue-ensemble.md

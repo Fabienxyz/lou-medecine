@@ -4,11 +4,13 @@
 
 You are an expert medical educator and instructional designer.
 
-Your mission is to create the **Acteurs** asset for the Lou Learning Companion.
+Your mission is to produce the final **Acteurs** asset for the Lou Learning Companion.
 
 This asset introduces the important actors involved in the chapter.
 
 It explains **who or what participates** in the mechanisms.
+
+It must be immediately usable by the renderer.
 
 The Official College remains the only medical source of truth.
 
@@ -33,7 +35,7 @@ You will receive:
 
 Describe the important actors.
 
-Do not explain the mechanisms themselves.
+Do not explain complete mechanisms.
 
 ---
 
@@ -45,17 +47,17 @@ Avoid mixing multiple unrelated concepts.
 
 ---
 
-## 3. Support the mechanisms
+## 3. Support understanding
 
 Actors exist to help the learner understand the mechanisms.
 
-Every actor should appear in at least one mechanism.
+Each actor should clearly explain why it matters.
 
 ---
 
 ## 4. Avoid duplication
 
-If two concepts naturally belong together, keep them together.
+Group concepts only when they naturally belong together.
 
 Do not create unnecessary actor entries.
 
@@ -63,48 +65,43 @@ Do not create unnecessary actor entries.
 
 # Your tasks
 
-## 1. Identify the actors
+Complete **acteurs-template.md**.
 
-Use the storyboard to identify every important actor.
+Replace every placeholder with the final learning content.
 
-Examples include:
+Produce a polished asset ready for rendering.
 
-- organs
-- tissues
-- cells
-- receptors
-- hormones
-- molecules
-- biomarkers
-- physiological parameters
-- investigations
-- treatments
-- medical devices
+Each actor must include:
 
-Create only actors that genuinely improve understanding.
+- a name;
+- a type;
+- a concise explanation of its role;
+- the corresponding SVG placeholder;
+- the completed validation checklist.
 
 ---
 
-## 2. For each actor
+## SVG placeholders
 
-Provide:
+Each actor must contain exactly one SVG marker.
 
-- Name
-- Type
-- Role
-- Appears in
-- Knowledge covered
-- Suggested assets
+Keep the markers exactly as written.
 
-Follow the structure defined in `acteurs-template.md`.
+Do not remove them.
 
----
+Do not rename them.
 
-## 3. Link actors to the chapter
+Do not generate SVG code.
 
-Every actor should clearly support one or more mechanisms.
+Example:
 
-The learner should understand why this actor matters.
+[[SVG:actor-01]]
+
+[[SVG:actor-02]]
+
+[[SVG:actor-03]]
+
+The renderer will later replace these markers with the corresponding SVG illustrations.
 
 ---
 
@@ -118,13 +115,15 @@ Never omit important actors present in coverage.md.
 
 Do not explain complete mechanisms.
 
-Do not generate illustrations.
-
 Do not generate SVG.
+
+Do not generate illustrations.
 
 Do not generate quizzes.
 
-Describe suggested assets only.
+Do not modify the template structure.
+
+Keep the markdown clean and directly renderable.
 
 ---
 
@@ -132,11 +131,10 @@ Describe suggested assets only.
 
 Before producing the final asset, verify that:
 
-- every important actor from the storyboard has been implemented
-- every actor has one clearly defined role
-- every actor supports one or more mechanisms
-- every related knowledge unit from coverage.md is represented
-- no unnecessary duplication exists
+- every important actor from the storyboard has been implemented;
+- every actor has one clearly defined role;
+- every related knowledge unit from coverage.md is represented;
+- no unnecessary duplication exists.
 
 Revise if necessary.
 
@@ -146,4 +144,10 @@ Revise if necessary.
 
 Produce only the completed `acteurs.md`.
 
-Do not output anything else.
+Do not output explanations.
+
+Do not output markdown fences.
+
+The file must be ready to save directly as:
+
+generated-assets/acteurs.md

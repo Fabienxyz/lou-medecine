@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 672" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">Ventricule gauche</title>
+  <desc id="svg-desc">Rôle de Ventricule gauche dans l'insuffisance cardiaque.</desc>
+  <defs>
+    <filter id="card-shadow" x="-6%" y="-6%" width="112%" height="118%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#000000" flood-opacity="0.05"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#9CA3AF"/>
+    </marker>
+    <style>
+      .title-main { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 32px; font-weight: 700; fill: #111827; letter-spacing: -0.02em; }
+      .title-sub { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: 600; fill: #111827; letter-spacing: -0.01em; }
+      .caption { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 400; fill: #6B7280; }
+      .card-title { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px; font-weight: 600; fill: #111827; }
+      .card-title-lg { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 19px; font-weight: 700; fill: #111827; }
+      .body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #6B7280; }
+      .body-dark { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #374151; }
+      .badge-icon { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; }
+      .badge-text { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 500; fill: #374151; }
+      .step-num { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 600; fill: #6B7280; }
+      .outcome-label { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 600; fill: #111827; }
+      .outcome-emoji { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 20px; }
+      .summary-title { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px; font-weight: 600; fill: #111827; }
+      .summary-body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #374151; }
+    </style>
+  </defs>
+  <rect width="1200" height="672" fill="#FFFFFF"/>
+  <text x="600" y="64" text-anchor="middle" class="title-main">Ventricule gauche</text>
+  <text x="600" y="98" text-anchor="middle" class="title-sub">Organe / cavité cardiaque</text>
+  <text x="600" y="126" text-anchor="middle" class="caption">Rôle dans l'insuffisance cardiaque</text>
+  <line x1="520" y1="142" x2="680" y2="142" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+  <g filter="url(#card-shadow)">
+    <rect x="324" y="160" width="552" height="148" rx="16" fill="#EDF5FF" stroke="#2563EB" stroke-width="2.5"/>
+  </g>
+  <text x="600" y="190" text-anchor="middle" class="card-title-lg">Ventricule gauche</text>
+  <text x="600" y="218" text-anchor="middle" class="body-dark">Organe / cavité cardiaque</text>
+  <line x1="600" y1="308" x2="600" y2="340" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <g filter="url(#card-shadow)">
+    <rect x="390" y="340" width="420" height="122" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <circle cx="458" cy="370" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="458" y="374" text-anchor="middle" class="step-num">1</text>
+  <text x="600" y="370" text-anchor="middle" class="card-title">Rôle</text>
+  <text x="600" y="398" text-anchor="middle" class="body">Pompe principale de la circulation systémique.</text>
+  <text x="600" y="420" text-anchor="middle" class="body">Sa dysfonction — baisse du VES, dilatation,</text>
+  <text x="600" y="442" text-anchor="middle" class="body">augmentation des pressions télédiastoliques —</text>
+  <line x1="600" y1="462" x2="600" y2="494" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <g filter="url(#card-shadow)">
+    <rect x="180" y="494" width="840" height="138" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="600" y="530" text-anchor="middle" class="summary-title">Points clés</text>
+  <text x="600" y="558" text-anchor="middle" class="summary-body">Pompe principale de la circulation systémique.</text>
+  <text x="600" y="580" text-anchor="middle" class="summary-body">Sa dysfonction — baisse du VES, dilatation,</text>
+  <text x="600" y="602" text-anchor="middle" class="summary-body">augmentation des pressions télédiastoliques —</text>
+</svg>

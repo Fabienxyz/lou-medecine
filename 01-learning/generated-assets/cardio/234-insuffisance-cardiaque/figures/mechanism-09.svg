@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 858" role="img" aria-labelledby="svg-title svg-desc">
-  <title id="svg-title">Mécanisme 2</title>
-  <desc id="svg-desc">Diagramme éducatif : Comment le cœur produit-il le débit cardiaque ?</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 678" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">Mécanisme 9</title>
+  <desc id="svg-desc">Diagramme éducatif : Comment la désynchronisation aggrave-t-elle l'IC ?</desc>
   <defs>
     <filter id="card-shadow" x="-6%" y="-6%" width="112%" height="118%">
       <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#000000" flood-opacity="0.05"/>
@@ -26,47 +26,38 @@
       .summary-body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #374151; }
     </style>
   </defs>
-  <rect width="1200" height="858" fill="#FFFFFF"/>
-  <text x="600" y="64" text-anchor="middle" class="title-main">Mécanisme 2</text>
-  <text x="600" y="98" text-anchor="middle" class="title-sub">Comment le cœur produit-il le débit cardiaque ?</text>
-  <text x="600" y="126" text-anchor="middle" class="caption">Quels paramètres déterminent la performance de la pompe ?</text>
+  <rect width="1200" height="678" fill="#FFFFFF"/>
+  <text x="600" y="64" text-anchor="middle" class="title-main">Mécanisme 9</text>
+  <text x="600" y="98" text-anchor="middle" class="title-sub">Comment la désynchronisation aggrave-t-elle l'IC ?</text>
+  <text x="600" y="126" text-anchor="middle" class="caption">Pourquoi un bloc de branche gauche peut-il empirer la pompe ?</text>
   <line x1="520" y1="142" x2="680" y2="142" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
   <g filter="url(#card-shadow)">
-    <rect x="390" y="160" width="420" height="96" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
+    <rect x="390" y="160" width="420" height="96" rx="16" fill="#FDE7C7" stroke="#E5E7EB" stroke-width="1"/>
   </g>
   <circle cx="458" cy="190" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="194" text-anchor="middle" class="step-num">1</text>
-  <text x="600" y="190" text-anchor="middle" class="card-title">Débit cardiaque = VES × FC</text>
-  <text x="600" y="218" text-anchor="middle" class="body">Volume éjecté × fréquence</text>
+  <text x="600" y="190" text-anchor="middle" class="card-title">Désynchronisation myocardique</text>
+  <text x="600" y="218" text-anchor="middle" class="body">Ex. bloc de branche gauche</text>
   <line x1="600" y1="256" x2="600" y2="288" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
-    <rect x="390" y="288" width="420" height="96" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
+    <rect x="390" y="288" width="420" height="96" rx="16" fill="#FEE2E2" stroke="#E5E7EB" stroke-width="1"/>
   </g>
   <circle cx="458" cy="318" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="322" text-anchor="middle" class="step-num">2</text>
-  <text x="600" y="318" text-anchor="middle" class="card-title">VES = VTD − VTS</text>
-  <text x="600" y="346" text-anchor="middle" class="body">Précharge, postcharge, contractilité</text>
+  <text x="600" y="318" text-anchor="middle" class="card-title">Éjection moins efficace</text>
+  <text x="600" y="346" text-anchor="middle" class="body">Aggrave une IC existante</text>
   <line x1="600" y1="384" x2="600" y2="416" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
-    <rect x="390" y="416" width="420" height="96" rx="16" fill="#FEF3C7" stroke="#E5E7EB" stroke-width="1"/>
+    <rect x="390" y="416" width="420" height="96" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
   </g>
   <circle cx="458" cy="446" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="450" text-anchor="middle" class="step-num">3</text>
-  <text x="600" y="446" text-anchor="middle" class="card-title">Fraction d'éjection = VES / VTD</text>
-  <text x="600" y="474" text-anchor="middle" class="body">Paramètre de la fonction systolique</text>
+  <text x="600" y="446" text-anchor="middle" class="card-title">Resynchronisation cardiaque (CRT)</text>
+  <text x="600" y="474" text-anchor="middle" class="body">Voie thérapeutique</text>
   <line x1="600" y1="512" x2="600" y2="544" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
-    <rect x="324" y="544" width="552" height="148" rx="16" fill="#EDF5FF" stroke="#2563EB" stroke-width="2.5"/>
+    <rect x="180" y="544" width="840" height="94" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
   </g>
-  <circle cx="392" cy="574" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="392" y="578" text-anchor="middle" class="step-num">4</text>
-  <text x="600" y="574" text-anchor="middle" class="card-title-lg">Conséquences si la pompe faiblit</text>
-  <text x="600" y="602" text-anchor="middle" class="body-dark">Baisse du débit ou incapacité à l'effort</text>
-  <text x="600" y="624" text-anchor="middle" class="body-dark">Pressions de remplissage transmises en amont</text>
-  <line x1="600" y1="692" x2="600" y2="724" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
-  <g filter="url(#card-shadow)">
-    <rect x="180" y="724" width="840" height="94" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
-  </g>
-  <text x="600" y="760" text-anchor="middle" class="summary-title">À retenir</text>
-  <text x="600" y="788" text-anchor="middle" class="summary-body">Le débit dépend du VES et de la FC ; la FE résume la systole.</text>
+  <text x="600" y="580" text-anchor="middle" class="summary-title">À retenir</text>
+  <text x="600" y="608" text-anchor="middle" class="summary-body">La désynchronisation réduit l'efficacité d'éjection.</text>
 </svg>

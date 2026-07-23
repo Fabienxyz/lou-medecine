@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 638" role="img" aria-labelledby="svg-title svg-desc">
-  <title id="svg-title">Mécanisme 3</title>
-  <desc id="svg-desc">Diagramme éducatif : Pourquoi l'organisme active-t-il des compensations ?</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 726" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">Mécanisme 14</title>
+  <desc id="svg-desc">Diagramme éducatif : Pourquoi l'échocardiographie est-elle centrale ?</desc>
   <defs>
     <filter id="card-shadow" x="-6%" y="-6%" width="112%" height="118%">
       <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#000000" flood-opacity="0.05"/>
@@ -26,37 +26,44 @@
       .summary-body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #374151; }
     </style>
   </defs>
-  <rect width="1200" height="638" fill="#FFFFFF"/>
-  <text x="600" y="64" text-anchor="middle" class="title-main">Mécanisme 3</text>
-  <text x="600" y="98" text-anchor="middle" class="title-sub">Pourquoi l'organisme active-t-il des compensations ?</text>
-  <text x="600" y="126" text-anchor="middle" class="caption">Pourquoi le corps « aide » le cœur malade avant de l'aggraver ?</text>
+  <rect width="1200" height="726" fill="#FFFFFF"/>
+  <text x="600" y="64" text-anchor="middle" class="title-main">Mécanisme 14</text>
+  <text x="600" y="98" text-anchor="middle" class="title-sub">Pourquoi l'échocardiographie est-elle centrale ?</text>
+  <text x="600" y="126" text-anchor="middle" class="caption">Que doit-on chercher à l'ETT dans l'IC ?</text>
   <line x1="520" y1="142" x2="680" y2="142" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
   <g filter="url(#card-shadow)">
     <rect x="390" y="160" width="420" height="56" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
   </g>
   <circle cx="458" cy="190" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="194" text-anchor="middle" class="step-num">1</text>
-  <text x="600" y="190" text-anchor="middle" class="card-title">Baisse du débit</text>
+  <text x="600" y="190" text-anchor="middle" class="card-title">Clinique ± ECG</text>
   <line x1="600" y1="216" x2="600" y2="248" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
-    <rect x="390" y="248" width="420" height="96" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
+    <rect x="390" y="248" width="420" height="56" rx="16" fill="#DCFCE7" stroke="#E5E7EB" stroke-width="1"/>
   </g>
   <circle cx="458" cy="278" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="282" text-anchor="middle" class="step-num">2</text>
-  <text x="600" y="278" text-anchor="middle" class="card-title">Compensations utiles à court terme</text>
-  <text x="600" y="306" text-anchor="middle" class="body">Maintien perfusion et débit</text>
-  <line x1="600" y1="344" x2="600" y2="376" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <text x="600" y="278" text-anchor="middle" class="card-title">Peptides natriurétiques</text>
+  <line x1="600" y1="304" x2="600" y2="336" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
-    <rect x="390" y="376" width="420" height="96" rx="16" fill="#FEE2E2" stroke="#E5E7EB" stroke-width="1"/>
+    <rect x="390" y="336" width="420" height="96" rx="16" fill="#EDF5FF" stroke="#2563EB" stroke-width="2.5"/>
   </g>
-  <circle cx="458" cy="406" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="458" y="410" text-anchor="middle" class="step-num">3</text>
-  <text x="600" y="406" text-anchor="middle" class="card-title">Effets délétères à long terme</text>
-  <text x="600" y="434" text-anchor="middle" class="body">Travail cardiaque, fibrose, congestion</text>
-  <line x1="600" y1="472" x2="600" y2="504" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <circle cx="458" cy="366" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="458" y="370" text-anchor="middle" class="step-num">3</text>
+  <text x="600" y="366" text-anchor="middle" class="card-title">Échocardiographie indispensable</text>
+  <text x="600" y="394" text-anchor="middle" class="body">FEVG, VD, valves, remplissage</text>
+  <line x1="600" y1="432" x2="600" y2="464" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
-    <rect x="180" y="504" width="840" height="94" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
+    <rect x="390" y="464" width="420" height="96" rx="16" fill="#FEF3C7" stroke="#E5E7EB" stroke-width="1"/>
   </g>
-  <text x="600" y="540" text-anchor="middle" class="summary-title">À retenir</text>
-  <text x="600" y="568" text-anchor="middle" class="summary-body">Les compensations aident d'abord, puis aggravent l'IC.</text>
+  <circle cx="458" cy="494" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="458" y="498" text-anchor="middle" class="step-num">4</text>
+  <text x="600" y="494" text-anchor="middle" class="card-title">Orientation étiologique</text>
+  <text x="600" y="522" text-anchor="middle" class="body">Ischémie, valve, HTA, CMH…</text>
+  <line x1="600" y1="560" x2="600" y2="592" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <g filter="url(#card-shadow)">
+    <rect x="180" y="592" width="840" height="94" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="600" y="628" text-anchor="middle" class="summary-title">À retenir</text>
+  <text x="600" y="656" text-anchor="middle" class="summary-body">L'écho est centrale pour confirmer, typer et orienter.</text>
 </svg>

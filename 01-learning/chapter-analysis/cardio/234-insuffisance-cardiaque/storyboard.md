@@ -2,181 +2,125 @@
 
 > Purpose
 >
-> Transform `official-college.md` into the Lou Learning Companion experience.
+> Transform the official College knowledge into the optimal learning journey.
 >
 > This document defines the pedagogical structure of the chapter.
-> It does not contain the final content.
-
-# Coverage review
-
-Every major concept listed in coverage.md must appear at least once in the storyboard.
-
-No concept may be omitted.
-
-Several concepts may be grouped into the same learning block if this improves understanding.
----
-
-# Learning objective
-
-Explain the learning objective in one sentence.
-
-TODO
+>
+> It is the single source used to generate all learning assets.
+>
+> It is not a course.
 
 ---
 
-# Core idea
+# Progress
 
-What is the single most important idea the student should remember after studying this chapter?
+Overall progress: ⬜ 0%
 
-TODO
-
----
-
-# Learning flow
-
-## 1. Histoire
-
-Purpose
-
-- Introduce the chapter with an intuitive story.
-- Build intuition before introducing technical concepts.
-
-Output
-
-generated-assets/histoire.md
-
-Status
-
-⬜
+- [ ] Storyboard designed
+- [ ] Learning flow reviewed
+- [ ] Assets planned
+- [ ] Final review
 
 ---
 
-## 2. Vue d'ensemble
+# Learning journey
 
-Purpose
+## Module 1 — <Title>
 
-- Give a complete mental map of the chapter.
-- Allow the student to understand the whole mechanism in less than one minute.
+### Goal
 
-Outputs
+What should the learner understand after this module?
 
-generated-assets/vue-ensemble.md
+### Why now?
 
-generated-assets/overview.svg
+Why does this module come before the next one?
 
-Status
+### Knowledge
 
-⬜
+List the knowledge introduced in this module.
 
----
+Organise it for learning.
 
-## 3. Mécanismes
+Do not follow the College structure if another order improves understanding.
 
-Purpose
+### Assets
 
-Explain each major mechanism separately.
+List the assets that will later be generated.
 
-For each mechanism:
+Examples:
 
-- One question
-- One short explanation
-- One dedicated figure if useful
-
-Planned mechanisms
-
-1.
-
-2.
-
-3.
-
-4.
-
-5.
-
-6.
-
-Outputs
-
-generated-assets/mecanismes.md
-
-generated-assets/figures/
-
-Status
-
-⬜
+- Illustration
+- Animation
+- Comparison table
+- Flowchart
+- Clinical case
+- Quiz
+- Flashcards
 
 ---
 
-## 4. Acteurs
+## Module 2 — <Title>
 
-Purpose
+### Goal
 
-Describe every important actor.
+### Why now?
 
-Examples
+### Knowledge
 
-- organ
-- cell
-- hormone
-- receptor
-- molecule
-- examination
+### Assets
+
+---
+
+## Module 3 — <Title>
+
+### Goal
+
+### Why now?
+
+### Knowledge
+
+### Assets
+
+---
+
+(Add as many modules as necessary.)
+
+---
+
+# Final mental model
+
+Describe, in one coherent narrative, the complete reasoning chain of the chapter.
+
+The learner should be able to mentally connect:
+
+- mechanisms
+- clinical presentation
+- diagnosis
+- investigations
 - treatment
+- prognosis
 
-Output
-
-generated-assets/acteurs.md
-
-Status
-
-⬜
+This section is the reference for generating the final synthesis assets.
 
 ---
 
-## 5. Suis-je prêt ?
+# Asset inventory
 
-Purpose
+List every asset required for this chapter.
 
-Verify understanding before memorisation.
-
-Outputs
-
-generated-assets/pret.md
-
-Status
-
-⬜
-
----
-
-# Assets to produce
-
-- [ ] overview.svg
-
-- [ ] mechanism-01.svg
-
-- [ ] mechanism-02.svg
-
-- [ ] mechanism-03.svg
-
-- [ ] mechanism-04.svg
-
-- [ ] mechanism-05.svg
-
-- [ ] mechanism-06.svg
+| Asset | Module | Status |
+|--------|--------|--------|
+| | | ⬜ |
+| | | ⬜ |
+| | | ⬜ |
+| | | ⬜ |
 
 ---
 
 # Final validation
 
-The student should be able to:
-
-- Explain the chapter without reading notes.
-- Draw the main mechanism.
-- Explain every major mechanism.
-- Connect the mechanisms together.
-
-Status
-
-⬜ Ready for production
+- [ ] Learning progression is coherent
+- [ ] Knowledge is organised for understanding
+- [ ] Every important concept from Coverage is represented
+- [ ] Assets are fully identified
+- [ ] Ready for asset generation

@@ -1,0 +1,40 @@
+# OAP vertical slice — scoped reconciliation (NOT full Item 234 coverage)
+chapter: cardio/234
+slice: oap-mechanism-vertical-slice
+slice_scope: pulmonary filling pressure / congestion → upstream VG pressure transmission → PPC threshold crossing → transudation → cardiogenic OAP → cardiogenic transudate vs lesional exudate confusion boundary
+
+# Semantic reconciliation is bootstrap-produced via independent Cursor prompt
+# (tools/prompts/reconcile-slice.md). Runtime: reconcile() loads this artifact.
+# Full chapter-wide exhaustiveness is NOT claimed by this artifact.
+
+methodology: bootstrap-cursor-v1
+status: pass
+
+segments:
+  - id: seg-B
+    label: Filling-pressure consequence (pump dysfunction)
+    source_lines: "254-258"
+    section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    disposition: represented
+    kp: [KP-040]
+
+  - id: seg-C
+    label: Pulmonary transmission (VG → capillaries)
+    source_lines: "259-261"
+    section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    disposition: represented
+    kp: [KP-040]
+
+  - id: seg-D
+    label: PPC threshold → transudate → cardiogenic OAP
+    source_lines: "265-267"
+    section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    disposition: represented
+    kp: [KP-041]
+
+  - id: seg-E
+    label: Lesional OAP → exudate contrast
+    source_lines: "268-270"
+    section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    disposition: represented
+    kp: [KP-042]

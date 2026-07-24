@@ -1,5 +1,6 @@
 window.LouConfig = {
     ASSETS_ROOT: "../../01-learning/generated-assets",
+    CHAPTERS_ROOT: "../../01-learning/chapters",
 
     /** Filename for chapter metadata (manifest.json or chapter.json). */
     MANIFEST_FILENAME: "manifest.json",
@@ -46,6 +47,14 @@ window.LouConfig = {
         },
     ],
 
+    /** Slice chapters live under 01-learning/chapters/; legacy under generated-assets/. */
+    resolveContentRoot(chapter) {
+        if (chapter === "cardio/234") {
+            return this.CHAPTERS_ROOT + "/" + chapter;
+        }
+        return this.ASSETS_ROOT + "/" + chapter;
+    },
+
     sanitizeChapter(chapter) {
         if (!chapter || typeof chapter !== "string") {
             return null;
@@ -58,11 +67,17 @@ window.LouConfig = {
     },
 
     resolveAssetPath(chapter, filename) {
-        const parts = [this.ASSETS_ROOT, chapter, filename].join("/");
+        const parts = [this.resolveContentRoot(chapter), filename].join("/");
         return new URL(parts, window.location.href).href;
     },
 
     resolveManifestPath(chapter) {
         return this.resolveAssetPath(chapter, this.MANIFEST_FILENAME);
+    },
+
+    projectionTabLabel(projection) {
+        if (projection.id === "overview") return "🗺️ Vue d'ensemble";
+        if (projection.id === "mechanisms") return "⚙️ Mécanisme OAP";
+        return projection.id;
     },
 };

@@ -1,0 +1,49 @@
+# OAP vertical slice — partial Knowledge Inventory (NOT full Item 234)
+chapter: cardio/234
+slice: oap-mechanism-vertical-slice
+revision: r1
+note: >
+  Subset inventory for the pulmonary congestion → cardiogenic OAP mechanism slice only.
+  Full Item 234 exhaustiveness is handled by a future chapter-wide inventory.
+
+kps:
+  - id: KP-040
+    label: >
+      Augmentation des pressions de remplissage et transmission de la pression
+      télédiastolique VG vers veines et capillaires pulmonaires
+    rank: A
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "cette augmentation de la pression télédiastolique se transmet à l’oreillette gauche, puis aux veines pulmonaires, aux capillaires pulmonaires"
+    disposition: understanding
+    editions:
+      - edition: 2024-SFC
+        change: new
+
+  - id: KP-041
+    label: "Seuil PPC > 25 mmHg → transsudat → OAP cardiogénique"
+    rank: A
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "pression capillaire pulmonaire au-delà d’un certain seuil (en général au moins > 25 mmHg)"
+    disposition: understanding
+    editions:
+      - edition: 2024-SFC
+        change: new
+
+  - id: KP-042
+    label: "OAP lésionnel non cardiogénique → lésions membrane alvéolo-capillaire → exsudat"
+    rank: A
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "l’œdème pulmonaire lésionnel non cardiogénique est secondaire à des lésions de la membrane alvéolo-capillaire"
+    disposition: understanding
+    editions:
+      - edition: 2024-SFC
+        change: new

@@ -1,0 +1,57 @@
+{
+  "chapter": "cardio/234",
+  "slug": "234-insuffisance-cardiaque",
+  "title": "Insuffisance cardiaque — OAP (vertical slice)",
+  "specialty": "Cardiologie",
+  "chapterLine": "Item 234 — vertical slice OAP",
+  "source_edition": "2024-SFC",
+  "slice": "oap-mechanism-vertical-slice",
+  "slice_reconciliation_invariant": "pass",
+  "slice_reconciliation_scope": "pulmonary filling pressure / congestion → upstream VG pressure transmission → PPC threshold crossing → transudation → cardiogenic OAP → cardiogenic transudate vs lesional exudate confusion boundary",
+  "slice_reconciliation_segments": [
+    "seg-B",
+    "seg-C",
+    "seg-D",
+    "seg-E"
+  ],
+  "trace_index": "build/traceability.json",
+  "known_absent": [
+    "mastery",
+    "story",
+    "actors",
+    "clinical-reasoning",
+    "readiness"
+  ],
+  "projections": [
+    {
+      "id": "overview",
+      "type": "understanding.overview",
+      "family": "understanding",
+      "order": 1,
+      "path": "projections/understanding/overview.md",
+      "status": "published"
+    },
+    {
+      "id": "mechanisms",
+      "type": "understanding.mechanisms",
+      "family": "understanding",
+      "order": 2,
+      "path": "projections/understanding/mechanisms.md",
+      "elements": [
+        "MEC-oap"
+      ],
+      "visuals": {
+        "MEC-oap": "figures/mec-oap.svg"
+      },
+      "status": "published"
+    }
+  ],
+  "visuals": [
+    {
+      "id": "mec-oap",
+      "element": "MEC-oap",
+      "path": "figures/mec-oap.svg",
+      "alt": "Congestion pulmonaire → seuil PPC → transsudat → OAP cardiogénique"
+    }
+  ]
+}

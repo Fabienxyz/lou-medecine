@@ -74,8 +74,9 @@ The value maps to:
 
 Examples:
 
-- `?chapter=cardio/221-atherome`
-- `?chapter=cardio/234-insuffisance-cardiaque`
+- `?chapter=cardio/221-atherome` (legacy assets)
+- `?chapter=cardio/234-insuffisance-cardiaque` (legacy assets)
+- `?chapter=cardio/234` (OAP vertical slice — manifest-driven)
 
 If `chapter` is missing or invalid, the renderer shows an error message. Unimplemented tabs skip fetch and show `"Content not yet implemented."`.
 

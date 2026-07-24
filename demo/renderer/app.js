@@ -16,6 +16,9 @@
 
     let currentTab = 0;
     let chapter = null;
+    let manifest = null;
+    let tabs = config.TABS.slice();
+    let traceIndexUrl = null;
 
     function getChapterFromUrl() {
         return config.sanitizeChapter(
@@ -28,14 +31,38 @@
             return null;
         }
 
-        // Future milestone: fetch config.resolveManifestPath(chapterId),
-        // return parsed JSON, and fall back gracefully on 404.
-        return null;
+        const url = config.resolveManifestPath(chapterId);
+        try {
+            const data = await renderer.fetchJson(url);
+            return data;
+        } catch (err) {
+            if (err.status === 404) {
+                return null;
+            }
+            return null;
+        }
+    }
+
+    function buildTabsFromManifest(data) {
+        return (data.projections || [])
+            .slice()
+            .sort(function (a, b) {
+                return (a.order || 0) - (b.order || 0);
+            })
+            .map(function (p) {
+                return {
+                    id: p.id,
+                    label: config.projectionTabLabel(p),
+                    path: p.path,
+                    implemented: p.status === "published",
+                    projection: p,
+                };
+            });
     }
 
     function buildTabs() {
         tabsEl.innerHTML = "";
-        config.TABS.forEach(function (tab, index) {
+        tabs.forEach(function (tab, index) {
             const el = document.createElement("div");
             el.className = "tab" + (index === 0 ? " active" : "");
             el.textContent = tab.label;
@@ -54,19 +81,25 @@
     }
 
     async function loadTabContent(index) {
-        const tab = config.TABS[index];
+        const tab = tabs[index];
 
         if (!chapter) {
             renderer.showMessage(config.ERROR_MESSAGES.noChapter);
             return;
         }
 
-        if (!tab.implemented || !tab.file) {
+        if (!tab.implemented) {
             renderer.showMessage(config.PLACEHOLDER_MESSAGE);
             return;
         }
 
-        const url = config.resolveAssetPath(chapter, tab.file);
+        const file = tab.path || tab.file;
+        if (!file) {
+            renderer.showMessage(config.PLACEHOLDER_MESSAGE);
+            return;
+        }
+
+        const url = config.resolveAssetPath(chapter, file);
 
         try {
             const text = await renderer.fetchText(url);
@@ -74,7 +107,11 @@
                 renderer.showMessage(config.ERROR_MESSAGES.emptyContent);
                 return;
             }
-            const html = markdown.parse(text);
+            const learnerMd = renderer.prepareLearnerMarkdown(text);
+            let html = markdown.parse(learnerMd);
+            if (tab.projection) {
+                html = renderer.injectVisuals(html, tab.projection, chapter, config);
+            }
             renderer.injectHtml(renderer.wrapWithFooterNav(html));
         } catch (err) {
             if (err.status === 404) {
@@ -88,7 +125,7 @@
     }
 
     function showTab(index) {
-        if (index < 0 || index >= config.TABS.length) {
+        if (index < 0 || index >= tabs.length) {
             return;
         }
         currentTab = index;
@@ -97,6 +134,11 @@
     }
 
     contentEl.addEventListener("click", function (e) {
+        const traceBtn = e.target.closest(".claim-trace-link");
+        if (traceBtn && traceIndexUrl) {
+            renderer.showTraceability(traceBtn.dataset.claim, traceIndexUrl);
+            return;
+        }
         const btn = e.target.closest("[data-nav]");
         if (!btn) {
             return;
@@ -106,14 +148,24 @@
 
     async function boot() {
         renderer.init(contentEl, headerEls);
-        buildTabs();
-
         chapter = getChapterFromUrl();
-        const metadata = await loadChapterMetadata(chapter);
-        if (metadata) {
-            renderer.applyHeaderMetadata(metadata);
+
+        manifest = await loadChapterMetadata(chapter);
+        if (manifest) {
+            tabs = buildTabsFromManifest(manifest);
+            traceIndexUrl = manifest.trace_index
+                ? config.resolveAssetPath(chapter, manifest.trace_index)
+                : null;
+            renderer.applyHeaderMetadata({
+                specialty: manifest.specialty || "Cardiologie",
+                chapterLine: manifest.chapterLine || manifest.chapter,
+                chapterTitle: manifest.title || manifest.chapter,
+            });
+        } else {
+            tabs = config.TABS.slice();
         }
 
+        buildTabs();
         showTab(0);
     }
 

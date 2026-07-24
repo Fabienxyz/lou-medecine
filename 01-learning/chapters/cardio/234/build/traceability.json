@@ -1,0 +1,77 @@
+{
+  "cb-overview-oap": {
+    "class": "bridging",
+    "kp": [
+      "KP-040",
+      "KP-041",
+      "KP-042"
+    ],
+    "element": "MEC-oap",
+    "anchors": [
+      {
+        "kp": "KP-040",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+      },
+      {
+        "kp": "KP-041",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "pression capillaire pulmonaire au-delà d’un certain seuil (en général au moins > 25 mmHg)"
+      },
+      {
+        "kp": "KP-042",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "l’œdème pulmonaire lésionnel non cardiogénique est secondaire à des lésions de la membrane alvéolo-capillaire"
+      }
+    ]
+  },
+  "cb-oap-threshold": {
+    "class": "sourced",
+    "kp": [
+      "KP-041"
+    ],
+    "element": "MEC-oap",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+      "quote": "pression capillaire pulmonaire au-delà d’un certain seuil (en général au moins > 25 mmHg)"
+    }
+  },
+  "cb-oap-contrast": {
+    "class": "sourced",
+    "kp": [
+      "KP-042"
+    ],
+    "element": "CONF-transsudat-exsudat",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+      "quote": "l’œdème pulmonaire lésionnel non cardiogénique est secondaire à des lésions de la membrane alvéolo-capillaire"
+    }
+  },
+  "cb-oap-bridge": {
+    "class": "bridging",
+    "kp": [
+      "KP-040",
+      "KP-041"
+    ],
+    "element": "MEC-oap",
+    "anchors": [
+      {
+        "kp": "KP-040",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+      },
+      {
+        "kp": "KP-041",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "pression capillaire pulmonaire au-delà d’un certain seuil (en général au moins > 25 mmHg)"
+      }
+    ]
+  }
+}

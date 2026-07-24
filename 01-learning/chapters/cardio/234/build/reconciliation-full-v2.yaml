@@ -1,0 +1,738 @@
+chapter: cardio/234
+edition: 2024-SFC
+scope: full-chapter
+inventory_kp_count: 109
+methodology: independent-source-to-inventory-v2
+status: fail
+inventory_revision_observed: phase-3b-corrected
+critical_checks:
+  beta_blockers:
+    conclusion: context-resolved
+    vi_c_rule: "hospitalisation décompensation: continue BB unless treatment failure or cardiogenic
+      shock (KP-081)"
+    vii_a_rule: "OAP: do not introduce BB; if already on BB generally stop or reduce dose (KP-103)"
+    note: Do not collapse to always-continue or always-stop.
+  diltiazem_verapamil:
+    conclusion: source-internal-conflict-preserved
+    vi_c_8: CI in IC systolique (KP-089)
+    vi_f: rate-slowing CCB allowed in FE préservée ABCDEFG (KP-096)
+    notions_inacceptables: states CI in FE préservée — conflicts with VI.F and with VI.C.8 wording
+    blocking_for_learner_claim: true
+    blocking_for_inventory_fidelity: false
+    note: Safely preserved as unresolved; KP-089 documents conflict.
+  kp_109:
+    mapped: true
+    disposition: understanding
+    segment: SEG-042
+    source: IV.A.2 IC aiguë sur SCA — prise en charge simultanée
+reverse_check:
+  orphan_kps: []
+  duplicate_semantic_kps: []
+  overbroad_kps: []
+  insufficient_anchor_support:
+    - id: KP-076
+      issue: Label includes contraception/grossesse à risque but anchors omit contraception subsection
+        quotes (work/alcool/tabac/vaccines/activité only).
+    - id: KP-096
+      issue: Label cites ABCDEFG approach but anchors omit explicit « inhibiteur calcique ralentisseur »
+        clause that participates in FE/CCB conflict.
+    - id: KP-100
+      issue: Morphine non-recommandée caveat is anchored but not reflected in KP label (label
+        understates).
+  disposition_issues: []
+  note: All 109 permanent IDs present in inventory; KP-040/041/042 preserved. No CAND IDs. Orphan list
+    must be empty for PASS reverse-check.
+summary:
+  total_segments: 83
+  represented: 58
+  deferred: 16
+  excluded_with_justification: 5
+  missed: 2
+  ambiguous: 2
+segments:
+  - id: SEG-001
+    section_path: Table des matières
+    evidence: I–VII + Situations de départ listing at document head
+    disposition: excluded-with-justification
+    kp: []
+    note: Navigation/table of contents only; no propositional medical content.
+  - id: SEG-002
+    section_path: Situations de départ
+    evidence: EDN departure situations codes 18, 20, 21, 42, … 355
+    disposition: excluded-with-justification
+    kp:
+      - KP-107
+    note: Curriculum navigation list; intentionally excluded as non-propositional EDN mapping.
+  - id: SEG-003
+    section_path: Hiérarchisation des connaissances
+    evidence: Rang/rubrique/intitulé/descriptif tables spanning epidemiology through shock management
+    disposition: excluded-with-justification
+    kp: []
+    note: Pedagogical ranking/meta index of objectives. Medical propositions are developed in body
+      sections I–VII and mapped there; ranking itself is curriculum scaffolding.
+  - id: SEG-010
+    section_path: I. Généralités > A Définition
+    evidence: Toutes les pathologies CV graves non traitées peuvent conduire à l’IC ; définitions
+      physiopathologique et clinique/ESC 2021 ; diagnostic difficile ; dysfonction asymptomatique
+      préalable
+    disposition: represented
+    kp:
+      - KP-001
+      - KP-002
+      - KP-003
+    note: Opening causal statement covered via etiology KPs + points-clés; definitions and diagnostic
+      difficulty fully in KP-001–003.
+  - id: SEG-011
+    section_path: I. Généralités > B Épidémiologie
+    evidence: Prévalence 1–2 % ; ↑ avec âge ; âge moyen diagnostic 75–80 ans ; prévalence ↑ / incidence
+      standardisée ↓
+    disposition: represented
+    kp:
+      - KP-004
+  - id: SEG-012
+    section_path: I. Généralités > C Physiopathologie > 1 Quelques rappels simples
+    evidence: DC=VES×FC ; VES dépend précharge/postcharge/contractilité ; FE=VES/VTD ; deux conséquences
+      (↓débit, ↑pressions) ; transmission VG→poumon et VD→systémique ; PPC>25→OAP transsudat ; OAP
+      lésionnel=exsudat
+    disposition: represented
+    kp:
+      - KP-005
+      - KP-006
+      - KP-040
+      - KP-007
+      - KP-041
+      - KP-042
+  - id: SEG-013
+    section_path: I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque
+    evidence: Compensations court terme bénéfiques / long terme délétères ; remodelage
+      excentrique/concentrique Laplace ; Starling ; tachycardie ; vasoconstriction inhomogène ;
+      rétention hydrosodée ; SRAA/sympathique
+    disposition: represented
+    kp:
+      - KP-008
+      - KP-009
+      - KP-010
+      - KP-011
+      - KP-012
+  - id: SEG-014
+    section_path: I. Généralités > C Physiopathologie > 3 Désynchronisation
+    evidence: "Désynchronisation (BBG) : contraction asynchrone aggravant l’IC"
+    disposition: represented
+    kp:
+      - KP-013
+  - id: SEG-015
+    section_path: I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection
+      diminuée ou préservée
+    evidence: FE≤40 % défaut contraction ; FE≥50 % défaut remplissage (âgé/femme/HTA/obésité) ; FE 41–49
+      % légèrement diminuée, proche FE diminuée ; implications thérapeutiques
+    disposition: represented
+    kp:
+      - KP-014
+      - KP-015
+      - KP-016
+  - id: SEG-016
+    section_path: I. Généralités > C Physiopathologie > 5 Arythmies
+    evidence: FA favorisée par dilatation atriale → aggravation IC + AVC ; TV/FV → mort subite → intérêt DAI
+    disposition: represented
+    kp:
+      - KP-017
+      - KP-018
+  - id: SEG-020
+    section_path: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+    evidence: Dyspnée d’effort + NYHA ; orthopnée/DPN ; asthme cardiaque/toux/hémoptysies ; OAP/subœdème
+    disposition: represented
+    kp:
+      - KP-019
+      - KP-020
+      - KP-021
+      - KP-022
+  - id: SEG-021
+    section_path: II. Diagnostic > A Signes fonctionnels > 2 Autres symptômes
+    evidence: "Fatigue, prise de poids/œdèmes, faiblesse musculaire, palpitations ; IC sévère :
+      SAS/Cheyne-Stokes, confusion, troubles digestifs"
+    disposition: represented
+    kp:
+      - KP-023
+      - KP-024
+  - id: SEG-022
+    section_path: II. Diagnostic > A Signes fonctionnels > 3 Symptômes d’insuffisance cardiaque droite
+    evidence: Hépatalgie d’effort/repos par distension capsulaire
+    disposition: represented
+    kp:
+      - KP-025
+  - id: SEG-023
+    section_path: II. Diagnostic > B Signes physiques
+    evidence: Examen souvent pauvre sous traitement ; signes = gravité ; cardiaques ; pulmonaires ; PA ;
+      signes droits ; stade avancé (pouls alternant, oligurie, cachexie, Cheyne-Stokes)
+    disposition: represented
+    kp:
+      - KP-026
+      - KP-027
+      - KP-028
+      - KP-029
+      - KP-030
+    related_kp:
+      - KP-031
+    note: Advanced-stage physical signs deferred via KP-031.
+  - id: SEG-023b
+    section_path: II. Diagnostic > B Signes physiques
+    evidence: "Stade très avancé : pouls alternant, oligurie, fonte musculaire/cachexie, Cheyne-Stokes"
+    disposition: deferred
+    kp:
+      - KP-031
+  - id: SEG-024
+    section_path: II. Diagnostic > C Électrocardiogramme
+    evidence: ECG peu contributif au diagnostic positif ; oriente étiologie ; BBG QRS>120 ms
+      implications thérapeutiques
+    disposition: represented
+    kp:
+      - KP-032
+  - id: SEG-025
+    section_path: II. Diagnostic > D Radiographie thoracique
+    evidence: RCT>0,5 ; absence cardiomégalie n’exclut pas IC ; redistribution → Kerley → ailes de
+      papillon ; épanchements
+    disposition: represented
+    kp:
+      - KP-033
+      - KP-034
+  - id: SEG-026
+    section_path: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+    evidence: Recommandés, VPN ; seuils aigus rule-out ; seuils chroniques/algo ESC ; seuils élevés
+      âge-bandés ; zone grise ; facteurs confondants
+    disposition: represented
+    kp:
+      - KP-035
+      - KP-036
+      - KP-043
+      - KP-038
+    related_kp:
+      - KP-037
+    note: High rule-in thresholds deferred via KP-037.
+  - id: SEG-026b
+    section_path: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+    evidence: "Seuils élevés en faveur d’origine cardiaque : BNP>300 ; NT-proBNP >450/<50 ans,
+      >900/50–75, >1800/>75"
+    disposition: deferred
+    kp:
+      - KP-037
+  - id: SEG-027
+    section_path: II. Diagnostic > F Échocardiographie transthoracique
+    evidence: "ETT+Doppler examen clé : volumes, FEVG, VD/VCI, atriums, valves, pressions de
+      remplissage, orientation étiologique"
+    disposition: represented
+    kp:
+      - KP-039
+  - id: SEG-028
+    section_path: II. Diagnostic > G Examens biologiques standards
+    evidence: Na, K, créatinine, BNP/NT-proBNP, glycémie/HbA1c, lipides, foie, TSH, NFS, ferritine/CST
+    disposition: deferred
+    kp:
+      - KP-044
+  - id: SEG-029
+    section_path: II. Diagnostic > H Autres examens complémentaires
+    evidence: Coronarographie si FEVG↓ ; coroscanner sujet jeune ; IRM ; scintigraphie ; Holter ; VO2 ;
+      cathétérisme droit (normes, HTAP, RAP>5 UW CI greffe)
+    disposition: represented
+    kp:
+      - KP-045
+    related_kp:
+      - KP-046
+      - KP-047
+      - KP-048
+      - KP-049
+    note: Advanced modalities deferred via KP-046–049.
+  - id: SEG-029b
+    section_path: II. Diagnostic > H Autres examens complémentaires
+    evidence: IRM cardiaque (étiologie, viabilité, fibrose/pronostic)
+    disposition: deferred
+    kp:
+      - KP-046
+  - id: SEG-029c
+    section_path: II. Diagnostic > H Autres examens complémentaires
+    evidence: Holter rythme/conduction ; épreuve d’effort VO2 capacité/pronostic/greffe
+    disposition: deferred
+    kp:
+      - KP-047
+  - id: SEG-029d
+    section_path: II. Diagnostic > H Autres examens complémentaires
+    evidence: Scintigraphie isotopique FE / ischémie / viabilité
+    disposition: deferred
+    kp:
+      - KP-048
+  - id: SEG-029e
+    section_path: II. Diagnostic > H Autres examens complémentaires
+    evidence: "Cathétérisme droit : pressions/débit ; normes ; HTAP PAPm>25 ; RAP>5 UW CI greffe"
+    disposition: deferred
+    kp:
+      - KP-049
+  - id: SEG-030
+    section_path: III. Diagnostic étiologique > A Cardiopathies ischémiques
+    evidence: 1re cause ; IDM→fibrose/↓FEVG ; ischémie chronique avec viabilité possible
+    disposition: represented
+    kp:
+      - KP-050
+    note: Source contains duplicated paragraph (OCR/editorial duplicate); content once is sufficient.
+  - id: SEG-031
+    section_path: III. Diagnostic étiologique > B Hypertension artérielle
+    evidence: Cofacteur via dysfonction diastolique/HVG, coronaropathie, ↑postcharge/↓FE
+    disposition: represented
+    kp:
+      - KP-051
+  - id: SEG-032
+    section_path: III. Diagnostic étiologique > C Cardiomyopathies > 1 Cardiomyopathies dilatées (CMD)
+    evidence: Dilatation+↓FEVG après exclusion ; ~25% familiales ; toxiques, inflammatoires, endocrines,
+      nutritionnelles, péripartum, chimio, tako-tsubo…
+    disposition: represented
+    kp:
+      - KP-052
+  - id: SEG-033
+    section_path: III. Diagnostic étiologique > C Cardiomyopathies > 2 Cardiomyopathies hypertrophiques (CMH)
+    evidence: HVG souvent asymétrique SIV, FE conservée, trouble remplissage ; forme obstructive ;
+      familiale sarcomérique ; Fabry ; complications mort subite/IC/FA
+    disposition: represented
+    kp:
+      - KP-072
+  - id: SEG-034
+    section_path: III. Diagnostic étiologique > C Cardiomyopathies > 3 Cardiomyopathies restrictives
+    evidence: "Amylose : infiltration→rigidité/remplissage altéré ; pronostic sévère dès IC"
+    disposition: represented
+    kp:
+      - KP-053
+  - id: SEG-035
+    section_path: III. Diagnostic étiologique > D Valvulopathies gauches
+    evidence: "Toutes peuvent se compliquer d’IC ; RM : OAP/IC droite possible sans atteinte VG"
+    disposition: represented
+    kp:
+      - KP-054
+  - id: SEG-036
+    section_path: III. Diagnostic étiologique > E Troubles du rythme ventriculaire ou supraventriculaire
+      ou de conduction
+    evidence: Cause ou déclencheur ; tachycardiomyopathie souvent réversible après traitement du rythme
+    disposition: represented
+    kp:
+      - KP-055
+  - id: SEG-037
+    section_path: III. Diagnostic étiologique > F Causes péricardiques
+    evidence: Épanchement abondant, tamponnade, péricardite chronique constrictive
+    disposition: represented
+    kp:
+      - KP-056
+  - id: SEG-038
+    section_path: III. Diagnostic étiologique > G Étiologies de l’insuffisance cardiaque droite
+    evidence: Le plus souvent secondaire à IC gauche ; causes isolées (cœur pulmonaire, HTAP, DVDA,
+      tricuspide, IDM VD, péricardite constrictive)
+    disposition: represented
+    kp:
+      - KP-057
+  - id: SEG-039
+    section_path: III. Diagnostic étiologique > H Insuffisance cardiaque à débit augmenté
+    evidence: Anémies chroniques, FAV, hyperthyroïdie, béribéri, Paget
+    disposition: deferred
+    kp:
+      - KP-058
+  - id: SEG-040
+    section_path: IV. Formes cliniques > A Insuffisance cardiaque aiguë
+    evidence: Apparition rapide symptômes/signes ; de novo ou aggravation ; souvent hospitalisation IV
+    disposition: represented
+    kp:
+      - KP-059
+  - id: SEG-041
+    section_path: IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique
+    evidence: Détresse respiratoire, inondation alvéolaire transsudat ; urgence ; clinique ; examens
+      (BNP, troponine, radio, GDS, écho) ne retardent pas Tx ; DD
+    disposition: represented
+    kp:
+      - KP-060
+      - KP-061
+  - id: SEG-042
+    section_path: IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres formes cliniques
+    evidence: Aggravation progressive congestive ; IC droite isolée ; IC aiguë sur SCA (prise en charge
+      simultanée) ; facteurs déclenchants Enc. 18.2
+    disposition: represented
+    kp:
+      - KP-062
+      - KP-109
+  - id: SEG-043
+    section_path: IV. Formes cliniques > A Insuffisance cardiaque aiguë > 3 Choc cardiogénique
+    evidence: Défaillance aiguë sévère → hypoperfusion/anoxie ; PAS<90 ou ↓>30 mmHg ≥30 min ; extrémités
+      froides, oligurie<20 mL/h, troubles conscience
+    disposition: represented
+    kp:
+      - KP-063
+  - id: SEG-044
+    section_path: IV. Formes cliniques > B Insuffisance cardiaque chronique
+    evidence: État hors décompensation ; ambulatoire sous traitement oral
+    disposition: represented
+    kp:
+      - KP-064
+  - id: SEG-045
+    section_path: IV. Formes cliniques > C Insuffisance cardiaque à fonction systolique conservée (ou IC
+      à FE préservée)
+    evidence: "≥50% des IC ; critères : symptômes/signes + FEVG≥50% + BNP↑ + arguments
+      pressions/HVG/dilatation AG"
+    disposition: represented
+    kp:
+      - KP-065
+  - id: SEG-050
+    section_path: V. Évolution, complications, pronostic > A Histoire naturelle, évolution
+    evidence: Dysfonction asymptomatique puis IC ; oscillations stabilité/décompensations ; remodelage
+      inverse possible
+    disposition: represented
+    kp:
+      - KP-066
+  - id: SEG-051
+    section_path: V. Évolution, complications, pronostic > B Principales complications
+    evidence: Mortalité ~50%/5 ans ; mort subite ou IC réfractaire ; hospitalisations fréquentes ;
+      arythmies ; thromboembolies ; hypotension ; troubles hydroélectrolytiques/IR ; anémie/carence
+      martiale ; SAS
+    disposition: represented
+    kp:
+      - KP-067
+      - KP-068
+      - KP-069
+  - id: SEG-052
+    section_path: V. Évolution, complications, pronostic > C Principaux facteurs pronostiques
+    evidence: NYHA III–IV, réhospitalisations, ischémique, ↓FE/débit, ↑pressions, QRS>120, hyponatrémie,
+      BNP↑, ↓pic VO2
+    disposition: deferred
+    kp:
+      - KP-070
+  - id: SEG-053
+    section_path: V. Évolution, complications, pronostic > Prise en charge des comorbidités
+    evidence: "Comorbidités cardiaques et non cardiaques fréquentes : QoL, réhospitalisations, survie,
+      tolérance traitements"
+    disposition: represented
+    kp:
+      - KP-071
+  - id: SEG-060
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > A Traitement étiologique et préventif
+    evidence: FDR CV, HTA/valvulopathies, reperfusion/revascularisation, éviction toxiques, surveillance
+      chimio, contrôle rythme
+    disposition: represented
+    kp:
+      - KP-073
+  - id: SEG-061
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques >
+      1 Régime hyposodé
+    evidence: Viser ≤5–6 g sel/j ; éducation alimentaire (salière, eau de cuisson, liste aliments)
+    disposition: represented
+    kp:
+      - KP-074
+  - id: SEG-061b
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques >
+      1 Régime hyposodé
+    evidence: Chez certains malades, le régime sans sel peut être nuisible en conduisant à un certain
+      degré de dénutrition ; aide d’un diététicien ; éviter les sels de régime riches en potassium ;
+      utiliser des épices
+    disposition: missed
+    kp: []
+    note: Medically relevant caution that overly strict salt-free diet can cause denutrition, with
+      dietary counseling and avoidance of K+-rich salt substitutes. Not captured by KP-074 (only 5–6
+      g target) nor KP-075 (weight-loss-as-severity sign).
+  - id: SEG-061c
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques >
+      1 Régime hyposodé
+    evidence: Si un écart de régime est fait, conseiller d’augmenter la dose de diurétiques le jour
+      même, voire le lendemain
+    disposition: missed
+    kp: []
+    note: Patient self-management rule after salt excess (temporary diuretic uptitration) is not
+      represented in KP-074/075/084.
+  - id: SEG-062
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques >
+      2 Surveillance du poids et des symptômes
+    evidence: +2–3 kg en 2–3 j → consulter ; perte progressive sans œdème = dénutrition/mauvais
+      pronostic ; signes d’alerte
+    disposition: represented
+    kp:
+      - KP-075
+  - id: SEG-063
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 3–7
+    evidence: Alcool (régression CMD possible), tabac, activité physique hors décompensation,
+      travail/invalidité/réadaptation, vaccinations, contraception/grossesse à risque
+    disposition: represented
+    kp:
+      - KP-076
+    note: "Contraception/pregnancy risk is in KP-076 label but anchors omit the contraception subsection
+      quotes (reverse-check: insufficient anchor support)."
+  - id: SEG-070
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C Traitements médicamenteux FE ≤ 40 %
+    evidence: Quatre classes I/A réduisant mortalité/décompensations + diurétiques pour rétention
+    disposition: represented
+    kp:
+      - KP-077
+      - KP-084
+  - id: SEG-071
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du SRA
+    evidence: IEC tous FE diminuée ; surveillance Enc.18.3 ; ARA2 si intolérance ; ARNI
+      sacubitril/valsartan si restant symptomatique
+    disposition: represented
+    kp:
+      - KP-078
+      - KP-079
+      - KP-080
+  - id: SEG-072
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants
+    evidence: "4 molécules validées ; IC symptomatique FE↓ et post-IDM FE basse même asymptomatique ;
+      intro progressive patient stabilisé ; ne pas démarrer en poussée ; hospitalisation
+      décompensation (VI.C) : ne pas arrêter sauf échec/choc ; CI Enc.18.4"
+    disposition: represented
+    kp:
+      - KP-081
+    note: VI.C continue-BB rule is context-specific (hospitalisation for decompensation). Distinct from
+      VII.A OAP stop/reduce rule (KP-103). Apparent contradiction resolves by clinical context.
+  - id: SEG-073
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 3 Antialdostérones
+    evidence: Spironolactone/éplérénone FE basse NYHA II–IV ; ↓mortalité ; hyperK/IR ; gynécomastie ;
+      post-IDM éplérénone
+    disposition: represented
+    kp:
+      - KP-082
+  - id: SEG-074
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 4 Gliflozines
+    evidence: Empagliflozine/dapagliflozine diabétique ou non ; ↓mortalité CV et hospitalisations IC
+    disposition: represented
+    kp:
+      - KP-083
+  - id: SEG-075
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 5 Diurétiques
+    evidence: Diurétiques de l’anse pour rétention ; thiazidiques si résistance aux fortes doses furosémide
+    disposition: represented
+    kp:
+      - KP-084
+  - id: SEG-076
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C (Remarque FE 41–49 %)
+    evidence: IC FE légèrement diminuée peut bénéficier des mêmes traitements, niveau de preuve moindre
+    disposition: represented
+    kp:
+      - KP-085
+  - id: SEG-077
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 6 Traitements de 2e intention
+    evidence: Ivabradine ; digoxine ; dérivés nitrés d’appoint ; vericiguat après poussée
+    disposition: deferred
+    kp:
+      - KP-086
+  - id: SEG-078
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 7 Autres traitements
+      parfois associés
+    evidence: Amiodarone seul antiarythmique si FEVG↓ ; antiagrégants/anticoagulants (aspirine, DAPT,
+      AOD, scores, thrombus, AVC embolique)
+    disposition: represented
+    kp:
+      - KP-087
+    related_kp:
+      - KP-088
+    note: Antithrombotics deferred via KP-088.
+  - id: SEG-078b
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 7 Autres traitements
+      parfois associés
+    evidence: Antiagrégants / anticoagulants dans l’IC
+    disposition: deferred
+    kp:
+      - KP-088
+  - id: SEG-079
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués
+    evidence: Diltiazem/vérapamil CI dans IC systolique ; dihydropyridines neutres utilisables si
+      angor/HTA ; flécaïnide CI ; AINS à éviter
+    disposition: represented
+    kp:
+      - KP-089
+      - KP-090
+    note: Body text CI is limited to IC systolique. Cross-section conflict with Notions inacceptables
+      and VI.F handled in SEG-AMB-01.
+  - id: SEG-080
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »
+    evidence: CRT critères ; DAI prévention secondaire/primaire ; non indiqué NYHA IV sauf greffe/assistance
+    disposition: represented
+    kp:
+      - KP-091
+      - KP-092
+  - id: SEG-081
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > D Traitement percutané de la
+      fuite mitrale
+    evidence: "IM secondaire importante persistante : clip percutané selon critères écho et discussion
+      multidisciplinaire"
+    disposition: deferred
+    kp:
+      - KP-093
+  - id: SEG-082
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > E > 1 Transplantation cardiaque
+    evidence: IC sévère sans alternative ; CI dont HTAP fixée RAP>5 UW ; complications rejet/IS/vasculopathie
+    disposition: deferred
+    kp:
+      - KP-094
+  - id: SEG-083
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > E > 2 Systèmes d’assistance
+      ventriculaire
+    evidence: Courte durée (ECMO) ou longue durée ; bridge to transplant ou destination therapy
+    disposition: deferred
+    kp:
+      - KP-095
+  - id: SEG-084
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux FE conservée
+    evidence: Traitement peu codifié ; éviter HTA/FA/surcharge ; gliflozines récemment efficaces ;
+      ABCDEFG ; amylose ATTR traitement spécifique
+    disposition: represented
+    kp:
+      - KP-096
+    note: ABCDEFG includes rate-slowing CCB for HR control in HFpEF — conflicts with Notions
+      inacceptables (SEG-AMB-01). KP-096 label cites ABCDEFG but does not explicitly quote the
+      rate-slowing CCB clause.
+  - id: SEG-085
+    section_path: VI. Traitement de l’insuffisance cardiaque chronique > G Prise en charge globale et
+      parcours de soins
+    evidence: Parcours post-hospitalisation, éducation, IPA, SSR, soins palliatifs ; télésurveillance
+      remboursée PA/FC/poids
+    disposition: represented
+    kp:
+      - KP-097
+      - KP-098
+  - id: SEG-090
+    section_path: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire
+    evidence: "Domicile : position assise, furosémide IV 1 mg/kg, nitrés SL si PAS>100, SAMU"
+    disposition: represented
+    kp:
+      - KP-099
+  - id: SEG-091
+    section_path: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire
+    evidence: "Hôpital : O2 SaO2>90%, furosémide IV, nitrés si PAS≥110, anticoag préventive, morphine
+      non reco sauf anxiété/douleur, CPAP, intubation"
+    disposition: represented
+    kp:
+      - KP-100
+    note: Morphine caveat is anchored under KP-100 though label focuses on core OAP hospital bundle.
+  - id: SEG-091b
+    section_path: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire
+    evidence: "Déclencheur FA rapide : digoxine IV + anticoagulation efficace"
+    disposition: deferred
+    kp:
+      - KP-101
+  - id: SEG-091c
+    section_path: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire
+    evidence: "Poussée hypertensive : nicardipine IV 1–5 mg/h"
+    disposition: deferred
+    kp:
+      - KP-102
+  - id: SEG-092
+    section_path: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire
+    evidence: Ne pas introduire BB en poussée OAP ; si déjà sous BB → généralement arrêt ou ↓ posologie
+      ; IEC/ARA2/ARNI après stabilisation
+    disposition: represented
+    kp:
+      - KP-103
+    note: OAP-specific stop/reduce rule. Complements (does not contradict) KP-081 VI.C
+      continue-unless-failure/shock rule for non-OAP decompensation hospitalization.
+  - id: SEG-093
+    section_path: VII. Traitement de l’insuffisance cardiaque aiguë > B Poussée d’insuffisance cardiaque
+      globale sans OAP franc
+    evidence: Diurétiques IV, rééquilibration traitement oral, recherche cause ; hospitalisation non
+      systématique
+    disposition: represented
+    kp:
+      - KP-104
+  - id: SEG-094
+    section_path: VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique
+    evidence: Inotropes (dobutamine ; IPDE si sous BB ; lévosimendan) ; assistance/ECMO/greffe si
+      non-réponse ; CHAMPIT
+    disposition: represented
+    kp:
+      - KP-105
+      - KP-106
+  - id: SEG-100
+    section_path: Points-clés
+    evidence: Summary bullets restating definition, epidemiology, prognosis, diagnosis, etiologies,
+      acute HF, FE phenotypes, treatments
+    disposition: represented
+    kp:
+      - KP-001
+      - KP-002
+      - KP-004
+      - KP-039
+      - KP-035
+      - KP-050
+      - KP-059
+      - KP-060
+      - KP-057
+      - KP-014
+      - KP-015
+      - KP-073
+      - KP-074
+      - KP-077
+      - KP-091
+      - KP-092
+      - KP-094
+      - KP-095
+      - KP-096
+    note: Recap section; propositions already mapped in body. No unique medical claims beyond body
+      coverage.
+  - id: SEG-101
+    section_path: Notions indispensables et inacceptables > Notions indispensables
+    evidence: Toujours éliminer ischémie si FEVG↓ ; 5 classes FE↓ ; OAP urgence ; facteurs favorisants
+      poussée
+    disposition: represented
+    kp:
+      - KP-045
+      - KP-077
+      - KP-084
+      - KP-078
+      - KP-079
+      - KP-080
+      - KP-081
+      - KP-082
+      - KP-083
+      - KP-060
+      - KP-062
+  - id: SEG-102
+    section_path: Notions indispensables et inacceptables > Notions inacceptables
+    evidence: Méconnaître médicaments CI dans l’IC à FE préservée (vérapamil ou diltiazem, flécaïne) ;
+      AINS à éviter ; oublier régime pauvre en sel
+    disposition: ambiguous
+    kp:
+      - KP-089
+      - KP-074
+    note: "BLOCKING SOURCE AMBIGUITY (see SEG-AMB-01): Notions inacceptables state diltiazem/vérapamil
+      are CI in FE préservée, while VI.C.8 CI them in IC systolique and VI.F allows rate-slowing CCB
+      in FE préservée. Inventory KP-089 correctly anchors the systolique CI and notes the conflict.
+      Salt-diet reminder represented by KP-074."
+  - id: SEG-103
+    section_path: Réflexes transversalité
+    evidence: Renvois items 203, 224, 232, 233, 339
+    disposition: excluded-with-justification
+    kp:
+      - KP-108
+    note: Cross-item navigation pointers; non-propositional for this chapter inventory.
+  - id: SEG-104
+    section_path: Figures / multimédia (légendes)
+    evidence: Fig. 18.1–18.7 captions ; vidéo links ; OCR-corrupted Fig.18.5 header « l’urgence »
+    disposition: excluded-with-justification
+    kp: []
+    note: Illustrative captions/media pointers. Medical content of figures is covered by adjacent body
+      text KPs. OCR-corrupt caption fragment is non-propositional.
+  - id: SEG-AMB-01
+    section_path: "Cross-section: diltiazem/vérapamil vs FE phenotype"
+    evidence: "VI.C.8: diltiazem/vérapamil CI in IC systolique; VI.F ABCDEFG A: inhibiteur calcique
+      ralentisseur usable in FE préservée for rate control; Notions inacceptables: CI in FE
+      préservée"
+    disposition: ambiguous
+    kp:
+      - KP-089
+      - KP-090
+      - KP-096
+    note: "SAFELY PRESERVED SOURCE AMBIGUITY (not a fake settled fact). Three passages conflict on
+      whether rate-slowing CCBs are forbidden in HFpEF. Inventory does not invent a resolved rule:
+      KP-089 anchors systolique CI and documents the Notions wording conflict; KP-096 covers HFpEF
+      ABCDEFG without normalizing the contradiction. Blocking for any learner claim that asserts a
+      single universal FE-préservée CCB rule; non-blocking for Inventory fidelity if contradiction
+      remains explicit and unsettled."
+  - id: SEG-AMB-02
+    section_path: "Cross-section: bêtabloquants continuer vs arrêter/réduire"
+    evidence: "VI.C.2 hospitalisation décompensation: ne pas arrêter BB sauf échec thérapeutique ou
+      choc; VII.A OAP: généralement arrêt ou ↓ posologie si déjà sous BB; ne pas introduire en
+      poussée"
+    disposition: represented
+    kp:
+      - KP-081
+      - KP-103
+    note: "NOT ambiguous after contextual reading: VI.C = general decompensation hospitalization
+      continue-unless-failure/shock; VII.A = OAP-specific generally stop/reduce. Inventory preserves
+      both contexts without collapsing to always-continue or always-stop."

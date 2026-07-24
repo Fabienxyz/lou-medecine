@@ -1,0 +1,147 @@
+chapter: cardio/234
+edition: 2024-SFC
+scope: phase-3c-targeted
+methodology: targeted-convergence-v1
+status: pass
+inventory_kp_count: 109
+inventory_revision_observed: phase-3c-corrected
+prior_reconciliation: build/reconciliation-full-v2.yaml
+target_scope:
+  segments:
+    - SEG-061b
+    - SEG-061c
+  kp_neighborhoods:
+    - KP-076
+    - KP-096
+    - KP-100
+  preserved_ambiguities:
+    - SEG-AMB-01
+critical_checks:
+  seg_061b_resolved: true
+  seg_061c_resolved: true
+  kp_076_anchor_support: true
+  kp_096_ccb_clause_anchored: true
+  kp_096_conflict_preserved: true
+  kp_100_morphine_label_anchor_aligned: true
+  no_new_unsupported_claims: true
+  fe_ccb_ambiguity_unsettled: true
+summary:
+  total_segments: 8
+  represented: 7
+  ambiguous: 1
+  missed: 0
+  deferred: 0
+  excluded_with_justification: 0
+segments:
+  - id: SEG-061b
+    section_path: >-
+      VI. Traitement de l’insuffisance cardiaque chronique > B Mesures
+      hygiénodiététiques > 1 Régime hyposodé
+    evidence: >-
+      Chez certains malades, le régime sans sel peut être nuisible → dénutrition ;
+      aide diététicien ; éviter sels de régime riches en potassium ; épices
+    disposition: represented
+    kp:
+      - KP-074
+    note: >-
+      Enriched KP-074 with denutrition caution, dietitian counseling, K+-rich
+      salt-substitute avoidance, and spice alternatives.
+
+  - id: SEG-061c
+    section_path: >-
+      VI. Traitement de l’insuffisance cardiaque chronique > B Mesures
+      hygiénodiététiques > 1 Régime hyposodé
+    evidence: >-
+      Après écart de régime → augmenter la dose de diurétiques le jour même,
+      voire le lendemain
+    disposition: represented
+    kp:
+      - KP-074
+    note: Patient self-management rule co-located with hyposodé education in KP-074.
+
+  - id: SEG-063
+    section_path: >-
+      VI. Traitement de l’insuffisance cardiaque chronique > B Mesures
+      hygiénodiététiques > 3–7
+    evidence: >-
+      Alcool, tabac, activité physique, travail, vaccinations, contraception /
+      grossesse à risque
+    disposition: represented
+    kp:
+      - KP-076
+    note: >-
+      Contraception and tabac anchors added; label contraception/grossesse clause
+      now honestly supported.
+
+  - id: SEG-084
+    section_path: >-
+      VI. Traitement de l’insuffisance cardiaque chronique > F Traitement
+      médicamenteux FE conservée
+    evidence: >-
+      ABCDEFG ; gliflozines ; amylose ATTR ; rate-slowing CCB in A for HR control
+    disposition: represented
+    kp:
+      - KP-096
+    related_kp:
+      - KP-089
+    note: >-
+      VI.F rate-slowing CCB clause explicitly anchored on KP-096 with
+      source_conflict metadata; three-pole conflict not normalized.
+
+  - id: SEG-091
+    section_path: >-
+      VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de
+      l’œdème aigu pulmonaire
+    evidence: >-
+      O2, furosémide IV, nitrés, anticoag préventive, morphine non reco sauf
+      anxiété/douleur, CPAP, intubation
+    disposition: represented
+    kp:
+      - KP-100
+    note: Label refined to include morphine caveat already present in anchors.
+
+  - id: SEG-AMB-01
+    section_path: "Cross-section: diltiazem/vérapamil vs FE phenotype"
+    evidence: >-
+      VI.C.8 CI in IC systolique ; VI.F rate-slowing CCB in FE préservée ;
+      Notions inacceptables CI in FE préservée
+    disposition: ambiguous
+    kp:
+      - KP-089
+      - KP-096
+    note: >-
+      SAFELY PRESERVED SOURCE AMBIGUITY. KP-089 body-grounds systolique CI;
+      KP-096 anchors VI.F allowance with explicit source_conflict — no settled
+      universal HFpEF CCB rule.
+
+  - id: SEG-076-neighborhood
+    section_path: >-
+      VI. Traitement de l’insuffisance cardiaque chronique > B Mesures
+      hygiénodiététiques > 3 Alcool et tabac
+    evidence: Arrêt tabac impératif
+    disposition: represented
+    kp:
+      - KP-076
+    note: Reverse-check that tabac clause in KP-076 label is now anchored.
+
+  - id: SEG-102-neighborhood
+    section_path: Notions indispensables et inacceptables > Notions inacceptables
+    evidence: Méconnaître CI vérapamil/diltiazem en FE préservée
+    disposition: ambiguous
+    kp:
+      - KP-089
+      - KP-096
+    note: >-
+      Notions pole of FE/CCB conflict remains unsettled; inventory does not
+      invent a resolved rule from this subsection alone.
+
+reverse_check:
+  newly_missed_segments: []
+  unsupported_claims_introduced: []
+  v2_misses_remaining:
+    - SEG-061b
+    - SEG-061c
+  v2_misses_resolved_by_phase3c:
+    - SEG-061b
+    - SEG-061c
+  insufficient_anchor_support_remaining: []

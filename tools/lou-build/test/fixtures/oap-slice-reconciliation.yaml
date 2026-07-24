@@ -1,4 +1,4 @@
-# OAP vertical slice — scoped reconciliation (NOT full Item 234 coverage)
+# OAP vertical slice — scoped reconciliation fixture for regression tests
 chapter: cardio/234
 slice: oap-mechanism-vertical-slice
 slice_scope: pulmonary filling pressure / congestion → upstream VG pressure transmission → PPC threshold crossing → transudation → cardiogenic OAP → cardiogenic transudate vs lesional exudate confusion boundary

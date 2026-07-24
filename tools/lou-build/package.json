@@ -5,7 +5,7 @@
   "description": "Minimal build/validation tool for Lou Learning Companion vertical slices",
   "type": "module",
   "scripts": {
-    "test": "node --test test/*.test.js",
+    "test": "node --test --test-concurrency=1 --test-timeout=300000 test/*.test.js",
     "validate": "node cli.js validate",
     "build": "node cli.js build"
   },

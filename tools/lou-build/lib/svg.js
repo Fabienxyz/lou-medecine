@@ -1,31 +1,54 @@
+import path from "node:path";
 import { extractThresholdFromQuote } from "./ground.js";
 import { inventoryById, anchorForKp } from "./inventory.js";
+import { figureRelPathForElement } from "./claims.js";
+
+export const SUPPORTED_VISUAL_INTENTS = new Set(["process-flow"]);
 
 /**
- * Blueprint MEC-oap → in-memory visualSpec → SVG string.
- * No persisted visual-spec.json.
+ * Blueprint element + visual_intent → in-memory visualSpec.
  */
-export function buildVisualSpec(mecOap, inventory, sourceMeta) {
-  const kp041 = inventoryById(inventory).get("KP-041");
-  const anchor = anchorForKp(kp041, sourceMeta.edition);
-  const threshold = extractThresholdFromQuote(anchor?.quote) ?? 25;
+export function buildVisualSpec(element, inventory, sourceMeta) {
+  const usesKp = element.uses_kp || [];
+  let threshold = null;
+  for (const kpId of usesKp) {
+    const kp = inventoryById(inventory).get(kpId);
+    const anchor = anchorForKp(kp, sourceMeta.edition);
+    const t = extractThresholdFromQuote(anchor?.quote);
+    if (t != null) {
+      threshold = t;
+      break;
+    }
+  }
 
   return {
-    element: mecOap.id,
-    question: mecOap.question,
-    steps: mecOap.steps.map((label, i) => ({
+    element: element.id,
+    intent: element.visual_intent,
+    question: element.question || element.label || element.id,
+    steps: (element.steps || []).map((label, i) => ({
       n: i + 1,
       label,
       highlight:
-        label.includes("seuil") || label.includes("25")
+        threshold != null &&
+        (label.includes("seuil") || label.includes(String(threshold)))
           ? { thresholdMmHg: threshold }
           : null,
     })),
   };
 }
 
-export function renderMecOapSvg(spec) {
-  const title = "Comment la congestion pulmonaire mène-t-elle à l'OAP ?";
+export function renderSvg(spec) {
+  if (spec.intent === "process-flow") {
+    return { ok: true, svg: renderProcessFlowSvg(spec) };
+  }
+  return {
+    ok: false,
+    errors: [`unsupported visual_intent: ${spec.intent}`],
+  };
+}
+
+export function renderProcessFlowSvg(spec) {
+  const title = spec.question;
   const steps = spec.steps;
   const thresholdStep = steps.find((s) => s.highlight?.thresholdMmHg);
   const thresholdLabel = thresholdStep
@@ -62,7 +85,7 @@ export function renderMecOapSvg(spec) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 638" role="img" aria-labelledby="svg-title svg-desc" data-blueprint-element="${escapeXml(spec.element)}">
   <title id="svg-title">${escapeXml(title)}</title>
-  <desc id="svg-desc">Processus : congestion pulmonaire, seuil de pression capillaire, transsudat, OAP cardiogénique.</desc>
+  <desc id="svg-desc">Process flow for ${escapeXml(spec.element)}.</desc>
   <defs>
     <filter id="card-shadow" x="-6%" y="-6%" width="112%" height="118%">
       <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#000000" flood-opacity="0.05"/>
@@ -81,7 +104,7 @@ export function renderMecOapSvg(spec) {
     </style>
   </defs>
   <rect width="1200" height="638" fill="#FFFFFF"/>
-  <text x="600" y="64" text-anchor="middle" class="title-main">MEC-oap</text>
+  <text x="600" y="64" text-anchor="middle" class="title-main">${escapeXml(spec.element)}</text>
   <text x="600" y="98" text-anchor="middle" class="title-sub">${escapeXml(title)}</text>
   <line x1="520" y1="120" x2="680" y2="120" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
   ${cards}
@@ -89,9 +112,27 @@ export function renderMecOapSvg(spec) {
     <rect x="180" y="560" width="840" height="60" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
   </g>
   <text x="600" y="586" text-anchor="middle" class="summary-title">À retenir</text>
-  <text x="600" y="608" text-anchor="middle" class="summary-body">OAP cardiogénique = transsudat si PPC &gt; seuil.</text>
+  <text x="600" y="608" text-anchor="middle" class="summary-body">Process flow derived from Blueprint steps.</text>
 </svg>
 `;
+}
+
+/** @deprecated alias */
+export const renderMecOapSvg = renderProcessFlowSvg;
+
+export function figureAbsPath(figuresDir, elementId) {
+  return path.join(figuresDir, `${String(elementId).toLowerCase()}.svg`);
+}
+
+export function validateSvgStructure(svgText, elementId) {
+  const errors = [];
+  if (!svgText.includes('role="img"')) errors.push("svg: missing role=img");
+  if (!svgText.includes("<title")) errors.push("svg: missing title");
+  if (!svgText.includes("<desc")) errors.push("svg: missing desc");
+  if (!svgText.includes(`data-blueprint-element="${elementId}"`)) {
+    errors.push("svg: missing data-blueprint-element");
+  }
+  return { ok: errors.length === 0, errors };
 }
 
 function shortLabel(text) {
@@ -105,15 +146,4 @@ function escapeXml(s) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-}
-
-export function validateSvgStructure(svgText, elementId) {
-  const errors = [];
-  if (!svgText.includes('role="img"')) errors.push("svg: missing role=img");
-  if (!svgText.includes("<title")) errors.push("svg: missing title");
-  if (!svgText.includes("<desc")) errors.push("svg: missing desc");
-  if (!svgText.includes(`data-blueprint-element="${elementId}"`)) {
-    errors.push("svg: missing data-blueprint-element");
-  }
-  return { ok: errors.length === 0, errors };
 }

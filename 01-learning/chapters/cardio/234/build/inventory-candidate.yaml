@@ -1,0 +1,1230 @@
+# Phase 2A — FULL-CHAPTER CANDIDATE Knowledge Inventory
+# REVIEW CANDIDATE ONLY — not a build/publication input
+# Do NOT replace chapters/cardio/234/inventory.yaml with this file
+chapter: cardio/234
+source_edition: 2024-SFC
+candidate_status: phase-2a-blind-extraction
+methodology: >
+  Independent section-by-section extraction from official-college.md (2024-SFC).
+  Pass A: recall-oriented extraction. Pass B: granularity normalization.
+  coverage.md, coverage-v0.md, storyboard.md, and legacy generated-assets were NOT inspected or used.
+  Prior ~80–95 KP estimates were explicitly ignored as targets.
+blind_extraction:
+  coverage_md_used: false
+  legacy_pedagogical_assets_used: false
+  predetermined_kp_count_target: none
+frozen_ids_preserved: [KP-040, KP-041, KP-042]
+provisional_id_scheme: CAND-nnn (except frozen KP-040/041/042)
+revision: candidate-r1
+kps:
+  - id: CAND-001
+    label: "Définition physiopathologique de l’IC : incapacité à délivrer un débit adapté et/ou à fonctionner avec des pressions de remplissage normales"
+    section: "I. Généralités > A Définition"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > A Définition"
+        quote: "incapacité du cœur à délivrer un débit adapté aux besoins de l’organisme et/ou à fonctionner avec des pressions de remplissage normales"
+  - id: CAND-002
+    label: "Définition clinique/syndrome ESC 2021 : symptômes ± signes + anomalie structure/fonction du cœur → débit insuffisant et/ou pressions intracardiaques ↑"
+    section: "I. Généralités > A Définition"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > A Définition"
+        quote: "l’IC est un syndrome défini par l’association de symptômes, de signes cliniques"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > A Définition"
+        quote: "causés par une anomalie de structure et/ou de fonction du cœur entraînant un débit cardiaque insuffisant"
+  - id: CAND-003
+    label: "Diagnostic difficile : symptômes non spécifiques, signes peu sensibles ; dysfonction asymptomatique possible avant les symptômes"
+    section: "I. Généralités > A Définition"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > A Définition"
+        quote: "les symptômes ne sont pas spécifiques et les signes ne sont pas sensibles"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > A Définition"
+        quote: "période plus ou moins longue de dysfonctionnement cardiaque systolique ou diastolique asymptomatique"
+  - id: CAND-004
+    label: "Prévalence IC 1–2 % ; âge moyen du diagnostic 75–80 ans ; prévalence ↑ avec l’âge alors que l’incidence standardisée tend à ↓"
+    section: "I. Généralités > B Épidémiologie"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > B Épidémiologie"
+        quote: "prévalence de l’IC dans la population générale est entre 1 et 2 %"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > B Épidémiologie"
+        quote: "âge moyen du diagnostic en Europe se situant entre 75 et 80 ans"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > B Épidémiologie"
+        quote: "l’incidence standardisée sur l’âge tend à diminuer"
+  - id: CAND-005
+    label: "Formules hémodynamiques : DC = VES × FC ; VES = VTD − VTS ; FE = VES/VTD ; VES dépend de précharge, postcharge et contractilité"
+    section: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "Le débit cardiaque (DC) dépend du volume d’éjection systolique ventriculaire (VES) et de la fréquence cardiaque (FC) : DC = VES × FC"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "FE = VES/VTD = (VTD – VTS)/VTD"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "Le VES dépend de la précharge"
+  - id: CAND-006
+    label: "Deux conséquences principales d’un dysfonctionnement de pompe : ↓ débit (ou incapacité à ↑ à l’effort) et ↑ pressions de remplissage transmises en amont"
+    section: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "Un dysfonctionnement de la pompe cardiaque peut avoir deux conséquences principales"
+  - id: KP-040
+    label: "Augmentation des pressions de remplissage et transmission de la pression télédiastolique VG vers veines et capillaires pulmonaires"
+    section: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    rank: A
+    disposition: understanding
+    note: "Frozen OAP-slice identity preserved"
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "cette augmentation de la pression télédiastolique se transmet à l’oreillette gauche, puis aux veines pulmonaires, aux capillaires pulmonaires"
+  - id: CAND-007
+    label: "Transmission VD : pressions diastoliques → OD → circulation veineuse systémique (stase hépatique et jugulaire)"
+    section: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "Au niveau du VD, l’augmentation des pressions diastoliques se transmet à l’oreillette droite"
+  - id: KP-041
+    label: "Seuil PPC > 25 mmHg → transsudat → OAP cardiogénique"
+    section: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    rank: A
+    disposition: understanding
+    note: "Frozen OAP-slice identity preserved"
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "pression capillaire pulmonaire au-delà d’un certain seuil (en général au moins > 25 mmHg)"
+  - id: KP-042
+    label: "OAP lésionnel non cardiogénique → lésions membrane alvéolo-capillaire → exsudat"
+    section: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+    rank: A
+    disposition: understanding
+    note: "Frozen OAP-slice identity preserved"
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
+        quote: "l’œdème pulmonaire lésionnel non cardiogénique est secondaire à des lésions de la membrane alvéolo-capillaire"
+  - id: CAND-008
+    label: "Mécanismes compensateurs : bénéfiques à court terme, délétères à long terme"
+    section: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "bénéfiques à court terme car maintenant le débit cardiaque"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "mais délétères à long terme car contribuant à augmenter le travail"
+  - id: CAND-009
+    label: "Remodelage : dilatation/hypertrophie excentrique et hypertrophie concentrique (loi de Laplace) ; compensation puis effets délétères"
+    section: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "Le remodelage cardiaque est défini comme les changements de la géométrie des cavités"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "Contrainte = P développée × Rayon de la cavité/Épaisseur de la paroi"
+  - id: CAND-010
+    label: "Compensations cardiaques additionnelles : loi de Starling et tachycardie sympathique maintenant le DC"
+    section: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "D’après la loi de Starling, l’étirement des fibres"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "La tachycardie, sous la dépendance de l’activation du système sympathique, contribue également à maintenir le débit cardiaque"
+  - id: CAND-011
+    label: "Compensations extra-cardiaques : vasoconstriction inhomogène, rétention hydrosodée, activation neurohormonale (sympathique + SRAA)"
+    section: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "La vasoconstriction, en réponse à l’activation du système sympathique et du système rénine"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "La rétention hydrosodée, liée à la baisse de la perfusion rénale"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque"
+        quote: "les plus importants sont le système sympathique et le système rénine – angiotensine – aldostérone"
+  - id: CAND-012
+    label: "Désynchronisation cardiaque (ex. BBG) : contraction asynchrone aggravant l’IC"
+    section: "I. Généralités > C Physiopathologie > 3 Désynchronisation"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 3 Désynchronisation"
+        quote: "La désynchronisation cardiaque peut aggraver une IC"
+  - id: CAND-013
+    label: "IC à FE diminuée : défaut de contraction/éjection ; définie par FE ≤ 40 %"
+    section: "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée"
+        quote: "Elle est définie par une fraction d’éjection ≤ 40 %"
+  - id: CAND-014
+    label: "IC à FE préservée : défaut de remplissage ; FE ≥ 50 % ; plus fréquente sujet âgé/femme, HTA, obésité"
+    section: "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée"
+        quote: "Cette IC est définie par une FE ≥ 50 %"
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée"
+        quote: "plus fréquent chez le sujet âgé et chez la femme, et souvent associé à l’HTA et à l’obésité"
+  - id: CAND-015
+    label: "IC à FE légèrement diminuée (41–49 %) : se rapproche de l’IC à FE diminuée ; distinction surtout thérapeutique"
+    section: "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée"
+        quote: "Lorsque la fraction d’éjection est entre 41 et 49 %, on parle d’IC à FE légèrement diminuée"
+  - id: CAND-016
+    label: "Fibrillation atriale dans l’IC : favorisée par dilatation atriale ; perte de systole atriale → aggravation IC et ↑ risque d’AVC"
+    section: "I. Généralités > C Physiopathologie > 5 Arythmies"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 5 Arythmies"
+        quote: "La fibrillation atriale est favorisée par la dilatation de l’atrium secondaire à l’augmentation des pressions intracavitaires"
+  - id: CAND-017
+    label: "Arythmies ventriculaires graves (TV, FV) : principale cause de mort subite → intérêt du DAI"
+    section: "I. Généralités > C Physiopathologie > 5 Arythmies"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "I. Généralités > C Physiopathologie > 5 Arythmies"
+        quote: "Les troubles du rythme ventriculaire graves (TV, FV) sont à l’origine de la plupart des morts subites"
+  - id: CAND-018
+    label: "Dyspnée d’effort (fréquente, peu spécifique) quantifiée par la classification NYHA (stades I–IV)"
+    section: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+        quote: "La dyspnée d’effort, fréquente mais peu spécifique, est souvent révélatrice"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+        quote: "classification de loin la plus utilisée est celle de la New York Heart Association (NYHA)"
+  - id: CAND-019
+    label: "Orthopnée et dyspnée paroxystique nocturne : plus spécifiques ; liées à la redistribution/↑ pression capillaire"
+    section: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+        quote: "L’orthopnée est plus spécifique"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+        quote: "La dyspnée paroxystique nocturne, également plus spécifique"
+  - id: CAND-020
+    label: "Signes respiratoires trompeurs : asthme cardiaque, toux d’effort/décubitus, hémoptysies d’hypertension veineuse pulmonaire"
+    section: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+        quote: "l’asthme cardiaque est une bradypnée expiratoire avec respiration sifflante"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+        quote: "la toux, lorsqu’elle survient électivement à l’effort ou au décubitus"
+  - id: CAND-021
+    label: "OAP comme manifestation : dyspnée aiguë de repos, position assise, expectoration mousseuse ; subœdème si crise spontanément résolutive"
+    section: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+        quote: "dyspnée aiguë de repos, au cours de l’œdème aigu pulmonaire"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires"
+        quote: "Lorsque la crise est spontanément résolutive, on parle de subœdème pulmonaire"
+  - id: CAND-022
+    label: "Autres symptômes d’IC : fatigue, prise de poids/œdèmes, faiblesse musculaire, palpitations ; formes sévères (SAS/Cheyne-Stokes, confusion, troubles digestifs)"
+    section: "II. Diagnostic > A Signes fonctionnels > 2 Autres symptômes"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 2 Autres symptômes"
+        quote: "d’une fatigue de repos liée à l’hypotension artérielle ou à l’effort"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 2 Autres symptômes"
+        quote: "La prévalence du syndrome d’apnées du sommeil est augmentée dans l’IC"
+  - id: CAND-023
+    label: "Hépatalgie d’effort ou de repos : pesanteur douloureuse de l’hypocondre droit (distension capsulaire)"
+    section: "II. Diagnostic > A Signes fonctionnels > 3 Symptômes d’insuffisance cardiaque droite"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > A Signes fonctionnels > 3 Symptômes d’insuffisance cardiaque droite"
+        quote: "L’hépatalgie d’effort ou de repos est une pesanteur douloureuse de l’hypocondre droit"
+  - id: CAND-024
+    label: "Signes physiques d’IC souvent pauvres sous traitement ; leur présence traduit une gravité (rétention hydrosodée ou bas débit)"
+    section: "II. Diagnostic > B Signes physiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "La présence de signes physiques d’IC est donc un élément de gravité"
+  - id: CAND-025
+    label: "Signes cardiaques : choc de pointe dévié, galop B3, éclat du B2, souffles d’IM/IT fonctionnels ou valvulopathie organique"
+    section: "II. Diagnostic > B Signes physiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "un bruit de galop protodiastolique (B3)"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "un éclat du B2 au foyer pulmonaire en cas d’hypertension artérielle pulmonaire"
+  - id: CAND-026
+    label: "Signes pulmonaires : râles crépitants/sous-crépitants bilatéraux ; épanchement pleural transsudatif (protides < 30 g/L)"
+    section: "II. Diagnostic > B Signes physiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "des râles crépitants ou sous-crépitants, qui sont le plus souvent bilatéraux"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "caractère transsudatif de l’épanchement (concentration en protides < 30 g/L)"
+  - id: CAND-027
+    label: "Pression artérielle : PAS < 100 mmHg = facteur de gravité ; OAP hypertensif possible avec PA élevée"
+    section: "II. Diagnostic > B Signes physiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "lorsqu’elle est basse (PAS < 100 mmHg), c’est un facteur de gravité"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "une pression artérielle élevée peut être contemporaine d’une IC, y compris au cours d’un OAP (OAP hypertensif)"
+  - id: CAND-028
+    label: "Signes périphériques d’IC droite : turgescence jugulaire, reflux hépatojugulaire, hépatomégalie, œdèmes déclives, ascite/anasarque"
+    section: "II. Diagnostic > B Signes physiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "la turgescence jugulaire : dilatation anormale de la veine jugulaire"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "le reflux hépatojugulaire : dilatation anormale de la veine jugulaire après compression manuelle du foie"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "les œdèmes périphériques : mous, blancs, indolores, prenant le godet"
+  - id: CAND-029
+    label: "Stade très avancé : pouls alternant, oligurie, cachexie, dyspnée de Cheyne-Stokes"
+    section: "II. Diagnostic > B Signes physiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > B Signes physiques"
+        quote: "l’IC peut s’accompagner d’un pouls alternant, d’une oligurie, d’une fonte musculaire"
+  - id: CAND-030
+    label: "ECG peu contributif au diagnostic positif ; BBG (QRS > 120 ms) important pour implications thérapeutiques ; peut orienter l’étiologie"
+    section: "II. Diagnostic > C Électrocardiogramme"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > C Électrocardiogramme"
+        quote: "L’ECG est peu contributif pour le diagnostic d’IC"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > C Électrocardiogramme"
+        quote: "bloc de branche, en particulier gauche (durée du QRS > 120 ms)"
+  - id: CAND-031
+    label: "Radiographie : RCT > 0,5 si cardiomégalie ; absence de cardiomégalie n’exclut pas l’IC (notamment FE préservée)"
+    section: "II. Diagnostic > D Radiographie thoracique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > D Radiographie thoracique"
+        quote: "le rapport cardiothoracique (RCT) est augmenté (> 0,5)"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > D Radiographie thoracique"
+        quote: "L’absence de cardiomégalie ne doit pas faire remettre en cause le diagnostic d’IC"
+  - id: CAND-032
+    label: "Sémiologie radiologique de stase : redistribution vasculaire → lignes B de Kerley → œdème alvéolaire « en ailes de papillon » ; épanchements pleuraux"
+    section: "II. Diagnostic > D Radiographie thoracique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > D Radiographie thoracique"
+        quote: "la redistribution vasculaire de la base vers les sommets"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > D Radiographie thoracique"
+        quote: "aspect dit « en ailes de papillon »"
+  - id: CAND-033
+    label: "BNP/NT-proBNP : libérés lors de l’étirement myocytaire ; recommandés pour le diagnostic ; bonne valeur prédictive négative"
+    section: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+        quote: "Le BNP ou le NT-proBNP sont aujourd’hui recommandés pour le diagnostic de l’IC, avec une bonne valeur prédictive négative"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+        quote: "libérés dans la circulation par les myocytes cardiaques lorsqu’ils sont étirés"
+  - id: CAND-034
+    label: "Seuils de rule-out en dyspnée aiguë : BNP < 100 pg/mL ou NT-proBNP < 300 pg/mL rendent l’IC très improbable"
+    section: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+        quote: "Des valeurs de BNP < 100 pg/mL ou de NT-proBNP < 300 pg/mL rendent le diagnostic d’IC très improbable"
+  - id: CAND-035
+    label: "Seuils de rule-out non aigus : BNP < 35 pg/mL, NT-proBNP < 125 pg/mL ; si ≥ ou forte suspicion → échocardiographie (algo ESC 2021)"
+    section: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+        quote: "BNP < 35 pg/mL, NT-proBNP < 125 pg/mL"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+        quote: "Lorsque les valeurs de BNP sont ≥ 35 pg/mL ou de NT-proBNP ≥ 125 pg/mL"
+  - id: CAND-036
+    label: "Seuils élevés en faveur d’une origine cardiaque d’une dyspnée (BNP > 300 ; NT-proBNP âge-bandés > 450 / > 900 / > 1 800)"
+    section: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+        quote: "BNP > 300 pg/mL ou NT-proBNP > 450 pg/mL chez le sujet de moins de 50 ans"
+  - id: CAND-037
+    label: "Facteurs confondants des peptides : âge, IR, FA ↑ les concentrations ; obésité les ↓ ; zone grise → interprétation clinique"
+    section: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+        quote: "Certains facteurs tendent à augmenter (âge, insuffisance rénale, fibrillation atriale) ou diminuer (obésité)"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)"
+        quote: "Il existe donc des valeurs de BNP/NT-proBNP pour lesquelles le diagnostic est incertain"
+  - id: CAND-038
+    label: "ETT (+ Doppler) : examen clé indispensable (FEVG, volumes, VD/VCI, valves, pressions de remplissage, orientation étiologique)"
+    section: "II. Diagnostic > F Échocardiographie transthoracique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > F Échocardiographie transthoracique"
+        quote: "l’ETT est l’examen clé indispensable en cas d’IC ou de suspicion d’IC"
+  - id: CAND-039
+    label: "Bilan biologique standard ESC 2021 devant IC/suspicion (Na, K, créatinine, BNP/NT-proBNP, glycémie/HbA1c, lipides, foie, TSH, NFS, fer)"
+    section: "II. Diagnostic > G Examens biologiques standards"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > G Examens biologiques standards"
+        quote: "les examens biologiques simples suivants sont demandés (recommandations de l’ESC 2021)"
+  - id: CAND-040
+    label: "Coronarographie si FEVG diminuée pour éliminer une coronaropathie (1re cause) ; coroscanner préféré chez le sujet jeune à faible probabilité"
+    section: "II. Diagnostic > H Autres examens complémentaires"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > H Autres examens complémentaires"
+        quote: "La coronarographie est en général proposée en cas d’altération de la fonction systolique"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > H Autres examens complémentaires"
+        quote: "la coronarographie est de plus en plus remplacée par un coroscanner"
+  - id: CAND-041
+    label: "IRM cardiaque : complément écho, bilan étiologique (myocardite, amylose, sarcoïdose…), viabilité/ischémie, fibrose/pronostic"
+    section: "II. Diagnostic > H Autres examens complémentaires"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > H Autres examens complémentaires"
+        quote: "L’IRM cardiaque peut :"
+  - id: CAND-042
+    label: "Holter : dépistage troubles du rythme/conduction ; épreuve d’effort avec VO2 : capacité fonctionnelle, pronostic, discussion de greffe"
+    section: "II. Diagnostic > H Autres examens complémentaires"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > H Autres examens complémentaires"
+        quote: "L’enregistrement Holter sur 24 heures"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > H Autres examens complémentaires"
+        quote: "Le pic de VO2 à l’effort a une valeur pronostique"
+  - id: CAND-043
+    label: "Cathétérisme droit : mesures de pressions/débit ; HTAP = PAPm > 25 mmHg ; résistances > 5 unités Wood contre-indiquent la greffe"
+    section: "II. Diagnostic > H Autres examens complémentaires"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > H Autres examens complémentaires"
+        quote: "L’hypertension pulmonaire est définie comme une PAP (pression artérielle pulmonaire) moyenne > 25 mmHg"
+      - edition: 2024-SFC
+        section_path: "II. Diagnostic > H Autres examens complémentaires"
+        quote: "lorsque les résistances artérielles pulmonaires sont > 5 unités Wood, la greffe cardiaque est contre-indiquée"
+  - id: CAND-044
+    label: "Cardiopathies ischémiques = première cause d’IC (IDM → fibrose/↓ FEVG ; ischémie chronique avec viabilité possible)"
+    section: "III. Diagnostic étiologique > A Cardiopathies ischémiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > A Cardiopathies ischémiques"
+        quote: "Elles représentent aujourd’hui la première cause d’IC"
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > A Cardiopathies ischémiques"
+        quote: "l’ischémie chronique provoquée par la maladie coronarienne est responsable d’une altération de la FEVG"
+  - id: CAND-045
+    label: "HTA : cofacteur majeur d’IC via dysfonction diastolique/HVG, coronaropathie, et/ou ↑ postcharge avec ↓ FE"
+    section: "III. Diagnostic étiologique > B Hypertension artérielle"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > B Hypertension artérielle"
+        quote: "L’HTA est également un facteur ou un cofacteur important d’insuffisance cardiaque"
+  - id: CAND-046
+    label: "CMD : dilatation + ↓ FEVG après exclusion ischémique/valvulaire/HTA/congénitale ; ~25 % familiales ; causes toxiques, inflammatoires, endocrines, etc."
+    section: "III. Diagnostic étiologique > C Cardiomyopathies > 1 Cardiomyopathies dilatées (CMD)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > C Cardiomyopathies > 1 Cardiomyopathies dilatées (CMD)"
+        quote: "Elles sont définies par une atteinte du muscle cardiaque qui aboutit à une dilatation et une baisse de la FEVG"
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > C Cardiomyopathies > 1 Cardiomyopathies dilatées (CMD)"
+        quote: "dans environ 25 % des cas, maladie familiale"
+  - id: CAND-047
+    label: "CMH : hypertrophie souvent asymétrique du SIV, FE conservée, trouble du remplissage ; forme obstructive possible ; familiale sarcomérique ; risque de mort subite (athlète jeune)"
+    section: "III. Diagnostic étiologique > C Cardiomyopathies > 2 Cardiomyopathies hypertrophiques (CMH)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > C Cardiomyopathies > 2 Cardiomyopathies hypertrophiques (CMH)"
+        quote: "elles s’accompagnent d’une obstruction au niveau sous-aortique lors de l’éjection du fait de l’hypertrophie"
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > C Cardiomyopathies > 2 Cardiomyopathies hypertrophiques (CMH)"
+        quote: "1re cause de mort subite chez le jeune athlète"
+  - id: CAND-048
+    label: "Cardiomyopathies restrictives (ex. amylose) : infiltration → rigidité/remplissage altéré ; pronostic sévère dès manifestations d’IC"
+    section: "III. Diagnostic étiologique > C Cardiomyopathies > 3 Cardiomyopathies restrictives"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > C Cardiomyopathies > 3 Cardiomyopathies restrictives"
+        quote: "la plus fréquente est représentée par l’amylose cardiaque"
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > C Cardiomyopathies > 3 Cardiomyopathies restrictives"
+        quote: "Le pronostic de l’amylose cardiaque est habituellement sévère lorsque des manifestations d’IC apparaissent"
+  - id: CAND-049
+    label: "Valvulopathies gauches peuvent toutes se compliquer d’IC (tournant évolutif) ; particularité du RM : OAP/IC droite possible sans atteinte du VG"
+    section: "III. Diagnostic étiologique > D Valvulopathies gauches"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > D Valvulopathies gauches"
+        quote: "Elles peuvent toutes se compliquer d’IC"
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > D Valvulopathies gauches"
+        quote: "particularité du rétrécissement mitral est qu’il peut être à l’origine de manifestations d’IC gauche (OAP)"
+  - id: CAND-050
+    label: "Troubles du rythme/conduction comme cause ou facteur déclenchant ; tachycardiomyopathie (FA rapide prolongée) souvent réversible après traitement du rythme"
+    section: "III. Diagnostic étiologique > E Troubles du rythme ventriculaire ou supraventriculaire ou de conduction"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > E Troubles du rythme ventriculaire ou supraventriculaire ou de conduction"
+        quote: "Une tachycardie rapide ou une bradycardie extrême peuvent provoquer une IC"
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > E Troubles du rythme ventriculaire ou supraventriculaire ou de conduction"
+        quote: "une fibrillation atriale rapide permanente et prolongée peut entraîner une cardiomyopathie (tachycardiomyopathie)"
+  - id: CAND-051
+    label: "Causes péricardiques d’IC : épanchement abondant, tamponnade, péricardite chronique constrictive"
+    section: "III. Diagnostic étiologique > F Causes péricardiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > F Causes péricardiques"
+        quote: "l’épanchement péricardique abondant, la tamponnade, la péricardite chronique constrictive"
+  - id: CAND-052
+    label: "IC droite le plus souvent secondaire à l’IC gauche (IC globale) ; causes isolées : cœur pulmonaire, HTAP, DVDA, pathologies tricuspidiennes, IDM VD, péricardite constrictive"
+    section: "III. Diagnostic étiologique > G Étiologies de l’insuffisance cardiaque droite"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > G Étiologies de l’insuffisance cardiaque droite"
+        quote: "L’IC gauche représente la cause la plus fréquente d’IC droite"
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > G Étiologies de l’insuffisance cardiaque droite"
+        quote: "Il existe cependant des causes d’insuffisance cardiaque droite isolée"
+  - id: CAND-053
+    label: "IC à débit augmenté : anémies chroniques, fistules artérioveineuses, hyperthyroïdie, béribéri, maladie de Paget"
+    section: "III. Diagnostic étiologique > H Insuffisance cardiaque à débit augmenté"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "III. Diagnostic étiologique > H Insuffisance cardiaque à débit augmenté"
+        quote: "Une augmentation permanente du débit peut entraîner une surcharge en volume du cœur et une IC"
+  - id: CAND-054
+    label: "IC aiguë : apparition rapide de symptômes/signes liés à l’altération de pompe (de novo ou aggravation) ; souvent hospitalisation pour traitement IV"
+    section: "IV. Formes cliniques > A Insuffisance cardiaque aiguë"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë"
+        quote: "apparition généralement rapide de symptômes et de signes en rapport avec une altération de la fonction de la pompe cardiaque"
+  - id: CAND-055
+    label: "OAP cardiogénique : détresse respiratoire aiguë par inondation alvéolaire (transsudat) ; clinique typique ; urgence ; examens ne doivent pas retarder le traitement"
+    section: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique"
+        quote: "détresse respiratoire aiguë liée à une inondation alvéolaire"
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique"
+        quote: "Les examens complémentaires ne doivent pas retarder l’instauration d’un traitement"
+  - id: CAND-056
+    label: "Diagnostics différentiels d’une dyspnée aiguë : pneumopathie, embolie pulmonaire, exacerbation de BPCO, crise d’asthme"
+    section: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique"
+        quote: "il faut savoir évoquer les principaux diagnostics différentiels"
+  - id: CAND-057
+    label: "Facteurs déclenchants d’IC aiguë (rupture de traitement/régime, infection, FA, anémie, EP, dysthyroïdie, iatrogénie, HTA, SCA…)"
+    section: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres formes cliniques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres formes cliniques"
+        quote: "il faut rechercher des facteurs favorisants"
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres formes cliniques"
+        quote: "le premier facteur étant une rupture de traitement ou de régime sans sel"
+  - id: CAND-058
+    label: "Choc cardiogénique : défaillance aiguë sévère → hypoperfusion/anoxie tissulaire ; PAS < 90 mmHg ou ↓ > 30 mmHg ≥ 30 min ; extrémités froides, oligurie < 20 mL/h, troubles de conscience"
+    section: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 3 Choc cardiogénique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 3 Choc cardiogénique"
+        quote: "défaillance aiguë et sévère de la fonction cardiaque avec baisse du débit, entraînant une baisse profonde de la perfusion tissulaire périphérique"
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 3 Choc cardiogénique"
+        quote: "PAS < 90 mmHg ou chute de la PAS > 30 mmHg par rapport aux valeurs de base pendant au moins 30 minutes"
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 3 Choc cardiogénique"
+        quote: "oligurie < 20 mL/h"
+  - id: CAND-059
+    label: "IC chronique : état hors décompensation aiguë ; patient ambulatoire sous traitement oral"
+    section: "IV. Formes cliniques > B Insuffisance cardiaque chronique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > B Insuffisance cardiaque chronique"
+        quote: "Elle définit l’état du patient en dehors d’une décompensation aiguë"
+  - id: CAND-060
+    label: "Critères diagnostiques d’IC à FE préservée : symptômes/signes + FEVG ≥ 50 % + BNP/NT-proBNP ↑ + arguments de pressions de remplissage/HVG/dilatation AG"
+    section: "IV. Formes cliniques > C Insuffisance cardiaque à fonction systolique conservée (ou IC à FE préservée)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > C Insuffisance cardiaque à fonction systolique conservée (ou IC à FE préservée)"
+        quote: "la présence d’une fonction systolique normale à l’échocardiographie (FEVG ≥ 50 %)"
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > C Insuffisance cardiaque à fonction systolique conservée (ou IC à FE préservée)"
+        quote: "masse VG indexée ≥ 115 g/m2 chez l’homme, ≥ 95 g/m2 chez la femme"
+      - edition: 2024-SFC
+        section_path: "IV. Formes cliniques > C Insuffisance cardiaque à fonction systolique conservée (ou IC à FE préservée)"
+        quote: "volume AG indexé > 34 mL/m2"
+  - id: CAND-061
+    label: "Histoire naturelle : dysfonction asymptomatique puis IC ; oscillations stabilité/décompensations ; remodelage inverse possible sous traitement"
+    section: "V. Évolution, complications, pronostic > A Histoire naturelle, évolution"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > A Histoire naturelle, évolution"
+        quote: "période de dysfonction cardiaque asymptomatique"
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > A Histoire naturelle, évolution"
+        quote: "la fonction cardiaque s’améliore, voire se normalise (remodelage inverse)"
+  - id: CAND-062
+    label: "Mortalité élevée (~50 % à 5 ans ; jusqu’à 40–50 %/an si NYHA IV) : mort subite rythmique ou IC réfractaire"
+    section: "V. Évolution, complications, pronostic > B Principales complications"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > B Principales complications"
+        quote: "elle est en moyenne de 50 % à 5 ans"
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > B Principales complications"
+        quote: "soit à une mort subite (décès brutal), généralement liée à des troubles du rythme ventriculaire, soit à une IC réfractaire"
+  - id: CAND-063
+    label: "Hospitalisations pour décompensation fréquentes (1re cause d’hospitalisation après 65 ans) = facteur de gravité"
+    section: "V. Évolution, complications, pronostic > B Principales complications"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > B Principales complications"
+        quote: "l’IC est une des premières causes d’hospitalisation après 65 ans"
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > B Principales complications"
+        quote: "Une hospitalisation pour décompensation cardiaque représente toujours un facteur de gravité"
+  - id: CAND-064
+    label: "Autres complications : arythmies, thromboembolies, hypotension, troubles hydroélectrolytiques/IR, anémie/carence martiale, SAS"
+    section: "V. Évolution, complications, pronostic > B Principales complications"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > B Principales complications"
+        quote: "de complications thromboemboliques"
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > B Principales complications"
+        quote: "de troubles hydroélectrolytiques (hypo ou hyperkaliémie, hyponatrémie), insuffisance rénale"
+  - id: CAND-065
+    label: "Facteurs pronostiques : NYHA III–IV, réhospitalisations, étiologie ischémique, ↓ FE/débit, ↑ pressions, QRS > 120 ms, hyponatrémie, BNP ↑, ↓ pic VO2"
+    section: "V. Évolution, complications, pronostic > C Principaux facteurs pronostiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > C Principaux facteurs pronostiques"
+        quote: "Facteurs cliniques : classe NYHA III ou IV versus I ou II"
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic > C Principaux facteurs pronostiques"
+        quote: "Diminution du pic de VO2 lors de l’épreuve d’effort métabolique"
+  - id: CAND-066
+    label: "Comorbidités cardiaques et non cardiaques fréquentes : à prendre en charge (qualité de vie, réhospitalisations, survie, tolérance des traitements)"
+    section: "V. Évolution, complications, pronostic"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "V. Évolution, complications, pronostic"
+        quote: "Les comorbidités cardiaques et non cardiaques associées à l’IC sont fréquentes"
+  - id: CAND-067
+    label: "Prévention/traitement étiologique : FDR CV, contrôle HTA/valvulopathies, reperfusion/revascularisation, éviction toxiques, surveillance chimio, contrôle du rythme"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > A Traitement étiologique et préventif"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > A Traitement étiologique et préventif"
+        quote: "La prévention de l’IC passe par la prise en charge de tous les facteurs pouvant la causer"
+  - id: CAND-068
+    label: "Régime hyposodé : viser ≤ 5–6 g de sel/j ; éducation alimentaire"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 1 Régime hyposodé"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 1 Régime hyposodé"
+        quote: "On vise à ne pas dépasser 5 à 6 g de sel par jour"
+  - id: CAND-069
+    label: "Surveillance du poids : alerte si +2–3 kg en 2–3 jours ; signes d’alerte (dyspnée, orthopnée, œdèmes)"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 2 Surveillance du poids et des symptômes"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 2 Surveillance du poids et des symptômes"
+        quote: "si une prise de poids de 2 à 3 kg est constatée, a fortiori si elle est soudaine, en 2 à 3 jours"
+  - id: CAND-070
+    label: "Mesures générales : arrêt alcool (régression possible de CMD), arrêt tabac, activité physique encouragée hors décompensation, vaccinations (grippe, Covid, pneumocoque), contraception/grossesse à risque"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 3 Alcool et tabac"
+        quote: "l’arrêt total de l’alcool peut dans certains cas s’accompagner d’une régression"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 4 Activité physique"
+        quote: "L’exercice doit être encouragé en dehors des épisodes de décompensation"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 6 Vaccinations"
+        quote: "la vaccination antigrippale, anti-Covid-19, ainsi que la vaccination antipneumococcique sont recommandées"
+  - id: CAND-071
+    label: "Quatre classes réduisant mortalité/décompensations dans l’IC à FE ≤ 40 % (reco I/A) : bloqueurs du SRA, bêtabloquants, antagonistes minéralocorticoïdes, gliflozines ; + diurétiques pour la congestion"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C Traitements médicamenteux de l’insuffisance cardiaque à fraction d’éjection diminuée (FE ≤ 40 %)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C Traitements médicamenteux de l’insuffisance cardiaque à fraction d’éjection diminuée (FE ≤ 40 %)"
+        quote: "Quatre classes médicamenteuses sont associées à une baisse de la mortalité et des décompensations aiguës"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C Traitements médicamenteux de l’insuffisance cardiaque à fraction d’éjection diminuée (FE ≤ 40 %)"
+        quote: "À ces 4 classes, s’ajoute le traitement diurétique qui permet de contrôler la rétention hydrosodée"
+  - id: CAND-072
+    label: "IEC : indiqués chez tous les patients à FE diminuée (toute NYHA) ; ↓ mortalité/hospitalisations ; EI (toux, hypoTA, IR, angio-œdème) ; CI (sténose rénale bilatérale, angio-œdème, grossesse, hyperK)"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)"
+        quote: "Ils doivent être prescrits chez tous les patients ayant une FE diminuée quelle que soit la classe fonctionnelle NYHA"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)"
+        quote: "Respecter les contre-indications : sténose bilatérale des artères rénales, antécédent d’angio-œdème, grossesse, hyperkaliémie"
+  - id: CAND-073
+    label: "ARA2 : alternative si intolérance aux IEC (moins de toux) ; sacubitril/valsartan : plus efficace qu’énalapril, en remplacement IEC/ARA2 si restant symptomatique sous traitement optimal"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)"
+        quote: "on les réserve aux patients intolérants aux IEC"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)"
+        quote: "Indiqué en remplacement des IEC (ou des ARA2) chez les patients restant symptomatiques malgré un traitement conventionnel optimal"
+  - id: CAND-074
+    label: "Bêtabloquants validés (carvédilol, métoprolol, bisoprolol, nébivolol) : ↓ mortalité/hospitalisations/mort subite ; introduction progressive chez patient stabilisé ; ne pas démarrer en poussée aiguë"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants"
+        quote: "Leur efficacité a été démontrée pour 4 molécules : carvédilol, métoprolol, bisoprolol et nébivolol"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants"
+        quote: "Au cours d’une poussée d’IC aiguë, le traitement ne doit être introduit que lorsque le patient est stabilisé"
+  - id: CAND-075
+    label: "Antagonistes minéralocorticoïdes (spironolactone, éplérénone) : indiqués FE basse NYHA II–IV ; ↓ mortalité ; risque hyperK/IR ; gynécomastie (spironolactone)"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 3 Antialdostérones"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 3 Antialdostérones ou antagonistes des récepteurs aux minéralocorticoïdes (spironolactone et éplérénone)"
+        quote: "Ils sont indiqués chez tous les patients insuffisants cardiaques avec FE basse (classes II à IV de la NYHA)"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 3 Antialdostérones ou antagonistes des récepteurs aux minéralocorticoïdes (spironolactone et éplérénone)"
+        quote: "Les risques de ces traitements sont l’hyperkaliémie et l’insuffisance rénale"
+  - id: CAND-076
+    label: "Gliflozines (empagliflozine, dapagliflozine) : indiquées diabétique ou non ; ↓ mortalité CV et hospitalisations pour IC"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 4 Inhibiteurs du transporteur sodium glucose de type 2 (SGLT2) ou gliflozines"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 4 Inhibiteurs du transporteur sodium glucose de type 2 (SGLT2) ou gliflozines"
+        quote: "une efficacité chez l’insuffisant cardiaque qu’il soit diabétique ou non, pour diminuer la mortalité cardiovasculaire et les hospitalisations pour IC"
+  - id: CAND-077
+    label: "Diurétiques de l’anse pour contrôler la rétention hydrosodée ; thiazidiques associés si résistance aux fortes doses de furosémide"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 5 Diurétiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 5 Diurétiques"
+        quote: "Ils doivent être prescrits pour traiter la rétention hydrosodée et améliorer les signes congestifs"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 5 Diurétiques"
+        quote: "Les diurétiques thiazidiques en association au furosémide"
+  - id: CAND-078
+    label: "IC à FE légèrement diminuée (41–49 %) : peut bénéficier des mêmes traitements, avec niveau de preuve moindre"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C"
+        quote: "Les patients ayant une IC à FE modérément diminuée (41–49 %) peuvent bénéficier des mêmes traitements"
+  - id: CAND-079
+    label: "Traitements de 2e intention : ivabradine (rythme sinusal, FC élevée), digoxine (marge étroite ; utile en FA), dérivés nitrés d’appoint, vericiguat après poussée"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 6 Traitements de 2e intention chez les patients restant symptomatiques"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 6 Traitements de 2e intention chez les patients restant symptomatiques"
+        quote: "réservé aux patients symptomatiques (classes NYHA II à IV), en rythme sinusal, gardant une fréquence cardiaque élevée (> 70 ou 75/min)"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 6 Traitements de 2e intention chez les patients restant symptomatiques"
+        quote: "elle a un effet neutre sur la survie"
+  - id: CAND-080
+    label: "Amiodarone : seul antiarythmique utilisable si FEVG diminuée ; antiagrégants/anticoagulants selon coronaropathie/FA (AOD préférés ; scores CHA2DS2-VASc / HAS-BLED)"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 7 Autres traitements parfois associés"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 7 Autres traitements parfois associés"
+        quote: "C’est le seul antiarythmique que l’on peut prescrire chez l’insuffisant cardiaque à FEVG diminuée"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 7 Autres traitements parfois associés"
+        quote: "on privilégie les anticoagulants oraux directs"
+  - id: CAND-081
+    label: "Médicaments contre-indiqués/à éviter dans l’IC systolique : diltiazem et vérapamil ; flécaïnide (classe I) ; AINS (rétention hydrosodée)"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués"
+        quote: "Le diltiazem et le vérapamil sont contre-indiqués dans l’IC systolique"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués"
+        quote: "Les antiarythmiques de classe I comme le flécaïnide sont contre-indiqués"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués"
+        quote: "Les anti-inflammatoires non stéroïdiens sont à éviter"
+  - id: CAND-082
+    label: "Resynchronisation (CRT) : NYHA II–IV, FEVG ≤ 35 %, QRS ≥ 130 ms ; efficacité meilleure si BBG et QRS ≥ 150 ms, non ischémique"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »"
+        quote: "une FEVG inférieure ou égale à 35 % et un allongement de la durée de QRS supérieure ou égale à 130 ms"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »"
+        quote: "durée du QRS est supérieure ou égale à 150 ms"
+  - id: CAND-083
+    label: "DAI : prévention secondaire (FV/TV) et primaire (FEVG ≤ 35 %, critères temporels/traitement) ; non indiqué NYHA IV sauf greffe/assistance envisagée"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »"
+        quote: "en prévention secondaire, c’est-à-dire après un arrêt cardiaque par FV récupérée"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »"
+        quote: "ayant une fraction d’éjection ≤ 35 %"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »"
+        quote: "les patients en stade IV de la NYHA ne relèvent pas du DAI"
+  - id: CAND-084
+    label: "IM secondaire importante persistante malgré traitement optimal : clip percutané possible selon critères écho et discussion multidisciplinaire"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > D Traitement percutané de la fuite mitrale"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > D Traitement percutané de la fuite mitrale"
+        quote: "il est possible de proposer un traitement percutané de l’IM par clip"
+  - id: CAND-085
+    label: "Transplantation : IC sévère sans alternative ; CI dont HTAP fixée (résistances > 5 UW) ; complications (rejet, immunosuppresseurs, vasculopathie du greffon)"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > E Traitement de l’insuffisance cardiaque terminale > 1 Transplantation cardiaque"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > E Traitement de l’insuffisance cardiaque terminale > 1 Transplantation cardiaque"
+        quote: "Les indications de la greffe sont l’IC sévère définie par des symptômes invalidants, un mauvais pronostic et aucune alternative thérapeutique"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > E Traitement de l’insuffisance cardiaque terminale > 1 Transplantation cardiaque"
+        quote: "une HTAP fixée (résistances pulmonaires > 5 unités Wood)"
+  - id: CAND-086
+    label: "Assistances ventriculaires : courte durée (ECMO) ou longue durée ; bridge to transplant ou destination therapy"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > E Traitement de l’insuffisance cardiaque terminale > 2 Systèmes d’assistance ventriculaire"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: deferred-to-mastery
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > E Traitement de l’insuffisance cardiaque terminale > 2 Systèmes d’assistance ventriculaire"
+        quote: "assistance de courte durée (type ECMO"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > E Traitement de l’insuffisance cardiaque terminale > 2 Systèmes d’assistance ventriculaire"
+        quote: "en attente d’une greffe cardiaque"
+  - id: CAND-087
+    label: "IC à FE préservée : traitement peu codifié ; éviter déclencheurs (HTA, FA, surcharge volumique) ; gliflozines récemment efficaces ; approche ABCDEFG"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection conservée"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection conservée"
+        quote: "aucun médicament n’a pour le moment démontré d’efficacité en dehors très récemment de la classe des gliflozines"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection conservée"
+        quote: "G : gliflozines sans doute dans un avenir proche"
+  - id: CAND-088
+    label: "Parcours de soins post-hospitalisation : éducation, suivi pluridisciplinaire, réadaptation, télésurveillance ; soins palliatifs/support si IC avancée non greffable"
+    section: "VI. Traitement de l’insuffisance cardiaque chronique > G Prise en charge globale et parcours de soins"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > G Prise en charge globale et parcours de soins"
+        quote: "Un parcours de soins bien organisé et un suivi régulier sont le garant de l’optimisation du traitement médical"
+      - edition: 2024-SFC
+        section_path: "VI. Traitement de l’insuffisance cardiaque chronique > G Prise en charge globale et parcours de soins"
+        quote: "programmes de télésurveillance ont été mis en place"
+  - id: CAND-089
+    label: "OAP au domicile : position assise, furosémide IV 1 mg/kg, dérivés nitrés sublinguaux si PAS > 100 mmHg, SAMU/hospitalisation"
+    section: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+        quote: "l’injection de furosémide IV (1 mg/kg, à répéter si nécessaire), les dérivés nitrés en sublingual si PAS > 100 mmHg"
+  - id: CAND-090
+    label: "OAP à l’hôpital : O2 (objectif SaO2 > 90 %), furosémide IV, nitrés si PAS ≥ 110 mmHg, anticoag préventive ; CPAP si échec ; intubation si épuisement"
+    section: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+        quote: "oxygénothérapie à la sonde nasale si SaO2 < 90 %"
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+        quote: "injection de dérivés nitrés (trinitrine 1 mg/h à adapter en fonction de la pression artérielle) si la PAS est ≥ 110 mmHg"
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+        quote: "la ventilation par CPAP (Continuous Positive Airway Pressure) peut améliorer les symptômes"
+  - id: CAND-091
+    label: "Pendant une poussée : ne pas introduire de bêtabloquant ; IEC/ARA2/ARNI après stabilisation"
+    section: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+        quote: "Le traitement bêtabloquant ne doit pas être introduit au cours d’une poussée"
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire"
+        quote: "Les IEC, ARA2 ou l’association valsartan/sacubitril sont instaurés une fois le patient stabilisé"
+  - id: CAND-092
+    label: "Poussée globale sans OAP franc : diurétiques IV, rééquilibration du traitement oral, recherche de la cause ; hospitalisation non systématique"
+    section: "VII. Traitement de l’insuffisance cardiaque aiguë > B Poussée d’insuffisance cardiaque globale sans OAP franc"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > B Poussée d’insuffisance cardiaque globale sans OAP franc"
+        quote: "cure de diurétiques IV"
+  - id: CAND-093
+    label: "Choc cardiogénique : inotropes (dobutamine ; IPDE si sous BB ; lévosimendan) ; assistance/ECMO/greffe si non-réponse"
+    section: "VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique"
+        quote: "perfusion de dobutamine IV ou inhibiteurs des phosphodiestérases"
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique"
+        quote: "discuter une assistance circulatoire"
+  - id: CAND-094
+    label: "CHAMPIT : causes urgentes à rechercher en IC aiguë (Coronarien, Hypertensif, Arythmie, Mécanique, EP, Infection, Tamponnade)"
+    section: "VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: understanding
+    anchors:
+      - edition: 2024-SFC
+        section_path: "VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique"
+        quote: "CHAMPIT"
+  - id: CAND-095
+    label: "Liste des situations de départ EDN (codes 18, 20, 21…)"
+    section: "Situations de départ"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: excluded-with-justification
+    exclusion_reason: "Curriculum navigation / situational entry points, not examinable medical propositional knowledge for the Inventory"
+    anchors:
+      - edition: 2024-SFC
+        section_path: "Situations de départ"
+        quote: "Situations de départ"
+  - id: CAND-096
+    label: "Réflexes de transversalité (renvois items 203, 224, 232, 233, 339)"
+    section: "Réflexes transversalité"
+    rank: unknown
+    rank_note: "Hiérarchisation table OCR-corrupted; A/B not invented"
+    disposition: excluded-with-justification
+    exclusion_reason: "Cross-item navigation pointers, not medical knowledge units of Item 234"
+    anchors:
+      - edition: 2024-SFC
+        section_path: "Réflexes transversalité"
+        quote: "Réflexes transversalité"

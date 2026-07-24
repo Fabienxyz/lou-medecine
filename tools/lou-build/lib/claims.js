@@ -1,6 +1,11 @@
 import fs from "node:fs";
+import path from "node:path";
 import YAML from "yaml";
 import { inventoryById, anchorForKp } from "./inventory.js";
+import {
+  loadProjectionsManifest,
+  resolveProjectionAbsPath,
+} from "./chapter-config.js";
 
 const CLAIM_LOCATOR_RE = /\{#([a-zA-Z0-9_-]+)\}/g;
 const CLAIM_TRACE_RE = /<!--\s*claim-trace\s*\n([\s\S]*?)\s*-->/;
@@ -37,14 +42,20 @@ export function validateProjectionClaims(filePath, raw, inventory) {
   const { body, traceBlock } = splitLearnerBody(raw);
   if (!traceBlock) {
     errors.push(`${filePath}: missing claim-trace block`);
-    return { ok: false, errors, claims: [], locators: [] };
+    return { ok: false, errors, claims: [], locators: [], body: "" };
   }
 
   let claims;
   try {
     claims = parseClaimTrace(traceBlock);
   } catch (e) {
-    return { ok: false, errors: [`${filePath}: ${e.message}`], claims: [], locators: [] };
+    return {
+      ok: false,
+      errors: [`${filePath}: ${e.message}`],
+      claims: [],
+      locators: [],
+      body,
+    };
   }
 
   const locators = extractClaimLocators(body);
@@ -113,24 +124,83 @@ export function assembleTraceability(allClaims, inventory, sourceMeta) {
   return index;
 }
 
-export function loadAllProjectionClaimsSync(filePaths, inventory) {
-  const files = [
-    { path: filePaths.overview, name: "overview.md" },
-    { path: filePaths.mechanisms, name: "mechanisms.md" },
-  ];
+export function discoverProjectionFiles(chapterDir, projectionsOverride = null) {
+  const manifest = projectionsOverride || loadProjectionsManifest(chapterDir);
+  if (!manifest.ok) {
+    return manifest;
+  }
+  const files = manifest.projections.map((p) => ({
+    id: p.id,
+    type: p.type,
+    order: p.order,
+    path: resolveProjectionAbsPath(chapterDir, p.path),
+    relPath: p.path,
+    config: p,
+  }));
+  return { ok: true, errors: [], files, projections: manifest.projections };
+}
+
+export function loadAllProjectionClaimsSync(chapterDir, inventory, options = {}) {
+  const discovered = discoverProjectionFiles(
+    chapterDir,
+    options.projectionsOverride
+  );
+  if (!discovered.ok) {
+    return {
+      ok: false,
+      errors: discovered.errors,
+      allClaims: [],
+      projectionResults: [],
+    };
+  }
+
   const errors = [];
   const allClaims = [];
+  const projectionResults = [];
 
-  for (const f of files) {
+  for (const f of discovered.files) {
     if (!fs.existsSync(f.path)) {
       errors.push(`missing projection: ${f.path}`);
       continue;
     }
     const raw = fs.readFileSync(f.path, "utf8");
-    const result = validateProjectionClaims(f.name, raw, inventory);
+    const result = validateProjectionClaims(f.relPath, raw, inventory);
+    projectionResults.push({
+      id: f.id,
+      path: f.path,
+      relPath: f.relPath,
+      ...result,
+    });
     if (!result.ok) errors.push(...result.errors);
-    allClaims.push(...result.claims);
+    for (const claim of result.claims) {
+      allClaims.push({ ...claim, projectionId: f.id, projectionPath: f.relPath });
+    }
   }
 
-  return { ok: errors.length === 0, errors, allClaims };
+  return {
+    ok: errors.length === 0,
+    errors,
+    allClaims,
+    projectionResults,
+    projections: discovered.projections,
+  };
+}
+
+export function indexProjectionBodies(projectionResults) {
+  const byClaimId = new Map();
+  for (const pr of projectionResults) {
+    for (const claim of pr.claims || []) {
+      byClaimId.set(claim.id, {
+        body: pr.body,
+        projectionId: pr.id,
+        projectionPath: pr.relPath,
+        claim,
+      });
+    }
+  }
+  return byClaimId;
+}
+
+export function figureRelPathForElement(elementId) {
+  return path.join("figures", `${String(elementId).toLowerCase()}.svg`);
 }

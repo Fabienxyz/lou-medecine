@@ -76,8 +76,11 @@ window.LouConfig = {
     },
 
     projectionTabLabel(projection) {
+        if (projection.label) return projection.label;
+        if (projection.id === "story") return "📖 Histoire";
         if (projection.id === "overview") return "🗺️ Vue d'ensemble";
-        if (projection.id === "mechanisms") return "⚙️ Mécanisme OAP";
+        if (projection.id === "mechanisms") return "❓ Pourquoi ?";
+        if (projection.id === "clinical-reasoning") return "🩺 Raisonnement clinique";
         return projection.id;
     },
 };

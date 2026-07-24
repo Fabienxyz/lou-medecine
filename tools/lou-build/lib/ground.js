@@ -1,51 +1,63 @@
 import fs from "node:fs";
-import { splitLearnerBody } from "./claims.js";
+import { splitLearnerBody, indexProjectionBodies } from "./claims.js";
 import { inventoryById, anchorForKp } from "./inventory.js";
-import { normalizeWhitespace } from "./anchors.js";
+import {
+  bootstrapSemanticAllowlist,
+  bootstrapSemanticVerdicts,
+} from "./chapter-config.js";
 
-const MMHG_RE = />\s*(\d+(?:[.,]\d+)?)\s*mmHg/gi;
+const THRESHOLD_MMHG_RE = />\s*(\d+(?:[.,]\d+)?)\s*mmHg/gi;
 
 /**
- * ground(claims, inventory, evidence) -> groundingResult
- *
- * Deterministic mode: threshold numeric match for sourced high-specificity claims.
- * Semantic mode (bootstrap): reads optional fixture verdicts for bridging claims.
+ * Deterministic grounding over sourced high-specificity claims.
+ * Currently implements threshold-mmHg consistency checks derived from KP anchors.
  */
-export function groundDeterministic({ filePaths, inventory, sourceMeta }) {
+export function groundDeterministic({
+  projectionResults,
+  inventory,
+  sourceMeta,
+}) {
   const errors = [];
   const verdicts = {};
   const kpMap = inventoryById(inventory);
-  const kp041 = kpMap.get("KP-041");
-  const anchor = anchorForKp(kp041, sourceMeta.edition);
-  const expectedThreshold = extractThresholdFromQuote(anchor?.quote);
+  const bodiesByClaim = indexProjectionBodies(projectionResults || []);
 
-  if (expectedThreshold == null) {
-    errors.push("grounding: cannot extract threshold from KP-041 anchor");
-  }
+  for (const [claimId, ctx] of bodiesByClaim) {
+    const claim = ctx.claim;
+    if (claim.class !== "sourced") continue;
 
-  const mechRaw = fs.readFileSync(filePaths.mechanisms, "utf8");
-  const { body } = splitLearnerBody(mechRaw);
+    for (const kpId of claim.kp || []) {
+      const kp = kpMap.get(kpId);
+      const anchor = anchorForKp(kp, sourceMeta.edition);
+      const expectedThreshold = extractThresholdFromQuote(anchor?.quote);
+      if (expectedThreshold == null) continue;
 
-  const thresholdClaim = extractThresholdFromText(body, "cb-oap-threshold");
-  if (thresholdClaim == null) {
-    errors.push("grounding: cb-oap-threshold claim text missing threshold");
-  } else if (expectedThreshold != null && thresholdClaim !== expectedThreshold) {
-    verdicts["cb-oap-threshold"] = {
-      mode: "deterministic",
-      status: "fail",
-      expected_mmHg: expectedThreshold,
-      found_mmHg: thresholdClaim,
-    };
-    errors.push(
-      `grounding: threshold mismatch (expected >${expectedThreshold}, found >${thresholdClaim})`
-    );
-  } else {
-    verdicts["cb-oap-threshold"] = {
-      mode: "deterministic",
-      status: "pass",
-      expected_mmHg: expectedThreshold,
-      found_mmHg: thresholdClaim,
-    };
+      const foundThreshold = extractThresholdNearLocator(ctx.body, claimId);
+      if (foundThreshold == null) continue;
+
+      if (foundThreshold !== expectedThreshold) {
+        verdicts[claimId] = {
+          mode: "deterministic",
+          rule: "threshold-mmHg",
+          status: "fail",
+          kp: kpId,
+          expected_mmHg: expectedThreshold,
+          found_mmHg: foundThreshold,
+        };
+        errors.push(
+          `grounding: ${claimId} threshold mismatch (expected >${expectedThreshold}, found >${foundThreshold})`
+        );
+      } else {
+        verdicts[claimId] = {
+          mode: "deterministic",
+          rule: "threshold-mmHg",
+          status: "pass",
+          kp: kpId,
+          expected_mmHg: expectedThreshold,
+          found_mmHg: foundThreshold,
+        };
+      }
+    }
   }
 
   return {
@@ -62,32 +74,70 @@ export function extractThresholdFromQuote(quote) {
   return m ? Number(m[1].replace(",", ".")) : null;
 }
 
-function extractThresholdFromText(body, locatorId) {
+function extractThresholdNearLocator(body, locatorId) {
   const idx = body.indexOf(`{#${locatorId}}`);
-  const slice = idx === -1 ? body : body.slice(0, idx + 20);
-  const search = idx === -1 ? body : body.slice(Math.max(0, idx - 200), idx + 5);
+  const search =
+    idx === -1 ? body : body.slice(Math.max(0, idx - 200), idx + 5);
   const m = search.match(/>\s*(\d+(?:[.,]\d+)?)\s*mmHg/i);
   return m ? Number(m[1].replace(",", ".")) : null;
 }
 
-export function mergeSemanticGrounding(deterministicResult, semanticFixture) {
+/**
+ * Semantic grounding merge.
+ * Bootstrap verdicts apply ONLY to explicitly allowlisted claim IDs.
+ * All other bridging/sourced claims without independent verdicts block publication.
+ */
+export function mergeSemanticGrounding(
+  deterministicResult,
+  { projectionResults, packageConfig }
+) {
   const verdicts = { ...deterministicResult.verdicts };
   const errors = [...deterministicResult.errors];
+  const allowlist = bootstrapSemanticAllowlist(packageConfig);
+  const bootstrapVerdicts = bootstrapSemanticVerdicts(packageConfig);
 
-  for (const [id, v] of Object.entries(semanticFixture?.bridging || {})) {
-    verdicts[id] = { mode: "semantic-bootstrap", ...v };
-    if (v.status === "fail") {
-      errors.push(`grounding semantic: ${id} failed`);
+  const bridgingClaims = [];
+  for (const pr of projectionResults || []) {
+    for (const claim of pr.claims || []) {
+      if (claim.class === "bridging" || claim.class === "scaffolding") {
+        bridgingClaims.push(claim);
+      }
     }
   }
+
+  for (const claim of bridgingClaims) {
+    if (allowlist.has(claim.id) && bootstrapVerdicts[claim.id]) {
+      verdicts[claim.id] = {
+        mode: "semantic-bootstrap",
+        ...bootstrapVerdicts[claim.id],
+      };
+      if (bootstrapVerdicts[claim.id].status === "fail") {
+        errors.push(`grounding semantic: ${claim.id} failed`);
+      }
+      continue;
+    }
+
+    verdicts[claim.id] = {
+      mode: "semantic",
+      status: "pending",
+      note: "Awaiting independent semantic grounding pass",
+    };
+    errors.push(
+      `grounding semantic: ${claim.id} lacks independent verdict (not bootstrap-allowlisted)`
+    );
+  }
+
+  const hasBootstrap = allowlist.size > 0;
+  const note = hasBootstrap
+    ? "Bootstrap semantic verdicts apply only to explicitly allowlisted claim IDs until LLM runtime is wired."
+    : "Semantic grounding requires independent verdicts for all non-deterministic claims.";
 
   return {
     ok: errors.length === 0,
     errors,
     verdicts,
     status: errors.length === 0 ? "pass" : "fail",
-    note:
-      "Semantic bridging checks use bootstrap fixtures until LLM runtime is wired.",
+    note,
   };
 }
 

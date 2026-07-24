@@ -1,49 +1,95 @@
 {
   "chapter": "cardio/234",
   "slug": "234-insuffisance-cardiaque",
-  "title": "Insuffisance cardiaque — OAP (vertical slice)",
+  "title": "Insuffisance cardiaque — understanding v1",
   "specialty": "Cardiologie",
-  "chapterLine": "Item 234 — vertical slice OAP",
+  "chapterLine": "Item 234 — Phase 5 understanding projections",
   "source_edition": "2024-SFC",
-  "slice": "oap-mechanism-vertical-slice",
-  "slice_reconciliation_invariant": "pass",
-  "slice_reconciliation_scope": "pulmonary filling pressure / congestion → upstream VG pressure transmission → PPC threshold crossing → transudation → cardiogenic OAP → cardiogenic transudate vs lesional exudate confusion boundary",
-  "slice_reconciliation_segments": [
-    "seg-B",
-    "seg-C",
-    "seg-D",
-    "seg-E"
-  ],
   "trace_index": "build/traceability.json",
   "known_absent": [
     "mastery",
-    "story",
     "actors",
-    "clinical-reasoning",
     "readiness"
   ],
   "projections": [
     {
+      "id": "story",
+      "type": "understanding.story",
+      "family": "understanding",
+      "order": 1,
+      "path": "projections/understanding/story.md",
+      "status": "published",
+      "label": "📖 Histoire",
+      "elements": [
+        "ANA-ville-pompe",
+        "MM-pump-decompensation"
+      ]
+    },
+    {
       "id": "overview",
       "type": "understanding.overview",
       "family": "understanding",
-      "order": 1,
+      "order": 2,
       "path": "projections/understanding/overview.md",
-      "status": "published"
+      "status": "published",
+      "label": "🗺️ Vue d’ensemble",
+      "elements": [
+        "MM-pump-decompensation",
+        "MEC-output-basics",
+        "MEC-compensation",
+        "MEC-ef-phenotypes",
+        "MEC-congestion",
+        "MEC-oap",
+        "CR-recognize",
+        "CR-diagnose",
+        "CR-treat-hfref",
+        "CR-treat-hfpef"
+      ]
     },
     {
       "id": "mechanisms",
       "type": "understanding.mechanisms",
       "family": "understanding",
-      "order": 2,
+      "order": 3,
       "path": "projections/understanding/mechanisms.md",
+      "status": "published",
+      "label": "❓ Pourquoi ?",
       "elements": [
-        "MEC-oap"
+        "MEC-output-basics",
+        "MEC-compensation",
+        "MEC-remodeling",
+        "MEC-ef-phenotypes",
+        "CONF-ef-types",
+        "MEC-arrhythmia",
+        "MEC-congestion",
+        "MEC-systemic-congestion",
+        "CONF-left-right",
+        "MEC-oap",
+        "CONF-transsudat-exsudat"
       ],
       "visuals": {
         "MEC-oap": "figures/mec-oap.svg"
-      },
-      "status": "published"
+      }
+    },
+    {
+      "id": "clinical-reasoning",
+      "type": "understanding.clinical-reasoning",
+      "family": "understanding",
+      "order": 4,
+      "path": "projections/understanding/clinical-reasoning.md",
+      "status": "published",
+      "label": "🩺 Raisonnement clinique",
+      "elements": [
+        "CR-recognize",
+        "CR-diagnose",
+        "CR-etiology",
+        "CR-acute",
+        "CONF-bb-chronic-vs-acute",
+        "CR-treat-hfref",
+        "CR-treat-hfpef",
+        "CONF-ccb-fe-source",
+        "CR-followup"
+      ]
     }
   ],
   "visuals": [
@@ -53,5 +99,13 @@
       "path": "figures/mec-oap.svg",
       "alt": "Congestion pulmonaire → seuil PPC → transsudat → OAP cardiogénique"
     }
+  ],
+  "slice_reconciliation_invariant": "pass",
+  "slice_reconciliation_scope": "pulmonary filling pressure / congestion → upstream VG pressure transmission → PPC threshold crossing → transudation → cardiogenic OAP → cardiogenic transudate vs lesional exudate confusion boundary",
+  "slice_reconciliation_segments": [
+    "seg-B",
+    "seg-C",
+    "seg-D",
+    "seg-E"
   ]
 }

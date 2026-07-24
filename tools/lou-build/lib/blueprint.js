@@ -10,64 +10,98 @@ export function parseBlueprint(filePath, raw) {
   return { data, body, raw };
 }
 
+export function collectBlueprintElementIds(data) {
+  const ids = new Set();
+  if (data.mental_model) ids.add(data.mental_model);
+  for (const mec of data.mechanisms || []) {
+    if (mec.id) ids.add(mec.id);
+  }
+  for (const conf of data.confusion || []) {
+    if (conf.id) ids.add(conf.id);
+  }
+  for (const cr of data.clinical_reasoning || []) {
+    if (cr.id) ids.add(cr.id);
+  }
+  for (const ana of data.analogies || []) {
+    if (ana.id) ids.add(ana.id);
+  }
+  return ids;
+}
+
+export function collectElementsWithVisualIntent(data) {
+  const elements = [];
+  for (const mec of data.mechanisms || []) {
+    if (mec.visual_intent) {
+      elements.push({ ...mec, kind: "mechanism" });
+    }
+  }
+  for (const cr of data.clinical_reasoning || []) {
+    if (cr.visual_intent) {
+      elements.push({ ...cr, kind: "clinical_reasoning" });
+    }
+  }
+  return elements;
+}
+
+function validateUsesKp(elementId, usesKp, inventoryIds, errors) {
+  for (const kpId of usesKp || []) {
+    if (!inventoryIds.has(kpId)) {
+      errors.push(`${elementId}: dangling KP reference ${kpId}`);
+    }
+  }
+}
+
 export function validateBlueprint(blueprint, inventoryIds) {
   const errors = [];
-  const elementIds = new Set();
   const data = blueprint.data;
 
   if (!data.sequence || data.sequence.length === 0) {
     errors.push("blueprint: sequence must be non-empty");
   }
 
+  const elementIds = collectBlueprintElementIds(data);
   const mechanisms = data.mechanisms || [];
-  const mechanismIds = new Set();
+
   for (const mec of mechanisms) {
     if (!mec.id) errors.push("mechanism missing id");
-    else mechanismIds.add(mec.id);
-    elementIds.add(mec.id);
-    if (!mec.question) errors.push(`${mec.id}: missing question`);
+    if (!mec.question) errors.push(`${mec.id || "?"}: missing question`);
     if (!Array.isArray(mec.steps) || mec.steps.length === 0) {
-      errors.push(`${mec.id}: missing steps`);
+      errors.push(`${mec.id || "?"}: missing steps`);
     }
-    for (const kpId of mec.uses_kp || []) {
-      if (!inventoryIds.has(kpId)) {
-        errors.push(`${mec.id}: dangling KP reference ${kpId}`);
-      }
-    }
-    if (mec.visual_intent && mec.id !== "MEC-oap") {
-      /* slice allows visual only on MEC-oap */
-    }
+    validateUsesKp(mec.id, mec.uses_kp, inventoryIds, errors);
   }
 
   for (const conf of data.confusion || []) {
-    if (conf.id) elementIds.add(conf.id);
-    for (const kpId of conf.uses_kp || []) {
-      if (!inventoryIds.has(kpId)) {
-        errors.push(`${conf.id}: dangling KP reference ${kpId}`);
-      }
-    }
+    validateUsesKp(conf.id, conf.uses_kp, inventoryIds, errors);
+  }
+
+  for (const cr of data.clinical_reasoning || []) {
+    if (!cr.id) errors.push("clinical_reasoning element missing id");
+    if (!cr.question) errors.push(`${cr.id || "?"}: missing question`);
+    validateUsesKp(cr.id, cr.uses_kp, inventoryIds, errors);
+  }
+
+  for (const ana of data.analogies || []) {
+    if (!ana.id) errors.push("analogy missing id");
+    validateUsesKp(ana.id, ana.uses_kp, inventoryIds, errors);
   }
 
   for (const seqId of data.sequence || []) {
-    if (!mechanismIds.has(seqId) && !seqId.startsWith("CONF-")) {
-      if (!mechanismIds.has(seqId)) {
-        errors.push(`sequence references unknown element: ${seqId}`);
-      }
+    if (!elementIds.has(seqId)) {
+      errors.push(`sequence references unknown element: ${seqId}`);
     }
   }
 
-  const mecOap = mechanisms.find((m) => m.id === "MEC-oap");
-  if (!mecOap?.visual_intent) {
-    errors.push("MEC-oap: visual_intent required for slice SVG");
-  }
+  const visualElements = collectElementsWithVisualIntent(data);
 
   return {
     ok: errors.length === 0,
     errors,
     elementIds,
-    mecOap,
     mechanisms,
     confusion: data.confusion || [],
+    clinicalReasoning: data.clinical_reasoning || [],
+    visualElements,
   };
 }
 

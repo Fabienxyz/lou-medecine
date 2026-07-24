@@ -1,0 +1,277 @@
+{
+  "ok": true,
+  "errors": [],
+  "warnings": [],
+  "element_count": 22,
+  "breakdown": {
+    "mental_model": 1,
+    "analogies": 1,
+    "mechanisms": 8,
+    "clinical_reasoning": 7,
+    "confusion": 5
+  },
+  "sequence": [
+    "ANA-ville-pompe",
+    "MM-pump-decompensation",
+    "MEC-output-basics",
+    "MEC-compensation",
+    "MEC-remodeling",
+    "MEC-ef-phenotypes",
+    "CONF-ef-types",
+    "MEC-arrhythmia",
+    "MEC-congestion",
+    "MEC-systemic-congestion",
+    "CONF-left-right",
+    "MEC-oap",
+    "CONF-transsudat-exsudat",
+    "CR-recognize",
+    "CR-diagnose",
+    "CR-etiology",
+    "CR-acute",
+    "CONF-bb-chronic-vs-acute",
+    "CR-treat-hfref",
+    "CR-treat-hfpef",
+    "CONF-ccb-fe-source",
+    "CR-followup"
+  ],
+  "coverage": {
+    "understanding_total": 91,
+    "directly_mapped": 91,
+    "contextual": 0,
+    "intentionally_not_promoted": 0,
+    "missed": 0,
+    "direct_ids": [
+      "KP-001",
+      "KP-002",
+      "KP-003",
+      "KP-004",
+      "KP-005",
+      "KP-006",
+      "KP-040",
+      "KP-007",
+      "KP-041",
+      "KP-042",
+      "KP-008",
+      "KP-009",
+      "KP-010",
+      "KP-011",
+      "KP-012",
+      "KP-013",
+      "KP-014",
+      "KP-015",
+      "KP-016",
+      "KP-017",
+      "KP-018",
+      "KP-019",
+      "KP-020",
+      "KP-021",
+      "KP-022",
+      "KP-023",
+      "KP-024",
+      "KP-025",
+      "KP-026",
+      "KP-027",
+      "KP-028",
+      "KP-029",
+      "KP-030",
+      "KP-032",
+      "KP-033",
+      "KP-034",
+      "KP-035",
+      "KP-036",
+      "KP-038",
+      "KP-039",
+      "KP-043",
+      "KP-045",
+      "KP-050",
+      "KP-051",
+      "KP-052",
+      "KP-053",
+      "KP-054",
+      "KP-055",
+      "KP-056",
+      "KP-057",
+      "KP-059",
+      "KP-060",
+      "KP-061",
+      "KP-062",
+      "KP-109",
+      "KP-063",
+      "KP-064",
+      "KP-065",
+      "KP-066",
+      "KP-067",
+      "KP-068",
+      "KP-069",
+      "KP-071",
+      "KP-072",
+      "KP-073",
+      "KP-074",
+      "KP-075",
+      "KP-076",
+      "KP-077",
+      "KP-078",
+      "KP-079",
+      "KP-080",
+      "KP-081",
+      "KP-082",
+      "KP-083",
+      "KP-084",
+      "KP-085",
+      "KP-087",
+      "KP-089",
+      "KP-090",
+      "KP-091",
+      "KP-092",
+      "KP-096",
+      "KP-097",
+      "KP-098",
+      "KP-099",
+      "KP-100",
+      "KP-103",
+      "KP-104",
+      "KP-105",
+      "KP-106"
+    ],
+    "contextual_ids": [],
+    "not_promoted": [],
+    "missed_ids": []
+  },
+  "deferred_not_promoted": [
+    {
+      "id": "KP-031",
+      "label": "Stade très avancé : pouls alternant, oligurie, cachexie, dyspnée de Cheyne-Stokes"
+    },
+    {
+      "id": "KP-037",
+      "label": "Seuils élevés en faveur d’une origine cardiaque d’une dyspnée (BNP > 300 ; NT-proBNP âge-bandés > 450 / > 900 / > 1 800)"
+    },
+    {
+      "id": "KP-044",
+      "label": "Bilan biologique standard ESC 2021 devant IC/suspicion (Na, K, créatinine, BNP/NT-proBNP, glycémie/HbA1c, lipides, foie,"
+    },
+    {
+      "id": "KP-046",
+      "label": "IRM cardiaque : complément écho, bilan étiologique (myocardite, amylose, sarcoïdose…), viabilité/ischémie, fibrose/prono"
+    },
+    {
+      "id": "KP-047",
+      "label": "Holter : dépistage troubles du rythme/conduction ; épreuve d’effort avec VO2 : capacité fonctionnelle, pronostic, discus"
+    },
+    {
+      "id": "KP-048",
+      "label": "Scintigraphie isotopique : mesure FE (patients non échogènes, rarement) ; évaluation ischémie / viabilité"
+    },
+    {
+      "id": "KP-049",
+      "label": "Cathétérisme droit : pressions/débit ; valeurs normales (OD < 5 mmHg, VD 25/0, PCAP/PAPO < 15 mmHg, DC 5 L/min, index 3 "
+    },
+    {
+      "id": "KP-058",
+      "label": "IC à débit augmenté : anémies chroniques, fistules artérioveineuses, hyperthyroïdie, béribéri, maladie de Paget"
+    },
+    {
+      "id": "KP-070",
+      "label": "Facteurs pronostiques : NYHA III–IV, réhospitalisations, étiologie ischémique, ↓ FE/débit, ↑ pressions, QRS > 120 ms, hy"
+    },
+    {
+      "id": "KP-086",
+      "label": "Traitements de 2e intention : ivabradine (rythme sinusal, FC élevée), digoxine (marge étroite ; utile en FA), dérivés ni"
+    },
+    {
+      "id": "KP-088",
+      "label": "Antiagrégants / anticoagulants dans l’IC (aspirine, DAPT, AOD, CHA₂DS₂-VASc, HAS-BLED, thrombus, AVC embolique)"
+    },
+    {
+      "id": "KP-093",
+      "label": "IM secondaire importante persistante malgré traitement optimal : clip percutané possible selon critères écho et discussi"
+    },
+    {
+      "id": "KP-094",
+      "label": "Transplantation : IC sévère sans alternative ; CI dont HTAP fixée (résistances > 5 UW) ; complications (rejet, immunosup"
+    },
+    {
+      "id": "KP-095",
+      "label": "Assistances ventriculaires : courte durée (ECMO) ou longue durée ; bridge to transplant ou destination therapy"
+    },
+    {
+      "id": "KP-101",
+      "label": "OAP hospitalier — déclencheur FA rapide : digoxine IV et anticoagulation efficace"
+    },
+    {
+      "id": "KP-102",
+      "label": "OAP hospitalier — poussée hypertensive : perfusion de nicardipine IV (1 à 5 mg/h)"
+    }
+  ],
+  "excluded": [
+    "KP-107",
+    "KP-108"
+  ],
+  "oap": {
+    "mechanisms": true,
+    "confusion": true,
+    "kps": true,
+    "threshold_25": true,
+    "mec_oap_visual": true
+  },
+  "ambiguities": {
+    "ccb_fe": true,
+    "bb_context": true
+  },
+  "visual_intent_active": [
+    {
+      "element": "MEC-oap",
+      "intent": "process-flow",
+      "active": true
+    }
+  ],
+  "visual_plan": [
+    {
+      "element": "MM-pump-decompensation",
+      "intent": "process-flow",
+      "rationale": "whole-chapter causal cascade"
+    },
+    {
+      "element": "MEC-compensation",
+      "intent": "feedback-loop",
+      "rationale": "short-term help → long-term harm loop"
+    },
+    {
+      "element": "MEC-ef-phenotypes",
+      "intent": "comparison",
+      "rationale": "HFrEF vs HFpEF vs HFmrEF"
+    },
+    {
+      "element": "MEC-oap",
+      "intent": "process-flow",
+      "rationale": "PPC threshold → transudate → OAP",
+      "active": true
+    },
+    {
+      "element": "CONF-transsudat-exsudat",
+      "intent": "comparison",
+      "rationale": "cardiogenic transudate vs lesional exudate"
+    },
+    {
+      "element": "CR-diagnose",
+      "intent": "algorithm",
+      "rationale": "ESC non-urgent diagnostic path"
+    },
+    {
+      "element": "CR-acute",
+      "intent": "algorithm",
+      "rationale": "OAP / global flare / shock triage"
+    },
+    {
+      "element": "CR-treat-hfref",
+      "intent": "algorithm",
+      "rationale": "four disease-modifying classes + diuretic + devices"
+    },
+    {
+      "element": "CONF-bb-chronic-vs-acute",
+      "intent": "comparison",
+      "rationale": "continue vs stop/reduce beta-blocker by context"
+    }
+  ],
+  "verdict": "GO"
+}

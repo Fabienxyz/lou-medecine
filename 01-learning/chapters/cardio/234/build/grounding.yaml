@@ -3,15 +3,17 @@ status: pass
 verdicts:
   cb-oap-threshold:
     mode: "deterministic"
+    rule: "threshold-mmHg"
     status: "pass"
+    kp: "KP-041"
     expected_mmHg: 25
     found_mmHg: 25
-  cb-oap-bridge:
-    mode: "semantic-bootstrap"
-    status: "pass"
-    note: "bootstrap-verified entailment"
   cb-overview-oap:
     mode: "semantic-bootstrap"
     status: "pass"
     note: "bootstrap-verified entailment"
-note: "Semantic bridging checks use bootstrap fixtures until LLM runtime is wired."
+  cb-oap-bridge:
+    mode: "semantic-bootstrap"
+    status: "pass"
+    note: "bootstrap-verified entailment"
+note: "Bootstrap semantic verdicts apply only to explicitly allowlisted claim IDs until LLM runtime is wired."

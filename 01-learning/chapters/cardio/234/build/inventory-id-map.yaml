@@ -1,0 +1,502 @@
+chapter: cardio/234
+phase: 2c-integration
+source_edition: 2024-SFC
+frozen_ids:
+  - KP-040
+  - KP-041
+  - KP-042
+allocation_strategy: Deterministic source/chapter order walk; KP-040/041/042
+  preserved at semantic positions; other units receive next sequential KP-NNN
+  skipping reserved 040-042 slots.
+mappings:
+  - candidate_id: CAND-001
+    final_kp_id: KP-001
+    action: kept
+    source_section: I. Généralités > A Définition
+  - candidate_id: CAND-002
+    final_kp_id: KP-002
+    action: kept
+    source_section: I. Généralités > A Définition
+  - candidate_id: CAND-003
+    final_kp_id: KP-003
+    action: kept
+    source_section: I. Généralités > A Définition
+  - candidate_id: CAND-004
+    final_kp_id: KP-004
+    action: kept
+    source_section: I. Généralités > B Épidémiologie
+  - candidate_id: CAND-005
+    final_kp_id: KP-005
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 1 Quelques rappels simples
+  - candidate_id: CAND-006
+    final_kp_id: KP-006
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 1 Quelques rappels simples
+  - candidate_id: KP-040
+    final_kp_id: KP-040
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 1 Quelques rappels simples
+  - candidate_id: CAND-007
+    final_kp_id: KP-007
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 1 Quelques rappels simples
+  - candidate_id: KP-041
+    final_kp_id: KP-041
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 1 Quelques rappels simples
+  - candidate_id: KP-042
+    final_kp_id: KP-042
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 1 Quelques rappels simples
+  - candidate_id: CAND-008
+    final_kp_id: KP-008
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 2 En cas de
+      dysfonctionnement cardiaque
+  - candidate_id: CAND-009
+    final_kp_id: KP-009
+    action: enriched
+    source_section: I. Généralités > C Physiopathologie > 2 En cas de
+      dysfonctionnement cardiaque
+  - candidate_id: CAND-010
+    final_kp_id: KP-010
+    action: split
+    source_section: I. Généralités > C Physiopathologie > 2 En cas de
+      dysfonctionnement cardiaque
+  - candidate_id: CAND-010
+    final_kp_id: KP-011
+    action: split
+    source_section: I. Généralités > C Physiopathologie > 2 En cas de
+      dysfonctionnement cardiaque
+  - candidate_id: CAND-011
+    final_kp_id: KP-012
+    action: enriched
+    source_section: I. Généralités > C Physiopathologie > 2 En cas de
+      dysfonctionnement cardiaque
+  - candidate_id: CAND-012
+    final_kp_id: KP-013
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 3 Désynchronisation
+  - candidate_id: CAND-013
+    final_kp_id: KP-014
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à
+      fraction d’éjection diminuée ou préservée
+  - candidate_id: CAND-014
+    final_kp_id: KP-015
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à
+      fraction d’éjection diminuée ou préservée
+  - candidate_id: CAND-015
+    final_kp_id: KP-016
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à
+      fraction d’éjection diminuée ou préservée
+  - candidate_id: CAND-016
+    final_kp_id: KP-017
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 5 Arythmies
+  - candidate_id: CAND-017
+    final_kp_id: KP-018
+    action: kept
+    source_section: I. Généralités > C Physiopathologie > 5 Arythmies
+  - candidate_id: CAND-018
+    final_kp_id: KP-019
+    action: kept
+    source_section: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+  - candidate_id: CAND-019
+    final_kp_id: KP-020
+    action: kept
+    source_section: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+  - candidate_id: CAND-020
+    final_kp_id: KP-021
+    action: kept
+    source_section: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+  - candidate_id: CAND-021
+    final_kp_id: KP-022
+    action: kept
+    source_section: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+  - candidate_id: CAND-022
+    final_kp_id: KP-023
+    action: split
+    source_section: II. Diagnostic > A Signes fonctionnels > 2 Autres symptômes
+  - candidate_id: CAND-022
+    final_kp_id: KP-024
+    action: split
+    source_section: II. Diagnostic > A Signes fonctionnels > 2 Autres symptômes
+  - candidate_id: CAND-023
+    final_kp_id: KP-025
+    action: kept
+    source_section: II. Diagnostic > A Signes fonctionnels > 3 Symptômes
+      d’insuffisance cardiaque droite
+  - candidate_id: CAND-024
+    final_kp_id: KP-026
+    action: kept
+    source_section: II. Diagnostic > B Signes physiques
+  - candidate_id: CAND-025
+    final_kp_id: KP-027
+    action: kept
+    source_section: II. Diagnostic > B Signes physiques
+  - candidate_id: CAND-026
+    final_kp_id: KP-028
+    action: kept
+    source_section: II. Diagnostic > B Signes physiques
+  - candidate_id: CAND-027
+    final_kp_id: KP-029
+    action: kept
+    source_section: II. Diagnostic > B Signes physiques
+  - candidate_id: CAND-028
+    final_kp_id: KP-030
+    action: kept
+    source_section: II. Diagnostic > B Signes physiques
+  - candidate_id: CAND-029
+    final_kp_id: KP-031
+    action: kept
+    source_section: II. Diagnostic > B Signes physiques
+  - candidate_id: CAND-030
+    final_kp_id: KP-032
+    action: kept
+    source_section: II. Diagnostic > C Électrocardiogramme
+  - candidate_id: CAND-031
+    final_kp_id: KP-033
+    action: enriched
+    source_section: II. Diagnostic > D Radiographie thoracique
+  - candidate_id: CAND-032
+    final_kp_id: KP-034
+    action: enriched
+    source_section: II. Diagnostic > D Radiographie thoracique
+  - candidate_id: CAND-033
+    final_kp_id: KP-035
+    action: kept
+    source_section: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+  - candidate_id: CAND-034
+    final_kp_id: KP-036
+    action: kept
+    source_section: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+  - candidate_id: CAND-036
+    final_kp_id: KP-037
+    action: kept
+    source_section: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+  - candidate_id: CAND-037
+    final_kp_id: KP-038
+    action: kept
+    source_section: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+  - candidate_id: CAND-038
+    final_kp_id: KP-039
+    action: kept
+    source_section: II. Diagnostic > F Échocardiographie transthoracique
+  - candidate_id: CAND-035
+    final_kp_id: KP-043
+    action: enriched
+    source_section: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+  - candidate_id: CAND-039
+    final_kp_id: KP-044
+    action: kept
+    source_section: II. Diagnostic > G Examens biologiques standards
+  - candidate_id: CAND-040
+    final_kp_id: KP-045
+    action: enriched
+    source_section: II. Diagnostic > H Autres examens complémentaires
+  - candidate_id: CAND-041
+    final_kp_id: KP-046
+    action: kept
+    source_section: II. Diagnostic > H Autres examens complémentaires
+  - candidate_id: CAND-042
+    final_kp_id: KP-047
+    action: kept
+    source_section: II. Diagnostic > H Autres examens complémentaires
+  - candidate_id: (added)
+    final_kp_id: KP-048
+    action: added
+    source_section: II. Diagnostic > H Autres examens complémentaires
+  - candidate_id: CAND-043
+    final_kp_id: KP-049
+    action: enriched
+    source_section: II. Diagnostic > H Autres examens complémentaires
+  - candidate_id: CAND-044
+    final_kp_id: KP-050
+    action: kept
+    source_section: III. Diagnostic étiologique > A Cardiopathies ischémiques
+  - candidate_id: CAND-045
+    final_kp_id: KP-051
+    action: kept
+    source_section: III. Diagnostic étiologique > B Hypertension artérielle
+  - candidate_id: CAND-046
+    final_kp_id: KP-052
+    action: kept
+    source_section: III. Diagnostic étiologique > C Cardiomyopathies > 1
+      Cardiomyopathies dilatées (CMD)
+  - candidate_id: CAND-048
+    final_kp_id: KP-053
+    action: kept
+    source_section: III. Diagnostic étiologique > C Cardiomyopathies > 3
+      Cardiomyopathies restrictives
+  - candidate_id: CAND-049
+    final_kp_id: KP-054
+    action: kept
+    source_section: III. Diagnostic étiologique > D Valvulopathies gauches
+  - candidate_id: CAND-050
+    final_kp_id: KP-055
+    action: kept
+    source_section: III. Diagnostic étiologique > E Troubles du rythme ventriculaire
+      ou supraventriculaire ou de conduction
+  - candidate_id: CAND-051
+    final_kp_id: KP-056
+    action: kept
+    source_section: III. Diagnostic étiologique > F Causes péricardiques
+  - candidate_id: CAND-052
+    final_kp_id: KP-057
+    action: kept
+    source_section: III. Diagnostic étiologique > G Étiologies de l’insuffisance
+      cardiaque droite
+  - candidate_id: CAND-053
+    final_kp_id: KP-058
+    action: kept
+    source_section: III. Diagnostic étiologique > H Insuffisance cardiaque à débit augmenté
+  - candidate_id: CAND-054
+    final_kp_id: KP-059
+    action: kept
+    source_section: IV. Formes cliniques > A Insuffisance cardiaque aiguë
+  - candidate_id: CAND-055
+    final_kp_id: KP-060
+    action: kept
+    source_section: IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème
+      aigu pulmonaire cardiogénique
+  - candidate_id: CAND-056
+    final_kp_id: KP-061
+    action: kept
+    source_section: IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème
+      aigu pulmonaire cardiogénique
+  - candidate_id: CAND-057
+    final_kp_id: KP-062
+    action: kept
+    source_section: IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres
+      formes cliniques
+  - candidate_id: CAND-058
+    final_kp_id: KP-063
+    action: kept
+    source_section: IV. Formes cliniques > A Insuffisance cardiaque aiguë > 3 Choc
+      cardiogénique
+  - candidate_id: CAND-059
+    final_kp_id: KP-064
+    action: kept
+    source_section: IV. Formes cliniques > B Insuffisance cardiaque chronique
+  - candidate_id: CAND-060
+    final_kp_id: KP-065
+    action: kept
+    source_section: IV. Formes cliniques > C Insuffisance cardiaque à fonction
+      systolique conservée (ou IC à FE préservée)
+  - candidate_id: CAND-061
+    final_kp_id: KP-066
+    action: kept
+    source_section: V. Évolution, complications, pronostic > A Histoire naturelle, évolution
+  - candidate_id: CAND-062
+    final_kp_id: KP-067
+    action: kept
+    source_section: V. Évolution, complications, pronostic > B Principales complications
+  - candidate_id: CAND-063
+    final_kp_id: KP-068
+    action: kept
+    source_section: V. Évolution, complications, pronostic > B Principales complications
+  - candidate_id: CAND-064
+    final_kp_id: KP-069
+    action: kept
+    source_section: V. Évolution, complications, pronostic > B Principales complications
+  - candidate_id: CAND-065
+    final_kp_id: KP-070
+    action: kept
+    source_section: V. Évolution, complications, pronostic > C Principaux facteurs pronostiques
+  - candidate_id: CAND-066
+    final_kp_id: KP-071
+    action: kept
+    source_section: V. Évolution, complications, pronostic
+  - candidate_id: CAND-047
+    final_kp_id: KP-072
+    action: enriched
+    source_section: III. Diagnostic étiologique > C Cardiomyopathies > 2
+      Cardiomyopathies hypertrophiques (CMH)
+  - candidate_id: CAND-067
+    final_kp_id: KP-073
+    action: enriched
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > A
+      Traitement étiologique et préventif
+  - candidate_id: CAND-068
+    final_kp_id: KP-074
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > B Mesures
+      hygiénodiététiques > 1 Régime hyposodé
+  - candidate_id: CAND-069
+    final_kp_id: KP-075
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > B Mesures
+      hygiénodiététiques > 2 Surveillance du poids et des symptômes
+  - candidate_id: CAND-070
+    final_kp_id: KP-076
+    action: enriched
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > B Mesures
+      hygiénodiététiques
+  - candidate_id: CAND-071
+    final_kp_id: KP-077
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C
+      Traitements médicamenteux de l’insuffisance cardiaque à fraction
+      d’éjection diminuée (FE ≤ 40 %)
+  - candidate_id: CAND-072
+    final_kp_id: KP-078
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 1
+      Bloqueurs du système rénine – angiotensine (SRA)
+  - candidate_id: CAND-073
+    final_kp_id: KP-079
+    action: split
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 1
+      Bloqueurs du système rénine – angiotensine (SRA)
+  - candidate_id: CAND-073
+    final_kp_id: KP-080
+    action: split
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 1
+      Bloqueurs du système rénine – angiotensine (SRA)
+  - candidate_id: CAND-074
+    final_kp_id: KP-081
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants
+  - candidate_id: CAND-075
+    final_kp_id: KP-082
+    action: enriched
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 3
+      Antialdostérones
+  - candidate_id: CAND-076
+    final_kp_id: KP-083
+    action: enriched
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 4
+      Inhibiteurs du transporteur sodium glucose de type 2 (SGLT2) ou
+      gliflozines
+  - candidate_id: CAND-077
+    final_kp_id: KP-084
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 5 Diurétiques
+  - candidate_id: CAND-078
+    final_kp_id: KP-085
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C
+  - candidate_id: CAND-079
+    final_kp_id: KP-086
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 6
+      Traitements de 2e intention chez les patients restant symptomatiques
+  - candidate_id: CAND-080
+    final_kp_id: KP-087
+    action: split
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 7
+      Autres traitements parfois associés
+  - candidate_id: CAND-080
+    final_kp_id: KP-088
+    action: split
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 7
+      Autres traitements parfois associés
+  - candidate_id: CAND-081
+    final_kp_id: KP-089
+    action: enriched
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 8.
+      Traitements contre-indiqués
+  - candidate_id: (added)
+    final_kp_id: KP-090
+    action: added
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 8.
+      Traitements contre-indiqués
+  - candidate_id: CAND-082
+    final_kp_id: KP-091
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 9
+      Traitement dit « électrique »
+  - candidate_id: CAND-083
+    final_kp_id: KP-092
+    action: enriched
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > C > 9
+      Traitement dit « électrique »
+  - candidate_id: CAND-084
+    final_kp_id: KP-093
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > D
+      Traitement percutané de la fuite mitrale
+  - candidate_id: CAND-085
+    final_kp_id: KP-094
+    action: enriched
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > E
+      Traitement de l’insuffisance cardiaque terminale > 1 Transplantation
+      cardiaque
+  - candidate_id: CAND-086
+    final_kp_id: KP-095
+    action: kept
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > E
+      Traitement de l’insuffisance cardiaque terminale > 2 Systèmes d’assistance
+      ventriculaire
+  - candidate_id: CAND-087
+    final_kp_id: KP-096
+    action: enriched
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > F
+      Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection
+      conservée
+  - candidate_id: CAND-088
+    final_kp_id: KP-097
+    action: split
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > G Prise
+      en charge globale et parcours de soins
+  - candidate_id: CAND-088
+    final_kp_id: KP-098
+    action: split
+    source_section: VI. Traitement de l’insuffisance cardiaque chronique > G Prise
+      en charge globale et parcours de soins
+  - candidate_id: CAND-089
+    final_kp_id: KP-099
+    action: kept
+    source_section: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement
+      de l’œdème aigu pulmonaire
+  - candidate_id: CAND-090
+    final_kp_id: KP-100
+    action: enriched
+    source_section: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement
+      de l’œdème aigu pulmonaire
+  - candidate_id: (added)
+    final_kp_id: KP-101
+    action: added
+    source_section: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement
+      de l’œdème aigu pulmonaire
+  - candidate_id: (added)
+    final_kp_id: KP-102
+    action: added
+    source_section: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement
+      de l’œdème aigu pulmonaire
+  - candidate_id: CAND-091
+    final_kp_id: KP-103
+    action: enriched
+    source_section: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement
+      de l’œdème aigu pulmonaire
+  - candidate_id: CAND-092
+    final_kp_id: KP-104
+    action: kept
+    source_section: VII. Traitement de l’insuffisance cardiaque aiguë > B Poussée
+      d’insuffisance cardiaque globale sans OAP franc
+  - candidate_id: CAND-093
+    final_kp_id: KP-105
+    action: kept
+    source_section: VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique
+  - candidate_id: CAND-094
+    final_kp_id: KP-106
+    action: kept
+    source_section: VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique
+  - candidate_id: CAND-095
+    final_kp_id: KP-107
+    action: kept
+    source_section: Situations de départ
+  - candidate_id: CAND-096
+    final_kp_id: KP-108
+    action: kept
+    source_section: Réflexes transversalité
+  - candidate_id: phase3b-M7
+    final_kp_id: KP-109
+    action: added
+    source_section: >-
+      IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres formes
+      cliniques (SCA + IC dual management)

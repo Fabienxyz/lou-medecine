@@ -1,14 +1,20 @@
+import YAML from "yaml";
+
 const VALID_DISPOSITIONS = new Set([
   "understanding",
   "deferred-to-mastery",
+  "excluded-with-justification",
 ]);
 
-export function validateInventory(inventory) {
+export function validateInventory(inventory, options = {}) {
   const errors = [];
   const ids = new Set();
+  const requireSlice = options.requireSlice === true;
 
   if (!inventory.chapter) errors.push("missing chapter");
-  if (!inventory.slice) errors.push("missing slice identifier");
+  if (requireSlice && !inventory.slice) {
+    errors.push("missing slice identifier");
+  }
   if (!Array.isArray(inventory.kps) || inventory.kps.length === 0) {
     errors.push("kps must be a non-empty array");
   }
@@ -49,6 +55,7 @@ export function inventoryById(inventory) {
 }
 
 export function anchorForKp(kp, edition) {
+  if (!kp) return null;
   const anchors = kp.anchors || [];
   const match = anchors.find((a) => !a.edition || a.edition === edition);
   return match || anchors[0];

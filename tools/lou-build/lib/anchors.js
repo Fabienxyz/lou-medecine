@@ -15,21 +15,20 @@ export function loadYamlFile(filePath) {
  * Resolve anchor quote within source text.
  * Returns { ok, line_hint?, error?, matchCount? }
  */
-export function resolveAnchor(sourceText, anchor, sectionPathBase) {
+export function resolveAnchor(sourceText, anchor, sourceMeta) {
   const quote = anchor.quote;
   if (!quote || typeof quote !== "string") {
     return { ok: false, error: "missing quote" };
   }
 
-  const normSource = normalizeWhitespace(sourceText);
   const normQuote = normalizeWhitespace(quote);
   if (!normQuote) {
     return { ok: false, error: "empty quote" };
   }
 
   let searchText = sourceText;
-  if (anchor.section_path && sectionPathBase) {
-    const scoped = extractSectionScope(sourceText, anchor.section_path, sectionPathBase);
+  if (anchor.section_path) {
+    const scoped = extractSectionScope(sourceText, anchor.section_path, sourceMeta);
     if (scoped) {
       searchText = scoped;
     }
@@ -81,22 +80,60 @@ function lineNumberForQuote(sourceText, normQuote) {
     : 1;
 }
 
-/** Best-effort section scoping using heading markers from source.meta.yaml */
-export function extractSectionScope(sourceText, sectionPath, sectionPathBase) {
-  if (sectionPath !== sectionPathBase) {
-    return null;
+/** Section scoping using source.meta.yaml section index when available. */
+export function extractSectionScope(sourceText, sectionPath, sourceMeta) {
+  const sections = sourceMeta?.sections || [];
+  const section = sections.find((s) => s.path === sectionPath);
+  if (section?.heading_markers?.length) {
+    return sliceByHeadingMarkers(sourceText, section.heading_markers, sections, sectionPath);
   }
-  const start = sourceText.indexOf("C Physiopathologie");
-  if (start === -1) return sourceText;
-  const end = sourceText.indexOf("2 En cas de dysfonctionnement cardiaque", start);
-  return end === -1 ? sourceText.slice(start) : sourceText.slice(start, end);
+
+  if (sectionPath === sourceMeta?.section_path_base) {
+    const start = sourceText.indexOf("C Physiopathologie");
+    if (start === -1) return null;
+    const end = sourceText.indexOf(
+      "2 En cas de dysfonctionnement cardiaque",
+      start
+    );
+    return end === -1 ? sourceText.slice(start) : sourceText.slice(start, end);
+  }
+
+  return null;
+}
+
+function sliceByHeadingMarkers(sourceText, markers, allSections, sectionPath) {
+  const startIdx = findMarkerPosition(sourceText, markers[0]);
+  if (startIdx === -1) return null;
+
+  const ordered = [...allSections].sort(
+    (a, b) => findMarkerPosition(sourceText, a.heading_markers?.[0] ?? "") -
+      findMarkerPosition(sourceText, b.heading_markers?.[0] ?? "")
+  );
+  const currentIndex = ordered.findIndex((s) => s.path === sectionPath);
+  let endIdx = sourceText.length;
+  if (currentIndex !== -1 && currentIndex + 1 < ordered.length) {
+    const next = ordered[currentIndex + 1];
+    const nextStart = findMarkerPosition(
+      sourceText,
+      next.heading_markers?.[0] ?? ""
+    );
+    if (nextStart !== -1 && nextStart > startIdx) {
+      endIdx = nextStart;
+    }
+  }
+
+  return sourceText.slice(startIdx, endIdx);
+}
+
+function findMarkerPosition(sourceText, marker) {
+  if (!marker) return -1;
+  return sourceText.indexOf(marker);
 }
 
 export function validateAllAnchors(sourceText, inventory, sourceMeta) {
   const errors = [];
   const results = [];
   const edition = sourceMeta.edition;
-  const sectionPathBase = sourceMeta.section_path_base;
 
   for (const kp of inventory.kps || []) {
     for (const anchor of kp.anchors || []) {
@@ -104,7 +141,7 @@ export function validateAllAnchors(sourceText, inventory, sourceMeta) {
         errors.push(`${kp.id}: anchor edition mismatch`);
         continue;
       }
-      const result = resolveAnchor(sourceText, anchor, sectionPathBase);
+      const result = resolveAnchor(sourceText, anchor, sourceMeta);
       results.push({ kp: kp.id, quote: anchor.quote, ...result });
       if (!result.ok) {
         errors.push(`${kp.id}: ${result.error}`);

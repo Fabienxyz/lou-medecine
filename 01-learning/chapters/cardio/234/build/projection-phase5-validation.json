@@ -1,0 +1,317 @@
+{
+  "phase": "phase-5-projection-audit",
+  "generated_at": "2026-07-24T16:54:15.090Z",
+  "projection_sizes": {
+    "story": {
+      "bytes": 2548,
+      "lines": 65
+    },
+    "overview": {
+      "bytes": 5130,
+      "lines": 141
+    },
+    "mechanisms": {
+      "bytes": 8730,
+      "lines": 270
+    },
+    "clinical-reasoning": {
+      "bytes": 13488,
+      "lines": 411
+    }
+  },
+  "claim_trace": {
+    "ok": true,
+    "claim_count": 89,
+    "errors": []
+  },
+  "grounding": {
+    "deterministic_ok": true,
+    "semantic_merge_ok": true,
+    "status": "pass",
+    "threshold_verdict": {
+      "mode": "deterministic",
+      "rule": "threshold-mmHg",
+      "status": "pass",
+      "kp": "KP-041",
+      "expected_mmHg": 25,
+      "found_mmHg": 25
+    },
+    "bridging_allowlisted": [
+      "cb-oap-bridge",
+      "cb-overview-oap"
+    ],
+    "errors": []
+  },
+  "blueprint_coverage": {
+    "total_sequence_elements": 22,
+    "represented": 22,
+    "unexplained_gaps": [],
+    "by_element": [
+      {
+        "element": "ANA-ville-pompe",
+        "projections": [
+          "story"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MM-pump-decompensation",
+        "projections": [
+          "story",
+          "overview"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MEC-output-basics",
+        "projections": [
+          "overview",
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MEC-compensation",
+        "projections": [
+          "overview",
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MEC-remodeling",
+        "projections": [
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MEC-ef-phenotypes",
+        "projections": [
+          "overview",
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CONF-ef-types",
+        "projections": [
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MEC-arrhythmia",
+        "projections": [
+          "overview",
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MEC-congestion",
+        "projections": [
+          "overview",
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MEC-systemic-congestion",
+        "projections": [
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CONF-left-right",
+        "projections": [
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "MEC-oap",
+        "projections": [
+          "overview",
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CONF-transsudat-exsudat",
+        "projections": [
+          "mechanisms"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CR-recognize",
+        "projections": [
+          "overview",
+          "clinical-reasoning"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CR-diagnose",
+        "projections": [
+          "overview",
+          "clinical-reasoning"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CR-etiology",
+        "projections": [
+          "clinical-reasoning"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CR-acute",
+        "projections": [
+          "clinical-reasoning"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CONF-bb-chronic-vs-acute",
+        "projections": [
+          "clinical-reasoning"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CR-treat-hfref",
+        "projections": [
+          "overview",
+          "clinical-reasoning"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CR-treat-hfpef",
+        "projections": [
+          "overview",
+          "clinical-reasoning"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CONF-ccb-fe-source",
+        "projections": [
+          "clinical-reasoning"
+        ],
+        "represented": true
+      },
+      {
+        "element": "CR-followup",
+        "projections": [
+          "clinical-reasoning"
+        ],
+        "represented": true
+      }
+    ]
+  },
+  "understanding_kp_coverage": {
+    "total": 91,
+    "directly_surfaced_in_claim_trace": 91,
+    "unexplained_gaps": [],
+    "deferred_not_flooded": 16,
+    "deferred_ids_appearing_in_claims": []
+  },
+  "confusion_boundaries": {
+    "CONF-ef-types": [
+      "mechanisms"
+    ],
+    "CONF-left-right": [
+      "mechanisms"
+    ],
+    "CONF-transsudat-exsudat": [
+      "mechanisms"
+    ],
+    "CONF-bb-chronic-vs-acute": [
+      "clinical-reasoning"
+    ],
+    "CONF-ccb-fe-source": [
+      "clinical-reasoning"
+    ]
+  },
+  "high_specificity": [
+    {
+      "projection": "overview",
+      "pattern": "/FE\\s*≤\\s*40\\s*%/",
+      "kp": "KP-014",
+      "claimHint": null
+    },
+    {
+      "projection": "overview",
+      "pattern": "/41–49\\s*%/",
+      "kp": "KP-016",
+      "claimHint": null
+    },
+    {
+      "projection": "mechanisms",
+      "pattern": "/PPC\\s*>\\s*25\\s*mmHg/",
+      "kp": "KP-041",
+      "claimHint": "cb-oap-threshold"
+    },
+    {
+      "projection": "mechanisms",
+      "pattern": "/41–49\\s*%/",
+      "kp": "KP-016",
+      "claimHint": null
+    },
+    {
+      "projection": "clinical-reasoning",
+      "pattern": "/FE\\s*≤\\s*40\\s*%/",
+      "kp": "KP-014",
+      "claimHint": null
+    },
+    {
+      "projection": "clinical-reasoning",
+      "pattern": "/FE\\s*≥\\s*50\\s*%/",
+      "kp": "KP-015",
+      "claimHint": null
+    },
+    {
+      "projection": "clinical-reasoning",
+      "pattern": "/BNP\\s*<\\s*100/",
+      "kp": "KP-036",
+      "claimHint": null
+    },
+    {
+      "projection": "clinical-reasoning",
+      "pattern": "/NT-proBNP\\s*<\\s*300/",
+      "kp": "KP-036",
+      "claimHint": null
+    },
+    {
+      "projection": "clinical-reasoning",
+      "pattern": "/CHAMPIT/",
+      "kp": "KP-106",
+      "claimHint": null
+    }
+  ],
+  "oap_regression": {
+    "claims_present": true,
+    "ppc_25_in_mechanisms": true,
+    "kp_040_041_042": true
+  },
+  "source_conflicts": {
+    "fe_ccb": {
+      "surfaced_in": [
+        "clinical-reasoning"
+      ],
+      "explicit_ambiguity": true
+    },
+    "beta_blockers": {
+      "surfaced_in": [
+        "clinical-reasoning"
+      ],
+      "both_contexts": true
+    }
+  },
+  "verdict": "GO"
+}

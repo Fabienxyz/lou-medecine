@@ -1,0 +1,68 @@
+# Published understanding projections for this chapter build
+projections:
+  - id: story
+    type: understanding.story
+    family: understanding
+    order: 1
+    path: projections/understanding/story.md
+    status: published
+    label: "📖 Histoire"
+    elements: [ANA-ville-pompe, MM-pump-decompensation]
+
+  - id: overview
+    type: understanding.overview
+    family: understanding
+    order: 2
+    path: projections/understanding/overview.md
+    status: published
+    label: "🗺️ Vue d’ensemble"
+    elements:
+      - MM-pump-decompensation
+      - MEC-output-basics
+      - MEC-compensation
+      - MEC-ef-phenotypes
+      - MEC-congestion
+      - MEC-oap
+      - CR-recognize
+      - CR-diagnose
+      - CR-treat-hfref
+      - CR-treat-hfpef
+
+  - id: mechanisms
+    type: understanding.mechanisms
+    family: understanding
+    order: 3
+    path: projections/understanding/mechanisms.md
+    status: published
+    label: "❓ Pourquoi ?"
+    elements:
+      - MEC-output-basics
+      - MEC-compensation
+      - MEC-remodeling
+      - MEC-ef-phenotypes
+      - CONF-ef-types
+      - MEC-arrhythmia
+      - MEC-congestion
+      - MEC-systemic-congestion
+      - CONF-left-right
+      - MEC-oap
+      - CONF-transsudat-exsudat
+    visual_elements: [MEC-oap]
+
+  - id: clinical-reasoning
+    type: understanding.clinical-reasoning
+    family: understanding
+    order: 4
+    path: projections/understanding/clinical-reasoning.md
+    status: published
+    label: "🩺 Raisonnement clinique"
+    elements:
+      - CR-recognize
+      - CR-diagnose
+      - CR-etiology
+      - CR-acute
+      - CONF-bb-chronic-vs-acute
+      - CR-treat-hfref
+      - CR-treat-hfpef
+      - CONF-ccb-fe-source
+      - CR-followup

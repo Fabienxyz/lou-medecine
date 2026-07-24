@@ -1,0 +1,226 @@
+chapter: cardio/234
+phase: 3b-inventory-correction
+source_reconciliation: build/reconciliation-full.yaml
+source_edition: 2024-SFC
+starting_kp_count: 108
+final_kp_count: 109
+summary:
+  enriched_kps: 10
+  new_kps: 1
+  ambiguous_unsettled: 0
+new_kp_ids:
+  - id: KP-109
+    rationale: >-
+      SCA + acute HF concurrent dual-management rule is independently examinable
+      and not reducible to precipitant listing (KP-062) or CHAMPIT (KP-106).
+corrections:
+  - finding_id: M1
+    segment_id: seg-II-A1-nyha-stages
+    action: enriched
+    target_kp: KP-019
+    source_anchors:
+      - section_path: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+        quote: Absence de dyspnée, palpitations ou fatigue pour les efforts habituels
+      - section_path: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+        quote: montée des escaliers (≥ 2 étages)
+      - section_path: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+        quote: montée des escaliers (< 2 étages)
+      - section_path: II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires
+        quote: Dyspnée, palpitations ou fatigue permanente de repos ou pour des efforts minimes
+    disposition: understanding
+    rationale: >-
+      Tableau 18.1 stage criteria belong to the same NYHA semantic unit as KP-019;
+      no per-stage KP fragmentation.
+
+  - finding_id: M2
+    segment_id: seg-II-E-indication-dosage
+    action: enriched
+    target_kp: KP-043
+    source_anchors:
+      - section_path: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+        quote: >-
+          chez les patients avec des facteurs de risque d’IC, en présence de symptômes
+          et/ou de signes ou un ECG anormal, il est nécessaire de doser les peptides
+          natriurétiques
+    disposition: understanding
+    rationale: >-
+      Indication-to-dose gate is part of the non-acute NP algorithm already carried
+      by KP-043; threshold KPs (KP-036/037) left unchanged.
+
+  - finding_id: M3
+    segment_id: seg-II-E-np-indisponible
+    action: enriched
+    target_kp: KP-043
+    source_anchors:
+      - section_path: II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)
+        quote: >-
+          si les peptides natriurétiques ne sont pas disponibles, il est nécessaire de
+          réaliser une échocardiographie
+    disposition: understanding
+    rationale: >-
+      NP-unavailable → echo branch is one algorithmic rule with M2 in KP-043.
+
+  - finding_id: M4
+    segment_id: seg-II-H-revasc
+    action: enriched
+    target_kp: KP-045
+    source_anchors:
+      - section_path: II. Diagnostic > H Autres examens complémentaires
+        quote: si elles s’accompagnent d’une ischémie ou d’une viabilité myocardique
+      - section_path: II. Diagnostic > H Autres examens complémentaires
+        quote: une revascularisation doit être discutée
+    disposition: understanding
+    rationale: >-
+      Therapeutic consequence after positive coronary imaging extends KP-045 workup
+      cluster without a standalone revascularization KP.
+
+  - finding_id: M5
+    segment_id: seg-IV-A1-troponine
+    action: enriched
+    target_kp: KP-060
+    source_anchors:
+      - section_path: >-
+          IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu
+          pulmonaire cardiogénique
+        quote: >-
+          une élévation modérée peut se rencontrer même en l’absence de pathologie
+          coronarienne aiguë
+    disposition: understanding
+    rationale: >-
+      Troponin interpretation is OAP workup semantics; label explicitly avoids
+      troponin = ACS implication.
+
+  - finding_id: M6
+    segment_id: seg-IV-A1-gds
+    action: enriched
+    target_kp: KP-060
+    source_anchors:
+      - section_path: >-
+          IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu
+          pulmonaire cardiogénique
+        quote: "gazométrie artérielle : hypoxie/hypocapnie"
+    disposition: understanding
+    rationale: >-
+      GDS finding bundled with OAP complementary-exam cluster in KP-060.
+
+  - finding_id: M7
+    segment_id: seg-IV-A2-sca-dual
+    action: new-kp
+    target_kp: KP-109
+    source_anchors:
+      - section_path: IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres formes cliniques
+        quote: >-
+          il faut à la fois prendre en charge le syndrome coronarien et traiter la
+          poussée d’IC
+    disposition: understanding
+    rationale: >-
+      Independent concurrent-management rule beyond listing SCA as precipitant
+      (KP-062) or CHAMPIT checklist (KP-106).
+
+  - finding_id: M8
+    segment_id: seg-VI-B2-poids-perte
+    action: enriched
+    target_kp: KP-075
+    source_anchors:
+      - section_path: >-
+          VI. Traitement de l’insuffisance cardiaque chronique > B Mesures
+          hygiénodiététiques > 2 Surveillance du poids et des symptômes
+        quote: >-
+          une perte de poids progressive en l’absence d’œdème signe un certain degré
+          de dénutrition, qui témoigne souvent de la gravité de l’IC et indique un
+          mauvais pronostic
+    disposition: understanding
+    rationale: >-
+      Progressive cachexia/malnutrition pole is distinct from acute fluid weight
+      gain but same weight-monitoring semantic unit.
+
+  - finding_id: M9
+    segment_id: seg-VI-C1-iec-encadre
+    action: enriched
+    target_kp: KP-078
+    source_anchors:
+      - section_path: >-
+          VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du
+          système rénine – angiotensine (SRA)
+        quote: >-
+          diminuer la posologie ou arrêter en cas d’hypotension artérielle
+          symptomatique ou d’augmentation de la créatinine > 20–30 %
+      - section_path: >-
+          VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du
+          système rénine – angiotensine (SRA)
+        quote: Éviter d’introduire simultanément IEC et antialdostérones
+    disposition: understanding
+    disposition_note: >-
+      Monitoring thresholds retained in Inventory; disposition unchanged — core IEC
+      indication remains understanding; Encadré procedural detail deferred at
+      projection layer.
+    rationale: >-
+      Encadré 18.3 surveillance/start rules enrich canonical IEC KP without a split.
+
+  - finding_id: M10
+    segment_id: seg-VI-C2-bb-postidm
+    action: enriched
+    target_kp: KP-081
+    source_anchors:
+      - section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants
+        quote: post-IDM si la FE est basse même en l’absence de symptômes d’IC
+    disposition: understanding
+    rationale: Post-IDM asymptomatic low-EF indication is part of beta-blocker logic.
+
+  - finding_id: M11
+    segment_id: seg-VI-C2-bb-encadre
+    action: enriched
+    target_kp: KP-081
+    source_anchors:
+      - section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants
+        quote: >-
+          Respecter les contre-indications : asthme ou BPCO sévère, bradycardie ou
+          hypotension symptomatique, BAV2 ou 3.
+    disposition: understanding
+    disposition_note: >-
+      Encadré 18.4 CI list co-located; titration detail not split to separate KP.
+    rationale: Contraindication set belongs to the same therapeutic beta-blocker KP.
+
+  - finding_id: M12
+    segment_id: seg-VI-C2-bb-ne-pas-arreter
+    action: enriched
+    target_kps:
+      - KP-081
+      - KP-103
+    source_anchors:
+      - section_path: VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants
+        quote: >-
+          il n’est pas recommandé d’arrêter le bêtabloquant sauf en cas de difficulté
+          de réponse au traitement ou de choc cardiogénique
+      - section_path: VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire
+        quote: >-
+          si le patient est déjà sous bêtabloquant, il est généralement arrêté ou sa
+          posologie est diminuée
+    disposition: understanding
+    contextual_handling: >-
+      Source supports contextual distinction: VI.C.2 applies to hospitalization for
+      cardiac decompensation (continue beta-blocker except treatment failure or
+      cardiogenic shock); VII.A applies specifically to acute OAP treatment (generally
+      stop or reduce). Both rules preserved with section-scoped wording. KP-103
+      tagged source_conflict seg-ambig-bb-stop for re-reconciliation; neither rule
+      overwritten.
+    rationale: >-
+      Dual-pole College contradiction resolved by locus scoping, not by choosing one
+      universal learner rule.
+
+preserved_ambiguities:
+  - id: seg-ambig-fe-ci-notions
+    status: unresolved
+    note: >-
+      KP-089 remains body-anchored to IC systolique; no settled CI-in-HFpEF KP
+      minted from Notions alone.
+  - id: seg-VI-F-ccb-hfpef
+    status: unresolved
+    note: VI.F rate-slowing CCB allowance in HFpEF not normalized against Notions.
+  - id: seg-ambig-bb-stop
+    status: dual-anchored-contextual
+    note: >-
+      Both poles represented (KP-081 VI.C keep vs KP-103 VII.A stop/↓); inventory
+      records conflict for independent re-reconciliation.
+
+disposition_changes: []

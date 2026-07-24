@@ -1,4 +1,164 @@
 {
+  "cb-story-def": {
+    "class": "sourced",
+    "kp": [
+      "KP-001",
+      "KP-002"
+    ],
+    "element": "MM-pump-decompensation",
+    "anchors": [
+      {
+        "kp": "KP-001",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > A Définition",
+        "quote": "incapacité du cœur à délivrer un débit adapté aux besoins de l’organisme et/ou à fonctionner avec des pressions de remplissage normales"
+      },
+      {
+        "kp": "KP-002",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > A Définition",
+        "quote": "l’IC est un syndrome défini par l’association de symptômes, de signes cliniques"
+      }
+    ]
+  },
+  "cb-story-consequences": {
+    "class": "sourced",
+    "kp": [
+      "KP-006"
+    ],
+    "element": "MM-pump-decompensation",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+      "quote": "Un dysfonctionnement de la pompe cardiaque peut avoir deux conséquences principales"
+    }
+  },
+  "cb-story-compensation": {
+    "class": "sourced",
+    "kp": [
+      "KP-008"
+    ],
+    "element": "MM-pump-decompensation",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+      "quote": "bénéfiques à court terme car maintenant le débit cardiaque"
+    }
+  },
+  "cb-story-congestion": {
+    "class": "sourced",
+    "kp": [
+      "KP-040"
+    ],
+    "element": "MM-pump-decompensation",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+      "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+    }
+  },
+  "cb-ov-def-physio": {
+    "class": "sourced",
+    "kp": [
+      "KP-001"
+    ],
+    "element": "MEC-output-basics",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > A Définition",
+      "quote": "incapacité du cœur à délivrer un débit adapté aux besoins de l’organisme et/ou à fonctionner avec des pressions de remplissage normales"
+    }
+  },
+  "cb-ov-def-clinic": {
+    "class": "sourced",
+    "kp": [
+      "KP-002"
+    ],
+    "element": "MEC-output-basics",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > A Définition",
+      "quote": "l’IC est un syndrome défini par l’association de symptômes, de signes cliniques"
+    }
+  },
+  "cb-ov-formulas": {
+    "class": "sourced",
+    "kp": [
+      "KP-005",
+      "KP-006"
+    ],
+    "element": "MEC-output-basics",
+    "anchors": [
+      {
+        "kp": "KP-005",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "Le débit cardiaque (DC) dépend du volume d’éjection systolique ventriculaire (VES) et de la fréquence cardiaque (FC) : DC = VES × FC"
+      },
+      {
+        "kp": "KP-006",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "Un dysfonctionnement de la pompe cardiaque peut avoir deux conséquences principales"
+      }
+    ]
+  },
+  "cb-ov-compensation": {
+    "class": "sourced",
+    "kp": [
+      "KP-008"
+    ],
+    "element": "MEC-compensation",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+      "quote": "bénéfiques à court terme car maintenant le débit cardiaque"
+    }
+  },
+  "cb-ov-maladaptive": {
+    "class": "sourced",
+    "kp": [
+      "KP-008",
+      "KP-009"
+    ],
+    "element": "MEC-compensation",
+    "anchors": [
+      {
+        "kp": "KP-008",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "bénéfiques à court terme car maintenant le débit cardiaque"
+      },
+      {
+        "kp": "KP-009",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "Le remodelage cardiaque est défini comme les changements de la géométrie des cavités"
+      }
+    ]
+  },
+  "cb-ov-congestion-sides": {
+    "class": "sourced",
+    "kp": [
+      "KP-040",
+      "KP-007"
+    ],
+    "element": "MEC-congestion",
+    "anchors": [
+      {
+        "kp": "KP-040",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+      },
+      {
+        "kp": "KP-007",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "Au niveau du VD, l’augmentation des pressions diastoliques se transmet à l’oreillette droite"
+      }
+    ]
+  },
   "cb-overview-oap": {
     "class": "bridging",
     "kp": [
@@ -25,6 +185,497 @@
         "edition": "2024-SFC",
         "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
         "quote": "l’œdème pulmonaire lésionnel non cardiogénique est secondaire à des lésions de la membrane alvéolo-capillaire"
+      }
+    ]
+  },
+  "cb-ov-arrhythmia": {
+    "class": "sourced",
+    "kp": [
+      "KP-017",
+      "KP-018"
+    ],
+    "element": "MEC-arrhythmia",
+    "anchors": [
+      {
+        "kp": "KP-017",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 5 Arythmies",
+        "quote": "La fibrillation atriale est favorisée par la dilatation de l’atrium secondaire à l’augmentation des pressions intracavitaires"
+      },
+      {
+        "kp": "KP-018",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 5 Arythmies",
+        "quote": "Les troubles du rythme ventriculaire graves (TV, FV) sont à l’origine de la plupart des morts subites"
+      }
+    ]
+  },
+  "cb-ov-recognize": {
+    "class": "sourced",
+    "kp": [
+      "KP-003",
+      "KP-019",
+      "KP-020"
+    ],
+    "element": "CR-recognize",
+    "anchors": [
+      {
+        "kp": "KP-003",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > A Définition",
+        "quote": "les symptômes ne sont pas spécifiques et les signes ne sont pas sensibles"
+      },
+      {
+        "kp": "KP-019",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires",
+        "quote": "La dyspnée d’effort, fréquente mais peu spécifique, est souvent révélatrice"
+      },
+      {
+        "kp": "KP-020",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires",
+        "quote": "L’orthopnée est plus spécifique"
+      }
+    ]
+  },
+  "cb-ov-ef": {
+    "class": "sourced",
+    "kp": [
+      "KP-014",
+      "KP-015",
+      "KP-016"
+    ],
+    "element": "MEC-ef-phenotypes",
+    "anchors": [
+      {
+        "kp": "KP-014",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Elle est définie par une fraction d’éjection ≤ 40 %"
+      },
+      {
+        "kp": "KP-015",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Cette IC est définie par une FE ≥ 50 %"
+      },
+      {
+        "kp": "KP-016",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Lorsque la fraction d’éjection est entre 41 et 49 %, on parle d’IC à FE légèrement diminuée"
+      }
+    ]
+  },
+  "cb-ov-diagnose": {
+    "class": "sourced",
+    "kp": [
+      "KP-032",
+      "KP-035",
+      "KP-039"
+    ],
+    "element": "CR-diagnose",
+    "anchors": [
+      {
+        "kp": "KP-032",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > C Électrocardiogramme",
+        "quote": "L’ECG est peu contributif pour le diagnostic d’IC"
+      },
+      {
+        "kp": "KP-035",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)",
+        "quote": "Le BNP ou le NT-proBNP sont aujourd’hui recommandés pour le diagnostic de l’IC, avec une bonne valeur prédictive négative"
+      },
+      {
+        "kp": "KP-039",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > F Échocardiographie transthoracique",
+        "quote": "l’ETT est l’examen clé indispensable en cas d’IC ou de suspicion d’IC"
+      }
+    ]
+  },
+  "cb-ov-hfref": {
+    "class": "sourced",
+    "kp": [
+      "KP-077"
+    ],
+    "element": "CR-treat-hfref",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C Traitements médicamenteux de l’insuffisance cardiaque à fraction d’éjection diminuée (FE ≤ 40 %)",
+      "quote": "Quatre classes médicamenteuses sont associées à une baisse de la mortalité et des décompensations aiguës"
+    }
+  },
+  "cb-ov-hfpef": {
+    "class": "sourced",
+    "kp": [
+      "KP-096"
+    ],
+    "element": "CR-treat-hfpef",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection conservée",
+      "quote": "aucun médicament n’a pour le moment démontré d’efficacité en dehors très récemment de la classe des gliflozines"
+    }
+  },
+  "cb-mec-out-short": {
+    "class": "sourced",
+    "kp": [
+      "KP-001",
+      "KP-002"
+    ],
+    "element": "MEC-output-basics",
+    "anchors": [
+      {
+        "kp": "KP-001",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > A Définition",
+        "quote": "incapacité du cœur à délivrer un débit adapté aux besoins de l’organisme et/ou à fonctionner avec des pressions de remplissage normales"
+      },
+      {
+        "kp": "KP-002",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > A Définition",
+        "quote": "l’IC est un syndrome défini par l’association de symptômes, de signes cliniques"
+      }
+    ]
+  },
+  "cb-mec-out-steps": {
+    "class": "sourced",
+    "kp": [
+      "KP-001",
+      "KP-002",
+      "KP-005",
+      "KP-006"
+    ],
+    "element": "MEC-output-basics",
+    "anchors": [
+      {
+        "kp": "KP-001",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > A Définition",
+        "quote": "incapacité du cœur à délivrer un débit adapté aux besoins de l’organisme et/ou à fonctionner avec des pressions de remplissage normales"
+      },
+      {
+        "kp": "KP-002",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > A Définition",
+        "quote": "l’IC est un syndrome défini par l’association de symptômes, de signes cliniques"
+      },
+      {
+        "kp": "KP-005",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "Le débit cardiaque (DC) dépend du volume d’éjection systolique ventriculaire (VES) et de la fréquence cardiaque (FC) : DC = VES × FC"
+      },
+      {
+        "kp": "KP-006",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "Un dysfonctionnement de la pompe cardiaque peut avoir deux conséquences principales"
+      }
+    ]
+  },
+  "cb-mec-comp-short": {
+    "class": "sourced",
+    "kp": [
+      "KP-008"
+    ],
+    "element": "MEC-compensation",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+      "quote": "bénéfiques à court terme car maintenant le débit cardiaque"
+    }
+  },
+  "cb-mec-comp-steps": {
+    "class": "sourced",
+    "kp": [
+      "KP-008",
+      "KP-010",
+      "KP-011",
+      "KP-012"
+    ],
+    "element": "MEC-compensation",
+    "anchors": [
+      {
+        "kp": "KP-008",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "bénéfiques à court terme car maintenant le débit cardiaque"
+      },
+      {
+        "kp": "KP-010",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "D’après la loi de Starling, l’étirement des fibres"
+      },
+      {
+        "kp": "KP-011",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "La tachycardie, sous la dépendance de l’activation du système sympathique, contribue également à maintenir le débit cardiaque"
+      },
+      {
+        "kp": "KP-012",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "La vasoconstriction, en réponse à l’activation du système sympathique et du système rénine"
+      }
+    ]
+  },
+  "cb-mec-rem-short": {
+    "class": "sourced",
+    "kp": [
+      "KP-009",
+      "KP-013"
+    ],
+    "element": "MEC-remodeling",
+    "anchors": [
+      {
+        "kp": "KP-009",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "Le remodelage cardiaque est défini comme les changements de la géométrie des cavités"
+      },
+      {
+        "kp": "KP-013",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 3 Désynchronisation",
+        "quote": "La désynchronisation cardiaque peut aggraver une IC"
+      }
+    ]
+  },
+  "cb-mec-rem-steps": {
+    "class": "sourced",
+    "kp": [
+      "KP-009",
+      "KP-013"
+    ],
+    "element": "MEC-remodeling",
+    "anchors": [
+      {
+        "kp": "KP-009",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "Le remodelage cardiaque est défini comme les changements de la géométrie des cavités"
+      },
+      {
+        "kp": "KP-013",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 3 Désynchronisation",
+        "quote": "La désynchronisation cardiaque peut aggraver une IC"
+      }
+    ]
+  },
+  "cb-mec-ef-short": {
+    "class": "sourced",
+    "kp": [
+      "KP-014",
+      "KP-015",
+      "KP-016"
+    ],
+    "element": "MEC-ef-phenotypes",
+    "anchors": [
+      {
+        "kp": "KP-014",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Elle est définie par une fraction d’éjection ≤ 40 %"
+      },
+      {
+        "kp": "KP-015",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Cette IC est définie par une FE ≥ 50 %"
+      },
+      {
+        "kp": "KP-016",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Lorsque la fraction d’éjection est entre 41 et 49 %, on parle d’IC à FE légèrement diminuée"
+      }
+    ]
+  },
+  "cb-mec-ef-table": {
+    "class": "sourced",
+    "kp": [
+      "KP-014",
+      "KP-015",
+      "KP-016"
+    ],
+    "element": "MEC-ef-phenotypes",
+    "anchors": [
+      {
+        "kp": "KP-014",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Elle est définie par une fraction d’éjection ≤ 40 %"
+      },
+      {
+        "kp": "KP-015",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Cette IC est définie par une FE ≥ 50 %"
+      },
+      {
+        "kp": "KP-016",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Lorsque la fraction d’éjection est entre 41 et 49 %, on parle d’IC à FE légèrement diminuée"
+      }
+    ]
+  },
+  "cb-conf-ef": {
+    "class": "sourced",
+    "kp": [
+      "KP-014",
+      "KP-015",
+      "KP-016"
+    ],
+    "element": "CONF-ef-types",
+    "anchors": [
+      {
+        "kp": "KP-014",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Elle est définie par une fraction d’éjection ≤ 40 %"
+      },
+      {
+        "kp": "KP-015",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Cette IC est définie par une FE ≥ 50 %"
+      },
+      {
+        "kp": "KP-016",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
+        "quote": "Lorsque la fraction d’éjection est entre 41 et 49 %, on parle d’IC à FE légèrement diminuée"
+      }
+    ]
+  },
+  "cb-mec-arr-short": {
+    "class": "sourced",
+    "kp": [
+      "KP-017",
+      "KP-018"
+    ],
+    "element": "MEC-arrhythmia",
+    "anchors": [
+      {
+        "kp": "KP-017",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 5 Arythmies",
+        "quote": "La fibrillation atriale est favorisée par la dilatation de l’atrium secondaire à l’augmentation des pressions intracavitaires"
+      },
+      {
+        "kp": "KP-018",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 5 Arythmies",
+        "quote": "Les troubles du rythme ventriculaire graves (TV, FV) sont à l’origine de la plupart des morts subites"
+      }
+    ]
+  },
+  "cb-mec-arr-steps": {
+    "class": "sourced",
+    "kp": [
+      "KP-017",
+      "KP-018"
+    ],
+    "element": "MEC-arrhythmia",
+    "anchors": [
+      {
+        "kp": "KP-017",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 5 Arythmies",
+        "quote": "La fibrillation atriale est favorisée par la dilatation de l’atrium secondaire à l’augmentation des pressions intracavitaires"
+      },
+      {
+        "kp": "KP-018",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 5 Arythmies",
+        "quote": "Les troubles du rythme ventriculaire graves (TV, FV) sont à l’origine de la plupart des morts subites"
+      }
+    ]
+  },
+  "cb-mec-cong-short": {
+    "class": "sourced",
+    "kp": [
+      "KP-040"
+    ],
+    "element": "MEC-congestion",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+      "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+    }
+  },
+  "cb-mec-cong-steps": {
+    "class": "sourced",
+    "kp": [
+      "KP-040"
+    ],
+    "element": "MEC-congestion",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+      "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+    }
+  },
+  "cb-mec-sys-short": {
+    "class": "sourced",
+    "kp": [
+      "KP-007"
+    ],
+    "element": "MEC-systemic-congestion",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+      "quote": "Au niveau du VD, l’augmentation des pressions diastoliques se transmet à l’oreillette droite"
+    }
+  },
+  "cb-mec-sys-steps": {
+    "class": "sourced",
+    "kp": [
+      "KP-007"
+    ],
+    "element": "MEC-systemic-congestion",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+      "quote": "Au niveau du VD, l’augmentation des pressions diastoliques se transmet à l’oreillette droite"
+    }
+  },
+  "cb-conf-lr": {
+    "class": "sourced",
+    "kp": [
+      "KP-007",
+      "KP-040",
+      "KP-057"
+    ],
+    "element": "CONF-left-right",
+    "anchors": [
+      {
+        "kp": "KP-007",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "Au niveau du VD, l’augmentation des pressions diastoliques se transmet à l’oreillette droite"
+      },
+      {
+        "kp": "KP-040",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
+        "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
+      },
+      {
+        "kp": "KP-057",
+        "edition": "2024-SFC",
+        "section_path": "III. Diagnostic étiologique > G Étiologies de l’insuffisance cardiaque droite",
+        "quote": "L’IC gauche représente la cause la plus fréquente d’IC droite"
       }
     ]
   },
@@ -73,5 +724,912 @@
         "quote": "pression capillaire pulmonaire au-delà d’un certain seuil (en général au moins > 25 mmHg)"
       }
     ]
+  },
+  "cb-cr-nyha": {
+    "class": "sourced",
+    "kp": [
+      "KP-019"
+    ],
+    "element": "CR-recognize",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires",
+      "quote": "La dyspnée d’effort, fréquente mais peu spécifique, est souvent révélatrice"
+    }
+  },
+  "cb-cr-orthopnee": {
+    "class": "sourced",
+    "kp": [
+      "KP-020"
+    ],
+    "element": "CR-recognize",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires",
+      "quote": "L’orthopnée est plus spécifique"
+    }
+  },
+  "cb-cr-trompeurs": {
+    "class": "sourced",
+    "kp": [
+      "KP-021"
+    ],
+    "element": "CR-recognize",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires",
+      "quote": "l’asthme cardiaque est une bradypnée expiratoire avec respiration sifflante"
+    }
+  },
+  "cb-cr-oap-clin": {
+    "class": "sourced",
+    "kp": [
+      "KP-022"
+    ],
+    "element": "CR-recognize",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires",
+      "quote": "dyspnée aiguë de repos, au cours de l’œdème aigu pulmonaire"
+    }
+  },
+  "cb-cr-autres": {
+    "class": "sourced",
+    "kp": [
+      "KP-023",
+      "KP-025"
+    ],
+    "element": "CR-recognize",
+    "anchors": [
+      {
+        "kp": "KP-023",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > A Signes fonctionnels > 2 Autres symptômes",
+        "quote": "d’une fatigue de repos liée à l’hypotension artérielle ou à l’effort"
+      },
+      {
+        "kp": "KP-025",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > A Signes fonctionnels > 3 Symptômes d’insuffisance cardiaque droite",
+        "quote": "L’hépatalgie d’effort ou de repos est une pesanteur douloureuse de l’hypocondre droit"
+      }
+    ]
+  },
+  "cb-cr-severe": {
+    "class": "sourced",
+    "kp": [
+      "KP-024"
+    ],
+    "element": "CR-recognize",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > A Signes fonctionnels > 2 Autres symptômes",
+      "quote": "La prévalence du syndrome d’apnées du sommeil est augmentée dans l’IC"
+    }
+  },
+  "cb-cr-signes": {
+    "class": "sourced",
+    "kp": [
+      "KP-026"
+    ],
+    "element": "CR-recognize",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > B Signes physiques",
+      "quote": "La présence de signes physiques d’IC est donc un élément de gravité"
+    }
+  },
+  "cb-cr-cadre": {
+    "class": "sourced",
+    "kp": [
+      "KP-003",
+      "KP-004"
+    ],
+    "element": "CR-recognize",
+    "anchors": [
+      {
+        "kp": "KP-003",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > A Définition",
+        "quote": "les symptômes ne sont pas spécifiques et les signes ne sont pas sensibles"
+      },
+      {
+        "kp": "KP-004",
+        "edition": "2024-SFC",
+        "section_path": "I. Généralités > B Épidémiologie",
+        "quote": "prévalence de l’IC dans la population générale est entre 1 et 2 %"
+      }
+    ]
+  },
+  "cb-cr-physique": {
+    "class": "sourced",
+    "kp": [
+      "KP-027",
+      "KP-028",
+      "KP-029",
+      "KP-030"
+    ],
+    "element": "CR-recognize",
+    "anchors": [
+      {
+        "kp": "KP-027",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > B Signes physiques",
+        "quote": "un bruit de galop protodiastolique (B3)"
+      },
+      {
+        "kp": "KP-028",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > B Signes physiques",
+        "quote": "des râles crépitants ou sous-crépitants, qui sont le plus souvent bilatéraux"
+      },
+      {
+        "kp": "KP-029",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > B Signes physiques",
+        "quote": "lorsqu’elle est basse (PAS < 100 mmHg), c’est un facteur de gravité"
+      },
+      {
+        "kp": "KP-030",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > B Signes physiques",
+        "quote": "la turgescence jugulaire : dilatation anormale de la veine jugulaire"
+      }
+    ]
+  },
+  "cb-cr-np-role": {
+    "class": "sourced",
+    "kp": [
+      "KP-035"
+    ],
+    "element": "CR-diagnose",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)",
+      "quote": "Le BNP ou le NT-proBNP sont aujourd’hui recommandés pour le diagnostic de l’IC, avec une bonne valeur prédictive négative"
+    }
+  },
+  "cb-cr-ett": {
+    "class": "sourced",
+    "kp": [
+      "KP-039"
+    ],
+    "element": "CR-diagnose",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > F Échocardiographie transthoracique",
+      "quote": "l’ETT est l’examen clé indispensable en cas d’IC ou de suspicion d’IC"
+    }
+  },
+  "cb-cr-np-acute": {
+    "class": "sourced",
+    "kp": [
+      "KP-036"
+    ],
+    "element": "CR-diagnose",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)",
+      "quote": "Des valeurs de BNP < 100 pg/mL ou de NT-proBNP < 300 pg/mL rendent le diagnostic d’IC très improbable"
+    }
+  },
+  "cb-cr-np-chronic": {
+    "class": "sourced",
+    "kp": [
+      "KP-043"
+    ],
+    "element": "CR-diagnose",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)",
+      "quote": "chez les patients avec des facteurs de risque d’IC, en présence de symptômes et/ou de signes ou un ECG anormal, il est nécessaire de doser les peptides natriurétiques"
+    }
+  },
+  "cb-cr-np-confound": {
+    "class": "sourced",
+    "kp": [
+      "KP-038"
+    ],
+    "element": "CR-diagnose",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)",
+      "quote": "Certains facteurs tendent à augmenter (âge, insuffisance rénale, fibrillation atriale) ou diminuer (obésité)"
+    }
+  },
+  "cb-cr-ecg": {
+    "class": "sourced",
+    "kp": [
+      "KP-032"
+    ],
+    "element": "CR-diagnose",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > C Électrocardiogramme",
+      "quote": "L’ECG est peu contributif pour le diagnostic d’IC"
+    }
+  },
+  "cb-cr-radio": {
+    "class": "sourced",
+    "kp": [
+      "KP-033",
+      "KP-034"
+    ],
+    "element": "CR-diagnose",
+    "anchors": [
+      {
+        "kp": "KP-033",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > D Radiographie thoracique",
+        "quote": "le rapport cardiothoracique (RCT) est augmenté (> 0,5)"
+      },
+      {
+        "kp": "KP-034",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > D Radiographie thoracique",
+        "quote": "la redistribution vasculaire de la base vers les sommets"
+      }
+    ]
+  },
+  "cb-cr-esc": {
+    "class": "sourced",
+    "kp": [
+      "KP-043"
+    ],
+    "element": "CR-diagnose",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)",
+      "quote": "chez les patients avec des facteurs de risque d’IC, en présence de symptômes et/ou de signes ou un ECG anormal, il est nécessaire de doser les peptides natriurétiques"
+    }
+  },
+  "cb-cr-eti-rule": {
+    "class": "sourced",
+    "kp": [
+      "KP-073"
+    ],
+    "element": "CR-etiology",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > A Traitement étiologique et préventif",
+      "quote": "La prévention de l’IC passe par la prise en charge de tous les facteurs pouvant la causer"
+    }
+  },
+  "cb-cr-ischemie": {
+    "class": "sourced",
+    "kp": [
+      "KP-045",
+      "KP-050"
+    ],
+    "element": "CR-etiology",
+    "anchors": [
+      {
+        "kp": "KP-045",
+        "edition": "2024-SFC",
+        "section_path": "II. Diagnostic > H Autres examens complémentaires",
+        "quote": "La coronarographie est en général proposée en cas d’altération de la fonction systolique"
+      },
+      {
+        "kp": "KP-050",
+        "edition": "2024-SFC",
+        "section_path": "III. Diagnostic étiologique > A Cardiopathies ischémiques",
+        "quote": "Elles représentent aujourd’hui la première cause d’IC"
+      }
+    ]
+  },
+  "cb-cr-hta": {
+    "class": "sourced",
+    "kp": [
+      "KP-051"
+    ],
+    "element": "CR-etiology",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "III. Diagnostic étiologique > B Hypertension artérielle",
+      "quote": "L’HTA est également un facteur ou un cofacteur important d’insuffisance cardiaque"
+    }
+  },
+  "cb-cr-myocarde": {
+    "class": "sourced",
+    "kp": [
+      "KP-052",
+      "KP-053",
+      "KP-072"
+    ],
+    "element": "CR-etiology",
+    "anchors": [
+      {
+        "kp": "KP-052",
+        "edition": "2024-SFC",
+        "section_path": "III. Diagnostic étiologique > C Cardiomyopathies > 1 Cardiomyopathies dilatées (CMD)",
+        "quote": "Elles sont définies par une atteinte du muscle cardiaque qui aboutit à une dilatation et une baisse de la FEVG"
+      },
+      {
+        "kp": "KP-053",
+        "edition": "2024-SFC",
+        "section_path": "III. Diagnostic étiologique > C Cardiomyopathies > 3 Cardiomyopathies restrictives",
+        "quote": "la plus fréquente est représentée par l’amylose cardiaque"
+      },
+      {
+        "kp": "KP-072",
+        "edition": "2024-SFC",
+        "section_path": "III. Diagnostic étiologique > C Cardiomyopathies > 2 Cardiomyopathies hypertrophiques (CMH)",
+        "quote": "elles s’accompagnent d’une obstruction au niveau sous-aortique lors de l’éjection du fait de l’hypertrophie"
+      }
+    ]
+  },
+  "cb-cr-valves": {
+    "class": "sourced",
+    "kp": [
+      "KP-054"
+    ],
+    "element": "CR-etiology",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "III. Diagnostic étiologique > D Valvulopathies gauches",
+      "quote": "Elles peuvent toutes se compliquer d’IC"
+    }
+  },
+  "cb-cr-rythme": {
+    "class": "sourced",
+    "kp": [
+      "KP-055"
+    ],
+    "element": "CR-etiology",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "III. Diagnostic étiologique > E Troubles du rythme ventriculaire ou supraventriculaire ou de conduction",
+      "quote": "Une tachycardie rapide ou une bradycardie extrême peuvent provoquer une IC"
+    }
+  },
+  "cb-cr-pericar": {
+    "class": "sourced",
+    "kp": [
+      "KP-056"
+    ],
+    "element": "CR-etiology",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "III. Diagnostic étiologique > F Causes péricardiques",
+      "quote": "l’épanchement péricardique abondant, la tamponnade, la péricardite chronique constrictive"
+    }
+  },
+  "cb-cr-droite": {
+    "class": "sourced",
+    "kp": [
+      "KP-057"
+    ],
+    "element": "CR-etiology",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "III. Diagnostic étiologique > G Étiologies de l’insuffisance cardiaque droite",
+      "quote": "L’IC gauche représente la cause la plus fréquente d’IC droite"
+    }
+  },
+  "cb-cr-prev": {
+    "class": "sourced",
+    "kp": [
+      "KP-073"
+    ],
+    "element": "CR-etiology",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > A Traitement étiologique et préventif",
+      "quote": "La prévention de l’IC passe par la prise en charge de tous les facteurs pouvant la causer"
+    }
+  },
+  "cb-cr-acute-def": {
+    "class": "sourced",
+    "kp": [
+      "KP-059"
+    ],
+    "element": "CR-acute",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "IV. Formes cliniques > A Insuffisance cardiaque aiguë",
+      "quote": "apparition généralement rapide de symptômes et de signes en rapport avec une altération de la fonction de la pompe cardiaque"
+    }
+  },
+  "cb-cr-triage": {
+    "class": "sourced",
+    "kp": [
+      "KP-060",
+      "KP-063",
+      "KP-104"
+    ],
+    "element": "CR-acute",
+    "anchors": [
+      {
+        "kp": "KP-060",
+        "edition": "2024-SFC",
+        "section_path": "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique",
+        "quote": "détresse respiratoire aiguë liée à une inondation alvéolaire"
+      },
+      {
+        "kp": "KP-063",
+        "edition": "2024-SFC",
+        "section_path": "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 3 Choc cardiogénique",
+        "quote": "défaillance aiguë et sévère de la fonction cardiaque avec baisse du débit, entraînant une baisse profonde de la perfusion tissulaire périphérique"
+      },
+      {
+        "kp": "KP-104",
+        "edition": "2024-SFC",
+        "section_path": "VII. Traitement de l’insuffisance cardiaque aiguë > B Poussée d’insuffisance cardiaque globale sans OAP franc",
+        "quote": "cure de diurétiques IV"
+      }
+    ]
+  },
+  "cb-cr-oap-urg": {
+    "class": "sourced",
+    "kp": [
+      "KP-060"
+    ],
+    "element": "CR-acute",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique",
+      "quote": "détresse respiratoire aiguë liée à une inondation alvéolaire"
+    }
+  },
+  "cb-cr-dd": {
+    "class": "sourced",
+    "kp": [
+      "KP-061"
+    ],
+    "element": "CR-acute",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 1 Œdème aigu pulmonaire cardiogénique",
+      "quote": "il faut savoir évoquer les principaux diagnostics différentiels"
+    }
+  },
+  "cb-cr-champit": {
+    "class": "sourced",
+    "kp": [
+      "KP-106",
+      "KP-062"
+    ],
+    "element": "CR-acute",
+    "anchors": [
+      {
+        "kp": "KP-106",
+        "edition": "2024-SFC",
+        "section_path": "VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique",
+        "quote": "CHAMPIT"
+      },
+      {
+        "kp": "KP-062",
+        "edition": "2024-SFC",
+        "section_path": "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres formes cliniques",
+        "quote": "il faut rechercher des facteurs favorisants"
+      }
+    ]
+  },
+  "cb-cr-sca": {
+    "class": "sourced",
+    "kp": [
+      "KP-109"
+    ],
+    "element": "CR-acute",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 2 Autres formes cliniques",
+      "quote": "il faut à la fois prendre en charge le syndrome coronarien et traiter la poussée d’IC"
+    }
+  },
+  "cb-cr-oap-tt": {
+    "class": "sourced",
+    "kp": [
+      "KP-099",
+      "KP-100",
+      "KP-103"
+    ],
+    "element": "CR-acute",
+    "anchors": [
+      {
+        "kp": "KP-099",
+        "edition": "2024-SFC",
+        "section_path": "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire",
+        "quote": "l’injection de furosémide IV (1 mg/kg, à répéter si nécessaire), les dérivés nitrés en sublingual si PAS > 100 mmHg"
+      },
+      {
+        "kp": "KP-100",
+        "edition": "2024-SFC",
+        "section_path": "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire",
+        "quote": "oxygénothérapie à la sonde nasale si SaO2 < 90 %"
+      },
+      {
+        "kp": "KP-103",
+        "edition": "2024-SFC",
+        "section_path": "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire",
+        "quote": "Le traitement bêtabloquant ne doit pas être introduit au cours d’une poussée"
+      }
+    ]
+  },
+  "cb-cr-globale": {
+    "class": "sourced",
+    "kp": [
+      "KP-104"
+    ],
+    "element": "CR-acute",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VII. Traitement de l’insuffisance cardiaque aiguë > B Poussée d’insuffisance cardiaque globale sans OAP franc",
+      "quote": "cure de diurétiques IV"
+    }
+  },
+  "cb-cr-choc": {
+    "class": "sourced",
+    "kp": [
+      "KP-063",
+      "KP-105"
+    ],
+    "element": "CR-acute",
+    "anchors": [
+      {
+        "kp": "KP-063",
+        "edition": "2024-SFC",
+        "section_path": "IV. Formes cliniques > A Insuffisance cardiaque aiguë > 3 Choc cardiogénique",
+        "quote": "défaillance aiguë et sévère de la fonction cardiaque avec baisse du débit, entraînant une baisse profonde de la perfusion tissulaire périphérique"
+      },
+      {
+        "kp": "KP-105",
+        "edition": "2024-SFC",
+        "section_path": "VII. Traitement de l’insuffisance cardiaque aiguë > C Choc cardiogénique",
+        "quote": "perfusion de dobutamine IV ou inhibiteurs des phosphodiestérases"
+      }
+    ]
+  },
+  "cb-conf-bb-chronic": {
+    "class": "sourced",
+    "kp": [
+      "KP-081"
+    ],
+    "element": "CONF-bb-chronic-vs-acute",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants",
+      "quote": "post-IDM si la FE est basse même en l’absence de symptômes d’IC"
+    }
+  },
+  "cb-conf-bb-acute": {
+    "class": "sourced",
+    "kp": [
+      "KP-103"
+    ],
+    "element": "CONF-bb-chronic-vs-acute",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VII. Traitement de l’insuffisance cardiaque aiguë > A Traitement de l’œdème aigu pulmonaire",
+      "quote": "Le traitement bêtabloquant ne doit pas être introduit au cours d’une poussée"
+    }
+  },
+  "cb-cr-chronic-def": {
+    "class": "sourced",
+    "kp": [
+      "KP-064"
+    ],
+    "element": "CR-treat-hfref",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "IV. Formes cliniques > B Insuffisance cardiaque chronique",
+      "quote": "Elle définit l’état du patient en dehors d’une décompensation aiguë"
+    }
+  },
+  "cb-cr-mesures": {
+    "class": "sourced",
+    "kp": [
+      "KP-074",
+      "KP-075",
+      "KP-076"
+    ],
+    "element": "CR-treat-hfref",
+    "anchors": [
+      {
+        "kp": "KP-074",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 1 Régime hyposodé",
+        "quote": "On vise à ne pas dépasser 5 à 6 g de sel par jour"
+      },
+      {
+        "kp": "KP-075",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 2 Surveillance du poids et des symptômes",
+        "quote": "si une prise de poids de 2 à 3 kg est constatée, a fortiori si elle est soudaine, en 2 à 3 jours"
+      },
+      {
+        "kp": "KP-076",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > B Mesures hygiénodiététiques > 3 Alcool et tabac",
+        "quote": "l’arrêt total de l’alcool peut dans certains cas s’accompagner d’une régression"
+      }
+    ]
+  },
+  "cb-cr-quatre": {
+    "class": "sourced",
+    "kp": [
+      "KP-077",
+      "KP-078",
+      "KP-079",
+      "KP-080",
+      "KP-081",
+      "KP-082",
+      "KP-083",
+      "KP-084"
+    ],
+    "element": "CR-treat-hfref",
+    "anchors": [
+      {
+        "kp": "KP-077",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C Traitements médicamenteux de l’insuffisance cardiaque à fraction d’éjection diminuée (FE ≤ 40 %)",
+        "quote": "Quatre classes médicamenteuses sont associées à une baisse de la mortalité et des décompensations aiguës"
+      },
+      {
+        "kp": "KP-078",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)",
+        "quote": "Ils doivent être prescrits chez tous les patients ayant une FE diminuée quelle que soit la classe fonctionnelle NYHA"
+      },
+      {
+        "kp": "KP-079",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)",
+        "quote": "on les réserve aux patients intolérants aux IEC"
+      },
+      {
+        "kp": "KP-080",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 1 Bloqueurs du système rénine – angiotensine (SRA)",
+        "quote": "Indiqué en remplacement des IEC (ou des ARA2) chez les patients restant symptomatiques malgré un traitement conventionnel optimal"
+      },
+      {
+        "kp": "KP-081",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 2. Bêtabloquants",
+        "quote": "post-IDM si la FE est basse même en l’absence de symptômes d’IC"
+      },
+      {
+        "kp": "KP-082",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 3 Antialdostérones ou antagonistes des récepteurs aux minéralocorticoïdes (spironolactone et éplérénone)",
+        "quote": "Ils sont indiqués chez tous les patients insuffisants cardiaques avec FE basse (classes II à IV de la NYHA)"
+      },
+      {
+        "kp": "KP-083",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 4 Inhibiteurs du transporteur sodium glucose de type 2 (SGLT2) ou gliflozines",
+        "quote": "une efficacité chez l’insuffisant cardiaque qu’il soit diabétique ou non, pour diminuer la mortalité cardiovasculaire et les hospitalisations pour IC"
+      },
+      {
+        "kp": "KP-084",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 5 Diurétiques",
+        "quote": "Ils doivent être prescrits pour traiter la rétention hydrosodée et améliorer les signes congestifs"
+      }
+    ]
+  },
+  "cb-cr-hmref": {
+    "class": "sourced",
+    "kp": [
+      "KP-085"
+    ],
+    "element": "CR-treat-hfref",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C",
+      "quote": "Les patients ayant une IC à FE modérément diminuée (41–49 %) peuvent bénéficier des mêmes traitements"
+    }
+  },
+  "cb-cr-devices": {
+    "class": "sourced",
+    "kp": [
+      "KP-087",
+      "KP-091",
+      "KP-092"
+    ],
+    "element": "CR-treat-hfref",
+    "anchors": [
+      {
+        "kp": "KP-087",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 7 Autres traitements parfois associés",
+        "quote": "C’est le seul antiarythmique que l’on peut prescrire chez l’insuffisant cardiaque à FEVG diminuée"
+      },
+      {
+        "kp": "KP-091",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »",
+        "quote": "une FEVG inférieure ou égale à 35 % et un allongement de la durée de QRS supérieure ou égale à 130 ms"
+      },
+      {
+        "kp": "KP-092",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 9 Traitement dit « électrique »",
+        "quote": "en prévention secondaire, c’est-à-dire après un arrêt cardiaque par FV récupérée"
+      }
+    ]
+  },
+  "cb-cr-ci-syst": {
+    "class": "sourced",
+    "kp": [
+      "KP-089",
+      "KP-090"
+    ],
+    "element": "CR-treat-hfref",
+    "anchors": [
+      {
+        "kp": "KP-089",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués",
+        "quote": "Le diltiazem et le vérapamil sont contre-indiqués dans l’IC systolique"
+      },
+      {
+        "kp": "KP-090",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués",
+        "quote": "Les dihydropyridines (félodipine et amlodipine) ont un effet neutre sur la mortalité"
+      }
+    ]
+  },
+  "cb-cr-hfpef-dx": {
+    "class": "sourced",
+    "kp": [
+      "KP-065"
+    ],
+    "element": "CR-treat-hfpef",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "IV. Formes cliniques > C Insuffisance cardiaque à fonction systolique conservée (ou IC à FE préservée)",
+      "quote": "la présence d’une fonction systolique normale à l’échocardiographie (FEVG ≥ 50 %)"
+    }
+  },
+  "cb-cr-hfpef-tt": {
+    "class": "sourced",
+    "kp": [
+      "KP-096"
+    ],
+    "element": "CR-treat-hfpef",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection conservée",
+      "quote": "aucun médicament n’a pour le moment démontré d’efficacité en dehors très récemment de la classe des gliflozines"
+    }
+  },
+  "cb-conf-ccb-syst": {
+    "class": "sourced",
+    "kp": [
+      "KP-089",
+      "KP-090"
+    ],
+    "element": "CONF-ccb-fe-source",
+    "anchors": [
+      {
+        "kp": "KP-089",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués",
+        "quote": "Le diltiazem et le vérapamil sont contre-indiqués dans l’IC systolique"
+      },
+      {
+        "kp": "KP-090",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués",
+        "quote": "Les dihydropyridines (félodipine et amlodipine) ont un effet neutre sur la mortalité"
+      }
+    ]
+  },
+  "cb-conf-ccb-hfpef": {
+    "class": "sourced",
+    "kp": [
+      "KP-096"
+    ],
+    "element": "CONF-ccb-fe-source",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection conservée",
+      "quote": "aucun médicament n’a pour le moment démontré d’efficacité en dehors très récemment de la classe des gliflozines"
+    }
+  },
+  "cb-conf-ccb-ambig": {
+    "class": "sourced",
+    "kp": [
+      "KP-089",
+      "KP-096"
+    ],
+    "element": "CONF-ccb-fe-source",
+    "anchors": [
+      {
+        "kp": "KP-089",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C > 8. Traitements contre-indiqués",
+        "quote": "Le diltiazem et le vérapamil sont contre-indiqués dans l’IC systolique"
+      },
+      {
+        "kp": "KP-096",
+        "edition": "2024-SFC",
+        "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection conservée",
+        "quote": "aucun médicament n’a pour le moment démontré d’efficacité en dehors très récemment de la classe des gliflozines"
+      }
+    ]
+  },
+  "cb-cr-hn": {
+    "class": "sourced",
+    "kp": [
+      "KP-066"
+    ],
+    "element": "CR-followup",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "V. Évolution, complications, pronostic > A Histoire naturelle, évolution",
+      "quote": "période de dysfonction cardiaque asymptomatique"
+    }
+  },
+  "cb-cr-progn": {
+    "class": "sourced",
+    "kp": [
+      "KP-067",
+      "KP-068"
+    ],
+    "element": "CR-followup",
+    "anchors": [
+      {
+        "kp": "KP-067",
+        "edition": "2024-SFC",
+        "section_path": "V. Évolution, complications, pronostic > B Principales complications",
+        "quote": "elle est en moyenne de 50 % à 5 ans"
+      },
+      {
+        "kp": "KP-068",
+        "edition": "2024-SFC",
+        "section_path": "V. Évolution, complications, pronostic > B Principales complications",
+        "quote": "l’IC est une des premières causes d’hospitalisation après 65 ans"
+      }
+    ]
+  },
+  "cb-cr-comorb": {
+    "class": "sourced",
+    "kp": [
+      "KP-069",
+      "KP-071"
+    ],
+    "element": "CR-followup",
+    "anchors": [
+      {
+        "kp": "KP-069",
+        "edition": "2024-SFC",
+        "section_path": "V. Évolution, complications, pronostic > B Principales complications",
+        "quote": "de complications thromboemboliques"
+      },
+      {
+        "kp": "KP-071",
+        "edition": "2024-SFC",
+        "section_path": "V. Évolution, complications, pronostic",
+        "quote": "Les comorbidités cardiaques et non cardiaques associées à l’IC sont fréquentes"
+      }
+    ]
+  },
+  "cb-cr-parcours": {
+    "class": "sourced",
+    "kp": [
+      "KP-097"
+    ],
+    "element": "CR-followup",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > G Prise en charge globale et parcours de soins",
+      "quote": "Après une première hospitalisation pour IC, le risque de réhospitalisations est important"
+    }
+  },
+  "cb-cr-tele": {
+    "class": "sourced",
+    "kp": [
+      "KP-098"
+    ],
+    "element": "CR-followup",
+    "anchor": {
+      "edition": "2024-SFC",
+      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > G Prise en charge globale et parcours de soins",
+      "quote": "programmes de télésurveillance ont été mis en place et, depuis peu, remboursés"
+    }
   }
 }

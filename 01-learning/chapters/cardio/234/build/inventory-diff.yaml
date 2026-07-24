@@ -1,0 +1,1056 @@
+# Phase 2B — Inventory Diff (candidate vs legacy coverage)
+# REVIEW ARTIFACT ONLY — not a build/publication input
+# Does NOT modify chapters/cardio/234/inventory.yaml
+chapter: cardio/234
+source_edition: 2024-SFC
+phase: 2b-ratification-audit
+authority: 01-learning/chapter-analysis/cardio/234-insuffisance-cardiaque/official-college.md
+inputs:
+  candidate: 01-learning/chapters/cardio/234/build/inventory-candidate.yaml
+  coverage: 01-learning/chapter-analysis/cardio/234-insuffisance-cardiaque/coverage.md
+  extraction_report: 01-learning/chapters/cardio/234/build/inventory-extraction-report.md
+  slice_inventory: 01-learning/chapters/cardio/234/inventory.yaml
+candidate_count: 99
+coverage_knowledge_unit_rows: 88
+frozen_ids_preserved: [KP-040, KP-041, KP-042]
+permanent_ids_minted: false
+note: >
+  Mapping is semantic, source-arbitrated. Neither candidate nor coverage is presumed correct.
+  Inventory ≠ Blueprint: high Inventory count is acceptable; pedagogical compression comes later.
+
+summary_counts:
+  exact: 45
+  many-to-one: 3
+  non-KP_navigation: 3
+  one-to-many: 15
+  partial: 22
+  coverage_rows_total: 88
+  candidate_kps_finer_than_coverage: 30
+  double_missed_source_facts: 3
+
+coverage_mappings:
+  - id: COV-001
+    coverage_text: "Item 234 — Insuffisance cardiaque de l'adulte"
+    mapped_candidate_kps: []
+    mapping_type: non-KP/navigation
+    verdict: 'Title/metadata only; not a medical knowledge unit.'
+    action_required: 'none — do not invent Inventory KP'
+
+  - id: COV-002
+    coverage_text: "Situations de départ pertinentes pour l'item 234"
+    mapped_candidate_kps:
+      - CAND-095
+    mapping_type: exact
+    verdict: 'Mapped to excluded candidate; curriculum navigation, not propositional medical knowledge.'
+    action_required: 'keep exclusion (CAND-095)'
+
+  - id: COV-003
+    coverage_text: 'Hiérarchisation des connaissances'
+    mapped_candidate_kps: []
+    mapping_type: non-KP/navigation
+    verdict: 'Rank table is OCR-corrupted; not itself a knowledge unit. Ranks belong on KPs when readable.'
+    action_required: 'none — do not mint KP from corrupted table'
+
+  - id: COV-004
+    coverage_text: "Définition de l'IC : physiopathologique, clinique (syndrome), origines du dysfonctionnement, difficulté diagnostique, phase asymptomatique"
+    mapped_candidate_kps:
+      - CAND-001
+      - CAND-002
+      - CAND-003
+    mapping_type: one-to-many
+    verdict: 'Coverage over-coarse bag of definition themes; candidate correctly splits physio / ESC-clinical / diagnostic difficulty.'
+    action_required: 'none on coverage; keep candidate splits'
+
+  - id: COV-005
+    coverage_text: "Définition ESC 2021 de l'insuffisance cardiaque"
+    mapped_candidate_kps:
+      - CAND-002
+    mapping_type: exact
+    verdict: 'Same ESC 2021 syndrome definition; representational wording difference only.'
+    action_required: 'none'
+
+  - id: COV-006
+    coverage_text: "Épidémiologie de l'IC : prévalence 1–2 %, âge, tendances (prévalence croissante, incidence standardisée en baisse)"
+    mapped_candidate_kps:
+      - CAND-004
+    mapping_type: exact
+    verdict: 'Same epi facts.'
+    action_required: 'none'
+
+  - id: COV-007
+    coverage_text: 'Formules hémodynamiques de base : DC = VES × FC, VES = VTD − VTS, FE = VES/VTD'
+    mapped_candidate_kps:
+      - CAND-005
+    mapping_type: exact
+    verdict: 'Candidate also includes VES determinants (précharge/postcharge/contractilité) — legitimate same-unit enrichment.'
+    action_required: 'optional label note that VES determinants are included'
+
+  - id: COV-008
+    coverage_text: 'Conséquences du dysfonctionnement de la pompe : baisse du débit, augmentation des pressions de remplissage, retentissement VG et VD'
+    mapped_candidate_kps:
+      - CAND-006
+      - KP-040
+      - CAND-007
+    mapping_type: one-to-many
+    verdict: 'Coverage bundles low-output + filling-pressure rise + VG/VD transmission; candidate correctly separates pump consequences, frozen VG pulmonary transmission (KP-040), and VD systemic transmission.'
+    action_required: 'keep candidate granularity; preserve KP-040'
+
+  - id: COV-009
+    coverage_text: 'Œdème pulmonaire cardiogénique vs lésionnel : transsudat/exsudat, seuil PPC > 25 mmHg, implications diagnostiques immédiates'
+    mapped_candidate_kps:
+      - KP-041
+      - KP-042
+    mapping_type: one-to-many
+    verdict: 'Coverage merges cardiogenic threshold and lesionnel contrast; candidate preserves validated frozen identities.'
+    action_required: 'preserve KP-041/KP-042; no merge'
+
+  - id: COV-010
+    coverage_text: 'Mécanismes compensateurs : bénéfices à court terme, effets délétères à long terme'
+    mapped_candidate_kps:
+      - CAND-008
+    mapping_type: exact
+    verdict: 'Framing KP matches.'
+    action_required: 'none'
+
+  - id: COV-011
+    coverage_text: 'Remodelage cardiaque : dilatation excentrique, hypertrophie concentrique, loi de Laplace, exemple numérique VTD/FE'
+    mapped_candidate_kps:
+      - CAND-009
+    mapping_type: partial
+    verdict: 'Remodelage + Laplace covered; numerical VTD 100→200 / FE 60→30% / VES 60 mL example not explicit in candidate label/anchors.'
+    action_required: 'enrich CAND-009 anchors/label with Laplace numerical example (source §I.C.2)'
+
+  - id: COV-012
+    coverage_text: 'Loi de Starling : rôle de la précharge et limite de compensation'
+    mapped_candidate_kps:
+      - CAND-010
+    mapping_type: partial
+    verdict: 'Starling present but bundled with compensatory tachycardia in CAND-010.'
+    action_required: 'SPLIT CAND-010 (Starling vs tachycardie)'
+
+  - id: COV-013
+    coverage_text: 'Tachycardie compensatrice : mécanisme sympathique, bénéfices et effets délétères'
+    mapped_candidate_kps:
+      - CAND-010
+    mapping_type: partial
+    verdict: 'Independently examinable from Starling.'
+    action_required: 'SPLIT CAND-010'
+
+  - id: COV-014
+    coverage_text: 'Vasoconstriction compensatrice : mécanisme, inhomogénéité territoriale, effets délétères'
+    mapped_candidate_kps:
+      - CAND-011
+    mapping_type: partial
+    verdict: 'Present inside extracardiac compensations cluster.'
+    action_required: 'owner choice: keep cluster OR split extracardiac (coverage over-fragmented)'
+
+  - id: COV-015
+    coverage_text: 'Rétention hydrosodée : mécanisme SRAA, augmentation précharge, signes congestifs'
+    mapped_candidate_kps:
+      - CAND-011
+    mapping_type: partial
+    verdict: 'Present inside CAND-011.'
+    action_required: 'same as COV-014'
+
+  - id: COV-016
+    coverage_text: 'Activation neurohormonale (sympathique, SRAA) : conséquences délétères (travail cardiaque, proarythmie, toxicité catécholamines)'
+    mapped_candidate_kps:
+      - CAND-011
+    mapping_type: partial
+    verdict: 'Present inside CAND-011; deleterious detail slightly less explicit in label.'
+    action_required: 'optional enrich CAND-011; optional split'
+
+  - id: COV-017
+    coverage_text: "Désynchronisation cardiaque : mécanisme (BBG), aggravation de l'IC"
+    mapped_candidate_kps:
+      - CAND-012
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-018
+    coverage_text: "Classification de l'IC par fraction d'éjection : diminuée ≤ 40 %, légèrement diminuée 41–49 %, préservée ≥ 50 %, implications thérapeutiques"
+    mapped_candidate_kps:
+      - CAND-013
+      - CAND-014
+      - CAND-015
+    mapping_type: one-to-many
+    verdict: 'Coverage over-coarse; candidate FE splits preferred (independent thresholds + mechanisms).'
+    action_required: 'keep candidate FE split'
+
+  - id: COV-019
+    coverage_text: "Arythmies dans l'IC : fibrillation atriale, troubles ventriculaires (TV, FV), mort subite, intérêt du DAI"
+    mapped_candidate_kps:
+      - CAND-016
+      - CAND-017
+    mapping_type: one-to-many
+    verdict: 'FA vs ventricular sudden-death pathway correctly split.'
+    action_required: 'keep candidate split'
+
+  - id: COV-020
+    coverage_text: 'Classification NYHA stades I à IV'
+    mapped_candidate_kps:
+      - CAND-018
+    mapping_type: partial
+    verdict: 'NYHA bundled with effort dyspnea — acceptable (NYHA quantifies dyspnea).'
+    action_required: 'optional clarify NYHA stages I–IV in label'
+
+  - id: COV-021
+    coverage_text: "Symptômes respiratoires de l'IC : dyspnée d'effort, orthopnée, dyspnée paroxystique nocturne, subœdème, asthme cardiaque, toux, hémoptysies, dyspnée aiguë de l'OAP"
+    mapped_candidate_kps:
+      - CAND-018
+      - CAND-019
+      - CAND-020
+      - CAND-021
+    mapping_type: one-to-many
+    verdict: 'Coverage over-coarse respiratory bag; candidate split preferred.'
+    action_required: 'keep candidate respiratory splits'
+
+  - id: COV-022
+    coverage_text: "Autres symptômes de l'IC : fatigue, prise de poids/œdèmes, faiblesse musculaire, palpitations"
+    mapped_candidate_kps:
+      - CAND-022
+    mapping_type: partial
+    verdict: 'Covered, but CAND-022 also merges severe/terminal manifestations.'
+    action_required: 'SPLIT CAND-022 (autres symptômes vs manifestations sévères)'
+
+  - id: COV-023
+    coverage_text: "Manifestations de l'IC sévère ou terminale : syndrome d'apnées du sommeil (Cheyne-Stokes), confusion, troubles digestifs"
+    mapped_candidate_kps:
+      - CAND-022
+    mapping_type: partial
+    verdict: 'Bundled into CAND-022; independently examinable cluster.'
+    action_required: 'SPLIT CAND-022'
+
+  - id: COV-024
+    coverage_text: "Symptômes d'insuffisance cardiaque droite : hépatalgie d'effort ou de repos"
+    mapped_candidate_kps:
+      - CAND-023
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-025
+    coverage_text: "Signes physiques de l'IC : cardiaques, pulmonaires, artériels (bag)"
+    mapped_candidate_kps:
+      - CAND-025
+      - CAND-026
+      - CAND-027
+    mapping_type: one-to-many
+    verdict: 'Coverage over-coarse physical-exam mega-row; candidate cardiac/pulmonary/BP split preferred.'
+    action_required: 'keep candidate split'
+
+  - id: COV-026
+    coverage_text: "Signes périphériques d'IC droite : turgescence jugulaire, reflux hépatojugulaire, hépatomégalie, œdèmes, ascite, anasarque"
+    mapped_candidate_kps:
+      - CAND-028
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-027
+    coverage_text: "Signes de l'IC très avancée : pouls alternant, oligurie, cachexie, dyspnée de Cheyne-Stokes"
+    mapped_candidate_kps:
+      - CAND-029
+    mapping_type: exact
+    verdict: 'Match; disposition deferred-to-mastery accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-028
+    coverage_text: "Examen physique souvent pauvre chez l'insuffisant cardiaque traité ; présence de signes physiques = gravité"
+    mapped_candidate_kps:
+      - CAND-024
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-029
+    coverage_text: 'Électrocardiogramme : intérêt limité au diagnostic, orientation étiologique, hypertrophies, BBG (QRS > 120 ms) et implications thérapeutiques'
+    mapped_candidate_kps:
+      - CAND-030
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-030
+    coverage_text: "Radiographie thoracique : cardiomégalie (RCT > 0,5), stase, épanchements, formes unilatérales trompeuses, absence de cardiomégalie n'excluant pas l'IC"
+    mapped_candidate_kps:
+      - CAND-031
+      - CAND-032
+    mapping_type: one-to-many
+    verdict: "Mostly covered; 'formes unilatérales trompeuses' absent from candidate labels."
+    action_required: 'enrich CAND-031/032 with unilateral misleading pleural forms'
+
+  - id: COV-031
+    coverage_text: "Sémiologie radiologique de l'OAP d'origine hémodynamique : redistribution, Kerley, opacités périhilaires / ailes de papillon"
+    mapped_candidate_kps:
+      - CAND-032
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-032
+    coverage_text: 'Peptides natriurétiques (BNP, NT-proBNP) : synthèse, seuils aigu/chronique/âge, zone grise, facteurs confondants'
+    mapped_candidate_kps:
+      - CAND-033
+      - CAND-034
+      - CAND-035
+      - CAND-036
+      - CAND-037
+    mapping_type: one-to-many
+    verdict: 'Coverage over-coarse; candidate BNP split preferred.'
+    action_required: 'keep candidate BNP granularity'
+
+  - id: COV-033
+    coverage_text: 'Échocardiographie transthoracique : rôle diagnostique et étiologique, principales mesures'
+    mapped_candidate_kps:
+      - CAND-038
+    mapping_type: exact
+    verdict: 'Kept as one key-exam KP (correct; do not atomize every measured parameter).'
+    action_required: 'none'
+
+  - id: COV-034
+    coverage_text: "Algorithme diagnostic de l'IC hors urgence (peptides puis échocardiographie, typage par FEVG)"
+    mapped_candidate_kps:
+      - CAND-035
+    mapping_type: partial
+    verdict: 'Non-acute peptide → echo pathway in CAND-035; algorithm identity not labelled as ESC diagnostic algorithm.'
+    action_required: 'clarify CAND-035 label to name ESC non-urgent diagnostic pathway / FEVG typing'
+
+  - id: COV-035
+    coverage_text: "Bilan biologique standard de l'IC selon ESC 2021"
+    mapped_candidate_kps:
+      - CAND-039
+    mapping_type: exact
+    verdict: 'Match; deferred-to-mastery accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-036
+    coverage_text: 'Coronarographie et coroscanner : indications, revascularisation si ischémie/viabilité, orientation CMD si réseau normal'
+    mapped_candidate_kps:
+      - CAND-040
+    mapping_type: partial
+    verdict: 'Indications covered; revascularisation-if-viability / normal-network→CMD less explicit.'
+    action_required: 'enrich CAND-040'
+
+  - id: COV-037
+    coverage_text: 'IRM cardiaque : FE, étiologie, ischémie/viabilité, rehaussement tardif / pronostic CMD'
+    mapped_candidate_kps:
+      - CAND-041
+    mapping_type: exact
+    verdict: 'Match; deferred accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-038
+    coverage_text: "Autres examens spécialisés : scintigraphie isotopique, Holter, épreuve d'effort VO2"
+    mapped_candidate_kps:
+      - CAND-042
+    mapping_type: partial
+    verdict: 'Holter + VO2 covered; scintigraphie isotopique missing.'
+    action_required: 'ADD deferred KP for scintigraphie OR expand specialized-exams cluster'
+
+  - id: COV-039
+    coverage_text: 'Cathétérisme cardiaque droit et gauche : pressions, HTAP PAPm > 25, RAP > 5 UW CI greffe, PTD VG'
+    mapped_candidate_kps:
+      - CAND-043
+    mapping_type: exact
+    verdict: 'Match; deferred accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-040
+    coverage_text: "Cardiopathies ischémiques : première cause d'IC, IDM, ischémie chronique / revascularisation"
+    mapped_candidate_kps:
+      - CAND-044
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-041
+    coverage_text: 'Hypertension artérielle : mécanismes, rôle dans IC à FE préservée'
+    mapped_candidate_kps:
+      - CAND-045
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-042
+    coverage_text: 'Cardiomyopathies dilatées : définition, causes (familiale ~25 %, etc.)'
+    mapped_candidate_kps:
+      - CAND-046
+    mapping_type: exact
+    verdict: 'Match; etiology list appropriately grouped.'
+    action_required: 'none'
+
+  - id: COV-043
+    coverage_text: 'Cardiomyopathies hypertrophiques : caractéristiques, obstruction, familiale, Fabry, complications'
+    mapped_candidate_kps:
+      - CAND-047
+    mapping_type: partial
+    verdict: 'Core CMH covered; maladie de Fabry not explicit in candidate label.'
+    action_required: 'enrich CAND-047 with Fabry'
+
+  - id: COV-044
+    coverage_text: 'Cardiomyopathies restrictives et amylose cardiaque'
+    mapped_candidate_kps:
+      - CAND-048
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-045
+    coverage_text: "Valvulopathies gauches compliquées d'IC ; particularité du RM"
+    mapped_candidate_kps:
+      - CAND-049
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-046
+    coverage_text: 'Troubles du rythme et de la conduction comme cause ; tachycardiomyopathie'
+    mapped_candidate_kps:
+      - CAND-050
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-047
+    coverage_text: "Causes péricardiques de l'IC"
+    mapped_candidate_kps:
+      - CAND-051
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-048
+    coverage_text: "Étiologies de l'insuffisance cardiaque droite"
+    mapped_candidate_kps:
+      - CAND-052
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-049
+    coverage_text: 'Insuffisance cardiaque à débit augmenté'
+    mapped_candidate_kps:
+      - CAND-053
+    mapping_type: exact
+    verdict: 'Match; deferred accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-050
+    coverage_text: 'Insuffisance cardiaque aiguë : définition, dé novo ou aggravation, hospitalisation IV'
+    mapped_candidate_kps:
+      - CAND-054
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-051
+    coverage_text: 'Œdème aigu pulmonaire cardiogénique : urgence, clinique, examens sans retarder, diagnostics différentiels'
+    mapped_candidate_kps:
+      - CAND-055
+      - CAND-056
+    mapping_type: one-to-many
+    verdict: 'Clinical OAP and differentials correctly split.'
+    action_required: "optional enrich CAND-055 with 'marée montante'"
+
+  - id: COV-052
+    coverage_text: "Autres formes d'IC aiguë et facteurs déclenchants"
+    mapped_candidate_kps:
+      - CAND-057
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-053
+    coverage_text: 'Choc cardiogénique : définition et critères cliniques'
+    mapped_candidate_kps:
+      - CAND-058
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-054
+    coverage_text: 'Insuffisance cardiaque chronique : définition'
+    mapped_candidate_kps:
+      - CAND-059
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-055
+    coverage_text: "Critères diagnostiques de l'IC à FE préservée"
+    mapped_candidate_kps:
+      - CAND-060
+    mapping_type: exact
+    verdict: 'Match including HVG/AG cut-offs.'
+    action_required: 'none'
+
+  - id: COV-056
+    coverage_text: "Histoire naturelle de l'IC"
+    mapped_candidate_kps:
+      - CAND-061
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-057
+    coverage_text: "Complications de l'IC : décès, hospitalisations, autres"
+    mapped_candidate_kps:
+      - CAND-062
+      - CAND-063
+      - CAND-064
+    mapping_type: one-to-many
+    verdict: 'Coverage over-coarse; candidate mortality/hospitalisations/other split acceptable.'
+    action_required: 'keep candidate split'
+
+  - id: COV-058
+    coverage_text: "Facteurs pronostiques de l'IC"
+    mapped_candidate_kps:
+      - CAND-065
+    mapping_type: exact
+    verdict: 'Match; deferred accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-059
+    coverage_text: "Comorbidités de l'IC"
+    mapped_candidate_kps:
+      - CAND-066
+    mapping_type: exact
+    verdict: 'Match at understanding level.'
+    action_required: 'none'
+
+  - id: COV-060
+    coverage_text: "Prévention et traitement étiologique de l'IC"
+    mapped_candidate_kps:
+      - CAND-067
+    mapping_type: partial
+    verdict: 'Core prevention covered; statines / diabète-gliflozines / obésité-sédentarité less explicit.'
+    action_required: 'enrich CAND-067'
+
+  - id: COV-061
+    coverage_text: 'Mesures hygiénodiététiques (sel, poids, alcool/tabac, activité, travail/invalidité/réadaptation, vaccins, contraception)'
+    mapped_candidate_kps:
+      - CAND-068
+      - CAND-069
+      - CAND-070
+    mapping_type: one-to-many
+    verdict: 'Salt/weight correctly elevated; travail/réinsertion/invalidité/réadaptation under-specified in CAND-070.'
+    action_required: 'enrich CAND-070 with work/invalidité/réadaptation'
+
+  - id: COV-062
+    coverage_text: "Traitement médicamenteux de l'IC à FE diminuée : 4 classes mortalité I/A + diurétiques"
+    mapped_candidate_kps:
+      - CAND-071
+    mapping_type: exact
+    verdict: 'Match umbrella statement.'
+    action_required: 'none'
+
+  - id: COV-063
+    coverage_text: 'Inhibiteurs du SRA : IEC, ARA2, ARNI'
+    mapped_candidate_kps:
+      - CAND-072
+      - CAND-073
+    mapping_type: one-to-many
+    verdict: 'IEC separate; ARA2+ARNI still bundled in CAND-073.'
+    action_required: 'SPLIT CAND-073 into ARA2 vs ARNI'
+
+  - id: COV-064
+    coverage_text: 'Bêtabloquants : molécules, indications, doses, CI, conduite en poussée'
+    mapped_candidate_kps:
+      - CAND-074
+      - CAND-091
+    mapping_type: partial
+    verdict: 'Core BB covered; exact doses are mastery detail; poussée partly via CAND-091.'
+    action_required: 'optional deferred dose detail later; no understanding inflation required'
+
+  - id: COV-065
+    coverage_text: 'Antiminéralocorticoïdes : indications, éplérénone post-IDM (BASIC), risques'
+    mapped_candidate_kps:
+      - CAND-075
+    mapping_type: partial
+    verdict: 'Indications/risks covered; BASIC/post-IDM niche less explicit.'
+    action_required: 'enrich CAND-075 with post-IDM/BASIC note'
+
+  - id: COV-066
+    coverage_text: 'Inhibiteurs SGLT2 : indications, effets, effets secondaires, protection rénale'
+    mapped_candidate_kps:
+      - CAND-076
+    mapping_type: partial
+    verdict: 'Efficacy covered; effets secondaires and protection rénale under-specified.'
+    action_required: 'enrich CAND-076'
+
+  - id: COV-067
+    coverage_text: 'Diurétiques : anse, posologies, thiazidiques si résistance'
+    mapped_candidate_kps:
+      - CAND-077
+    mapping_type: partial
+    verdict: 'Role + thiazide resistance covered; exact dose range is mastery detail.'
+    action_required: 'optional deferred dose detail within/near CAND-077'
+
+  - id: COV-068
+    coverage_text: 'IC à FE modérément diminuée (41–49 %) : mêmes traitements, preuve moindre'
+    mapped_candidate_kps:
+      - CAND-078
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-069
+    coverage_text: 'Traitements de 2e intention'
+    mapped_candidate_kps:
+      - CAND-079
+    mapping_type: exact
+    verdict: 'Match; deferred accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-070
+    coverage_text: 'Traitements associés : amiodarone, antiagrégants, anticoagulants FA'
+    mapped_candidate_kps:
+      - CAND-080
+    mapping_type: exact
+    verdict: 'Cluster mapped; recommend split + disposition change for amiodarone.'
+    action_required: 'SPLIT CAND-080; amiodarone → understanding; antithrombotics remain deferred'
+
+  - id: COV-071
+    coverage_text: 'Médicaments contre-indiqués ; dihydropyridines à effet neutre'
+    mapped_candidate_kps:
+      - CAND-081
+    mapping_type: partial
+    verdict: 'CI triad covered; dihydropyridine neutral effect missing.'
+    action_required: 'ADD/enrich dihydropyridine neutral-effect fact'
+
+  - id: COV-072
+    coverage_text: 'Traitement électrique : CRT, DAI, complications'
+    mapped_candidate_kps:
+      - CAND-082
+      - CAND-083
+    mapping_type: one-to-many
+    verdict: 'CRT vs DAI correctly split; DAI complications absent from labels.'
+    action_required: 'enrich CAND-083 with infection / chocs inappropriés'
+
+  - id: COV-073
+    coverage_text: "Algorithme ESC 2021 du traitement de l'IC à FEVG diminuée"
+    mapped_candidate_kps:
+      - CAND-071
+      - CAND-072
+      - CAND-073
+      - CAND-074
+      - CAND-075
+      - CAND-076
+      - CAND-077
+      - CAND-082
+      - CAND-083
+    mapping_type: many-to-one
+    verdict: 'Figure/algorithm packages already-captured therapy KPs; not a distinct medical proposition.'
+    action_required: 'do not mint separate algorithm KP'
+
+  - id: COV-074
+    coverage_text: 'Traitement percutané de la fuite mitrale secondaire (clip)'
+    mapped_candidate_kps:
+      - CAND-084
+    mapping_type: exact
+    verdict: 'Match; deferred accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-075
+    coverage_text: 'Transplantation cardiaque'
+    mapped_candidate_kps:
+      - CAND-085
+    mapping_type: exact
+    verdict: 'Match; CI-list disposition contested (see ratification).'
+    action_required: 'owner decision on CI-detail disposition'
+
+  - id: COV-076
+    coverage_text: "Systèmes d'assistance ventriculaire"
+    mapped_candidate_kps:
+      - CAND-086
+    mapping_type: exact
+    verdict: 'Match; deferred accepted.'
+    action_required: 'keep deferred'
+
+  - id: COV-077
+    coverage_text: "Traitement de l'IC à FE conservée : déclencheurs, ABCDEFG, amylose ATTR"
+    mapped_candidate_kps:
+      - CAND-087
+    mapping_type: partial
+    verdict: 'Triggers/gliflozines/ABCDEFG covered; ATTR-specific therapy weak.'
+    action_required: 'enrich CAND-087 with ATTR-specific treatment'
+
+  - id: COV-078
+    coverage_text: 'Parcours de soins et prise en charge globale'
+    mapped_candidate_kps:
+      - CAND-088
+    mapping_type: partial
+    verdict: 'Parcours + palliatifs present; IPA/coopération and rehospitalization risk less explicit; télésurveillance bundled.'
+    action_required: 'SPLIT télésurveillance; enrich parcours'
+
+  - id: COV-079
+    coverage_text: "Télésurveillance de l'IC : remboursée, PA/FC/poids, alertes"
+    mapped_candidate_kps:
+      - CAND-088
+    mapping_type: partial
+    verdict: 'Only lightly mentioned inside CAND-088.'
+    action_required: 'SPLIT/ADD dedicated télésurveillance KP'
+
+  - id: COV-080
+    coverage_text: "Traitement de l'OAP domicile et hôpital (incl. morphine non recommandée, HBPM, CPAP)"
+    mapped_candidate_kps:
+      - CAND-089
+      - CAND-090
+    mapping_type: one-to-many
+    verdict: 'Home vs hospital correctly split; morphine IV non recommandée missing.'
+    action_required: 'enrich CAND-090 with morphine non recommandée'
+
+  - id: COV-081
+    coverage_text: "Conduite du bêtabloquant et des IEC/ARA2/ARNI en poussée d'IC aiguë"
+    mapped_candidate_kps:
+      - CAND-091
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-082
+    coverage_text: "Poussée d'IC globale sans OAP franc"
+    mapped_candidate_kps:
+      - CAND-092
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-083
+    coverage_text: 'Traitement du choc cardiogénique'
+    mapped_candidate_kps:
+      - CAND-093
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-084
+    coverage_text: 'CHAMPIT'
+    mapped_candidate_kps:
+      - CAND-094
+    mapping_type: exact
+    verdict: 'Match.'
+    action_required: 'none'
+
+  - id: COV-085
+    coverage_text: 'Points-clés du chapitre'
+    mapped_candidate_kps: []
+    mapping_type: non-KP/navigation
+    verdict: 'Recapitulation of body facts; correctly not minted as duplicate KPs.'
+    action_required: 'none'
+
+  - id: COV-086
+    coverage_text: 'Notions indispensables'
+    mapped_candidate_kps:
+      - CAND-040
+      - CAND-071
+      - CAND-055
+      - CAND-057
+    mapping_type: many-to-one
+    verdict: 'Exam-emphasis checklist recapitulating existing KPs.'
+    action_required: 'none — do not mint duplicate notions KP'
+
+  - id: COV-087
+    coverage_text: "Notions inacceptables (CI wording 'FE préservée' + régime pauvre en sel)"
+    mapped_candidate_kps:
+      - CAND-081
+      - CAND-068
+    mapping_type: many-to-one
+    verdict: "Exam-trap framing of existing CI + salt KPs. Source notions say 'IC à FE préservée' while body says 'IC systolique' — unresolved."
+    action_required: 'do not mint separate notions KP; flag owner wording decision'
+
+  - id: COV-088
+    coverage_text: 'Réflexes transversalité'
+    mapped_candidate_kps:
+      - CAND-096
+    mapping_type: exact
+    verdict: 'Mapped to excluded candidate.'
+    action_required: 'keep exclusion (CAND-096)'
+
+uncovered_by_coverage:
+  note: >
+    Every candidate KP maps into at least one coverage row (often via one-to-many).
+    Entries below are candidate KPs that coverage did NOT list as distinct knowledge units
+    (coverage over-coarse / missing distinct identity). These are generally legitimate.
+  - candidate_kp: CAND-007
+    label: 'Transmission VD diastolique → OD → circulation veineuse systémique'
+    source_evidence: 'I. Généralités > C > 1 : transmission VD paragraph'
+    verdict: legitimate_missing_from_coverage
+    note: 'Coverage only had bundled COV-008; candidate isolation is correct.'
+
+  - candidate_kp: CAND-013
+    label: 'IC à FE diminuée ≤ 40 % (mécanisme + seuil)'
+    source_evidence: 'I.C.4'
+    verdict: legitimate_missing_from_coverage
+    note: 'Coverage only had one FE classification mega-row (COV-018).'
+
+  - candidate_kp: CAND-014
+    label: 'IC à FE préservée ≥ 50 %'
+    source_evidence: 'I.C.4'
+    verdict: legitimate_missing_from_coverage
+    note: 'Same.'
+
+  - candidate_kp: CAND-015
+    label: 'IC à FE légèrement diminuée 41–49 %'
+    source_evidence: 'I.C.4'
+    verdict: legitimate_missing_from_coverage
+    note: 'Same.'
+
+  - candidate_kp: CAND-016
+    label: "FA dans l'IC : dilatation atriale, perte systole atriale, AVC"
+    source_evidence: 'I.C.5'
+    verdict: legitimate_missing_from_coverage
+    note: 'Coverage bundled arrhythmias (COV-019).'
+
+  - candidate_kp: CAND-017
+    label: 'TV/FV → mort subite → intérêt DAI'
+    source_evidence: 'I.C.5'
+    verdict: legitimate_missing_from_coverage
+    note: 'Coverage bundled arrhythmias (COV-019).'
+
+  - candidate_kp: CAND-019
+    label: 'Orthopnée + DPN plus spécifiques'
+    source_evidence: 'II.A.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-021 respiratory bag.'
+
+  - candidate_kp: CAND-020
+    label: 'Asthme cardiaque / toux / hémoptysies'
+    source_evidence: 'II.A.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-021.'
+
+  - candidate_kp: CAND-021
+    label: 'OAP comme manifestation fonctionnelle / subœdème'
+    source_evidence: 'II.A.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-021; distinct from clinical OAP form.'
+
+  - candidate_kp: CAND-025
+    label: 'Signes cardiaques physiques'
+    source_evidence: 'II.B'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-025 mega-row.'
+
+  - candidate_kp: CAND-026
+    label: 'Signes pulmonaires physiques'
+    source_evidence: 'II.B'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-025.'
+
+  - candidate_kp: CAND-027
+    label: 'PAS < 100 / OAP hypertensif'
+    source_evidence: 'II.B'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-025.'
+
+  - candidate_kp: CAND-034
+    label: 'BNP rule-out aigu <100 / NT-proBNP <300'
+    source_evidence: 'II.E'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-032 peptide bag.'
+
+  - candidate_kp: CAND-035
+    label: 'BNP rule-out non aigu + voie echo'
+    source_evidence: 'II.E'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-032/034.'
+
+  - candidate_kp: CAND-036
+    label: 'Seuils rule-in âge-bandés (deferred)'
+    source_evidence: 'II.E'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-032.'
+
+  - candidate_kp: CAND-037
+    label: 'Facteurs confondants BNP / zone grise'
+    source_evidence: 'II.E'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-032.'
+
+  - candidate_kp: CAND-056
+    label: 'Diagnostics différentiels dyspnée aiguë'
+    source_evidence: 'IV.A.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Bundled inside COV-051; candidate separation correct.'
+
+  - candidate_kp: CAND-062
+    label: 'Mortalité ~50%/5 ans ; modes de décès'
+    source_evidence: 'V.B'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-057 complications bag.'
+
+  - candidate_kp: CAND-063
+    label: 'Hospitalisations = facteur de gravité'
+    source_evidence: 'V.B'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-057.'
+
+  - candidate_kp: CAND-064
+    label: 'Autres complications (arythmies, embolies, IR, anémie, SAS…)'
+    source_evidence: 'V.B'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-057.'
+
+  - candidate_kp: CAND-068
+    label: 'Régime hyposodé 5–6 g/j'
+    source_evidence: 'VI.B.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-061 lifestyle bag; correctly elevated.'
+
+  - candidate_kp: CAND-069
+    label: 'Alerte poids +2–3 kg / 2–3 jours'
+    source_evidence: 'VI.B.2'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-061; correctly elevated.'
+
+  - candidate_kp: CAND-072
+    label: 'IEC class detail'
+    source_evidence: 'VI.C.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-063 SRA bag.'
+
+  - candidate_kp: CAND-082
+    label: 'CRT indications/seuils'
+    source_evidence: 'VI.C.9'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-072 electrical bag.'
+
+  - candidate_kp: CAND-083
+    label: 'DAI indications/seuils'
+    source_evidence: 'VI.C.9'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-072.'
+
+  - candidate_kp: CAND-089
+    label: 'Protocole OAP domicile'
+    source_evidence: 'VII.A'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-080 OAP treatment bag.'
+
+  - candidate_kp: CAND-090
+    label: 'Protocole OAP hôpital'
+    source_evidence: 'VII.A'
+    verdict: legitimate_missing_from_coverage
+    note: 'Inside COV-080.'
+
+  - candidate_kp: KP-040
+    label: 'Transmission VG → capillaires pulmonaires'
+    source_evidence: 'I.C.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Frozen; coverage had only bundled COV-008/009.'
+
+  - candidate_kp: KP-041
+    label: 'Seuil PPC > 25 mmHg → transsudat'
+    source_evidence: 'I.C.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Frozen; inside COV-009.'
+
+  - candidate_kp: KP-042
+    label: 'OAP lésionnel / exsudat'
+    source_evidence: 'I.C.1'
+    verdict: legitimate_missing_from_coverage
+    note: 'Frozen; inside COV-009.'
+
+double_missed_source_facts:
+  note: >
+    Source-grounded medically relevant facts under-specified in BOTH decompositions.
+    This is NOT formal Phase 3 full-chapter reconciliation.
+  - fact: "During acute OAP, if patient already on beta-blocker: generally stop or reduce dose (not only 'do not introduce')"
+    source_anchor: "VII.A : 'si le patient est déjà sous bêtabloquant, il est généralement arrêté ou sa posologie est diminuée'"
+    candidate_status: 'partially covered by CAND-091 (intro/not introduce) but stop/reduce-if-already-on not explicit'
+    coverage_status: 'COV-081 mentions conduite but not stop/reduce detail'
+    verdict: 'true_shared_partial_gap — enrich CAND-091'
+
+  - fact: 'OAP hospital: treat precipitating FA with digoxin IV + effective anticoagulation; hypertensive surge with nicardipine IV 1–5 mg/h'
+    source_anchor: 'VII.A hospital precipitant treatment bullets'
+    candidate_status: 'absent from CAND-089/090 labels'
+    coverage_status: "COV-080 mentions 'traitement déclencheur' only generically"
+    verdict: 'true_shared_gap — add deferred detail within/near hospital OAP KP'
+
+  - fact: 'Normal right-heart cath reference pressures (OD <5, VD 25/0, PCAP/PAPO <15; DC 5 L/min; index 3 L/min/m²)'
+    source_anchor: 'II.H cathétérisme paragraph'
+    candidate_status: 'CAND-043 covers HTAP/RAP>5 but not normal reference values'
+    coverage_status: "COV-039 mentions 'pressions normales' but no values"
+    verdict: 'shared_detail_gap — fold into deferred CAND-043 as mastery detail'
+
+granularity_class_index:
+  true_omission:
+    - scintigraphie isotopique (COV-038 / absent from CAND-042)
+    - dihydropyridines effet neutre (COV-071 / absent from CAND-081)
+    - télésurveillance as distinct unit (COV-079 / weak in CAND-088)
+    - morphine IV non recommandée in OAP hospital protocol (partial in COV-080 / absent CAND-090)
+  true_omission_partial_enrichments:
+    - Laplace numerical example (CAND-009)
+    - formes unilatérales trompeuses (CAND-031/032)
+    - Fabry in CMH (CAND-047)
+    - coronarographie revascularisation/CMD orientation (CAND-040)
+    - prevention bullets statines/obésité/sédentarité (CAND-067)
+    - travail/invalidité/réadaptation (CAND-070)
+    - ARM post-IDM/BASIC (CAND-075)
+    - SGLT2 renal protection / AE (CAND-076)
+    - DAI complications infection/chocs inappropriés (CAND-083)
+    - ATTR-specific therapy (CAND-087)
+  candidate_under_split:
+    - CAND-010 Starling+tachycardia
+    - CAND-022 other+severe symptoms
+    - CAND-073 ARA2+ARNI
+    - CAND-080 amiodarone+antithrombotics
+    - CAND-088 parcours+télésurveillance
+  candidate_over_split: []
+    note: 'No mandatory merges identified; FE/BNP/CRT-DAI/OAP home-hospital splits preferred over coverage bags.'
+  coverage_over_coarse:
+    - COV-004, COV-008, COV-009, COV-018, COV-019, COV-021, COV-025, COV-032, COV-051, COV-057, COV-061, COV-063, COV-072, COV-080
+  coverage_over_fragmented:
+    - COV-014/015/016 extracardiac compensations (vs CAND-011 cluster) — owner choice
+  representational_difference_only:
+    - COV-005 vs CAND-002; COV-020 vs CAND-018; COV-034 vs CAND-035; dose-detail rows vs understanding role KPs
+
+disposition_audit_seed:
+  candidate_before:
+    understanding: 85
+    deferred-to-mastery: 12
+    excluded-with-justification: 2
+  proposed_changes:
+    - id: CAND-080
+      change: split then amiodarone → understanding; antithrombotics remain deferred-to-mastery
+      reason: 'seul antiarythmique utilisable si FEVG diminuée' is a core clinical decision boundary, not mastery trivia
+    - id: CAND-085
+      change: owner decision — keep understanding vs defer CI/complication list detail
+      reason: indication of transplant for refractory severe HF is conceptual; exhaustive CI list is mastery-shaped
+  keep_deferred_as_is:
+    - CAND-029 advanced signs
+    - CAND-036 age-banded BNP rule-in
+    - CAND-039 ESC biology panel
+    - CAND-041 IRM
+    - CAND-042 Holter/VO2 (+ proposed scintigraphy neighbor)
+    - CAND-043 cath
+    - CAND-053 high-output HF list
+    - CAND-065 prognostic factors list
+    - CAND-079 2nd-line drugs
+    - CAND-084 mitral clip
+    - CAND-086 ventricular assist
+  keep_understanding_numerical_boundaries:
+    - KP-041 PPC >25 mmHg
+    - CAND-034/035 BNP rule-out thresholds
+    - CAND-089/090 OAP PAS and furosémide dose decision boundaries
+    - CAND-068 salt 5–6 g/j and CAND-069 weight alert
+
+frozen_kp_check:
+  KP-040: preserved_semantic_identity: true
+  KP-041: preserved_semantic_identity: true
+  KP-042: preserved_semantic_identity: true
+  note: No merge/renumber proposed for frozen IDs; neighboring KPs (CAND-006/007) absorb granularity adjustments.
+
+validation:
+  every_coverage_row_has_mapping_verdict: true  # 88/88
+  every_candidate_kp_has_mapping_status: true  # all 99 appear in ≥1 coverage mapping
+  proposed_additions_have_source_anchors: true
+  proposed_merges_splits_have_reasons: true
+  frozen_ids_preserved: true
+  no_permanent_ids_minted: true
+  canonical_inventory_untouched: true
+  no_blueprint_or_projection_changes: true
+  not_full_chapter_reconciliation: true

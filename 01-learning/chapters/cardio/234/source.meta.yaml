@@ -6,15 +6,62 @@ publisher: Collège National de Cardiologie / SFC
 published: 2024-11-07
 source_file: ../../../chapter-analysis/cardio/234-insuffisance-cardiaque/official-college.md
 
-# Canonical section_path segments derived from actual headings in official-college.md:
-#   line 204: "I Généralités"
-#   line 242: "C Physiopathologie"
-#   line 243: "1 Quelques rappels simples"
+# Legacy slice anchor scoping (OAP regression)
 section_path_base: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
 
+# Structural section index skeleton for future chapter-wide reconciliation.
+# Headings verified against official-college.md — does NOT imply full coverage.
 sections:
+  - path: Situations de départ
+    heading_markers:
+      - "Situations de départ"
+
+  - path: Hiérarchisation des connaissances
+    heading_markers:
+      - "Hiérarchisation des connaissances"
+
+  - path: "I. Généralités"
+    heading_markers:
+      - "I. Généralités"
+
   - path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
     heading_markers:
       - "I Généralités"
       - "C Physiopathologie"
       - "1 Quelques rappels simples"
+
+  - path: "II. Diagnostic"
+    heading_markers:
+      - "II Diagnostic"
+
+  - path: "III. Diagnostic étiologique"
+    heading_markers:
+      - "III Diagnostic étiologique"
+
+  - path: "IV. Formes cliniques"
+    heading_markers:
+      - "IV Formes cliniques"
+
+  - path: "V. Évolution, complications, pronostic"
+    heading_markers:
+      - "V Évolution, complications, pronostic"
+
+  - path: "VI. Traitement de l'insuffisance cardiaque chronique"
+    heading_markers:
+      - "VI Traitement de l’insuffisance cardiaque"
+
+  - path: "VII. Traitement de l'insuffisance cardiaque aiguë"
+    heading_markers:
+      - "VII Traitement de l’insuffisance cardiaque"
+
+  - path: Points-clés
+    heading_markers:
+      - "Points-clés"
+
+  - path: Notions indispensables et inacceptables
+    heading_markers:
+      - "Notions indispensables et inacceptables"
+
+  - path: Réflexes transversalité
+    heading_markers:
+      - "Réflexes transversalité"

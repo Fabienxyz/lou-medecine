@@ -1,0 +1,208 @@
+{
+  "tool": "lou-chapter-splitter",
+  "tool_version": "1.0.0",
+  "generated_at": "2026-07-25T21:52:02.650Z",
+  "chapter_count": 22,
+  "source_markdown_sha256": "692396ceb4e7e33b990cf9d60c2e50acf1a29461150eff13bdeadd8bba336fcd",
+  "source_markdown_path": "/Users/fduchez/Documents/lou-medecine/01-learning/full-edn/cardiology/edition-2022/official-college.md",
+  "chapters": [
+    {
+      "index": 1,
+      "edn_item_number": "221",
+      "official_title": "Chapitre 01 – Item 221 : Athérome : épidémiologie et physiopathologie. Le malade polyathéromateux",
+      "filename": "item-221-atherome-epidemiologie-et-physiopathologie-le-malade-polyatheromateux.md",
+      "sha256": "f00beae7e1399fea022d9477dbdc8acc443b6ab0123ca2fb32b010e23fe563cf",
+      "first_line": 1,
+      "last_line": 352
+    },
+    {
+      "index": 2,
+      "edn_item_number": "222",
+      "official_title": "Chapitre 02 – Item 222 : Facteurs de risque cardiovasculaire et prévention",
+      "filename": "item-222-facteurs-de-risque-cardiovasculaire-et-prevention.md",
+      "sha256": "86ae616fcee561753b3fafe75aa415c0e2acf6014dadef093720b77c3b6429d9",
+      "first_line": 353,
+      "last_line": 839
+    },
+    {
+      "index": 3,
+      "edn_item_number": "223",
+      "official_title": "Chapitre 03 – Item 223 : Dyslipidémies",
+      "filename": "item-223-dyslipidemies.md",
+      "sha256": "f23e4ba01e4ccf7a4e350420c2ba32e66edaa881ae313667686c748b85dab8f1",
+      "first_line": 840,
+      "last_line": 1250
+    },
+    {
+      "index": 4,
+      "edn_item_number": "224",
+      "official_title": "Chapitre 04 – Item 224 : Hypertension artérielle de l’adulte et de l’enfant",
+      "filename": "item-224-hypertension-arterielle-de-ladulte-et-de-lenfant.md",
+      "sha256": "de2f0aa19171173bdadb4946236bf178c803eb685689c1453eccc370bbce1466",
+      "first_line": 1251,
+      "last_line": 2114
+    },
+    {
+      "index": 5,
+      "edn_item_number": "339",
+      "official_title": "Chapitre 05 – Item 339 : Syndromes coronariens aigus",
+      "filename": "item-339-syndromes-coronariens-aigus.md",
+      "sha256": "7f32b9fb9fe1e938f2c51b2926ec0e89c6313509b2741f0bc0a7b2d3703241ee",
+      "first_line": 2115,
+      "last_line": 3065
+    },
+    {
+      "index": 6,
+      "edn_item_number": "230",
+      "official_title": "Chapitre 06 – Item 230 : Douleur thoracique aiguë",
+      "filename": "item-230-douleur-thoracique-aigue.md",
+      "sha256": "315d0af97f5fee758609ce4fd53c9fde4b313bdc8e1b66898ac0d6a749f01410",
+      "first_line": 3066,
+      "last_line": 3387
+    },
+    {
+      "index": 7,
+      "edn_item_number": "225",
+      "official_title": "Chapitre 07 – Item 225 : Artériopathie de l’aorte, des artères viscérales et des membres inférieurs ; anévrismes",
+      "filename": "item-225-arteriopathie-de-laorte-des-arteres-viscerales-et-des-membres-inferieurs-anevrismes.md",
+      "sha256": "31f622d86c7688c03c062d79b30f9e32def8e450d385b63e4be826185125d210",
+      "first_line": 3388,
+      "last_line": 4000
+    },
+    {
+      "index": 8,
+      "edn_item_number": "233",
+      "official_title": "Chapitre 08 – Item 233 : Valvulopathies",
+      "filename": "item-233-valvulopathies.md",
+      "sha256": "bae4ebc71b6bb8ccb44e1d5f6846e8af34644c095feb312cb79f95f9f3c9c1ef",
+      "first_line": 4001,
+      "last_line": 5499
+    },
+    {
+      "index": 9,
+      "edn_item_number": "152",
+      "official_title": "Chapitre 09 – Item : 152 Endocardite infectieuse",
+      "filename": "item-152-endocardite-infectieuse.md",
+      "sha256": "4b28231ebd0e882a85e3e8fb65c4d6aa80910e362af01669151d06137b6da319",
+      "first_line": 5500,
+      "last_line": 6089
+    },
+    {
+      "index": 10,
+      "edn_item_number": "153",
+      "official_title": "Chapitre 10 – Item 153 : Surveillance des porteurs de valve et prothèses vasculaires",
+      "filename": "item-153-surveillance-des-porteurs-de-valve-et-protheses-vasculaires.md",
+      "sha256": "eaa0e49ddedd1f3b4f48a3bbc1fe77b7b29930d8548ac4c5d9de057c74416e0a",
+      "first_line": 6090,
+      "last_line": 6733
+    },
+    {
+      "index": 11,
+      "edn_item_number": "238",
+      "official_title": "Chapitre 11 – Item 238 : Souffle cardiaque chez l’enfant",
+      "filename": "item-238-souffle-cardiaque-chez-lenfant.md",
+      "sha256": "4b6b275b2974ffd7c63bf717fb9d08442ef0fafef667f8c1e8ef4a71c074b2bc",
+      "first_line": 6734,
+      "last_line": 7145
+    },
+    {
+      "index": 12,
+      "edn_item_number": "342",
+      "official_title": "Chapitre 12 – Item 342 : Malaises, perte de connaissance, crise comitiale chez l’adulte",
+      "filename": "item-342-malaises-perte-de-connaissance-crise-comitiale-chez-ladulte.md",
+      "sha256": "119d9144e318c3252f91e96df402ce65a61fc645a9f5a66985e1c136422d06d4",
+      "first_line": 7146,
+      "last_line": 7598
+    },
+    {
+      "index": 13,
+      "edn_item_number": "232",
+      "official_title": "Chapitre 13 – Item 232 : Fibrillation atriale",
+      "filename": "item-232-fibrillation-atriale.md",
+      "sha256": "b5e21eeff4b2b18e8a15932281d08b9a5abaa9f6a8e314be8cb1236b2fe737db",
+      "first_line": 7599,
+      "last_line": 8052
+    },
+    {
+      "index": 14,
+      "edn_item_number": "236",
+      "official_title": "Chapitre 14 – Item 236 : Troubles de la conduction intracardiaque",
+      "filename": "item-236-troubles-de-la-conduction-intracardiaque.md",
+      "sha256": "e1f3c69f91b1659dc1c4570232b9282c36983066622451d08a493f865a5fc40a",
+      "first_line": 8053,
+      "last_line": 8696
+    },
+    {
+      "index": 15,
+      "edn_item_number": "231",
+      "official_title": "Chapitre 15 – Item 231 : Électrocardiogramme : indications et interprétations",
+      "filename": "item-231-electrocardiogramme-indications-et-interpretations.md",
+      "sha256": "401f662c5e87836db87af924cd4c2ece70d3d8d73310459b07abf8f71fd4718e",
+      "first_line": 8697,
+      "last_line": 9578
+    },
+    {
+      "index": 16,
+      "edn_item_number": "237",
+      "official_title": "Chapitre 16 – Item 237 : Palpitations",
+      "filename": "item-237-palpitations.md",
+      "sha256": "4d62e40058a54d8780a4e6ed18d8aba1cb419145967b41ba4adc93d0ef6ae60c",
+      "first_line": 9579,
+      "last_line": 9986
+    },
+    {
+      "index": 17,
+      "edn_item_number": "203",
+      "official_title": "Chapitre 17 – Item 203 : Dyspnée aiguë et chronique",
+      "filename": "item-203-dyspnee-aigue-et-chronique.md",
+      "sha256": "e35df93d5bd76f5ab2043fe93afa57e6dadd6a7de983fddcd8ee936ab2ad7952",
+      "first_line": 9987,
+      "last_line": 10434
+    },
+    {
+      "index": 18,
+      "edn_item_number": "234",
+      "official_title": "Chapitre 18 – Item 234 : Insuffisance cardiaque de l’adulte",
+      "filename": "item-234-insuffisance-cardiaque-de-ladulte.md",
+      "sha256": "f4ea7b117d1f6a607a146041bd5bbcd65028c2a31f0c7720355c3ee1e83c5df2",
+      "first_line": 10435,
+      "last_line": 11305
+    },
+    {
+      "index": 19,
+      "edn_item_number": "226",
+      "official_title": "Chapitre 19 – Item 226 : Thrombose veineuse profonde et embolie pulmonaire",
+      "filename": "item-226-thrombose-veineuse-profonde-et-embolie-pulmonaire.md",
+      "sha256": "c755021cd267bff9c7af6c0f3ec30f1c412415ff238bc1e1831fe846a3bc69da",
+      "first_line": 11306,
+      "last_line": 12153
+    },
+    {
+      "index": 20,
+      "edn_item_number": "235",
+      "official_title": "Chapitre 20 – Item 235 : Péricardite aiguë",
+      "filename": "item-235-pericardite-aigue.md",
+      "sha256": "8de44bd5ddfe78d00cfe2386061b9c1eab5e5e170bb91df072eb07cb1839eb30",
+      "first_line": 12154,
+      "last_line": 12481
+    },
+    {
+      "index": 21,
+      "edn_item_number": "331",
+      "official_title": "Chapitre 21 – Item 331 : Arrêt cardiocirculatoire",
+      "filename": "item-331-arret-cardiocirculatoire.md",
+      "sha256": "cccb08ff29821a071d555fc8cf97046007d270b52b2c7efe5cc6bfa3bcebd209",
+      "first_line": 12482,
+      "last_line": 12887
+    },
+    {
+      "index": 22,
+      "edn_item_number": "330",
+      "official_title": "Chapitre 22 – Item 330 : Prescription et surveillance des classes de médicaments les plus courantes chez l’adulte et chez l’enfant, hors anti-infectieux. Connaître les grands principes thérapeutiques",
+      "filename": "item-330-prescription-et-surveillance-des-classes-de-medicaments-les-plus-courantes-chez-ladulte-et-chez-lenfant-hors-anti-infectieux-connaitre-les-grands-principes-therapeutiques.md",
+      "sha256": "081233d9fb121f3b461aa24ddc7320270edecd7fa8c4a1358c417fa122f8b392",
+      "first_line": 12888,
+      "last_line": 13725
+    }
+  ]
+}

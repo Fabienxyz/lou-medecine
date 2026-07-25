@@ -1,0 +1,15 @@
+{
+  "name": "lou-chapter-splitter",
+  "version": "1.0.0",
+  "description": "Split canonical College Markdown into one file per chapter",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "lou-chapter-splitter": "cli.js"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.js",
+    "split": "node cli.js"
+  },
+  "license": "ISC"
+}

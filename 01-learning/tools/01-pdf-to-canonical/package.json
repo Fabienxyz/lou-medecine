@@ -1,0 +1,23 @@
+{
+  "name": "lou-pdf-to-canonical",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.js",
+    "convert": "node cli.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Convert official EDN College PDFs into canonical Markdown",
+  "dependencies": {
+    "pdfjs-dist": "^4.10.38"
+  },
+  "type": "module",
+  "bin": {
+    "lou-pdf-to-canonical": "cli.js"
+  },
+  "devDependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}

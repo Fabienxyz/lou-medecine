@@ -1,0 +1,33 @@
+{
+  "converter_version": "1.0.0",
+  "edition": "2022",
+  "generated_at": "2026-07-25T21:42:10.593Z",
+  "markdown_filename": "official-college.md",
+  "markdown_sha256": "692396ceb4e7e33b990cf9d60c2e50acf1a29461150eff13bdeadd8bba336fcd",
+  "original_pdf_filename": "official-college.pdf",
+  "original_pdf_sha256": "7fc36369c6bc3ec7e0efb67cb05c4b938165c4df7140747340ff8c17ed0b967b",
+  "specialty": "cardiology",
+  "stats": {
+    "heading_count": 680,
+    "lines_kept": 11559,
+    "lines_raw": 16601,
+    "markdown_chars": 1176306,
+    "pages": 573,
+    "tables_detected": 104,
+    "tables_fallback": 0,
+    "tables_pipe": 104
+  },
+  "tool": "lou-pdf-to-canonical",
+  "validation": {
+    "anomalies": [],
+    "errors": [],
+    "ok": true
+  },
+  "warnings": [
+    {
+      "code": "stripped-repeated-band",
+      "detail": "4× \"e\"",
+      "message": "Removed repeated header/footer band"
+    }
+  ]
+}

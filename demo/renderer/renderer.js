@@ -86,53 +86,73 @@ window.LouRenderer = {
                     '" title="D\'où vient cette affirmation ?">source</button>'
                 );
             }
-            return "";
+            // A Blueprint-element anchor marks a pedagogical-block boundary, so it is preserved as
+            // a marker rather than discarded. Dropping it would leave the Official Visual with no
+            // identifier to bind to, and ordinal placement is forbidden.
+            return (
+                '<span data-element-anchor="' + id + '" hidden></span>'
+            );
         });
         return text.trim();
     },
 
-    injectVisuals(html, projection, chapter, config) {
-        if (!projection || !projection.visuals) {
-            return html;
-        }
-        let out = html;
-        Object.keys(projection.visuals).forEach(function (elementId) {
-            const rel = projection.visuals[elementId];
-            const url = config.resolveAssetPath(chapter, rel);
-            const block =
-                '<figure class="injected-figure" data-element="' +
-                elementId +
-                '">' +
-                '<img src="' +
-                url +
-                '" alt="' +
-                elementId +
-                ' diagram">' +
-                "</figure>";
-            const anchor = 'id="' + elementId + '"';
-            if (out.indexOf(anchor) !== -1) {
-                const headingClose = out.indexOf("</h2>", out.indexOf(anchor));
-                if (headingClose !== -1) {
-                    out =
-                        out.slice(0, headingClose + 5) +
-                        block +
-                        out.slice(headingClose + 5);
-                } else {
-                    out = block + out;
-                }
-            } else {
-                const firstH2 = out.indexOf("</h2>");
-                if (firstH2 !== -1) {
-                    out =
-                        out.slice(0, firstH2 + 5) +
-                        block +
-                        out.slice(firstH2 + 5);
-                } else {
-                    out = block + out;
-                }
-            }
+    // Alt text always comes from the manifest, which derives it from the visualSpec. The renderer
+    // holds no medical content and must never author a visual's text alternative.
+    visualAltText(manifest, elementId) {
+        const entry = ((manifest && manifest.visuals) || []).find(function (v) {
+            return v.element === elementId;
         });
-        return out;
+        return (entry && entry.alt) || "";
+    },
+
+    // An Official Visual is optional support, so its absence is not automatically a defect. The
+    // three manifest states must stay distinguishable and must never be collapsed: an element with
+    // no entry warrants no visual and says nothing; a planned-but-unbuilt visual reports a known
+    // gap; a withheld visual reports that support is temporarily unavailable. Nothing is hidden.
+    VISUAL_STATE_MESSAGES: {
+        "planned-not-built":
+            "Visuel officiel prévu, pas encore produit. L'explication ci-dessous reste complète.",
+        withheld:
+            "Support visuel temporairement indisponible. L'explication ci-dessous reste complète.",
+    },
+
+    visualStateNotice(manifest, elementId) {
+        const entry = ((manifest && manifest.official_visuals) || []).find(
+            function (v) {
+                return v.element === elementId;
+            }
+        );
+        const message =
+            entry && this.VISUAL_STATE_MESSAGES[entry.state];
+        if (!message) {
+            return "";
+        }
+        return (
+            '<p class="visual-unavailable" data-element="' +
+            elementId +
+            '" data-state="' +
+            entry.state +
+            '" role="status">' +
+            message +
+            "</p>"
+        );
+    },
+
+    // Blocks are assembled as DOM rather than as a string, because the learner affordances need
+    // event handlers and stored artifacts need to be loaded asynchronously.
+    async renderProjection(html, context) {
+        this.replayAnimation(this.contentEl);
+        await LouBlocks.render(this.contentEl, html, context);
+        this.contentEl.appendChild(this.footerNavNode());
+    },
+
+    footerNavNode() {
+        const nav = document.createElement("div");
+        nav.className = "footer-nav";
+        nav.innerHTML =
+            '<button type="button" class="nav-btn" data-nav="prev">← Concept précédent</button>' +
+            '<button type="button" class="nav-btn primary" data-nav="next">Concept suivant →</button>';
+        return nav;
     },
 
     wrapWithFooterNav(bodyHtml) {

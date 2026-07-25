@@ -34,16 +34,7 @@
       "status": "published",
       "label": "🗺️ Vue d’ensemble",
       "elements": [
-        "MM-pump-decompensation",
-        "MEC-output-basics",
-        "MEC-compensation",
-        "MEC-ef-phenotypes",
-        "MEC-congestion",
-        "MEC-oap",
-        "CR-recognize",
-        "CR-diagnose",
-        "CR-treat-hfref",
-        "CR-treat-hfpef"
+        "MM-pump-decompensation"
       ]
     },
     {
@@ -107,5 +98,51 @@
     "seg-C",
     "seg-D",
     "seg-E"
+  ],
+  "official_visuals": [
+    {
+      "element": "MEC-oap",
+      "state": "published"
+    },
+    {
+      "element": "MM-pump-decompensation",
+      "state": "planned-not-built",
+      "intent": "process-flow"
+    },
+    {
+      "element": "MEC-compensation",
+      "state": "planned-not-built",
+      "intent": "feedback-loop"
+    },
+    {
+      "element": "MEC-ef-phenotypes",
+      "state": "planned-not-built",
+      "intent": "comparison"
+    },
+    {
+      "element": "CONF-transsudat-exsudat",
+      "state": "planned-not-built",
+      "intent": "comparison"
+    },
+    {
+      "element": "CR-diagnose",
+      "state": "planned-not-built",
+      "intent": "algorithm"
+    },
+    {
+      "element": "CR-acute",
+      "state": "planned-not-built",
+      "intent": "algorithm"
+    },
+    {
+      "element": "CR-treat-hfref",
+      "state": "planned-not-built",
+      "intent": "algorithm"
+    },
+    {
+      "element": "CONF-bb-chronic-vs-acute",
+      "state": "planned-not-built",
+      "intent": "comparison"
+    }
   ]
 }

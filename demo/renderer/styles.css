@@ -412,16 +412,232 @@ body{
     vertical-align:middle;
 }
 
-.injected-figure{
-    margin:24px 0;
+.legacy-notice{
+    margin:0 0 16px;
+    padding:12px 16px;
+    border:1px dashed #e0b34a;
+    border-radius:12px;
+    background:#fffaf0;
+    color:#8a6d1f;
+    font-size:14px;
+}
+
+/* --- Pedagogical block ------------------------------------------------------
+   One block per Blueprint element. Generated content sits on white; everything
+   the learner owns is tinted and dashed, so the two layers never read alike. */
+
+.pedagogical-block{
+    margin:0 0 44px;
+    padding-bottom:36px;
+    border-bottom:1px solid #f0f0f2;
+}
+
+.pedagogical-block:last-of-type{
+    border-bottom:none;
+}
+
+.block-question{
+    margin:0 0 20px;
+}
+
+.official-visual{
+    margin:0 0 20px;
     text-align:center;
 }
 
-.injected-figure img{
+.official-visual img{
     max-width:100%;
     height:auto;
     border-radius:12px;
     border:1px solid #e5e7eb;
+}
+
+.visual-unavailable{
+    margin:0 0 20px;
+    padding:14px 16px;
+    border:1px dashed #d1d5db;
+    border-radius:12px;
+    background:#fafafa;
+    color:#6b7280;
+    font-size:14px;
+}
+
+.block-walkthrough > *:first-child{
+    margin-top:0;
+}
+
+/* --- Learner layer ---------------------------------------------------------- */
+
+.learner-affordance{
+    appearance:none;
+    border:1px dashed #c7c7cc;
+    background:#fff;
+    color:#6b7280;
+    border-radius:999px;
+    padding:5px 12px;
+    font-family:inherit;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.learner-affordance:hover{
+    border-color:#8e8e93;
+    color:#3a3a3c;
+}
+
+.learner-diagrams{
+    margin:0 0 22px;
+}
+
+.note-affordance{
+    margin-left:6px;
+    padding:2px 9px;
+    font-size:12px;
+}
+
+.diagram-gallery{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:14px;
+}
+
+.personal-diagram{
+    margin:0;
+    max-width:230px;
+    padding:8px;
+    border:1px dashed #c7c7cc;
+    border-radius:12px;
+    background:#fffdf7;
+}
+
+.personal-diagram img{
+    display:block;
+    max-width:100%;
+    height:auto;
+    border-radius:8px;
+}
+
+.personal-diagram figcaption{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:8px;
+    color:#8e8e93;
+    font-size:12px;
+}
+
+.inline-notes{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin:14px 0 18px;
+}
+
+.inline-note{
+    position:relative;
+    padding:12px 14px;
+    border:1px dashed #c7c7cc;
+    border-left:3px solid #f0c14b;
+    border-radius:10px;
+    background:#fffdf7;
+}
+
+.inline-note .note-text{
+    margin:0;
+    white-space:pre-wrap;
+    color:#3a3a3c;
+    font-size:15px;
+}
+
+.note-degraded-marker{
+    margin:0 0 8px;
+    color:#8e8e93;
+    font-size:12px;
+}
+
+.learner-remove{
+    appearance:none;
+    border:none;
+    background:none;
+    padding:0;
+    margin-top:8px;
+    color:#8e8e93;
+    font-family:inherit;
+    font-size:12px;
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+.note-editor{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:12px;
+    border:1px dashed #c7c7cc;
+    border-radius:10px;
+    background:#fffdf7;
+}
+
+.note-editor textarea{
+    flex:1 1 100%;
+    resize:vertical;
+    padding:9px 11px;
+    border:1px solid #e5e7eb;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:15px;
+}
+
+.note-save,
+.note-cancel{
+    appearance:none;
+    border-radius:999px;
+    padding:6px 14px;
+    font-family:inherit;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.note-save{
+    border:1px solid #1d1d1f;
+    background:#1d1d1f;
+    color:#fff;
+}
+
+.note-cancel{
+    border:1px solid #e5e7eb;
+    background:#fff;
+    color:#6b7280;
+}
+
+.learner-orphans{
+    margin-top:36px;
+    padding:18px;
+    border:1px dashed #c7c7cc;
+    border-radius:12px;
+    background:#fffdf7;
+}
+
+.orphan-title{
+    margin:0;
+    color:#3a3a3c;
+    font-size:15px;
+    font-weight:600;
+}
+
+.orphan-hint{
+    margin:6px 0 14px;
+    color:#8e8e93;
+    font-size:13px;
+}
+
+.orphan-anchor{
+    margin:14px 0 6px;
+    color:#8e8e93;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:12px;
 }
 
 .trace-panel{

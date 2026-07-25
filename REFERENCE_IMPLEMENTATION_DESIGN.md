@@ -67,7 +67,7 @@ content/cardio/234/
 | `overrides.yaml` | Rare explicit projection fixes | Curated (opt-in) | Yes (rare) | Human | Projection generators | Versioned (usually absent) |
 | `manifest.json` | Renderer discovery/assembly contract (not a medical-truth or provenance store, §11) | Generated | No | Package assembler | Renderer | Regenerated on any build |
 
-**Deliberately absent** (and why): no separate storyboard file (merged into `blueprint.md`); no separate coverage checklist (promoted into `inventory.yaml` + `reconciliation.yaml`); no `coverage-v0.md` (superseded); no per-mechanism/per-actor Markdown files (one file with keyed sections diffs better); no global ontology; no per-sentence ID files; **no mandated per-projection trace sidecar** (claim-block traceability representation is deliberately left open for the slice, §10).
+**Deliberately absent** (and why): no separate storyboard file (merged into `blueprint.md`); no separate coverage checklist (promoted into `inventory.yaml` + `reconciliation.yaml`); no `coverage-v0.md` (superseded); no per-mechanism/per-actor Markdown files (one file with keyed sections diffs better); no global ontology; no per-sentence ID files; **no mandated per-projection trace sidecar** (claim-block traceability representation is deliberately left open for the slice, §10); and **no learner artifacts** — Personal Diagrams and Inline Notes (contract C.8/C.9) are learner-owned, live outside `content/`, and are never stored in Git alongside medical content. Personal Diagrams are binary; keeping them out preserves the "files in Git, stable diffs" principle (§1.8) and keeps personal data out of the medical repository. The storage mechanism is reversible; the boundary is not.
 
 ---
 
@@ -250,7 +250,7 @@ One `blueprint.md` per chapter: **YAML frontmatter** for everything a machine tr
 
 | Section | Location | Include only when a downstream consumer needs it |
 |---|---|---|
-| Mental model *(core)* | body prose + `mental_model` node id | `overview` projection root; renderer "big picture first" |
+| Mental model *(core)* | body prose + `mental_model:` (`id` + `question`) | `overview` projection root; renderer "big picture first". Projected as a pedagogical block like any other element, so it carries a learner-facing `question` — the single canonical origin of that question, from which a visualSpec's `question` is derived |
 | Learning sequence *(core)* | frontmatter `sequence:` (ordered element IDs) | manifest reading order; renderer navigation; adaptivity gating |
 | Mechanisms *(core)* | frontmatter `mechanisms:` (id, question, ordered `steps`, `uses_kp`) | `mechanisms` projection **and** SVG generator (reads the step graph, not prose) |
 | `causal_links` on a mechanism *(optional)* | inside a `mechanisms[*]` entry | Only for **non-linear/branching** step graphs; a linear `steps` list already *is* the graph (order = causality) |
@@ -267,7 +267,9 @@ One `blueprint.md` per chapter: **YAML frontmatter** for everything a machine tr
 ---
 chapter: cardio/234
 revision: r1
-mental_model: MM-pump-decompensation
+mental_model:
+  id: MM-pump-decompensation
+  question: "Comment une cardiopathie devient-elle une insuffisance cardiaque qui se décompense ?"
 sequence: [MM-pump-decompensation, MEC-output-basics, MEC-compensation,
            MEC-remodelling, MEC-congestion, MEC-oap, CR-diagnosis, CR-treat-hfref]
 # No `dependencies:` block here: for this thread the prerequisite order is already the `sequence`
@@ -344,6 +346,33 @@ Item 234's Inventory has ~88 KPs. The current `mecanismes.md` already compresses
 
 ## 8. Understanding Projection Design
 
+### 8.0 The pedagogical block (the body shape of every understanding projection)
+
+A projection body is a sequence of **pedagogical blocks** (contract Part B), one per projected Blueprint element, in `sequence` order. The block is a *guided understanding unit*; its identity is the Blueprint-element ID, so it introduces no new identifier space.
+
+```
+Question              ← the element's `question:`                             REQUIRED
+Official Visual       ← figures/<element>.svg, bound by element ID            OPTIONAL
+  📷 Personal Diagram ← learner layer, every block, 0..n (contract C.8)
+Guided Walkthrough    ← the canonical explanation                             REQUIRED
+  📝 Inline Notes     ← learner layer, 0..n (contract C.9)
+```
+
+Both shapes are valid and complete: `Question → Official Visual → Guided Walkthrough`, and `Question → Guided Walkthrough`. Nothing else is authored into a block — no "short answer", no "why it matters", no per-block summary. The sub-headings that used to structure a section (`### Réponse courte`, `### Mécanisme pas à pas`, `### Pourquoi c'est important`, and the `Si… / Alors…` decision tables of `clinical-reasoning.md`) are superseded by the single walkthrough. A table survives only where the comparison *is* the content — a confusion boundary, a phenotype contrast — and the walkthrough must then explain how to read it.
+
+**The Chapter Overview is one block, not many.** It projects the `mental_model` and its walkthrough traverses the whole causal chain once, so it acts as the chapter map. The elements it traverses keep their own blocks in the mechanism and clinical-reasoning projections, where the canonical explanation of each one lives; the overview's claim blocks trace to those elements without duplicating their depth. Its Official Visual, when built, is the one overview diagram.
+
+**The Guided Walkthrough is the canonical explanation** of its element. With a visual present it walks the learner through that visual — what each element represents, why it appears, why it connects to the preceding one, why a branch exists, why the relationship matters, how the mechanism progresses end to end. With no visual present it walks through the reasoning itself, in the same order and to the same depth. Mechanically it is ordinary generated prose: ordinary claim blocks, ordinary claim classes, ordinary `uses_kp` inheritance from the projected element. It introduces **no new traceability unit**, and it is **generated** — never assembled by the renderer, which holds no medical content (§12).
+
+**The Official Visual is optional support and never the primary explanatory artifact.** Two consequences the build enforces:
+
+- **Subordination.** Every KP referenced by a published visual's semantic units must also be referenced by that block's walkthrough (scaffolding units carry no KP and are excluded). This is the existing "never the only place a fact lives" rule one level down; it is a set-containment check in pass F (§9), computable from visualSpec `nodes[].kp`/`edges[].kp` against the walkthrough's claim trace.
+- **Publication.** A visual that fails validation, grounding or render-eligibility **does not block publication** of an otherwise valid walkthrough; the block publishes visual-less, the failure is reported, and any stale asset is removed (§9, §12).
+
+Where the walkthrough anchors the two learner mechanisms, note the durability difference: a Personal Diagram anchors to the **element ID** (irreversible core, §4/§6) and survives regeneration robustly; an Inline Note anchors to a **claim-block boundary** and survives while that claim block persists, degrading to element level otherwise. This is why claim-block identifiers now carry a durability obligation they did not before (§19).
+
+### 8.1 Projection types
+
 **Projection types are candidate capabilities, not a required initial standard.** The architecture explicitly allows projection types to be added dynamically (`FINAL_ARCHITECTURE.md` §12); no chapter is obliged to carry all of them. Classifying the candidates against Item 234:
 
 | Candidate | Classification | Reason (Item 234) |
@@ -355,13 +384,13 @@ Item 234's Inventory has ~88 KPs. The current `mecanismes.md` already compresses
 | actors | **Optional — justify by need** | Only where actor identity is reused; render as a light glossary keyed to Blueprint actor elements, never 36 hero pages. |
 | readiness | **Optional — justify by need** | `pret.md` competency self-check is useful but not architecture-proving. |
 | comparisons | **Not a type** | Comparisons (FE diminuée/préservée, transsudat/exsudat) are claim-block structures inside mechanisms/overview + confusion points, not a standalone projection. |
-| visuals | **Cross-cutting capability** | Generated from Blueprint structure for any element with `visual_intent`; not a "tab". |
+| Official Visuals | **Cross-cutting capability** | Generated from Blueprint structure for any element declared in `visual_plan` and activated by `visual_intent`; not a "tab", and never a projection of its own. A category, not a diagram type: causal and process diagrams now, and — if the asset-referenced mode is ever built — anatomical illustrations, radiological images and ECGs (`VISUAL_GRAMMAR_CONTRACT.md` §7). |
 
 **Do not standardise a fixed initial family set before implementation evidence** from Item 234 and later structurally different chapters. The *minimum needed to prove the architecture* (§17) is just **one overview block + one mechanism projection**; the rest are added when a concrete pedagogical/downstream need justifies them. (The count and names are reversible per contract §12; the *derive-from-Blueprint* rule is not.)
 
 For each candidate type, its shape **when present**:
 
-| Type | Reads (Blueprint) | File granularity | Claim blocks ref KPs via | Visuals referenced by | Provenance |
+| Type | Reads (Blueprint) | File granularity | Claim blocks ref KPs via | Official Visual referenced by | Provenance |
 |---|---|---|---|---|---|
 | story | `mental_model`, `analogies` | one/chapter | mostly class-2 scaffolding; few sourced blocks | rarely | frontmatter stamp |
 | overview | `mental_model`, `sequence` | one/chapter | overview claim blocks → KP via claim-block trace (§10) | overview diagram by element ID | frontmatter stamp |
@@ -369,20 +398,40 @@ For each candidate type, its shape **when present**:
 | clinical-reasoning | `clinical_reasoning[*]`, `confusion` | one/chapter, section per `CR-*` | per-node `uses_kp` | `VIS(CR-*)` (e.g. algorithm) | frontmatter stamp |
 | actors | `actors[*]` | one/chapter, section per `ACT-*` | per-actor role KP | optional | frontmatter stamp |
 | readiness | `sequence`, elements | one/chapter | competency ↔ element/KP | none | frontmatter stamp |
-| visuals | `mechanisms[*].steps`, `visual_intent` | **one SVG per element** | inherits element `uses_kp` | is the visual | manifest entry |
+| Official Visuals | `mechanisms[*].steps`, `visual_plan` + `visual_intent` | **one asset per element** | inherits element `uses_kp`; must be a subset of its block's walkthrough KPs (§8.0) | is the visual | manifest entry |
 
-**Scaffolding stays out of learner content.** The audit found `> Purpose`, `# Progress`, `# Final validation`, `# Notes` rendered to the learner. In the target, generation directives live in prompts, provenance lives in frontmatter, and the projection body is **learner content only**. Example projection header:
+**Scaffolding stays out of learner content.** The audit found `> Purpose`, `# Progress`, `# Final validation`, `# Notes` rendered to the learner. In the target, generation directives live in prompts, provenance lives in frontmatter, and the projection body is **learner content only** — that is, blocks and nothing else. Example projection, showing both valid block shapes:
 
 ```markdown
 ---
 type: understanding.mechanisms
-projects: [MEC-output-basics, MEC-compensation, MEC-oap, …]
+projects: [MEC-congestion, MEC-oap, …]
 provenance: { source_edition: 2024-SFC, blueprint_revision: r1, methodology_version: m1 }
 ---
 
-## Comment la congestion pulmonaire mène-t-elle à l'OAP ? {#cb-mecoap}
-Augmentation de la pression télédiastolique du VG → … → **œdème aigu pulmonaire cardiogénique**. {#cb-mecoap-threshold}
+## Comment la congestion pulmonaire mène-t-elle à l'OAP ? {#MEC-oap}
+
+<!-- Official Visual: figures/mec-oap.svg, injected by the renderer from the manifest by
+     element ID. Optional support; the walkthrough below is the canonical explanation. -->
+
+La montée des pressions en amont du ventricule gauche se transmet à l'oreillette puis au réseau
+capillaire pulmonaire. {#cb-mecoap-transmission}
+Tant que la pression capillaire reste sous un certain seuil, le poumon reste sec ; au-delà de
+**25 mmHg**, le liquide franchit la barrière et un **transsudat** gagne les alvéoles, ce qui
+définit l'**OAP cardiogénique**. {#cb-mecoap-threshold}
+C'est pourquoi le même cœur peut être asymptomatique au repos et se décompenser brutalement :
+la relation n'est pas progressive, elle est à seuil. {#cb-mecoap-why-threshold}
+
+## Pourquoi les pressions de remplissage montent-elles en amont ? {#MEC-congestion}
+
+<!-- No Official Visual for this element: the causal chain is short and linear, so structure adds
+     no cognitive value (VISUAL_GRAMMAR_CONTRACT I8). The block remains complete. -->
+
+Le ventricule qui se remplit mal ou s'éjecte mal conserve un volume résiduel plus élevé en fin de
+diastole… {#cb-meccong-transmission}
 ```
+
+Two things to read from this. The heading is the element's Blueprint `question`, carrying the **element ID** as its anchor so the manifest can bind an Official Visual to it by identifier rather than by ordinal position. And the second block has no visual and needs no apology for it — the walkthrough carries the explanation either way.
 
 ---
 
@@ -397,7 +446,9 @@ The contract's assurance model as the **smallest set of distinct passes** that a
 | **C. Coverage reconciliation** | [AI, independent] | source **+** `inventory.yaml`, section-by-section | `build/reconciliation.yaml`: each source segment → `represented` / `deferred` / `excluded-with-reason` / `missed` / `ambiguous` | **no `missed` relevant segment** (every relevant segment is represented/deferred/excluded-with-reason); `ambiguous` handled conservatively | `ambiguous` segments listed for closer-to-source wording, withheld interpretation, or broader re-analysis | **any** genuinely `missed` relevant segment (**no numeric tolerance**) | broaden re-analysis / re-extract until the segment is represented/deferred/excluded/reclassified; hold chapter until then |
 | **D. Blueprint consistency** | [D]+[AI] | `blueprint.md`, `inventory.yaml`, source anchors | verdict | [D] every element refs valid KP; every referenced KP exists; **every Inventory KP has an explicit disposition** (no requirement that a KP be a Blueprint element — many KPs may map to one, or to none where contextualised elsewhere). [AI] structured understanding grounded in anchors; **no unsupported medical content** introduced | [AI] an element weakly grounded | [D] dangling KP ref / KP with no disposition; [AI] element asserts a fact with no KP | regenerate/refine Blueprint; re-run |
 | **E. Projection grounding** | [AI, separate] | projection `.md` + claim-block trace (§10), referenced KP anchors | `build/grounding.yaml`: per claim block `pass` / `downgrade` / `fail` | sourced claims supported; bridging inferences entailed; numbers/thresholds/classifications match KP | bridging inference not clearly entailed → downgrade | sourced claim unsupported; threshold mismatch | conservative fallback (omit / reframe / quote); regenerate |
-| **F. Package validation** | [D] | Blueprint, Inventory, projections, `reconciliation.yaml`, `grounding.yaml` | `manifest.json` or build failure | all references resolve; coverage invariant holds (every KP disposed, no relevant segment `missed`); every explanation↔visual link resolves by ID; no `fail`/`blocked` content published; edition status not duplicated | — | any invariant broken; **any** genuinely `missed` relevant segment; any unresolved `fail` | do not publish; report |
+| **F. Package validation** | [D] | Blueprint, Inventory, projections, `reconciliation.yaml`, `grounding.yaml` | `manifest.json` or build failure | all references resolve; coverage invariant holds (every KP disposed, no relevant segment `missed`); every explanation↔visual link resolves by ID; **visual subordination holds** (a published visual's KPs ⊆ its block's walkthrough KPs, §8.0); no `fail`/`blocked` content published; edition status not duplicated | a failed **Official Visual** is withheld and reported, and its block publishes visual-less | any invariant broken; **any** genuinely `missed` relevant segment; any unresolved `fail` **on a walkthrough** | do not publish; report |
+
+**An optional Official Visual fails soft; everything else fails hard.** Because the walkthrough is the canonical explanation (§8.0), a visual that fails validation, grounding or render-eligibility must not withhold the walkthrough from the learner. The block publishes in its visual-less form, and the failure stays fully visible: pass F **reports** it, the stale asset is **removed** rather than left pretending to be current, and traceability and all validation/grounding results are **preserved**. This is A.1's conservative fallback applied to visuals — omitting an unverified visual publishes nothing unverified. It weakens no other gate: a failed walkthrough grounding check, a `missed` source segment, a dangling reference or a broken subordination check all still block publication.
 
 **Separation summary.** Deterministic gates (A, D-structural, F) are cheap and absolute. AI gates (B, C, D-semantic, E) produce *graded* verdicts feeding the conservative fallback. The **completeness proof** is C (source→Inventory, section-by-section) cross-checking B; the **grounding proof** is E checking each claim block against its KP's quote — never the generator checking itself.
 
@@ -489,13 +540,16 @@ Based only on the manifest, the renderer must:
 
 - **Discover content dynamically** from `manifest.projections` (ordered by each entry's `order`) — no hard-coded tab list. (Today's `demo/renderer/config.js` hard-codes a five-tab set with a legacy `pourquoi` tab and only `histoire` implemented; that model is replaced by manifest-driven discovery.)
 - **Render projection types by capability.** It maps a `type` (e.g. `understanding.mechanisms`) to a render capability; an unknown type renders as a generic Markdown projection rather than breaking.
-- **Inject visuals by explicit ID relationship.** For each projection, read `visuals: { ELEMENT: path }` and place the SVG at the element's anchor — never by matching `mechanism-01.svg` to the first `##`.
+- **Render pedagogical blocks, and present generated content as non-editable.** One block per projected element (§8.0): question, optional Official Visual, Guided Walkthrough. No editing affordance exists over any of the three.
+- **Inject the Official Visual by explicit ID relationship.** For each projection, read `visuals: { ELEMENT: path }` and place the asset at the element's anchor — never by matching `mechanism-01.svg` to the first `##`.
+- **Report an unavailable Official Visual; never hide it.** The three states are distinct and must not be collapsed: **none planned** renders a visual-less block with no implication of a gap (a correct outcome, `VISUAL_GRAMMAR_CONTRACT.md` I8); **planned, not built** renders as known-absent; **built but withheld** states explicitly that visual support is *temporarily unavailable*, tied to the pipeline result.
+- **Expose the two learner affordances, separately and unconditionally.** A Personal Diagram affordance on **every** block, whether or not an Official Visual exists (contract C.8), and an Inline Notes affordance within the walkthrough (C.9). Learner content is visually distinct from generated content; an artifact whose anchor no longer resolves is shown as orphaned, never discarded.
 - **Expose source traceability on request.** Using the **trust index** (`build/traceability.json`, referenced by `manifest.trace_index` and loaded on demand — *not* the manifest body), a "where does this come from?" affordance resolves a claim block → Blueprint element → KP → the `2024-SFC` quote.
 - **Distinguish understanding vs future mastery** via `family`, and show `known_absent: ["mastery"]` as an explicit "not built yet" state.
 - **Surface edition badges** from `edition_status` ("updated in 2027", "unchanged") where useful.
 - **Own no medical content** and assume **no fixed number of tabs**.
 
-**What the renderer does NOT need to understand:** the College source, the Inventory, the Blueprint, claim classes, grounding verdicts, reconciliation, provenance semantics, or how IDs are minted. It consumes IDs and paths; it never interprets the medical model. **No frontend framework is selected here**; the existing static shell (`demo/renderer/`, clean separation, chapter-agnostic, path-sanitized, offline `marked`) is sufficient to grow into this contract, and the choice stays reversible.
+**What the renderer does NOT need to understand:** the College source, the Inventory, the Blueprint, claim classes, grounding verdicts, reconciliation, provenance semantics, or how IDs are minted. It consumes IDs and paths; it never interprets the medical model. In particular it **never composes learner-visible medical text**: it may not assemble, paraphrase or summarise a Guided Walkthrough, and it may not author a visual's text alternative (`VISUAL_GRAMMAR_CONTRACT.md` I1; the alt text comes from the manifest, which derives it from the specification). **No frontend framework is selected here**; the existing static shell (`demo/renderer/`, clean separation, chapter-agnostic, path-sanitized, offline `marked`) is sufficient to grow into this contract, and the choice stays reversible.
 
 ---
 
@@ -596,8 +650,9 @@ Scope (real Item 234 content only):
 - **Source:** `official-college.md` `I. Généralités > Physiopathologie`, the OAP-threshold segment (lines 265–267).
 - **Inventory:** ~3 KPs — `KP-007` (hemodynamic formulas), `KP-040` (filling-pressure transmission), `KP-041` (PPC > 25 mmHg → transsudat → OAP) — each anchored, ranked, disposed.
 - **Blueprint:** 2 sparse elements — `MEC-congestion` and `MEC-oap` — each with `steps` + `uses_kp` (linear, so no `causal_links`); `MEC-oap` adds `visual_intent: process-flow` and `CONF-transsudat-exsudat` because those specific consumers exist.
-- **Projections (minimum to prove the architecture):** **one overview block + one mechanism projection** — the `mechanisms.md` section for `MEC-oap` (seeded by current §11) + one overview paragraph. Claim-block traceability is recorded per §10, and the slice **compares the two candidate representations** (adjacent metadata vs a chapter-level `build/traceability.json`) and picks the simpler reliable one.
-- **Visual:** one SVG, `figures/mec-oap.svg`, generated from `MEC-oap`'s step graph (not prose), with node ids = element ids.
+- **Projections (minimum to prove the architecture):** **two pedagogical blocks** (§8.0) — `MEC-oap` *with* an Official Visual, and `MEC-congestion` *without* one — each with its question and Guided Walkthrough. Claim-block traceability is recorded per §10, and the slice **compares the two candidate representations** (adjacent metadata vs a chapter-level `build/traceability.json`) and picks the simpler reliable one.
+- **Official Visual:** one SVG, `figures/mec-oap.svg`, generated from `MEC-oap`'s step graph (not prose), with node ids = element ids.
+- **Learner layer:** one Inline Note anchored inside the `MEC-oap` walkthrough, and one Personal Diagram on the visual-less `MEC-congestion` block — the latter proving the affordance does not depend on a visual existing.
 - **Manifest + trust index:** a small `manifest.json` for discovery/assembly, plus the trust index tying claim block ↔ element ↔ KP ↔ anchor.
 - **Renderer:** loads the manifest, renders the section, injects `mec-oap.svg` by ID, offers "where does this come from?" → resolves `KP-041` → the 2024-SFC quote.
 - **Checks:** reconciliation marks the OAP segment `represented`; grounding checks the threshold claim block against `KP-041` → `pass`.
@@ -609,6 +664,8 @@ Scope (real Item 234 content only):
 3. **Traceability is stored, not positional** — the visual↔explanation link and the claim↔source link resolve by ID, killing the ordinal-filename fragility.
 4. **Checking can fail** — flipping the projection to "> 30 mmHg" makes grounding `fail` and package validation block, demonstrating the anti-self-validation guarantee.
 5. **The renderer holds no medical content** and discovers this content purely from the manifest.
+6. **The block survives its visual** — a deliberately ineligible `MEC-oap` visual leaves the walkthrough published, the stale SVG removed, and the failure reported as *temporarily unavailable* rather than hidden (§9, §12). This is the acceptance test for "optional support" being real rather than nominal.
+7. **The learner layer is durable and inert** — both learner artifacts survive one regeneration of their projection, and no pipeline pass reads either of them.
 
 If this slice builds and the deliberate-error case blocks correctly, the architecture is validated for scale-out; if any joint needs prose parsing or positional matching, the flaw surfaces here, cheaply.
 
@@ -625,7 +682,9 @@ This file, `REFERENCE_IMPLEMENTATION_DESIGN.md`, is the single deliverable. It w
 Per contract §12/Part F, these are reversible and deliberately not over-fixed here:
 
 - **Exact serialization** of each artifact (YAML vs frontmatter vs JSON) — the chosen set (§3) is a starting point.
-- **Claim-block traceability representation** (§10) — adjacent metadata vs a chapter-level `build/traceability.json` index. The *relationship* is fixed; the storage is chosen on slice evidence.
+- **Claim-block traceability representation** (§10) — adjacent metadata vs a chapter-level `build/traceability.json` index. The *relationship* is fixed; the storage is chosen on slice evidence. **The identifier now carries a durability obligation** it did not before: Inline Notes anchor to claim-block boundaries (contract C.9), so a regeneration that needlessly re-cuts stable claim blocks costs the learner her notes. The representation stays reversible; gratuitous churn in the identifiers does not.
+- **The learner layer's storage mechanism** (contract C.8/C.9) — browser-local, a sidecar outside the content tree, or a service. Personal Diagrams are binary, so whatever is chosen sits outside `content/` and outside Git (§2). Only the boundary is contractual.
+- **Whether the asset-referenced Official Visual mode is built at all** — anatomical illustrations, radiological images and ECGs remain recorded and unimplemented (`VISUAL_GRAMMAR_CONTRACT.md` §7). Deferring costs little, because a block is complete without a visual.
 - **Projection type count and names** — projection types are dynamic **candidates**, not a required set. Strong initial core: overview + mechanisms; clinical-reasoning likely where the chapter supports it; story/actors/readiness optional. Standardise more only on implementation evidence (§8).
 - **Directory layout** (`content/…` vs today's split `chapter-analysis/` + `generated-assets/`) — mapping (§14) works either way.
 - **SVG file naming and internal layout**, and resolution of the colour-SoT ambiguity (design-system vs diagram-template) and the `svg-style-guide-draft.md` duplication.

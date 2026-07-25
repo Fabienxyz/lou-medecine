@@ -3,7 +3,12 @@ chapter: cardio/234
 scope: full-chapter
 revision: phase-4-blueprint
 inventory_revision: phase-3c-corrected
-mental_model: MM-pump-decompensation
+# The mental model is projected as a pedagogical block like any other element, so it carries a
+# learner-facing question. This is the single canonical origin of that question: a visualSpec's
+# `question` is derived from it, never authored independently.
+mental_model:
+  id: MM-pump-decompensation
+  question: "Comment une cardiopathie devient-elle une insuffisance cardiaque qui se décompense ?"
 # Cognitive sequence — intuition → model → physiology → consequences → recognition → diagnosis → etiology → acute → chronic treatment → follow-up.
 # Confusion boundaries are sequenced immediately after the concepts they disambiguate.
 sequence:
@@ -29,8 +34,12 @@ sequence:
   - CR-treat-hfpef
   - CONF-ccb-fe-source
   - CR-followup
-# Active visual_intent remains only on MEC-oap (process-flow renderer + OAP slice invariant).
-# Remaining high-value visuals are declared here until non-process-flow intents are supported.
+# Official Visuals (contract C.4). `visual_plan` is the canonical Blueprint declaration of WHETHER
+# an element warrants an Official Visual and WHICH primitive it needs; `visual_intent` on an element
+# is the narrower activation flag for the intents the current renderer supports, and is the only
+# field the build reads. An entry here without `active: true` is declared and not yet built.
+# Every visual is optional support: a block whose visual is absent or withheld remains complete,
+# because the Guided Walkthrough is the canonical explanation.
 visual_plan:
   - { element: MM-pump-decompensation, intent: process-flow, rationale: "whole-chapter causal cascade" }
   - { element: MEC-compensation, intent: feedback-loop, rationale: "short-term help → long-term harm loop" }
@@ -41,10 +50,13 @@ visual_plan:
   - { element: CR-acute, intent: algorithm, rationale: "OAP / global flare / shock triage" }
   - { element: CR-treat-hfref, intent: algorithm, rationale: "four disease-modifying classes + diuretic + devices" }
   - { element: CONF-bb-chronic-vs-acute, intent: comparison, rationale: "continue vs stop/reduce beta-blocker by context" }
+# Every element projected as a pedagogical block carries a learner-facing question, including
+# analogies and confusion boundaries: the block opens on the question the learner actually has.
 analogies:
   - id: ANA-ville-pompe
     target: MM-pump-decompensation
     class: scaffolding
+    question: "À quoi ressemble une pompe qui n’assure plus, avant tout vocabulaire médical ?"
     note: "Pedagogical scaffolding only — never a sourced medical claim."
 mechanisms:
   - id: MEC-output-basics
@@ -209,29 +221,34 @@ clinical_reasoning:
 
 confusion:
   - id: CONF-ef-types
+    question: "Pourquoi « FE basse ou FE normale » ne peut-il pas être traité comme un simple binaire ?"
     a: "IC à FE diminuée = défaut d’éjection (et logique thérapeutique des 4 classes)"
     b: "IC à FE préservée = défaut de remplissage (critères et traitement distincts)"
     note: "HFmrEF est une zone intermédiaire à distinction surtout thérapeutique — ne pas l’effacer dans un binaire."
     uses_kp: [KP-014, KP-015, KP-016]
 
   - id: CONF-left-right
+    question: "Comment distinguer congestion gauche et congestion droite, et pourquoi vont-elles souvent ensemble ?"
     a: "Congestion gauche / pulmonaire : pressions VG → OG → capillaires pulmonaires"
     b: "Congestion droite / systémique : pressions VD → OD → veines systémiques (jugulaires, foie, œdèmes)"
     note: "L’IC droite est le plus souvent secondaire à l’IC gauche (IC globale), mais des causes isolées existent."
     uses_kp: [KP-007, KP-040, KP-030, KP-057]
 
   - id: CONF-transsudat-exsudat
+    question: "Pourquoi tout œdème aigu pulmonaire n’est-il pas un OAP cardiogénique ?"
     a: "OAP cardiogénique = transsudat (pression hydrostatique)"
     b: "OAP lésionnel = exsudat (membrane alvéolo-capillaire lésée)"
     uses_kp: [KP-041, KP-042]
 
   - id: CONF-bb-chronic-vs-acute
+    question: "Faut-il poursuivre ou arrêter le bêtabloquant devant une décompensation ?"
     a: "Contexte chronique / hospitalisation pour décompensation (hors OAP VII.A) : généralement poursuivre le bêtabloquant sauf échec de réponse ou choc"
     b: "Contexte OAP aigu (VII.A) : ne pas introduire de BB ; si déjà sous BB → généralement arrêt ou ↓ posologie"
     note: "Source conflict seg-ambig-bb-stop — do not collapse into one universal rule."
     uses_kp: [KP-081, KP-103]
 
   - id: CONF-ccb-fe-source
+    question: "Les inhibiteurs calciques sont-ils interdits dans l’insuffisance cardiaque ?"
     a: "VI.C.8 : diltiazem/vérapamil contre-indiqués dans l’IC systolique ; dihydropyridines utilisables si indication associée"
     b: "VI.F ABCDEFG : inhibiteur calcique ralentisseur peut baisser la FC dans la logique HFpEF ; Notions inacceptables portent un libellé conflictuel sur FE préservée"
     note: "Source conflict seg-ambig-fe-ci-notions — keep explicit; do not invent a universal CCB rule."

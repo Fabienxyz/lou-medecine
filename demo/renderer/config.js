@@ -1,6 +1,18 @@
 window.LouConfig = {
-    ASSETS_ROOT: "../../01-learning/generated-assets",
+    // The canonical output location of the build: `lou-build` writes a chapter here, and its
+    // manifest.json is the renderer's entry point (REFERENCE_IMPLEMENTATION_DESIGN.md §2).
     CHAPTERS_ROOT: "../../01-learning/chapters",
+
+    // The superseded pre-architecture prototype, kept for history only: every artifact under it is
+    // classified REGENERATE / TRANSFORM / ARCHIVE (§14). It is a fallback for chapters that have not
+    // been rebuilt yet, never a destination for anything generated.
+    LEGACY_ASSETS_ROOT: "../../01-learning/generated-assets",
+
+    // Legacy URLs named a chapter by its prose slug; the built chapter is keyed by item number.
+    // Aliasing keeps old links working without copying artifacts between the two locations.
+    LEGACY_CHAPTER_ALIASES: {
+        "cardio/234-insuffisance-cardiaque": "cardio/234",
+    },
 
     /** Filename for chapter metadata (manifest.json or chapter.json). */
     MANIFEST_FILENAME: "manifest.json",
@@ -12,6 +24,8 @@ window.LouConfig = {
         chapterNotFound: "Chapter not found.",
         loadFailed: "Failed to load content.",
         emptyContent: "Content is empty.",
+        legacyContent:
+            "Contenu de prototype (avant architecture) : ce chapitre n’a pas encore de sortie de build. Rien ici n’est tracé ni vérifié.",
     },
 
     TABS: [
@@ -47,12 +61,21 @@ window.LouConfig = {
         },
     ],
 
-    /** Slice chapters live under 01-learning/chapters/; legacy under generated-assets/. */
+    // Resolution is canonical-first and evidence-based: a chapter is served from the build output
+    // whenever that output exists. There is deliberately no per-chapter allowlist here — the
+    // renderer must not carry a list of which chapters have been built.
+    contentRoot: null,
+
     resolveContentRoot(chapter) {
-        if (chapter === "cardio/234") {
-            return this.CHAPTERS_ROOT + "/" + chapter;
-        }
-        return this.ASSETS_ROOT + "/" + chapter;
+        return (this.contentRoot || this.CHAPTERS_ROOT) + "/" + chapter;
+    },
+
+    useLegacyContentRoot() {
+        this.contentRoot = this.LEGACY_ASSETS_ROOT;
+    },
+
+    isLegacyContentRoot() {
+        return this.contentRoot === this.LEGACY_ASSETS_ROOT;
     },
 
     sanitizeChapter(chapter) {
@@ -63,7 +86,7 @@ window.LouConfig = {
         if (!trimmed || trimmed.includes("..") || trimmed.startsWith("/")) {
             return null;
         }
-        return trimmed;
+        return this.LEGACY_CHAPTER_ALIASES[trimmed] || trimmed;
     },
 
     resolveAssetPath(chapter, filename) {

@@ -16,17 +16,12 @@ projections:
     path: projections/understanding/overview.md
     status: published
     label: "🗺️ Vue d’ensemble"
+    # The Chapter Overview is a single pedagogical block acting as the chapter map: it projects the
+    # mental model, and its walkthrough traverses the whole causal chain once. The elements it
+    # traverses keep their own blocks in "Pourquoi ?" and "Raisonnement clinique", where the
+    # canonical explanation of each one lives.
     elements:
       - MM-pump-decompensation
-      - MEC-output-basics
-      - MEC-compensation
-      - MEC-ef-phenotypes
-      - MEC-congestion
-      - MEC-oap
-      - CR-recognize
-      - CR-diagnose
-      - CR-treat-hfref
-      - CR-treat-hfpef
 
   - id: mechanisms
     type: understanding.mechanisms

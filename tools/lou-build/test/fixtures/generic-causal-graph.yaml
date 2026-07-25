@@ -1,0 +1,66 @@
+# Non-medical causal-graph fixture — TEST ONLY, never production content.
+#
+# Exists to prove the renderer is a grammar renderer and not an Item 234 renderer:
+# it must lay this out with no code change. Deliberately exercises fan-out,
+# fan-in, and one feedback relation.
+#
+#   understaffing → overtime
+#   understaffing → deferred-maintenance
+#   overtime      → incident-rate
+#   deferred-maintenance → incident-rate
+#   incident-rate --feeds_back--> understaffing
+#
+# All units are scaffolding: this graph makes no claim about any source corpus.
+
+spec_version: 0.1
+primitive: causal-graph
+chapter: fixtures/generic
+element: MM-generic-fixture
+question: "Comment une équipe sous-dimensionnée se dégrade-t-elle ?"
+
+nodes:
+  - id: understaffing
+    kind: state
+    label: "Effectif insuffisant"
+    class: scaffolding
+
+  - id: overtime
+    kind: response
+    label: "Heures supplémentaires"
+    class: scaffolding
+
+  - id: deferred-maintenance
+    kind: state
+    label: "Maintenance reportée"
+    class: scaffolding
+
+  - id: incident-rate
+    kind: event
+    label: "Incidents plus fréquents"
+    class: scaffolding
+
+edges:
+  - from: understaffing
+    to: overtime
+    relation: causes
+    class: scaffolding
+
+  - from: understaffing
+    to: deferred-maintenance
+    relation: causes
+    class: scaffolding
+
+  - from: overtime
+    to: incident-rate
+    relation: causes
+    class: scaffolding
+
+  - from: deferred-maintenance
+    to: incident-rate
+    relation: causes
+    class: scaffolding
+
+  - from: incident-rate
+    to: understaffing
+    relation: feeds_back
+    class: scaffolding

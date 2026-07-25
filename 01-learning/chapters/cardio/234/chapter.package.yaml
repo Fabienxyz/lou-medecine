@@ -10,6 +10,9 @@ known_absent:
   - actors
   - readiness
 
+# Declared intent, not a publication gate. An Official Visual is optional pedagogical support, so a
+# visual listed here that cannot be built is reported as unavailable rather than blocking the
+# chapter (IMPLEMENTATION_CONTRACT.md C.6). The Guided Walkthrough is the canonical explanation.
 required_visual_elements:
   - MEC-oap
 

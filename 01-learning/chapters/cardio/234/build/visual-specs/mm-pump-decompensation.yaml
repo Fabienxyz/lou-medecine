@@ -1,0 +1,137 @@
+# visualSpec v0.1 (EXPERIMENTAL) — generated artifact, committed for auditability.
+#
+# Derived from blueprint.md (MM-pump-decompensation) + inventory.yaml.
+# NOT derived from the legacy 234 SVG corpus.
+#
+# Contract: VISUAL_GRAMMAR_CONTRACT.md
+# Validator: tools/lou-build/lib/visual-spec.js
+#
+# Class vocabulary is the existing claim-block vocabulary (sourced | bridging |
+# scaffolding). An edge is a claim in its own right: A and B each being sourced
+# does not make "A causes B" sourced. Bridging units carry a rationale comment
+# because they are the units a semantic grounding pass must adjudicate.
+
+spec_version: 0.1
+primitive: causal-graph
+chapter: cardio/234
+element: MM-pump-decompensation
+question: "Que devient un cœur dont la pompe défaille ?"
+
+provenance:
+  source_edition: 2024-SFC
+  blueprint_revision: phase-4-blueprint
+  methodology_version: visual-spec-v0.1-experiment
+
+nodes:
+  - id: cardiac-abnormality
+    kind: state
+    label: "Anomalie cardiaque (structure/fonction)"
+    class: sourced
+    kp: [KP-002]
+
+  - id: pump-failure
+    kind: state
+    label: "Pompe cardiaque défaillante"
+    class: sourced
+    kp: [KP-001, KP-006]
+
+  - id: low-output
+    kind: state
+    label: "Débit insuffisant"
+    class: sourced
+    kp: [KP-001, KP-006]
+
+  - id: filling-pressure
+    kind: state
+    label: "Pressions de remplissage ↑"
+    class: sourced
+    kp: [KP-001, KP-006, KP-040]
+
+  # Scoped to the neurohormonal responses KP-012 calls "les plus importants".
+  # Starling (KP-010) is deliberately absent: the spine draws no preload→inotropy
+  # edge, so the node must not claim a KP the graph never expresses.
+  - id: compensation
+    kind: response
+    label: "Compensations neurohormonales (sympathique, SRAA)"
+    class: sourced
+    kp: [KP-008, KP-011, KP-012]
+
+  - id: overload
+    kind: state
+    label: "Surcharge de travail, effets délétères"
+    class: sourced
+    kp: [KP-008, KP-011, KP-012]
+
+  - id: congestion
+    kind: state
+    label: "Congestion pulmonaire et systémique"
+    class: sourced
+    kp: [KP-040, KP-007]
+
+  - id: acute-decompensation
+    kind: event
+    label: "Décompensation aiguë"
+    class: sourced
+    kp: [KP-059, KP-068]
+
+edges:
+  # KP-002 asserts the anomaly causes insufficient output; this model interposes
+  # the pump-failure state between them, so the relation is inferred, not quoted.
+  - from: cardiac-abnormality
+    to: pump-failure
+    relation: causes
+    class: bridging
+    kp: [KP-002, KP-001]
+
+  - from: pump-failure
+    to: low-output
+    relation: causes
+    class: sourced
+    kp: [KP-006, KP-001]
+
+  - from: pump-failure
+    to: filling-pressure
+    relation: causes
+    class: sourced
+    kp: [KP-006, KP-001]
+
+  # Downgraded from sourced by the independent grounding pass. The source frames
+  # compensation as a response to cardiac dysfunction as a whole ("En cas de
+  # dysfonctionnement cardiaque, l'organisme réagit"); only KP-012 supplies an
+  # explicit trigger, and it runs via renal perfusion rather than output as such.
+  - from: low-output
+    to: compensation
+    relation: causes
+    class: bridging
+    kp: [KP-008, KP-011, KP-012]
+
+  - from: compensation
+    to: overload
+    relation: causes
+    class: sourced
+    kp: [KP-008, KP-011, KP-012]
+
+  # The chapter's central teaching: compensation becomes the disease. The source
+  # asserts the deleterious effects (increased work, proarrhythmia, catecholamine
+  # myocyte toxicity) but never closes the loop back onto the pump in one place.
+  - from: overload
+    to: pump-failure
+    relation: feeds_back
+    class: bridging
+    kp: [KP-008, KP-011, KP-012]
+
+  - from: filling-pressure
+    to: congestion
+    relation: transmits
+    class: sourced
+    kp: [KP-040, KP-007]
+
+  # Replaces an earlier congestion → acute-decompensation edge that the independent
+  # grounding pass rejected as too strong: the source attributes acute HF to
+  # "une altération de la fonction de la pompe cardiaque", not to congestion.
+  # Congestion causes only the OAP subtype, via a threshold that belongs to MEC-oap.
+  - from: pump-failure
+    to: acute-decompensation
+    relation: causes
+    class: sourced
+    kp: [KP-059]

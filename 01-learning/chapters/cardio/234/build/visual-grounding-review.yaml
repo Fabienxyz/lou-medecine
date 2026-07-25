@@ -1,0 +1,77 @@
+# Independent semantic grounding review — MM-pump-decompensation visualSpec
+#
+# This is NOT a bootstrap auto-pass allowlist. Two properties distinguish it:
+#
+#   1. Every verdict is bound to `unit_digest`, the content hash of the exact
+#      semantic unit adjudicated. Change the relation, the label, or the KP set
+#      and the verdict stops applying — the unit reverts to `unresolved`, which
+#      blocks rendering. An allowlist grants standing to an ID; this grants
+#      standing to a specific claim.
+#   2. Every verdict records the evidence weighed and the reasoning, so the
+#      judgement can be contested rather than merely trusted.
+#
+# Only judgement-class units (bridging, scaffolding) appear here. `sourced` units
+# are gated deterministically by anchor resolution in visual-ground.js and do not
+# need an entry; an entry with status `fail` would still override them.
+#
+# Method: the reviewer re-read the primary College text around each cited anchor
+# (official-college.md), rather than reasoning from the Inventory labels that the
+# spec was generated from. That pass changed the graph — see the experiment report.
+
+element: MM-pump-decompensation
+spec: build/visual-specs/mm-pump-decompensation.yaml
+reviewed_against: 2024-SFC
+method: independent-source-reread
+reviewer: agent/independent-grounding-pass-1
+reviewed_on: 2026-07-24
+
+verdicts:
+  cb-vis-mm-pump-decompensation-e-cardiac-abnormality-to-pump-failure:
+    status: pass
+    unit_digest: 6b400efc004e2a16
+    claim: "A structural or functional cardiac abnormality produces a failing pump."
+    evidence_weighed:
+      - "KP-002 anchor: « causés par une anomalie de structure et/ou de fonction du cœur entraînant un débit cardiaque insuffisant »"
+      - "KP-001 anchor: « incapacité du cœur à délivrer un débit adapté aux besoins de l'organisme et/ou à fonctionner avec des pressions de remplissage normales »"
+    rationale: >-
+      Entailed by substitution. KP-002 asserts the abnormality causes insufficient
+      output; KP-001 defines pump failure as precisely that inability. The model
+      names the intermediate state the two KPs jointly describe, so it adds no
+      medical content. Retained as bridging rather than promoted to sourced: the
+      College sentences that would make it directly sourced ("Toutes les pathologies
+      cardiovasculaires… peuvent conduire à l'IC"; "ce dysfonctionnement peut être
+      d'origine myocardique, valvulaire, péricardique…") are not carried by any KP,
+      and the Inventory, not the raw source, is the canonical layer.
+
+  cb-vis-mm-pump-decompensation-e-low-output-to-compensation:
+    status: pass
+    unit_digest: 6d8765793259eb7d
+    claim: "Inadequate cardiac output recruits neurohormonal compensation."
+    evidence_weighed:
+      - "KP-012 anchor: « La rétention hydrosodée, liée à la baisse de la perfusion rénale »"
+      - "KP-011 anchor: « La tachycardie… contribue également à maintenir le débit cardiaque »"
+      - "KP-008 anchor: « bénéfiques à court terme car maintenant le débit cardiaque »"
+    rationale: >-
+      Entailed, but not directly stated — which is why this unit was downgraded
+      from sourced during this pass. The College frames compensation as a response
+      to cardiac dysfunction as a whole ("En cas de dysfonctionnement cardiaque,
+      l'organisme réagit"), and only KP-012 supplies an explicit trigger, running
+      via renal perfusion rather than output as such. The three anchors together
+      establish that these mechanisms exist to defend output and perfusion, from
+      which an output deficit recruiting them follows.
+
+  cb-vis-mm-pump-decompensation-e-overload-to-pump-failure:
+    status: pass
+    unit_digest: aaed419c3af4cfb2
+    claim: "The overload imposed by compensation feeds back and worsens the failing pump."
+    evidence_weighed:
+      - "KP-008 anchor: « mais délétères à long terme car contribuant à augmenter le travail »"
+      - "KP-011 anchor: « L'effet délétère est une augmentation du travail cardiaque et de la consommation en oxygène du cœur »"
+      - "KP-012 anchor: « des effets proarythmiques, des effets toxiques directs des catécholamines sur les myocytes »"
+    rationale: >-
+      Entailed. Direct catecholamine toxicity to myocytes, added workload and added
+      oxygen demand on an already-failing heart are deterioration of the pump; the
+      word "délétère" in KP-008 has no other referent. The College never closes the
+      loop in a single sentence, so this remains bridging rather than sourced, and
+      it is the chapter's central teaching, so it is the verdict most worth
+      contesting.

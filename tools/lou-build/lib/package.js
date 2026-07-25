@@ -110,6 +110,10 @@ export function runValidation(chapterDir, options = {}) {
     steps.anchors = { ok: true, errors: [], skipped: true };
   }
 
+  // An Official Visual is optional pedagogical support, not the canonical explanation
+  // (IMPLEMENTATION_CONTRACT.md Part B / C.6). A visual that cannot be produced or validated is
+  // therefore withheld and reported — it never withholds an otherwise valid Guided Walkthrough, so
+  // nothing here reaches `errors`. Every other gate still blocks as before.
   const visualBuild = validateAndPreviewVisuals({
     chapterDir,
     paths,
@@ -121,14 +125,6 @@ export function runValidation(chapterDir, options = {}) {
     requiredVisualElements: pkg.config?.required_visual_elements || [],
   });
   steps.visuals = visualBuild;
-  if (!visualBuild.ok) errors.push(...visualBuild.errors);
-
-  for (const elementId of pkg.config?.required_visual_elements || []) {
-    const el = findBlueprintElement(blueprint.data, elementId);
-    if (!el?.visual_intent) {
-      errors.push(`package: required visual element ${elementId} missing visual_intent`);
-    }
-  }
 
   return {
     ok: errors.length === 0,
@@ -155,15 +151,32 @@ function validateAndPreviewVisuals({
   skipSvg,
   requiredVisualElements,
 }) {
-  const errors = [];
   const rendered = [];
+  const withheld = [];
   const elements = bpVal.visualElements || [];
+  const activated = new Set(elements.map((e) => e.id));
+
+  // `visual_plan` is the Blueprint's canonical declaration of which elements warrant an Official
+  // Visual; `visual_intent` activates the subset the current renderer supports. A planned element
+  // that is not activated is reported as declared-but-unbuilt, never as a build failure. An element
+  // absent from `visual_plan` warrants no visual at all, which is a correct and frequent outcome
+  // (VISUAL_GRAMMAR_CONTRACT.md I8) and needs no entry.
+  const planned = [];
+  for (const entry of blueprint.visual_plan || []) {
+    if (entry?.element && !activated.has(entry.element)) {
+      planned.push({ elementId: entry.element, intent: entry.intent || null });
+    }
+  }
 
   for (const reqId of requiredVisualElements) {
-    if (!elements.some((e) => e.id === reqId)) {
-      errors.push(
-        `package: required visual element ${reqId} not declared with visual_intent in blueprint`
-      );
+    if (!activated.has(reqId)) {
+      withheld.push({
+        elementId: reqId,
+        state: "planned-not-built",
+        reasons: [
+          `declared in required_visual_elements but not activated with visual_intent in blueprint`,
+        ],
+      });
     }
   }
 
@@ -177,14 +190,25 @@ function validateAndPreviewVisuals({
     } else {
       const renderedResult = renderSvg(spec);
       if (!renderedResult.ok) {
-        errors.push(...renderedResult.errors);
+        withheld.push({
+          elementId: element.id,
+          state: "withheld",
+          reasons: renderedResult.errors,
+        });
         continue;
       }
       svgText = renderedResult.svg;
     }
 
     const svgVal = validateSvgStructure(svgText, element.id);
-    if (!svgVal.ok) errors.push(...svgVal.errors);
+    if (!svgVal.ok) {
+      withheld.push({
+        elementId: element.id,
+        state: "withheld",
+        reasons: svgVal.errors,
+      });
+      continue;
+    }
 
     rendered.push({
       elementId: element.id,
@@ -196,7 +220,14 @@ function validateAndPreviewVisuals({
     });
   }
 
-  return { ok: errors.length === 0, errors, rendered, elements };
+  return {
+    ok: withheld.length === 0,
+    errors: [],
+    withheld,
+    planned,
+    rendered,
+    elements,
+  };
 }
 
 function invalidatePublishableState(paths) {
@@ -288,9 +319,38 @@ function assembleManifest({
       id: String(vis.elementId).toLowerCase(),
       element: vis.elementId,
       path: vis.relPath,
-      alt: packageConfig.visual_alts?.[vis.elementId] || `${vis.elementId} diagram`,
+      // Alt text is derived from the specification, never authored here (I1). The authored
+      // `visual_alts` entry is itself spec-derived prose reviewed once; the fallback is the
+      // element's own step labels.
+      alt:
+        packageConfig.visual_alts?.[vis.elementId] ||
+        (vis.spec?.steps || []).map((s) => s.label).join(" → "),
     });
   }
+
+  // Official Visual availability, in the three states the renderer must distinguish (C.6). An
+  // element absent from this list warrants no visual: a correct outcome, not a gap.
+  const availability = new Map();
+  for (const vis of visualBuild.rendered || []) {
+    availability.set(vis.elementId, { element: vis.elementId, state: "published" });
+  }
+  for (const p of visualBuild.planned || []) {
+    if (!availability.has(p.elementId)) {
+      availability.set(p.elementId, {
+        element: p.elementId,
+        state: "planned-not-built",
+        intent: p.intent,
+      });
+    }
+  }
+  for (const w of visualBuild.withheld || []) {
+    availability.set(w.elementId, {
+      element: w.elementId,
+      state: w.state,
+      reasons: w.reasons,
+    });
+  }
+  manifest.official_visuals = [...availability.values()];
 
   return manifest;
 }
@@ -320,16 +380,36 @@ export function runBuild(chapterDir) {
   fs.mkdirSync(paths.buildDir, { recursive: true });
   fs.mkdirSync(paths.figuresDir, { recursive: true });
 
+  // A withheld Official Visual must not leave an asset behind pretending to be current, and must
+  // not withhold the block's Guided Walkthrough (C.6 publication behaviour).
+  const withheld = [...(visualBuild.withheld || [])];
+
   for (const vis of visualBuild.rendered) {
     const element = findBlueprintElement(blueprint.data, vis.elementId);
     const renderedResult = renderSvg(
       buildVisualSpec(element, inventory, sourceMeta)
     );
     if (!renderedResult.ok) {
-      recordBuildFailure(paths, ground, renderedResult.errors);
-      return { ok: false, errors: renderedResult.errors };
+      withheld.push({
+        elementId: vis.elementId,
+        state: "withheld",
+        reasons: renderedResult.errors,
+      });
+      continue;
     }
     fs.writeFileSync(vis.absPath, renderedResult.svg);
+  }
+
+  const withheldIds = new Set(withheld.map((w) => w.elementId));
+  const published = visualBuild.rendered.filter(
+    (v) => !withheldIds.has(v.elementId)
+  );
+  for (const w of withheld) {
+    const absPath = figureAbsPath(paths.figuresDir, w.elementId);
+    if (fs.existsSync(absPath)) {
+      fs.rmSync(absPath);
+      w.stale_asset_removed = figureRelPathForElement(w.elementId);
+    }
   }
 
   fs.writeFileSync(
@@ -344,12 +424,12 @@ export function runBuild(chapterDir) {
     packageConfig,
     projections,
     reconciliation: steps.reconciliation,
-    visualBuild,
+    visualBuild: { ...visualBuild, rendered: published, withheld },
   });
 
   fs.writeFileSync(paths.manifest, JSON.stringify(manifest, null, 2) + "\n");
 
-  return { ok: true, manifest, paths };
+  return { ok: true, manifest, paths, withheldVisuals: withheld };
 }
 
 export { loadSourceBundle };

@@ -362,7 +362,10 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     }
   });
 
-  test("missing visual_intent fails package validation", () => {
+  // An Official Visual is optional pedagogical support, so a visual that cannot be produced is
+  // reported and withheld — it never invalidates the Guided Walkthrough, which is the canonical
+  // explanation (IMPLEMENTATION_CONTRACT.md C.6).
+  test("missing visual_intent withholds the visual and still validates", () => {
     restoreBaseline("blueprint");
     const bpPath = artifactPaths.blueprint;
     const original = fs.readFileSync(bpPath, "utf8");
@@ -374,9 +377,62 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     fs.writeFileSync(bpPath, corrupted);
     try {
       const result = runValidation(CHAPTER, { skipSvg: true });
-      assert.equal(result.ok, false);
+      assert.equal(result.ok, true);
+      const withheld = result.steps.visuals.withheld;
+      assert.equal(withheld.length, 1);
+      assert.equal(withheld[0].elementId, "MEC-oap");
+      assert.equal(withheld[0].state, "planned-not-built");
+      assert.ok(withheld[0].reasons.length > 0);
+      assert.equal(result.steps.visuals.rendered.length, 0);
     } finally {
       restoreBaseline("blueprint");
+    }
+  });
+
+  // The failure must remain fully visible: reported, stale asset removed, traceability and
+  // validation results preserved, and the walkthrough still published.
+  test("an unrenderable Official Visual degrades the block instead of failing the build", () => {
+    restoreBaseline("blueprint");
+    const bpPath = artifactPaths.blueprint;
+    const original = fs.readFileSync(bpPath, "utf8");
+    const corrupted = original.replace(
+      "visual_intent: process-flow",
+      "visual_intent: causal-graph"
+    );
+    assert.notEqual(corrupted, original);
+    fs.writeFileSync(bpPath, corrupted);
+    const figure = path.join(CHAPTER, "figures", "mec-oap.svg");
+    try {
+      fs.rmSync(figure, { force: true });
+      const result = runBuild(CHAPTER);
+
+      assert.equal(result.ok, true);
+      assert.equal(fs.existsSync(figure), false);
+      assert.equal(result.withheldVisuals.length, 1);
+      assert.equal(result.withheldVisuals[0].elementId, "MEC-oap");
+      assert.equal(result.withheldVisuals[0].state, "withheld");
+
+      const availability = result.manifest.official_visuals.find(
+        (v) => v.element === "MEC-oap"
+      );
+      assert.equal(availability.state, "withheld");
+      assert.ok(availability.reasons.length > 0);
+      assert.equal(result.manifest.visuals.length, 0);
+
+      // Traceability and grounding results survive the withheld visual.
+      const chapterPaths = pathsModule.chapterPaths(CHAPTER);
+      assert.equal(fs.existsSync(chapterPaths.traceability), true);
+      assert.match(
+        fs.readFileSync(chapterPaths.grounding, "utf8"),
+        /^status: pass/m
+      );
+      const mechanisms = result.manifest.projections.find(
+        (p) => p.type === "understanding.mechanisms"
+      );
+      assert.equal(mechanisms.status, "published");
+    } finally {
+      restoreBaseline("blueprint");
+      runBuild(CHAPTER);
     }
   });
 

@@ -26,19 +26,18 @@
         );
     }
 
+    // Probe the canonical build output first. Only if no manifest exists there does the renderer
+    // fall back to the superseded prototype folder — and it says so, rather than quietly serving
+    // stale content that looks like pipeline output.
     async function loadChapterMetadata(chapterId) {
         if (!chapterId) {
             return null;
         }
 
-        const url = config.resolveManifestPath(chapterId);
         try {
-            const data = await renderer.fetchJson(url);
-            return data;
+            return await renderer.fetchJson(config.resolveManifestPath(chapterId));
         } catch (err) {
-            if (err.status === 404) {
-                return null;
-            }
+            config.useLegacyContentRoot();
             return null;
         }
     }
@@ -58,6 +57,17 @@
                     projection: p,
                 };
             });
+    }
+
+    function announceLegacyContent() {
+        if (!chapter || !config.isLegacyContentRoot()) {
+            return;
+        }
+        const notice = document.createElement("p");
+        notice.className = "legacy-notice";
+        notice.setAttribute("role", "status");
+        notice.textContent = config.ERROR_MESSAGES.legacyContent;
+        tabsEl.insertAdjacentElement("beforebegin", notice);
     }
 
     function buildTabs() {
@@ -108,11 +118,19 @@
                 return;
             }
             const learnerMd = renderer.prepareLearnerMarkdown(text);
-            let html = markdown.parse(learnerMd);
-            if (tab.projection) {
-                html = renderer.injectVisuals(html, tab.projection, chapter, config);
+            const html = markdown.parse(learnerMd);
+            if (tab.projection && manifest) {
+                await renderer.renderProjection(html, {
+                    projection: tab.projection,
+                    manifest: manifest,
+                    chapter: chapter,
+                    config: config,
+                    renderer: renderer,
+                    store: window.LouLearnerStore,
+                });
+            } else {
+                renderer.injectHtml(renderer.wrapWithFooterNav(html));
             }
-            renderer.injectHtml(renderer.wrapWithFooterNav(html));
         } catch (err) {
             if (err.status === 404) {
                 renderer.showMessage(
@@ -163,6 +181,7 @@
             });
         } else {
             tabs = config.TABS.slice();
+            announceLegacyContent();
         }
 
         buildTabs();

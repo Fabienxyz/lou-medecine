@@ -10,9 +10,19 @@ export function parseBlueprint(filePath, raw) {
   return { data, body, raw };
 }
 
+// `mental_model` accepts either a bare element id or `{ id, question }`. The mental model is
+// projected as a pedagogical block like any other element, so it carries a learner-facing
+// question; the bare-string form predates that and stays readable.
+export function mentalModel(data) {
+  const mm = data?.mental_model;
+  if (!mm) return null;
+  return typeof mm === "string" ? { id: mm } : mm;
+}
+
 export function collectBlueprintElementIds(data) {
   const ids = new Set();
-  if (data.mental_model) ids.add(data.mental_model);
+  const mm = mentalModel(data);
+  if (mm?.id) ids.add(mm.id);
   for (const mec of data.mechanisms || []) {
     if (mec.id) ids.add(mec.id);
   }
@@ -62,6 +72,12 @@ export function validateBlueprint(blueprint, inventoryIds) {
   const elementIds = collectBlueprintElementIds(data);
   const mechanisms = data.mechanisms || [];
 
+  const mm = mentalModel(data);
+  if (mm && !mm.id) errors.push("mental_model missing id");
+  if (mm && !mm.question) {
+    errors.push(`${mm.id || "mental_model"}: missing question`);
+  }
+
   for (const mec of mechanisms) {
     if (!mec.id) errors.push("mechanism missing id");
     if (!mec.question) errors.push(`${mec.id || "?"}: missing question`);
@@ -101,6 +117,7 @@ export function validateBlueprint(blueprint, inventoryIds) {
     mechanisms,
     confusion: data.confusion || [],
     clinicalReasoning: data.clinical_reasoning || [],
+    mentalModel: mm,
     visualElements,
   };
 }

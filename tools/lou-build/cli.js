@@ -21,8 +21,21 @@ try {
   process.exit(2);
 }
 
+// A withheld Official Visual never fails the run — it is optional support — but it must stay
+// fully visible in the report (IMPLEMENTATION_CONTRACT.md C.6).
+function reportWithheldVisuals(withheld) {
+  for (const w of withheld || []) {
+    console.warn(`OFFICIAL VISUAL ${w.state.toUpperCase()} — ${w.elementId}`);
+    for (const reason of w.reasons || []) console.warn("   -", reason);
+    if (w.stale_asset_removed) {
+      console.warn("   - stale asset removed:", w.stale_asset_removed);
+    }
+  }
+}
+
 if (command === "validate") {
   const result = runValidation(chapterDir);
+  reportWithheldVisuals(result.steps?.visuals?.withheld);
   if (result.ok) {
     console.log("VALIDATE PASS");
     process.exit(0);
@@ -34,6 +47,7 @@ if (command === "validate") {
 
 if (command === "build") {
   const result = runBuild(chapterDir);
+  reportWithheldVisuals(result.withheldVisuals || result.steps?.visuals?.withheld);
   if (result.ok) {
     console.log("BUILD PASS — manifest.json written");
     process.exit(0);

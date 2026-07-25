@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 838 687" width="838" height="687" role="img" aria-labelledby="vg-title vg-desc" data-primitive="causal-graph" data-element="MM-pump-decompensation" data-spec-version="0.1">
+  <title id="vg-title">Que devient un cœur dont la pompe défaille ?</title>
+  <desc id="vg-desc">Graphe causal : 8 entités, 8 relations, dont 1 boucle de rétroaction. Anomalie cardiaque (structure/fonction) entraîne Pompe cardiaque défaillante ; Pompe cardiaque défaillante entraîne Débit insuffisant ; Pompe cardiaque défaillante entraîne Pressions de remplissage ↑ ; Débit insuffisant entraîne Compensations neurohormonales (sympathique, SRAA) ; Compensations neurohormonales (sympathique, SRAA) entraîne Surcharge de travail, effets délétères ; Surcharge de travail, effets délétères rétroagit sur Pompe cardiaque défaillante ; Pressions de remplissage ↑ se transmet à Congestion pulmonaire et systémique ; Pompe cardiaque défaillante entraîne Décompensation aiguë.</desc>
+  <defs>
+    <marker id="vg-arrow-solid" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0.5 L7,3.5 L0,6.5 Z" fill="#9ca3af"/>
+    </marker>
+    <marker id="vg-arrow-flow" markerWidth="9" markerHeight="8" refX="8.5" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0.6,1 L3.4,4 L0.6,7 M4.8,1 L7.6,4 L4.8,7" fill="none" stroke="#9ca3af" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="vg-arrow-accent" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0.5 L7,3.5 L0,6.5 Z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .vg-title { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 19px; font-weight: 600; fill: #1d1d1f; }
+      .vg-label { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px; font-weight: 600; fill: #1d1d1f; }
+    </style>
+  </defs>
+  <rect width="838" height="687" fill="#ffffff"/>
+  <text x="419" y="40" text-anchor="middle" class="vg-title">
+    <tspan x="419" dy="0">Que devient un cœur dont la pompe défaille ?</tspan>
+  </text>
+  <line x1="379" y1="56" x2="459" y2="56" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+  <g data-layer="relations">
+    <g data-claim="cb-vis-mm-pump-decompensation-e-cardiac-abnormality-to-pump-failure" data-edge-id="cardiac-abnormality-&gt;pump-failure" data-relation="causes" data-claim-class="bridging" data-kp="KP-002 KP-001">
+      <path d="M 385 148 L 385 204" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round" marker-end="url(#vg-arrow-solid)"/>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-e-pump-failure-to-low-output" data-edge-id="pump-failure-&gt;low-output" data-relation="causes" data-claim-class="sourced" data-kp="KP-006 KP-001">
+      <path d="M 385 257 C 385 285, 121.5 285, 121.5 313" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round" marker-end="url(#vg-arrow-solid)"/>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-e-pump-failure-to-filling-pressure" data-edge-id="pump-failure-&gt;filling-pressure" data-relation="causes" data-claim-class="sourced" data-kp="KP-006 KP-001">
+      <path d="M 385 257 C 385 285, 360.5 285, 360.5 313" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round" marker-end="url(#vg-arrow-solid)"/>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-e-low-output-to-compensation" data-edge-id="low-output-&gt;compensation" data-relation="causes" data-claim-class="bridging" data-kp="KP-008 KP-011 KP-012">
+      <path d="M 121.5 366 C 121.5 394, 236 394, 236 422" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round" marker-end="url(#vg-arrow-solid)"/>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-e-compensation-to-overload" data-edge-id="compensation-&gt;overload" data-relation="causes" data-claim-class="sourced" data-kp="KP-008 KP-011 KP-012">
+      <path d="M 236 517 C 236 545, 385 545, 385 573" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round" marker-end="url(#vg-arrow-solid)"/>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-e-overload-to-pump-failure" data-edge-id="overload-&gt;pump-failure" data-relation="feeds_back" data-claim-class="bridging" data-kp="KP-008 KP-011 KP-012">
+      <path d="M 517 610 L 750 610 Q 764 610, 764 596 L 764 244.5 Q 764 230.5, 750 230.5 L 512.5 230.5" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 6" marker-end="url(#vg-arrow-accent)"/>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-e-filling-pressure-to-congestion" data-edge-id="filling-pressure-&gt;congestion" data-relation="transmits" data-claim-class="sourced" data-kp="KP-040 KP-007">
+      <path d="M 360.5 366 C 360.5 399.25, 534 399.25, 534 432.5" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round" marker-end="url(#vg-arrow-flow)"/>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-e-pump-failure-to-acute-decompensation" data-edge-id="pump-failure-&gt;acute-decompensation" data-relation="causes" data-claim-class="sourced" data-kp="KP-059">
+      <path d="M 385 257 C 385 285, 624 285, 624 313" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round" marker-end="url(#vg-arrow-solid)"/>
+    </g>
+  </g>
+  <g data-layer="entities">
+    <g data-claim="cb-vis-mm-pump-decompensation-n-cardiac-abnormality" data-node-id="cardiac-abnormality" data-node-kind="state" data-claim-class="sourced" data-kp="KP-002">
+      <rect x="253" y="74" width="264" height="74" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="385" y="105.75" text-anchor="middle" class="vg-label">
+        <tspan x="385" dy="0">Anomalie cardiaque</tspan>
+        <tspan x="385" dy="21">(structure/fonction)</tspan>
+      </text>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-n-pump-failure" data-node-id="pump-failure" data-node-kind="state" data-claim-class="sourced" data-kp="KP-001 KP-006">
+      <rect x="257.5" y="204" width="255" height="53" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="385" y="235.75" text-anchor="middle" class="vg-label">
+        <tspan x="385" dy="0">Pompe cardiaque défaillante</tspan>
+      </text>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-n-low-output" data-node-id="low-output" data-node-kind="state" data-claim-class="sourced" data-kp="KP-001 KP-006">
+      <rect x="40" y="313" width="163" height="53" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="122" y="344.75" text-anchor="middle" class="vg-label">
+        <tspan x="122" dy="0">Débit insuffisant</tspan>
+      </text>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-n-filling-pressure" data-node-id="filling-pressure" data-node-kind="state" data-claim-class="sourced" data-kp="KP-001 KP-006 KP-040">
+      <rect x="237" y="313" width="247" height="53" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="361" y="344.75" text-anchor="middle" class="vg-label">
+        <tspan x="361" dy="0">Pressions de remplissage ↑</tspan>
+      </text>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-n-compensation" data-node-id="compensation" data-node-kind="response" data-claim-class="sourced" data-kp="KP-008 KP-011 KP-012">
+      <rect x="104" y="422" width="264" height="95" rx="14" fill="#f0f6ff" stroke="#c7dbfb" stroke-width="1"/>
+      <text x="236" y="453.75" text-anchor="middle" class="vg-label">
+        <tspan x="236" dy="0">Compensations</tspan>
+        <tspan x="236" dy="21">neurohormonales</tspan>
+        <tspan x="236" dy="21">(sympathique, SRAA)</tspan>
+      </text>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-n-overload" data-node-id="overload" data-node-kind="state" data-claim-class="sourced" data-kp="KP-008 KP-011 KP-012">
+      <rect x="253" y="573" width="264" height="74" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="385" y="604.75" text-anchor="middle" class="vg-label">
+        <tspan x="385" dy="0">Surcharge de travail, effets</tspan>
+        <tspan x="385" dy="21">délétères</tspan>
+      </text>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-n-congestion" data-node-id="congestion" data-node-kind="state" data-claim-class="sourced" data-kp="KP-040 KP-007">
+      <rect x="402" y="432.5" width="264" height="74" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
+      <text x="534" y="464.25" text-anchor="middle" class="vg-label">
+        <tspan x="534" dy="0">Congestion pulmonaire et</tspan>
+        <tspan x="534" dy="21">systémique</tspan>
+      </text>
+    </g>
+    <g data-claim="cb-vis-mm-pump-decompensation-n-acute-decompensation" data-node-id="acute-decompensation" data-node-kind="event" data-claim-class="sourced" data-kp="KP-059 KP-068">
+      <rect x="518" y="313" width="212" height="53" rx="14" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+      <text x="624" y="344.75" text-anchor="middle" class="vg-label">
+        <tspan x="624" dy="0">Décompensation aiguë</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

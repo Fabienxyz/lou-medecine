@@ -39,7 +39,7 @@ Five obligations follow, each assigned to a component and each checkable without
 
 **Generation and checking are separate processes.** The generator's job is to produce a projection from the Blueprint. A distinct checking pass — different prompt, ideally a different model invocation, run *after* generation and given the source anchors — judges grounding and consistency. A generator marking its own work as correct is not evidence (this is exactly the failure the audit found: assets that declared `✅ 100%` and "consistent with the storyboard" when no storyboard existed). Checking must be able to *fail* and block packaging.
 
-**Claim classes (the uncertainty mechanism).** The unit that carries a class and a traceability reference is the **claim block** (defined in Part B), *not* every individual sentence. Every claim block in an understanding projection is one of exactly three classes, and the class is explicit:
+**Claim classes (the uncertainty mechanism).** The unit that carries a class and a traceability reference is the **claim block** (defined in Part B), *not* every individual sentence. Every claim block **of generated content** in an understanding projection is one of exactly three classes, and the class is explicit. (Learner-authored content — Personal Diagrams and Inline Notes, C.8/C.9 — is not generated content, carries no claim class, and is outside this discipline entirely; the learner-layer boundary in Part B is what keeps that exclusion safe.)
 
 1. **Sourced** — a restatement of College content; must carry a knowledge-point reference and pass the grounding check.
 2. **Pedagogical scaffolding** — an analogy, framing, or simplification introduced to aid understanding (e.g. the "ville et sa pompe" analogy in `histoire.md`). It is *not* attributed to the College, is clearly presentable as intuition, and is never grounding-checked as if it were a fact — but it also may not contradict a sourced claim.
@@ -152,6 +152,38 @@ The Blueprint element is present for understanding projections and for any maste
 
 **Provenance stamp (on every generated artifact):** `{ source_edition, blueprint_revision, methodology_version }`. Staleness is computable by comparison; reproducibility replaces archiving old outputs.
 
+**The pedagogical block (the unit of the understanding experience).** An understanding projection is composed of **pedagogical blocks**, one per projected Blueprint element, ordered by the Blueprint sequence. A block is a *guided understanding unit*:
+
+```
+Question              ← the Blueprint element's question                      REQUIRED
+Official Visual       ← bound by element ID; a category, not a diagram type   OPTIONAL
+  📷 Personal Diagram ← learner-owned, 0..n, on every block (C.8)             learner layer
+Guided Walkthrough    ← the canonical explanation of the element              REQUIRED
+  📝 Inline Notes     ← learner-owned, 0..n (C.9)                             learner layer
+```
+
+The block introduces **no new identifier space**: its identity is the Blueprint-element ID. Both of the following are valid and complete:
+
+```
+Question → Official Visual → Guided Walkthrough        Question → Guided Walkthrough
+```
+
+**The asymmetry between walkthrough and visual (contractual, two parts).**
+
+1. **Completeness.** The **Guided Walkthrough is the canonical explanation** of its Blueprint element and is complete on its own. Absence of an Official Visual never invalidates a block.
+2. **Subordination.** The **Official Visual is optional pedagogical support and is never the primary explanatory artifact.** It may not carry explanatory content absent from the walkthrough of the same block. This is the existing "never the only place a fact lives" rule (C.4, `FINAL_ARCHITECTURE.md` §5) extended one level down, and it is checkable: **every KP referenced by a visual's semantic units must also be referenced by that block's walkthrough** (scaffolding units, which carry no KP by definition, are excluded). Enforced at packaging, C.6.
+
+A visual therefore never needs a walkthrough's permission to be omitted, and a walkthrough never needs a visual to be published (C.6, C.7).
+
+**The learner layer (two mechanisms, one boundary).** Two mechanisms let the learner appropriate an explanation without altering it: **Personal Diagrams** (C.8) and **Inline Notes** (C.9). They answer two different observed learner behaviours, are deliberately **separate mechanisms**, and **must not be generalised into one attachment or annotation system**. They share one boundary, stated once here and binding on both:
+
+- **Learner-owned, never generated.** Content is authored by the learner. It carries no claim class, no provenance stamp, and no place in the traceability graph, and it participates in no coverage or completeness invariant.
+- **Never an input.** No generation, checking, reconciliation, grounding, packaging, coherence or adaptive pass reads them. No AI process consumes them — explicitly including no vision model, no OCR and no image recognition over a Personal Diagram. They are not summarised, not categorised, not searched semantically, and not used for personalisation.
+- **Never a modification.** They never modify, replace, delete or merge into generated content. **Generated content is immutable to the learner**, and these two mechanisms are the only channel through which personal understanding is expressed. They are *not* the projection override channel (`overrides.yaml`), which corrects generated content, is curated, and is an input to generation.
+- **Outside the chapter.** They are not part of a chapter's artifact set, are not versioned with it, and are not stored in Git alongside medical content. The storage mechanism is reversible; this boundary is not.
+- **Anchored to identifiers that already exist.** No new ID space is introduced.
+- **Honest degradation.** A learner artifact whose anchor no longer resolves is surfaced as orphaned, never silently discarded — the same discipline that retires rather than deletes a knowledge-point identity (A.2).
+
 ---
 
 ## Part C — Component contracts
@@ -187,7 +219,7 @@ Each component is specified by eight fields: **purpose, minimum required informa
 
   | Section | Why a downstream process needs it |
   |---|---|
-  | **Mental model** | Root of the overview projection and of navigation's "big picture first"; the thing `vue-ensemble` projects. |
+  | **Mental model** | Root of the overview projection and of navigation's "big picture first". It is projected as a **pedagogical block** like any other element, so it carries a learner-facing **`question`** exactly as mechanisms and clinical-reasoning nodes do. The Blueprint element is the single canonical origin of that question; a visualSpec's `question` is *derived* from it, never authored independently. |
   | **Learning sequence** (ordered, with dependency edges) | Drives reading order in the manifest/renderer and lets adaptivity sequence a mastery fact *after* the concept it belongs to is understood — **by context reference, not by requiring the fact to be a Blueprint element** (A.3). Without stored order, every projection re-invents pedagogy (the audit's symptom). |
   | **Mechanisms** (each: the question it answers, ordered steps, causal links, referenced KP IDs + anchors) | The generation input for mechanism explanations *and* for diagrams — a diagram is generated from the step graph, not from prose. This is what makes visuals consistent and re-derivable. |
   | **Actors** (role, which mechanisms they participate in) | The generation input for actor projections and for cross-links between a mechanism and its participants. |
@@ -207,14 +239,17 @@ Each component is specified by eight fields: **purpose, minimum required informa
 
 ### C.4 Understanding Projections
 
-- **Purpose.** The comprehension-first artifacts the learner actually consumes now (A.3): story, overview, mechanism explanations, actor explanations, comparisons, clinical reasoning, diagrams. They deliberately control cognitive load.
+- **Purpose.** The comprehension-first artifacts the learner actually consumes now (A.3): story, overview, mechanism explanations, actor explanations, comparisons, clinical reasoning, Official Visuals. They deliberately control cognitive load.
 - **Minimum required information.** Each projection carries: its **type**; the **Blueprint-element ID(s)** it projects; the **KP ID(s)** and thus source anchors behind each sourced **claim block** (Part B); a **claim class** discipline over its claim blocks (sourced / scaffolding / bridging, A.1), applied at claim-block granularity by default and at sentence granularity only for high-specificity facts; and a **provenance stamp**.
+- **Composition.** The projection body is a sequence of **pedagogical blocks** (Part B), one per projected element, in Blueprint sequence order. Each block carries the element's **question**, an **optional Official Visual**, and a **Guided Walkthrough**. Nothing else is authored into a block.
+- **The Guided Walkthrough (the canonical explanation).** It is the **primary explanatory artifact** for a Blueprint element and the canonical explanation of that element. It is *not* a chapter summary, *not* a figure caption, *not* an additional explanation layered on another, and *not* a simplified rewrite of the College. Where an Official Visual is present it walks the learner through that visual: what each element represents, why it appears, why it connects to the preceding one, why a branch exists where applicable, why the relationship matters, and how the mechanism progresses from beginning to end. Where **no** visual is present it walks through the reasoning itself, in the same order and to the same depth. It is ordinary generated prose under the ordinary claim-block and claim-class discipline; it introduces no new traceability unit. It is **generated**, never composed by the renderer (a renderer holds no medical content, C.7).
+- **The Official Visual.** A category, not a diagram type: a causal or process diagram, and — when the asset-referenced mode exists — an anatomical illustration, radiological image or ECG. It is **optional pedagogical support, never the primary explanatory artifact**, and is bound to its block by element ID. Its semantic content, primitive selection, grounding and rendering are governed by `VISUAL_GRAMMAR_CONTRACT.md`; the subordination rule of Part B binds it.
 - **References/identifiers.** Holds no new ID space. Addressed by (type × Blueprint element projected). References Blueprint-element IDs and KP IDs. A visual additionally references the mechanism/actor it depicts and the KPs it shows (satisfying both traceability and its text-alternative/accessibility need).
 - **Inputs.** The Chapter Blueprint (and, transitively, the KP anchors it references). **Never the raw source directly, never prose from a sibling projection.** Visuals take the *structured* mechanism/actor model as input, not finished Markdown.
 - **Outputs.** Disposable learner-facing content (prose, diagram markup) with references intact and claim classes marked.
 - **Provenance.** Full stamp `{source_edition, blueprint_revision, methodology_version}`; staleness computable against the current Blueprint and edition.
 - **Quality checks.** The **separate checking pass** (A.1/Part B): grounding of sourced claims and bridging inferences against anchors; consistency of numbers/thresholds/classifications with referenced KPs; conservative-fallback enforcement (downgrade or omit the unsupportable). No default human medical review; optional human feedback on clarity/load/usefulness only, which triggers regeneration.
-- **Must not own.** Any fact or structure not in the Blueprint/Inventory; edition status (derived from the KP); pedagogy of its own (inherited from the Blueprint). It may never be the only place a fact lives.
+- **Must not own.** Any fact or structure not in the Blueprint/Inventory; edition status (derived from the KP); pedagogy of its own (inherited from the Blueprint); Personal Diagrams or Inline Notes (learner layer, Part B). It may never be the only place a fact lives.
 
 ### C.5 Future Mastery Projections
 
@@ -237,23 +272,51 @@ Each component is specified by eight fields: **purpose, minimum required informa
   - **Traceability graph** — the stored `anchor ← KP ← element (where applicable) ← projection claim block` edges (Part B; the Blueprint element is present for understanding and absent for a mastery claim block grounded directly in a KP), including explicit **explanation↔visual** links by identifier (never ordinal filename).
   - **Source edition** and **provenance** stamps.
   - **Content status** — derived per item: coverage/reconciliation invariant PASS/FAIL, grounding-check results, and edition badges (`new` / `updated` / `unchanged` / `removed`) **derived from the KP edition history**, plus honest **known-absent** markers for planned-but-unbuilt projections. After an edition update, the chapter also carries the **final coherence-check** result (A.2); an unchanged provenance stamp records lineage but is not by itself a currency claim.
+  - **Official Visual availability, in three distinct states** — a block renders without a visual for three different reasons and the manifest must distinguish them, because collapsing them either invents a gap or hides a defect: **none planned** (the element legitimately warrants no visual — a correct and frequent outcome, `VISUAL_GRAMMAR_CONTRACT.md` I8); **planned, not built**; and **built but withheld** (it failed validation, grounding or render-eligibility and was therefore not published). The third state carries the reported failure so the renderer can state that visual support is temporarily unavailable (C.7).
 - **References/identifiers.** Introduces no new ID space; references existing Chapter/KP/Blueprint/projection IDs.
 - **Inputs.** The Blueprint (order, elements), the Inventory (coverage, edition status), the projections (registry, provenance), the checker results.
 - **Outputs.** One generated manifest per chapter that the renderer consumes wholesale.
 - **Provenance.** Generated; carries the chapter's aggregate provenance, the coverage/reconciliation and grounding invariant results, and (after an edition update) the final coherence-check result.
-- **Quality checks.** Generated, so correctness is a pipeline guarantee: coverage/reconciliation invariant must pass (every KP disposed, every relevant source segment dispositioned); every projection reference must resolve; every explanation↔visual link must resolve by ID; no edition status duplicated (it is derived); after an edition update, the final coherence check must pass (or the chapter is held).
+- **Quality checks.** Generated, so correctness is a pipeline guarantee: coverage/reconciliation invariant must pass (every KP disposed, every relevant source segment dispositioned); every projection reference must resolve; every explanation↔visual link must resolve by ID; **visual subordination must hold** (every KP referenced by a published visual's semantic units is also referenced by that block's walkthrough, Part B); no edition status duplicated (it is derived); after an edition update, the final coherence check must pass (or the chapter is held).
+- **Publication behaviour for an optional Official Visual (contractual).** Because the walkthrough is the canonical explanation and the visual is optional support, **failure of an Official Visual must not invalidate publication of an otherwise valid Guided Walkthrough.** The block publishes in its visual-less form. This is the conservative fallback of A.1 applied to visuals — omitting an unverified visual publishes nothing unverified — and it is conditional on the failure remaining fully visible. The build must still: **report** the failure; **remove any stale generated visual** rather than leave an asset pretending to be current; **preserve traceability**; and **preserve all validation and grounding results**. The failure is recorded in the `built but withheld` state above. Nothing here weakens any other gate: a failed *walkthrough* grounding check, a `missed` source segment, or a broken reference still blocks publication as before.
 - **Must not own.** Medical content, pedagogy, or any authored (hand-maintained) metadata. It references; it never authors. Edition status is derived, never stored twice.
 
 ### C.7 Renderer
 
 - **Purpose.** Assemble the learner experience from the manifest; be the single place the tiers converge for a human, holding zero medical content.
-- **Minimum required information (that it may rely on).** Only the manifest: the projection registry, learning order, family tags, traceability/visual links, edition badges, and known-absent markers.
+- **Minimum required information (that it may rely on).** Only the manifest: the projection registry, learning order, family tags, traceability/visual links, edition badges, known-absent markers, and the three Official Visual availability states (C.6).
 - **References/identifiers.** Consumes IDs; defines none.
 - **Inputs.** The Chapter Package/manifest and (later) learner state.
 - **Outputs.** The assembled, navigable experience; captured **learner-interaction events** and **clarity/load/usefulness feedback** (A.1), emitted for regeneration and the future Adaptive layer.
 - **Provenance.** Versioned independently of content; forces no medical re-validation when the UI changes.
-- **Quality checks.** UI/UX review only, never medical. Must **degrade honestly**: a planned-but-unbuilt projection is shown as a known-absent state tied to the pipeline, not a silent gap (the audit found four of five assets silently missing or placeholdered).
-- **Must not own.** Any medical content of its own (the legacy hard-coded-HTML pattern is permanently rejected); a fixed number of tabs or assets; any assumption about which projection types exist (it renders by capability, driven by the manifest); re-interpretation of the model; ordinal filename linking (`mechanism-01.svg` = first `##`) — links come from the manifest by identifier.
+- **Block rendering and immutability.** It renders each projection as a sequence of pedagogical blocks (Part B) and presents **generated content as non-editable**: no editing affordance exists over a question, an Official Visual, or a Guided Walkthrough. It exposes the two learner affordances **separately and unconditionally** — a Personal Diagram affordance on **every** block whether or not an Official Visual exists, and an Inline Notes affordance within the walkthrough — and renders learner content **visually distinct** from generated content.
+- **Reporting an unavailable Official Visual.** Where a visual was **built but withheld** (C.6), the renderer must state explicitly that visual support is **temporarily unavailable**, tied to the pipeline result. It must **never silently hide** a missing visual. Where **none is planned**, it renders the block without a visual and without implying a gap — the absence is a correct outcome, not a defect. The three states are distinguished, never collapsed.
+- **Quality checks.** UI/UX review only, never medical. Must **degrade honestly**: a planned-but-unbuilt projection is shown as a known-absent state tied to the pipeline, not a silent gap (the audit found four of five assets silently missing or placeholdered); a withheld visual is reported, not hidden; an orphaned learner artifact is surfaced as orphaned, not discarded (Part B).
+- **Must not own.** Any medical content of its own (the legacy hard-coded-HTML pattern is permanently rejected) — including any learner-visible string it composes itself, so it may **never** assemble or paraphrase a Guided Walkthrough, and may never author a visual's text alternative; a fixed number of tabs or assets; any assumption about which projection types exist (it renders by capability, driven by the manifest); re-interpretation of the model; ordinal filename linking (`mechanism-01.svg` = first `##`) — links come from the manifest by identifier.
+
+### C.8 Personal Diagrams (learner layer)
+
+- **Purpose.** Answer one observed learner behaviour: *"When I do not fully understand a mechanism, I redraw it in my own way."* A Personal Diagram is a photograph of the learner's own drawing, kept with the block it explains, so that redrawing a mechanism produces something durable instead of a lost sheet of paper.
+- **Minimum required information.** The image, its **anchor** (the pedagogical block, i.e. the Blueprint-element ID), and a creation timestamp. Nothing else. **Zero to many per block**, with no cap.
+- **References/identifiers.** Anchors to the **Blueprint-element ID** — deliberately *not* to the Official Visual. Availability does not depend on a visual existing, and a visual being added, withheld, re-rendered or removed never affects existing Personal Diagrams. Because the element ID is in the irreversible core (Part D), this anchor is durable. Introduces no ID space.
+- **Inputs.** Learner input only.
+- **Outputs.** Learner-visible personal content on its block, visually distinct from generated content, alongside the Official Visual where one exists and standing alone where none does.
+- **Provenance.** None. It is not generated and carries no stamp.
+- **Quality checks.** None. It is never validated, never grounded, never reconciled, and never gates a build.
+- **Must not own.** Any medical authority; any role in generation. It **never replaces or edits generated content**, never substitutes for an Official Visual, and is never interpreted — no vision model, no OCR, no image recognition (Part B).
+
+### C.9 Inline Notes (learner layer)
+
+- **Purpose.** Answer a different behaviour: annotating the explanation *while reading it*, so the learner can appropriate the text without the text changing. The book stays the book; these are the notes in the margin.
+- **Minimum required information.** The note text, its **anchor** within a Guided Walkthrough, and a creation timestamp. **Zero to many per walkthrough.**
+- **References/identifiers.** Anchors to a **claim-block boundary** inside the walkthrough — the finest granularity the architecture can keep durable, since claim-block identifiers are stable, non-positional and already addressable, whereas character offsets are not. Each note stores the pair **(Blueprint-element ID, claim-block ID)** so that a note whose claim block was re-cut by a regeneration degrades to its block rather than orphaning. Introduces no ID space.
+- **Inputs.** Learner input only.
+- **Outputs.** Learner-visible marginal content inside the walkthrough, visually distinct from generated content.
+- **Provenance.** None.
+- **Quality checks.** None, as C.8.
+- **Must not own.** Any medical authority; any role in generation. Notes **never modify, replace or merge into** the walkthrough, are never summarised, never categorised, never semantically searched, and never used for personalisation (Part B).
+
+**Durability differs between the two, deliberately.** A Personal Diagram anchors to an irreversible-core identifier and survives regeneration robustly, including a full re-render of the Official Visual. An Inline Note anchors inside generated prose and therefore survives *minor* regeneration whenever the claim block persists, degrading to block level otherwise. Do not assume equal guarantees, and do not unify the mechanisms to obtain them.
 
 ---
 
@@ -395,6 +458,8 @@ Suppose the College publishes a `2027` edition and, among other changes, **revis
 - Renderer UI, tabs, navigation, and visual design tokens.
 - SVG file naming and layout (linking is by manifest ID, so filenames are free).
 - The specific grounding-failure and missed/ambiguous-disposition thresholds that block packaging, and the qualitative confidence bands' operational cut-offs (tune empirically; do not over-formalise numerically).
+- **The learner layer's storage mechanism** (C.8/C.9) — browser-local, a sidecar outside the content tree, or a service. Only the *boundary* is contractual (Part B): learner-owned, never an input to any pass, never in Git alongside medical content.
+- Which Blueprint elements warrant an Official Visual, and whether the asset-referenced visual mode (anatomical, radiological, ECG) is implemented at all — recorded and deferred in `VISUAL_GRAMMAR_CONTRACT.md` §7, since a block is complete without a visual.
 
 No implementation roadmap is proposed here, per the brief. The contract above is the stable, **frozen** target; the reversible list above is where implementation is free to learn and change. Next step: implementation design against Item 234.
 

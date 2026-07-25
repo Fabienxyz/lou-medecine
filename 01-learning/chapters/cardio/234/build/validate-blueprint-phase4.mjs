@@ -11,6 +11,7 @@ import {
   parseBlueprint,
   validateBlueprint,
   collectBlueprintElementIds,
+  mentalModel,
 } from "../../../../../tools/lou-build/lib/blueprint.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -48,7 +49,7 @@ function collectUsesKp(data) {
 }
 
 function findElement(data, id) {
-  if (data.mental_model === id) return { id, kind: "mental_model" };
+  if (mentalModel(data)?.id === id) return { id, kind: "mental_model" };
   for (const mec of data.mechanisms || []) if (mec.id === id) return { ...mec, kind: "mechanism" };
   for (const cr of data.clinical_reasoning || []) if (cr.id === id) return { ...cr, kind: "clinical_reasoning" };
   for (const conf of data.confusion || []) if (conf.id === id) return { ...conf, kind: "confusion" };
@@ -75,7 +76,7 @@ function audit() {
   }
   // collectBlueprintElementIds uses a Set — re-scan lists for duplicates
   const allIds = [];
-  if (data.mental_model) allIds.push(data.mental_model);
+  if (mentalModel(data)?.id) allIds.push(mentalModel(data).id);
   for (const list of [
     data.mechanisms,
     data.clinical_reasoning,
@@ -137,7 +138,7 @@ function audit() {
   }
 
   // Sequence integrity already in validateBlueprint; also ensure mental model present
-  if (data.mental_model !== "MM-pump-decompensation") {
+  if (mentalModel(data)?.id !== "MM-pump-decompensation") {
     errors.push("mental_model must be MM-pump-decompensation");
   }
   if (!(data.sequence || []).includes("MM-pump-decompensation")) {
@@ -235,7 +236,7 @@ function audit() {
 
   // Type counts
   const breakdown = {
-    mental_model: data.mental_model ? 1 : 0,
+    mental_model: mentalModel(data) ? 1 : 0,
     analogies: (data.analogies || []).length,
     mechanisms: (data.mechanisms || []).length,
     clinical_reasoning: (data.clinical_reasoning || []).length,

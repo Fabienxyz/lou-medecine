@@ -16,182 +16,112 @@ provenance:
   methodology_version: phase-5-v1
 ---
 
-# Raisonnement clinique — penser un patient Item 234
+# Raisonnement clinique — penser un patient de l'item 234
 
-Ici : **logique de décision**, pas protocole exhaustif ni doses.
+Ici, la **logique de décision** : ni protocole exhaustif, ni doses. L'enchaînement des blocs est celui du raisonnement réel — reconnaître, confirmer, chercher la cause, graduer la gravité, traiter selon le contexte, suivre.
 
-Séparations utiles :
-**reconnaître → confirmer → phénotyper → chercher la cause → graduer la gravité → traiter selon le contexte**.
+## Devant quels symptômes et signes dois-je penser à une insuffisance cardiaque ? {#CR-recognize}
 
----
+Avant tout examen, pose le cadre, sinon tu surestimeras ta clinique : le diagnostic est difficile, parce que les symptômes ne sont pas spécifiques et les signes peu sensibles, et une dysfonction cardiaque peut exister avant tout symptôme. Pour situer le patient type : la prévalence est de l'ordre de 1 à 2 %, et l'âge moyen au diagnostic de 75 à 80 ans. {#cb-cr-cadre}
 
-## Devant quels symptômes et signes dois-je penser à une IC ? {#CR-recognize}
+L'entrée habituelle est la dyspnée d'effort. Elle doit faire penser à l'insuffisance cardiaque, mais elle est peu spécifique : sa vraie utilité est d'être gradée par la classification NYHA, qui transforme une plainte en repère reproductible. {#cb-cr-nyha}
 
-### Si…
+Deux symptômes valent beaucoup plus cher que la dyspnée d'effort, parce qu'ils traduisent directement la redistribution du sang et l'élévation de la pression capillaire en position couchée : l'orthopnée et la dyspnée paroxystique nocturne. Quand tu les trouves, tu n'es plus dans le vague. {#cb-cr-orthopnee}
 
-| Finding | Alors… |
+Méfie-toi ensuite des présentations trompeuses, car elles orientent à tort vers le poumon : un asthme dit cardiaque, une toux, voire des hémoptysies peuvent traduire l'hypertension veineuse pulmonaire. {#cb-cr-trompeurs} À l'extrême de ce même mécanisme se trouve l'OAP : dyspnée aiguë de repos, expectoration mousseuse — la manifestation la plus bruyante de la congestion. {#cb-cr-oap-clin}
+
+Élargis enfin au-delà du poumon, dans les deux directions du modèle : la fatigue relève du bas débit, les œdèmes et l'hépatalgie de la congestion. {#cb-cr-autres} Certains signes marquent la gravité ou les formes avancées, notamment le syndrome d'apnées avec respiration de Cheyne-Stokes, la confusion et les troubles digestifs. {#cb-cr-severe}
+
+Deux pièges d'examen pour finir. Des signes physiques pauvres n'éliminent rien, surtout sous traitement ; inversement, leur présence traduit souvent une gravité. {#cb-cr-signes} Et l'examen ne s'arrête pas au cœur : cherche les signes cardiaques, les signes pulmonaires, les signes de congestion droite, et prends la pression artérielle — une pression systolique basse est un marqueur de gravité, alors qu'un OAP peut au contraire survenir en contexte hypertensif. {#cb-cr-physique}
+
+## Comment confirmer ou infirmer une IC hors (et en) urgence ? {#CR-diagnose}
+
+La chaîne diagnostique est construite pour éliminer vite et confirmer bien. Elle part d'une suspicion clinique, éventuellement appuyée par des facteurs de risque ou un ECG anormal, puis progresse en deux temps.
+
+Premier temps, les peptides natriurétiques. BNP et NT-proBNP sont libérés lors de l'étirement des myocytes, et leur intérêt principal est leur bonne valeur prédictive négative : ils servent d'abord à écarter le diagnostic, pas à l'affirmer. {#cb-cr-np-role} En situation de dyspnée aiguë, un BNP inférieur à 100 pg/mL ou un NT-proBNP inférieur à 300 pg/mL rend l'insuffisance cardiaque très improbable. {#cb-cr-np-acute} Hors urgence, la même logique s'applique avec les seuils de rule-out de l'ESC : des peptides bas rendent le diagnostic improbable et invitent à chercher une autre piste. {#cb-cr-np-chronic}
+
+Ce raisonnement a une zone grise, et il faut savoir en sortir. L'âge, l'insuffisance rénale et la fibrillation atriale élèvent les peptides ; l'obésité les abaisse. Dans ces situations, la valeur chiffrée ne tranche pas et c'est la clinique qui reprend la main. {#cb-cr-np-confound}
+
+Second temps, l'échocardiographie couplée au Doppler : si le diagnostic n'a pas été éliminé, elle est l'examen clé, indispensable, celui qui documente structure et fonction et permet de typer la fraction d'éjection. {#cb-cr-ett}
+
+Deux examens demandent d'être lus pour ce qu'ils apportent réellement, et non pour ce qu'on attend d'eux. L'ECG est peu contributif au diagnostic positif, mais il compte pour la thérapeutique, notamment par le bloc de branche gauche et la largeur du QRS. {#cb-cr-ecg} La radiographie thoracique, elle, ne permet pas d'exclure : l'absence de cardiomégalie n'élimine pas une insuffisance cardiaque, en particulier à fraction d'éjection préservée, et c'est la sémiologie de stase qu'il faut y chercher. {#cb-cr-radio}
+
+Remis dans l'ordre, cela donne l'algorithme ESC 2021 hors urgence : doser les peptides devant des facteurs de risque avec symptômes ou signes, ou devant un ECG anormal ; puis, si le diagnostic n'est pas éliminé, faire l'échocardiographie et typer la fraction d'éjection. {#cb-cr-esc}
+
+## Quelle est la cause (ou le facteur aggravant) chez ce patient ? {#CR-etiology}
+
+Une règle gouverne ce bloc, et elle est chronologique : la recherche d'une cause traitable ou réversible se mène **en parallèle** de la prise en charge du syndrome, pas après elle. Attendre la stabilisation pour se demander « pourquoi ? » fait perdre les causes curables. {#cb-cr-eti-rule}
+
+Parcours ensuite les pistes dans l'ordre de leur fréquence et de leur urgence. L'ischémie vient en premier : c'est la première cause, et une coronarographie se discute selon le contexte lorsque la fraction d'éjection est diminuée. {#cb-cr-ischemie} L'hypertension artérielle est le cofacteur majeur, par la dysfonction diastolique et l'hypertrophie ventriculaire gauche, par le retentissement coronaire et par l'augmentation de la postcharge. {#cb-cr-hta}
+
+Viennent les atteintes du myocarde lui-même — cardiomyopathies dilatées, formes restrictives dont l'amylose, cardiomyopathie hypertrophique — qu'il ne faut pas méconnaître. {#cb-cr-myocarde} Puis les valves : toute valvulopathie gauche peut basculer en insuffisance cardiaque. {#cb-cr-valves} Le rythme et la conduction jouent un double rôle, cause ou déclencheur, avec une tachycardiomyopathie parfois réversible si le rythme est contrôlé. {#cb-cr-rythme} Le péricarde complète la liste, par l'épanchement, la tamponnade ou la constriction. {#cb-cr-pericar}
+
+Un cas mérite d'être traité à part parce qu'il inverse l'intuition : devant une insuffisance cardiaque droite, la cause la plus fréquente est l'insuffisance cardiaque gauche. Les causes proprement droites existent, mais elles viennent après. {#cb-cr-droite}
+
+Enfin, la conséquence pratique de tout ce bloc : le traitement étiologique et la prévention font partie du traitement, en agissant sur les facteurs de risque, l'hypertension, les valves, la reperfusion, les toxiques et le rythme. {#cb-cr-prev}
+
+## Face à une décompensation aiguë, quel est mon triage et ma logique de traitement ? {#CR-acute}
+
+Ce bloc n'a pas encore de visuel officiel : l'algorithme de triage sera produit par le pipeline quand la primitive correspondante existera. En attendant, le raisonnement est explicité ici, dans le même ordre que celui d'un algorithme.
+
+Définis d'abord la situation. L'insuffisance cardiaque aiguë est une apparition rapide des symptômes, de novo ou par aggravation d'une insuffisance cardiaque connue, relevant souvent d'un traitement intraveineux et d'une hospitalisation. {#cb-cr-acute-def}
+
+Le triage repose ensuite sur deux questions posées en parallèle, et non l'une après l'autre : y a-t-il une congestion dominante, et y a-t-il une hypoperfusion ? Selon les réponses, trois trajectoires se dessinent : l'OAP cardiogénique, urgence de congestion alvéolaire ; la poussée globale sans OAP franc, qui relève des diurétiques intraveineux, du rééquilibrage et du traitement de la cause ; et le choc cardiogénique, défini par l'hypoperfusion avec pression artérielle systolique basse, qui appelle inotropes voire assistance. {#cb-cr-triage}
+
+Prends chaque trajectoire. Devant un OAP, c'est une urgence de congestion alvéolaire : le traitement ne doit pas être retardé par le bilan. {#cb-cr-oap-urg} Concrètement, du domicile à l'hôpital, on installe le patient en position assise, on donne un diurétique, des nitrés selon la pression artérielle et de l'oxygène — et on n'introduit pas de bêtabloquant dans ce contexte. {#cb-cr-oap-tt} Devant une poussée globale sans OAP franc, la logique est plus posée : diurétiques intraveineux, rééquilibrage, traitement de la cause, l'hospitalisation n'étant pas systématique. {#cb-cr-globale} Devant un choc cardiogénique, l'hypoperfusion avec pression systolique basse impose inotropes et discussion d'une assistance. {#cb-cr-choc}
+
+Trois réflexes traversent les trois trajectoires. D'abord, ne pas confondre : devant une dyspnée aiguë, les différentiels sont la pneumopathie, l'embolie pulmonaire, la BPCO et l'asthme. {#cb-cr-dd} Ensuite, chercher activement un facteur déclenchant, ce que résume le mnémonique CHAMPIT. {#cb-cr-champit} Enfin, si un syndrome coronarien aigu est associé, sa prise en charge est simultanée, pas différée. {#cb-cr-sca}
+
+## Faut-il poursuivre ou arrêter le bêtabloquant devant une décompensation ? {#CONF-bb-chronic-vs-acute}
+
+C'est le point où une règle unique serait fausse, et où la source elle-même distingue deux contextes. Les deux lignes restent séparées :
+
+| Contexte | Règle du Collège (ne pas fusionner) |
 |---|---|
-| Dyspnée d’effort | penses IC, mais peu spécifique → grade NYHA {#cb-cr-nyha} |
-| Orthopnée / DPN | plus spécifiques (redistribution / ↑ pression capillaire) {#cb-cr-orthopnee} |
-| Asthme cardiaque, toux, hémoptysies | signes trompeurs possibles d’HTP veineuse {#cb-cr-trompeurs} |
-| Dyspnée aiguë de repos, expectoration mousseuse | OAP comme manifestation extrême {#cb-cr-oap-clin} |
-| Fatigue, œdèmes, hépatalgie | élargis le tableau congestion / bas débit {#cb-cr-autres} |
-| Formes sévères / terminales | SAS/Cheyne-Stokes, confusion, troubles digestifs — marqueurs de gravité {#cb-cr-severe} |
-| Signes physiques pauvres sous traitement | n’élimine pas ; leur présence traduit souvent une gravité {#cb-cr-signes} |
+| Chronique / hospitalisation pour décompensation (**hors** OAP VII.A) | généralement **poursuivre** le bêtabloquant, sauf échec de réponse ou choc {#cb-conf-bb-chronic} |
+| OAP aigu (VII.A) | **ne pas introduire** de bêtabloquant ; si le patient en prend déjà → généralement **arrêt ou diminution** de posologie {#cb-conf-bb-acute} |
 
-### Cadre
+Le critère de tri n'est donc pas « le patient décompense », mais « dans quel contexte décompense-t-il ». Retiens la question à te poser avant de répondre : s'agit-il d'un OAP aigu, ou d'une décompensation prise en charge hors de ce cadre ? Il n'existe **pas** de règle universelle « toujours continuer » ni « toujours arrêter », et fabriquer cette règle est l'erreur que ce bloc existe pour empêcher.
 
-Le diagnostic est **difficile** : symptômes non spécifiques, signes peu sensibles ; une dysfonction peut précéder les symptômes. Prévalence ≈ 1–2 % ; âge moyen au diagnostic 75–80 ans. {#cb-cr-cadre}
+## Comment traiter l'IC chronique à FE diminuée (et légèrement diminuée) ? {#CR-treat-hfref}
 
-Cherche aussi les signes cardiaques / pulmonaires / de congestion droite et le niveau de PA (PAS basse = gravité ; OAP hypertensif possible). {#cb-cr-physique}
+Commence par cadrer le mot « chronique », car il conditionne tout le reste : on parle de l'état hors décompensation aiguë, avec un traitement oral, ambulatoire. {#cb-cr-chronic-def}
 
----
+La base est faite de mesures générales, qu'on a tort de traiter comme accessoires : régime hyposodé prudent, surveillance du poids, gestion de l'alcool et du tabac, activité physique en dehors des décompensations, vaccinations. {#cb-cr-mesures}
 
-## Comment confirmer ou infirmer une IC ? {#CR-diagnose}
+Vient ensuite le cœur du traitement, et sa logique mérite d'être comprise plutôt qu'apprise : quatre classes réduisent la mortalité et les décompensations lorsque la fraction d'éjection est inférieure ou égale à 40 %, auxquelles s'ajoute un diurétique pour traiter la congestion. Les quatre classes sont les bloqueurs du système rénine-angiotensine — inhibiteurs de l'enzyme de conversion, ARA2 en cas d'intolérance, ARNI selon sa place —, les bêtabloquants validés dans cette indication, les antagonistes des récepteurs minéralocorticoïdes et les gliflozines. {#cb-cr-quatre} Rapproche cette liste du bloc sur la compensation : ces classes bloquent précisément l'axe neurohormonal dont l'activation prolongée aggrave la maladie.
 
-### Chaîne décisionnelle (hors urgence)
+Pour la forme légèrement diminuée, les mêmes traitements sont possibles, avec un niveau de preuve moindre — ce qui explique que la distinction du phénotype soit surtout thérapeutique. {#cb-cr-hmref}
 
-1. **Suspicion clinique** (± FDR, ECG anormal)
-2. **BNP / NT-proBNP** — libérés à l’étirement myocytaire ; **bonne VPN** {#cb-cr-np-role}
-3. Si non rule-out → **échocardiographie (+ Doppler)** = examen clé indispensable {#cb-cr-ett}
-4. Typer par FEVG et chercher la cause
+Restent les contraintes et les dispositifs. Si un antiarythmique est nécessaire, c'est l'amiodarone ; la resynchronisation et le défibrillateur implantable se discutent selon des critères précis. {#cb-cr-devices} Et certains médicaments sont à écarter dans l'insuffisance cardiaque systolique : diltiazem et vérapamil au premier chef, ainsi que la flécaïnide et les AINS ; les dihydropyridines, elles, restent utilisables s'il existe une indication associée comme un angor ou une hypertension. {#cb-cr-ci-syst}
 
-### IF / THEN utiles
+## Comment raisonner le traitement de l'IC à FE préservée ? {#CR-treat-hfpef}
 
-| Si… | Alors… |
-|---|---|
-| Dyspnée aiguë + BNP < 100 pg/mL ou NT-proBNP < 300 pg/mL | IC très improbable (rule-out aigu) {#cb-cr-np-acute} |
-| Hors urgence + NP bas (seuils ESC rule-out) | IC improbable → autre piste {#cb-cr-np-chronic} |
-| Zone grise / facteurs confondants (âge, IR, FA ↑ ; obésité ↓) | reviens à la clinique {#cb-cr-np-confound} |
-| ECG normal ou non | ECG **peu contributif au diagnostic positif** ; BBG/QRS importants pour la thérapeutique {#cb-cr-ecg} |
-| Radio sans cardiomégalie | n’exclut pas l’IC (notamment FE préservée) ; cherche la sémiologie de stase {#cb-cr-radio} |
+Ici le diagnostic n'est pas un chiffre isolé mais un faisceau : des symptômes ou des signes, une fraction d'éjection supérieure ou égale à 50 %, des peptides natriurétiques élevés, et des arguments en faveur d'une anomalie de remplissage, d'une hypertrophie ventriculaire gauche ou d'une dilatation atriale gauche. Aucun de ces éléments ne suffit seul. {#cb-cr-hfpef-dx}
 
-Algorithme ESC 2021 hors urgence : doser NP si FDR + symptômes/signes ou ECG anormal → si non rule-out → écho et typage FEVG. {#cb-cr-esc}
+Le traitement, lui, est encore peu codifié, et il faut l'assumer plutôt que de le combler. La logique est d'éviter les déclencheurs — hypertension, fibrillation atriale, surcharge volémique ; les gliflozines ont récemment montré leur efficacité, dans une approche que le Collège résume par le sigle ABCDEFG. {#cb-cr-hfpef-tt}
 
----
+La tentation, à ce stade, est d'importer les règles de l'insuffisance cardiaque systolique parce qu'elles sont mieux établies. Le bloc suivant montre pourquoi c'est précisément là que la source refuse d'être uniformisée.
 
-## Quelle est la cause (ou le facteur aggravant) ? {#CR-etiology}
+## Les inhibiteurs calciques sont-ils interdits dans l'insuffisance cardiaque ? {#CONF-ccb-fe-source}
 
-### Règle
-
-Cherche une cause **traitable / réversible en parallèle** du syndrome — pas après coup seulement. {#cb-cr-eti-rule}
-
-### Ordre de pensée
-
-| Piste | Réflexe |
-|---|---|
-| Ischémie | 1re cause ; coronarographie si FEVG diminuée selon contexte {#cb-cr-ischemie} |
-| HTA | cofacteur majeur (diastolique/HVG, coronaire, postcharge) {#cb-cr-hta} |
-| Myocarde | CMD, restrictives/amylose, CMH… {#cb-cr-myocarde} |
-| Valves | toute valvulopathie gauche peut basculer en IC {#cb-cr-valves} |
-| Rythme / conduction | cause ou déclencheur ; tachycardiomyopathie parfois réversible {#cb-cr-rythme} |
-| Péricarde | épanchement, tamponnade, constrictive {#cb-cr-pericar} |
-| IC droite | le plus souvent secondaire à l’IC gauche ; causes isolées possibles {#cb-cr-droite} |
-
-Prévention / traitement étiologique : FDR, HTA, valves, reperfusion, toxiques, rythme… {#cb-cr-prev}
-
----
-
-## Face à une décompensation aiguë, quel triage ? {#CR-acute}
-
-### Définir
-
-IC aiguë = apparition **rapide** (de novo ou aggravation) ; souvent IV / hospitalisation. {#cb-cr-acute-def}
-
-### Axes de triage
-
-```
-Congestion dominante ?          Hypoperfusion / PAS basse ?
-        │                                    │
-        ├─ OAP cardiogénique                 └─ choc cardiogénique
-        │   (urgence alvéolaire)                 → inotropes / assistance
-        └─ poussée globale sans OAP franc
-            → diurétiques IV, cause, rééquilibrage
-```
-
-{#cb-cr-triage}
-
-### IF / THEN
-
-| Si… | Alors… |
-|---|---|
-| OAP | urgence de congestion alvéolaire ; ne retarde pas le traitement pour le bilan {#cb-cr-oap-urg} |
-| Dyspnée aiguë | différentiels : pneumopathie, EP, BPCO, asthme {#cb-cr-dd} |
-| Facteur déclenchant ? | cherche activement ; mnémonique **CHAMPIT** {#cb-cr-champit} |
-| SCA associé | prise en charge **simultanée** {#cb-cr-sca} |
-| OAP au domicile / hôpital | position, diurétique, nitrés selon PA, O₂ ; **pas d’introduction de BB** {#cb-cr-oap-tt} |
-| Poussée globale sans OAP franc | diurétiques IV, rééquilibrage, cause ; hospitalisation non systématique {#cb-cr-globale} |
-| Choc cardiogénique | hypoperfusion / PAS basse → inotropes / assistance {#cb-cr-choc} |
-
-### À ne pas confondre — bêtabloquants {#CONF-bb-chronic-vs-acute}
-
-| Contexte | Règle College (ne pas fusionner) |
-|---|---|
-| Chronique / hospitalisation pour décompensation (**hors** OAP VII.A) | généralement **poursuivre** le BB sauf échec de réponse ou choc {#cb-conf-bb-chronic} |
-| OAP aigu (VII.A) | **ne pas introduire** de BB ; si déjà sous BB → généralement **arrêt ou ↓** posologie {#cb-conf-bb-acute} |
-
-Il n’existe **pas** de règle unique « toujours continuer » ou « toujours arrêter ».
-
----
-
-## Comment traiter l’IC chronique à FE diminuée (et HFmrEF) ? {#CR-treat-hfref}
-
-### Cadre
-
-État chronique = **hors décompensation aiguë**, traitement oral ambulatoire. {#cb-cr-chronic-def}
-
-### Logique
-
-1. **Mesures générales** : hyposodé prudent, poids, alcool/tabac, activité hors décompensation, vaccinations {#cb-cr-mesures}
-2. **Quatre classes** réduisant mortalité/décompensations si FE ≤ 40 % + diurétique de congestion {#cb-cr-quatre}
-   - bloqueurs du SRA (IEC ; ARA2 si intolérance ; ARNI selon place)
-   - bêtabloquants validés
-   - antagonistes minéralocorticoïdes
-   - gliflozines
-3. **HFmrEF** : mêmes traitements possibles, niveau de preuve moindre {#cb-cr-hmref}
-4. **Contraintes** : amiodarone si antiarythmique nécessaire ; CRT / DAI selon critères {#cb-cr-devices}
-
-### Médicaments à risque en IC systolique
-
-Contre-indiqués / à éviter notamment : **diltiazem et vérapamil**, flécaïnide, AINS. Les **dihydropyridines** restent utilisables si indication associée (angor, HTA). {#cb-cr-ci-syst}
-
----
-
-## Comment raisonner l’IC à FE préservée ? {#CR-treat-hfpef}
-
-### Diagnostic (cluster)
-
-Symptômes/signes + FE ≥ 50 % + NP ↑ + arguments de remplissage / HVG / AG. {#cb-cr-hfpef-dx}
-
-### Traitement
-
-Peu codifié : **éviter les déclencheurs** (HTA, FA, surcharge) ; **gliflozines** récemment efficaces ; logique ABCDEFG. {#cb-cr-hfpef-tt}
-
-Ne pas importer automatiquement toutes les règles de l’IC systolique.
-
-### À ne pas confondre — inhibiteurs calciques / FE {#CONF-ccb-fe-source}
-
-La source College **n’est pas uniforme** sur ce point. Ne pas inventer une règle universelle.
+La réponse honnête est que la source du Collège n'est pas uniforme sur ce point, et ce bloc existe pour le dire au lieu de le lisser. Trois ancrages distincts, trois contenus :
 
 | Ancrage distinct | Contenu |
 |---|---|
-| VI.C.8 (IC systolique) | diltiazem / vérapamil **contre-indiqués** ; dihydropyridines possibles si indication associée {#cb-conf-ccb-syst} |
-| VI.F ABCDEFG (HFpEF) | un inhibiteur calcique **ralentisseur** peut entrer dans la logique de baisse de FC {#cb-conf-ccb-hfpef} |
-| « Notions inacceptables » | libellé conflictuel sur FE préservée — **conflit de source non résolu** {#cb-conf-ccb-ambig} |
+| VI.C.8 (IC systolique) | diltiazem et vérapamil **contre-indiqués** ; dihydropyridines possibles si indication associée {#cb-conf-ccb-syst} |
+| VI.F, logique ABCDEFG (HFpEF) | un inhibiteur calcique **ralentisseur** peut entrer dans la logique de baisse de la fréquence cardiaque {#cb-conf-ccb-hfpef} |
+| « Notions inacceptables » | libellé conflictuel sur la FE préservée — **conflit de source non résolu** {#cb-conf-ccb-ambig} |
 
-En pratique pédagogique : ancre le raisonnement au **contexte FE + section**, et signale l’ambiguïté plutôt que de la lisser.
+Ce qu'il faut retenir n'est donc pas une règle, mais une méthode : ancre ta réponse au contexte, c'est-à-dire à la fraction d'éjection **et** à la section qui la formule. Une même molécule peut être contre-indiquée dans l'insuffisance cardiaque systolique et discutée dans la logique de la FE préservée, sans qu'aucune des deux affirmations soit fausse. Signale l'ambiguïté plutôt que d'inventer la règle universelle qui la ferait disparaître.
 
----
+## Que surveiller dans le temps, et comment prévenir réhospitalisations et complications ? {#CR-followup}
 
-## Que surveiller après stabilisation ? {#CR-followup}
+Pour suivre un patient, il faut d'abord savoir à quoi ressemble la trajectoire de la maladie : une dysfonction longtemps asymptomatique évolue vers l'insuffisance cardiaque déclarée, puis la maladie oscille entre périodes de stabilité et décompensations. Ce n'est pas une pente régulière, ce sont des paliers ponctués de crises. {#cb-cr-hn}
 
-| Question | Réflexe |
-|---|---|
-| Histoire naturelle ? | dysfonction asymptomatique → IC ; oscillations stabilité / décompensations {#cb-cr-hn} |
-| Pronostic ? | mortalité et hospitalisations élevées ; mort subite ou IC réfractaire {#cb-cr-progn} |
-| Complications / comorbidités ? | les prendre en charge (elles freinent traitement et survie) {#cb-cr-comorb} |
-| Après hospitalisation ? | éducation, réadaptation, soins de support {#cb-cr-parcours} |
-| Comment dépister tôt ? | télésurveillance PA / FC / poids {#cb-cr-tele} |
+Le pronostic justifie cette vigilance : mortalité et hospitalisations sont élevées, et le décès survient par mort subite ou par insuffisance cardiaque réfractaire. {#cb-cr-progn} Les complications et comorbidités ne sont pas un chapitre annexe : elles freinent le traitement et la survie, et doivent donc être prises en charge pour elles-mêmes. {#cb-cr-comorb}
+
+D'où deux leviers concrets. Après une hospitalisation, le parcours compte autant que l'ordonnance : éducation thérapeutique, réadaptation, soins de support. {#cb-cr-parcours} Et pour repérer tôt la décompensation suivante, la télésurveillance de la pression artérielle, de la fréquence cardiaque et du poids permet de détecter la dégradation avant qu'elle ne devienne une urgence. {#cb-cr-tele}
 
 <!-- claim-trace
 claims:

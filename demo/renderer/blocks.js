@@ -112,6 +112,7 @@ window.LouBlocks = {
         const walkthrough = document.createElement("div");
         walkthrough.className = "block-walkthrough";
         walkthrough.dataset.generated = "true";
+        walkthrough.dataset.official = "true";
         block.appendChild(walkthrough);
 
         out.appendChild(block);
@@ -482,5 +483,8 @@ window.LouBlocks = {
         host.appendChild(fragment);
         this.mountNoteAffordances(host, context);
         await this.hydrate(host, context);
+        if (window.LouTextHighlights) {
+            await window.LouTextHighlights.mount(host, context);
+        }
     },
 };

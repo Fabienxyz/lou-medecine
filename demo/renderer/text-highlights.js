@@ -175,13 +175,16 @@ window.LouTextHighlights = {
 
         const store = ctx.context.store;
         const projection = ctx.context.projection.id;
+        const self = this;
         store
             .addTextHighlight(ctx.context.chapter, projection, ctx.element, selector)
+            .then(function () {
+                self.dismissToolbar();
+            })
             .catch(function () {
                 wrapped.remove();
+                self.dismissToolbar();
             });
-
-        this.dismissToolbar();
     },
 
     async restore(host, context) {

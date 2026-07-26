@@ -175,7 +175,6 @@ describe("renderer — pedagogical blocks and learner layer", () => {
       "markdown.js",
       "learner-store.js",
       "text-highlights.js",
-      "selection-annotations.js",
       "blocks.js",
       "renderer.js",
     ]);
@@ -419,50 +418,369 @@ describe("renderer — pedagogical blocks and learner layer", () => {
     assert.equal(restored.querySelector("[contenteditable]"), null);
   });
 
-  test("selection notes restore after reload from TextQuoteSelector anchor", async () => {
-    await renderMechanisms();
-    const content = await renderMechanisms();
-    const walkthrough = content.querySelector(
-      '[data-element="MEC-oap"] .block-walkthrough'
-    );
-    assert.equal(walkthrough.dataset.official, "true");
-
-    const full = walkthrough.textContent;
-    const exact = "Au-delà du seuil";
-    const pos = full.indexOf(exact);
-    assert.ok(pos >= 0, "fixture phrase must exist in walkthrough");
-
-    const selector = {
-      type: "TextQuoteSelector",
-      exact: exact,
-      prefix: full.slice(Math.max(0, pos - 32), pos),
-      suffix: full.slice(pos + exact.length, pos + exact.length + 32),
-    };
-
-    await window.LouLearnerStore.addSelectionNote(
-      CHAPTER,
-      "mechanisms",
-      "MEC-oap",
-      selector,
-      "Seuil clé à retenir."
-    );
-
-    const restored = await renderMechanisms();
-    const note = restored.querySelector(
-      '[data-element="MEC-oap"] .selection-note'
-    );
-    assert.ok(note);
-    assert.equal(note.dataset.learner, "true");
-    assert.match(note.textContent, /Au-delà du seuil/);
-    assert.match(note.textContent, /Seuil clé à retenir/);
-    assert.equal(restored.querySelector("[contenteditable]"), null);
-  });
-
   test("official walkthrough containers are marked for highlight scoping", async () => {
     const content = await renderMechanisms();
     for (const block of content.querySelectorAll(".pedagogical-block")) {
       const walkthrough = block.querySelector(".block-walkthrough");
       assert.equal(walkthrough.dataset.official, "true");
     }
+  });
+});
+
+describe("renderer — learner storage robustness", () => {
+  let dom;
+  let window;
+  let context;
+
+  before(() => {
+    dom = new JSDOM(
+      `<!DOCTYPE html><body><div id="content"></div></body>`,
+      { url: "https://example.test/demo/renderer/", runScripts: "outside-only" }
+    );
+    window = dom.window;
+    window.indexedDB = new IDBFactory();
+    window.URL.createObjectURL = (blob) => `blob:${blob.type || "image"}`;
+    window.URL.revokeObjectURL = () => {};
+    loadScripts(dom, [
+      "node_modules/marked/marked.min.js",
+      "config.js",
+      "markdown.js",
+      "learner-store.js",
+      "text-highlights.js",
+      "blocks.js",
+      "renderer.js",
+    ]);
+  });
+
+  beforeEach(() => {
+    window.indexedDB = new IDBFactory();
+    window.LouLearnerStore.db = null;
+    window.LouTextHighlights._boundHost = null;
+    window.LouRenderer.init(window.document.getElementById("content"), null);
+    const manifest = manifestFixture();
+    context = {
+      projection: manifest.projections[0],
+      manifest,
+      chapter: CHAPTER,
+      config: window.LouConfig,
+      renderer: window.LouRenderer,
+      store: window.LouLearnerStore,
+    };
+  });
+
+  async function renderMechanisms() {
+    const md = window.LouRenderer.prepareLearnerMarkdown(MECHANISMS_MD);
+    const html = window.LouMarkdown.parse(md);
+    await window.LouRenderer.renderProjection(html, context);
+    return window.document.getElementById("content");
+  }
+
+  test("bindSelection runs when highlight restore rejects", async () => {
+    const host = window.document.getElementById("content");
+    const original = window.LouLearnerStore.listTextHighlights;
+    window.LouLearnerStore.listTextHighlights = () =>
+      Promise.reject(new Error("idb read failed"));
+
+    try {
+      await window.LouTextHighlights.mount(host, context);
+      assert.equal(window.LouTextHighlights._boundHost, host);
+    } finally {
+      window.LouLearnerStore.listTextHighlights = original;
+    }
+  });
+
+  test("selection mount runs when hydrate rejects", async () => {
+    const original = window.LouLearnerStore.listPersonalDiagrams;
+    window.LouLearnerStore.listPersonalDiagrams = () =>
+      Promise.reject(new Error("idb read failed"));
+
+    try {
+      const content = await renderMechanisms();
+      assert.ok(content.querySelector(".pedagogical-block"));
+      assert.equal(window.LouTextHighlights._boundHost, content);
+    } finally {
+      window.LouLearnerStore.listPersonalDiagrams = original;
+    }
+  });
+
+  test("invalid diagram blob does not abort hydration", async () => {
+    const originalList = window.LouLearnerStore.listPersonalDiagrams;
+    const originalCreateObjectURL = window.URL.createObjectURL;
+    window.LouLearnerStore.listPersonalDiagrams = () =>
+      Promise.resolve([
+        {
+          id: 1,
+          chapter: CHAPTER,
+          element: "MEC-oap",
+          blob: { type: "image/png" },
+        },
+      ]);
+    window.URL.createObjectURL = () => {
+      throw new TypeError("invalid blob");
+    };
+
+    try {
+      const content = await renderMechanisms();
+      const block = content.querySelector('[data-element="MEC-oap"]');
+      assert.ok(block);
+      assert.equal(block.querySelector(".personal-diagram"), null);
+      assert.equal(window.LouTextHighlights._boundHost, content);
+    } finally {
+      window.LouLearnerStore.listPersonalDiagrams = originalList;
+      window.URL.createObjectURL = originalCreateObjectURL;
+    }
+  });
+
+  test("versionchange closes and invalidates the cached connection", async () => {
+    await window.LouLearnerStore.open();
+    const db = window.LouLearnerStore.db;
+    assert.ok(db);
+
+    let closeCalled = false;
+    const originalClose = db.close.bind(db);
+    db.close = function () {
+      closeCalled = true;
+      return originalClose();
+    };
+
+    db.onversionchange();
+    assert.equal(window.LouLearnerStore.db, null);
+    assert.equal(closeCalled, true);
+  });
+
+  test("healthy highlight restore behaviour is unchanged", async () => {
+    await renderMechanisms();
+    const walkthrough = window.document.querySelector(
+      '[data-element="MEC-oap"] .block-walkthrough'
+    );
+    const full = walkthrough.textContent;
+    const exact = "Au-delà du seuil";
+    const pos = full.indexOf(exact);
+
+    await window.LouLearnerStore.addTextHighlight(
+      CHAPTER,
+      "mechanisms",
+      "MEC-oap",
+      {
+        type: "TextQuoteSelector",
+        exact,
+        prefix: full.slice(Math.max(0, pos - 32), pos),
+        suffix: full.slice(pos + exact.length, pos + exact.length + 32),
+      }
+    );
+
+    const restored = await renderMechanisms();
+    assert.ok(
+      restored.querySelector('[data-element="MEC-oap"] mark.learner-highlight')
+    );
+    assert.equal(window.LouTextHighlights._boundHost, restored);
+  });
+});
+
+describe("renderer — text highlight restore regressions", () => {
+  let dom;
+  let window;
+  let context;
+  let realMechanismsMd;
+
+  const THREE_PARAGRAPH_PHRASES = [
+    "débit adapté aux besoins",
+    "volume d'éjection systolique",
+    "précharge, la postcharge et la contractilité",
+  ];
+
+  before(() => {
+    dom = new JSDOM(
+      `<!DOCTYPE html><html><body><div id="content"></div></body>`,
+      { url: "https://example.test/demo/renderer/", runScripts: "outside-only" }
+    );
+    window = dom.window;
+    window.indexedDB = new IDBFactory();
+    window.requestAnimationFrame = (cb) => {
+      cb();
+      return 0;
+    };
+    loadScripts(dom, [
+      "node_modules/marked/marked.min.js",
+      "config.js",
+      "markdown.js",
+      "learner-store.js",
+      "text-highlights.js",
+      "blocks.js",
+      "renderer.js",
+    ]);
+    realMechanismsMd = fs.readFileSync(
+      path.join(
+        ROOT,
+        "../../01-learning/chapters/cardio/234/projections/understanding/mechanisms.md"
+      ),
+      "utf8"
+    );
+  });
+
+  beforeEach(() => {
+    window.indexedDB = new IDBFactory();
+    window.LouLearnerStore.db = null;
+    window.LouTextHighlights._boundHost = null;
+    const manifest = JSON.parse(
+      fs.readFileSync(
+        path.join(ROOT, "../../01-learning/chapters/cardio/234/manifest.json"),
+        "utf8"
+      )
+    );
+    window.LouRenderer.init(window.document.getElementById("content"), null);
+    context = {
+      projection: manifest.projections.find((p) => p.id === "mechanisms"),
+      manifest,
+      chapter: CHAPTER,
+      config: window.LouConfig,
+      renderer: window.LouRenderer,
+      store: window.LouLearnerStore,
+    };
+  });
+
+  async function renderRealMechanisms() {
+    const html = window.LouMarkdown.parse(
+      window.LouRenderer.prepareLearnerMarkdown(realMechanismsMd)
+    );
+    await window.LouRenderer.renderProjection(html, context);
+    return window.document.getElementById("content");
+  }
+
+  function walkthroughForBasics(content) {
+    return content.querySelector(
+      '[data-element="MEC-output-basics"] .block-walkthrough'
+    );
+  }
+
+  function assertHealthyMarks(marks) {
+    for (const mark of marks) {
+      assert.ok(mark.textContent.length > 0, "mark must not be empty");
+      assert.equal(
+        mark.querySelector("." + window.LouTextHighlights.HIGHLIGHT_CLASS),
+        null,
+        "marks must not nest"
+      );
+      assert.equal(
+        [...mark.childNodes].some(
+          (n) => n.nodeType === 3 && n.textContent === ""
+        ),
+        false,
+        "marks must not contain empty text nodes"
+      );
+    }
+  }
+
+  async function seedThreeParagraphHighlights(walkthrough) {
+    const TH = window.LouTextHighlights;
+    for (const phrase of THREE_PARAGRAPH_PHRASES) {
+      const pos = walkthrough.textContent.indexOf(phrase);
+      assert.ok(pos >= 0, `fixture phrase must exist: ${phrase}`);
+      const range = TH._rangeFromTextOffsets(
+        walkthrough,
+        pos,
+        pos + phrase.length
+      );
+      assert.ok(range, `range must resolve for: ${phrase}`);
+      assert.equal(range.toString(), phrase);
+      await window.LouLearnerStore.addTextHighlight(
+        CHAPTER,
+        "mechanisms",
+        "MEC-output-basics",
+        TH.selectorFromRange(walkthrough, range)
+      );
+    }
+  }
+
+  test("three highlights in different paragraphs survive reload unchanged", async () => {
+    await renderRealMechanisms();
+    const wt = walkthroughForBasics(window.document.getElementById("content"));
+    await seedThreeParagraphHighlights(wt);
+
+    const reloaded = await renderRealMechanisms();
+    const marks = [
+      ...walkthroughForBasics(reloaded).querySelectorAll(
+        "mark.learner-highlight"
+      ),
+    ];
+    assert.equal(marks.length, 3);
+    assertHealthyMarks(marks);
+    for (const phrase of THREE_PARAGRAPH_PHRASES) {
+      assert.ok(
+        marks.some((m) => m.textContent.includes(phrase)),
+        `restored mark must contain: ${phrase}`
+      );
+    }
+  });
+
+  test("a new highlight after reload survives the next reload", async () => {
+    await renderRealMechanisms();
+    const wt = walkthroughForBasics(window.document.getElementById("content"));
+    await seedThreeParagraphHighlights(wt);
+
+    const afterFirstReload = await renderRealMechanisms();
+    const wt2 = walkthroughForBasics(afterFirstReload);
+    const extra = "fréquence cardiaque";
+    const pos = wt2.textContent.indexOf(extra);
+    assert.ok(pos >= 0);
+    const range = window.LouTextHighlights._rangeFromTextOffsets(
+      wt2,
+      pos,
+      pos + extra.length
+    );
+    const selector = window.LouTextHighlights.selectorFromRange(wt2, range);
+    window.LouTextHighlights.wrapRangeInMark(range);
+    await window.LouLearnerStore.addTextHighlight(
+      CHAPTER,
+      "mechanisms",
+      "MEC-output-basics",
+      selector
+    );
+
+    const afterSecondReload = await renderRealMechanisms();
+    const marks = [
+      ...walkthroughForBasics(afterSecondReload).querySelectorAll(
+        "mark.learner-highlight"
+      ),
+    ];
+    assert.equal(marks.length, 4);
+    assertHealthyMarks(marks);
+    assert.ok(marks.some((m) => m.textContent.includes(extra)));
+  });
+
+  test("restore() is idempotent on an already restored walkthrough", async () => {
+    await renderRealMechanisms();
+    const wt = walkthroughForBasics(window.document.getElementById("content"));
+    await seedThreeParagraphHighlights(wt);
+
+    const host = await renderRealMechanisms();
+    const wt2 = walkthroughForBasics(host);
+    await window.LouTextHighlights.restore(host, context);
+
+    const marks = [...wt2.querySelectorAll("mark.learner-highlight")];
+    assert.equal(marks.length, 3);
+    assertHealthyMarks(marks);
+  });
+
+  test("_rangeFromTextOffsets uses half-open boundaries on split text nodes", () => {
+    const root = window.document.createElement("div");
+    root.appendChild(window.document.createTextNode("before"));
+    const inner = window.document.createElement("mark");
+    inner.className = "learner-highlight";
+    inner.appendChild(window.document.createTextNode("highlight"));
+    root.appendChild(inner);
+    root.appendChild(window.document.createTextNode("after"));
+
+    const TH = window.LouTextHighlights;
+    const pos = "before".length;
+    const end = pos + "highlight".length;
+    const range = TH._rangeFromTextOffsets(root, pos, end);
+
+    assert.ok(range);
+    assert.equal(range.toString(), "highlight");
+    assert.equal(range.startOffset, 0);
+    assert.equal(range.endOffset, "highlight".length);
+    assert.equal(range.startContainer.parentElement, inner);
+    assert.equal(range.endContainer.parentElement, inner);
   });
 });

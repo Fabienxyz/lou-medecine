@@ -589,65 +589,6 @@ mark.learner-highlight{
     padding:0 1px;
 }
 
-.highlight-toolbar-btn-note{
-    margin-left:4px;
-    background:#e0e7ff;
-}
-
-.highlight-toolbar-btn-note:hover{
-    background:#c7d2fe;
-}
-
-.highlight-toolbar-btn:disabled{
-    opacity:0.45;
-    cursor:not-allowed;
-}
-
-.selection-note{
-    margin:12px 0 0;
-    padding:12px 14px;
-    border-left:3px solid #6366f1;
-    border-radius:0 10px 10px 0;
-    background:#f5f3ff;
-}
-
-.selection-note-quote{
-    margin:0 0 6px;
-    color:#6b7280;
-    font-size:13px;
-    font-style:italic;
-}
-
-.selection-note-text{
-    margin:0;
-    color:#3a3a3c;
-    font-size:15px;
-}
-
-.selection-note-editor{
-    position:absolute;
-    z-index:1001;
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    width:min(320px, calc(100vw - 16px));
-    padding:12px;
-    border:1px solid #d1d1d6;
-    border-radius:10px;
-    background:#ffffff;
-    box-shadow:0 4px 16px rgba(0,0,0,0.12);
-}
-
-.selection-note-editor textarea{
-    flex:1 1 100%;
-    resize:vertical;
-    padding:9px 11px;
-    border:1px solid #e5e7eb;
-    border-radius:8px;
-    font-family:inherit;
-    font-size:15px;
-}
-
 .learner-remove{
     appearance:none;
     border:none;

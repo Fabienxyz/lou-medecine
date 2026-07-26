@@ -1,0 +1,146 @@
+/**
+ * Unit-level storage and lifecycle checks (JSDOM).
+ * Browser automation cannot verify IndexedDB schema or cross-chapter isolation alone.
+ */
+import { test, describe, before, beforeEach } from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { JSDOM } from "jsdom";
+import { IDBFactory } from "fake-indexeddb";
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(HERE, "../..");
+const CHAPTER = "cardio/234";
+
+function loadScripts(dom, files) {
+  for (const file of files) {
+    dom.window.eval(fs.readFileSync(path.join(ROOT, file), "utf8"));
+  }
+}
+
+describe("V2.1 smoke — learner storage (unit)", () => {
+  let window;
+
+  before(() => {
+    const dom = new JSDOM(`<!DOCTYPE html><body><div id="content"></div></body>`, {
+      url: "https://example.test/demo/renderer/",
+      runScripts: "outside-only",
+    });
+    window = dom.window;
+    loadScripts(dom, [
+      "node_modules/marked/marked.min.js",
+      "config.js",
+      "markdown.js",
+      "learner-store.js",
+      "text-highlights.js",
+      "blocks.js",
+      "renderer.js",
+    ]);
+  });
+
+  beforeEach(() => {
+    window.indexedDB = new IDBFactory();
+    window.LouLearnerStore.db = null;
+    window.LouTextHighlights._boundHost = null;
+  });
+
+  test("ST-U01 empty IndexedDB returns no highlights", async () => {
+    const rows = await window.LouLearnerStore.listTextHighlights(
+      CHAPTER,
+      "mechanisms"
+    );
+    assert.deepEqual(rows, []);
+  });
+
+  test("ST-U02 highlights persist per projection in same chapter", async () => {
+    const selector = {
+      type: "TextQuoteSelector",
+      exact: "test phrase",
+      prefix: "",
+      suffix: "",
+    };
+    await window.LouLearnerStore.addTextHighlight(
+      CHAPTER,
+      "story",
+      "MM-pump-decompensation",
+      selector
+    );
+    await window.LouLearnerStore.addTextHighlight(
+      CHAPTER,
+      "mechanisms",
+      "MEC-output-basics",
+      selector
+    );
+    const story = await window.LouLearnerStore.listTextHighlights(
+      CHAPTER,
+      "story"
+    );
+    const mech = await window.LouLearnerStore.listTextHighlights(
+      CHAPTER,
+      "mechanisms"
+    );
+    assert.equal(story.length, 1);
+    assert.equal(mech.length, 1);
+    assert.equal(story[0].projection, "story");
+    assert.equal(mech[0].projection, "mechanisms");
+  });
+
+  test("ST-U03 highlights isolated by chapter id", async () => {
+    const selector = {
+      type: "TextQuoteSelector",
+      exact: "isolated",
+      prefix: "",
+      suffix: "",
+    };
+    await window.LouLearnerStore.addTextHighlight(
+      CHAPTER,
+      "mechanisms",
+      "MEC-output-basics",
+      selector
+    );
+    await window.LouLearnerStore.addTextHighlight(
+      "cardio/999",
+      "mechanisms",
+      "MEC-output-basics",
+      selector
+    );
+    const rows = await window.LouLearnerStore.listTextHighlights(
+      CHAPTER,
+      "mechanisms"
+    );
+    assert.equal(rows.length, 1);
+    assert.equal(rows[0].chapter, CHAPTER);
+  });
+
+  test("ST-U04 stored record preserves TextQuoteSelector shape", async () => {
+    const selector = {
+      type: "TextQuoteSelector",
+      exact: "Au-delà du seuil",
+      prefix: "abc",
+      suffix: "def",
+    };
+    await window.LouLearnerStore.addTextHighlight(
+      CHAPTER,
+      "mechanisms",
+      "MEC-oap",
+      selector
+    );
+    const rows = await window.LouLearnerStore.listTextHighlights(
+      CHAPTER,
+      "mechanisms"
+    );
+    assert.equal(rows[0].selector.type, "TextQuoteSelector");
+    assert.equal(rows[0].selector.exact, "Au-delà du seuil");
+    assert.equal(rows[0].kind, "highlight");
+  });
+
+  test("ST-U05 bindSelection skips rebinding same host", () => {
+    const host = window.document.getElementById("content");
+    window.LouTextHighlights.bindSelection(host, {});
+    const first = window.LouTextHighlights._boundHost;
+    window.LouTextHighlights.bindSelection(host, {});
+    assert.equal(window.LouTextHighlights._boundHost, first);
+  });
+});

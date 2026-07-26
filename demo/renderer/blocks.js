@@ -198,12 +198,29 @@ window.LouBlocks = {
 
     _diagramCard(record, context) {
         const self = this;
+        if (record.blob == null) {
+            console.warn(
+                "[LouBlocks] Skipping personal diagram with invalid blob.",
+                record.id
+            );
+            return null;
+        }
+
         const card = document.createElement("figure");
         card.className = "personal-diagram";
         card.dataset.learner = "true";
 
         const img = document.createElement("img");
-        img.src = this._objectUrl(record.blob);
+        try {
+            img.src = this._objectUrl(record.blob);
+        } catch (err) {
+            console.warn(
+                "[LouBlocks] Skipping personal diagram with invalid blob.",
+                record.id,
+                err
+            );
+            return null;
+        }
         img.alt = "";
         card.appendChild(img);
 
@@ -399,9 +416,10 @@ window.LouBlocks = {
         diagrams.forEach(function (record) {
             const block = blocks.get(record.element);
             if (block) {
-                block
-                    .querySelector(".diagram-gallery")
-                    .appendChild(self._diagramCard(record, context));
+                const card = self._diagramCard(record, context);
+                if (card) {
+                    block.querySelector(".diagram-gallery").appendChild(card);
+                }
             } else if (!chapterElements.has(record.element)) {
                 orphans.push({ kind: "diagram", record: record });
             }
@@ -466,6 +484,9 @@ window.LouBlocks = {
                 orphan.kind === "diagram"
                     ? self._diagramCard(orphan.record, context)
                     : self._noteCard(orphan.record, context, false);
+            if (!item) {
+                return;
+            }
             const label = document.createElement("p");
             label.className = "orphan-anchor";
             label.textContent = orphan.record.element;
@@ -482,9 +503,17 @@ window.LouBlocks = {
         host.innerHTML = "";
         host.appendChild(fragment);
         this.mountNoteAffordances(host, context);
-        await this.hydrate(host, context);
-        if (window.LouSelectionAnnotations) {
-            await window.LouSelectionAnnotations.mount(host, context);
+        try {
+            await this.hydrate(host, context);
+        } catch (err) {
+            console.warn(
+                "[LouBlocks] Learner artifact hydration failed; official content remains.",
+                err
+            );
+        } finally {
+            if (window.LouTextHighlights) {
+                await window.LouTextHighlights.mount(host, context);
+            }
         }
     },
 };

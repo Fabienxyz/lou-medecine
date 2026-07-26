@@ -4,7 +4,9 @@ import {
   clearLearnerDb,
   goToProjection,
   createHighlight,
+  createHighlightViaToolbar,
   reloadAndOpenProjection,
+  reloadToDefaultStoryTab,
   inspectMarks,
   assertHealthyMarks,
   listStoredHighlights,
@@ -174,5 +176,110 @@ test.describe("V2.1 smoke — projections", () => {
         `[data-element="${PROJECTIONS.clinicalReasoning.element}"] .block-walkthrough[data-official="true"]`
       )
     ).toBeVisible();
+  });
+
+  test("PR-M01 manual repro — three Story highlights, one Overview, reload, return to Overview", async ({
+    page,
+  }) => {
+    const story = PROJECTIONS.story;
+    const overview = PROJECTIONS.overview;
+
+    // 1. Open Story (default after clearLearnerDb reload)
+    await goToProjection(page, story.tabIndex);
+
+    // 2. Create three highlights in Story (three different paragraphs)
+    for (const phrase of story.threeParagraphPhrases) {
+      await createHighlight(page, {
+        projection: story.id,
+        element: story.element,
+        phrase,
+      });
+    }
+    const storyBeforeReload = await inspectMarks(
+      page,
+      `[data-element="${story.element}"]`
+    );
+    expect(storyBeforeReload.markCount).toBe(3);
+
+    // 3. Switch to Overview
+    await goToProjection(page, overview.tabIndex);
+
+    // 4. Create one highlight in Overview
+    await createHighlight(page, {
+      projection: overview.id,
+      element: overview.element,
+      phrase: overview.samplePhrase,
+    });
+    const overviewBeforeReload = await inspectMarks(
+      page,
+      `[data-element="${overview.element}"]`
+    );
+    expect(overviewBeforeReload.markCount).toBe(1);
+
+    // 5. Reload — 6. renderer opens Story (default tab, no click)
+    await reloadToDefaultStoryTab(page, story.contentMarker);
+
+    const storyAfterReload = await inspectMarks(
+      page,
+      `[data-element="${story.element}"]`
+    );
+    expect(storyAfterReload.markCount).toBe(3);
+
+    // 7. Switch back to Overview only
+    await goToProjection(page, overview.tabIndex);
+
+    const overviewAfterReload = await inspectMarks(
+      page,
+      `[data-element="${overview.element}"]`
+    );
+    const overviewStored = await listStoredHighlights(page, overview.id);
+
+    expect(
+      overviewStored.length,
+      "Overview highlight row must remain in IndexedDB"
+    ).toBe(1);
+    expect(
+      overviewAfterReload.markCount,
+      "Overview highlight must restore after reload when returning from Story"
+    ).toBe(1);
+    assertHealthyMarks(overviewAfterReload, expect);
+    expect(overviewAfterReload.marks[0].text).toContain("physiopathologique");
+  });
+
+  test("PR-M01-UI same sequence via selection toolbar (manual workflow)", async ({
+    page,
+  }) => {
+    const story = PROJECTIONS.story;
+    const overview = PROJECTIONS.overview;
+
+    await goToProjection(page, story.tabIndex);
+
+    for (const phrase of story.threeParagraphPhrases) {
+      await createHighlightViaToolbar(page, {
+        element: story.element,
+        phrase,
+        projectionId: story.id,
+      });
+    }
+
+    await goToProjection(page, overview.tabIndex);
+    await createHighlightViaToolbar(page, {
+      element: overview.element,
+      phrase: overview.samplePhrase,
+      projectionId: overview.id,
+    });
+
+    await reloadToDefaultStoryTab(page, story.contentMarker);
+    await goToProjection(page, overview.tabIndex);
+
+    const overviewAfterReload = await inspectMarks(
+      page,
+      `[data-element="${overview.element}"]`
+    );
+    const overviewStored = await listStoredHighlights(page, overview.id);
+
+    expect(overviewStored.length).toBe(1);
+    expect(overviewAfterReload.markCount).toBe(1);
+    assertHealthyMarks(overviewAfterReload, expect);
   });
 });

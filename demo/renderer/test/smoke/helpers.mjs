@@ -91,6 +91,28 @@ export async function reloadAndOpenProjection(page, tabIndex) {
   await goToProjection(page, tabIndex);
 }
 
+/** Reload and wait for the default boot tab (Story) without clicking tabs. */
+export async function reloadToDefaultStoryTab(page, storyMarker) {
+  await page.reload({ waitUntil: "networkidle" });
+  await page.waitForFunction(
+    ({ marker }) => {
+      const wt = document.querySelector(
+        '[data-element="MM-pump-decompensation"] .block-walkthrough'
+      );
+      return (
+        wt &&
+        wt.dataset.official === "true" &&
+        wt.textContent.includes(marker)
+      );
+    },
+    { marker: storyMarker },
+    { timeout: 15_000 }
+  );
+  await page.waitForFunction(
+    () => window.LouTextHighlights?._boundHost?.id === "content"
+  );
+}
+
 export async function listStoredHighlights(page, projection) {
   return page.evaluate(
     async ({ chapter, projection }) => {
@@ -160,6 +182,23 @@ export function assertHealthyMarks(report, expect) {
     expect(m.emptyTextChild, `empty text node in mark: ${m.text}`).toBe(false);
     expect(m.thinVertical, `thin vertical mark: ${m.text}`).toBe(false);
   }
+}
+
+export async function createHighlightViaToolbar(page, opts) {
+  const { element, phrase, projectionId } = opts;
+  const ui = await runSelectionChange(page, { element, phrase, projectionId });
+  if (!ui.ok || !ui.toolbarVisible) {
+    throw new Error(
+      `toolbar not shown for ${phrase}: ${ui.reason || "no selection context"}`
+    );
+  }
+  await page.locator(".highlight-toolbar-btn").click();
+  await page.waitForFunction(
+    () =>
+      !window.LouTextHighlights._selectionContext &&
+      document.querySelector(".highlight-toolbar")?.hidden !== false
+  );
+  return ui.selectedText;
 }
 
 export async function runSelectionChange(page, opts) {

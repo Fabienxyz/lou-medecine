@@ -76,6 +76,8 @@ Published projections for `cardio/234`: **Story**, **Overview**, **Mechanisms**,
 | PR-06 | Overview walkthrough official | Official container present | Selection boundary | High | Browser `03-projections` |
 | PR-07 | Mechanisms walkthrough official | Official container present | Selection boundary | High | Browser `03-projections` |
 | PR-08 | Clinical reasoning walkthrough official | Official container present | Selection boundary | High | Browser `03-projections` |
+| PR-M01 | Manual repro: 3 Story + 1 Overview, reload on Story, return Overview | Overview highlight survives reload + tab return | Reported pre-fix regression; Story/Overview share element id | Critical | Browser `03-projections` |
+| PR-M01-UI | PR-M01 via selection toolbar | Same sequence through `_applyCurrentSelection` | Closer to student mouse workflow | Critical | Browser `03-projections` |
 | PR-09 | Actors projection | Highlights scoped when projection exists | Future chapter readiness | Medium | **N/A** (known_absent) |
 | PR-10 | Readiness projection | Highlights scoped when projection exists | Future chapter readiness | Medium | **N/A** (known_absent) |
 

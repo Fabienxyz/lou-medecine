@@ -19,6 +19,11 @@ export const PROJECTIONS = {
     longPhrase:
       "incapacité à assurer un débit adapté aux besoins et/ou à ne le faire qu'au prix de pressions de remplissage anormalement élevées",
     shortPhrase: "et/ou",
+    threeParagraphPhrases: [
+      "débit adapté aux besoins",
+      "activation neurohormonale",
+      "congestion pulmonaire",
+    ],
   },
   overview: {
     id: "overview",

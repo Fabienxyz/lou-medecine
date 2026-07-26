@@ -12,10 +12,17 @@ window.LouTextHighlights = {
     _boundHost: null,
     _selectionContext: null,
 
-    mount(host, context) {
-        return this.restore(host, context).then(function () {
-            LouTextHighlights.bindSelection(host, context);
-        });
+    async mount(host, context) {
+        try {
+            await this.restore(host, context);
+        } catch (err) {
+            console.warn(
+                "[LouTextHighlights] Highlight restore failed; selection binding continues.",
+                err
+            );
+        } finally {
+            this.bindSelection(host, context);
+        }
     },
 
     bindSelection(host, context) {

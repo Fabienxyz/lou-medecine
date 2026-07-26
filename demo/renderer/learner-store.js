@@ -18,6 +18,27 @@ window.LouLearnerStore = {
 
     db: null,
 
+    _invalidateConnection(db) {
+        if (this.db === db) {
+            this.db = null;
+        }
+        try {
+            db.close();
+        } catch (err) {
+            // Connection may already be closing.
+        }
+    },
+
+    _attachConnectionHandlers(db) {
+        const self = this;
+        db.onversionchange = function () {
+            console.warn(
+                "[LouLearnerStore] IndexedDB version change; closing stale connection."
+            );
+            self._invalidateConnection(db);
+        };
+    },
+
     open() {
         const self = this;
         if (this.db) {
@@ -42,8 +63,15 @@ window.LouLearnerStore = {
                     });
                 }
             };
+            request.onblocked = function () {
+                console.warn(
+                    "[LouLearnerStore] IndexedDB upgrade blocked by another open connection."
+                );
+            };
             request.onsuccess = function () {
-                self.db = request.result;
+                const db = request.result;
+                self._attachConnectionHandlers(db);
+                self.db = db;
                 resolve(self.db);
             };
             request.onerror = function () {

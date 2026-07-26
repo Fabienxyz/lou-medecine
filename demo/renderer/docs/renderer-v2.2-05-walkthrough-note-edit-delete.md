@@ -1,11 +1,13 @@
 # Renderer V2.2 — Walkthrough Note edit & delete (commit 6)
 
-> **Status:** Implementation contract — **not yet implemented**  
-> **Planned commit:** `feat(inline-notes): edit and delete interactions`  
+> **Status:** **Implemented — frozen** (commit 6)  
+> **Commit:** `feat(renderer): edit and delete walkthrough notes` (`13f5210`)  
+> **Tag:** `renderer-v2.2-edit-delete-stable`  
+> **Frozen:** 2026-07-27  
 > **Module:** `inline-notes.js` → `window.LouInlineNotes` (extended)  
 > **Parent:** [architecture-principles.md](./architecture-principles.md)  
 > **Target spec:** [renderer-v2.2-walkthrough-notes.md](./renderer-v2.2-walkthrough-notes.md) §7.4–7.6  
-> **Depends on:** [renderer-v2.2-02-store.md](./renderer-v2.2-02-store.md), [renderer-v2.2-03-caret-anchor.md](./renderer-v2.2-03-caret-anchor.md), [renderer-v2.2-04-note-creation.md](./renderer-v2.2-04-note-creation.md), commits restore (4) + create (5)
+> **Depends on:** [renderer-v2.2-02-store.md](./renderer-v2.2-02-store.md), [renderer-v2.2-03-caret-anchor.md](./renderer-v2.2-03-caret-anchor.md), [renderer-v2.2-04-note-creation.md](./renderer-v2.2-04-note-creation.md), restore (commit 4 — [target spec §8](./renderer-v2.2-walkthrough-notes.md#8-pipeline-de-restauration))
 
 This document is the **implementation contract** for the edit/delete commit only. It is not a changelog. CSS and smoke navigateur complets are explicitly deferred.
 
@@ -641,6 +643,7 @@ convergence §8.3
 - Un write IndexedDB **peut** se produire **après** un mount intercalé — c'est **normal** pour un commit accepté ; ce n'est **pas** une violation du contrat.
 - Le brouillon DOM de l'ancien mount est **perdu** ; la vérité utilisateur finale est celle d'IndexedDB **après settlement + convergence**.
 - **Aucune** compensation post-succès ne réécrit IndexedDB depuis un snapshot DOM.
+- Si la **convergence** échoue **après** un settlement store réussi, le commit reste **réussi** : IndexedDB durable inchangée, `_commitInFlight` libéré, file disponible pour le commit suivant ; `console.warn` `[LouInlineNotes] Note converge failed.` (§14).
 
 ---
 
@@ -849,7 +852,7 @@ N1–N15 du commit 5 restent vrais sur les chemins create/restore. Les brancheme
 
 ### 12.1 Fichier
 
-`demo/renderer/test/walkthrough-notes-edit-delete.test.js` — **nouveau**.
+`demo/renderer/test/walkthrough-notes-edit-delete.test.js` — **41 tests** (suite commit 6).
 
 ### 12.2 Tests d'édition
 
@@ -879,6 +882,11 @@ N1–N15 du commit 5 restent vrais sur les chemins create/restore. Les brancheme
 | **WT-ED-20** | Commit A en vol → plusieurs mount successifs | `_commitInFlight` conservé ; un seul write ; convergence unique post-settlement |
 | **WT-ED-21** | Commit A accepté → mount → settlement **échec** | Pas de mutation ancien DOM ; DOM courant = état restore post-mount ; IDB inchangée |
 | **WT-ED-22** | Edit → blur no-op (text === snapshot) | Pas de point d'acceptation ; pas de write ; `_commitInFlight` inchangé |
+| **WT-ED-23** | Pending create → saisie → mount **avant** point d'acceptation | Intent create abandonnée ; **aucun** invoke `addWalkthroughNote` |
+| **WT-ED-24** | `data-note-id` invalide (`""`, `"abc"`, `"NaN"`, etc.) → blur | **Aucun** invoke store |
+| **WT-ED-25** | Normalisation bordures / newlines / `<br>` nested | Pas de write si texte normalisé inchangé ; record = texte normalisé |
+| **WT-ED-26** | Double blur rapide sur edit | Un seul write concurrent max ; pas de file parallèle |
+| **WT-ED-27** | Menu delete → acceptation → mount → settlement succès | Convergence ; note absente du DOM courant post-settlement |
 
 ### 12.2.1 Tests sérialisation, mount et convergence (E14, E16)
 
@@ -891,8 +899,16 @@ N1–N15 du commit 5 restent vrais sur les chemins create/restore. Les brancheme
 | 5–6 | **WT-ED-18** | Commit A accepté puis interaction B ; B attend A |
 | 7 | **WT-ED-19** | Aucun revert de A n'écrase B (anti-ABA) |
 | 8 | **WT-ED-20** | Plusieurs mount pendant A |
-| 9 | **WT-ED-21** | Échec de A après mount |
+| 9 | **WT-ED-21** | Échec store de A après mount |
 | 10 | **WT-ED-14** / **WT-ED-22** | No-op sans write |
+| 11 | **WT-ED-27** | Delete menu accepté → mount → convergence |
+
+### 12.2.2 Tests anti-ABA et résilience convergence
+
+| ID | Scénario | Vérifie |
+|---|---|---|
+| **WT-ED-ABA** | A accepté → mount → A settlement → B accepté → B settlement (Promises contrôlées) | **Aucun** revert compensatoire ; IDB final = B ; jamais de réécriture de l'ancienne valeur ; exactement 2 writes `[A, B]` |
+| **WT-ED-ABA** | Convergence échoue après write store réussi → second commit | IDB = premier write ; `_commitInFlight` libéré ; second commit progresse ; warn convergence (§14) |
 
 ### 12.3 Tests de suppression
 
@@ -923,7 +939,7 @@ N1–N15 du commit 5 restent vrais sur les chemins create/restore. Les brancheme
 
 ### 12.6 Non-régression obligatoire
 
-- Suite unitaire existante (**72+** tests) — verte
+- Suite unitaire complète (**113** tests au gel V2.2) — verte
 - Smoke matrix V2.1 — verte
 - Tests commit 5 (`walkthrough-notes-create.test.js`) — verts sans modification de comportement
 
@@ -977,16 +993,18 @@ _MENU_DELETE_LABEL: "Supprimer la note"
 | Intent invalidée (mount avant acceptation) | Aucun invoke store ; restore IDB | Silencieux (§8.2) |
 | Commit accepté en vol + mount intercalé | Settlement continue ; convergence §8.3 ; pas de mutation ancien DOM | Silencieux |
 | Commit accepté en vol + settlement échec | Pas de mutation ancien DOM ; IDB inchangée | Silencieux |
+| Convergence échoue après settlement store **réussi** | Commit **réussi** ; IDB durable conservée ; file libérée ; commits suivants non bloqués ; pas de rollback ni write compensatoire | `console.warn` `[LouInlineNotes] Note converge failed.` |
 | `updateWalkthroughNote` texte vide | Ne devrait pas arriver post-branche vide §6.2 | N/A |
 
 ---
 
-## 15. Fichiers touchés (prévision implémentation)
+## 15. Fichiers touchés
 
 | Fichier | Modification |
 |---|---|
-| `inline-notes.js` | dblclick, menu delete, `_editSnapshots`, branche persisted dans `_commitOnBlur`, `_onDeleteNote`, `_onNoteDblClick` |
-| `test/walkthrough-notes-edit-delete.test.js` | **Nouveau** — WT-18 … WT-ED-22 |
+| `inline-notes.js` | dblclick, menu delete, `_editSnapshots`, branche persisted dans `_commitOnBlur`, `_onDeleteNote`, `_onNoteDblClick`, `_runStoreCommit`, `_convergeAfterCommit` |
+| `test/walkthrough-notes-edit-delete.test.js` | WT-18 … WT-29, WT-ED-01 … WT-ED-27, WT-ED-ABA |
+| `demo/renderer/docs/renderer-v2.2-05-walkthrough-note-edit-delete.md` | Contrat milestone commit 6 |
 
 **Non modifiés :** `blocks.js`, `caret-anchor.js`, `learner-store.js`, `text-highlights.js`, `styles.css`, `index.html`, `renderer.js`, `app.js`.
 
@@ -1040,6 +1058,9 @@ _MENU_DELETE_LABEL: "Supprimer la note"
 |---|---|
 | Target spec §7.4–7.6 | [renderer-v2.2-walkthrough-notes.md](./renderer-v2.2-walkthrough-notes.md) |
 | Create (commit 5) | [renderer-v2.2-04-note-creation.md](./renderer-v2.2-04-note-creation.md) |
+| Restore (commit 4) | [target spec §8](./renderer-v2.2-walkthrough-notes.md#8-pipeline-de-restauration) ; `test/walkthrough-notes-restore.test.js` |
 | CaretAnchor | [renderer-v2.2-03-caret-anchor.md](./renderer-v2.2-03-caret-anchor.md) |
 | Store | [renderer-v2.2-02-store.md](./renderer-v2.2-02-store.md) |
+| Tag jalon restore | `renderer-v2.2-restore-stable` |
 | Tag jalon create | `renderer-v2.2-create-stable` |
+| Tag jalon edit/delete | `renderer-v2.2-edit-delete-stable` |

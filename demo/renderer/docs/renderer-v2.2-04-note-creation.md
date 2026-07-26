@@ -1,11 +1,13 @@
 # Renderer V2.2 — Walkthrough Note creation (commit 5)
 
-> **Status:** **Contrat d'implémentation définitif** (commit 5) — not yet implemented  
-> **Planned commit:** `feat(inline-notes): context menu create flow`  
+> **Status:** **Implemented — frozen** (commit 5)  
+> **Commit:** `feat(renderer): create walkthrough notes` (`3eae4bb`)  
+> **Tag:** `renderer-v2.2-create-stable`  
+> **Frozen:** 2026-07-26  
 > **Module:** `inline-notes.js` → `window.LouInlineNotes` (extended)  
 > **Parent:** [architecture-principles.md](./architecture-principles.md)  
 > **Target spec:** [renderer-v2.2-walkthrough-notes.md](./renderer-v2.2-walkthrough-notes.md) §7.1–7.2  
-> **Depends on:** [renderer-v2.2-02-store.md](./renderer-v2.2-02-store.md), [renderer-v2.2-03-caret-anchor.md](./renderer-v2.2-03-caret-anchor.md), restore commit (`inline-notes.js` restore pass)
+> **Depends on:** [renderer-v2.2-02-store.md](./renderer-v2.2-02-store.md), [renderer-v2.2-03-caret-anchor.md](./renderer-v2.2-03-caret-anchor.md), restore (commit 4 — [target spec §8](./renderer-v2.2-walkthrough-notes.md#8-pipeline-de-restauration))
 
 This document is the **implementation contract** for the creation commit only. It is not a changelog. Edit, delete, and CSS are explicitly deferred.
 
@@ -742,9 +744,9 @@ listWalkthroughNotes → restoreCaretAnchor → insertNode (idempotent)
 
 ---
 
-## 10. Tests à écrire (sans implémentation ici)
+## 10. Tests
 
-### Intégration unitaire (`test/walkthrough-notes-create.test.js` ou extension suite existante)
+### Intégration unitaire (`test/walkthrough-notes-create.test.js`)
 
 | ID | Scénario | Vérifie |
 |---|---|---|
@@ -778,12 +780,12 @@ listWalkthroughNotes → restoreCaretAnchor → insertNode (idempotent)
 
 ### Non-régression obligatoire
 
-- Suite unitaire existante (53+ tests) — verte
+- Suite unitaire complète (**113** tests au gel V2.2) — verte
 - Smoke matrix V2.1 — verte
 
 ---
 
-## 11. Questions d'architecture (à trancher avant implémentation)
+## 11. Questions d'architecture (décisions fermées)
 
 ### Q1 — Menu sur une note existante (commit 5)
 
@@ -823,13 +825,13 @@ Peut être absent ou approximatif. **Proposition tests :** helper test qui appel
 
 ---
 
-## 12. Fichiers touchés (prévision implémentation)
+## 12. Fichiers touchés
 
 | Fichier | Modification |
 |---|---|
 | `inline-notes.js` | `bind`, menu, create flow, edit mode, commit blur, état interne |
-| `test/walkthrough-notes-create.test.js` | **Nouveau** — WT-10, WT-11, WT-12, WT-CR-* |
-| `demo/renderer/docs/README.md` | Entrée milestone commit 5 (documentation, commit doc séparé) |
+| `test/walkthrough-notes-create.test.js` | WT-10, WT-11, WT-12, WT-CR-* |
+| `demo/renderer/docs/renderer-v2.2-04-note-creation.md` | Contrat milestone commit 5 |
 
 **Non modifiés :** `blocks.js`, `index.html`, `caret-anchor.js`, `learner-store.js`, `text-highlights.js`, `styles.css`, `renderer.js`, `app.js`.
 
@@ -853,6 +855,8 @@ Peut être absent ou approximatif. **Proposition tests :** helper test qui appel
 | Document | Lien |
 |---|---|
 | Target spec création §7.1–7.2 | [renderer-v2.2-walkthrough-notes.md](./renderer-v2.2-walkthrough-notes.md) |
-| Restore (commit 4) | `inline-notes.js` + tests restore |
+| Restore (commit 4) | [target spec §8](./renderer-v2.2-walkthrough-notes.md#8-pipeline-de-restauration) ; `test/walkthrough-notes-restore.test.js` |
+| Edit/delete (commit 6) | [renderer-v2.2-05-walkthrough-note-edit-delete.md](./renderer-v2.2-05-walkthrough-note-edit-delete.md) |
 | CaretAnchor | [renderer-v2.2-03-caret-anchor.md](./renderer-v2.2-03-caret-anchor.md) |
 | Store | [renderer-v2.2-02-store.md](./renderer-v2.2-02-store.md) |
+| Tag jalon create | `renderer-v2.2-create-stable` |

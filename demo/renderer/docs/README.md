@@ -27,8 +27,13 @@ Documented incrementally as commits land. Each file describes **only what is imp
 |---|---|---|
 | [renderer-v2.2-02-store.md](./renderer-v2.2-02-store.md) | **Implemented** | `walkthrough_notes` IndexedDB store + CRUD |
 | [renderer-v2.2-03-caret-anchor.md](./renderer-v2.2-03-caret-anchor.md) | **Implemented** | CaretAnchor primitives + Official Text Stream |
+| [renderer-v2.2-walkthrough-notes.md §8](./renderer-v2.2-walkthrough-notes.md#8-pipeline-de-restauration) | `renderer-v2.2-restore-stable` — **frozen** | Restore walkthrough notes from IndexedDB |
+| [renderer-v2.2-04-note-creation.md](./renderer-v2.2-04-note-creation.md) | `renderer-v2.2-create-stable` — **frozen** | Context menu create flow |
+| [renderer-v2.2-05-walkthrough-note-edit-delete.md](./renderer-v2.2-05-walkthrough-note-edit-delete.md) | `renderer-v2.2-edit-delete-stable` — **frozen** | Edit and delete interactions |
 
 Each version contract is additive. Later versions must not regress earlier frozen contracts unless explicitly superseded.
+
+V2.2 walkthrough notes (commits 2–6) are **complete** at `renderer-v2.2-edit-delete-stable`. CSS (commit 7) and browser smoke (commits 9–10) remain in the [target spec](./renderer-v2.2-walkthrough-notes.md) only.
 
 ## Planned (not written yet)
 

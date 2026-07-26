@@ -1,19 +1,17 @@
-// Learner-layer storage (IMPLEMENTATION_CONTRACT.md C.8 / C.9).
+// Learner-layer storage (IMPLEMENTATION_CONTRACT.md C.8; Renderer V2.1 highlights).
 //
-// Personal Diagrams and Inline Notes are learner-owned. They live in the browser: they are not part
-// of a chapter's artifact set, are not versioned with it, and are never stored in Git beside medical
-// content. No generation, checking, grounding, reconciliation or packaging pass reads them, and
-// nothing here interprets them — no vision model, no OCR, no text analysis.
+// Personal Diagrams and text-selection highlights are learner-owned. They live in the browser: they
+// are not part of a chapter's artifact set, are not versioned with it, and are never stored in Git
+// beside medical content. No generation, checking, grounding, reconciliation or packaging pass
+// reads them, and nothing here interprets them — no vision model, no OCR, no text analysis.
 //
-// The two contractual mechanisms (C.8, C.9) and text-selection highlights (V2.1) get separate object
-// stores rather than one table with a `kind` column, because they are distinct mechanisms with
-// different payloads, anchors and durability, and the contract forbids generalising them into a
-// single attachment system.
+// Personal Diagrams (C.8) and text-selection highlights (V2.1) get separate object stores rather
+// than one table with a `kind` column, because they are distinct mechanisms with different payloads,
+// anchors and durability.
 window.LouLearnerStore = {
     DB_NAME: "lou-learner",
     DB_VERSION: 2,
     DIAGRAMS: "personal_diagrams",
-    NOTES: "inline_notes",
     HIGHLIGHTS: "text_annotations",
 
     db: null,
@@ -48,14 +46,12 @@ window.LouLearnerStore = {
             const request = indexedDB.open(self.DB_NAME, self.DB_VERSION);
             request.onupgradeneeded = function (event) {
                 const db = request.result;
-                [self.DIAGRAMS, self.NOTES].forEach(function (name) {
-                    if (!db.objectStoreNames.contains(name)) {
-                        db.createObjectStore(name, {
-                            keyPath: "id",
-                            autoIncrement: true,
-                        });
-                    }
-                });
+                if (!db.objectStoreNames.contains(self.DIAGRAMS)) {
+                    db.createObjectStore(self.DIAGRAMS, {
+                        keyPath: "id",
+                        autoIncrement: true,
+                    });
+                }
                 if (!db.objectStoreNames.contains(self.HIGHLIGHTS)) {
                     db.createObjectStore(self.HIGHLIGHTS, {
                         keyPath: "id",
@@ -125,30 +121,6 @@ window.LouLearnerStore = {
 
     deletePersonalDiagram(id) {
         return this._run(this.DIAGRAMS, "readwrite", function (store) {
-            return store.delete(id);
-        });
-    },
-
-    // C.9 — anchored to a claim-block boundary, and storing the element id alongside it so a note
-    // whose claim block was re-cut by a regeneration degrades to its block instead of orphaning.
-    addInlineNote(chapter, element, claim, text) {
-        return this._run(this.NOTES, "readwrite", function (store) {
-            return store.add({
-                chapter: chapter,
-                element: element,
-                claim: claim,
-                text: text,
-                created: new Date().toISOString(),
-            });
-        });
-    },
-
-    listInlineNotes(chapter) {
-        return this._listForChapter(this.NOTES, chapter);
-    },
-
-    deleteInlineNote(id) {
-        return this._run(this.NOTES, "readwrite", function (store) {
             return store.delete(id);
         });
     },

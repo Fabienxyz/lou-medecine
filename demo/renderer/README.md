@@ -16,7 +16,7 @@ styles.css          Layout, pedagogical block, learner layer
 lib/marked.min.js   Local markdown parser (vendored from npm)
 config.js           Paths, legacy tab fallback, URL/chapter helpers
 markdown.js         Thin marked wrapper
-learner-store.js    Learner-owned artifacts in IndexedDB (contract C.8 / C.9)
+learner-store.js    Learner-owned artifacts in IndexedDB (contract C.8)
 blocks.js           Pedagogical block assembly and learner affordances
 renderer.js         Fetch, markdown preparation, visual state notices, mounting
 app.js              Boot sequence, tabs, chapter loading
@@ -39,7 +39,6 @@ Question              the element's question, from the Blueprint       REQUIRED
 Official Visual       bound by element ID                             OPTIONAL
   📷 Ajouter mon schéma   learner layer, on every block
 Guided Walkthrough    the canonical explanation                       REQUIRED
-  📝 Note                 learner layer, at claim-block boundaries
 ```
 
 A block boundary is an `h2` whose anchor is a known element ID. Content before the first such heading stays a preamble — the renderer never invents a block for content that is not shaped as one, and never places a visual by ordinal position.
@@ -48,12 +47,11 @@ An Official Visual has three availability states, kept distinguishable and never
 
 ## The learner layer
 
-Two deliberately separate mechanisms, stored in two IndexedDB object stores, namespaced by chapter:
+One mechanism, stored in IndexedDB, namespaced by chapter:
 
 - **Personal Diagrams** — a photo of the learner's own drawing, anchored to the element ID, offered on every block whether or not an Official Visual exists.
-- **Inline Notes** — text anchored to a claim-block boundary inside the walkthrough.
 
-Both are learner-owned: never generated, never an input to any build or AI pass, never a modification of generated content, and never stored in Git beside medical content. Degradation is honest — an artifact whose element still exists elsewhere in the chapter is left alone, a note whose claim block was re-cut degrades to its block with a marker, and an artifact whose element has vanished is surfaced in an orphan panel rather than discarded.
+Both are learner-owned: never generated, never an input to any build or AI pass, never a modification of generated content, and never stored in Git beside medical content. Degradation is honest — an artifact whose element still exists elsewhere in the chapter is left alone, and an artifact whose element has vanished is surfaced in an orphan panel rather than discarded.
 
 ## Tests
 
@@ -62,7 +60,7 @@ cd demo/renderer
 npm test
 ```
 
-`test/renderer.test.js` runs the renderer under jsdom with a fake IndexedDB and checks the mechanically checkable renderer obligations: block structure and order, visual binding by identifier, manifest-supplied alt text, the three visual states, the presence of both affordances, absence of any editing affordance, and each degradation case.
+`test/renderer.test.js` runs the renderer under jsdom with a fake IndexedDB and checks the mechanically checkable renderer obligations: block structure and order, visual binding by identifier, manifest-supplied alt text, the three visual states, the Personal Diagram affordance, absence of any editing affordance, and each degradation case.
 
 Expected manifest shape:
 
@@ -86,7 +84,7 @@ To switch filename later, change `MANIFEST_FILENAME` in `config.js` only.
 | `styles.css` | Layout, typography, tabs, content area |
 | `config.js` | `ASSETS_ROOT`, legacy tab fallback (`TABS`), path resolution, messages |
 | `markdown.js` | Markdown → HTML via `marked` |
-| `learner-store.js` | IndexedDB stores for Personal Diagrams and Inline Notes |
+| `learner-store.js` | IndexedDB store for Personal Diagrams |
 | `blocks.js` | Block assembly, visual binding, learner affordances, degradation |
 | `renderer.js` | HTTP helpers, markdown preparation, visual notices, mounting |
 | `app.js` | Tab UI, chapter boot, orchestrates loading |

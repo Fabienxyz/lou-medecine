@@ -282,20 +282,6 @@ describe("renderer — pedagogical blocks and learner layer", () => {
     }
   });
 
-  test("the Inline Note affordance is separate, and sits at claim-block boundaries", async () => {
-    const content = await renderMechanisms();
-    const oap = content.querySelector('[data-element="MEC-oap"]');
-    const claims = [...oap.querySelectorAll(".note-affordance")].map(
-      (b) => b.dataset.claim
-    );
-    assert.deepEqual(claims, ["cb-oap-bridge", "cb-oap-threshold"]);
-    // Two mechanisms, not one generalised attachment control.
-    assert.notEqual(
-      oap.querySelector(".diagram-affordance"),
-      oap.querySelector(".note-affordance")
-    );
-  });
-
   test("generated content carries no editing affordance", async () => {
     const content = await renderMechanisms();
     assert.equal(content.querySelector("[contenteditable]"), null);
@@ -319,66 +305,19 @@ describe("renderer — pedagogical blocks and learner layer", () => {
     assert.equal(gallery.querySelectorAll(".personal-diagram").length, 1);
   });
 
-  test("an Inline Note survives regeneration while its claim block persists", async () => {
+  test("a Personal Diagram anchored to a vanished element is surfaced as orphaned, never discarded", async () => {
     await renderMechanisms();
-    await window.LouLearnerStore.addInlineNote(
-      CHAPTER,
-      "MEC-oap",
-      "cb-oap-threshold",
-      "je bloque sur le seuil"
-    );
-
-    const content = await renderMechanisms();
-    const container = content.querySelector('[data-notes-for="cb-oap-threshold"]');
-    const note = container.querySelector(".inline-note");
-    assert.match(note.textContent, /je bloque sur le seuil/);
-    assert.equal(note.classList.contains("inline-note-degraded"), false);
-    assert.equal(note.dataset.learner, "true");
-  });
-
-  test("a note whose claim block was re-cut degrades to its block, not to nothing", async () => {
-    await renderMechanisms();
-    await window.LouLearnerStore.addInlineNote(
-      CHAPTER,
-      "MEC-oap",
-      "cb-oap-removed-by-regeneration",
-      "note à conserver"
-    );
-
-    const content = await renderMechanisms();
-    const oap = content.querySelector('[data-element="MEC-oap"]');
-    const degraded = oap.querySelector(".inline-note-degraded");
-    assert.match(degraded.textContent, /note à conserver/);
-    assert.match(degraded.textContent, /régénéré/);
-  });
-
-  test("an artifact anchored to a vanished element is surfaced as orphaned, never discarded", async () => {
-    await renderMechanisms();
-    await window.LouLearnerStore.addInlineNote(
+    await window.LouLearnerStore.addPersonalDiagram(
       CHAPTER,
       "MEC-element-that-no-longer-exists",
-      "cb-gone",
-      "note orpheline"
+      new window.Blob(["fake-png"], { type: "image/png" })
     );
 
     const content = await renderMechanisms();
     const panel = content.querySelector(".learner-orphans");
-    assert.match(panel.textContent, /note orpheline/);
+    assert.ok(panel);
     assert.match(panel.textContent, /MEC-element-that-no-longer-exists/);
-  });
-
-  test("an artifact belonging to another projection is not shown here and not orphaned", async () => {
-    await renderMechanisms();
-    await window.LouLearnerStore.addInlineNote(
-      CHAPTER,
-      "MM-pump-decompensation",
-      "cb-ov-oap",
-      "note de la vue d'ensemble"
-    );
-
-    const content = await renderMechanisms();
-    assert.equal(content.querySelector(".learner-orphans"), null);
-    assert.doesNotMatch(content.textContent, /note de la vue d'ensemble/);
+    assert.equal(panel.querySelectorAll(".personal-diagram").length, 1);
   });
 
   test("text highlights restore after re-render from stored TextQuoteSelectors", async () => {

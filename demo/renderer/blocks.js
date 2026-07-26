@@ -2,7 +2,7 @@
 //
 // A block is one Blueprint element, in the order the contract fixes:
 //
-//   Question -> Official Visual (optional) -> 📷 Personal Diagram -> Guided Walkthrough -> 📝 Inline Notes
+//   Question -> Official Visual (optional) -> 📷 Personal Diagram -> Guided Walkthrough
 //
 // The block's identity is the Blueprint-element id, so this file mints no identifiers and holds no
 // medical content: every learner-visible string below is either chrome or comes from the manifest.
@@ -12,12 +12,6 @@ window.LouBlocks = {
         diagramHint:
             "Photographie ton schéma. Il reste à toi : rien ne le lit et rien ne le corrige.",
         deleteDiagram: "Retirer",
-        addNote: "📝 Note",
-        notePlaceholder: "Ta note…",
-        saveNote: "Enregistrer",
-        cancelNote: "Annuler",
-        deleteNote: "Supprimer",
-        movedAnchor: "Note rattachée au bloc : le passage annoté a été régénéré.",
         orphanTitle: "Tes ajouts dont le point d’ancrage a disparu",
         orphanHint:
             "L’élément correspondant n’existe plus dans ce chapitre. Rien n’a été supprimé.",
@@ -240,157 +234,11 @@ window.LouBlocks = {
         return card;
     },
 
-    // 📝 Inline Notes — anchored to a claim-block boundary inside the walkthrough (C.9), which is
-    // the finest anchor the architecture can keep durable across regeneration.
-    mountNoteAffordances(root, context) {
-        const self = this;
-        root.querySelectorAll(".pedagogical-block").forEach(function (block) {
-            block
-                .querySelectorAll(".block-walkthrough .claim-trace-link")
-                .forEach(function (link) {
-                    const claimId = link.dataset.claim;
-                    const button = document.createElement("button");
-                    button.type = "button";
-                    button.className = "learner-affordance note-affordance";
-                    button.textContent = self.LABELS.addNote;
-                    button.dataset.claim = claimId;
-                    button.addEventListener("click", function () {
-                        self._openNoteEditor(block, claimId, context);
-                    });
-                    link.insertAdjacentElement("afterend", button);
-                });
-        });
-    },
-
-    _notesContainer(block, claimId) {
-        const walkthrough = block.querySelector(".block-walkthrough");
-        const existing = walkthrough.querySelector(
-            '[data-notes-for="' + claimId + '"]'
-        );
-        if (existing) {
-            return existing;
-        }
-        const container = document.createElement("div");
-        container.className = "inline-notes";
-        container.dataset.notesFor = claimId;
-
-        const affordance = walkthrough.querySelector(
-            '.note-affordance[data-claim="' + claimId + '"]'
-        );
-        const anchorBlock = affordance
-            ? this._topLevelAncestor(affordance, walkthrough)
-            : null;
-        if (anchorBlock) {
-            anchorBlock.insertAdjacentElement("afterend", container);
-        } else {
-            walkthrough.appendChild(container);
-        }
-        return container;
-    },
-
-    _topLevelAncestor(node, root) {
-        let current = node;
-        while (current && current.parentElement !== root) {
-            current = current.parentElement;
-        }
-        return current;
-    },
-
-    _openNoteEditor(block, claimId, context) {
-        const self = this;
-        const container = this._notesContainer(block, claimId);
-        if (container.querySelector(".note-editor")) {
-            return;
-        }
-
-        const editor = document.createElement("form");
-        editor.className = "note-editor";
-        const field = document.createElement("textarea");
-        field.rows = 3;
-        field.placeholder = this.LABELS.notePlaceholder;
-
-        const save = document.createElement("button");
-        save.type = "submit";
-        save.className = "note-save";
-        save.textContent = this.LABELS.saveNote;
-
-        const cancel = document.createElement("button");
-        cancel.type = "button";
-        cancel.className = "note-cancel";
-        cancel.textContent = this.LABELS.cancelNote;
-        cancel.addEventListener("click", function () {
-            editor.remove();
-        });
-
-        editor.addEventListener("submit", function (event) {
-            event.preventDefault();
-            const text = field.value.trim();
-            if (!text) {
-                editor.remove();
-                return;
-            }
-            context.store
-                .addInlineNote(
-                    context.chapter,
-                    block.dataset.element,
-                    claimId,
-                    text
-                )
-                .then(function (id) {
-                    editor.remove();
-                    container.appendChild(
-                        self._noteCard(
-                            { id: id, text: text, claim: claimId },
-                            context,
-                            false
-                        )
-                    );
-                });
-        });
-
-        editor.appendChild(field);
-        editor.appendChild(save);
-        editor.appendChild(cancel);
-        container.appendChild(editor);
-        field.focus();
-    },
-
-    _noteCard(record, context, degraded) {
-        const card = document.createElement("aside");
-        card.className = "inline-note" + (degraded ? " inline-note-degraded" : "");
-        card.dataset.learner = "true";
-
-        if (degraded) {
-            const marker = document.createElement("p");
-            marker.className = "note-degraded-marker";
-            marker.textContent = this.LABELS.movedAnchor;
-            card.appendChild(marker);
-        }
-
-        const body = document.createElement("p");
-        body.className = "note-text";
-        body.textContent = record.text;
-        card.appendChild(body);
-
-        const remove = document.createElement("button");
-        remove.type = "button";
-        remove.className = "learner-remove";
-        remove.textContent = this.LABELS.deleteNote;
-        remove.addEventListener("click", function () {
-            context.store.deleteInlineNote(record.id).then(function () {
-                card.remove();
-            });
-        });
-        card.appendChild(remove);
-        return card;
-    },
-
     /**
-     * Load stored learner artifacts into the blocks that are on screen.
+     * Load stored Personal Diagrams into the blocks that are on screen.
      *
-     * Degradation is honest and has three distinct cases (C.7, C.9):
+     * Degradation is honest (C.7, C.8):
      *   - element still exists in the chapter but is projected elsewhere → not shown here, not lost;
-     *   - element on screen but the annotated claim block was re-cut → shown, degraded to the block;
      *   - element no longer exists anywhere in the chapter → surfaced as orphaned, never discarded.
      */
     async hydrate(root, context) {
@@ -408,10 +256,7 @@ window.LouBlocks = {
         });
 
         const orphans = [];
-        const [diagrams, notes] = await Promise.all([
-            context.store.listPersonalDiagrams(context.chapter),
-            context.store.listInlineNotes(context.chapter),
-        ]);
+        const diagrams = await context.store.listPersonalDiagrams(context.chapter);
 
         diagrams.forEach(function (record) {
             const block = blocks.get(record.element);
@@ -421,46 +266,13 @@ window.LouBlocks = {
                     block.querySelector(".diagram-gallery").appendChild(card);
                 }
             } else if (!chapterElements.has(record.element)) {
-                orphans.push({ kind: "diagram", record: record });
+                orphans.push(record);
             }
-        });
-
-        notes.forEach(function (record) {
-            const block = blocks.get(record.element);
-            if (!block) {
-                if (!chapterElements.has(record.element)) {
-                    orphans.push({ kind: "note", record: record });
-                }
-                return;
-            }
-            const anchorExists = !!block.querySelector(
-                '.note-affordance[data-claim="' + record.claim + '"]'
-            );
-            if (anchorExists) {
-                self._notesContainer(block, record.claim).appendChild(
-                    self._noteCard(record, context, false)
-                );
-                return;
-            }
-            const fallback = self._blockLevelNotes(block);
-            fallback.appendChild(self._noteCard(record, context, true));
         });
 
         if (orphans.length) {
             root.appendChild(this._orphanPanel(orphans, context));
         }
-    },
-
-    _blockLevelNotes(block) {
-        const walkthrough = block.querySelector(".block-walkthrough");
-        let container = walkthrough.querySelector('[data-notes-for="__block__"]');
-        if (!container) {
-            container = document.createElement("div");
-            container.className = "inline-notes";
-            container.dataset.notesFor = "__block__";
-            walkthrough.appendChild(container);
-        }
-        return container;
     },
 
     _orphanPanel(orphans, context) {
@@ -479,17 +291,14 @@ window.LouBlocks = {
         hint.textContent = this.LABELS.orphanHint;
         panel.appendChild(hint);
 
-        orphans.forEach(function (orphan) {
-            const item =
-                orphan.kind === "diagram"
-                    ? self._diagramCard(orphan.record, context)
-                    : self._noteCard(orphan.record, context, false);
+        orphans.forEach(function (record) {
+            const item = self._diagramCard(record, context);
             if (!item) {
                 return;
             }
             const label = document.createElement("p");
             label.className = "orphan-anchor";
-            label.textContent = orphan.record.element;
+            label.textContent = record.element;
             panel.appendChild(label);
             panel.appendChild(item);
         });
@@ -502,7 +311,6 @@ window.LouBlocks = {
         const fragment = this.assemble(html, context);
         host.innerHTML = "";
         host.appendChild(fragment);
-        this.mountNoteAffordances(host, context);
         try {
             await this.hydrate(host, context);
         } catch (err) {

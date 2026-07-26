@@ -489,12 +489,6 @@ body{
     margin:0 0 22px;
 }
 
-.note-affordance{
-    margin-left:6px;
-    padding:2px 9px;
-    font-size:12px;
-}
-
 .diagram-gallery{
     display:flex;
     flex-wrap:wrap;
@@ -526,35 +520,6 @@ body{
     margin-top:8px;
     color:#8e8e93;
     font-size:12px;
-}
-
-.inline-notes{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    margin:14px 0 18px;
-}
-
-.inline-note{
-    position:relative;
-    padding:12px 14px;
-    border:1px dashed #c7c7cc;
-    border-left:3px solid #f0c14b;
-    border-radius:10px;
-    background:#fffdf7;
-}
-
-.inline-note .note-text{
-    margin:0;
-    white-space:pre-wrap;
-    color:#3a3a3c;
-    font-size:15px;
-}
-
-.note-degraded-marker{
-    margin:0 0 8px;
-    color:#8e8e93;
-    font-size:13px;
 }
 
 .highlight-toolbar{
@@ -600,48 +565,6 @@ mark.learner-highlight{
     font-size:12px;
     text-decoration:underline;
     cursor:pointer;
-}
-
-.note-editor{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    padding:12px;
-    border:1px dashed #c7c7cc;
-    border-radius:10px;
-    background:#fffdf7;
-}
-
-.note-editor textarea{
-    flex:1 1 100%;
-    resize:vertical;
-    padding:9px 11px;
-    border:1px solid #e5e7eb;
-    border-radius:8px;
-    font-family:inherit;
-    font-size:15px;
-}
-
-.note-save,
-.note-cancel{
-    appearance:none;
-    border-radius:999px;
-    padding:6px 14px;
-    font-family:inherit;
-    font-size:13px;
-    cursor:pointer;
-}
-
-.note-save{
-    border:1px solid #1d1d1f;
-    background:#1d1d1f;
-    color:#fff;
-}
-
-.note-cancel{
-    border:1px solid #e5e7eb;
-    background:#fff;
-    color:#6b7280;
 }
 
 .learner-orphans{

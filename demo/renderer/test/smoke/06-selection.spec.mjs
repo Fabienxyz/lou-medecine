@@ -92,20 +92,4 @@ test.describe("V2.1 smoke — selection", () => {
     expect(ui.ok).toBe(true);
     expect(ui.toolbarVisible).toBe(true);
   });
-
-  test("SE-07 note affordance button text is not highlightable", async ({
-    page,
-  }) => {
-    const ui = await runSelectionChange(page, {
-      element: M.oapElement,
-      projectionId: M.id,
-      selectInQuestion: "affordance",
-    });
-    if (!ui.ok && ui.reason === "affordance missing") {
-      test.skip();
-      return;
-    }
-    expect(ui.ok).toBe(true);
-    expect(ui.toolbarVisible).toBe(false);
-  });
 });

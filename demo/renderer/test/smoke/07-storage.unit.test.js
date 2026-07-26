@@ -144,3 +144,115 @@ describe("V2.1 smoke — learner storage (unit)", () => {
     assert.equal(window.LouTextHighlights._boundHost, first);
   });
 });
+
+describe("walkthrough_notes store (unit)", () => {
+  let window;
+
+  before(() => {
+    const dom = new JSDOM(`<!DOCTYPE html><body><div id="content"></div></body>`, {
+      url: "https://example.test/demo/renderer/",
+      runScripts: "outside-only",
+    });
+    window = dom.window;
+    loadScripts(dom, ["learner-store.js"]);
+  });
+
+  beforeEach(() => {
+    window.indexedDB = new IDBFactory();
+    window.LouLearnerStore.db = null;
+  });
+
+  const sampleAnchor = {
+    type: "CaretAnchor",
+    offset: 42,
+    prefix: "before",
+    suffix: "after",
+  };
+
+  test("ST-01 addWalkthroughNote + listWalkthroughNotes filters chapter/projection", async () => {
+    await window.LouLearnerStore.addWalkthroughNote(
+      CHAPTER,
+      "story",
+      "MM-pump-decompensation",
+      sampleAnchor,
+      "Note story"
+    );
+    await window.LouLearnerStore.addWalkthroughNote(
+      CHAPTER,
+      "mechanisms",
+      "MEC-oap",
+      sampleAnchor,
+      "Note mechanisms"
+    );
+    await window.LouLearnerStore.addWalkthroughNote(
+      "cardio/999",
+      "mechanisms",
+      "MEC-oap",
+      sampleAnchor,
+      "Note other chapter"
+    );
+
+    const story = await window.LouLearnerStore.listWalkthroughNotes(
+      CHAPTER,
+      "story"
+    );
+    const mech = await window.LouLearnerStore.listWalkthroughNotes(
+      CHAPTER,
+      "mechanisms"
+    );
+
+    assert.equal(story.length, 1);
+    assert.equal(mech.length, 1);
+    assert.equal(story[0].projection, "story");
+    assert.equal(story[0].chapter, CHAPTER);
+    assert.equal(story[0].element, "MM-pump-decompensation");
+    assert.equal(story[0].text, "Note story");
+    assert.equal(mech[0].projection, "mechanisms");
+    assert.equal(mech[0].text, "Note mechanisms");
+  });
+
+  test("ST-02 updateWalkthroughNote sets updated", async () => {
+    const id = await window.LouLearnerStore.addWalkthroughNote(
+      CHAPTER,
+      "mechanisms",
+      "MEC-oap",
+      sampleAnchor,
+      "Original"
+    );
+    const before = await window.LouLearnerStore.listWalkthroughNotes(
+      CHAPTER,
+      "mechanisms"
+    );
+    const created = before[0].created;
+    assert.ok(created);
+    assert.equal(before[0].updated, undefined);
+
+    await window.LouLearnerStore.updateWalkthroughNote(id, "Revised text");
+
+    const after = await window.LouLearnerStore.listWalkthroughNotes(
+      CHAPTER,
+      "mechanisms"
+    );
+    assert.equal(after[0].text, "Revised text");
+    assert.equal(after[0].created, created);
+    assert.ok(after[0].updated);
+    assert.match(after[0].updated, /^\d{4}-\d{2}-\d{2}T/);
+  });
+
+  test("ST-03 deleteWalkthroughNote", async () => {
+    const id = await window.LouLearnerStore.addWalkthroughNote(
+      CHAPTER,
+      "mechanisms",
+      "MEC-oap",
+      sampleAnchor,
+      "To delete"
+    );
+    await window.LouLearnerStore.deleteWalkthroughNote(id);
+
+    const rows = await window.LouLearnerStore.listWalkthroughNotes(
+      CHAPTER,
+      "mechanisms"
+    );
+    assert.deepEqual(rows, []);
+  });
+});

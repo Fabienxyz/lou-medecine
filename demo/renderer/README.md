@@ -2,6 +2,8 @@
 
 Static, chapter-agnostic preview shell for generated learning assets. It reuses the visual design of the legacy `demo/legacy/221/` prototype without embedding medical content in the renderer itself.
 
+> **Architecture reference:** [`docs/renderer/README.md`](../../docs/renderer/README.md) — authoritative Renderer V2 specification, migration plan, and roadmap. This file is the operational quick-start only.
+
 ## Purpose
 
 The renderer displays generated projections for a chapter. For a chapter that ships a `manifest.json`, the tab list, the projection paths and the visual availability all come from the manifest — the hardcoded `TABS` registry in `config.js` is only the fallback for legacy asset folders that have no manifest.

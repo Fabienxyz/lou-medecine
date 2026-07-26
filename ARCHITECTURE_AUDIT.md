@@ -1,5 +1,7 @@
 # Architecture Audit — Lou Learning Companion
 
+> **Historical document.** This audit predates the manifest-driven renderer (`demo/renderer/`) and lou-build pipeline. Several claims below (e.g. renderer never loads SVGs, hard-coded tabs) are superseded. For current renderer architecture, see [`docs/renderer/README.md`](docs/renderer/README.md).
+>
 > Read-only forensic audit. No repository files were modified, renamed, moved, or deleted in the course of this audit; only this file was created.
 >
 > Reference chapter: **Item 234 — Insuffisance cardiaque** (`cardio/234-insuffisance-cardiaque`).

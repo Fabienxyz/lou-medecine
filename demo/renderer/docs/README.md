@@ -18,6 +18,7 @@ Read this first. It applies to every renderer version.
 |---|---|---|
 | [renderer-v2.1-highlights.md](./renderer-v2.1-highlights.md) | `renderer-v2.1.0` — **frozen** | Text selection highlights |
 | [renderer-v2.2-walkthrough-notes.md](./renderer-v2.2-walkthrough-notes.md) | Design approved — **target spec** | Walkthrough Notes (full V2.2) |
+| [renderer-v2.3-inline-formatting.md](./renderer-v2.3-inline-formatting.md) | `renderer-v2.3-architecture-frozen` — **frozen** | Inline formatting on official SVG text |
 
 ### V2.2 implementation milestones
 
@@ -35,11 +36,16 @@ Each version contract is additive. Later versions must not regress earlier froze
 
 V2.2 walkthrough notes (commits 2–6) are **complete** at `renderer-v2.2-edit-delete-stable`. CSS (commit 7) and browser smoke (commits 9–10) remain in the [target spec](./renderer-v2.2-walkthrough-notes.md) only.
 
+### V2.3 implementation milestones
+
+| Document | Status | Commit scope |
+|---|---|---|
+| [renderer-v2.3-01-store.md](./renderer-v2.3-01-store.md) | **Implemented** — `renderer-v2.3-store-stable` | `svg_text_formats` IndexedDB store + CRUD |
+
 ## Planned (not written yet)
 
 | Document | Planned feature |
 |---|---|
-| `renderer-v2.3-text-formatting.md` | Emphasis overlays (bold, italic, strike, colour) |
 | `renderer-v2.4-svg-overlays.md` | SVG figure annotations |
 | `renderer-v2-production.md` | Production hardening, packaging, deployment |
 

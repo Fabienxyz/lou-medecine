@@ -174,6 +174,7 @@ describe("renderer — pedagogical blocks and learner layer", () => {
       "config.js",
       "markdown.js",
       "learner-store.js",
+      "text-highlights.js",
       "blocks.js",
       "renderer.js",
     ]);
@@ -378,5 +379,50 @@ describe("renderer — pedagogical blocks and learner layer", () => {
     const content = await renderMechanisms();
     assert.equal(content.querySelector(".learner-orphans"), null);
     assert.doesNotMatch(content.textContent, /note de la vue d'ensemble/);
+  });
+
+  test("text highlights restore after re-render from stored TextQuoteSelectors", async () => {
+    await renderMechanisms();
+    const content = await renderMechanisms();
+    const walkthrough = content.querySelector(
+      '[data-element="MEC-oap"] .block-walkthrough'
+    );
+    assert.equal(walkthrough.dataset.official, "true");
+
+    const full = walkthrough.textContent;
+    const exact = "Au-delà du seuil";
+    const pos = full.indexOf(exact);
+    assert.ok(pos >= 0, "fixture phrase must exist in walkthrough");
+
+    const selector = {
+      type: "TextQuoteSelector",
+      exact: exact,
+      prefix: full.slice(Math.max(0, pos - 32), pos),
+      suffix: full.slice(pos + exact.length, pos + exact.length + 32),
+    };
+
+    await window.LouLearnerStore.addTextHighlight(
+      CHAPTER,
+      "mechanisms",
+      "MEC-oap",
+      selector
+    );
+
+    const restored = await renderMechanisms();
+    const mark = restored.querySelector(
+      '[data-element="MEC-oap"] mark.learner-highlight'
+    );
+    assert.ok(mark);
+    assert.match(mark.textContent, /Au-delà du seuil/);
+    assert.equal(mark.dataset.learner, "true");
+    assert.equal(restored.querySelector("[contenteditable]"), null);
+  });
+
+  test("official walkthrough containers are marked for highlight scoping", async () => {
+    const content = await renderMechanisms();
+    for (const block of content.querySelectorAll(".pedagogical-block")) {
+      const walkthrough = block.querySelector(".block-walkthrough");
+      assert.equal(walkthrough.dataset.official, "true");
+    }
   });
 });

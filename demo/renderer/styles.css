@@ -554,7 +554,39 @@ body{
 .note-degraded-marker{
     margin:0 0 8px;
     color:#8e8e93;
-    font-size:12px;
+    font-size:13px;
+}
+
+.highlight-toolbar{
+    position:absolute;
+    z-index:1000;
+    padding:4px;
+    border:1px solid #d1d1d6;
+    border-radius:8px;
+    background:#ffffff;
+    box-shadow:0 4px 16px rgba(0,0,0,0.12);
+}
+
+.highlight-toolbar-btn{
+    padding:6px 12px;
+    border:none;
+    border-radius:6px;
+    background:#fef08a;
+    color:#3a3a3c;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+}
+
+.highlight-toolbar-btn:hover{
+    background:#fde047;
+}
+
+mark.learner-highlight{
+    background:#fef08a;
+    color:inherit;
+    border-radius:2px;
+    padding:0 1px;
 }
 
 .learner-remove{

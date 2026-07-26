@@ -322,6 +322,9 @@ window.LouBlocks = {
             if (window.LouTextHighlights) {
                 await window.LouTextHighlights.mount(host, context);
             }
+            if (window.LouInlineNotes) {
+                await window.LouInlineNotes.mount(host, context);
+            }
         }
     },
 };

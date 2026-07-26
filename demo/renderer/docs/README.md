@@ -17,7 +17,16 @@ Read this first. It applies to every renderer version.
 | Document | Tag / status | Feature |
 |---|---|---|
 | [renderer-v2.1-highlights.md](./renderer-v2.1-highlights.md) | `renderer-v2.1.0` — **frozen** | Text selection highlights |
-| [renderer-v2.2-walkthrough-notes.md](./renderer-v2.2-walkthrough-notes.md) | Design approved — **not yet implemented** | Walkthrough Notes |
+| [renderer-v2.2-walkthrough-notes.md](./renderer-v2.2-walkthrough-notes.md) | Design approved — **target spec** | Walkthrough Notes (full V2.2) |
+
+### V2.2 implementation milestones
+
+Documented incrementally as commits land. Each file describes **only what is implemented** at that step — not the full target spec above.
+
+| Document | Status | Commit scope |
+|---|---|---|
+| [renderer-v2.2-02-store.md](./renderer-v2.2-02-store.md) | **Implemented** | `walkthrough_notes` IndexedDB store + CRUD |
+| [renderer-v2.2-03-caret-anchor.md](./renderer-v2.2-03-caret-anchor.md) | **Implemented** | CaretAnchor primitives + Official Text Stream |
 
 Each version contract is additive. Later versions must not regress earlier frozen contracts unless explicitly superseded.
 

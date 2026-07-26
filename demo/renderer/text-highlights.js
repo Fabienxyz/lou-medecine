@@ -10,6 +10,7 @@ window.LouTextHighlights = {
     _toolbar: null,
     _toolbarRoot: null,
     _boundHost: null,
+    _bindContext: null,
     _selectionContext: null,
 
     async mount(host, context) {
@@ -27,6 +28,7 @@ window.LouTextHighlights = {
 
     bindSelection(host, context) {
         const self = this;
+        this._bindContext = context;
         if (this._boundHost === host) {
             return;
         }
@@ -38,7 +40,7 @@ window.LouTextHighlights = {
                 return;
             }
             window.requestAnimationFrame(function () {
-                self._onSelectionChange(host, context);
+                self._onSelectionChange(host, self._bindContext);
             });
         });
 

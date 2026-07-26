@@ -142,7 +142,30 @@ window.LouLearnerStore = {
     listTextHighlights(chapter, projection) {
         return this._listForChapter(this.HIGHLIGHTS, chapter).then(function (rows) {
             return rows.filter(function (row) {
-                return row.projection === projection;
+                return row.projection === projection && row.kind === "highlight";
+            });
+        });
+    },
+
+    // V2.2 — selection notes; same store and TextQuoteSelector anchoring as highlights.
+    addSelectionNote(chapter, projection, element, selector, noteText) {
+        return this._run(this.HIGHLIGHTS, "readwrite", function (store) {
+            return store.add({
+                chapter: chapter,
+                projection: projection,
+                element: element,
+                selector: selector,
+                kind: "selection-note",
+                noteText: noteText,
+                created: new Date().toISOString(),
+            });
+        });
+    },
+
+    listSelectionNotes(chapter, projection) {
+        return this._listForChapter(this.HIGHLIGHTS, chapter).then(function (rows) {
+            return rows.filter(function (row) {
+                return row.projection === projection && row.kind === "selection-note";
             });
         });
     },

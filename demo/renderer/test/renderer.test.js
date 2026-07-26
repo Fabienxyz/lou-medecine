@@ -576,3 +576,211 @@ describe("renderer — learner storage robustness", () => {
     assert.equal(window.LouTextHighlights._boundHost, restored);
   });
 });
+
+describe("renderer — text highlight restore regressions", () => {
+  let dom;
+  let window;
+  let context;
+  let realMechanismsMd;
+
+  const THREE_PARAGRAPH_PHRASES = [
+    "débit adapté aux besoins",
+    "volume d'éjection systolique",
+    "précharge, la postcharge et la contractilité",
+  ];
+
+  before(() => {
+    dom = new JSDOM(
+      `<!DOCTYPE html><html><body><div id="content"></div></body>`,
+      { url: "https://example.test/demo/renderer/", runScripts: "outside-only" }
+    );
+    window = dom.window;
+    window.indexedDB = new IDBFactory();
+    window.requestAnimationFrame = (cb) => {
+      cb();
+      return 0;
+    };
+    loadScripts(dom, [
+      "node_modules/marked/marked.min.js",
+      "config.js",
+      "markdown.js",
+      "learner-store.js",
+      "text-highlights.js",
+      "blocks.js",
+      "renderer.js",
+    ]);
+    realMechanismsMd = fs.readFileSync(
+      path.join(
+        ROOT,
+        "../../01-learning/chapters/cardio/234/projections/understanding/mechanisms.md"
+      ),
+      "utf8"
+    );
+  });
+
+  beforeEach(() => {
+    window.indexedDB = new IDBFactory();
+    window.LouLearnerStore.db = null;
+    window.LouTextHighlights._boundHost = null;
+    const manifest = JSON.parse(
+      fs.readFileSync(
+        path.join(ROOT, "../../01-learning/chapters/cardio/234/manifest.json"),
+        "utf8"
+      )
+    );
+    window.LouRenderer.init(window.document.getElementById("content"), null);
+    context = {
+      projection: manifest.projections.find((p) => p.id === "mechanisms"),
+      manifest,
+      chapter: CHAPTER,
+      config: window.LouConfig,
+      renderer: window.LouRenderer,
+      store: window.LouLearnerStore,
+    };
+  });
+
+  async function renderRealMechanisms() {
+    const html = window.LouMarkdown.parse(
+      window.LouRenderer.prepareLearnerMarkdown(realMechanismsMd)
+    );
+    await window.LouRenderer.renderProjection(html, context);
+    return window.document.getElementById("content");
+  }
+
+  function walkthroughForBasics(content) {
+    return content.querySelector(
+      '[data-element="MEC-output-basics"] .block-walkthrough'
+    );
+  }
+
+  function assertHealthyMarks(marks) {
+    for (const mark of marks) {
+      assert.ok(mark.textContent.length > 0, "mark must not be empty");
+      assert.equal(
+        mark.querySelector("." + window.LouTextHighlights.HIGHLIGHT_CLASS),
+        null,
+        "marks must not nest"
+      );
+      assert.equal(
+        [...mark.childNodes].some(
+          (n) => n.nodeType === 3 && n.textContent === ""
+        ),
+        false,
+        "marks must not contain empty text nodes"
+      );
+    }
+  }
+
+  async function seedThreeParagraphHighlights(walkthrough) {
+    const TH = window.LouTextHighlights;
+    for (const phrase of THREE_PARAGRAPH_PHRASES) {
+      const pos = walkthrough.textContent.indexOf(phrase);
+      assert.ok(pos >= 0, `fixture phrase must exist: ${phrase}`);
+      const range = TH._rangeFromTextOffsets(
+        walkthrough,
+        pos,
+        pos + phrase.length
+      );
+      assert.ok(range, `range must resolve for: ${phrase}`);
+      assert.equal(range.toString(), phrase);
+      await window.LouLearnerStore.addTextHighlight(
+        CHAPTER,
+        "mechanisms",
+        "MEC-output-basics",
+        TH.selectorFromRange(walkthrough, range)
+      );
+    }
+  }
+
+  test("three highlights in different paragraphs survive reload unchanged", async () => {
+    await renderRealMechanisms();
+    const wt = walkthroughForBasics(window.document.getElementById("content"));
+    await seedThreeParagraphHighlights(wt);
+
+    const reloaded = await renderRealMechanisms();
+    const marks = [
+      ...walkthroughForBasics(reloaded).querySelectorAll(
+        "mark.learner-highlight"
+      ),
+    ];
+    assert.equal(marks.length, 3);
+    assertHealthyMarks(marks);
+    for (const phrase of THREE_PARAGRAPH_PHRASES) {
+      assert.ok(
+        marks.some((m) => m.textContent.includes(phrase)),
+        `restored mark must contain: ${phrase}`
+      );
+    }
+  });
+
+  test("a new highlight after reload survives the next reload", async () => {
+    await renderRealMechanisms();
+    const wt = walkthroughForBasics(window.document.getElementById("content"));
+    await seedThreeParagraphHighlights(wt);
+
+    const afterFirstReload = await renderRealMechanisms();
+    const wt2 = walkthroughForBasics(afterFirstReload);
+    const extra = "fréquence cardiaque";
+    const pos = wt2.textContent.indexOf(extra);
+    assert.ok(pos >= 0);
+    const range = window.LouTextHighlights._rangeFromTextOffsets(
+      wt2,
+      pos,
+      pos + extra.length
+    );
+    const selector = window.LouTextHighlights.selectorFromRange(wt2, range);
+    window.LouTextHighlights.wrapRangeInMark(range);
+    await window.LouLearnerStore.addTextHighlight(
+      CHAPTER,
+      "mechanisms",
+      "MEC-output-basics",
+      selector
+    );
+
+    const afterSecondReload = await renderRealMechanisms();
+    const marks = [
+      ...walkthroughForBasics(afterSecondReload).querySelectorAll(
+        "mark.learner-highlight"
+      ),
+    ];
+    assert.equal(marks.length, 4);
+    assertHealthyMarks(marks);
+    assert.ok(marks.some((m) => m.textContent.includes(extra)));
+  });
+
+  test("restore() is idempotent on an already restored walkthrough", async () => {
+    await renderRealMechanisms();
+    const wt = walkthroughForBasics(window.document.getElementById("content"));
+    await seedThreeParagraphHighlights(wt);
+
+    const host = await renderRealMechanisms();
+    const wt2 = walkthroughForBasics(host);
+    await window.LouTextHighlights.restore(host, context);
+
+    const marks = [...wt2.querySelectorAll("mark.learner-highlight")];
+    assert.equal(marks.length, 3);
+    assertHealthyMarks(marks);
+  });
+
+  test("_rangeFromTextOffsets uses half-open boundaries on split text nodes", () => {
+    const root = window.document.createElement("div");
+    root.appendChild(window.document.createTextNode("before"));
+    const inner = window.document.createElement("mark");
+    inner.className = "learner-highlight";
+    inner.appendChild(window.document.createTextNode("highlight"));
+    root.appendChild(inner);
+    root.appendChild(window.document.createTextNode("after"));
+
+    const TH = window.LouTextHighlights;
+    const pos = "before".length;
+    const end = pos + "highlight".length;
+    const range = TH._rangeFromTextOffsets(root, pos, end);
+
+    assert.ok(range);
+    assert.equal(range.toString(), "highlight");
+    assert.equal(range.startOffset, 0);
+    assert.equal(range.endOffset, "highlight".length);
+    assert.equal(range.startContainer.parentElement, inner);
+    assert.equal(range.endContainer.parentElement, inner);
+  });
+});

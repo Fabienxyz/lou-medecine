@@ -205,7 +205,7 @@ window.LouTextHighlights = {
                 return;
             }
             const range = self.findRangeForSelector(walkthrough, record.selector);
-            if (range) {
+            if (range && !self._rangeAlreadyHighlighted(range)) {
                 self.wrapRangeInMark(range);
             }
         });
@@ -298,24 +298,33 @@ window.LouTextHighlights = {
         return found;
     },
 
+    _rangeAlreadyHighlighted(range) {
+        const node = range.commonAncestorContainer;
+        const el = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+        return !!(el && el.closest("." + this.HIGHLIGHT_CLASS));
+    },
+
     _rangeFromTextOffsets(root, start, end) {
         const range = document.createRange();
-        let started = false;
+        let startSet = false;
+        let endSet = false;
 
+        // Global offsets are half-open [start, end). Using strict comparisons at node
+        // boundaries avoids overwriting setEnd when end === nodeStart of a later node
+        // (e.g. after prior marks split the walkthrough text nodes).
         this._forEachTextNode(root, function (node, nodeStart, nodeLen) {
             const nodeEnd = nodeStart + nodeLen;
-            if (!started && start >= nodeStart && start <= nodeEnd) {
-                range.setStart(node, Math.min(nodeLen, start - nodeStart));
-                started = true;
+            if (!startSet && start < nodeEnd) {
+                range.setStart(node, Math.max(0, start - nodeStart));
+                startSet = true;
             }
-            if (started) {
-                if (end >= nodeStart && end <= nodeEnd) {
-                    range.setEnd(node, Math.min(nodeLen, end - nodeStart));
-                }
+            if (end > nodeStart && end <= nodeEnd) {
+                range.setEnd(node, end - nodeStart);
+                endSet = true;
             }
         });
 
-        if (!started || range.collapsed) {
+        if (!startSet || !endSet || range.collapsed) {
             return null;
         }
         return range;

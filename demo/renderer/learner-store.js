@@ -5,14 +5,16 @@
 // content. No generation, checking, grounding, reconciliation or packaging pass reads them, and
 // nothing here interprets them — no vision model, no OCR, no text analysis.
 //
-// The two mechanisms get two object stores rather than one table with a `kind` column, because they
-// are two distinct mechanisms with different payloads, anchors and durability, and the contract
-// forbids generalising them into a single attachment system.
+// The two contractual mechanisms (C.8, C.9) and text-selection highlights (V2.1) get separate object
+// stores rather than one table with a `kind` column, because they are distinct mechanisms with
+// different payloads, anchors and durability, and the contract forbids generalising them into a
+// single attachment system.
 window.LouLearnerStore = {
     DB_NAME: "lou-learner",
-    DB_VERSION: 1,
+    DB_VERSION: 2,
     DIAGRAMS: "personal_diagrams",
     NOTES: "inline_notes",
+    HIGHLIGHTS: "text_annotations",
 
     db: null,
 
@@ -23,7 +25,7 @@ window.LouLearnerStore = {
         }
         return new Promise(function (resolve, reject) {
             const request = indexedDB.open(self.DB_NAME, self.DB_VERSION);
-            request.onupgradeneeded = function () {
+            request.onupgradeneeded = function (event) {
                 const db = request.result;
                 [self.DIAGRAMS, self.NOTES].forEach(function (name) {
                     if (!db.objectStoreNames.contains(name)) {
@@ -33,6 +35,12 @@ window.LouLearnerStore = {
                         });
                     }
                 });
+                if (!db.objectStoreNames.contains(self.HIGHLIGHTS)) {
+                    db.createObjectStore(self.HIGHLIGHTS, {
+                        keyPath: "id",
+                        autoIncrement: true,
+                    });
+                }
             };
             request.onsuccess = function () {
                 self.db = request.result;
@@ -114,6 +122,28 @@ window.LouLearnerStore = {
     deleteInlineNote(id) {
         return this._run(this.NOTES, "readwrite", function (store) {
             return store.delete(id);
+        });
+    },
+
+    // V2.1 — text-selection highlights; separate store, TextQuoteSelector anchoring (docs/renderer/08).
+    addTextHighlight(chapter, projection, element, selector) {
+        return this._run(this.HIGHLIGHTS, "readwrite", function (store) {
+            return store.add({
+                chapter: chapter,
+                projection: projection,
+                element: element,
+                selector: selector,
+                kind: "highlight",
+                created: new Date().toISOString(),
+            });
+        });
+    },
+
+    listTextHighlights(chapter, projection) {
+        return this._listForChapter(this.HIGHLIGHTS, chapter).then(function (rows) {
+            return rows.filter(function (row) {
+                return row.projection === projection;
+            });
         });
     },
 };

@@ -175,6 +175,7 @@ describe("renderer — pedagogical blocks and learner layer", () => {
       "markdown.js",
       "learner-store.js",
       "text-highlights.js",
+      "selection-annotations.js",
       "blocks.js",
       "renderer.js",
     ]);
@@ -415,6 +416,45 @@ describe("renderer — pedagogical blocks and learner layer", () => {
     assert.ok(mark);
     assert.match(mark.textContent, /Au-delà du seuil/);
     assert.equal(mark.dataset.learner, "true");
+    assert.equal(restored.querySelector("[contenteditable]"), null);
+  });
+
+  test("selection notes restore after reload from TextQuoteSelector anchor", async () => {
+    await renderMechanisms();
+    const content = await renderMechanisms();
+    const walkthrough = content.querySelector(
+      '[data-element="MEC-oap"] .block-walkthrough'
+    );
+    assert.equal(walkthrough.dataset.official, "true");
+
+    const full = walkthrough.textContent;
+    const exact = "Au-delà du seuil";
+    const pos = full.indexOf(exact);
+    assert.ok(pos >= 0, "fixture phrase must exist in walkthrough");
+
+    const selector = {
+      type: "TextQuoteSelector",
+      exact: exact,
+      prefix: full.slice(Math.max(0, pos - 32), pos),
+      suffix: full.slice(pos + exact.length, pos + exact.length + 32),
+    };
+
+    await window.LouLearnerStore.addSelectionNote(
+      CHAPTER,
+      "mechanisms",
+      "MEC-oap",
+      selector,
+      "Seuil clé à retenir."
+    );
+
+    const restored = await renderMechanisms();
+    const note = restored.querySelector(
+      '[data-element="MEC-oap"] .selection-note'
+    );
+    assert.ok(note);
+    assert.equal(note.dataset.learner, "true");
+    assert.match(note.textContent, /Au-delà du seuil/);
+    assert.match(note.textContent, /Seuil clé à retenir/);
     assert.equal(restored.querySelector("[contenteditable]"), null);
   });
 

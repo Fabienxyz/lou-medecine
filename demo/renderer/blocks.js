@@ -483,8 +483,8 @@ window.LouBlocks = {
         host.appendChild(fragment);
         this.mountNoteAffordances(host, context);
         await this.hydrate(host, context);
-        if (window.LouTextHighlights) {
-            await window.LouTextHighlights.mount(host, context);
+        if (window.LouSelectionAnnotations) {
+            await window.LouSelectionAnnotations.mount(host, context);
         }
     },
 };

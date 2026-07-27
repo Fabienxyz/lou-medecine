@@ -1,5 +1,6 @@
 /** Browser helpers for Renderer V2.1 smoke tests. */
 
+import fs from "node:fs";
 import { CHAPTER_ID, DB_NAME, chapterUrl, projectionByTabIndex } from "./fixtures.mjs";
 
 export { chapterUrl, CHAPTER_ID };
@@ -285,4 +286,217 @@ export async function getLifecycleState(page) {
     toolbarCount: document.querySelectorAll(".highlight-toolbar").length,
     markCount: document.querySelectorAll("mark.learner-highlight").length,
   }));
+}
+
+/** V2.3 — inline SVG formatting smoke helpers */
+
+export async function routeOapFormattingSvg(page, fixturePath) {
+  const body = fs.readFileSync(fixturePath, "utf8");
+  await page.route(/mec-oap\.svg(\?.*)?$/i, (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "image/svg+xml; charset=utf-8",
+      body,
+    })
+  );
+}
+
+export async function goToOapFigure(page, tabIndex) {
+  await goToProjection(page, tabIndex);
+  const element = "MEC-oap";
+  const figureSel = `.official-visual[data-element="${element}"]`;
+  await page.locator(figureSel).scrollIntoViewIfNeeded();
+  await page.waitForSelector(`${figureSel} svg[data-inline-ready="true"]`, {
+    timeout: 15_000,
+  });
+  await page.waitForFunction(() => {
+    const figure = document.querySelector(
+      '.official-visual[data-element="MEC-oap"]'
+    );
+    return (
+      figure &&
+      !figure.dataset.inlineFallback &&
+      figure.querySelector('svg[data-inline-ready="true"]')
+    );
+  });
+  await page.waitForFunction(
+    () => window.LouInlineFormatting?._boundHost?.id === "content"
+  );
+}
+
+export async function captureOfficialSvgBaseline(page, elementId) {
+  return page.evaluate((element) => {
+    const svg = document.querySelector(
+      `.official-visual[data-element="${element}"] svg[data-inline-ready="true"]`
+    );
+    if (!svg) {
+      return null;
+    }
+    const officials = [
+      ...svg.querySelectorAll(
+        'text[data-official-text-id], tspan[data-official-text-id]'
+      ),
+    ];
+    return {
+      officials: officials.map((node) => ({
+        id: node.getAttribute("data-official-text-id"),
+        textContent: node.textContent,
+        attrs: Array.from(node.attributes)
+          .filter((attr) => !attr.name.startsWith("data-learner"))
+          .map((attr) => [attr.name, attr.value])
+          .sort(),
+      })),
+      learnerInsideSvg: svg.querySelectorAll('[data-learner="true"]').length,
+    };
+  }, elementId);
+}
+
+export async function selectSvgOfficialText(page, opts) {
+  const { elementId, phrase } = opts;
+  return page.evaluate(
+    ({ elementId, phrase }) => {
+      const host = document.getElementById("content");
+      const figure = document.querySelector(
+        `.official-visual[data-element="${elementId}"]`
+      );
+      const svg = figure?.querySelector('svg[data-inline-ready="true"]');
+      if (!svg) {
+        return { ok: false, reason: "svg not ready" };
+      }
+      const context = window.LouInlineFormatting._bindContext;
+      if (!context) {
+        return { ok: false, reason: "formatting context missing" };
+      }
+
+      const walker = document.createTreeWalker(
+        svg,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode(node) {
+            const parent = node.parentElement;
+            if (!parent) return NodeFilter.FILTER_REJECT;
+            if (parent.closest('[data-learner="true"]')) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            if (parent.closest("textPath")) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            const official = parent.closest(
+              "text[data-official-text-id], tspan[data-official-text-id]"
+            );
+            return official
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_REJECT;
+          },
+        }
+      );
+
+      let node = walker.nextNode();
+      while (node) {
+        const text = node.textContent;
+        const idx = text.indexOf(phrase);
+        if (idx >= 0) {
+          const range = document.createRange();
+          range.setStart(node, idx);
+          range.setEnd(node, idx + phrase.length);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          window.LouInlineFormatting._onSelectionChange(host, context);
+          const toolbar = document.querySelector(".svg-format-toolbar");
+          return {
+            ok: true,
+            selectedText: range.toString(),
+            toolbarVisible: !!(toolbar && !toolbar.hidden),
+            hasSelectionContext: !!window.LouInlineFormatting._selectionContext,
+          };
+        }
+        node = walker.nextNode();
+      }
+      return { ok: false, reason: "phrase not found" };
+    },
+    { elementId, phrase }
+  );
+}
+
+export async function listStoredSvgFormats(page, projection, element) {
+  return page.evaluate(
+    async ({ chapter, projection, element }) => {
+      return window.LouLearnerStore.listSvgTextFormats(
+        chapter,
+        projection,
+        element
+      );
+    },
+    { chapter: CHAPTER_ID, projection, element }
+  );
+}
+
+export async function inspectSvgFormatOverlay(page, elementId) {
+  return page.evaluate((element) => {
+    const svg = document.querySelector(
+      `.official-visual[data-element="${element}"] svg[data-inline-ready="true"]`
+    );
+    const group = svg?.querySelector("g.learner-svg-formats[data-learner='true']");
+    const rects = group
+      ? [...group.querySelectorAll("rect[data-learner='true']")]
+      : [];
+    const texts = group
+      ? [...group.querySelectorAll("text[data-learner='true'], tspan[data-learner='true']")]
+      : [];
+    const official = svg?.querySelector('[data-official-text-id="mec-oap-ppc-body"]');
+    const rect = rects[0] || null;
+    const rectMetrics = rect
+      ? {
+          x: Number.parseFloat(rect.getAttribute("x")),
+          y: Number.parseFloat(rect.getAttribute("y")),
+          width: Number.parseFloat(rect.getAttribute("width")),
+          height: Number.parseFloat(rect.getAttribute("height")),
+          formatId: rect.getAttribute("data-format-id"),
+        }
+      : null;
+    const fallbackWidth =
+      rect && official
+        ? (() => {
+            const phrase = "PPC > 25 mmHg";
+            return phrase.length * 8;
+          })()
+        : null;
+    return {
+      hasGroup: !!group,
+      formatIdCount: group
+        ? group.querySelectorAll("[data-format-id]").length
+        : 0,
+      undefinedIds: group
+        ? [...group.querySelectorAll('[data-format-id="undefined"]')].length
+        : 0,
+      rectMetrics,
+      hasNativeSvgMeasureApis:
+        typeof official?.getStartPositionOfChar === "function" &&
+        typeof official?.getSubStringLength === "function",
+      looksLikeJsdoomFallback:
+        rectMetrics &&
+        Number.isFinite(rectMetrics.x) &&
+        Number.isFinite(rectMetrics.y) &&
+        rectMetrics.x === 0 &&
+        rectMetrics.y === 0 &&
+        rectMetrics.width === fallbackWidth,
+      boldOverlays: texts
+        .filter((node) => node.getAttribute("font-weight") === "bold")
+        .map((node) => ({
+          text: node.textContent,
+          formatId: node.getAttribute("data-format-id"),
+        })),
+      learnerOnlyInsideGroup:
+        !svg ||
+        [...svg.querySelectorAll('[data-learner="true"]')].every((node) =>
+          group?.contains(node)
+        ),
+    };
+  }, elementId);
+}
+
+export function assertOfficialBaselineUnchanged(baseline, current, expect) {
+  expect(current).not.toBeNull();
+  expect(current.officials).toEqual(baseline.officials);
 }

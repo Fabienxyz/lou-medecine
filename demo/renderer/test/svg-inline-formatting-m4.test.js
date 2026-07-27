@@ -581,6 +581,14 @@ describe("M4 apply and restore", () => {
     context.store.addSvgTextFormat = originalAdd;
     const svg = figure.querySelector("svg");
     assert.equal(svg.querySelectorAll("[data-format-id]").length, 0);
+    assert.equal(
+      svg.querySelectorAll('[data-format-id="undefined"]').length,
+      0
+    );
+    assert.equal(
+      svg.querySelector("g." + window.LouInlineFormatting.OVERLAY_GROUP_CLASS),
+      null
+    );
     const records = await window.LouLearnerStore.listSvgTextFormats(
       CHAPTER,
       PROJECTION,

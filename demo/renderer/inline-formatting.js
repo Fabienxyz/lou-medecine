@@ -983,7 +983,9 @@ window.LouInlineFormatting = {
                     window.LouInlineFormatting.SVG_NS,
                     "rect"
                 );
-                rect.setAttribute("data-format-id", String(record.id));
+                if (record.id != null) {
+                    rect.setAttribute("data-format-id", String(record.id));
+                }
                 rect.setAttribute("data-learner", "true");
                 rect.setAttribute(
                     "fill",
@@ -1009,7 +1011,9 @@ window.LouInlineFormatting = {
                 window.LouInlineFormatting.SVG_NS,
                 parent.localName === "tspan" ? "tspan" : "text"
             );
-            overlayText.setAttribute("data-format-id", String(record.id));
+            if (record.id != null) {
+                overlayText.setAttribute("data-format-id", String(record.id));
+            }
             overlayText.setAttribute("data-learner", "true");
             overlayText.textContent = segment.text;
             window.LouInlineFormatting._copyPresentationAttributes(
@@ -1067,6 +1071,9 @@ window.LouInlineFormatting = {
 
     _renderOverlaysForFigure(svgRoot, records) {
         this._clearOverlayGroup(svgRoot);
+        if (!records || !records.length) {
+            return;
+        }
         const streamData = this.buildSvgTextStream(svgRoot);
         if (!streamData) {
             return;

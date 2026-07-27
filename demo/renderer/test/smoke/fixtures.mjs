@@ -51,6 +51,8 @@ export const PROJECTIONS = {
     samplePhrase: "débit adapté aux besoins",
     oapElement: "MEC-oap",
     oapPhrase: "PPC > 25 mmHg",
+    oapBoldPhrase: "OAP cardio",
+    oapOfficialTextId: "mec-oap-ppc-body",
     congestionElement: "MEC-congestion",
     congestionPhrase: "congestion pulmonaire est donc",
   },

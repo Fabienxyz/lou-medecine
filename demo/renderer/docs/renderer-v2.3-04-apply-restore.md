@@ -38,16 +38,25 @@ Formats supportés : `bold`, `italic`, `underline`, `strike`, `textColor`, `back
 
 ---
 
-## 3. Cycle applyFormat
+## 3. Cycle applyFormat — ordre exact
 
-1. Vérifier `selectionRange`, `formatIntent`, SVG ready, `assetPath` dans `context.projection.visuals[element]`.
-2. `listSvgTextFormats(chapter, projection, element)`.
-3. `_computeFinalRecords` — algorithme split §6.1 + fusion adjacente compatible.
-4. No-op strict si plage et format identiques → retour `{ noOp: true }`.
-5. Overlay optimiste (`_renderOverlaysForFigure`) — write-before-confirm (I8).
-6. `_replaceElementRecords` — delete all scope records puis re-create planifiés.
-7. Re-render overlay avec IDs store définitifs.
-8. En cas d'échec store : `_clearOverlayGroup` + `restore` depuis état persistant (I9).
+| Étape | Action | Overlay |
+|---|---|---|
+| 1 | Valider `selectionRange`, SVG ready, `assetPath` | — |
+| 2 | `listSvgTextFormats(chapter, projection, element)` | — |
+| 3 | `_computeFinalRecords` (split + fusion) en mémoire | — |
+| 4 | No-op strict → `{ noOp: true }` | — |
+| 5 | **`_renderOverlaysForFigure(plan.records)`** | **Provisoire** — sans `data-format-id` (IDs store absents) |
+| 6 | `_replaceElementRecords` (delete-all → recreate IndexedDB) | — |
+| 7 | **`_renderOverlaysForFigure(result.records)`** | **Confirmé** — avec `data-format-id` persistés |
+| 8 | Échec store → `_clearOverlayGroup` + `restore` | Rollback depuis IndexedDB réel |
+
+**Overlay provisoire vs confirmé**
+
+- **Provisoire** (étape 5) : rendu optimiste write-before-confirm (I8). Fragments learner sans `data-format-id` tant que l’ID store n’existe pas.
+- **Confirmé** (étape 7) : re-render complet depuis les records relus après écriture store ; chaque fragment porte `data-format-id=<id>`.
+
+En cas d’échec entre 5 et 7 : le provisoire est retiré, `restore` ne recrée que ce qui existe réellement en IndexedDB — **aucun** `data-format-id="undefined"`, **aucun** groupe `learner-svg-formats` vide.
 
 ---
 
@@ -117,7 +126,7 @@ Structure :
 
 Ordre de rendu : backgrounds d'abord, puis formats texte.
 
-Chaque fragment porte `data-format-id` et `data-learner="true"`. Contenu via `textContent` uniquement.
+Chaque fragment confirmé porte `data-format-id` (ID store) et `data-learner="true"`. Les fragments provisoires n’ont pas de `data-format-id`. Contenu via `textContent` uniquement.
 
 Record non résoluble → skip silencieux (overlay absent, record IDB conservé).
 
@@ -152,11 +161,17 @@ Au clic format / swatch / Remove :
 
 ## 10. Rollback
 
-Échec partiel store :
+Échec partiel store (entre overlay provisoire et confirmation) :
 
-1. Suppression overlay provisoire.
-2. `restore(host, context)` depuis IndexedDB réel.
+1. `_clearOverlayGroup(svgRoot)` — retire tout overlay provisoire ou partiellement confirmé.
+2. `restore(host, context)` — relit IndexedDB et reconstruit uniquement les records persistés.
 3. `console.warn` — le renderer continue.
+
+Invariants post-rollback :
+
+- Aucun `[data-format-id="undefined"]`
+- Aucun `g.learner-svg-formats` orphelin vide (si zero record scope, pas de groupe)
+- DOM overlay = état IndexedDB relu
 
 Pas de mutation du SVG officiel lors du rollback.
 
@@ -180,17 +195,28 @@ Pas de mutation du SVG officiel lors du rollback.
 |---|---|
 | `test/svg-inline-formatting.test.js` | TS, LF, toolbar apply (M3 + connexion M4) |
 | `test/svg-inline-formatting-m4.test.js` | SP, IF, RS, ER, lifecycle, immutabilité |
+| `test/smoke/09-svg-formatting.spec.mjs` | **Playwright** — cycle navigateur Chromium |
 
-Suite complète : **185 tests** verts (M1–M4 + non-régression V2.1/V2.2).
+### Couverture Playwright (`09-svg-formatting.spec.mjs`)
 
-Mesure glyphe SVG simulée avec fallback en JSDOM ; smoke navigateur Playwright non requis pour ce jalon.
+Fixture : `test/smoke/fixtures/mec-oap-formatting.svg` (même figure `MEC-oap`, injectée via route Playwright — prérequis `data-official-text-id` pour le smoke).
+
+| ID | Scénario |
+|---|---|
+| SF-01 | backgroundColor : sélection native → toolbar → overlay → mesures SVG natives → reload → restore → remove → second reload |
+| SF-02 | bold : overlay texte + APIs SVG natives |
+
+Vérifications navigateur : immutabilité `textContent`/attributs officiels, `x/y/width/height > 0` sur `<rect>`, rejet du fallback JSDOM (`x=0,y=0,width=8×n`).
+
+Suite unitaire Node : **185 tests**.
 
 ---
 
 ## 13. Limites connues
 
 - Pas de transaction IndexedDB unique cross-API — atomicité logique via delete-all + rollback.
-- Mesure glyphe en environnement sans API SVG native : rectangles fallback approximatifs (tests unitaires).
+- Mesure glyphe en JSDOM : fallback approximatif (`8px`/caractère) — **non représentatif** ; validé en Chromium via Playwright SF-01/SF-02.
+- Figure source `figures/mec-oap.svg` du build : `data-official-text-id` requis par le pipeline build (fixture smoke uniquement pour l’instant).
 - Pas de fusion inter-formats ; pas de formats combinés (contrat gelé).
 - V2.4 overlays graphiques hors scope.
 

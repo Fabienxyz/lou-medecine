@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 80">
+  <rect width="420" height="80" fill="#FFFFFF"/>
+  <text data-official-text-id="mec-oap-ppc-body" x="210" y="36" text-anchor="middle" font-size="13" fill="#6B7280">Seuil PPC &gt; 25 mmHg</text>
+  <text data-official-text-id="mec-oap-oap-body" x="210" y="58" text-anchor="middle" font-size="13" fill="#6B7280">OAP cardiogénique</text>
+</svg>

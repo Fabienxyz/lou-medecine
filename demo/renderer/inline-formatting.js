@@ -1,8 +1,10 @@
 // Inline formatting on official SVG text (Renderer V2.3).
 //
-// M3: SVG Text Stream, selection, toolbar intent only — no store writes, no overlays.
+// M4: apply, split, overlay, restore, persistence.
 window.LouInlineFormatting = {
     TOOLBAR_CLASS: "svg-format-toolbar",
+    OVERLAY_GROUP_CLASS: "learner-svg-formats",
+    SVG_NS: "http://www.w3.org/2000/svg",
     CONTEXT_CHARS: 32,
 
     _toolbar: null,
@@ -10,12 +12,19 @@ window.LouInlineFormatting = {
     _bindContext: null,
     _selectionContext: null,
     _lastFormatIntent: null,
+    _writing: false,
     _onDocumentMouseDown: null,
     _onDocumentKeyDown: null,
 
     async mount(host, context) {
         this._lastFormatIntent = null;
-        this.bindSelection(host, context);
+        try {
+            await this.restore(host, context);
+        } catch (err) {
+            console.warn("[LouInlineFormatting] Format restore failed.", err);
+        } finally {
+            this.bindSelection(host, context);
+        }
     },
 
     bindSelection(host, context) {
@@ -514,8 +523,28 @@ window.LouInlineFormatting = {
         });
         toolbar.appendChild(bgGroup);
 
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "svg-format-toolbar-btn svg-format-toolbar-remove";
+        removeBtn.textContent = "Remove";
+        removeBtn.title = "Retirer le formatage";
+        removeBtn.dataset.format = "remove";
+        removeBtn.addEventListener("click", function () {
+            self._onFormatIntent("remove", null);
+        });
+        toolbar.appendChild(removeBtn);
+
         this._toolbar = toolbar;
         document.body.appendChild(toolbar);
+    },
+
+    _setToolbarDisabled(disabled) {
+        if (!this._toolbar) {
+            return;
+        }
+        this._toolbar.querySelectorAll("button").forEach(function (btn) {
+            btn.disabled = disabled;
+        });
     },
 
     _getRangeRect(range) {
@@ -544,28 +573,680 @@ window.LouInlineFormatting = {
         this._toolbar.hidden = false;
     },
 
-    dismissToolbar() {
+    dismissToolbar(clearSelection) {
+        if (clearSelection !== false) {
+            const selection = window.getSelection();
+            if (selection) {
+                selection.removeAllRanges();
+            }
+        }
         if (this._toolbar) {
             this._toolbar.hidden = true;
         }
         this._selectionContext = null;
-        const selection = window.getSelection();
-        if (selection) {
-            selection.removeAllRanges();
+        this._setToolbarDisabled(false);
+    },
+
+    _rangesOverlap(aStart, aEnd, bStart, bEnd) {
+        return aStart < bEnd && bStart < aEnd;
+    },
+
+    _formatsEqual(formatA, styleA, formatB, styleB) {
+        if (formatA !== formatB) {
+            return false;
+        }
+        if (formatA === "textColor") {
+            return (styleA && styleA.color) === (styleB && styleB.color);
+        }
+        if (formatA === "backgroundColor") {
+            return (
+                (styleA && styleA.backgroundColor) ===
+                (styleB && styleB.backgroundColor)
+            );
+        }
+        return !styleA && !styleB;
+    },
+
+    _anchorFromStreamRange(streamData, start, end) {
+        const raw = streamData.stream.slice(start, end);
+        const exact = this.normalizeStreamText(raw);
+        if (!exact) {
+            return null;
+        }
+        return {
+            type: "SvgTextRangeAnchor",
+            start: { position: start },
+            end: { position: end },
+            exact: exact,
+            prefix: streamData.stream.slice(
+                Math.max(0, start - this.CONTEXT_CHARS),
+                start
+            ),
+            suffix: streamData.stream.slice(
+                end,
+                Math.min(streamData.length, end + this.CONTEXT_CHARS)
+            ),
+        };
+    },
+
+    _recordPayload(meta, start, end, format, style, streamData) {
+        const anchor = this._anchorFromStreamRange(streamData, start, end);
+        if (!anchor) {
+            return null;
+        }
+        const payload = {
+            chapter: meta.chapter,
+            projection: meta.projection,
+            element: meta.element,
+            assetPath: meta.assetPath,
+            format: format,
+            anchor: anchor,
+        };
+        if (style) {
+            payload.style = style;
+        }
+        return payload;
+    },
+
+    _computeFinalRecords(existing, start, end, intent, streamData, meta) {
+        if (intent && intent.format !== "remove") {
+            const exactMatch = existing.find(function (record) {
+                return (
+                    record.anchor.start.position === start &&
+                    record.anchor.end.position === end &&
+                    window.LouInlineFormatting._formatsEqual(
+                        record.format,
+                        record.style,
+                        intent.format,
+                        intent.style
+                    )
+                );
+            });
+            if (exactMatch) {
+                return { noOp: true, records: existing };
+            }
+        }
+
+        const kept = [];
+        const fragments = [];
+
+        existing.forEach(function (record) {
+            const rs = record.anchor.start.position;
+            const re = record.anchor.end.position;
+            if (!window.LouInlineFormatting._rangesOverlap(rs, re, start, end)) {
+                kept.push(record);
+                return;
+            }
+            if (rs < start) {
+                const left = window.LouInlineFormatting._recordPayload(
+                    meta,
+                    rs,
+                    start,
+                    record.format,
+                    record.style,
+                    streamData
+                );
+                if (left) {
+                    fragments.push(left);
+                }
+            }
+            if (re > end) {
+                const right = window.LouInlineFormatting._recordPayload(
+                    meta,
+                    end,
+                    re,
+                    record.format,
+                    record.style,
+                    streamData
+                );
+                if (right) {
+                    fragments.push(right);
+                }
+            }
+        });
+
+        let finalRecords = kept.map(function (record) {
+            return {
+                chapter: record.chapter,
+                projection: record.projection,
+                element: record.element,
+                assetPath: record.assetPath,
+                format: record.format,
+                style: record.style,
+                anchor: record.anchor,
+                id: record.id,
+            };
+        }).concat(fragments);
+
+        if (intent && intent.format !== "remove") {
+            const created = this._recordPayload(
+                meta,
+                start,
+                end,
+                intent.format,
+                intent.style,
+                streamData
+            );
+            if (!created) {
+                return null;
+            }
+            finalRecords = finalRecords.filter(function (record) {
+                return !(
+                    record.anchor.start.position === start &&
+                    record.anchor.end.position === end
+                );
+            });
+            finalRecords.push(created);
+        }
+
+        if (intent && intent.format === "remove") {
+            const hadOverlap = existing.some(function (record) {
+                const rs = record.anchor.start.position;
+                const re = record.anchor.end.position;
+                return window.LouInlineFormatting._rangesOverlap(
+                    rs,
+                    re,
+                    start,
+                    end
+                );
+            });
+            if (!hadOverlap) {
+                return { noOp: true, records: existing };
+            }
+        }
+
+        finalRecords = this._mergeAdjacentRecords(finalRecords, streamData, meta);
+        finalRecords.sort(function (a, b) {
+            return (
+                a.anchor.start.position - b.anchor.start.position ||
+                (a.id || 0) - (b.id || 0)
+            );
+        });
+        return { noOp: false, records: finalRecords };
+    },
+
+    _mergeAdjacentRecords(records, streamData, meta) {
+        const sorted = records.slice().sort(function (a, b) {
+            return a.anchor.start.position - b.anchor.start.position;
+        });
+        const merged = [];
+        sorted.forEach(function (record) {
+            const last = merged[merged.length - 1];
+            if (
+                last &&
+                last.anchor.end.position === record.anchor.start.position &&
+                this._formatsEqual(
+                    last.format,
+                    last.style,
+                    record.format,
+                    record.style
+                )
+            ) {
+                const combined = this._recordPayload(
+                    meta,
+                    last.anchor.start.position,
+                    record.anchor.end.position,
+                    last.format,
+                    last.style,
+                    streamData
+                );
+                if (combined) {
+                    combined.id = last.id;
+                    merged[merged.length - 1] = combined;
+                }
+            } else {
+                merged.push(Object.assign({}, record));
+            }
+        }, this);
+        return merged;
+    },
+
+    _recordsEquivalent(existing, planned) {
+        if (existing.length !== planned.length) {
+            return false;
+        }
+        const norm = function (records) {
+            return records
+                .map(function (record) {
+                    return [
+                        record.anchor.start.position,
+                        record.anchor.end.position,
+                        record.format,
+                        JSON.stringify(record.style || null),
+                        record.anchor.exact,
+                    ].join("|");
+                })
+                .sort()
+                .join("||");
+        };
+        return norm(existing) === norm(planned);
+    },
+
+    async _replaceElementRecords(context, element, assetPath, plannedRecords) {
+        const store = context.store;
+        const chapter = context.chapter;
+        const projection = context.projection.id;
+        const existing = await store.listSvgTextFormats(
+            chapter,
+            projection,
+            element
+        );
+        const plannedPayloads = plannedRecords.map(function (record) {
+            const payload = {
+                chapter: chapter,
+                projection: projection,
+                element: element,
+                assetPath: assetPath,
+                format: record.format,
+                anchor: record.anchor,
+            };
+            if (record.style) {
+                payload.style = record.style;
+            }
+            return payload;
+        });
+
+        if (this._recordsEquivalent(existing, plannedPayloads)) {
+            return { noOp: true, records: existing };
+        }
+
+        const previous = existing.slice();
+        const deletedIds = [];
+        for (let i = 0; i < existing.length; i += 1) {
+            await store.deleteSvgTextFormat(existing[i].id);
+            deletedIds.push(existing[i].id);
+        }
+
+        const saved = [];
+        try {
+            for (let i = 0; i < plannedPayloads.length; i += 1) {
+                const id = await store.addSvgTextFormat(plannedPayloads[i]);
+                saved.push(
+                    Object.assign({}, plannedPayloads[i], { id: id })
+                );
+            }
+        } catch (err) {
+            for (let i = 0; i < saved.length; i += 1) {
+                await store.deleteSvgTextFormat(saved[i].id);
+            }
+            for (let j = 0; j < previous.length; j += 1) {
+                const old = previous[j];
+                await store.addSvgTextFormat({
+                    chapter: old.chapter,
+                    projection: old.projection,
+                    element: old.element,
+                    assetPath: old.assetPath,
+                    format: old.format,
+                    style: old.style,
+                    anchor: old.anchor,
+                });
+            }
+            throw err;
+        }
+        return { noOp: false, records: saved, deletedIds: deletedIds };
+    },
+
+    _resolveRecordRange(streamData, record) {
+        const start = record.anchor.start.position;
+        const end = record.anchor.end.position;
+        if (start < 0 || end <= start || end > streamData.length) {
+            return null;
+        }
+        const sub = streamData.stream.slice(start, end);
+        if (this.normalizeStreamText(sub) !== record.anchor.exact) {
+            return null;
+        }
+        return { start: start, end: end };
+    },
+
+    _clearOverlayGroup(svgRoot) {
+        const existing = svgRoot.querySelector(
+            "g." + this.OVERLAY_GROUP_CLASS
+        );
+        if (existing) {
+            existing.remove();
         }
     },
 
-    _onFormatIntent(format, style) {
-        const ctx = this._selectionContext;
-        if (!ctx) {
+    _iterStreamSegments(streamData, start, end) {
+        const segments = [];
+        const walker = document.createTreeWalker(
+            streamData.svgRoot,
+            NodeFilter.SHOW_TEXT,
+            {
+                acceptNode: function (node) {
+                    return window.LouInlineFormatting._isEligibleStreamTextNode(node)
+                        ? NodeFilter.FILTER_ACCEPT
+                        : NodeFilter.FILTER_REJECT;
+                },
+            }
+        );
+        let node = walker.nextNode();
+        while (node) {
+            const bounds = streamData.nodeOffsets.get(node);
+            const segStart = Math.max(start, bounds.start);
+            const segEnd = Math.min(end, bounds.end);
+            if (segStart < segEnd) {
+                segments.push({
+                    node: node,
+                    parent: node.parentElement,
+                    startOffset: segStart - bounds.start,
+                    endOffset: segEnd - bounds.start,
+                    text: node.textContent.slice(
+                        segStart - bounds.start,
+                        segEnd - bounds.start
+                    ),
+                });
+            }
+            node = walker.nextNode();
+        }
+        return segments;
+    },
+
+    _copyPresentationAttributes(source, target) {
+        [
+            "x",
+            "y",
+            "dx",
+            "dy",
+            "transform",
+            "font-size",
+            "font-family",
+            "text-anchor",
+            "dominant-baseline",
+        ].forEach(function (name) {
+            if (source.hasAttribute(name)) {
+                target.setAttribute(name, source.getAttribute(name));
+            }
+        });
+    },
+
+    _renderFormatOverlay(group, svgRoot, streamData, record) {
+        const range = this._resolveRecordRange(streamData, record);
+        if (!range) {
+            return null;
+        }
+        const segments = this._iterStreamSegments(
+            streamData,
+            range.start,
+            range.end
+        );
+        if (!segments.length) {
+            return null;
+        }
+
+        const fragment = document.createDocumentFragment();
+        segments.forEach(function (segment) {
+            const parent = segment.parent;
+            if (record.format === "backgroundColor") {
+                const rect = document.createElementNS(
+                    window.LouInlineFormatting.SVG_NS,
+                    "rect"
+                );
+                rect.setAttribute("data-format-id", String(record.id));
+                rect.setAttribute("data-learner", "true");
+                rect.setAttribute(
+                    "fill",
+                    record.style && record.style.backgroundColor
+                        ? record.style.backgroundColor
+                        : "#fff3bf"
+                );
+                const box = window.LouInlineFormatting._measureTextSegment(
+                    parent,
+                    segment.startOffset,
+                    segment.endOffset
+                );
+                if (box) {
+                    rect.setAttribute("x", String(box.x));
+                    rect.setAttribute("y", String(box.y));
+                    rect.setAttribute("width", String(box.width));
+                    rect.setAttribute("height", String(box.height));
+                    fragment.appendChild(rect);
+                }
+            }
+
+            const overlayText = document.createElementNS(
+                window.LouInlineFormatting.SVG_NS,
+                parent.localName === "tspan" ? "tspan" : "text"
+            );
+            overlayText.setAttribute("data-format-id", String(record.id));
+            overlayText.setAttribute("data-learner", "true");
+            overlayText.textContent = segment.text;
+            window.LouInlineFormatting._copyPresentationAttributes(
+                parent,
+                overlayText
+            );
+
+            if (record.format === "bold") {
+                overlayText.setAttribute("font-weight", "bold");
+            } else if (record.format === "italic") {
+                overlayText.setAttribute("font-style", "italic");
+            } else if (record.format === "underline") {
+                overlayText.setAttribute("text-decoration", "underline");
+            } else if (record.format === "strike") {
+                overlayText.setAttribute("text-decoration", "line-through");
+            } else if (record.format === "textColor") {
+                overlayText.setAttribute(
+                    "fill",
+                    record.style && record.style.color
+                        ? record.style.color
+                        : "#1a1a1a"
+                );
+            }
+
+            fragment.appendChild(overlayText);
+        });
+
+        group.appendChild(fragment);
+        return group;
+    },
+
+    _measureTextSegment(textElement, startOffset, endOffset) {
+        if (
+            typeof textElement.getStartPositionOfChar !== "function" ||
+            typeof textElement.getSubStringLength !== "function"
+        ) {
+            return { x: 0, y: 0, width: Math.max(1, endOffset - startOffset) * 8, height: 14 };
+        }
+        try {
+            const startPoint = textElement.getStartPositionOfChar(startOffset);
+            const width = textElement.getSubStringLength(
+                startOffset,
+                endOffset - startOffset
+            );
+            return {
+                x: startPoint.x,
+                y: startPoint.y - 12,
+                width: width,
+                height: 14,
+            };
+        } catch (err) {
+            return null;
+        }
+    },
+
+    _renderOverlaysForFigure(svgRoot, records) {
+        this._clearOverlayGroup(svgRoot);
+        const streamData = this.buildSvgTextStream(svgRoot);
+        if (!streamData) {
             return;
         }
+        const sorted = records.slice().sort(function (a, b) {
+            return (
+                a.anchor.start.position - b.anchor.start.position ||
+                (a.id || 0) - (b.id || 0)
+            );
+        });
+        const group = document.createElementNS(this.SVG_NS, "g");
+        group.setAttribute("class", this.OVERLAY_GROUP_CLASS);
+        group.setAttribute("data-learner", "true");
+        group.setAttribute("pointer-events", "none");
+        svgRoot.appendChild(group);
+
+        sorted
+            .filter(function (record) {
+                return record.format === "backgroundColor";
+            })
+            .forEach(function (record) {
+                window.LouInlineFormatting._renderFormatOverlay(
+                    group,
+                    svgRoot,
+                    streamData,
+                    record
+                );
+            });
+        sorted
+            .filter(function (record) {
+                return record.format !== "backgroundColor";
+            })
+            .forEach(function (record) {
+                window.LouInlineFormatting._renderFormatOverlay(
+                    group,
+                    svgRoot,
+                    streamData,
+                    record
+                );
+            });
+    },
+
+    async restore(host, context) {
+        const projection = context.projection && context.projection.id;
+        if (!projection || !context.store.listSvgTextFormats) {
+            return;
+        }
+        const self = this;
+        const figures = host.querySelectorAll(".official-visual[data-element]");
+        for (let i = 0; i < figures.length; i += 1) {
+            const figure = figures[i];
+            if (figure.dataset.inlineFallback === "true") {
+                continue;
+            }
+            const svgRoot = figure.querySelector(
+                'svg[data-inline="true"][data-inline-ready="true"]'
+            );
+            if (!svgRoot) {
+                continue;
+            }
+            const element = figure.dataset.element;
+            const records = await context.store.listSvgTextFormats(
+                context.chapter,
+                projection,
+                element
+            );
+            self._renderOverlaysForFigure(svgRoot, records || []);
+        }
+    },
+
+    async applyFormat(host, context, selectionRange, formatIntent) {
+        if (!selectionRange || !formatIntent) {
+            return null;
+        }
+        const svgRoot = selectionRange.svgRoot;
+        const element = selectionRange.element;
+        const start = selectionRange.start.position;
+        const end = selectionRange.end.position;
+        const streamData = this.buildSvgTextStream(svgRoot);
+        if (!streamData) {
+            return null;
+        }
+        const assetPath = (context.projection.visuals || {})[element];
+        if (!assetPath) {
+            return null;
+        }
+        const meta = {
+            chapter: context.chapter,
+            projection: context.projection.id,
+            element: element,
+            assetPath: assetPath,
+        };
+        const existing = await context.store.listSvgTextFormats(
+            context.chapter,
+            context.projection.id,
+            element
+        );
+        const plan = this._computeFinalRecords(
+            existing,
+            start,
+            end,
+            formatIntent,
+            streamData,
+            meta
+        );
+        if (!plan) {
+            return null;
+        }
+        if (plan.noOp) {
+            return { noOp: true };
+        }
+
+        this._renderOverlaysForFigure(svgRoot, plan.records);
+
+        try {
+            const result = await this._replaceElementRecords(
+                context,
+                element,
+                assetPath,
+                plan.records
+            );
+            this._renderOverlaysForFigure(svgRoot, result.records);
+            return result;
+        } catch (err) {
+            console.warn("[LouInlineFormatting] Format apply failed.", err);
+            this._clearOverlayGroup(svgRoot);
+            await this.restore(host, context);
+            throw err;
+        }
+    },
+
+    async removeFormat(host, context, selectionRange) {
+        return this.applyFormat(host, context, selectionRange, {
+            format: "remove",
+            style: null,
+        });
+    },
+
+    async _onFormatIntent(format, style) {
+        const ctx = this._selectionContext;
+        if (!ctx || this._writing) {
+            return;
+        }
+        const selectionRange = {
+            element: ctx.element,
+            figure: ctx.figure,
+            svgRoot: ctx.svgRoot,
+            start: { position: ctx.anchor.start.position },
+            end: { position: ctx.anchor.end.position },
+            anchor: Object.assign({}, ctx.anchor),
+        };
+        const intent = {
+            format: format,
+            style: style,
+        };
         this._lastFormatIntent = {
             format: format,
             style: style,
             element: ctx.element,
-            anchor: ctx.anchor,
+            anchor: selectionRange.anchor,
         };
-        this.dismissToolbar();
+
+        this._writing = true;
+        this._setToolbarDisabled(true);
+        try {
+            if (format === "remove") {
+                await this.removeFormat(ctx.host, ctx.context, selectionRange);
+            } else {
+                await this.applyFormat(
+                    ctx.host,
+                    ctx.context,
+                    selectionRange,
+                    intent
+                );
+            }
+        } catch (err) {
+            // warn already logged in applyFormat
+        } finally {
+            this._writing = false;
+            this.dismissToolbar();
+        }
     },
 };

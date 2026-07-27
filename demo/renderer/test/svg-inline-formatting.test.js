@@ -373,7 +373,10 @@ describe("SVG formatting toolbar", () => {
     host = window.document.getElementById("content");
     context = {
       chapter: "cardio/234",
-      projection: { id: "mechanisms", visuals: {} },
+      projection: {
+        id: "mechanisms",
+        visuals: { "MEC-oap": "figures/mec-oap.svg" },
+      },
       manifest: {},
       store: window.LouLearnerStore,
     };
@@ -381,9 +384,11 @@ describe("SVG formatting toolbar", () => {
 
   beforeEach(async () => {
     host.innerHTML = "";
+    window.indexedDB = new IDBFactory();
     window.LouLearnerStore.db = null;
     window.LouInlineFormatting._boundHost = null;
     window.LouInlineFormatting._lastFormatIntent = null;
+    window.LouInlineFormatting._writing = false;
     window.LouInlineFormatting.dismissToolbar();
     window.getSelection().removeAllRanges();
     await window.LouInlineFormatting.mount(host, context);
@@ -410,7 +415,7 @@ describe("SVG formatting toolbar", () => {
     );
     assert.ok(toolbar);
     assert.equal(toolbar.hidden, false);
-    assert.equal(toolbar.querySelectorAll(".svg-format-toolbar-btn").length, 4);
+    assert.equal(toolbar.querySelectorAll(".svg-format-toolbar-btn").length, 5);
     assert.equal(
       toolbar.querySelectorAll(".svg-format-toolbar-swatch").length,
       window.LouLearnerStore.SVG_TEXT_COLOR_PALETTE.length +
@@ -442,53 +447,52 @@ describe("SVG formatting toolbar", () => {
     assert.equal(window.LouInlineFormatting._selectionContext, null);
   });
 
-  test("format click records intent without store write or SVG mutation", async () => {
+  test("format click applies bold via store and overlay", async () => {
     appendSimpleFigure();
     const svg = host.querySelector("svg");
-    const before = svg.innerHTML;
-    const text = host.querySelector("text").firstChild;
+    const officialText = host.querySelector("text");
+    const beforeContent = officialText.textContent;
+    const text = officialText.firstChild;
     selectRange(window, text, 0, text, 3);
     window.LouInlineFormatting._onSelectionChange(host, context);
+    await window.LouInlineFormatting._onFormatIntent("bold", null);
 
-    let storeCalled = false;
-    const original = window.LouLearnerStore.addSvgTextFormat;
-    window.LouLearnerStore.addSvgTextFormat = async () => {
-      storeCalled = true;
-      return 1;
-    };
-
-    const boldBtn = window.document.querySelector(
-      '.svg-format-toolbar-btn[data-format="bold"]'
+    assert.equal(officialText.textContent, beforeContent);
+    const records = await window.LouLearnerStore.listSvgTextFormats(
+      context.chapter,
+      context.projection.id,
+      "MEC-oap"
     );
-    boldBtn.click();
-
-    window.LouLearnerStore.addSvgTextFormat = original;
-
-    assert.equal(storeCalled, false);
-    assert.equal(svg.innerHTML, before);
-    assert.equal(window.LouInlineFormatting._lastFormatIntent.format, "bold");
-    assert.equal(window.LouInlineFormatting._lastFormatIntent.element, "MEC-oap");
+    assert.equal(records.length, 1);
+    assert.equal(records[0].format, "bold");
+    const overlayGroup = svg.querySelector(
+      "g." + window.LouInlineFormatting.OVERLAY_GROUP_CLASS
+    );
+    assert.ok(overlayGroup);
+    assert.ok(
+      overlayGroup.querySelector('[data-format-id="' + records[0].id + '"]')
+    );
     assert.equal(window.LouInlineFormatting._selectionContext, null);
   });
 
-  test("color intent uses closed palette only", () => {
+  test("color intent uses closed palette only", async () => {
     appendSimpleFigure();
     const text = host.querySelector("text").firstChild;
     selectRange(window, text, 0, text, 3);
     window.LouInlineFormatting._onSelectionChange(host, context);
+    const color = window.LouLearnerStore.SVG_TEXT_COLOR_PALETTE[0];
+    await window.LouInlineFormatting._onFormatIntent("textColor", { color: color });
 
-    const swatch = window.document.querySelector(
-      '.svg-format-toolbar-swatch[data-format="textColor"]'
+    const records = await window.LouLearnerStore.listSvgTextFormats(
+      context.chapter,
+      context.projection.id,
+      "MEC-oap"
     );
-    swatch.click();
-
-    assert.equal(
-      window.LouInlineFormatting._lastFormatIntent.format,
-      "textColor"
-    );
+    assert.equal(records.length, 1);
+    assert.equal(records[0].format, "textColor");
     assert.ok(
       window.LouLearnerStore.SVG_TEXT_COLOR_PALETTE.includes(
-        window.LouInlineFormatting._lastFormatIntent.style.color
+        records[0].style.color
       )
     );
   });

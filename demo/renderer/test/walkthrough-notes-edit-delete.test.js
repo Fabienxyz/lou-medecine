@@ -120,6 +120,7 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
       "text-highlights.js",
       "inline-notes.js",
       "svg-loader.js",
+      "inline-formatting.js",
       "blocks.js",
       "renderer.js",
     ]);

@@ -162,6 +162,7 @@ describe("LouSvgLoader — loadFigure / loadAllFigures", () => {
       "caret-anchor.js",
       "inline-notes.js",
       "svg-loader.js",
+      "inline-formatting.js",
       "blocks.js",
       "renderer.js",
     ]);
@@ -307,6 +308,7 @@ describe("LouSvgLoader — async pipeline in blocks.render", () => {
       "caret-anchor.js",
       "inline-notes.js",
       "svg-loader.js",
+      "inline-formatting.js",
       "blocks.js",
       "renderer.js",
     ]);

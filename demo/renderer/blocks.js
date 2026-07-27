@@ -331,6 +331,9 @@ window.LouBlocks = {
             if (window.LouInlineNotes) {
                 await window.LouInlineNotes.mount(host, context);
             }
+            if (window.LouInlineFormatting) {
+                await window.LouInlineFormatting.mount(host, context);
+            }
         }
     },
 };

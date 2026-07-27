@@ -547,6 +547,65 @@ body{
     background:#fde047;
 }
 
+.svg-format-toolbar{
+    position:absolute;
+    z-index:1001;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:6px;
+    border:1px solid #d1d1d6;
+    border-radius:8px;
+    background:#ffffff;
+    box-shadow:0 4px 16px rgba(0,0,0,0.12);
+}
+
+.svg-format-toolbar-btn{
+    min-width:28px;
+    height:28px;
+    padding:0 8px;
+    border:1px solid #d1d1d6;
+    border-radius:6px;
+    background:#f5f5f7;
+    color:#3a3a3c;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.svg-format-toolbar-btn:hover,
+.svg-format-toolbar-btn:focus-visible{
+    background:#e5e5ea;
+    outline:none;
+}
+
+.svg-format-toolbar-swatches{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding-left:4px;
+    border-left:1px solid #e5e5ea;
+}
+
+.svg-format-toolbar-swatch{
+    width:18px;
+    height:18px;
+    padding:0;
+    border:1px solid #c7c7cc;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.svg-format-toolbar-swatch:hover,
+.svg-format-toolbar-swatch:focus-visible{
+    outline:2px solid #007aff;
+    outline-offset:1px;
+}
+
+.svg-format-toolbar-swatch-bg{
+    border-radius:4px;
+}
+
 mark.learner-highlight{
     background:#fef08a;
     color:inherit;

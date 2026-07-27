@@ -36,6 +36,7 @@ describe("V2.1 smoke — learner storage (unit)", () => {
       "learner-store.js",
       "text-highlights.js",
       "svg-loader.js",
+      "inline-formatting.js",
       "blocks.js",
       "renderer.js",
     ]);

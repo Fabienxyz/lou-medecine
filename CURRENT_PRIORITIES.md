@@ -1,3 +1,16 @@
+# Deprecated
+
+Ce document n'est plus maintenu.
+
+Les documents de référence sont désormais :
+
+- [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md)
+- [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md)
+
+Ce fichier est conservé uniquement pour référence historique.
+
+---
+
 # Current Priorities
 
 | | |

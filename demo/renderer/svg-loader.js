@@ -83,6 +83,7 @@ window.LouSvgLoader = {
             }
             this._replaceFigureContent(figure, svg);
             delete figure.dataset.inlineFallback;
+            this._warnIfNoFormatableText(svg, elementId);
             return "ready";
         } catch (err) {
             console.warn(
@@ -176,5 +177,20 @@ window.LouSvgLoader = {
         img.alt = context.renderer.visualAltText(context.manifest, elementId);
         figure.appendChild(img);
         figure.dataset.inlineFallback = "true";
+    },
+
+    _warnIfNoFormatableText(svgRoot, elementId) {
+        if (!svgRoot) {
+            return;
+        }
+        const count = svgRoot.querySelectorAll(
+            'text[data-official-text-id], tspan[data-official-text-id]'
+        ).length;
+        if (count === 0) {
+            console.warn(
+                "[LouSvgLoader] Inline SVG has no formatable official text ids.",
+                elementId
+            );
+        }
     },
 };

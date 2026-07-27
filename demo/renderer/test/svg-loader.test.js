@@ -206,6 +206,36 @@ describe("LouSvgLoader — loadFigure / loadAllFigures", () => {
     assert.equal(svg.querySelector("text").textContent, "OAP");
   });
 
+  test("PL-05 warns when inline SVG has no formatable text ids", async () => {
+    const warnings = [];
+    const originalWarn = console.warn;
+    console.warn = function (...args) {
+      warnings.push(Array.from(args).join(" "));
+      originalWarn.apply(console, args);
+    };
+    const priorFetch = window.fetch;
+    window.fetch = async () => ({
+      ok: true,
+      status: 200,
+      text: async () =>
+        '<svg xmlns="http://www.w3.org/2000/svg"><text>No ids</text></svg>',
+    });
+    const figure = officialFigure(window, "MEC-oap");
+    window.document.getElementById("content").appendChild(figure);
+    try {
+      const result = await window.LouSvgLoader.loadFigure(figure, context);
+      assert.equal(result, "ready");
+      assert.ok(
+        warnings.some((message) =>
+          message.includes("no formatable official text ids")
+        )
+      );
+    } finally {
+      console.warn = originalWarn;
+      window.fetch = priorFetch;
+    }
+  });
+
   test("PL-03 fetch failure produces img fallback and fallback state", async () => {
     const host = window.document.getElementById("content");
     const figure = officialFigure(window, "MEC-output-basics");

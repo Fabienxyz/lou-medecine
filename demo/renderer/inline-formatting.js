@@ -11,13 +11,11 @@ window.LouInlineFormatting = {
     _boundHost: null,
     _bindContext: null,
     _selectionContext: null,
-    _lastFormatIntent: null,
     _writing: false,
     _onDocumentMouseDown: null,
     _onDocumentKeyDown: null,
 
     async mount(host, context) {
-        this._lastFormatIntent = null;
         try {
             await this.restore(host, context);
         } catch (err) {
@@ -1228,12 +1226,6 @@ window.LouInlineFormatting = {
         const intent = {
             format: format,
             style: style,
-        };
-        this._lastFormatIntent = {
-            format: format,
-            style: style,
-            element: ctx.element,
-            anchor: selectionRange.anchor,
         };
 
         this._writing = true;

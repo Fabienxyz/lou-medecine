@@ -387,7 +387,6 @@ describe("SVG formatting toolbar", () => {
     window.indexedDB = new IDBFactory();
     window.LouLearnerStore.db = null;
     window.LouInlineFormatting._boundHost = null;
-    window.LouInlineFormatting._lastFormatIntent = null;
     window.LouInlineFormatting._writing = false;
     window.LouInlineFormatting.dismissToolbar();
     window.getSelection().removeAllRanges();

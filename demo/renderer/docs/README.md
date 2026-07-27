@@ -44,6 +44,12 @@ V2.2 walkthrough notes (commits 2–6) are **complete** at `renderer-v2.2-edit-d
 | [renderer-v2.3-02-svg-loader.md](./renderer-v2.3-02-svg-loader.md) | **Implemented** — `renderer-v2.3-loader-stable` | Async inline SVG loader + pipeline |
 | [renderer-v2.3-03-selection-toolbar.md](./renderer-v2.3-03-selection-toolbar.md) | **Implemented** — `renderer-v2.3-selection-stable` | SVG Text Stream + selection + toolbar |
 | [renderer-v2.3-04-apply-restore.md](./renderer-v2.3-04-apply-restore.md) | **Implemented** — `renderer-v2.3-formatting-stable` | Apply, split, overlay, restore |
+| [renderer-v2.3-compliance-matrix.md](./renderer-v2.3-compliance-matrix.md) | **Release** — `renderer-v2.3.0` | Contract-to-tests matrix |
+| [renderer-v2.3-release.md](./renderer-v2.3-release.md) | **Release** — `renderer-v2.3.0` | Final release documentation |
+
+**Frozen contract:** [renderer-v2.3-inline-formatting.md](./renderer-v2.3-inline-formatting.md) — tag `renderer-v2.3-architecture-frozen`
+
+**Release tag:** `renderer-v2.3.0`
 
 ## Planned (not written yet)
 
@@ -70,6 +76,7 @@ When code and this folder disagree, **the frozen tag wins** for shipped versions
 |---|---|
 | V2.1 | Full smoke matrix — see [renderer-v2.1-highlights.md § Tests](./renderer-v2.1-highlights.md#stratégie-de-tests) |
 | V2.2 | V2.1 smoke (non-regression) + Walkthrough Notes suite — see [renderer-v2.2-walkthrough-notes.md § Tests](./renderer-v2.2-walkthrough-notes.md#stratégie-de-tests) |
+| V2.3 | V2.1 + V2.2 non-regression + SVG formatting suite — see [renderer-v2.3-release.md § Tests](./renderer-v2.3-release.md#10-tests) |
 
 Run from `demo/renderer/`:
 

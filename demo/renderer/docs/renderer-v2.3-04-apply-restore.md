@@ -155,7 +155,7 @@ Au clic format / swatch / Remove :
 3. `applyFormat` ou `removeFormat`.
 4. `dismissToolbar` en finally.
 
-`_lastFormatIntent` conservé pour diagnostic.
+`_lastFormatIntent` retiré en M5 (état M3 temporaire).
 
 ---
 

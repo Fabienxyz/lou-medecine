@@ -16,7 +16,12 @@ styles.css          Layout, pedagogical block, learner layer
 lib/marked.min.js   Local markdown parser (vendored from npm)
 config.js           Paths, legacy tab fallback, URL/chapter helpers
 markdown.js         Thin marked wrapper
-learner-store.js    Learner-owned artifacts in IndexedDB (contract C.8)
+learner-store.js    IndexedDB: diagrams, highlights, notes, svg_text_formats
+text-highlights.js  V2.1 text selection highlights
+caret-anchor.js     V2.2 CaretAnchor primitives
+inline-notes.js     V2.2 walkthrough notes
+svg-loader.js       V2.3 async inline SVG loader
+inline-formatting.js V2.3 SVG text stream, selection, formatting
 blocks.js           Pedagogical block assembly and learner affordances
 renderer.js         Fetch, markdown preparation, visual state notices, mounting
 app.js              Boot sequence, tabs, chapter loading
@@ -47,20 +52,23 @@ An Official Visual has three availability states, kept distinguishable and never
 
 ## The learner layer
 
-One mechanism, stored in IndexedDB, namespaced by chapter:
+Learner-owned artifacts in IndexedDB, namespaced by chapter:
 
-- **Personal Diagrams** — a photo of the learner's own drawing, anchored to the element ID, offered on every block whether or not an Official Visual exists.
+- **Personal Diagrams** — photo anchored to element ID (every block).
+- **Text highlights (V2.1)** — prose walkthrough selections.
+- **Walkthrough notes (V2.2)** — caret-anchored notes in official walkthrough.
+- **SVG inline formatting (V2.3)** — one format per range on official SVG text (`svg_text_formats` store).
 
-Both are learner-owned: never generated, never an input to any build or AI pass, never a modification of generated content, and never stored in Git beside medical content. Degradation is honest — an artifact whose element still exists elsewhere in the chapter is left alone, and an artifact whose element has vanished is surfaced in an orphan panel rather than discarded.
+None are generated content, never modify the Official Layer, and never ship in Git beside medical content.
 
 ## Tests
 
 ```bash
 cd demo/renderer
-npm test
+npm test           # unit tests (186+)
+npm run test:smoke # Playwright browser smoke (48)
+npm run test:all   # both
 ```
-
-`test/renderer.test.js` runs the renderer under jsdom with a fake IndexedDB and checks the mechanically checkable renderer obligations: block structure and order, visual binding by identifier, manifest-supplied alt text, the three visual states, the Personal Diagram affordance, absence of any editing affordance, and each degradation case.
 
 Expected manifest shape:
 

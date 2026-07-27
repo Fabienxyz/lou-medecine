@@ -41,6 +41,7 @@ V2.2 walkthrough notes (commits 2–6) are **complete** at `renderer-v2.2-edit-d
 | Document | Status | Commit scope |
 |---|---|---|
 | [renderer-v2.3-01-store.md](./renderer-v2.3-01-store.md) | **Implemented** — `renderer-v2.3-store-stable` | `svg_text_formats` IndexedDB store + CRUD |
+| [renderer-v2.3-02-svg-loader.md](./renderer-v2.3-02-svg-loader.md) | **Implemented** — `renderer-v2.3-loader-stable` | Async inline SVG loader + pipeline |
 
 ## Planned (not written yet)
 

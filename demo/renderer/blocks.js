@@ -123,10 +123,6 @@ window.LouBlocks = {
             figure.className = "official-visual";
             figure.dataset.element = elementId;
             figure.dataset.generated = "true";
-            const img = document.createElement("img");
-            img.src = context.config.resolveAssetPath(context.chapter, relPath);
-            img.alt = context.renderer.visualAltText(context.manifest, elementId);
-            figure.appendChild(img);
             return figure;
         }
 
@@ -316,6 +312,16 @@ window.LouBlocks = {
         } catch (err) {
             console.warn(
                 "[LouBlocks] Learner artifact hydration failed; official content remains.",
+                err
+            );
+        }
+        try {
+            if (window.LouSvgLoader) {
+                await window.LouSvgLoader.loadAllFigures(host, context);
+            }
+        } catch (err) {
+            console.warn(
+                "[LouBlocks] Official SVG loading failed; learner layers continue.",
                 err
             );
         } finally {

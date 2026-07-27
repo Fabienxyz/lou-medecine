@@ -175,6 +175,7 @@ describe("renderer — pedagogical blocks and learner layer", () => {
       "markdown.js",
       "learner-store.js",
       "text-highlights.js",
+      "svg-loader.js",
       "blocks.js",
       "renderer.js",
     ]);
@@ -386,6 +387,7 @@ describe("renderer — learner storage robustness", () => {
       "markdown.js",
       "learner-store.js",
       "text-highlights.js",
+      "svg-loader.js",
       "blocks.js",
       "renderer.js",
     ]);
@@ -545,6 +547,7 @@ describe("renderer — text highlight restore regressions", () => {
       "markdown.js",
       "learner-store.js",
       "text-highlights.js",
+      "svg-loader.js",
       "blocks.js",
       "renderer.js",
     ]);

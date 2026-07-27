@@ -120,6 +120,7 @@ describe("Walkthrough Notes — create (commit 5)", () => {
       "caret-anchor.js",
       "text-highlights.js",
       "inline-notes.js",
+      "svg-loader.js",
       "blocks.js",
       "renderer.js",
     ]);

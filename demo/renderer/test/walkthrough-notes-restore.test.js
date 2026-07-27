@@ -115,6 +115,7 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
       "caret-anchor.js",
       "text-highlights.js",
       "inline-notes.js",
+      "svg-loader.js",
       "blocks.js",
       "renderer.js",
     ]);

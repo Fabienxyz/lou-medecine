@@ -1,7 +1,10 @@
 import { test, expect } from "@playwright/test";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { PROJECTIONS } from "./fixtures.mjs";
 import {
   clearLearnerDb,
+  routeOapFormattingSvg,
   goToOapFigure,
   captureOfficialSvgBaseline,
   selectSvgOfficialText,
@@ -12,9 +15,12 @@ import {
 
 const M = PROJECTIONS.mechanisms;
 const OAP = M.oapElement;
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const OAP_FIXTURE = path.join(HERE, "fixtures", "mec-oap-formatting.svg");
 
 test.describe("V2.3 smoke — SVG inline formatting", () => {
   test.beforeEach(async ({ page }) => {
+    await routeOapFormattingSvg(page, OAP_FIXTURE);
     await clearLearnerDb(page);
     await goToOapFigure(page, M.tabIndex);
   });

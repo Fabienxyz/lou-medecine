@@ -224,6 +224,11 @@ export async function runSelectionChange(page, opts) {
         if (!h1) return { ok: false, reason: "h1 missing" };
         range = document.createRange();
         range.selectNodeContents(h1);
+      } else if (selectInQuestion === "affordance") {
+        const btn = block.querySelector(".note-affordance, .learner-affordance");
+        if (!btn) return { ok: false, reason: "affordance missing" };
+        range = document.createRange();
+        range.selectNodeContents(btn);
       } else {
         const wt = block.querySelector(".block-walkthrough");
         const pos = wt.textContent.indexOf(phrase);

@@ -432,4 +432,4 @@ export function runBuild(chapterDir) {
   return { ok: true, manifest, paths, withheldVisuals: withheld };
 }
 
-export { loadSourceBundle };
+export { loadSourceBundle, assembleManifest, invalidatePublishableState };

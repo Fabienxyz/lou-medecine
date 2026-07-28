@@ -6,11 +6,13 @@
 
 Ce document est mis à jour **lorsqu'un jalon important est franchi** (fin de phase, décision structurante, changement de risque majeur). La roadmap ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md)) reste volontairement **stable** ; l'état opérationnel vit ici.
 
-Pour le séquencement, les priorités et les critères de réussite stables, voir [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md). Pour l'usage des modèles, voir [`LLM_STRATEGY.md`](LLM_STRATEGY.md). Pour l'implémentation, voir [`../IMPLEMENTATION_CONTRACT.md`](../IMPLEMENTATION_CONTRACT.md) et [`../FINAL_ARCHITECTURE.md`](../FINAL_ARCHITECTURE.md).
+Pour le séquencement, les priorités et les critères de réussite stables, voir [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md). Pour l'usage des modèles, voir [`LLM_STRATEGY.md`](LLM_STRATEGY.md). Pour la **gouvernance fondamentale**, voir [`contracts/00-INDEX.md`](contracts/00-INDEX.md). Pour l'implémentation détaillée, voir [`../IMPLEMENTATION_CONTRACT.md`](../IMPLEMENTATION_CONTRACT.md) et [`../FINAL_ARCHITECTURE.md`](../FINAL_ARCHITECTURE.md).
 
 ---
 
 ## Changement de statut — 2026-07-28
+
+**Phase 0A — Gouvernance fondamentale terminée.** Les six contrats fondamentaux (`docs/contracts/01–06`) sont rédigés, audités transversalement et **gelés** (maintenance documentaire uniquement). Rapport de clôture : [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md).
 
 La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, Tool 02, qualification P1–P7) est **gelée** et entre en **mode maintenance** : seules les évolutions définies par [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) § 6 (bug bloquant, nouveau format source, nouvel ADR) sont autorisées. Le projet bascule en **Phase 1 — Industrialisation** : production à l'échelle des artefacts métier (Inventory, Blueprint, projections, Renderer) à partir du chapter package FIL B. Jalon historique : [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md).
 
@@ -29,10 +31,24 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 ---
 
+## État de la gouvernance
+
+| | |
+|---|---|
+| **Phase 0A** | ✅ **Terminée** — 2026-07-28 |
+| **Contrats fondamentaux** | **01–06 gelés** — référence normative de gouvernance ([`contracts/00-INDEX.md`](contracts/00-INDEX.md)) |
+| **Audit transversal** | ✅ Terminé — corrections de cohérence appliquées |
+| **Maintenance autorisée** | Amendements documentaires explicites ; pas de modification d'invariants sans ADR |
+
+**Prochaines étapes gouvernance :** les évolutions futures (contrats composants, implémentation, industrialisation) doivent **préserver la cohérence** des contrats 01–06. Toute rupture d'invariant passe par un **ADR** et une mise à jour contractuelle explicite.
+
+---
+
 ## Décisions récemment prises
 
 | Date | Décision |
 |---|---|
+| 2026-07-28 | **Phase 0A — Gouvernance fondamentale terminée** — contrats 01–06 gelés |
 | 2026-07-28 | **ADR-004 — Architecture acquisition gelée** — fin R&D acquisition ; mode maintenance |
 | 2026-07-28 | **Phase 0 terminée** — fondations validées ; Phase 1 Industrialisation active |
 | 2026-07-28 | **R&D acquisition terminée — GO final** — 234 + 330 FIL B |
@@ -52,7 +68,7 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 | Formats structurés EDN non évalués | **Latent** | Nouveau pipeline (ADR-004 cas B) |
 | Portabilité hors cardio / hors PDF | **Latent** | EDN Scale-out |
 
-**Clos :** R&D acquisition · qualification chaîne · migration FIL A opérationnelle Item 234 · hypothèse suffisance aval.
+**Clos :** R&D acquisition · qualification chaîne · migration FIL A opérationnelle Item 234 · hypothèse suffisance aval · **gouvernance fondamentale Phase 0A** · **audit de cohérence inter-contrats**.
 
 ---
 
@@ -60,6 +76,7 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | Décision | Date | Référence |
 |---|---|---|
+| Contrats fondamentaux 01–06 | 2026-07-28 | [`contracts/00-INDEX.md`](contracts/00-INDEX.md) |
 | Architecture acquisition gelée | 2026-07-28 | [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) |
 | FIL B = chaîne officielle unique | 2026-07-28 | [ADR-003](adr/ADR-003-single-source-of-truth.md) |
 | Tool 01 v1.0.0 | 2026-07-28 | [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) |
@@ -85,7 +102,7 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 1. **Inventory Factory** — scale-out chapitres FIL B ; voir [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md)
 2. **Blueprint Factory** / **Projection Factory** — automatisation pipeline sémantique
 3. **Renderer Production** — `library.json`, Lecteur multi-chapitres
-4. **Contrats 0A** — CI, modèle d'ancre étendu, build reproductible (en parallèle)
+4. **Build reproductible & CI** — alignement implémentation sur les invariants gelés (en parallèle)
 
 ---
 
@@ -105,6 +122,7 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | Date | Jalon |
 |---|---|
+| 2026-07-28 | **Phase 0A — Gouvernance fondamentale terminée** — contrats 01–06 gelés |
 | 2026-07-28 | **R&D acquisition terminée** — ADR-004 ; Phase 0 close ; Phase 1 active |
 | 2026-07-28 | GO final qualification — 234+330 FIL B |
 | 2026-07-28 | Migration 234 FIL B · vertical slice 330 |
@@ -117,6 +135,8 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | Document | Usage |
 |---|---|
+| [`contracts/00-INDEX.md`](contracts/00-INDEX.md) | **Gouvernance fondamentale** — contrats 01–06 |
+| [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md) | Clôture officielle Phase 0A |
 | [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) | Gel acquisition — **normatif** |
 | [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) | Jalon sortie R&D |
 | [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Phase 1 Industrialisation |

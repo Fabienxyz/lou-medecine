@@ -5,7 +5,7 @@ Document de pilotage officiel du projet.
 
 Ce document est la **référence officielle pour le pilotage** du projet. Il définit les objectifs, le séquencement, les priorités et les critères de réussite.
 
-Les documents d'architecture et les contrats techniques (`IMPLEMENTATION_CONTRACT.md`, `FINAL_ARCHITECTURE.md`, `VISUAL_GRAMMAR_CONTRACT.md`, etc.) définissent les **comportements attendus** de l'implémentation.
+Les documents d'architecture et les contrats techniques (`IMPLEMENTATION_CONTRACT.md`, `FINAL_ARCHITECTURE.md`, `VISUAL_GRAMMAR_CONTRACT.md`, etc.) définissent les **comportements attendus** de l'implémentation. Les **contrats fondamentaux** [`docs/contracts/01–06`](contracts/00-INDEX.md) constituent la **référence normative de gouvernance** du projet depuis la clôture de la Phase 0A (2026-07-28). Toute évolution future doit préserver leur cohérence ; toute rupture d'invariant passe par un ADR explicite.
 
 En cas de divergence : **la roadmap pilote les priorités** ; **les contrats techniques pilotent l'implémentation**. Ce document n'est pas une spécification technique.
 
@@ -138,6 +138,7 @@ Si une **même classe d'exception** se répète sur plusieurs chapitres, c'est u
 
 | Jalon | Statut | Référence |
 |---|---|---|
+| **Phase 0A — Contrats fondamentaux** | ✅ | [`contracts/00-INDEX.md`](contracts/00-INDEX.md), [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md) |
 | Gouvernance projet | ✅ | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md) |
 | Single Source of Truth (FIL B) | ✅ | [ADR-003](adr/ADR-003-single-source-of-truth.md), [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) |
 | Tool 01 v1.0.0 qualifié | ✅ | [`qualification-report-tool01-p1.md`](acquisition/qualification-report-tool01-p1.md) |
@@ -256,26 +257,48 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 ---
 
-#### 0A — Contrats fondamentaux *(en parallèle de la Phase 1)*
+#### 0A — Contrats fondamentaux ✅ TERMINÉE
 
-**Objectif.** Poser les contrats irréversibles et rendre le build fiable.
+**Objectif.** Consolider les obligations durables du projet en contrats fondamentaux irréversibles — fidélité, identité, acquisition, chapter package, grammaire visuelle, renderer lecteur.
 
-**Pourquoi.** Débloque la Phase 2. La décision sur le modèle d'ancre se prend **après 0B**, une fois les figures extraites et nommées.
+**Statut.** **Terminée** — 2026-07-28. Rapport de clôture : [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md).
 
-**Livrables.**
+**Livrables réalisés.**
 
-- Modèle d'ancre : `quote`, `table-cell`, `figure`, `section` (chemin désambiguïsé).
-- Identifiants à portée globale (`cardio/234:KP-041`).
+- Six contrats fondamentaux (`docs/contracts/01–06`) — chacun répond à **une question unique**.
+- Index documentaire et hiérarchie de gouvernance ([`contracts/00-INDEX.md`](contracts/00-INDEX.md)).
+- Audit transversal de cohérence et corrections documentaires ([`PHASE_0A_CONTRACT_AUDIT.md`](PHASE_0A_CONTRACT_AUDIT.md)).
+
+**Critères de sortie — atteints.**
+
+- Gouvernance fondamentale **stable** et **gelée** (maintenance documentaire uniquement).
+- Hiérarchie explicite : ADR → contrats fondamentaux → contrats composants → documentation technique → code.
+- Aucune duplication normative entre contrats ; renvois anti-duplication en place.
+
+**⛔ Gel — fin de Phase 0A**
+
+> **Les contrats fondamentaux 01–06 sont la référence normative de gouvernance.** `IMPLEMENTATION_CONTRACT.md` et `VISUAL_GRAMMAR_CONTRACT.md` restent des références détaillées, subordonnées aux contrats 01–06 pour les règles métier.
+
+**Ne pas faire.** Modifier un invariant fondamental sans ADR ; dupliquer une règle déjà définie dans un contrat 01–06 ; confondre gouvernance et implémentation.
+
+**Hors périmètre Phase 0A (volontaire).** Contrats composants Tool 03–05, implémentation complète, build reproductible byte-identique, CI — relèvent de la **Phase 1 — Industrialisation** et des phases suivantes.
+
+---
+
+#### 0A (historique) — Contrats fondamentaux *(détail opérationnel initial — conservé)*
+
+> **Statut :** remplacé par la section ci-dessus. Ce bloc conserve le cadrage initial des livrables techniques prévus en parallèle de l'industrialisation.
+
+**Objectif initial.** Poser les contrats irréversibles et rendre le build fiable.
+
+**Livrables techniques restants (Phase 1).**
+
+- Modèle d'ancre étendu : `quote`, `table-cell`, `figure`, `section` (chemin désambiguïsé).
 - CI ; tests isolés (plus de mutation du chapitre canonique).
 - Purge des littéraux item 234 dans le code générique.
-- V2 (visualSpec) câblé dans `runBuild()` ; V1 supprimé ; `data-official-text-id` émis par le renderer SVG.
+- Build reproductible des artefacts textuels en CI.
 
-**Critères de sortie.**
-
-- `lou-build build` reproduit les artefacts textuels publiés (test en CI).
-- Document d'une page fixant le modèle d'ancre avec un exemple par type, sur plusieurs chapitres contrastés.
-
-**⛔ Gel — fin de 0A**
+**⛔ Gel — modèle d'ancre (inchangé)**
 
 > **Le modèle d'ancre et le schéma d'identifiants sont figés.** Extensible par **ajout** de type d'ancre uniquement — jamais par modification d'un type existant.
 
@@ -477,6 +500,8 @@ Si la réponse est non, la décision attend.
 
 | Document | Rôle |
 |---|---|
+| [`contracts/00-INDEX.md`](contracts/00-INDEX.md) | **Contrats fondamentaux 01–06** — gouvernance normative |
+| [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md) | Clôture officielle Phase 0A |
 | [`PROJECT_STATE.md`](PROJECT_STATE.md) | État courant, métriques, risques — **document vivant** |
 | [`LLM_STRATEGY.md`](LLM_STRATEGY.md) | Usage des modèles — **stratégie évolutive** |
 | [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) | Chaîne officielle FIL B, SSOT, statut FIL A legacy |

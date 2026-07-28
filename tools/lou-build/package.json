@@ -8,9 +8,7 @@
     "test": "node --test --test-concurrency=1 --test-timeout=300000 test/*.test.js && node --import tsx --test --test-concurrency=1 --test-timeout=300000 test/pipeline-runner.test.ts test/pipeline-config.test.ts",
     "typecheck": "tsc --noEmit",
     "validate": "tsx src/cli/build.ts validate",
-    "build": "tsx src/cli/build.ts build",
-    "validate:legacy": "node cli.js validate",
-    "build:legacy": "node cli.js build"
+    "build": "tsx src/cli/build.ts build"
   },
   "dependencies": {
     "yaml": "^2.7.0"

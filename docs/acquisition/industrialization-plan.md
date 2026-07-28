@@ -3,7 +3,7 @@
 **Statut :** feuille de route post-qualification GO  
 **Prérequis :** [`qualification-report-acquisition-final.md`](qualification-report-acquisition-final.md) · [ADR-004](../adr/ADR-004-acquisition-architecture-frozen.md)
 
-> **Cadre normatif.** L'architecture d'acquisition est gelée (ADR-004). Ce plan couvre l'**industrialisation des artefacts métier aval** — travaux **post Phase 3.5** (après cutover lou-build). Voir [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md).
+> **Cadre normatif.** L'architecture d'acquisition est gelée (ADR-004). Ce plan couvre l'**industrialisation des artefacts métier aval** — travaux **post-Fabrique** (Phase 3.5 close). Voir [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md).
 
 ---
 
@@ -19,7 +19,7 @@ Passer de **2 vertical slices validés** (Items 234, 330) à une chaîne capable
 |---|---|---|---|
 | **Tool 01** | `lou-pdf-to-canonical` v1.0.0 | PDF → `official-college.md` | P.1 GO, SHA reproductible |
 | **Tool 02** | `lou-chapter-splitter` v1.0.0 | Découpage 22 chapitres | manifest Tool 02 |
-| **lou-build** | `lou-build-pipeline-v1` | validate / build / stages A–K | 188 tests, 234+330 PASS ; Phase 3.5 = legacy removal |
+| **lou-build** | production cutover | validate / build / stages A–K | 117 tests, 234+330 PASS ; Phase 3.5 ✅ |
 | **Grille P1–P7** | 2026-07-28 | Critères qualification | Rapport final GO |
 | **Modèle d'ancre** | quote + section_path + edition | Traçabilité | 286 ancres validées (234+330) |
 | **Structure package chapitre** | source.meta + inventory + blueprint + projections + reconciliation | Contrat package | 234, 330 |

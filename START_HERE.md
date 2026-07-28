@@ -49,6 +49,6 @@ These documents explain the current research and discoveries.
 
 Only after reading the documents above should new product or implementation work begin.
 
-**Phase 3 terminée** — tag `lou-build-pipeline-v1` ([jalon](docs/releases/phase-3.4-batch-migration-g-k.md)).
+**La Fabrique terminée** — Phase 3 + 3.5 close ([jalon migration](docs/releases/phase-3.4-batch-migration-g-k.md) · [jalon cutover](docs/releases/phase-3.5-completion-report.md)).
 
-**Phase active :** **Phase 3.5 — Legacy Removal / Production Cutover**. Start with [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md), [`tools/lou-build/`](tools/lou-build/), [`docs/renderer/19-BUILD-PIPELINE.md`](docs/renderer/19-BUILD-PIPELINE.md), and [`demo/renderer/`](demo/renderer/).
+**Phase active :** **Le Lecteur (production)**. Start with [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md), [`demo/renderer/`](demo/renderer/), docs [14](docs/renderer/14-LOU-READER-ARCHITECTURE.md)–[15](docs/renderer/15-READER-FUNCTIONAL-SPECIFICATION.md), and [`docs/renderer/13-ROADMAP.md`](docs/renderer/13-ROADMAP.md).

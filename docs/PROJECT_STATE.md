@@ -2,7 +2,7 @@
 
 **Photographie opérationnelle du projet** — **document vivant** du projet Lou Médecine.  
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-07-28 (clôture Phase 3 — tag `lou-build-pipeline-v1`)
+**Dernière mise à jour :** 2026-07-28 (clôture Phase 3.5 — production cutover lou-build)
 
 Ce document est mis à jour **lorsqu'un jalon important est franchi** (fin de phase, décision structurante, changement de risque majeur). La roadmap ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md)) reste volontairement **stable** ; l'état opérationnel vit ici.
 
@@ -34,11 +34,11 @@ Toute modification substantielle nécessitera une nouvelle révision explicite.
 
 ## Changement de statut — 2026-07-28
 
-**Architecture v1 gelée.** Les phases Fondations (0), Le Lecteur (1) et La Fabrique — Architecture (2) sont **clôturées**.
+**La Fabrique est terminée.** Pipeline Engine v1, stages typés A→K, CLI typée et cutover production (Phase 3.5) sont **clos**. Jalon : [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md).
 
-**Phase 3 — Pipeline Migration terminée.** Pipeline Engine v1, BuildContext et stages typés A–K sont **gelés**. Tag officiel : **`lou-build-pipeline-v1`**. Jalon : [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md). Le code legacy est **conservé volontairement** pour la Phase 3.5.
+**Migration A→K définitivement achevée.** Wrappers legacy, `cli.js`, orchestration `runValidation`/`runBuild` et tests de parité retirés. Modules métier partagés conservés sous `lib/` comme bibliothèques internes.
 
-**Phase active :** **Phase 3.5 — Legacy Removal / Production Cutover**.
+**Phase active :** **Le Lecteur** (production — expérience apprenant, `demo/renderer/` → lecteur multi-chapitres conforme docs 14–15).
 
 **Phase 0A — Gouvernance fondamentale terminée.** Les six contrats fondamentaux (`docs/contracts/01–06`) sont rédigés, audités transversalement et **gelés** (maintenance documentaire uniquement). Rapport de clôture : [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md).
 
@@ -50,13 +50,28 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | | |
 |---|---|
-| **Phase** | **Phase 3.5 — Legacy Removal / Production Cutover** |
-| **Chantier actif** | Retrait contrôlé des wrappers legacy ; cutover CLI typée |
-| **Jalon précédent** | `lou-build-pipeline-v1` — Phase 3 Pipeline Migration close |
-| **Prochaine action** | Planifier et exécuter la suppression progressive du legacy (wrappers de stage uniquement ; conserver les modules métier `lib/` partagés) |
-| **Après cutover** | Scale-out industriel (Inventory / Blueprint / Projection Factory) — voir [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) |
+| **Phase** | **Le Lecteur — production** |
+| **Chantier actif** | Lecteur multi-chapitres, `library.json`, retrait progressif des fallbacks legacy renderer (ADR-002) |
+| **Jalon précédent** | Phase 3.5 close — production cutover lou-build ([`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md)) |
+| **Fabrique (lou-build)** | ✅ **Terminée** — chemin unique : `npm run validate` / `build` → `src/cli/build.ts` |
+| **Après Lecteur** | Validation pédagogique (Phase 4) · scale-out industriel ([`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md)) |
 
-**Acquisition :** mode maintenance (ADR-004). **Architecture v1 :** gelée — docs 14–19 stables. **Pipeline Engine v1 :** figé. **Aucun** travail R&D sur Tool 01/Tool 02 sauf bug bloquant démontré.
+**Acquisition :** mode maintenance (ADR-004). **Architecture v1 :** gelée — docs 14–19 stables. **Pipeline Engine v1 :** figé — unique pipeline de production. **Aucun** travail R&D sur Tool 01/Tool 02 sauf bug bloquant démontré.
+
+---
+
+## La Fabrique — statut final
+
+| Composant | Statut |
+|---|---|
+| Pipeline Engine v1 (`src/pipeline/`) | ✅ Gelé — production |
+| Stages typés A→K (`src/stages/`) | ✅ Gelés — migration définitive |
+| CLI typée (`src/cli/build.ts`) | ✅ **Unique point d'entrée** |
+| Wrappers legacy / `cli.js` / parité | ✅ Retirés (Phase 3.5) |
+| Modules métier `lib/*.js` | ✅ Conservés — bibliothèques internes |
+| `lib/package.js` | ✅ Résidu métier : `assembleManifest`, `invalidatePublishableState` |
+
+Tag historique migration : **`lou-build-pipeline-v1`**. Tag production cutover proposé : **`lou-build-production-v1`** (voir rapport Phase 3.5).
 
 ---
 
@@ -67,11 +82,13 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 | **Phase 0A** | ✅ **Terminée** — 2026-07-28 |
 | **Architecture v1 (docs 14–19)** | ✅ **Gelée** — 2026-07-28 |
 | **Phase 3 — Pipeline Migration** | ✅ **Terminée** — tag `lou-build-pipeline-v1` |
+| **Phase 3.5 — Production Cutover** | ✅ **Terminée** — 2026-07-28 |
+| **La Fabrique** | ✅ **Terminée** |
 | **Contrats fondamentaux** | **01–06 gelés** — référence normative de gouvernance ([`contracts/00-INDEX.md`](contracts/00-INDEX.md)) |
 | **Audit transversal** | ✅ Terminé — corrections de cohérence appliquées |
 | **Maintenance autorisée** | Amendements documentaires explicites ; pas de modification d'invariants sans ADR |
 
-**Prochaines étapes gouvernance :** les évolutions futures (contrats composants, implémentation, industrialisation) doivent **préserver la cohérence** des contrats 01–06. Toute rupture d'invariant passe par un **ADR** et une mise à jour contractuelle explicite.
+**Prochaines étapes gouvernance :** les évolutions futures (contrats composants, implémentation Lecteur, industrialisation) doivent **préserver la cohérence** des contrats 01–06. Toute rupture d'invariant passe par un **ADR** et une mise à jour contractuelle explicite.
 
 ---
 
@@ -79,15 +96,14 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | Date | Décision |
 |---|---|
-| 2026-07-28 | **Phase 3 close** — Pipeline Engine v1 + stages A–K ; tag `lou-build-pipeline-v1` ; Phase 3.5 active |
+| 2026-07-28 | **Phase 3.5 close** — cutover production lou-build ; La Fabrique terminée |
+| 2026-07-28 | **Legacy lou-build retiré** — wrappers, CLI legacy, orchestration monolithique |
+| 2026-07-28 | **Phase 3 close** — Pipeline Engine v1 + stages A–K ; tag `lou-build-pipeline-v1` |
 | 2026-07-28 | **F1 corrigé** — invalidation manifest en début de build sur CLI typée ; F2 reporté |
 | 2026-07-28 | **Architecture v1 gelée** — docs 14–19 stables ; phases 0–2 clôturées |
 | 2026-07-28 | **Phase 0A — Gouvernance fondamentale terminée** — contrats 01–06 gelés |
 | 2026-07-28 | **ADR-004 — Architecture acquisition gelée** — fin R&D acquisition ; mode maintenance |
-| 2026-07-28 | **Phase 0 terminée** — fondations validées |
 | 2026-07-28 | **R&D acquisition terminée — GO final** — 234 + 330 FIL B |
-| 2026-07-28 | **Item 234 migré FIL B** — vertical slice officiel |
-| 2026-07-28 | **Item 330 vertical slice FIL B** — 54 KPs, validate/build PASS |
 | 2026-07-28 | **FIL B = unique chaîne SSOT** · grille P1–P7 actée |
 
 ---
@@ -96,15 +112,16 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | Risque | Statut | Bloque |
 |---|---|---|
-| Legacy encore présent (wrappers / CLI) | **Actif** | Phase 3.5 |
-| F2 — ordre écriture sidecars avant verdict I | **Ouvert** | Cutover / cohérence disque |
-| Scale-out 20 chapitres — curation / automatisation | **Actif** | Post-3.5 industrialization |
+| F2 — ordre écriture sidecars avant verdict I | **Ouvert** | Cohérence disque (chantier ciblé) |
+| Renderer fallback legacy (`generated-assets/`) | **Actif** | Lecteur production |
+| Scale-out 20 chapitres — curation / automatisation | **Actif** | Industrialisation aval |
 | Pipeline sémantique non automatisé | **Actif** | Inventory / Blueprint Factory |
 | Build SVG non reproductible byte-identique | **Actif** | CI fiable |
+| SVG V1 en production (Stage G) | **Actif** | Branchement V2 (chantier distinct) |
 | Formats structurés EDN non évalués | **Latent** | Nouveau pipeline (ADR-004 cas B) |
 | Portabilité hors cardio / hors PDF | **Latent** | EDN Scale-out |
 
-**Clos :** R&D acquisition · qualification chaîne · migration FIL A opérationnelle Item 234 · hypothèse suffisance aval · **gouvernance fondamentale Phase 0A** · **audit de cohérence inter-contrats** · **Pipeline Migration Phase 3** · **F1 manifest stale**.
+**Clos :** Legacy lou-build (wrappers / CLI / orchestration) · R&D acquisition · qualification chaîne · migration FIL A opérationnelle Item 234 · **Pipeline Migration Phase 3** · **Production Cutover Phase 3.5** · **La Fabrique** · F1 manifest stale.
 
 ---
 
@@ -112,6 +129,7 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | Décision | Date | Référence |
 |---|---|---|
+| Production cutover lou-build | 2026-07-28 | [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md) |
 | Pipeline Engine v1 / stages A–K | 2026-07-28 | Tag `lou-build-pipeline-v1`, [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md) |
 | Architecture v1 (docs 14–19) | 2026-07-28 | [`contracts/00-INDEX.md`](contracts/00-INDEX.md) § 6, [`renderer/README.md`](renderer/README.md) |
 | Contrats fondamentaux 01–06 | 2026-07-28 | [`contracts/00-INDEX.md`](contracts/00-INDEX.md) |
@@ -130,18 +148,18 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 |---|---|
 | Item 234 package | ✅ Migré FIL B |
 | Tests / paths génériques | ✅ Mis à jour |
-| Fichier legacy `chapter-analysis/…/official-college.md` | ⬜ Suppression après CI |
+| Fichier legacy `chapter-analysis/…/official-college.md` | ⬜ Suppression après CI (hors lou-build) |
 | Rapports historiques Phase 2–3 (234) | Trace — hors pipeline |
 
 ---
 
-## Prochains travaux (Phase 3.5)
+## Prochains travaux
 
-1. **Legacy Removal** — wrappers de stage + CLI legacy ; **ne pas** supprimer les modules métier partagés sous `lib/`
-2. **Production Cutover** — chemin unique typé ; éventuellement traiter F2
-3. **Ensuite — scale-out** — Inventory / Blueprint / Projection Factory ([`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md))
-4. **Renderer Production** — `library.json`, Lecteur multi-chapitres (specs gelées : docs 14–15)
-5. **Build reproductible & CI** — en parallèle si non bloquant
+1. **Le Lecteur — production** — `library.json`, lecteur multi-chapitres, retrait fallbacks renderer (specs gelées : docs 14–15, ADR-002)
+2. **Scale-out industriel** — Inventory / Blueprint / Projection Factory ([`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md))
+3. **Validation pédagogique** — Phase 4 ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md))
+4. **Build reproductible & CI** — en parallèle si non bloquant
+5. **F2** — ordre écriture sidecars G/H vs verdict I — chantier ciblé si pertinent
 
 ---
 
@@ -149,11 +167,11 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | Indicateur | Cible | Mesuré | Notes |
 |---|---|---|---|
-| Chapitres packagés FIL B | 22 | **2** (234, 330) | 9 % — scale-out post-3.5 |
-| lou-build validate PASS | 22 | **2** | |
+| Chapitres packagés FIL B | 22 | **2** (234, 330) | 9 % — scale-out post-Fabrique |
+| lou-build validate PASS | 22 | **2** | CLI typée unique |
 | Références FIL A opérationnelles | 0 | **0** | |
-| Tests lou-build | PASS | **188/188** | 96 legacy + 92 pipeline/parity |
-| Pipeline Engine v1 | Figé | **`lou-build-pipeline-v1`** | Stages A–K migrés |
+| Tests lou-build | PASS | **117/117** | 78 JS + 39 TS pipeline/slice |
+| Pipeline production | Cutover | **✅ Phase 3.5 close** | Stages A→K ; legacy retiré |
 | Couche acquisition | Maintenance | **Gelée** | ADR-004 |
 
 ---
@@ -162,7 +180,8 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 
 | Date | Jalon |
 |---|---|
-| 2026-07-28 | **Phase 3 close** — Pipeline Engine v1 ; tag `lou-build-pipeline-v1` ; Phase 3.5 active |
+| 2026-07-28 | **Phase 3.5 close** — production cutover lou-build ; La Fabrique terminée |
+| 2026-07-28 | **Phase 3 close** — Pipeline Engine v1 ; tag `lou-build-pipeline-v1` |
 | 2026-07-28 | **Architecture v1 gelée** — docs 14–19 ; phases 0–2 clôturées |
 | 2026-07-28 | **Phase 0A — Gouvernance fondamentale terminée** — contrats 01–06 gelés |
 | 2026-07-28 | **R&D acquisition terminée** — ADR-004 ; Phase 0 close |
@@ -179,12 +198,10 @@ La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, T
 |---|---|
 | [`contracts/00-INDEX.md`](contracts/00-INDEX.md) | **Gouvernance fondamentale** — contrats 01–06 ; § 6 architecture de référence |
 | [`renderer/README.md`](renderer/README.md) | **Architecture de référence gelée** — docs 14–19 |
-| [`renderer/19-BUILD-PIPELINE.md`](renderer/19-BUILD-PIPELINE.md) | Pipeline opérationnel cible de l'implémentation lou-build |
-| [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md) | **Jalon Phase 3** — Pipeline Migration close |
+| [`renderer/19-BUILD-PIPELINE.md`](renderer/19-BUILD-PIPELINE.md) | Pipeline opérationnel — implémenté et en production |
+| [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md) | **Jalon Phase 3.5** — production cutover close |
+| [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md) | Jalon Phase 3 — Pipeline Migration close |
 | [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md) | Clôture officielle Phase 0A |
 | [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) | Gel acquisition — **normatif** |
-| [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) | Jalon sortie R&D |
-| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route scale-out (post-3.5) |
-| [`acquisition/qualification-report-acquisition-final.md`](acquisition/qualification-report-acquisition-final.md) | Verdict GO |
-| [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) | Chaîne FIL B |
-| [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) | Phases 0–3 ✅ / Phase 3.5 active |
+| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route scale-out |
+| [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) | Phases 0–3.5 ✅ · **Le Lecteur** actif |

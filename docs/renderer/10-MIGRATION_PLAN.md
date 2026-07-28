@@ -57,8 +57,8 @@ Incremental migration from today's repository to the target renderer. **The repo
 
 | Component | Classification | Action |
 |---|---|---|
-| `tools/lou-build/cli.js` | **KEEP** | Unchanged |
-| `tools/lou-build/lib/package.js` | **KEEP → EXTEND** | Integrate V2 visual render into `runBuild()` |
+| `tools/lou-build/src/cli/build.ts` | **KEEP** | Unique CLI — `npm run validate` / `build` |
+| `tools/lou-build/lib/package.js` | **KEEP** | Manifest helpers only (`assembleManifest`, `invalidatePublishableState`) |
 | `tools/lou-build/lib/svg.js` (V1) | **LEGACY** | **REMOVE AFTER MIGRATION** — when V2 covers `process-flow` |
 | `tools/lou-build/lib/visual-spec.js` | **KEEP** | Ratify schema; extend primitives |
 | `tools/lou-build/lib/visual-ground.js` | **KEEP** | Unchanged |

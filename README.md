@@ -47,11 +47,11 @@ Research, observations and experiments.
 
 ## Current Status
 
-**Architecture v1 gelée** (2026-07-28). Phases Fondations, Le Lecteur et La Fabrique — Architecture sont **terminées**.
+**La Fabrique terminée** (2026-07-28). Phases Fondations, Le Lecteur — Architecture et La Fabrique (architecture + implémentation + cutover) sont **closes**.
 
-**Phase 3 — Pipeline Migration terminée** — tag [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md) (Pipeline Engine v1, BuildContext figé, stages typés A–K). Legacy conservé volontairement.
+**Pipeline lou-build en production** — tag historique [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md) ; cutover Phase 3.5 : [`phase-3.5-completion-report.md`](docs/releases/phase-3.5-completion-report.md).
 
-**Phase active :** **Phase 3.5 — Legacy Removal / Production Cutover**. Ensuite : scale-out industriel des artefacts métier conformément à [`docs/renderer/19-BUILD-PIPELINE.md`](docs/renderer/19-BUILD-PIPELINE.md).
+**Phase active :** **Le Lecteur (production)** — lecteur multi-chapitres, retrait fallbacks legacy renderer.
 
 État opérationnel : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · pilotage : [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
 

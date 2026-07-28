@@ -14,7 +14,7 @@ Les documents **14–19** constituent l'architecture officielle gelée du projet
 
 **Chaîne documentaire :** [contrats 01–06](../contracts/00-INDEX.md) → [14](./14-LOU-READER-ARCHITECTURE.md) → [15](./15-READER-FUNCTIONAL-SPECIFICATION.md) → [17](./17-PUBLICATION-MODEL.md) → [18](./18-BUILD-ARCHITECTURE.md) → [19](./19-BUILD-PIPELINE.md) → [16](./16-CONTENT-TO-READER-ARCHITECTURE.md).
 
-**Phase 3 (Pipeline Migration) terminée** — tag `lou-build-pipeline-v1`. **Phase active :** 3.5 Legacy Removal / Cutover. Outil : [`tools/lou-build/`](../../tools/lou-build/) conformément au [doc 19](./19-BUILD-PIPELINE.md).
+**Phase 3 (Pipeline Migration) terminée** — tag `lou-build-pipeline-v1`. **Phase 3.5 (Production Cutover) terminée** — La Fabrique close. **Phase active :** Le Lecteur (production). Outil : [`tools/lou-build/`](../../tools/lou-build/) — CLI typée unique, conforme au [doc 19](./19-BUILD-PIPELINE.md).
 
 ---
 

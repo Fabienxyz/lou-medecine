@@ -86,7 +86,7 @@ Toute modification de ces composants est soumise à la **Modification Policy** d
 
 2. **Interdictions.** Aucun chantier ne rouvre la R&D acquisition : pas d'optimisation esthétique PDF, pas de retouche manuelle du Markdown, pas de seconde chaîne parallèle.
 
-3. **Phase active (historique).** Le projet entrait alors en industrialisation lou-build. *Séquencement courant :* Phase 3 Pipeline Migration **terminée** (`lou-build-pipeline-v1`) ; **Phase 3.5** active — voir [`PROJECT_STATE.md`](../PROJECT_STATE.md).
+3. **Phase active (historique).** Le projet entrait alors en industrialisation lou-build. *Séquencement courant :* La Fabrique **terminée** (Phases 3 + 3.5) ; **Le Lecteur** actif — voir [`PROJECT_STATE.md`](../PROJECT_STATE.md).
 
 4. **Référence normative.** ADR-004 est la décision de gouvernance de référence pour toute question relative à la couche acquisition.
 

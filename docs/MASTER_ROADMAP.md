@@ -1,7 +1,7 @@
 # Lou Médecine — Master Roadmap
 
 Document de pilotage officiel du projet.  
-**Dernière mise à jour :** 2026-07-28 (gel architecture v1)
+**Dernière mise à jour :** 2026-07-28 (clôture Phase 3.5 — La Fabrique terminée)
 
 Ce document est la **référence officielle pour le pilotage** du projet. Il définit les objectifs, le séquencement, les priorités et les critères de réussite.
 
@@ -142,15 +142,17 @@ Toute modification substantielle nécessitera une nouvelle révision explicite.
 | **1 — Le Lecteur** | Architecture Reader v1 | ✅ **Terminée** | Vision et spec fonctionnelle du Reader | Docs [14](renderer/14-LOU-READER-ARCHITECTURE.md)–[15](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
 | **2 — La Fabrique — Architecture** | Publication et build | ✅ **Terminée** | Modèle de publication, architecture et pipeline | Docs [16](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)–[19](renderer/19-BUILD-PIPELINE.md) |
 | **3 — Implémentation de lou-build** | Pipeline Migration | ✅ **Terminée** | Engine v1 + stages typés A–K | Tag [`lou-build-pipeline-v1`](releases/phase-3.4-batch-migration-g-k.md) |
-| **3.5 — Legacy Removal / Cutover** | Production cutover | **Active** | Retrait legacy, cutover production | CLI typée seule + lib partagée stabilisée |
+| **3.5 — Legacy Removal / Cutover** | Production cutover | ✅ **Terminée** | Retrait legacy, cutover production | [`phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md) |
+| **— La Fabrique (ensemble)** | Architecture + build + cutover | ✅ **Terminée** | Pipeline unique de production | Phases 2 + 3 + 3.5 |
+| **1 — Le Lecteur (production)** | Expérience apprenant | **Active** | Lecteur multi-chapitres, retrait fallbacks | Docs [14](renderer/14-LOU-READER-ARCHITECTURE.md)–[15](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
 | **4 — Validation pédagogique** | Preuve pédagogique | À venir | Prouver que la méthode enseigne mieux | Décision écrite Phase 4 |
 | **5 — Échelle EDN** | Multi-collèges | À venir | Production EDN | Production EDN |
 | **6 — Régime permanent** | Maintenance éditions | À venir | Système auto-maintenu | Système auto-maintenu |
 
-**Chemin critique actuel :** Phase 3.5 (Legacy Removal / Cutover) → Phase 4 → Phase 5 → Phase 6.
+**Chemin critique actuel :** **Le Lecteur (production)** → Phase 4 → Phase 5 → Phase 6.
 
-> **Jalon (2026-07-28).** Architecture v1 **gelée** — phases 0–2 clôturées.  
-> **Jalon (2026-07-28).** Phase 3 — Pipeline Migration **terminée** — tag `lou-build-pipeline-v1`. Prochaine étape : **Phase 3.5**. Détail : [`PROJECT_STATE.md`](PROJECT_STATE.md) · [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md).
+> **Jalon (2026-07-28).** **La Fabrique terminée** — Phases 2 + 3 + 3.5 close ; pipeline typé unique en production.  
+> **Jalon (2026-07-28).** Prochaine priorité : **Le Lecteur**. Détail : [`PROJECT_STATE.md`](PROJECT_STATE.md) · [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md).
 
 ---
 
@@ -214,7 +216,7 @@ Toute modification substantielle nécessitera une nouvelle révision explicite.
 
 ### Phase 3 — Implémentation de lou-build ✅ TERMINÉE *(Pipeline Migration)*
 
-> **Remapping :** correspond à l'ancienne **Phase 1 — Industrialisation** pour la partie **outil de build**. Le scale-out industriel (22 chapitres, factories) reste planifié **après** le cutover Phase 3.5.
+> **Remapping :** correspond à l'ancienne **Phase 1 — Industrialisation** pour la partie **outil de build**. Le scale-out industriel (22 chapitres, factories) reste planifié **post-Fabrique**.
 
 **Objectif (atteint).** Porter lou-build d'une orchestration monolithique vers un **Pipeline Engine v1** générique, un **BuildContext** figé, et **onze stages typés A–K**, avec parité legacy et CLI typée par défaut.
 
@@ -232,45 +234,49 @@ Toute modification substantielle nécessitera une nouvelle révision explicite.
 - Pipeline Engine v1 (`src/pipeline/`) — figé
 - BuildContext — figé
 - Stages A–K typés (`src/stages/`)
-- Wrappers legacy **conservés volontairement** (filet Phase 3.5)
-- Tests : 188/188 PASS · validate/build Item 234 PASS
+- Legacy retiré en Phase 3.5 (wrappers, CLI legacy, orchestration monolithique)
+- Tests : 117/117 PASS post-cutover · validate/build Item 234+330 PASS
 - Invalidation manifest en début de build (F1) restaurée sur la CLI typée
 
-**Ne pas faire.** Modifier le Pipeline Engine sans révision explicite ; supprimer le legacy avant Phase 3.5 ; rouvrir la R&D acquisition ; modifier l'architecture gelée (docs 14–19) sans révision explicite.
+**Ne pas faire.** Modifier le Pipeline Engine sans révision explicite ; rouvrir la migration A→K ; rouvrir la R&D acquisition ; modifier l'architecture gelée (docs 14–19) sans révision explicite.
 
 ---
 
-### Phase 3.5 — Legacy Removal / Production Cutover *(phase active)*
+### Phase 3.5 — Legacy Removal / Production Cutover ✅ TERMINÉE
 
-**Objectif.** Retirer le filet legacy de façon contrôlée et basculer définitivement sur la CLI typée / stages `src/`.
+**Objectif (atteint).** Retirer le filet legacy et basculer définitivement sur la CLI typée / stages `src/` comme unique chemin de production.
 
-**Pourquoi.** La migration métier est complète ; le code legacy (`cli.js`, wrappers de stage, orchestration `runValidation`/`runBuild`) n'est plus nécessaire comme référence de parité permanente.
+**Statut.** **Terminée** — 2026-07-28. Jalon : [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md). Commits : `ca5782c` · `575fc51` · `bb711c7`.
 
-**Chantiers.**
+| Lot | Contenu | Statut |
+|---|---|---|
+| **Lot 1** | Wrappers de stage + tests de parité | ✅ |
+| **Lot 2** | `cli.js` + scripts `*:legacy` | ✅ |
+| **Lot 3** | `runValidation`/`runBuild` + migration `slice.test.ts` | ✅ |
 
-| Chantier | Objectif |
-|---|---|
-| Suppression des wrappers de stage | Retirer `lib/*-stage.js` et équivalents de parité |
-| Cutover CLI | Retirer `cli.js` / `*:legacy` après filet e2e |
-| Modules `lib/` partagés | **Conserver** la logique métier partagée (ne pas supprimer `lib/` en bloc) |
-| F2 (reporté) | Ordre d'écriture sidecars/figures vs verdict I — à traiter si pertinent |
-| Scale-out industriel | Après cutover — Inventory / Blueprint / Projection Factory (voir plan d'industrialisation) |
+**Critères de sortie — atteints.**
 
-Feuille de route scale-out : [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
-
-**Critères de sortie Phase 3.5 (indicatif).**
-
-- Chemin unique : CLI typée + stages `src/`
-- Legacy d'orchestration retiré ; modules métier partagés conservés ou relocalisés
+- Chemin unique : `npm run validate` / `build` → `src/cli/build.ts`
+- Legacy d'orchestration retiré ; modules métier `lib/` conservés
 - Tests métier verts sans dépendance aux wrappers de parité
 
-**Ne pas faire.** Supprimer `lib/` indiscriminément ; modifier le Pipeline Engine ; rouvrir la migration A–K.
+**La Fabrique est terminée** (Phases 2 architecture + 3 implémentation + 3.5 cutover).
+
+---
+
+### Le Lecteur — production *(phase active)*
+
+**Objectif.** Porter `demo/renderer/` vers un lecteur de production multi-chapitres conforme aux specs gelées (docs 14–15), avec retrait progressif des fallbacks legacy (ADR-002).
+
+**Référence.** [`PROJECT_STATE.md`](PROJECT_STATE.md) · [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md) · [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md).
+
+**Hors périmètre immédiat.** Scale-out industriel 22 chapitres (Inventory / Blueprint Factory) — voir [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
 
 ---
 
 ### Détail historique — sous-phases d'industrialisation
 
-Les sections ci-dessous conservent le **détail opérationnel** des chantiers prévus avant la restructuration Phase 0–3. Elles restent valides comme sous-chantiers d'industrialisation **après** la Phase 3.5 (cutover).
+Les sections ci-dessous conservent le **détail opérationnel** des chantiers prévus avant la restructuration Phase 0–3. Elles restent valides comme sous-chantiers d'industrialisation **après** la clôture de La Fabrique (Phase 3.5).
 
 ---
 
@@ -364,7 +370,7 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 **Ne pas faire.** Modifier un invariant fondamental sans ADR ; dupliquer une règle déjà définie dans un contrat 01–06 ; confondre gouvernance et implémentation.
 
-**Hors périmètre Phase 0A (volontaire).** Contrats composants Tool 03–05, implémentation complète, build reproductible byte-identique, CI — relèvent de l'implémentation lou-build (Phase 3 terminée / Phase 3.5+) et des phases suivantes.
+**Hors périmètre Phase 0A (volontaire).** Contrats composants Tool 03–05, build reproductible byte-identique, CI — relèvent des phases post-Fabrique (Lecteur, industrialisation).
 
 ---
 
@@ -593,7 +599,7 @@ Si la réponse est non, la décision attend.
 | [`adr/ADR-004-acquisition-architecture-frozen.md`](adr/ADR-004-acquisition-architecture-frozen.md) | Gel architecture acquisition — fin R&D |
 | [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) | Jalon historique sortie R&D acquisition |
 | [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md) | Jalon Phase 3 — Pipeline Migration close (`lou-build-pipeline-v1`) |
-| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route scale-out industriel (post Phase 3.5) |
+| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route scale-out industriel (post-Fabrique) |
 | [`SOURCE_PIPELINE_QUALIFICATION.md`](SOURCE_PIPELINE_QUALIFICATION.md) | Grille P1–P7 (Phase P clôturée) |
 | [`SOURCE_FORMAT_COMPARATIVE.md`](SOURCE_FORMAT_COMPARATIVE.md) | Analyse comparative des formats source EDN |
 | [`acquisition/`](acquisition/) | Dossier de qualification rejouable — produit en Phase P |

@@ -198,22 +198,32 @@ window.LouTextHighlights = {
             context.chapter,
             projection
         );
+        const orphans = [];
         rows.forEach(function (record) {
             const block = host.querySelector(
                 '.pedagogical-block[data-element="' + record.element + '"]'
             );
             if (!block) {
+                orphans.push({ kind: "highlight", record: record });
                 return;
             }
             const walkthrough = block.querySelector(".block-walkthrough");
             if (!walkthrough) {
+                orphans.push({ kind: "highlight", record: record });
                 return;
             }
             const range = self.findRangeForSelector(walkthrough, record.selector);
             if (range && !self._rangeAlreadyHighlighted(range)) {
                 self.wrapRangeInMark(range);
+                return;
+            }
+            if (!range) {
+                orphans.push({ kind: "highlight", record: record });
             }
         });
+        if (orphans.length && window.LouBlocks) {
+            window.LouBlocks.appendAnnotationOrphans(host, orphans);
+        }
     },
 
     selectorFromRange(root, range) {

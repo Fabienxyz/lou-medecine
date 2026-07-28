@@ -26,6 +26,18 @@ window.LouConfig = {
         emptyContent: "Content is empty.",
         legacyContent:
             "Contenu de prototype (avant architecture) : ce chapitre n’a pas encore de sortie de build. Rien ici n’est tracé ni vérifié.",
+        knownAbsent:
+            "Projection absente connue (déclarée par le package). Ce n’est pas une erreur de chargement.",
+        projectionMissing:
+            "Artefact de projection manquant : le package le déclare publié, mais le fichier est introuvable.",
+        projectionInvalid:
+            "Artefact de projection invalide ou inutilisable.",
+        manifestInvalid:
+            "Manifeste invalide : le fichier existe mais ne peut pas être interprété.",
+        manifestNetwork:
+            "Erreur réseau lors du chargement du manifeste.",
+        manifestServer:
+            "Erreur serveur lors du chargement du manifeste.",
     },
 
     TABS: [

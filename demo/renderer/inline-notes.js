@@ -108,33 +108,41 @@ window.LouInlineNotes = {
             context.chapter,
             projection
         );
+        const orphans = [];
         const self = this;
         rows.forEach(function (record) {
-            self._restoreRecord(host, record);
+            const result = self._restoreRecord(host, record);
+            if (result === "orphan") {
+                orphans.push({ kind: "note", record: record });
+            }
         });
+        if (orphans.length && window.LouBlocks) {
+            window.LouBlocks.appendAnnotationOrphans(host, orphans);
+        }
     },
 
+    // Returns "restored" | "orphan" | "skipped". Never deletes persisted records.
     _restoreRecord(host, record) {
         if (!record || !record.text || !String(record.text).trim()) {
-            return;
+            return "skipped";
         }
 
         const block = host.querySelector(
             '.pedagogical-block[data-element="' + record.element + '"]'
         );
         if (!block) {
-            return;
+            return "orphan";
         }
 
         const walkthrough = block.querySelector(".block-walkthrough");
         if (!walkthrough) {
-            return;
+            return "orphan";
         }
 
         if (
             walkthrough.querySelector('[data-note-id="' + record.id + '"]')
         ) {
-            return;
+            return "skipped";
         }
 
         const range = window.LouCaretAnchor.restoreCaretAnchor(
@@ -142,7 +150,7 @@ window.LouInlineNotes = {
             record.anchor
         );
         if (!range) {
-            return;
+            return "orphan";
         }
 
         const noteEl = document.createElement("span");
@@ -152,6 +160,7 @@ window.LouInlineNotes = {
         noteEl.textContent = record.text;
 
         range.insertNode(noteEl);
+        return "restored";
     },
 
     _walkthroughFromTarget(target, host) {

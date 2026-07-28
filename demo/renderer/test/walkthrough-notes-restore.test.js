@@ -291,7 +291,7 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
     assert.ok(walkthrough.querySelector(".walkthrough-note"));
   });
 
-  test("WT-INV-2 invalid anchor skipped silently — walkthrough intact", async () => {
+  test("WT-INV-2 invalid anchor surfaces orphan — walkthrough intact, data kept", async () => {
     await renderMechanisms();
     await window.LouLearnerStore.addWalkthroughNote(
       CHAPTER,
@@ -303,7 +303,7 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
         prefix: "___no-match___",
         suffix: "___no-match___",
       },
-      "Should not appear"
+      "Should not appear inline"
     );
     const content = await renderMechanisms();
     assert.equal(
@@ -314,6 +314,17 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
       content.querySelector('[data-element="MEC-oap"] .block-walkthrough')
         .textContent.length > 0
     );
+    const orphan = content.querySelector(
+      '.learner-orphan-annotation[data-orphan-kind="note"]'
+    );
+    assert.ok(orphan, "unrestorable note must be signaled");
+    assert.match(orphan.textContent, /Should not appear inline/);
+    const kept = await window.LouLearnerStore.listWalkthroughNotes(
+      CHAPTER,
+      "mechanisms"
+    );
+    assert.equal(kept.length, 1);
+    assert.equal(kept[0].text, "Should not appear inline");
   });
 
   test("WT-INV-3 empty text record skipped via _restoreRecord", async () => {
@@ -322,16 +333,17 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
     const walkthrough = content.querySelector(
       '[data-element="MEC-oap"] .block-walkthrough'
     );
-    window.LouInlineNotes._restoreRecord(content, {
+    const result = window.LouInlineNotes._restoreRecord(content, {
       id: 99,
       element: "MEC-oap",
       text: "   ",
       anchor: { type: "CaretAnchor", offset: 0, prefix: "", suffix: "" },
     });
+    assert.equal(result, "skipped");
     assert.equal(walkthrough.querySelector('[data-note-id="99"]'), null);
   });
 
-  test("WT-INV-4 missing block skipped silently", async () => {
+  test("WT-INV-4 missing block surfaces orphan — data kept", async () => {
     await renderMechanisms();
     await window.LouLearnerStore.addWalkthroughNote(
       CHAPTER,
@@ -342,6 +354,17 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
     );
     const content = await renderMechanisms();
     assert.equal(content.querySelectorAll(".walkthrough-note").length, 0);
+    const orphan = content.querySelector(
+      '.learner-orphan-annotation[data-orphan-kind="note"][data-orphan-element="MISSING-ELEMENT"]'
+    );
+    assert.ok(orphan, "missing-block note must be signaled");
+    assert.match(orphan.textContent, /Orphan note/);
+    const kept = await window.LouLearnerStore.listWalkthroughNotes(
+      CHAPTER,
+      "mechanisms"
+    );
+    assert.equal(kept.length, 1);
+    assert.equal(kept[0].element, "MISSING-ELEMENT");
   });
 
   test("WT-15 highlights and notes coexist after reload", async () => {

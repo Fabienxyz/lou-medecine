@@ -30,13 +30,33 @@ window.LouRenderer = {
     },
 
     async fetchResource(url, asJson) {
-        const response = await fetch(url);
+        let response;
+        try {
+            response = await fetch(url);
+        } catch (err) {
+            const error = new Error("Network error");
+            error.code = "network";
+            error.cause = err;
+            throw error;
+        }
         if (!response.ok) {
             const error = new Error("HTTP " + response.status);
             error.status = response.status;
+            error.code = response.status === 404 ? "not_found" : "server";
             throw error;
         }
-        return asJson ? response.json() : response.text();
+        if (asJson) {
+            try {
+                return await response.json();
+            } catch (err) {
+                const error = new Error("Invalid JSON");
+                error.status = response.status;
+                error.code = "invalid";
+                error.cause = err;
+                throw error;
+            }
+        }
+        return response.text();
     },
 
     async fetchText(url) {
@@ -45,6 +65,123 @@ window.LouRenderer = {
 
     async fetchJson(url) {
         return this.fetchResource(url, true);
+    },
+
+    // Manifest fetch doctrine (RCC §6.1 / §6.7): only a true absence (404) may activate legacy.
+    classifyManifestFetchError(err) {
+        if (!err) {
+            return "network";
+        }
+        if (err.code === "not_found" || err.status === 404) {
+            return "not_found";
+        }
+        if (err.code === "invalid") {
+            return "invalid";
+        }
+        if (err.code === "network") {
+            return "network";
+        }
+        if (err.code === "server" || (err.status && err.status >= 400)) {
+            return "server";
+        }
+        return "network";
+    },
+
+    async loadPublishedManifest(chapterId, config) {
+        if (!chapterId) {
+            return { ok: false, reason: "no_chapter", useLegacy: false };
+        }
+        try {
+            const manifest = await this.fetchJson(
+                config.resolveManifestPath(chapterId)
+            );
+            return { ok: true, manifest: manifest };
+        } catch (err) {
+            const reason = this.classifyManifestFetchError(err);
+            return {
+                ok: false,
+                reason: reason,
+                useLegacy: reason === "not_found",
+                error: err,
+            };
+        }
+    },
+
+    manifestErrorMessage(reason, config) {
+        const messages = config.ERROR_MESSAGES;
+        if (reason === "invalid") {
+            return messages.manifestInvalid;
+        }
+        if (reason === "server") {
+            return messages.manifestServer;
+        }
+        if (reason === "network") {
+            return messages.manifestNetwork;
+        }
+        return messages.loadFailed;
+    },
+
+    // Projection tabs from the published manifest only — including known_absent markers.
+    buildProjectionTabs(data, config) {
+        const knownAbsent = new Set(
+            Array.isArray(data.known_absent) ? data.known_absent : []
+        );
+        const seen = new Set();
+        const tabs = (data.projections || [])
+            .slice()
+            .sort(function (a, b) {
+                return (a.order || 0) - (b.order || 0);
+            })
+            .map(function (p) {
+                seen.add(p.id);
+                let availability;
+                if (knownAbsent.has(p.id)) {
+                    availability = "known_absent";
+                } else if (p.status === "published") {
+                    availability = p.path ? "published" : "invalid";
+                } else {
+                    availability = "invalid";
+                }
+                return {
+                    id: p.id,
+                    label: config.projectionTabLabel(p),
+                    path: p.path,
+                    availability: availability,
+                    implemented: availability === "published",
+                    projection: p,
+                };
+            });
+
+        (Array.isArray(data.known_absent) ? data.known_absent : []).forEach(
+            function (id) {
+                if (seen.has(id)) {
+                    return;
+                }
+                tabs.push({
+                    id: id,
+                    label: config.projectionTabLabel({ id: id }),
+                    path: null,
+                    availability: "known_absent",
+                    implemented: false,
+                    projection: null,
+                });
+            }
+        );
+
+        return tabs;
+    },
+
+    projectionAvailabilityMessage(availability, config) {
+        if (availability === "known_absent") {
+            return config.ERROR_MESSAGES.knownAbsent;
+        }
+        if (availability === "missing") {
+            return config.ERROR_MESSAGES.projectionMissing;
+        }
+        if (availability === "invalid") {
+            return config.ERROR_MESSAGES.projectionInvalid;
+        }
+        return config.PLACEHOLDER_MESSAGE;
     },
 
     applyHeaderMetadata(data) {
@@ -171,10 +308,18 @@ window.LouRenderer = {
         el.style.animation = "";
     },
 
-    showMessage(message) {
+    showMessage(message, options) {
         this.replayAnimation(this.contentEl);
+        const state = options && options.state;
+        const stateAttr = state
+            ? ' data-state="' + this.escapeHtml(String(state)) + '"'
+            : "";
         this.contentEl.innerHTML =
-            '<p class="content-status">' + this.escapeHtml(message) + "</p>" +
+            '<p class="content-status"' +
+            stateAttr +
+            ">" +
+            this.escapeHtml(message) +
+            "</p>" +
             this.wrapWithFooterNav("");
     },
 

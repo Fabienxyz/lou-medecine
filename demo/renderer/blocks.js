@@ -15,6 +15,11 @@ window.LouBlocks = {
         orphanTitle: "Tes ajouts dont le point d’ancrage a disparu",
         orphanHint:
             "L’élément correspondant n’existe plus dans ce chapitre. Rien n’a été supprimé.",
+        orphanAnnotationsTitle: "Annotations personnelles non restaurables",
+        orphanAnnotationsHint:
+            "Ces annotations existent toujours localement, mais leur ancre ne peut plus être résolue. Rien n’a été supprimé.",
+        orphanNoteKind: "Note de walkthrough",
+        orphanHighlightKind: "Surlignage",
     },
 
     _objectUrls: [],
@@ -297,6 +302,84 @@ window.LouBlocks = {
             label.textContent = record.element;
             panel.appendChild(label);
             panel.appendChild(item);
+        });
+
+        return panel;
+    },
+
+    // Honest degradation for unrestorable notes / highlights (RCC §6.6): signal, never delete.
+    ensureOrphanPanel(root, titleText, hintText) {
+        let panel = root.querySelector(".learner-orphans");
+        if (panel) {
+            return panel;
+        }
+        panel = document.createElement("section");
+        panel.className = "learner-orphans";
+        panel.dataset.learner = "true";
+
+        const title = document.createElement("p");
+        title.className = "orphan-title";
+        title.textContent = titleText || this.LABELS.orphanAnnotationsTitle;
+        panel.appendChild(title);
+
+        const hint = document.createElement("p");
+        hint.className = "orphan-hint";
+        hint.textContent = hintText || this.LABELS.orphanAnnotationsHint;
+        panel.appendChild(hint);
+
+        root.appendChild(panel);
+        return panel;
+    },
+
+    appendAnnotationOrphans(root, orphans) {
+        if (!orphans || !orphans.length) {
+            return null;
+        }
+        const self = this;
+        const panel = this.ensureOrphanPanel(
+            root,
+            this.LABELS.orphanAnnotationsTitle,
+            this.LABELS.orphanAnnotationsHint
+        );
+
+        orphans.forEach(function (item) {
+            const record = item.record || {};
+            const row = document.createElement("div");
+            row.className = "learner-orphan-annotation";
+            row.dataset.learner = "true";
+            row.dataset.orphanKind = item.kind;
+            if (record.id != null) {
+                row.dataset.orphanId = String(record.id);
+            }
+            if (record.element) {
+                row.dataset.orphanElement = record.element;
+            }
+            row.setAttribute("role", "status");
+
+            const kindLabel =
+                item.kind === "highlight"
+                    ? self.LABELS.orphanHighlightKind
+                    : self.LABELS.orphanNoteKind;
+            const preview =
+                item.kind === "highlight"
+                    ? (record.selector && record.selector.exact) || ""
+                    : record.text || "";
+
+            const kindEl = document.createElement("p");
+            kindEl.className = "orphan-anchor";
+            kindEl.textContent =
+                kindLabel +
+                (record.element ? " — " + record.element : "");
+            row.appendChild(kindEl);
+
+            if (preview) {
+                const body = document.createElement("p");
+                body.className = "orphan-annotation-preview";
+                body.textContent = preview;
+                row.appendChild(body);
+            }
+
+            panel.appendChild(row);
         });
 
         return panel;

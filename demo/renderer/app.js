@@ -26,37 +26,10 @@
         );
     }
 
-    // Probe the canonical build output first. Only if no manifest exists there does the renderer
-    // fall back to the superseded prototype folder — and it says so, rather than quietly serving
-    // stale content that looks like pipeline output.
+    // Probe the canonical build output first. Legacy activates only on true manifest absence
+    // (404). Invalid JSON, network and server errors stay explicit (RCC §6.7).
     async function loadChapterMetadata(chapterId) {
-        if (!chapterId) {
-            return null;
-        }
-
-        try {
-            return await renderer.fetchJson(config.resolveManifestPath(chapterId));
-        } catch (err) {
-            config.useLegacyContentRoot();
-            return null;
-        }
-    }
-
-    function buildTabsFromManifest(data) {
-        return (data.projections || [])
-            .slice()
-            .sort(function (a, b) {
-                return (a.order || 0) - (b.order || 0);
-            })
-            .map(function (p) {
-                return {
-                    id: p.id,
-                    label: config.projectionTabLabel(p),
-                    path: p.path,
-                    implemented: p.status === "published",
-                    projection: p,
-                };
-            });
+        return renderer.loadPublishedManifest(chapterId, config);
     }
 
     function announceLegacyContent() {
@@ -77,6 +50,9 @@
             el.className = "tab" + (index === 0 ? " active" : "");
             el.textContent = tab.label;
             el.dataset.index = String(index);
+            if (tab.availability) {
+                el.dataset.availability = tab.availability;
+            }
             el.addEventListener("click", function () {
                 showTab(index);
             });
@@ -98,6 +74,22 @@
             return;
         }
 
+        if (tab.availability === "known_absent") {
+            renderer.showMessage(
+                renderer.projectionAvailabilityMessage("known_absent", config),
+                { state: "known_absent" }
+            );
+            return;
+        }
+
+        if (tab.availability === "invalid") {
+            renderer.showMessage(
+                renderer.projectionAvailabilityMessage("invalid", config),
+                { state: "invalid" }
+            );
+            return;
+        }
+
         if (!tab.implemented) {
             renderer.showMessage(config.PLACEHOLDER_MESSAGE);
             return;
@@ -105,7 +97,10 @@
 
         const file = tab.path || tab.file;
         if (!file) {
-            renderer.showMessage(config.PLACEHOLDER_MESSAGE);
+            renderer.showMessage(
+                renderer.projectionAvailabilityMessage("invalid", config),
+                { state: "invalid" }
+            );
             return;
         }
 
@@ -132,9 +127,15 @@
                 renderer.injectHtml(renderer.wrapWithFooterNav(html));
             }
         } catch (err) {
-            if (err.status === 404) {
+            if (err.status === 404 || err.code === "not_found") {
                 renderer.showMessage(
-                    config.ERROR_MESSAGES.chapterNotFound + " (" + chapter + ")"
+                    renderer.projectionAvailabilityMessage("missing", config),
+                    { state: "missing" }
+                );
+            } else if (err.code === "invalid") {
+                renderer.showMessage(
+                    renderer.projectionAvailabilityMessage("invalid", config),
+                    { state: "invalid" }
                 );
             } else {
                 renderer.showMessage(config.ERROR_MESSAGES.loadFailed);
@@ -168,9 +169,15 @@
         renderer.init(contentEl, headerEls);
         chapter = getChapterFromUrl();
 
-        manifest = await loadChapterMetadata(chapter);
-        if (manifest) {
-            tabs = buildTabsFromManifest(manifest);
+        if (!chapter) {
+            renderer.showMessage(config.ERROR_MESSAGES.noChapter);
+            return;
+        }
+
+        const loaded = await loadChapterMetadata(chapter);
+        if (loaded.ok) {
+            manifest = loaded.manifest;
+            tabs = renderer.buildProjectionTabs(manifest, config);
             traceIndexUrl = manifest.trace_index
                 ? config.resolveAssetPath(chapter, manifest.trace_index)
                 : null;
@@ -179,9 +186,18 @@
                 chapterLine: manifest.chapterLine || manifest.chapter,
                 chapterTitle: manifest.title || manifest.chapter,
             });
-        } else {
+        } else if (loaded.useLegacy) {
+            config.useLegacyContentRoot();
             tabs = config.TABS.slice();
             announceLegacyContent();
+        } else {
+            tabs = [];
+            buildTabs();
+            renderer.showMessage(
+                renderer.manifestErrorMessage(loaded.reason, config),
+                { state: "manifest_" + loaded.reason }
+            );
+            return;
         }
 
         buildTabs();

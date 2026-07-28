@@ -654,6 +654,12 @@ mark.learner-highlight{
     font-size:12px;
 }
 
+.learner-orphan-annotation .orphan-annotation-preview{
+    margin:0 0 10px;
+    color:#3a3a3c;
+    font-size:14px;
+}
+
 .trace-panel{
     position:fixed;
     inset:0;

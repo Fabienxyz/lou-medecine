@@ -31,7 +31,7 @@ Décisions de gouvernance (ADR)
         ↓
 Contrats fondamentaux (docs/contracts/01–06)
         ↓
-Contrats composants (Tool 01/02 CONTRACT.md, futurs Tool 03–05)
+Contrats composants (docs/contracts/components/, Tool 01/02 CONTRACT.md, futurs Tool 03–05)
         ↓
 Documentation technique détaillée (IMPLEMENTATION_CONTRACT, VISUAL_GRAMMAR_CONTRACT, docs/renderer/, …)
         ↓
@@ -80,6 +80,12 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 | [`01-learning/tools/01-pdf-to-canonical/CONTRACT.md`](../../01-learning/tools/01-pdf-to-canonical/CONTRACT.md) | Gelé v1.0.0 |
 | [`01-learning/tools/02-chapter-splitter/CONTRACT.md`](../../01-learning/tools/02-chapter-splitter/CONTRACT.md) | Gelé v1.0.0 |
 
+**Contrats composants en vigueur** (`docs/contracts/components/` — index : [`components/00-INDEX.md`](components/00-INDEX.md)) :
+
+| Document | Responsabilité | Statut |
+|---|---|---|
+| [`RENDERER-COMPONENT-CONTRACT.md`](components/RENDERER-COMPONENT-CONTRACT.md) | Obligations durables du composant Renderer lecteur | En vigueur |
+
 ---
 
 ## 4. Règles de lecture
@@ -88,6 +94,7 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 |---|---|
 | **Contrat fondamental (01–06)** | Obligation durable de gouvernance : entrées, sorties, invariants, garanties |
 | **ADR** | Décision de gouvernance : contexte, choix, conséquences — pas un schéma de données |
+| **Contrat composant** | Spécialisation d'un composant (ex. Renderer) — subordonné aux ADR et contrats 01–06 |
 | **Contrat Tool** | Garanties entre composants d'un outil et l'aval |
 | **Documentation technique détaillée** | Profondeur d'implémentation, schémas, exemples — subordonnée aux contrats 01–06 pour les règles métier |
 | **Code / tests** | Implémentation et vérification ; en cas d'écart documenté, le contrat prime |
@@ -116,5 +123,9 @@ Pour savoir *si c'est implémenté* : lire le **code** et les **tests**.
 
 | Document | Usage |
 |---|---|
-| [ADR-001](../adr/ADR-001-freeze-svg-grammar-catalogue.md) · [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) · [ADR-003](../adr/ADR-003-single-source-of-truth.md) · [ADR-004](../adr/ADR-004-acquisition-architecture-frozen.md) | Gouvernance |
+| [ADR-001](../adr/ADR-001-freeze-svg-grammar-catalogue.md) · [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) · [ADR-003](../adr/ADR-003-single-source-of-truth.md) · [ADR-004](../adr/ADR-004-acquisition-architecture-frozen.md) · [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) | Gouvernance (index ADR) |
+| [`components/00-INDEX.md`](components/00-INDEX.md) | Index des contrats composants |
+| [`RENDERER-COMPONENT-CONTRACT.md`](components/RENDERER-COMPONENT-CONTRACT.md) | Contrat composant Renderer |
+| [`PHASE_0A_COMPLETION.md`](../governance/PHASE_0A_COMPLETION.md) | Clôture Phase 0A |
+| [`RENDERER_COMPLIANCE_COMPLETION.md`](../governance/RENDERER_COMPLIANCE_COMPLETION.md) | Clôture conformité Renderer |
 | [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md) | Inventaire et cartographie ayant motivé cette structure |

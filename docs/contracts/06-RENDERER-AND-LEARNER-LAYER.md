@@ -132,7 +132,7 @@ Si aucun manifest publiable n'existe pour un chapitre, le lecteur **avertit** ex
 
 ## 7. Couche apprenant — frontière commune
 
-Trois **mécanismes distincts** permettent à l'apprenant d'**approprier** l'explication sans la modifier ([`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) C.8–C.9 ; [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) §4). Ils **ne doivent pas** être fusionnés en un système générique d'édition ou d'annotation.
+Trois **mécanismes distincts** permettent à l'apprenant d'**approprier** l'explication sans la modifier ([`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) C.8 ; [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) — séparation des mécanismes ; [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) — ancrage des notes). Ils **ne doivent pas** être fusionnés en un système générique d'édition ou d'annotation.
 
 **Frontière commune — non négociable :**
 
@@ -160,19 +160,19 @@ Répond au comportement : *redessiner un mécanisme pour soi*.
 - **Disponibilité :** affordance sur **chaque** bloc, qu'un **visuel officiel** existe ou non ;
 - **Durabilité :** robuste aux changements du visuel officiel ([`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) C.8).
 
-### 8.2 Notes inline
+### 8.2 Notes de walkthrough (notes inline)
 
-Répond au comportement : *noter en marge à la frontière d'une unité de claim*.
+Répond au comportement : *noter au fil du texte officiel en lisant*.
 
-- **Ancre :** paire **(élément pédagogique, bloc de claim)** dans le **walkthrough** ;
+- **Ancre :** identifiant d'**élément pédagogique** déjà défini, plus **position de caret** dans le flux textuel officiel du **walkthrough** (**modèle CaretAnchor** — [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md)) ; **pas** la paire (élément, bloc de claim) ;
 - **Cardinalité :** zéro à n par walkthrough ;
-- **Durabilité :** survit tant que le bloc de claim persiste ; dégradation honnête sinon ([`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) C.9).
+- **Durabilité :** restauration tentée tant que le passage textuel officiel permet de résoudre l'ancre ; sinon **dégradation honnête** — artefact signalé comme non résolu / orphelin, **jamais** effacé silencieusement ([contrat 02](02-IDENTITY-AND-ANCHORS.md) §10.5 ; [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md)).
 
 ### 8.3 Surlignages et annotations textuelles
 
-Répond au comportement : *surligner, marquer ou noter une portion de texte en lisant* ([ADR-002](../adr/ADR-002-renderer-v2-architecture.md) §1–§4).
+Répond au comportement : *surligner, marquer ou noter une portion de texte en lisant* ([ADR-002](../adr/ADR-002-renderer-v2-architecture.md) ; [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md)).
 
-- **Ancre :** sélection textuelle **dans** le **walkthrough** officiel — mécanisme distinct des notes inline ;
+- **Ancre :** sélection textuelle **dans** le **walkthrough** officiel — mécanisme **distinct** des notes de walkthrough (§8.2) ;
 - **Nature :** surlignage, emphase visuelle ou courte note liée à la sélection ;
 - **Superposition :** overlay à l'affichage — le texte officiel **reste inchangé** en persistance ([`docs/renderer/06-ANNOTATION_SYSTEM.md`](../renderer/06-ANNOTATION_SYSTEM.md)).
 
@@ -225,10 +225,11 @@ Ce contrat **ne définit pas** :
 
 | Document | Apport consolidé |
 |---|---|
-| [`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) | Part B (frontière couche apprenant) ; C.7 (renderer, immutabilité, manifest-only, dégradation) ; C.8–C.9 (diagrammes personnels, notes inline) |
-| [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) | Immutabilité absolue ; troisième mécanisme (surlignages / annotations textuelles) ; séparation des trois mécanismes ; renderer consommateur read-only du package |
+| [`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) | Part B (frontière couche apprenant) ; C.7 (renderer, immutabilité, manifest-only, dégradation) ; C.8 (diagrammes personnels) — ancrage notes C.9 **supersedé** par [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) |
+| [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) | Immutabilité absolue ; séparation des mécanismes apprenant ; renderer consommateur read-only du package — §4 claim-block Inline Notes **supersedé** par ADR-005 pour l'ancrage des notes |
+| [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) | Ancrage des notes de walkthrough (CaretAnchor + élément pédagogique) ; distinction notes caret / sélection textuelle |
 | [`docs/renderer/02-PRODUCT_SPECIFICATION.md`](../renderer/02-PRODUCT_SPECIFICATION.md) | Invariant d'immutabilité ; modèle officiel / apprenant / affichage ; navigation par manifest ; états visuels ; dégradation |
-| [`docs/renderer/06-ANNOTATION_SYSTEM.md`](../renderer/06-ANNOTATION_SYSTEM.md) | Philosophie overlays ; distinction des trois mécanismes apprenant |
+| [`docs/renderer/06-ANNOTATION_SYSTEM.md`](../renderer/06-ANNOTATION_SYSTEM.md) | Philosophie overlays ; distinction des mécanismes apprenant — détail technique subordonné à ADR-005 / ce contrat |
 | [`docs/renderer/08-DATA_MODEL.md`](../renderer/08-DATA_MODEL.md) | Principes de séparation et d'ancrage — schémas d'implémentation non recopiés |
 | [`docs/renderer/12-NON_GOALS.md`](../renderer/12-NON_GOALS.md) | Limites permanentes du renderer |
-| [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md) | Périmètre contrat 06 ; F8 Renderer & lecteur ; frontière manifest-only ; intégration ADR-002 / C.8–C.9 |
+| [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md) | Périmètre contrat 06 ; F8 Renderer & lecteur ; frontière manifest-only — historique Phase 0A ; ancrage notes actualisé par ADR-005 |

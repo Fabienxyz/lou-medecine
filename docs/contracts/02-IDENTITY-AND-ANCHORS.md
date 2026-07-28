@@ -277,10 +277,10 @@ Les contenus strictement apprenant (non générés) **n'introduisent pas** d'esp
 | Mécanisme | Ancrage structurel |
 |---|---|
 | Diagramme personnel | Identifiant d'**élément pédagogique**. |
-| Note inline | Paire **(identifiant d'élément pédagogique, identifiant de bloc de claim)**. |
-| Surlignages / annotations textuelles | Ancrage dans le **walkthrough** officiel — mécanisme et règles : [contrat 06](06-RENDERER-AND-LEARNER-LAYER.md) §8.3. |
+| Note de walkthrough (notes inline) | Identifiant d'**élément pédagogique** déjà défini, plus position de caret dans le flux textuel officiel du **walkthrough** (**modèle CaretAnchor** — [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md)). **Pas** d'ancrage obligatoire au bloc de claim. |
+| Surlignages / annotations textuelles | Ancrage par **sélection textuelle** dans le **walkthrough** officiel — mécanisme distinct ; règles : [contrat 06](06-RENDERER-AND-LEARNER-LAYER.md) §8.3. |
 
-**Frontière :** règles de couche apprenant, immutabilité et affichage — [contrat 06](06-RENDERER-AND-LEARNER-LAYER.md). Ces références **ne participent pas** à la chaîne de traçabilité médicale (§9).
+**Frontière :** règles de couche apprenant, immutabilité et affichage — [contrat 06](06-RENDERER-AND-LEARNER-LAYER.md). Ces références **ne participent pas** à la chaîne de traçabilité médicale (§9). Le **bloc de claim** reste une unité de traçabilité officielle ; il n'est **pas** l'ancre structurelle des notes apprenant ([ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md)).
 
 ---
 
@@ -310,7 +310,8 @@ Ce contrat **ne définit pas** :
 
 | Document | Apport consolidé |
 |---|---|
-| [`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) | Part B (schéma d'identité, ancre, bloc de claim, chaîne de traçabilité, tampon de provenance, bloc pédagogique) ; Part D ; Part A.2 (quatre concepts, classifications d'édition, confiance, lignée, origine canonique sur KP) |
+| [`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) | Part B (schéma d'identité, ancre, bloc de claim, chaîne de traçabilité, tampon de provenance, bloc pédagogique) ; Part D ; Part A.2 (quatre concepts, classifications d'édition, confiance, lignée, origine canonique sur KP) — ancrage notes claim-block (C.9) **supersedé** pour la gouvernance par [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) |
+| [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) | Ancrage des notes de walkthrough : modèle CaretAnchor + élément pédagogique ; supersede ADR-002 §4 (claim-block Inline Notes) |
 | [`ADR-003`](../adr/ADR-003-single-source-of-truth.md) | SSOT appliqué aux ancres et autorités source |
 | [`ADR-004`](../adr/ADR-004-acquisition-architecture-frozen.md) | Modèle d'ancre `{ edition, section_path, quote }` (NP-5) ; modèle `section_path` |
 | [`SOURCE_OF_TRUTH.md`](../SOURCE_OF_TRUTH.md) | Règle SSOT sur ancres et manifests |

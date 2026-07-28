@@ -5,7 +5,7 @@
   "description": "Minimal build/validation tool for Lou Learning Companion vertical slices",
   "type": "module",
   "scripts": {
-    "test": "node --test --test-concurrency=1 --test-timeout=300000 test/*.test.js && node --import tsx --test --test-concurrency=1 --test-timeout=300000 test/pipeline-runner.test.ts test/pipeline-config.test.ts",
+    "test": "node --test --test-concurrency=1 --test-timeout=300000 test/*.test.js && node --import tsx --test --test-concurrency=1 --test-timeout=300000 test/pipeline-runner.test.ts test/pipeline-config.test.ts test/slice.test.ts",
     "typecheck": "tsc --noEmit",
     "validate": "tsx src/cli/build.ts validate",
     "build": "tsx src/cli/build.ts build"

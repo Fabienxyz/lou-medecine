@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { invalidatePublishableState } from "../lib/package.js";
 import { resolveChapterDir } from "../lib/paths.js";
 import { loadYamlFile, validateAllAnchors } from "../lib/anchors.js";
 import * as pathsModule from "../lib/paths.js";
@@ -10,13 +11,73 @@ import { validateInventory } from "../lib/inventory.js";
 import { parseBlueprint, validateBlueprint } from "../lib/blueprint.js";
 import { loadAllProjectionClaimsSync } from "../lib/claims.js";
 import { groundDeterministic, extractThresholdFromQuote } from "../lib/ground.js";
-import { runValidation, runBuild } from "../lib/package.js";
 import { reconcile } from "../lib/reconcile.js";
+import { createContext } from "../src/pipeline/context.js";
+import { BUILD_PIPELINE, VALIDATE_PIPELINE } from "../src/pipeline/pipeline.js";
+import { runPipeline, type RunReport } from "../src/pipeline/runner.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CHAPTER = resolveChapterDir(
   path.join(__dirname, "../../../01-learning/chapters/cardio/234")
 );
+
+function collectErrors(report: RunReport): string[] {
+  const errors: string[] = [];
+  for (const result of report.results.values()) {
+    if (!result.ok) errors.push(...result.errors);
+  }
+  return errors;
+}
+
+async function runTypedValidation(chapterDir: string) {
+  const ctx = createContext(chapterDir, "validate");
+  const report = await runPipeline(VALIDATE_PIPELINE, ctx);
+  const visualBuild = (ctx.workspace.visualBuild || {}) as {
+    withheld?: { elementId: string; state: string; reasons: string[] }[];
+    rendered?: unknown[];
+  };
+  return {
+    ok: report.ok,
+    errors: collectErrors(report),
+    steps: {
+      visuals: {
+        withheld: visualBuild.withheld || [],
+        rendered: visualBuild.rendered || [],
+      },
+    },
+  };
+}
+
+async function runTypedBuild(chapterDir: string) {
+  const paths = pathsModule.chapterPaths(chapterDir);
+  invalidatePublishableState(paths);
+  const ctx = createContext(chapterDir, "build");
+  const report = await runPipeline(BUILD_PIPELINE, ctx);
+  const packaging = report.results.get("packaging");
+  const packagingData = packaging?.data as
+    | {
+        manifest?: Record<string, unknown> & {
+          official_visuals?: { element: string; state: string; reasons?: string[] }[];
+          visuals?: { element: string }[];
+          projections?: { type: string; status: string }[];
+        };
+        withheldVisuals?: { elementId: string; state: string; reasons?: string[] }[];
+      }
+    | undefined;
+  const manifest = packagingData?.manifest;
+  const withheldVisuals =
+    packagingData?.withheldVisuals ||
+    (ctx.workspace.visualBuild as { withheld?: { elementId: string; state: string; reasons?: string[] }[] })
+      ?.withheld ||
+    [];
+  return {
+    ok: report.ok,
+    errors: collectErrors(report),
+    manifest,
+    withheldVisuals,
+    paths,
+  };
+}
 
 const RECONCILIATION_FIXTURE = `# OAP vertical slice — scoped reconciliation (NOT full Item 234 coverage)
 chapter: cardio/234
@@ -65,11 +126,11 @@ segments:
 
 const CANONICAL_PPC_THRESHOLD = "**PPC > 25 mmHg**";
 
-function canonicalMechanisms(text) {
+function canonicalMechanisms(text: string) {
   return text.replace(/\*\*PPC > \d+ mmHg\*\*/g, CANONICAL_PPC_THRESHOLD);
 }
 
-function canonicalBlueprint(text) {
+function canonicalBlueprint(text: string) {
   return text.replace(
     "visual_intent_removed: process-flow",
     "visual_intent: process-flow"
@@ -115,7 +176,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     reconciliation: path.join(CHAPTER, "build/reconciliation.yaml"),
   };
 
-  function restoreBaseline(name) {
+  function restoreBaseline(name: keyof typeof artifactPaths) {
     if (name === "inventory") {
       fs.writeFileSync(artifactPaths.inventory, BASELINE.inventory);
       assert.doesNotMatch(
@@ -241,14 +302,14 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     }
   });
 
-  test("after restore — full build passes", () => {
+  test("after restore — full build passes", async () => {
     restoreAllBaselines();
-    const result = runBuild(CHAPTER);
+    const result = await runTypedBuild(CHAPTER);
     assert.equal(result.ok, true, (result.errors || []).join("; "));
     assert.ok(fs.existsSync(path.join(CHAPTER, "manifest.json")));
   });
 
-  test("integration — real build path invalidates stale publication on >30 corruption", () => {
+  test("integration — real build path invalidates stale publication on >30 corruption", async () => {
     restoreAllBaselines();
     const paths = pathsModule.chapterPaths(CHAPTER);
     const mechPath = paths.mechanisms;
@@ -259,7 +320,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     try {
       assert.match(original, /> 25 mmHg/);
 
-      let result = runBuild(CHAPTER);
+      let result = await runTypedBuild(CHAPTER);
       assert.equal(result.ok, true, (result.errors || []).join("; "));
       assert.ok(
         fs.existsSync(manifestPath),
@@ -270,7 +331,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       assert.notEqual(corrupted, original);
       fs.writeFileSync(mechPath, corrupted);
 
-      result = runBuild(CHAPTER);
+      result = await runTypedBuild(CHAPTER);
       assert.equal(result.ok, false, "corrupted threshold build must fail");
       assert.equal(
         fs.existsSync(manifestPath),
@@ -288,7 +349,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
 
       fs.writeFileSync(mechPath, original);
 
-      result = runBuild(CHAPTER);
+      result = await runTypedBuild(CHAPTER);
       assert.equal(result.ok, true, (result.errors || []).join("; "));
       assert.ok(
         fs.existsSync(manifestPath),
@@ -365,7 +426,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
   // An Official Visual is optional pedagogical support, so a visual that cannot be produced is
   // reported and withheld — it never invalidates the Guided Walkthrough, which is the canonical
   // explanation (IMPLEMENTATION_CONTRACT.md C.6).
-  test("missing visual_intent withholds the visual and still validates", () => {
+  test("missing visual_intent withholds the visual and still validates", async () => {
     restoreBaseline("blueprint");
     const bpPath = artifactPaths.blueprint;
     const original = fs.readFileSync(bpPath, "utf8");
@@ -376,7 +437,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     assert.notEqual(corrupted, original);
     fs.writeFileSync(bpPath, corrupted);
     try {
-      const result = runValidation(CHAPTER, { skipSvg: true });
+      const result = await runTypedValidation(CHAPTER);
       assert.equal(result.ok, true);
       const withheld = result.steps.visuals.withheld;
       assert.equal(withheld.length, 1);
@@ -391,7 +452,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
 
   // The failure must remain fully visible: reported, stale asset removed, traceability and
   // validation results preserved, and the walkthrough still published.
-  test("an unrenderable Official Visual degrades the block instead of failing the build", () => {
+  test("an unrenderable Official Visual degrades the block instead of failing the build", async () => {
     restoreBaseline("blueprint");
     const bpPath = artifactPaths.blueprint;
     const original = fs.readFileSync(bpPath, "utf8");
@@ -404,7 +465,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     const figure = path.join(CHAPTER, "figures", "mec-oap.svg");
     try {
       fs.rmSync(figure, { force: true });
-      const result = runBuild(CHAPTER);
+      const result = await runTypedBuild(CHAPTER);
 
       assert.equal(result.ok, true);
       assert.equal(fs.existsSync(figure), false);
@@ -412,12 +473,12 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       assert.equal(result.withheldVisuals[0].elementId, "MEC-oap");
       assert.equal(result.withheldVisuals[0].state, "withheld");
 
-      const availability = result.manifest.official_visuals.find(
+      const availability = result.manifest!.official_visuals!.find(
         (v) => v.element === "MEC-oap"
       );
-      assert.equal(availability.state, "withheld");
-      assert.ok(availability.reasons.length > 0);
-      assert.equal(result.manifest.visuals.length, 0);
+      assert.equal(availability!.state, "withheld");
+      assert.ok(availability!.reasons!.length > 0);
+      assert.equal(result.manifest!.visuals!.length, 0);
 
       // Traceability and grounding results survive the withheld visual.
       const chapterPaths = pathsModule.chapterPaths(CHAPTER);
@@ -426,13 +487,13 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
         fs.readFileSync(chapterPaths.grounding, "utf8"),
         /^status: pass/m
       );
-      const mechanisms = result.manifest.projections.find(
+      const mechanisms = result.manifest!.projections!.find(
         (p) => p.type === "understanding.mechanisms"
       );
-      assert.equal(mechanisms.status, "published");
+      assert.equal(mechanisms!.status, "published");
     } finally {
       restoreBaseline("blueprint");
-      runBuild(CHAPTER);
+      await runTypedBuild(CHAPTER);
     }
   });
 
@@ -498,17 +559,17 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     assert.ok(overviewClaim.kp.includes("KP-042"));
   });
 
-  test("manifest assembly uses projections.yaml registry", () => {
+  test("manifest assembly uses projections.yaml registry", async () => {
     restoreAllBaselines();
 
-    const result = runBuild(CHAPTER);
+    const result = await runTypedBuild(CHAPTER);
     assert.equal(result.ok, true, (result.errors || []).join("; "));
     const manifest = JSON.parse(
       fs.readFileSync(path.join(CHAPTER, "manifest.json"), "utf8")
     );
     assert.equal(manifest.projections.length, 4);
     assert.deepEqual(
-      manifest.projections.map((p) => p.id),
+      manifest.projections.map((p: { id: string }) => p.id),
       ["story", "overview", "mechanisms", "clinical-reasoning"]
     );
     assert.equal(manifest.visuals.length, 1);

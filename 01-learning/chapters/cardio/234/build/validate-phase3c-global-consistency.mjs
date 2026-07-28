@@ -15,7 +15,7 @@ const REPO = path.resolve(__dirname, "../../../../../");
 const CHAPTER = path.resolve(__dirname, "..");
 const SOURCE = path.join(
   REPO,
-  "01-learning/chapter-analysis/cardio/234-insuffisance-cardiaque/official-college.md"
+  "01-learning/full-edn/cardiology/edition-2022/chapters/item-234-insuffisance-cardiaque-de-ladulte.md"
 );
 
 const FROZEN = ["KP-040", "KP-041", "KP-042"];

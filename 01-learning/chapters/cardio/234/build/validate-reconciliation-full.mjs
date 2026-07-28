@@ -37,7 +37,7 @@ function main() {
   const invIds = new Set(inv.kps.map((k) => k.id));
 
   if (recon.chapter !== "cardio/234") errors.push("chapter mismatch");
-  if (recon.edition !== "2024-SFC") errors.push("edition mismatch");
+  if (recon.edition !== "2022") errors.push("edition mismatch");
   if (recon.scope !== "full-chapter") errors.push("scope must be full-chapter");
   if (recon.methodology !== "independent-source-to-inventory-v1") {
     errors.push("methodology mismatch");

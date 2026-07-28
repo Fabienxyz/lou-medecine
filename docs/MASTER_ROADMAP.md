@@ -1,7 +1,7 @@
 # Lou Médecine — Master Roadmap
 
 Document de pilotage officiel du projet.  
-**Dernière mise à jour :** 2026-07-27
+**Dernière mise à jour :** 2026-07-28
 
 Ce document est la **référence officielle pour le pilotage** du projet. Il définit les objectifs, le séquencement, les priorités et les critères de réussite.
 
@@ -69,7 +69,7 @@ Toute proposition qui entre dans ces catégories est **hors roadmap**, même si 
 
 3. **Réduction du temps humain par chapitre.** Lou et le propriétaire jugent la clarté, la charge cognitive et l'utilité — jamais la correction médicale. Le pipeline ne doit pas attendre une validation humaine du fond.
 
-4. **Priorité aux traitements déterministes.** PDF → canonique, segmentation, validation, rendu SVG, règles de grounding : autant que possible, sans LLM.
+4. **Priorité aux traitements déterministes.** PDF officiel → Markdown source (Tool 01) → chapitres (Tool 02), puis segmentation, validation, rendu SVG, règles de grounding : autant que possible, sans LLM. Chaîne officielle gelée : [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md), [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md).
 
 5. **LLM au strict nécessaire.** Le projet privilégie systématiquement les traitements déterministes et limite l'utilisation des LLM au strict nécessaire. Détail opérationnel : [`LLM_STRATEGY.md`](LLM_STRATEGY.md).
 
@@ -78,6 +78,8 @@ Toute proposition qui entre dans ces catégories est **hors roadmap**, même si 
 7. **Séparation stricte officiel / généré.** Le contenu officiel et le contenu produit par Lou Médecine sont visuellement et structurellement distincts. Lou doit toujours savoir ce qui vient du Collège et ce qui est une interprétation pédagogique.
 
 8. **Ordre d'irréversibilité.** Les décisions coûteuses à changer sont prises tôt (modèle d'ancre, schéma d'Inventory). Le reste reste évolutif.
+
+9. **Single Source of Truth.** Pour une même donnée métier, une seule source officielle. Voir [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md).
 
 ---
 
@@ -88,6 +90,7 @@ Ces règles ne se négocient pas entre les phases.
 | Invariant | Règle |
 |---|---|
 | Source de vérité | Le Collège officiel est la seule source de vérité médicale. |
+| SSOT acquisition | **Une seule chaîne officielle** : PDF → Tool 01 → Markdown source → Tool 02 → chapitres. Aucune duplication ne devient une seconde autorité. Voir [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md). |
 | Artefacts générés | **Aucune modification manuelle** d'un artefact produit par le pipeline. |
 | Décision humaine | Une décision humaine est une **entrée** du pipeline (`chapter.package.yaml`), jamais une retouche de sa **sortie**. Elle doit être versionnée, rejouable, justifiée et comptabilisée. |
 | Build reproductible | Le build est une fonction pure de ses entrées versionnées (voir § Tableau de bord). |
@@ -111,36 +114,133 @@ Si une **même classe d'exception** se répète sur plusieurs chapitres, c'est u
 
 ## 5. Vue d'ensemble
 
-| Phase | Objectif | Risque retiré | Principal livrable |
+| Phase | Statut | Objectif | Principal livrable |
 |---|---|---|---|
-| **0B** | Fidélité du Collège | Source canonique fausse ou incomplète | Collège cardio canonique vérifié (Rang, figures, tableaux) |
-| **0A** | Contrats fondamentaux | Modèle de données irréversible mal posé | Ancres, IDs, CI, build reproductible, V2 câblé |
-| **1 — Le Lecteur** | Utilité produit immédiate | Produit inutilisable avant la génération | Renderer du Collège cardio complet (contenu officiel seul) |
-| **2 — La Fabrique** | Pipeline exécutable | Pipeline = transcription manuelle | Runtime LLM + 3 chapitres tests (330, 232, 233) |
-| **3 — Cardio V1** | Échelle cardio | Coût et effort humain inconnus | Collège cardio complet avec couche de compréhension |
-| **4 — L'Épreuve** | Validation pédagogique | Méthode non généralisable | Décision écrite : poursuivre / ajuster / modifier |
-| **5 — L'Échelle** | Portabilité multi-collèges | Tool 01 non portable | 2ᵉ collège + production EDN |
-| **6 — Régime permanent** | Maintenance | Obsolescence et coût récurrent | Mises à jour d'édition incrémentales, maîtrise si validée |
+| **0 — Architecture & Acquisition** | ✅ **Terminée** | Fondations : gouvernance, SSOT, acquisition qualifiée et gelée | Chaîne FIL B + ADR-004 |
+| **1 — Industrialisation** | **Active** | Produire les artefacts métier à l'échelle | Collège cardio complet + pipeline automatisé |
+| **2 — Validation pédagogique** | À venir | Prouver que la méthode enseigne mieux | Décision écrite Phase 4 |
+| **3 — Échelle EDN** | À venir | Multi-collèges | Production EDN |
+| **4 — Régime permanent** | À venir | Maintenance éditions | Système auto-maintenu |
 
-**Chemin critique :** 0B → Phase 1 (en parallèle de 0A) → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6.
+**Chemin critique actuel :** Phase 1 (Industrialisation) → Phase 2 → Phase 3 → Phase 4.
+
+> **Changement de cap (2026-07-28).** La R&D acquisition est **clôturée** ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md)). Le projet ne travaille plus sur les fondations d'acquisition mais sur leur **industrialisation**. Détail opérationnel : [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 ---
 
 ## 6. Les phases
 
+### Phase 0 — Architecture & Acquisition ✅ TERMINÉE
+
+**Objectif.** Établir et valider les fondations immuables du projet : gouvernance, source de vérité, pipeline d'acquisition, qualification et gel architectural.
+
+**Statut.** **Terminée** — 2026-07-28. Référence historique : [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md).
+
+| Jalon | Statut | Référence |
+|---|---|---|
+| Gouvernance projet | ✅ | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md) |
+| Single Source of Truth (FIL B) | ✅ | [ADR-003](adr/ADR-003-single-source-of-truth.md), [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) |
+| Tool 01 v1.0.0 qualifié | ✅ | [`qualification-report-tool01-p1.md`](acquisition/qualification-report-tool01-p1.md) |
+| Tool 02 v1.0.0 qualifié | ✅ | Manifest Tool 02, 22 chapitres |
+| Phase P — qualification P1–P7 | ✅ | [`qualification-report-acquisition-final.md`](acquisition/qualification-report-acquisition-final.md) |
+| Phase 0B — dérivation Collège | ✅ | [`qualification-report-phase-0b.md`](acquisition/qualification-report-phase-0b.md) |
+| Double vertical slice (234 + 330) | ✅ | Migration 234 FIL B ; package 330 FIL B |
+| Architecture Frozen | ✅ | [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) |
+
+**Mode maintenance.** La couche acquisition est **gelée**. Évolutions limitées aux cas ADR-004 § 6 (bug bloquant, nouveau format source, nouvel ADR).
+
+**⛔ Gel acté — ADR-004**
+
+> Tool 01 v1.0.0 · Tool 02 v1.0.0 · FIL B · modèle d'ancres · grille P1–P7 — **socle officiel immuable**.
+
+---
+
+### Phase 1 — Industrialisation *(phase active)*
+
+**Objectif.** Transformer le prototype validé en chaîne capable de produire l'ensemble des chapitres EDN — sans retravailler l'acquisition.
+
+**Pourquoi.** Les fondations sont stables ; le goulot d'étranglement est désormais la **production industrielle** des artefacts métier (Inventory, Blueprint, projections, Renderer) à partir du chapter package FIL B.
+
+**Grands chantiers.**
+
+| Chantier | Objectif | État |
+|---|---|---|
+| **Inventory Factory** | Extraction, réconciliation et validation Inventory reproductibles par chapitre | 2/22 chapitres (234, 330) |
+| **Blueprint Factory** | Génération et validation Blueprint à partir de l'Inventory | 2/22 chapitres |
+| **Projection Factory** | Projections pédagogiques ancrées, grounding automatisé | 2/22 chapitres |
+| **Renderer Production** | Lecteur multi-chapitres, `library.json`, contenu officiel + compréhension | Prototype Item 234 |
+| **EDN Scale-out** | Collège cardio complet → 2ᵉ collège → production EDN | Non démarré |
+
+Feuille de route détaillée : [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
+
+**Critères de sortie Phase 1.**
+
+- 22 chapitres cardio packagés — `lou-build validate` PASS sur FIL B.
+- Pipeline sémantique exécutable sans transcription manuelle systématique.
+- Lecteur opérationnel pour le Collège cardio complet.
+- Effort humain et coût LLM **mesurés** par chapitre — [`PROJECT_STATE.md`](PROJECT_STATE.md).
+
+**Ne pas faire.** Rouvrir la R&D acquisition ; optimiser Tool 01/02 sans bug bloquant ADR-004 ; retoucher le Markdown source à la main.
+
+---
+
+### Détail historique — sous-phases d'industrialisation
+
+Les sections ci-dessous conservent le **détail opérationnel** des chantiers prévus avant la restructuration Phase 0/1. Elles restent valides comme sous-chantiers de la **Phase 1 — Industrialisation**.
+
+---
+
+### Phase P — Qualification du pipeline d'acquisition ✅ *(composante Phase 0 — terminée)*
+
+> **Statut :** terminée — 2026-07-28. Verdict **GO**. Ce bloc est conservé comme référence historique.
+
+**Objectif.** Valider que la chaîne FIL B produit un Markdown source **suffisant pour les artefacts métier** (Inventory, Blueprint, projections, Renderer) — **pas** une reproduction parfaite du PDF.
+
+**Pourquoi.** Le Markdown est un artefact intermédiaire. Qualifier la ressemblance PDF avant de prouver que Inventory et Blueprint peuvent être générés gaspille l'effort. Le format source (PDF aujourd'hui, autre demain) doit être choisi et gelé avant la Phase 0. Débloque la Phase 0.
+
+**Hors périmètre.** La Phase P ne fait **pas partie du pipeline médical Lou**. Elle ne produit ni Inventory, ni Blueprint, ni Projections. Elle ne qualifie pas un LLM — elle qualifie un pipeline reproductible, déterministe et versionné.
+
+**Pipeline cible (chaîne officielle FIL B).**
+
+```
+PDF officiel → Tool 01 → Markdown source → Tool 02 → Chapitres → Pipeline Lou
+```
+
+Détail et emplacements : [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md).
+
+La Phase P qualifie l'étage **d'acquisition** (aujourd'hui Tool 01 pour le PDF). Elle est réalisée **une seule fois par type de source** (ex. PDF éditeur X, DOCX éditeur X), puis appliquée industriellement à l'ensemble des chapitres.
+
+**Livrables.**
+
+- Inventaire des formats disponibles pour le collège pilote.
+- Analyse comparative et choix du format source primaire ([`SOURCE_FORMAT_COMPARATIVE.md`](SOURCE_FORMAT_COMPARATIVE.md)).
+- Pipeline d'acquisition versionné, exécutable en une commande.
+- Dossier [`docs/acquisition/`](acquisition/) : `pipeline.md`, `benchmark.md`, `qualification-report.md`.
+- Markdown source du collège cardio produit par le pipeline qualifié.
+
+**Critères de sortie.** Voir [`SOURCE_PIPELINE_QUALIFICATION.md`](SOURCE_PIPELINE_QUALIFICATION.md) — question directrice (suffisance aval), critères **P1–P7**, décision GO/NO GO.
+
+**⛔ Gel — fin de Phase P**
+
+> **Le pipeline d'acquisition est figé par type de source.** Toute modification de logique d'extraction incrémente la version. Le Markdown source est un artefact dérivé — jamais retouché à la main.
+
+**Ne pas faire.** Qualifier un LLM comme producteur de Markdown source ; étendre le pipeline PDF sans avoir vérifié les formats structurés disponibles ; commencer 0B sur une source non qualifiée ; retoucher le Markdown source ou les chapitres produits ; utiliser le FIL A legacy ([`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md)) ; **optimiser Tool 01 pour la reproduction PDF sans impact démontré sur les artefacts aval**.
+
+---
+
 ### Phase 0 — Le Socle
 
 Deux chantiers séquencés différemment parce qu'ils débloquent des phases différentes.
 
-#### 0B — Fidélité du Collège *(en premier)*
+#### 0B — Fidélité du Collège ✅ *(qualification acquisition — terminée)* · enrichissements canoniques — à venir
 
 **Objectif.** Rendre la couche canonique **vraie** et vérifiable.
 
-**Pourquoi.** Sans source fidèle, toute la traçabilité garantit la fidélité à une source corrompue. Débloque la Phase 1.
+**Pourquoi.** Sans Markdown source **suffisant pour les artefacts aval** (FIL B), toute la traçabilité garantit la fidélité à une entrée inutilisable. Débloque la Phase 1. S'appuie sur Tool 01 et Tool 02 après qualification Phase P (grille P1–P7).
 
 **Livrables.**
 
-- Récupération du Rang A/B (pastilles raster du PDF → colonne de hiérarchisation).
+- Récupération du Rang A/B (pastilles ou marqueurs de hiérarchisation → colonne de rang).
 - Extraction des figures (`Fig. N` → fichiers image référencés).
 - Validation bloquante des tableaux et des en-têtes (Tool 01).
 - Rapport d'intégrité sur le Collège cardio.
@@ -152,7 +252,7 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 - Toutes les références de figures résolues vers un fichier image.
 - Rapport d'intégrité publié — détail des métriques dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
-**Ne pas faire.** Réécrire Tool 01 ; viser l'OCR ; commencer le contenu généré du chapitre 2.
+**Ne pas faire.** Réécrire le pipeline d'acquisition (Phase P) ; viser l'OCR ; commencer le contenu généré du chapitre 2.
 
 ---
 
@@ -183,7 +283,9 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 ---
 
-### Phase 1 — Le Lecteur
+### Phase 1 (historique) — Le Lecteur → *Renderer Production*
+
+> **Remapping Phase 1 Industrialisation :** ce chantier correspond au pilier **Renderer Production**.
 
 **Objectif.** Donner à Lou un lecteur du Collège de cardiologie **meilleur que le PDF**, sans une ligne générée par LLM.
 
@@ -205,7 +307,9 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 ---
 
-### Phase 2 — La Fabrique
+### Phase 2 (historique) — La Fabrique → *Inventory / Blueprint / Projection Factory*
+
+> **Remapping Phase 1 Industrialisation :** ce chantier correspond aux piliers **Inventory Factory**, **Blueprint Factory** et **Projection Factory**.
 
 **Objectif.** Transformer le pipeline sémantique en **code exécutable, reproductible et instrumenté**. Le prouver sur 330, 232, 233.
 
@@ -237,7 +341,9 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 ---
 
-### Phase 3 — Cardio V1
+### Phase 3 (historique) — Cardio V1 → *EDN Scale-out (cardio)*
+
+> **Remapping Phase 1 Industrialisation :** ce chantier correspond au pilier **EDN Scale-out** (périmètre cardio).
 
 **Objectif.** Produire le Collège de cardiologie complet avec couche de compréhension, industriellement.
 
@@ -263,7 +369,9 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 ---
 
-### Phase 4 — L'Épreuve
+### Phase 4 (historique) — L'Épreuve → *Phase 2 roadmap*
+
+> **Remapping :** devient **Phase 2 — Validation pédagogique** dans la vue d'ensemble § 5.
 
 **Objectif.** Répondre : **la méthode enseigne-t-elle réellement mieux ?**
 
@@ -277,11 +385,13 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 ---
 
-### Phase 5 — L'Échelle
+### Phase 5 (historique) — L'Échelle → *EDN Scale-out (multi-collèges)*
+
+> **Remapping :** extension du pilier **EDN Scale-out** ; devient **Phase 3 — Échelle EDN** dans la vue d'ensemble § 5.
 
 **Objectif.** Prouver la portabilité hors cardio ; produire l'ensemble des collèges EDN.
 
-**Pourquoi.** Tool 01 n'a vu qu'un seul PDF ; les autres collèges ont d'autres mises en page et d'autres archétypes de connaissance.
+**Pourquoi.** Le pipeline d'acquisition n'a été qualifié que pour un format et un collège ; les autres collèges ont d'autres mises en page, parfois d'autres formats source, et d'autres archétypes de connaissance.
 
 **Livrables.**
 
@@ -302,7 +412,9 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 ---
 
-### Phase 6 — Régime permanent
+### Phase 6 (historique) — Régime permanent → *Phase 4 roadmap*
+
+> **Remapping :** devient **Phase 4 — Régime permanent** dans la vue d'ensemble § 5.
 
 **Objectif.** Le projet cesse d'être un projet ; il devient un système auto-maintenu.
 
@@ -367,6 +479,13 @@ Si la réponse est non, la décision attend.
 |---|---|
 | [`PROJECT_STATE.md`](PROJECT_STATE.md) | État courant, métriques, risques — **document vivant** |
 | [`LLM_STRATEGY.md`](LLM_STRATEGY.md) | Usage des modèles — **stratégie évolutive** |
+| [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) | Chaîne officielle FIL B, SSOT, statut FIL A legacy |
+| [`adr/ADR-004-acquisition-architecture-frozen.md`](adr/ADR-004-acquisition-architecture-frozen.md) | Gel architecture acquisition — fin R&D |
+| [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) | Jalon historique sortie R&D acquisition |
+| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route Phase 1 Industrialisation |
+| [`SOURCE_PIPELINE_QUALIFICATION.md`](SOURCE_PIPELINE_QUALIFICATION.md) | Grille P1–P7 (Phase P clôturée) |
+| [`SOURCE_FORMAT_COMPARATIVE.md`](SOURCE_FORMAT_COMPARATIVE.md) | Analyse comparative des formats source EDN |
+| [`acquisition/`](acquisition/) | Dossier de qualification rejouable — produit en Phase P |
 | `IMPLEMENTATION_CONTRACT.md` | Contrat d'implémentation détaillé |
 | `FINAL_ARCHITECTURE.md` | Architecture de référence |
 | `VISUAL_GRAMMAR_CONTRACT.md` | Contrat visuel normatif |

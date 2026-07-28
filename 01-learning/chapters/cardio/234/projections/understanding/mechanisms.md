@@ -13,7 +13,7 @@ projects:
   - MEC-oap
   - CONF-transsudat-exsudat
 provenance:
-  source_edition: 2024-SFC
+  source_edition: 2022
   blueprint_revision: phase-4-blueprint
   methodology_version: phase-5-v1
 ---

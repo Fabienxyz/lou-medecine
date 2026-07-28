@@ -1,0 +1,57 @@
+# Item 330 — full-chapter reconciliation (antithrombotic pipeline)
+chapter: cardio/330
+reconciliation_scope: antithrombotic pipeline — antiplatelet agents → heparins → oral anticoagulants (AVK and AOD) → fibrinolytics → anticoagulant accidents (bleeding, TIH, overdose management)
+
+required_segment_ids:
+  - seg-I
+  - seg-II
+  - seg-III
+  - seg-IV
+  - seg-V
+  - seg-VI
+
+methodology: bootstrap-cursor-v1
+status: pass
+
+segments:
+  - id: seg-I
+    label: Antiplatelet agents (aspirin, P2Y12, GPIIb/IIIa)
+    source_lines: "48-177"
+    section_path: "I. Antiagrégants plaquettaires"
+    disposition: represented
+    kp: [KP-003, KP-004, KP-010, KP-012, KP-014, KP-016]
+
+  - id: seg-II
+    label: Heparins and heparinoids (mechanism, posology, surveillance)
+    source_lines: "179-262"
+    section_path: "II. Héparines et héparinoïdes"
+    disposition: represented
+    kp: [KP-017, KP-018, KP-019, KP-021, KP-022, KP-023]
+
+  - id: seg-III
+    label: Vitamin K antagonists (relay, INR, posology)
+    source_lines: "264-412"
+    section_path: "III. Antivitamines K"
+    disposition: represented
+    kp: [KP-027, KP-028, KP-029, KP-030, KP-032, KP-033]
+
+  - id: seg-IV
+    label: Direct oral anticoagulants (properties, posology, CI)
+    source_lines: "414-491"
+    section_path: "IV. Anticoagulants oraux directs"
+    disposition: represented
+    kp: [KP-034, KP-035, KP-036, KP-037, KP-039, KP-040]
+
+  - id: seg-V
+    label: Fibrinolytics (indications, CI, surveillance)
+    source_lines: "493-532"
+    section_path: "V. Thrombolytiques"
+    disposition: represented
+    kp: [KP-041, KP-042, KP-043, KP-044]
+
+  - id: seg-VI
+    label: Anticoagulant accidents (bleeding, TIH, overdose)
+    source_lines: "534-774"
+    section_path: "VI. Accidents des anticoagulants"
+    disposition: represented
+    kp: [KP-045, KP-046, KP-047, KP-048, KP-049, KP-050, KP-051]

@@ -3,7 +3,10 @@ import YAML from "yaml";
 
 /** Collapse whitespace for resilient matching across line wraps in the College source. */
 export function normalizeWhitespace(text) {
-  return text.replace(/\s+/g, " ").trim();
+  return text
+    .replace(/^>\s?/gm, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export function loadYamlFile(filePath) {

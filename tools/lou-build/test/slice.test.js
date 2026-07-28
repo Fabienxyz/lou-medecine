@@ -171,7 +171,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     resetChapterFixtures();
   });
 
-  test("anchor validation — all slice KPs resolve in 2024-SFC source", () => {
+  test("anchor validation — all slice KPs resolve in 2022 FIL B source", () => {
     const paths = pathsModule.chapterPaths(CHAPTER);
     const sourceMeta = loadYamlFile(paths.sourceMeta);
     sourceMeta._path = paths.sourceMeta;

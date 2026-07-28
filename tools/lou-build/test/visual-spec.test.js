@@ -343,7 +343,7 @@ test("visualSpec semantic units flow through the existing traceability assembler
   const units = visualSpecClaimUnits(spec);
   assert.equal(units.length, spec.nodes.length + spec.edges.length);
 
-  const trace = assembleTraceability(units, inventory, { edition: "2024-SFC" });
+  const trace = assembleTraceability(units, inventory, { edition: 2022 });
 
   const nodeClaim = trace["cb-vis-mm-pump-decompensation-n-pump-failure"];
   assert.ok(nodeClaim, "node claim missing from traceability index");

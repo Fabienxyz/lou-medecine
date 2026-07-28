@@ -1,0 +1,654 @@
+chapter: cardio/330
+source_edition: 2022
+inventory_scope: full-chapter
+revision: initial-v1
+note: Full-chapter inventory for Item 330 antithrombotic classes I–VI (FIL B edition 2022).
+kps:
+  - id: KP-001
+    label: "Schéma des trois familles antithrombotiques : antiplaquettaires, anticoagulants, fibrinolytiques"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "Hiérarchisation des connaissances"
+        quote: "les agents antiplaquettaires qui agissent sur l’hémostase primaire"
+      - edition: 2022
+        section_path: "Hiérarchisation des connaissances"
+        quote: "les anticoagulants qui agissent sur la phase de la coagulation"
+      - edition: 2022
+        section_path: "Hiérarchisation des connaissances"
+        quote: "les fibrinolytiques qui agissent en activant la fibrinolyse"
+  - id: KP-002
+    label: "Le traitement antithrombotique est un atout majeur en maladie athérothrombotique et MTEV"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "Hiérarchisation des connaissances"
+        quote: "Le traitement antithrombotique est un atout majeur dans la prise en charge de la maladie athérothrombotique et dans la maladie thromboembolique veineuse"
+  - id: KP-003
+    label: "Aspirine : inhibition Cox → ↓ thromboxane A2 ; effet plaquettaire irréversible (7–10 j)"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "L’aspirine agit en inhibant la cyclo-oxygénase"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "Elle diminue le taux de thromboxane A2 qui est proagrégant"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "Son effet sur la plaquette est irréversible et va durer toute la vie de la plaquette (7–10 jours)"
+  - id: KP-004
+    label: "Posologie aspirine : entretien 75–100 mg/j ; charge 250–300 mg ; neurologie 160 mg/j après AVC"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "la dose de 75 mg est la plus utilisée"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "Une dose de 300 mg est le plus souvent nécessaire en dose d’attaque"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "La dose la plus souvent utilisée pour la prise en charge de la maladie coronarienne et de l\u2019artériopathie des membres inférieurs est de 75–100 mg/j"
+  - id: KP-005
+    label: "Indications aspirine : prévention secondaire coronaropathie/AVC/artériopathie à vie ; primaire discutée"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "en prévention secondaire de la coronaropathie, de l’artériopathie des membres inférieurs, des AVC. C’est un traitement à vie"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "en prévention primaire de la coronaropathie et des AVC chez les sujets à haut risque vasculaire. Cette indication est de plus en plus discutée"
+  - id: KP-006
+    label: "Pas de test biologique fiable en routine pour surveiller l'efficacité de l'aspirine"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "Il n’existe pas de test biologique fiable et utilisable en routine pour surveiller l’efficacité de l’aspirine"
+  - id: KP-007
+    label: "Effets indésirables aspirine : saignements, intolérances gastriques ; syndrome de Widal rare"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "Ils sont représentés par les saignements et les intolérances gastriques"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "Le syndrome de Widal associe asthme, polypose nasale et allergie à l’aspirine"
+  - id: KP-008
+    label: "Après stent : retarder actes invasifs 6 semaines (stent nu) ou 3–6 mois (stent actif)"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "Après implantation d’un stent coronarien, il faut retarder au minimum de 6 semaines (en cas de stent nu) et de 3–6 mois (en cas de stent actif) tout acte invasif non urgent à risque hémorragique"
+  - id: KP-009
+    label: "Risque hémorragique important : arrêt aspirine le plus bref possible (5 jours)"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > A Aspirine"
+        quote: "l’aspirine ne doit être arrêtée que sur une courte durée : 5 jours et reprise le plus tôt possible après l’acte"
+  - id: KP-010
+    label: "Thiénopyridines/ticagrélor : blocage récepteur P2Y12 voie ADP, additif à l'aspirine"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "agit en bloquant la voie de l’ADP"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "par blocage d’un récepteur plaquettaire appelé P2Y12"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Les effets des médicaments de cette classe sont additifs à ceux de l’aspirine"
+  - id: KP-011
+    label: "Clopidogrel prodrogue CYP2C19 : 15–25 % mauvais métaboliseurs ; ticlopidine abandonnée (agranulocytose)"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Il s’agit d’une prodrogue. C’est son métabolite qui est actif"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Chez 15 à 25 % des patients, le métabolisme du clopidogrel se fait mal"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "effets indésirables hématologiques graves (agranulocytose)"
+  - id: KP-012
+    label: "Posologies P2Y12 : clopidogrel 300–600 mg charge puis 75 mg/j ; prasugrel 60 mg puis 10 mg/j ; ticagrélor 180 mg puis 90 mg ×2"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Le clopidogrel est donné à une dose de charge de 300 à 600 mg"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "posologies quotidiennes de 75 mg en 1 prise/j"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Le prasugrel est donné à une dose de charge de 60 mg/j puis à 10 mg/j"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Le ticagrélor est prescrit à 180 mg en dose de charge puis en 2 prises/j à 90 mg matin et soir"
+  - id: KP-013
+    label: "Prasugrel CI absolue ATCD AVC ; CI relative <60 kg et >75 ans ; ticagrélor dyspnée jusqu'à 18 %"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Le prasugrel expose à un risque hémorragique cérébral qui le contre-indique chez les sujets ayant des ATCD d’accident cérébral"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Les sujets de moins de 60 kg et ceux de plus de 75 ans"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "dyspnée gênante (jusqu’à 18 % des patients) et de bradycardie"
+  - id: KP-014
+    label: "Double antiagrégation SCA : aspirine + P2Y12 classiquement 12 mois, modulée par risque hémorragique"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "clopidogrel, prasugrel ou ticagrélor sont associés à l’aspirine pendant une durée classiquement de 12 mois"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Plus le risque hémorragique est élevé, plus la durée de la double antiagrégation est réduite"
+  - id: KP-015
+    label: "Pas de test biologique fiable en routine pour thiénopyridines/ticagrélor"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+        quote: "Il n’existe pas de test biologique fiable utilisable en routine pour surveiller l’efficacité des thiénopyridines ou du ticagrélor"
+  - id: KP-016
+    label: "Anti-GPIIb/IIIa : blocage récepteur fibrinogène, voie IV courte, salle d'angioplastie à haut risque"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > C Anti-GPIIb/IIIa"
+        quote: "La glycoprotéine IIb/IIIa est un récepteur de la plaquette qui permet son adhésion au fibrinogène"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > C Anti-GPIIb/IIIa"
+        quote: "Ces traitements efficaces ne sont utilisés que par voie veineuse sur de très courtes périodes"
+      - edition: 2022
+        section_path: "I. Antiagrégants plaquettaires > C Anti-GPIIb/IIIa"
+        quote: "en salle d’angioplastie lors des dilatations coronariennes à haut risque de thrombose"
+  - id: KP-017
+    label: "Classification héparines : HNF, HBPM (énoxaparine, nadroparine…), fondaparinux, danaparoïde, bivalirudine"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "l’héparine standard non fractionnée (HNF)"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "les héparines de bas poids moléculaire (HBPM)"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "des « apparentés » comme le fondaparinux (Arixtra®), le danaparoïde (Orgaran®) ou la"
+  - id: KP-018
+    label: "HNF/HBPM activent antithrombine ; fondaparinux anti-Xa ; demi-vie HNF ~1 h 30"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > B Mode d'action"
+        quote: "L’HNF et les HBPM agissent en activant un anticoagulant physiologique présent dans le sang qui est l’antithrombine"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > B Mode d'action"
+        quote: "Le fondaparinux est un anti-Xa"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > B Mode d'action"
+        quote: "La demi-vie de l’HNF est de l’ordre de 1 h 30"
+  - id: KP-019
+    label: "HBPM et fondaparinux éliminés par rein ; CI si ClCr <30 mL/min ; HNF utilisable en IR sévère"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > B Mode d'action"
+        quote: "les HBPM et le fondaparinux sont essentiellement éliminés par le rein"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > B Mode d'action"
+        quote: "HBPM | Oui | +++ (CI si ClCr < 30 mL/min) | 8 à 24 heures"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > B Mode d'action"
+        quote: "L’HNF est le seul anticoagulant utilisable dans les insuffisances rénales sévères"
+  - id: KP-020
+    label: "Sulfate de protamine : antidote IV de l'HNF, neutralisation instantanée"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > B Mode d'action"
+        quote: "il existe un antidote, le sulfate de protamine, qui doit être administré par voie intraveineuse"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > B Mode d'action"
+        quote: "Il neutralise instantanément l’action de l’héparine non fractionnée"
+  - id: KP-021
+    label: "Posologie curative HNF : bolus 80 UI/kg puis 18 UI/kg/h ; HBPM 100 U anti-Xa/kg"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > C Posologie"
+        quote: "bolus) sont de 80 UI/kg"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > C Posologie"
+        quote: "puis de 18 UI/kg/h"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > C Posologie"
+        quote: "Les posologies curatives des HBPM sont fonction du poids du sujet (100 U anti-Xa/kg)"
+  - id: KP-022
+    label: "Surveillance HNF : TCA prolongé 2–3× témoin et/ou anti-Xa 0,5–0,8 ; 1er TCA vers H5"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > D Surveillance"
+        quote: "L’effet thérapeutique de l’HNF se mesure par le temps de céphaline activée (TCA) qui doit être prolongé de 2 à 3 fois par rapport à celui du témoin"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > D Surveillance"
+        quote: "Le premier TCA doit être fait vers la 5e heure après l’instauration du traitement"
+  - id: KP-023
+    label: "HBPM : pas de mesure d'activité thérapeutique si prescription correcte selon poids sans IR"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes > D Surveillance"
+        quote: "l’activité thérapeutique des HBPM n’a pas besoin d’être mesurée si elle est prescrite de façon correcte en fonction du poids"
+  - id: KP-024
+    label: "Indications héparines : TVP/EP, arythmie en attente d'anticoagulant oral, SCA, prophylaxie chirurgicale"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "thromboses veineuses profondes et embolie pulmonaire"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "troubles du rythme nécessitant un traitement anticoagulant"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "- syndrome coronarien aigu."
+  - id: KP-025
+    label: "TIH : thrombopénie immuno-allergique classique rare ; ostéoporose, alopécie possibles"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "Les thrombopénies induites par l’héparine (TIH)"
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "il s’agit d’un phénomène immunoallergique"
+  - id: KP-026
+    label: "Danaparoïde substitué en cas de TIH en attente d'efficacité AVK"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "II. Héparines et héparinoïdes"
+        quote: "substituer l’héparine, qui a induit la TIH, par un autre anticoagulant SC ou IV non allergisant"
+  - id: KP-027
+    label: "AVK disponibles : warfarine référence ; fluindione déconseillée instauration ANSM 2017 ; acénocoumarol non recommandé"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "III. Antivitamines K"
+        quote: "Le plus utilisé dans le monde est la warfarine (Coumadine®) qui devrait rester l’AVK de référence"
+      - edition: 2022
+        section_path: "III. Antivitamines K"
+        quote: "son instauration est déconseillée par l’ANSM"
+      - edition: 2022
+        section_path: "III. Antivitamines K"
+        quote: "L’acénocoumarol (Sintrom®) doit s’administrer en 2 fois/j et n’est pas l’AVK recommandée"
+  - id: KP-028
+    label: "AVK bloquent synthèse hépatique facteurs II VII IX X et protéines C/S ; efficacité pleine à 3–5 j"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "III. Antivitamines K > B Mode d'action"
+        quote: "Les antivitamines K bloquent au niveau hépatique la synthèse des facteurs II – VII – IX et X de la coagulation"
+      - edition: 2022
+        section_path: "III. Antivitamines K > B Mode d'action"
+        quote: "Ils inhibent aussi la synthèse de la protéine C et de la protéine S"
+      - edition: 2022
+        section_path: "III. Antivitamines K > B Mode d'action"
+        quote: "Leur pleine efficacité nécessite donc 3 à 5 jours de prise"
+  - id: KP-029
+    label: "Relais héparine–AVK : chevauchement ≥4–5 j et 2 INR efficaces à 24 h d'intervalle"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "III. Antivitamines K > C Relais héparine – AVK"
+        quote: "Les AVK ne pouvant être efficaces rapidement, elles doivent être dans la majorité des cas précédées par un traitement par héparine"
+      - edition: 2022
+        section_path: "III. Antivitamines K > C Relais héparine – AVK"
+        quote: "au moins 4 à 5 jours de chevauchement"
+      - edition: 2022
+        section_path: "III. Antivitamines K > C Relais héparine – AVK"
+        quote: "2 INR (International Normalized Ratios) efficaces à 24 heures d’intervalle"
+  - id: KP-030
+    label: "Surveillance AVK par INR cible 2–3 ; équilibre = ≥70 % INR dans la cible ; contrôle ≥1×/mois"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "III. Antivitamines K > D Surveillance au long cours"
+        quote: "La surveillance de l’effet thérapeutique des AVK se fait par la mesure de l’INR"
+      - edition: 2022
+        section_path: "III. Antivitamines K > D Surveillance au long cours"
+        quote: "la valeur cible de l’INR pour un patient qui est correctement anticoagulé par AVK se situe pour la plupart des indications entre 2 et 3"
+      - edition: 2022
+        section_path: "III. Antivitamines K > D Surveillance au long cours"
+        quote: "On dit qu’un patient est correctement équilibré lorsqu’au moins 70 % de ses INR sont dans la cible fixée"
+  - id: KP-031
+    label: "Antidotes AVK : PPSB (rapide) et vitamine K (quelques heures) ; tératogènes 1er trimestre"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "III. Antivitamines K > D Surveillance au long cours"
+        quote: "le PPSB (initiale des 4 facteurs de la coagulation vitamine K-dépendants déprimés par les AVK) qui agit très rapidement"
+      - edition: 2022
+        section_path: "III. Antivitamines K > D Surveillance au long cours"
+        quote: "la vitamine K qui antagonise leurs effets en quelques heures"
+      - edition: 2022
+        section_path: "III. Antivitamines K > D Surveillance au long cours"
+        quote: "Les AVK sont tératogènes et donc contre-indiquées lors de la première partie du 1er trimestre de la grossesse"
+  - id: KP-032
+    label: "Exemple posologie warfarine : J0–J2 5 mg ; 1er contrôle INR matin J4"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "III. Antivitamines K > E Posologie"
+        quote: "1re prise J0 : 1 cp (soit 5 mg) le soir"
+      - edition: 2022
+        section_path: "III. Antivitamines K > E Posologie"
+        quote: "1er contrôle impératif le matin de J4"
+  - id: KP-033
+    label: "Indications AVK : FA, TVP/EP, valve mécanique, complications post-IDM ; AOD préférés sauf valve mécanique et IR sévère"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "III. Antivitamines K"
+        quote: "dans la fibrillation atriale"
+      - edition: 2022
+        section_path: "III. Antivitamines K"
+        quote: "dans le traitement et la prévention des TVP et de l’EP"
+      - edition: 2022
+        section_path: "III. Antivitamines K"
+        quote: "les AOD (cf. infra) se substituent de plus en plus et sont préférés aux AVK"
+  - id: KP-034
+    label: "AOD : inhibiteurs facteur II (dabigatran) ou X (rivaroxaban, apixaban)"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs"
+        quote: "Les anticoagulants oraux directs sont des antithrombotiques qui inhibent soit le facteur II (anti- IIa), soit le facteur X (anti-Xa)"
+  - id: KP-035
+    label: "Élimination rénale AOD : dabigatran 80 %, rivaroxaban 33 %, apixaban 25 % ; adapter Cockcroft"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > B Médicaments"
+        quote: "Leur élimination rénale est respectivement de 80 % pour le dabigatran, de 33 % pour le rivaroxaban, et de 25 % pour l’apixaban"
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > B Médicaments"
+        quote: "L’évaluation de la fonction rénale (par la formule de Cockcroft) est un impératif"
+  - id: KP-036
+    label: "AOD interdits/déconseillés si ClCr Cockcroft <25–30 mL/min"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > B Médicaments"
+        quote: "Il est interdit ou déconseillé de les prescrire quand la clairance de la créatinine en Cockcroft est inférieure à 30 à 25 mL/min"
+  - id: KP-037
+    label: "AOD efficaces ~2 h après 1re prise ; pas de relais héparine obligatoire pour indication établie TVP/EP/FA"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > B Médicaments"
+        quote: "L’efficacité de ces AOD est rapide (environ 2 heures après la 1re ingestion)"
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > B Médicaments"
+        quote: "sans nécessité de relais par héparine"
+  - id: KP-038
+    label: "Pas de test biologique de routine pour efficacité AOD ; tests usuels perturbés"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > C Surveillance"
+        quote: "Il n’existe pas actuellement de test biologique pour vérifier l’efficacité thérapeutique des anticoagulants oraux"
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > C Surveillance"
+        quote: "La plupart des tests de coagulation standards (TCA/TP/INR, etc.) sont perturbés par la prise d’un AOD"
+  - id: KP-039
+    label: "Idarucizumab (Praxbind®) antidote dabigatran ; valves mécaniques et RM serré CI absolue AOD"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > C Surveillance"
+        quote: "Un antidote spécifique existe déjà pour le dabigatran (idarucizumab : Praxbind®)"
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > D Indications et posologies"
+        quote: "les valves cardiaques mécaniques sont une contre-indication absolue à l’usage des AOD ainsi que le RM serré"
+  - id: KP-040
+    label: "Posologies AOD variables : FA, TVP-EP, prophylaxie orthopédique selon molécule (tableau 22.12)"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > D Indications et posologies"
+        quote: "Les posologies sont très variables en fonction de chaque indication"
+      - edition: 2022
+        section_path: "IV. Anticoagulants oraux directs > D Indications et posologies"
+        quote: "Posologie pour la FA « non valvulaire »"
+  - id: KP-041
+    label: "Thrombolytiques : activateurs plasminogène pour lyser caillots constitués ; altéplase, ténectéplase"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "Les thrombolytiques sont des médicaments qui ont pour objectif de lyser les caillots déjà constitués"
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "Ce sont des activateurs de la fibrinolyse physiologique et en particulier du plasminogène"
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "L’altéplase (Actilyse®) et la ténectéplase (Métalyse®) sont des thrombolytiques de nouvelle génération"
+  - id: KP-042
+    label: "Indications thrombolyse : IDM <6–12 h sans angioplastie, AVC <4 h 30, EP grave"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "l’infarctus du myocarde datant de moins de 6 à 12 heures"
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "l’accident vasculaire cérébral vu dans les 4 h 30"
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "l’embolie pulmonaire grave"
+  - id: KP-043
+    label: "Risque hémorragie intracrânienne thrombolyse 0,7–2 % ; surveillance saignements rigoureuse"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "Le risque d’hémorragie intracérébrale est de l’ordre de 0,7 à 2 %"
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "La surveillance des saignements cliniques et infracliniques est de rigueur"
+  - id: KP-044
+    label: "Contre-indications thrombolyse : allergie, coagulopathie, chirurgie récente, HTA non contrôlée, AVC récent, grossesse…"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "allergie connue au produit"
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "HTA non contrôlée (> 200 mmHg)"
+      - edition: 2022
+        section_path: "V. Thrombolytiques"
+        quote: "- grossesse."
+  - id: KP-045
+    label: "Accidents hémorragiques héparine : 1–4 % curatif ; facteurs âge, sexe féminin, poids faible, association AINS"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+        quote: "La fréquence des accidents hémorragiques au cours d’un traitement par héparine varie de 1 à 4 %"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+        quote: "l’âge, le sexe féminin, un faible poids corporel"
+  - id: KP-046
+    label: "TIH type I bénigne précoce vs type II immune J7–J10 ; risque thrombotique paradoxal"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+        quote: "la thrombopénie de type I (thrombopénie précoce), bénigne, d’origine non immune"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+        quote: "la thrombopénie de type II, potentiellement grave, d’origine immune"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+        quote: "Le risque de la TIH est donc thrombotique et non hémorragique"
+  - id: KP-047
+    label: "Suspicion TIH : plaquettes <100 G/L ou chute 30–50 % ; score 4T ; arrêt héparine immédiat si forte suspicion"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+        quote: "numération plaquettaire < 100 000/mm3 (100 G/L)"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+        quote: "Utilise le score T4 qui permet d’estimer la probabilité d’une TIH"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+        quote: "doit être prise dès qu’il y a suspicion forte de la TIH et ne peut attendre les résultats de la biologie"
+  - id: KP-048
+    label: "AVK : ~600 000 patients France ; 1re cause iatrogène d'hospitalisation (13 % EIM)"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K"
+        quote: "Six cent mille patients environ sont traités par AVK en France"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K"
+        quote: "Les AVK sont la 1re cause iatrogène d’hospitalisation avec 13 % des hospitalisations pour effets indésirables médicamenteux"
+  - id: KP-049
+    label: "Surdosage AVK asymptomatique : conduite selon INR et cible (tableau 22.14) ; vitamine K si INR >6"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K"
+        quote: "Elle est fonction de l’INR mesuré et de l’INR cible"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K"
+        quote: "1 à 2 mg de vitamine K Avis spécialisé (ex : cardiologue si le patient est porteur d\u2019une"
+  - id: KP-050
+    label: "Hémorragie grave sous AVK : arrêt AVK, CCP + vitamine K, transfusion, geste hémostatique"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K"
+        quote: "Les AVK sont arrêtés"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K"
+        quote: "les concentrés de complexes prothrombiniques (CCP, aussi appelés PPSB"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K"
+        quote: "la vitamine K qui nécessite quelques heures de délai d’action"
+  - id: KP-051
+    label: "Accidents AOD : demi-vie courte → antidote = temps depuis dernière prise ; idarucizumab dabigatran ; PPSB/Feiba anti-Xa"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > C Accidents liés aux anticoagulants oraux directs"
+        quote: "les AOD ont une demi-vie courte : le meilleur antidote est le temps que l’on peut gagner après la dernière prise"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > C Accidents liés aux anticoagulants oraux directs"
+        quote: "le dabigatran a déjà un antidote commercialisé"
+      - edition: 2022
+        section_path: "VI. Accidents des anticoagulants > C Accidents liés aux anticoagulants oraux directs"
+        quote: "les anti-X sont à ce jour antagonisés par des concentrés de PPSB ou de Feiba®"
+  - id: KP-052
+    label: "Points-clés : pas de surveillance biologique routine antiagrégants ; DAPT 12 mois post-SCA/stent"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "Points-clés"
+        quote: "On ne surveille pas en routine l’activité antiagrégante de ces différents traitements"
+      - edition: 2022
+        section_path: "Points-clés"
+        quote: "on prescrit une double antiagrégation plaquettaire associant toujours de l’aspirine pour l’un d’entre eux, classiquement pendant 12 mois"
+  - id: KP-053
+    label: "Notions indispensables : éducation patient AVK/AOD ; pas d'AOD prothèse mécanique ou RM"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "Notions indispensables et inacceptables"
+        quote: "Ne pas oublier l’éducation du patient sous AVK et sous AOD"
+      - edition: 2022
+        section_path: "Notions indispensables et inacceptables"
+        quote: "Pas d’AOD dans les prothèses valvulaires mécaniques ou dans le RM"
+  - id: KP-054
+    label: "Notions inacceptables : pas HBPM ni AOD en IR sévère ; pas AOD valve mécanique ni rétrécissement mitral"
+    rank: unknown
+    disposition: understanding
+    anchors:
+      - edition: 2022
+        section_path: "Notions indispensables et inacceptables"
+        quote: "Prescrire une HBPM ou un AOD en cas d’insuffisance rénale sévère"
+      - edition: 2022
+        section_path: "Notions indispensables et inacceptables"
+        quote: "Prescrire un AOD dans les prothèses valvulaires mécaniques ou dans le rétrécissement mitral"

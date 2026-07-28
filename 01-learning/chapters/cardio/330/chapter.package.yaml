@@ -1,0 +1,28 @@
+# Chapter package metadata — drives manifest assembly (not medical truth)
+mode: full-chapter
+slug: 330-antithrombotiques
+title: Antithrombotiques — understanding v1
+specialty: Cardiologie
+chapter_line: Item 330 — Phase 5 understanding projections
+
+known_absent:
+  - mastery
+  - actors
+  - readiness
+
+reconciliation:
+  scope_expected: >
+    antithrombotic pipeline — antiplatelet agents → heparins → oral anticoagulants (AVK and
+    AOD) → fibrinolytics → anticoagulant accidents (bleeding, TIH, overdose management)
+
+semantic_grounding_bootstrap:
+  allowed_claim_ids:
+    - cb-overview-pipeline
+    - cb-story-pipeline
+  verdicts:
+    cb-overview-pipeline:
+      status: pass
+      note: bootstrap-verified entailment
+    cb-story-pipeline:
+      status: pass
+      note: bootstrap-verified entailment

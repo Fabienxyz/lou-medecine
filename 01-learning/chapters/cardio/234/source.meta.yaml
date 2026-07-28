@@ -1,67 +1,65 @@
-# OAP vertical slice — source metadata (not the medical text itself)
+# Item 234 — source metadata (FIL B official)
 chapter: cardio/234
-slice: oap-mechanism-vertical-slice
-edition: 2024-SFC
+edition: 2022
 publisher: Collège National de Cardiologie / SFC
-published: 2024-11-07
-source_file: ../../../chapter-analysis/cardio/234-insuffisance-cardiaque/official-college.md
+source_file: ../../../full-edn/cardiology/edition-2022/chapters/item-234-insuffisance-cardiaque-de-ladulte.md
+source_sha256: f4ea7b117d1f6a607a146041bd5bbcd65028c2a31f0c7720355c3ee1e83c5df2
 
 # Legacy slice anchor scoping (OAP regression)
 section_path_base: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
 
-# Structural section index skeleton for future chapter-wide reconciliation.
-# Headings verified against official-college.md — does NOT imply full coverage.
+# Structural section index — headings verified against FIL B chapter Tool 02
 sections:
   - path: Situations de départ
     heading_markers:
-      - "Situations de départ"
+      - "## Situations de départ"
 
   - path: Hiérarchisation des connaissances
     heading_markers:
-      - "Hiérarchisation des connaissances"
+      - "## Hiérarchisation des connaissances"
 
   - path: "I. Généralités"
     heading_markers:
-      - "I. Généralités"
+      - "## I Généralités"
 
   - path: "I. Généralités > C Physiopathologie > 1 Quelques rappels simples"
     heading_markers:
-      - "I Généralités"
-      - "C Physiopathologie"
+      - "## I Généralités"
+      - "### C Physiopathologie"
       - "1 Quelques rappels simples"
 
   - path: "II. Diagnostic"
     heading_markers:
-      - "II Diagnostic"
+      - "## II Diagnostic"
 
   - path: "III. Diagnostic étiologique"
     heading_markers:
-      - "III Diagnostic étiologique"
+      - "## III Diagnostic étiologique"
 
   - path: "IV. Formes cliniques"
     heading_markers:
-      - "IV Formes cliniques"
+      - "## IV Formes cliniques"
 
   - path: "V. Évolution, complications, pronostic"
     heading_markers:
-      - "V Évolution, complications, pronostic"
+      - "## V Évolution, complications, pronostic"
 
   - path: "VI. Traitement de l'insuffisance cardiaque chronique"
     heading_markers:
-      - "VI Traitement de l’insuffisance cardiaque"
+      - "## VI Traitement de l'insuffisance cardiaque"
 
   - path: "VII. Traitement de l'insuffisance cardiaque aiguë"
     heading_markers:
-      - "VII Traitement de l’insuffisance cardiaque"
+      - "## VII Traitement de l'insuffisance cardiaque"
 
   - path: Points-clés
     heading_markers:
-      - "Points-clés"
+      - "## Points-clés"
 
   - path: Notions indispensables et inacceptables
     heading_markers:
-      - "Notions indispensables et inacceptables"
+      - "## Notions indispensables et inacceptables"
 
   - path: Réflexes transversalité
     heading_markers:
-      - "Réflexes transversalité"
+      - "## Réflexes transversalité"

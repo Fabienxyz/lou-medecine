@@ -23,7 +23,7 @@ const SPEC_PATH = path.join(
 const REVIEW_PATH = path.join(CHAPTER_DIR, "build/visual-grounding-review.yaml");
 const FIGURE_PATH = path.join(CHAPTER_DIR, "figures/mm-pump-decompensation.svg");
 const GENERIC_FIXTURE = path.join(__dirname, "fixtures/generic-causal-graph.yaml");
-const SOURCE_META = { edition: "2024-SFC" };
+const SOURCE_META = { edition: 2022 };
 
 const inventory = YAML.parse(
   fs.readFileSync(path.join(CHAPTER_DIR, "inventory.yaml"), "utf8")

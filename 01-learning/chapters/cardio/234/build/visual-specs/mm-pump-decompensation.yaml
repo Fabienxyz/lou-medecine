@@ -18,7 +18,7 @@ element: MM-pump-decompensation
 question: "Que devient un cœur dont la pompe défaille ?"
 
 provenance:
-  source_edition: 2024-SFC
+  source_edition: 2022
   blueprint_revision: phase-4-blueprint
   methodology_version: visual-spec-v0.1-experiment
 

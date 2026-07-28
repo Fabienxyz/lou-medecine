@@ -1,12 +1,12 @@
 chapter: cardio/234
-edition: 2024-SFC
+edition: 2022
 scope: full-chapter
 methodology: independent-source-to-inventory-v1
 status: fail
 note: "Independent SOURCE→Inventory reconciliation. Distinct from OAP slice
   build/reconciliation.yaml. Does not authorize chapter_reconciliation_invariant: pass on the OAP
   package."
-source_file: ../../../chapter-analysis/cardio/234-insuffisance-cardiaque/official-college.md
+source_file: ../../../full-edn/cardiology/edition-2022/chapters/item-234-insuffisance-cardiaque-de-ladulte.md
 inventory_file: ../inventory.yaml
 inventory_kp_count: 108
 segments:

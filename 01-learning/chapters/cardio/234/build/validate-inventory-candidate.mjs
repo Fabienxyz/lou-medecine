@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(__dirname, "../../../../../");
 const SOURCE = path.join(
   REPO,
-  "01-learning/chapter-analysis/cardio/234-insuffisance-cardiaque/official-college.md"
+  "01-learning/full-edn/cardiology/edition-2022/chapters/item-234-insuffisance-cardiaque-de-ladulte.md"
 );
 const CAND = path.join(__dirname, "inventory-candidate.yaml");
 

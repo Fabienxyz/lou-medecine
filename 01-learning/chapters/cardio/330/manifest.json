@@ -1,0 +1,91 @@
+{
+  "chapter": "cardio/330",
+  "slug": "330-antithrombotiques",
+  "title": "Antithrombotiques — understanding v1",
+  "specialty": "Cardiologie",
+  "chapterLine": "Item 330 — Phase 5 understanding projections",
+  "source_edition": 2022,
+  "trace_index": "build/traceability.json",
+  "known_absent": [
+    "mastery",
+    "actors",
+    "readiness"
+  ],
+  "projections": [
+    {
+      "id": "story",
+      "type": "understanding.story",
+      "family": "understanding",
+      "order": 1,
+      "path": "projections/understanding/story.md",
+      "status": "published",
+      "label": "📖 Histoire",
+      "elements": [
+        "ANA-caillot-trois-voies",
+        "MM-antithrombotic-pipeline"
+      ]
+    },
+    {
+      "id": "overview",
+      "type": "understanding.overview",
+      "family": "understanding",
+      "order": 2,
+      "path": "projections/understanding/overview.md",
+      "status": "published",
+      "label": "🗺️ Vue d'ensemble",
+      "elements": [
+        "MM-antithrombotic-pipeline"
+      ]
+    },
+    {
+      "id": "mechanisms",
+      "type": "understanding.mechanisms",
+      "family": "understanding",
+      "order": 3,
+      "path": "projections/understanding/mechanisms.md",
+      "status": "published",
+      "label": "❓ Pourquoi ?",
+      "elements": [
+        "MEC-hemostasis-classes",
+        "MEC-aspirin",
+        "MEC-p2y12",
+        "MEC-gpiib",
+        "MEC-heparins",
+        "CONF-hnf-hbpm-renal",
+        "MEC-avk",
+        "MEC-aod",
+        "CONF-aod-vs-avk",
+        "MEC-thrombolytics"
+      ]
+    },
+    {
+      "id": "clinical-reasoning",
+      "type": "understanding.clinical-reasoning",
+      "family": "understanding",
+      "order": 4,
+      "path": "projections/understanding/clinical-reasoning.md",
+      "status": "published",
+      "label": "🩺 Raisonnement clinique",
+      "elements": [
+        "CR-prescribe-antiplatelet",
+        "CR-prescribe-heparin",
+        "CR-prescribe-avk",
+        "CR-prescribe-aod",
+        "CR-manage-bleeding",
+        "CR-manage-tih"
+      ]
+    }
+  ],
+  "visuals": [],
+  "chapter_reconciliation_invariant": "pass",
+  "chapter_reconciliation_scope": "antithrombotic pipeline — antiplatelet agents → heparins → oral anticoagulants (AVK and AOD) → fibrinolytics → anticoagulant accidents (bleeding, TIH, overdose management)",
+  "chapter_reconciliation_segments": [
+    "seg-I",
+    "seg-II",
+    "seg-III",
+    "seg-IV",
+    "seg-V",
+    "seg-VI"
+  ],
+  "official_visuals": []
+}

@@ -1,0 +1,133 @@
+# Item 330 — source metadata (FIL B official)
+chapter: cardio/330
+edition: 2022
+publisher: Collège National de Cardiologie / SFC
+source_file: ../../../full-edn/cardiology/edition-2022/chapters/item-330-prescription-et-surveillance-des-classes-de-medicaments-les-plus-courantes-chez-ladulte-et-chez-lenfant-hors-anti-infectieux-connaitre-les-grands-principes-therapeutiques.md
+source_sha256: 081233d9fb121f3b461aa24ddc7320270edecd7fa8c4a1358c417fa122f8b392
+
+section_path_base: "I. Antiagrégants plaquettaires"
+
+sections:
+  - path: Situations de départ
+    heading_markers:
+      - "## Situations de départ"
+
+  - path: Hiérarchisation des connaissances
+    heading_markers:
+      - "## Hiérarchisation des connaissances"
+
+  - path: "I. Antiagrégants plaquettaires"
+    heading_markers:
+      - "## I Antiagrégants plaquettaires"
+
+  - path: "I. Antiagrégants plaquettaires > A Aspirine"
+    heading_markers:
+      - "## I Antiagrégants plaquettaires"
+      - "### A Aspirine"
+
+  - path: "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor"
+    heading_markers:
+      - "## I Antiagrégants plaquettaires"
+      - "### B Thiénopyridines et ticagrélor"
+
+  - path: "I. Antiagrégants plaquettaires > C Anti-GPIIb/IIIa"
+    heading_markers:
+      - "## I Antiagrégants plaquettaires"
+      - "### C Anti-GPIIb/IIIa"
+
+  - path: "II. Héparines et héparinoïdes"
+    heading_markers:
+      - "## II Héparines et héparinoïdes"
+
+  - path: "II. Héparines et héparinoïdes > B Mode d'action"
+    heading_markers:
+      - "## II Héparines et héparinoïdes"
+      - "### B Mode d’action – Pharmacologie (cf. tableau 22.4)"
+
+  - path: "II. Héparines et héparinoïdes > C Posologie"
+    heading_markers:
+      - "## II Héparines et héparinoïdes"
+      - "### C Posologie"
+
+  - path: "II. Héparines et héparinoïdes > D Surveillance"
+    heading_markers:
+      - "## II Héparines et héparinoïdes"
+      - "### D Surveillance"
+
+  - path: "III. Antivitamines K"
+    heading_markers:
+      - "## III Antivitamines K"
+
+  - path: "III. Antivitamines K > B Mode d'action"
+    heading_markers:
+      - "## III Antivitamines K"
+      - "### B Mode d'action"
+
+  - path: "III. Antivitamines K > C Relais héparine – AVK"
+    heading_markers:
+      - "## III Antivitamines K"
+      - "### C Relais héparine – AVK"
+
+  - path: "III. Antivitamines K > D Surveillance au long cours"
+    heading_markers:
+      - "## III Antivitamines K"
+      - "### D Surveillance au long cours"
+
+  - path: "III. Antivitamines K > E Posologie"
+    heading_markers:
+      - "## III Antivitamines K"
+      - "### E Posologie"
+
+  - path: "IV. Anticoagulants oraux directs"
+    heading_markers:
+      - "## IV Anticoagulants oraux directs"
+
+  - path: "IV. Anticoagulants oraux directs > B Médicaments"
+    heading_markers:
+      - "## IV Anticoagulants oraux directs"
+      - "### B Médicaments"
+
+  - path: "IV. Anticoagulants oraux directs > C Surveillance"
+    heading_markers:
+      - "## IV Anticoagulants oraux directs"
+      - "### C Surveillance"
+
+  - path: "IV. Anticoagulants oraux directs > D Indications et posologies"
+    heading_markers:
+      - "## IV Anticoagulants oraux directs"
+      - "### D Indications et posologies"
+
+  - path: "V. Thrombolytiques"
+    heading_markers:
+      - "## V Thrombolytiques"
+
+  - path: "VI. Accidents des anticoagulants"
+    heading_markers:
+      - "## VI Accidents des anticoagulants"
+
+  - path: "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines"
+    heading_markers:
+      - "## VI Accidents des anticoagulants"
+      - "### A Accidents liés à l’administration d’héparines"
+
+  - path: "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K"
+    heading_markers:
+      - "## VI Accidents des anticoagulants"
+      - "### B Accidents hémorragiques liés aux antivitamines K"
+
+  - path: "VI. Accidents des anticoagulants > C Accidents liés aux anticoagulants oraux directs"
+    heading_markers:
+      - "## VI Accidents des anticoagulants"
+      - "### C Accidents liés aux anticoagulants oraux directs"
+
+  - path: Points-clés
+    heading_markers:
+      - "## Points-clés"
+
+  - path: Notions indispensables et inacceptables
+    heading_markers:
+      - "## Notions indispensables et inacceptables"
+
+  - path: Réflexes transversalité
+    heading_markers:
+      - "## Réflexes transversalité"

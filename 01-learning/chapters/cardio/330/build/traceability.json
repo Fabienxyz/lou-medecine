@@ -1,0 +1,1093 @@
+{
+  "cb-story-intro": {
+    "class": "sourced",
+    "kp": [
+      "KP-002"
+    ],
+    "element": "MM-antithrombotic-pipeline",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "Hiérarchisation des connaissances",
+      "quote": "Le traitement antithrombotique est un atout majeur dans la prise en charge de la maladie athérothrombotique et dans la maladie thromboembolique veineuse"
+    }
+  },
+  "cb-story-pipeline": {
+    "class": "bridging",
+    "kp": [
+      "KP-001"
+    ],
+    "element": "MM-antithrombotic-pipeline",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "Hiérarchisation des connaissances",
+      "quote": "les agents antiplaquettaires qui agissent sur l’hémostase primaire"
+    }
+  },
+  "cb-ov-aspirin": {
+    "class": "sourced",
+    "kp": [
+      "KP-003",
+      "KP-004",
+      "KP-006"
+    ],
+    "element": "MEC-aspirin",
+    "anchors": [
+      {
+        "kp": "KP-003",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "L’aspirine agit en inhibant la cyclo-oxygénase"
+      },
+      {
+        "kp": "KP-004",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "la dose de 75 mg est la plus utilisée"
+      },
+      {
+        "kp": "KP-006",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "Il n’existe pas de test biologique fiable et utilisable en routine pour surveiller l’efficacité de l’aspirine"
+      }
+    ]
+  },
+  "cb-ov-p2y12": {
+    "class": "sourced",
+    "kp": [
+      "KP-010",
+      "KP-014"
+    ],
+    "element": "MEC-p2y12",
+    "anchors": [
+      {
+        "kp": "KP-010",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+        "quote": "agit en bloquant la voie de l’ADP"
+      },
+      {
+        "kp": "KP-014",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+        "quote": "clopidogrel, prasugrel ou ticagrélor sont associés à l’aspirine pendant une durée classiquement de 12 mois"
+      }
+    ]
+  },
+  "cb-ov-heparins": {
+    "class": "sourced",
+    "kp": [
+      "KP-018",
+      "KP-019",
+      "KP-021",
+      "KP-022"
+    ],
+    "element": "MEC-heparins",
+    "anchors": [
+      {
+        "kp": "KP-018",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > B Mode d'action",
+        "quote": "L’HNF et les HBPM agissent en activant un anticoagulant physiologique présent dans le sang qui est l’antithrombine"
+      },
+      {
+        "kp": "KP-019",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > B Mode d'action",
+        "quote": "les HBPM et le fondaparinux sont essentiellement éliminés par le rein"
+      },
+      {
+        "kp": "KP-021",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > C Posologie",
+        "quote": "bolus) sont de 80 UI/kg"
+      },
+      {
+        "kp": "KP-022",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > D Surveillance",
+        "quote": "L’effet thérapeutique de l’HNF se mesure par le temps de céphaline activée (TCA) qui doit être prolongé de 2 à 3 fois par rapport à celui du témoin"
+      }
+    ]
+  },
+  "cb-ov-avk": {
+    "class": "sourced",
+    "kp": [
+      "KP-028",
+      "KP-029",
+      "KP-030"
+    ],
+    "element": "MEC-avk",
+    "anchors": [
+      {
+        "kp": "KP-028",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K > B Mode d'action",
+        "quote": "Les antivitamines K bloquent au niveau hépatique la synthèse des facteurs II – VII – IX et X de la coagulation"
+      },
+      {
+        "kp": "KP-029",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K > C Relais héparine – AVK",
+        "quote": "Les AVK ne pouvant être efficaces rapidement, elles doivent être dans la majorité des cas précédées par un traitement par héparine"
+      },
+      {
+        "kp": "KP-030",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K > D Surveillance au long cours",
+        "quote": "La surveillance de l’effet thérapeutique des AVK se fait par la mesure de l’INR"
+      }
+    ]
+  },
+  "cb-ov-aod": {
+    "class": "sourced",
+    "kp": [
+      "KP-035",
+      "KP-037",
+      "KP-039"
+    ],
+    "element": "MEC-aod",
+    "anchors": [
+      {
+        "kp": "KP-035",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > B Médicaments",
+        "quote": "Leur élimination rénale est respectivement de 80 % pour le dabigatran, de 33 % pour le rivaroxaban, et de 25 % pour l’apixaban"
+      },
+      {
+        "kp": "KP-037",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > B Médicaments",
+        "quote": "L’efficacité de ces AOD est rapide (environ 2 heures après la 1re ingestion)"
+      },
+      {
+        "kp": "KP-039",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > C Surveillance",
+        "quote": "Un antidote spécifique existe déjà pour le dabigatran (idarucizumab : Praxbind®)"
+      }
+    ]
+  },
+  "cb-ov-thrombo": {
+    "class": "sourced",
+    "kp": [
+      "KP-042",
+      "KP-043"
+    ],
+    "element": "MEC-thrombolytics",
+    "anchors": [
+      {
+        "kp": "KP-042",
+        "edition": 2022,
+        "section_path": "V. Thrombolytiques",
+        "quote": "l’infarctus du myocarde datant de moins de 6 à 12 heures"
+      },
+      {
+        "kp": "KP-043",
+        "edition": 2022,
+        "section_path": "V. Thrombolytiques",
+        "quote": "Le risque d’hémorragie intracérébrale est de l’ordre de 0,7 à 2 %"
+      }
+    ]
+  },
+  "cb-ov-accidents": {
+    "class": "sourced",
+    "kp": [
+      "KP-045",
+      "KP-048",
+      "KP-051"
+    ],
+    "element": "CR-manage-bleeding",
+    "anchors": [
+      {
+        "kp": "KP-045",
+        "edition": 2022,
+        "section_path": "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines",
+        "quote": "La fréquence des accidents hémorragiques au cours d’un traitement par héparine varie de 1 à 4 %"
+      },
+      {
+        "kp": "KP-048",
+        "edition": 2022,
+        "section_path": "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K",
+        "quote": "Six cent mille patients environ sont traités par AVK en France"
+      },
+      {
+        "kp": "KP-051",
+        "edition": 2022,
+        "section_path": "VI. Accidents des anticoagulants > C Accidents liés aux anticoagulants oraux directs",
+        "quote": "les AOD ont une demi-vie courte : le meilleur antidote est le temps que l’on peut gagner après la dernière prise"
+      }
+    ]
+  },
+  "cb-ov-notions": {
+    "class": "sourced",
+    "kp": [
+      "KP-053",
+      "KP-054"
+    ],
+    "element": "CR-prescribe-aod",
+    "anchors": [
+      {
+        "kp": "KP-053",
+        "edition": 2022,
+        "section_path": "Notions indispensables et inacceptables",
+        "quote": "Ne pas oublier l’éducation du patient sous AVK et sous AOD"
+      },
+      {
+        "kp": "KP-054",
+        "edition": 2022,
+        "section_path": "Notions indispensables et inacceptables",
+        "quote": "Prescrire une HBPM ou un AOD en cas d’insuffisance rénale sévère"
+      }
+    ]
+  },
+  "cb-overview-pipeline": {
+    "class": "bridging",
+    "kp": [
+      "KP-001",
+      "KP-002"
+    ],
+    "element": "MM-antithrombotic-pipeline",
+    "anchors": [
+      {
+        "kp": "KP-001",
+        "edition": 2022,
+        "section_path": "Hiérarchisation des connaissances",
+        "quote": "les agents antiplaquettaires qui agissent sur l’hémostase primaire"
+      },
+      {
+        "kp": "KP-002",
+        "edition": 2022,
+        "section_path": "Hiérarchisation des connaissances",
+        "quote": "Le traitement antithrombotique est un atout majeur dans la prise en charge de la maladie athérothrombotique et dans la maladie thromboembolique veineuse"
+      }
+    ]
+  },
+  "cb-mec-classes-intro": {
+    "class": "sourced",
+    "kp": [
+      "KP-002"
+    ],
+    "element": "MEC-hemostasis-classes",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "Hiérarchisation des connaissances",
+      "quote": "Le traitement antithrombotique est un atout majeur dans la prise en charge de la maladie athérothrombotique et dans la maladie thromboembolique veineuse"
+    }
+  },
+  "cb-mec-classes-three": {
+    "class": "sourced",
+    "kp": [
+      "KP-001"
+    ],
+    "element": "MEC-hemostasis-classes",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "Hiérarchisation des connaissances",
+      "quote": "les agents antiplaquettaires qui agissent sur l’hémostase primaire"
+    }
+  },
+  "cb-mec-asp-mechanism": {
+    "class": "sourced",
+    "kp": [
+      "KP-003"
+    ],
+    "element": "MEC-aspirin",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+      "quote": "L’aspirine agit en inhibant la cyclo-oxygénase"
+    }
+  },
+  "cb-mec-asp-dose": {
+    "class": "sourced",
+    "kp": [
+      "KP-004",
+      "KP-005"
+    ],
+    "element": "MEC-aspirin",
+    "anchors": [
+      {
+        "kp": "KP-004",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "la dose de 75 mg est la plus utilisée"
+      },
+      {
+        "kp": "KP-005",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "en prévention secondaire de la coronaropathie, de l’artériopathie des membres inférieurs, des AVC. C’est un traitement à vie"
+      }
+    ]
+  },
+  "cb-mec-asp-surveillance": {
+    "class": "sourced",
+    "kp": [
+      "KP-006",
+      "KP-007"
+    ],
+    "element": "MEC-aspirin",
+    "anchors": [
+      {
+        "kp": "KP-006",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "Il n’existe pas de test biologique fiable et utilisable en routine pour surveiller l’efficacité de l’aspirine"
+      },
+      {
+        "kp": "KP-007",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "Ils sont représentés par les saignements et les intolérances gastriques"
+      }
+    ]
+  },
+  "cb-mec-p2y12-moa": {
+    "class": "sourced",
+    "kp": [
+      "KP-010"
+    ],
+    "element": "MEC-p2y12",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+      "quote": "agit en bloquant la voie de l’ADP"
+    }
+  },
+  "cb-mec-p2y12-dose": {
+    "class": "sourced",
+    "kp": [
+      "KP-011",
+      "KP-012"
+    ],
+    "element": "MEC-p2y12",
+    "anchors": [
+      {
+        "kp": "KP-011",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+        "quote": "Il s’agit d’une prodrogue. C’est son métabolite qui est actif"
+      },
+      {
+        "kp": "KP-012",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+        "quote": "Le clopidogrel est donné à une dose de charge de 300 à 600 mg"
+      }
+    ]
+  },
+  "cb-mec-p2y12-clinical": {
+    "class": "sourced",
+    "kp": [
+      "KP-013",
+      "KP-014"
+    ],
+    "element": "MEC-p2y12",
+    "anchors": [
+      {
+        "kp": "KP-013",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+        "quote": "Le prasugrel expose à un risque hémorragique cérébral qui le contre-indique chez les sujets ayant des ATCD d’accident cérébral"
+      },
+      {
+        "kp": "KP-014",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+        "quote": "clopidogrel, prasugrel ou ticagrélor sont associés à l’aspirine pendant une durée classiquement de 12 mois"
+      }
+    ]
+  },
+  "cb-mec-gpiib": {
+    "class": "sourced",
+    "kp": [
+      "KP-016"
+    ],
+    "element": "MEC-gpiib",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "I. Antiagrégants plaquettaires > C Anti-GPIIb/IIIa",
+      "quote": "La glycoprotéine IIb/IIIa est un récepteur de la plaquette qui permet son adhésion au fibrinogène"
+    }
+  },
+  "cb-mec-hep-moa": {
+    "class": "sourced",
+    "kp": [
+      "KP-018"
+    ],
+    "element": "MEC-heparins",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "II. Héparines et héparinoïdes > B Mode d'action",
+      "quote": "L’HNF et les HBPM agissent en activant un anticoagulant physiologique présent dans le sang qui est l’antithrombine"
+    }
+  },
+  "cb-mec-hep-dose": {
+    "class": "sourced",
+    "kp": [
+      "KP-021",
+      "KP-022",
+      "KP-023"
+    ],
+    "element": "MEC-heparins",
+    "anchors": [
+      {
+        "kp": "KP-021",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > C Posologie",
+        "quote": "bolus) sont de 80 UI/kg"
+      },
+      {
+        "kp": "KP-022",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > D Surveillance",
+        "quote": "L’effet thérapeutique de l’HNF se mesure par le temps de céphaline activée (TCA) qui doit être prolongé de 2 à 3 fois par rapport à celui du témoin"
+      },
+      {
+        "kp": "KP-023",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > D Surveillance",
+        "quote": "l’activité thérapeutique des HBPM n’a pas besoin d’être mesurée si elle est prescrite de façon correcte en fonction du poids"
+      }
+    ]
+  },
+  "cb-mec-hep-indic": {
+    "class": "sourced",
+    "kp": [
+      "KP-024",
+      "KP-025",
+      "KP-026"
+    ],
+    "element": "MEC-heparins",
+    "anchors": [
+      {
+        "kp": "KP-024",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes",
+        "quote": "thromboses veineuses profondes et embolie pulmonaire"
+      },
+      {
+        "kp": "KP-025",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes",
+        "quote": "Les thrombopénies induites par l’héparine (TIH)"
+      },
+      {
+        "kp": "KP-026",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes",
+        "quote": "substituer l’héparine, qui a induit la TIH, par un autre anticoagulant SC ou IV non allergisant"
+      }
+    ]
+  },
+  "cb-conf-renal": {
+    "class": "sourced",
+    "kp": [
+      "KP-019",
+      "KP-054"
+    ],
+    "element": "CONF-hnf-hbpm-renal",
+    "anchors": [
+      {
+        "kp": "KP-019",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > B Mode d'action",
+        "quote": "les HBPM et le fondaparinux sont essentiellement éliminés par le rein"
+      },
+      {
+        "kp": "KP-054",
+        "edition": 2022,
+        "section_path": "Notions indispensables et inacceptables",
+        "quote": "Prescrire une HBPM ou un AOD en cas d’insuffisance rénale sévère"
+      }
+    ]
+  },
+  "cb-mec-avk-moa": {
+    "class": "sourced",
+    "kp": [
+      "KP-028"
+    ],
+    "element": "MEC-avk",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "III. Antivitamines K > B Mode d'action",
+      "quote": "Les antivitamines K bloquent au niveau hépatique la synthèse des facteurs II – VII – IX et X de la coagulation"
+    }
+  },
+  "cb-mec-avk-relay": {
+    "class": "sourced",
+    "kp": [
+      "KP-029"
+    ],
+    "element": "MEC-avk",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "III. Antivitamines K > C Relais héparine – AVK",
+      "quote": "Les AVK ne pouvant être efficaces rapidement, elles doivent être dans la majorité des cas précédées par un traitement par héparine"
+    }
+  },
+  "cb-mec-avk-surveillance": {
+    "class": "sourced",
+    "kp": [
+      "KP-030",
+      "KP-031"
+    ],
+    "element": "MEC-avk",
+    "anchors": [
+      {
+        "kp": "KP-030",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K > D Surveillance au long cours",
+        "quote": "La surveillance de l’effet thérapeutique des AVK se fait par la mesure de l’INR"
+      },
+      {
+        "kp": "KP-031",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K > D Surveillance au long cours",
+        "quote": "le PPSB (initiale des 4 facteurs de la coagulation vitamine K-dépendants déprimés par les AVK) qui agit très rapidement"
+      }
+    ]
+  },
+  "cb-mec-avk-indic": {
+    "class": "sourced",
+    "kp": [
+      "KP-027",
+      "KP-033"
+    ],
+    "element": "MEC-avk",
+    "anchors": [
+      {
+        "kp": "KP-027",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K",
+        "quote": "Le plus utilisé dans le monde est la warfarine (Coumadine®) qui devrait rester l’AVK de référence"
+      },
+      {
+        "kp": "KP-033",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K",
+        "quote": "dans la fibrillation atriale"
+      }
+    ]
+  },
+  "cb-mec-aod-moa": {
+    "class": "sourced",
+    "kp": [
+      "KP-034",
+      "KP-035",
+      "KP-036"
+    ],
+    "element": "MEC-aod",
+    "anchors": [
+      {
+        "kp": "KP-034",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs",
+        "quote": "Les anticoagulants oraux directs sont des antithrombotiques qui inhibent soit le facteur II (anti- IIa), soit le facteur X (anti-Xa)"
+      },
+      {
+        "kp": "KP-035",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > B Médicaments",
+        "quote": "Leur élimination rénale est respectivement de 80 % pour le dabigatran, de 33 % pour le rivaroxaban, et de 25 % pour l’apixaban"
+      },
+      {
+        "kp": "KP-036",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > B Médicaments",
+        "quote": "Il est interdit ou déconseillé de les prescrire quand la clairance de la créatinine en Cockcroft est inférieure à 30 à 25 mL/min"
+      }
+    ]
+  },
+  "cb-mec-aod-clinical": {
+    "class": "sourced",
+    "kp": [
+      "KP-037",
+      "KP-038",
+      "KP-039"
+    ],
+    "element": "MEC-aod",
+    "anchors": [
+      {
+        "kp": "KP-037",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > B Médicaments",
+        "quote": "L’efficacité de ces AOD est rapide (environ 2 heures après la 1re ingestion)"
+      },
+      {
+        "kp": "KP-038",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > C Surveillance",
+        "quote": "Il n’existe pas actuellement de test biologique pour vérifier l’efficacité thérapeutique des anticoagulants oraux"
+      },
+      {
+        "kp": "KP-039",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > C Surveillance",
+        "quote": "Un antidote spécifique existe déjà pour le dabigatran (idarucizumab : Praxbind®)"
+      }
+    ]
+  },
+  "cb-conf-aod-avk": {
+    "class": "sourced",
+    "kp": [
+      "KP-033",
+      "KP-053",
+      "KP-054"
+    ],
+    "element": "CONF-aod-vs-avk",
+    "anchors": [
+      {
+        "kp": "KP-033",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K",
+        "quote": "dans la fibrillation atriale"
+      },
+      {
+        "kp": "KP-053",
+        "edition": 2022,
+        "section_path": "Notions indispensables et inacceptables",
+        "quote": "Ne pas oublier l’éducation du patient sous AVK et sous AOD"
+      },
+      {
+        "kp": "KP-054",
+        "edition": 2022,
+        "section_path": "Notions indispensables et inacceptables",
+        "quote": "Prescrire une HBPM ou un AOD en cas d’insuffisance rénale sévère"
+      }
+    ]
+  },
+  "cb-mec-thrombo-moa": {
+    "class": "sourced",
+    "kp": [
+      "KP-041"
+    ],
+    "element": "MEC-thrombolytics",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "V. Thrombolytiques",
+      "quote": "Les thrombolytiques sont des médicaments qui ont pour objectif de lyser les caillots déjà constitués"
+    }
+  },
+  "cb-mec-thrombo-risk": {
+    "class": "sourced",
+    "kp": [
+      "KP-042",
+      "KP-043",
+      "KP-044"
+    ],
+    "element": "MEC-thrombolytics",
+    "anchors": [
+      {
+        "kp": "KP-042",
+        "edition": 2022,
+        "section_path": "V. Thrombolytiques",
+        "quote": "l’infarctus du myocarde datant de moins de 6 à 12 heures"
+      },
+      {
+        "kp": "KP-043",
+        "edition": 2022,
+        "section_path": "V. Thrombolytiques",
+        "quote": "Le risque d’hémorragie intracérébrale est de l’ordre de 0,7 à 2 %"
+      },
+      {
+        "kp": "KP-044",
+        "edition": 2022,
+        "section_path": "V. Thrombolytiques",
+        "quote": "allergie connue au produit"
+      }
+    ]
+  },
+  "cb-cr-aap-asp": {
+    "class": "sourced",
+    "kp": [
+      "KP-004",
+      "KP-005"
+    ],
+    "element": "CR-prescribe-antiplatelet",
+    "anchors": [
+      {
+        "kp": "KP-004",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "la dose de 75 mg est la plus utilisée"
+      },
+      {
+        "kp": "KP-005",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "en prévention secondaire de la coronaropathie, de l’artériopathie des membres inférieurs, des AVC. C’est un traitement à vie"
+      }
+    ]
+  },
+  "cb-cr-aap-dapt": {
+    "class": "sourced",
+    "kp": [
+      "KP-014",
+      "KP-052"
+    ],
+    "element": "CR-prescribe-antiplatelet",
+    "anchors": [
+      {
+        "kp": "KP-014",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+        "quote": "clopidogrel, prasugrel ou ticagrélor sont associés à l’aspirine pendant une durée classiquement de 12 mois"
+      },
+      {
+        "kp": "KP-052",
+        "edition": 2022,
+        "section_path": "Points-clés",
+        "quote": "On ne surveille pas en routine l’activité antiagrégante de ces différents traitements"
+      }
+    ]
+  },
+  "cb-cr-aap-periop": {
+    "class": "sourced",
+    "kp": [
+      "KP-008",
+      "KP-009"
+    ],
+    "element": "CR-prescribe-antiplatelet",
+    "anchors": [
+      {
+        "kp": "KP-008",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "Après implantation d’un stent coronarien, il faut retarder au minimum de 6 semaines (en cas de stent nu) et de 3–6 mois (en cas de stent actif) tout acte invasif non urgent à risque hémorragique"
+      },
+      {
+        "kp": "KP-009",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "l’aspirine ne doit être arrêtée que sur une courte durée : 5 jours et reprise le plus tôt possible après l’acte"
+      }
+    ]
+  },
+  "cb-cr-aap-surveillance": {
+    "class": "sourced",
+    "kp": [
+      "KP-006",
+      "KP-015"
+    ],
+    "element": "CR-prescribe-antiplatelet",
+    "anchors": [
+      {
+        "kp": "KP-006",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > A Aspirine",
+        "quote": "Il n’existe pas de test biologique fiable et utilisable en routine pour surveiller l’efficacité de l’aspirine"
+      },
+      {
+        "kp": "KP-015",
+        "edition": 2022,
+        "section_path": "I. Antiagrégants plaquettaires > B Thiénopyridines et ticagrélor",
+        "quote": "Il n’existe pas de test biologique fiable utilisable en routine pour surveiller l’efficacité des thiénopyridines ou du ticagrélor"
+      }
+    ]
+  },
+  "cb-cr-hep-choose": {
+    "class": "sourced",
+    "kp": [
+      "KP-019",
+      "KP-054"
+    ],
+    "element": "CR-prescribe-heparin",
+    "anchors": [
+      {
+        "kp": "KP-019",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > B Mode d'action",
+        "quote": "les HBPM et le fondaparinux sont essentiellement éliminés par le rein"
+      },
+      {
+        "kp": "KP-054",
+        "edition": 2022,
+        "section_path": "Notions indispensables et inacceptables",
+        "quote": "Prescrire une HBPM ou un AOD en cas d’insuffisance rénale sévère"
+      }
+    ]
+  },
+  "cb-cr-hep-hnf": {
+    "class": "sourced",
+    "kp": [
+      "KP-021",
+      "KP-022"
+    ],
+    "element": "CR-prescribe-heparin",
+    "anchors": [
+      {
+        "kp": "KP-021",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > C Posologie",
+        "quote": "bolus) sont de 80 UI/kg"
+      },
+      {
+        "kp": "KP-022",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > D Surveillance",
+        "quote": "L’effet thérapeutique de l’HNF se mesure par le temps de céphaline activée (TCA) qui doit être prolongé de 2 à 3 fois par rapport à celui du témoin"
+      }
+    ]
+  },
+  "cb-cr-hep-hbpm": {
+    "class": "sourced",
+    "kp": [
+      "KP-023"
+    ],
+    "element": "CR-prescribe-heparin",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "II. Héparines et héparinoïdes > D Surveillance",
+      "quote": "l’activité thérapeutique des HBPM n’a pas besoin d’être mesurée si elle est prescrite de façon correcte en fonction du poids"
+    }
+  },
+  "cb-cr-hep-indic": {
+    "class": "sourced",
+    "kp": [
+      "KP-024"
+    ],
+    "element": "CR-prescribe-heparin",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "II. Héparines et héparinoïdes",
+      "quote": "thromboses veineuses profondes et embolie pulmonaire"
+    }
+  },
+  "cb-cr-avk-choice": {
+    "class": "sourced",
+    "kp": [
+      "KP-027"
+    ],
+    "element": "CR-prescribe-avk",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "III. Antivitamines K",
+      "quote": "Le plus utilisé dans le monde est la warfarine (Coumadine®) qui devrait rester l’AVK de référence"
+    }
+  },
+  "cb-cr-avk-start": {
+    "class": "sourced",
+    "kp": [
+      "KP-032"
+    ],
+    "element": "CR-prescribe-avk",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "III. Antivitamines K > E Posologie",
+      "quote": "1re prise J0 : 1 cp (soit 5 mg) le soir"
+    }
+  },
+  "cb-cr-avk-relay": {
+    "class": "sourced",
+    "kp": [
+      "KP-029",
+      "KP-030"
+    ],
+    "element": "CR-prescribe-avk",
+    "anchors": [
+      {
+        "kp": "KP-029",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K > C Relais héparine – AVK",
+        "quote": "Les AVK ne pouvant être efficaces rapidement, elles doivent être dans la majorité des cas précédées par un traitement par héparine"
+      },
+      {
+        "kp": "KP-030",
+        "edition": 2022,
+        "section_path": "III. Antivitamines K > D Surveillance au long cours",
+        "quote": "La surveillance de l’effet thérapeutique des AVK se fait par la mesure de l’INR"
+      }
+    ]
+  },
+  "cb-cr-avk-education": {
+    "class": "sourced",
+    "kp": [
+      "KP-053"
+    ],
+    "element": "CR-prescribe-avk",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "Notions indispensables et inacceptables",
+      "quote": "Ne pas oublier l’éducation du patient sous AVK et sous AOD"
+    }
+  },
+  "cb-cr-aod-check": {
+    "class": "sourced",
+    "kp": [
+      "KP-036",
+      "KP-039",
+      "KP-054"
+    ],
+    "element": "CR-prescribe-aod",
+    "anchors": [
+      {
+        "kp": "KP-036",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > B Médicaments",
+        "quote": "Il est interdit ou déconseillé de les prescrire quand la clairance de la créatinine en Cockcroft est inférieure à 30 à 25 mL/min"
+      },
+      {
+        "kp": "KP-039",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > C Surveillance",
+        "quote": "Un antidote spécifique existe déjà pour le dabigatran (idarucizumab : Praxbind®)"
+      },
+      {
+        "kp": "KP-054",
+        "edition": 2022,
+        "section_path": "Notions indispensables et inacceptables",
+        "quote": "Prescrire une HBPM ou un AOD en cas d’insuffisance rénale sévère"
+      }
+    ]
+  },
+  "cb-cr-aod-dose": {
+    "class": "sourced",
+    "kp": [
+      "KP-037",
+      "KP-040"
+    ],
+    "element": "CR-prescribe-aod",
+    "anchors": [
+      {
+        "kp": "KP-037",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > B Médicaments",
+        "quote": "L’efficacité de ces AOD est rapide (environ 2 heures après la 1re ingestion)"
+      },
+      {
+        "kp": "KP-040",
+        "edition": 2022,
+        "section_path": "IV. Anticoagulants oraux directs > D Indications et posologies",
+        "quote": "Les posologies sont très variables en fonction de chaque indication"
+      }
+    ]
+  },
+  "cb-cr-aod-monitor": {
+    "class": "sourced",
+    "kp": [
+      "KP-038"
+    ],
+    "element": "CR-prescribe-aod",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "IV. Anticoagulants oraux directs > C Surveillance",
+      "quote": "Il n’existe pas actuellement de test biologique pour vérifier l’efficacité thérapeutique des anticoagulants oraux"
+    }
+  },
+  "cb-cr-bleed-hep": {
+    "class": "sourced",
+    "kp": [
+      "KP-045",
+      "KP-020"
+    ],
+    "element": "CR-manage-bleeding",
+    "anchors": [
+      {
+        "kp": "KP-045",
+        "edition": 2022,
+        "section_path": "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines",
+        "quote": "La fréquence des accidents hémorragiques au cours d’un traitement par héparine varie de 1 à 4 %"
+      },
+      {
+        "kp": "KP-020",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes > B Mode d'action",
+        "quote": "il existe un antidote, le sulfate de protamine, qui doit être administré par voie intraveineuse"
+      }
+    ]
+  },
+  "cb-cr-bleed-avk-overdose": {
+    "class": "sourced",
+    "kp": [
+      "KP-048",
+      "KP-049"
+    ],
+    "element": "CR-manage-bleeding",
+    "anchors": [
+      {
+        "kp": "KP-048",
+        "edition": 2022,
+        "section_path": "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K",
+        "quote": "Six cent mille patients environ sont traités par AVK en France"
+      },
+      {
+        "kp": "KP-049",
+        "edition": 2022,
+        "section_path": "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K",
+        "quote": "Elle est fonction de l’INR mesuré et de l’INR cible"
+      }
+    ]
+  },
+  "cb-cr-bleed-avk-severe": {
+    "class": "sourced",
+    "kp": [
+      "KP-050"
+    ],
+    "element": "CR-manage-bleeding",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "VI. Accidents des anticoagulants > B Accidents hémorragiques liés aux antivitamines K",
+      "quote": "Les AVK sont arrêtés"
+    }
+  },
+  "cb-cr-bleed-aod": {
+    "class": "sourced",
+    "kp": [
+      "KP-051"
+    ],
+    "element": "CR-manage-bleeding",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "VI. Accidents des anticoagulants > C Accidents liés aux anticoagulants oraux directs",
+      "quote": "les AOD ont une demi-vie courte : le meilleur antidote est le temps que l’on peut gagner après la dernière prise"
+    }
+  },
+  "cb-cr-tih-def": {
+    "class": "sourced",
+    "kp": [
+      "KP-046"
+    ],
+    "element": "CR-manage-tih",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines",
+      "quote": "la thrombopénie de type I (thrombopénie précoce), bénigne, d’origine non immune"
+    }
+  },
+  "cb-cr-tih-dx": {
+    "class": "sourced",
+    "kp": [
+      "KP-047"
+    ],
+    "element": "CR-manage-tih",
+    "anchor": {
+      "edition": 2022,
+      "section_path": "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines",
+      "quote": "numération plaquettaire < 100 000/mm3 (100 G/L)"
+    }
+  },
+  "cb-cr-tih-mgmt": {
+    "class": "sourced",
+    "kp": [
+      "KP-047",
+      "KP-026"
+    ],
+    "element": "CR-manage-tih",
+    "anchors": [
+      {
+        "kp": "KP-047",
+        "edition": 2022,
+        "section_path": "VI. Accidents des anticoagulants > A Accidents liés à l'administration d'héparines",
+        "quote": "numération plaquettaire < 100 000/mm3 (100 G/L)"
+      },
+      {
+        "kp": "KP-026",
+        "edition": 2022,
+        "section_path": "II. Héparines et héparinoïdes",
+        "quote": "substituer l’héparine, qui a induit la TIH, par un autre anticoagulant SC ou IV non allergisant"
+      }
+    ]
+  }
+}

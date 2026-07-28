@@ -21,7 +21,7 @@ const SPEC_PATH = path.join(
   "build/visual-specs/mm-pump-decompensation.yaml"
 );
 const REVIEW_PATH = path.join(CHAPTER_DIR, "build/visual-grounding-review.yaml");
-const SOURCE_META = { edition: "2024-SFC" };
+const SOURCE_META = { edition: 2022 };
 
 const TEST_INVENTORY = {
   chapter: "cardio/test",

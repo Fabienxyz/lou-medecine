@@ -2,11 +2,17 @@
 
 **Photographie opérationnelle du projet** — **document vivant** du projet Lou Médecine.  
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-07-27
+**Dernière mise à jour :** 2026-07-28
 
-Ce document est mis à jour **lorsqu'un jalon important est franchi** (fin de phase, décision structurante, changement de risque majeur). Il **n'est pas mis à jour selon un calendrier fixe**. La roadmap ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md)) reste volontairement **stable** ; l'état opérationnel vit ici.
+Ce document est mis à jour **lorsqu'un jalon important est franchi** (fin de phase, décision structurante, changement de risque majeur). La roadmap ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md)) reste volontairement **stable** ; l'état opérationnel vit ici.
 
 Pour le séquencement, les priorités et les critères de réussite stables, voir [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md). Pour l'usage des modèles, voir [`LLM_STRATEGY.md`](LLM_STRATEGY.md). Pour l'implémentation, voir [`../IMPLEMENTATION_CONTRACT.md`](../IMPLEMENTATION_CONTRACT.md) et [`../FINAL_ARCHITECTURE.md`](../FINAL_ARCHITECTURE.md).
+
+---
+
+## Changement de statut — 2026-07-28
+
+La **R&D Acquisition est terminée**. La couche d'acquisition (FIL B, Tool 01, Tool 02, qualification P1–P7) est **gelée** et entre en **mode maintenance** : seules les évolutions définies par [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) § 6 (bug bloquant, nouveau format source, nouvel ADR) sont autorisées. Le projet bascule en **Phase 1 — Industrialisation** : production à l'échelle des artefacts métier (Inventory, Blueprint, projections, Renderer) à partir du chapter package FIL B. Jalon historique : [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md).
 
 ---
 
@@ -14,10 +20,12 @@ Pour le séquencement, les priorités et les critères de réussite stables, voi
 
 | | |
 |---|---|
-| **Phase** | Phase 0 — Le Socle |
-| **Chantier actif** | 0B — Fidélité du Collège |
-| **Prochain jalon** | Phase 1 — Lecteur du Collège cardio complet (contenu officiel, sans LLM) |
-| **Prochaine action** | Récupération du Rang A/B ; extraction des figures ; validation structurelle des tableaux |
+| **Phase** | **Phase 1 — Industrialisation** |
+| **Chantier actif** | Scale-out packages chapitre (20/22 restants) ; Inventory / Blueprint / Projection Factory |
+| **Prochain jalon** | Corpus `corpus-v1.0.0` gelé ; package archétype textuel (221) |
+| **Prochaine action** | Industrialiser l'extraction Inventory sur chapitres simples FIL B |
+
+**Acquisition :** mode maintenance (ADR-004). **Aucun** travail R&D sur Tool 01/Tool 02 sauf bug bloquant démontré.
 
 ---
 
@@ -25,11 +33,12 @@ Pour le séquencement, les priorités et les critères de réussite stables, voi
 
 | Date | Décision |
 |---|---|
-| 2026-07-27 | `docs/MASTER_ROADMAP.md` devient le document de pilotage officiel |
-| 2026-07-27 | Phase 0 scindée en 0B (fidélité) puis 0A (contrats), en parallèle de la Phase 1 |
-| 2026-07-27 | Schéma Inventory stable v1 pour Cardio V1 ; gel transversal après le 2ᵉ collège |
-| 2026-07-27 | Décisions humaines = entrées du pipeline (`chapter.package.yaml`), jamais retouches d'artefacts |
-| 2026-07-27 | Stratégie LLM extraite vers `docs/LLM_STRATEGY.md` |
+| 2026-07-28 | **ADR-004 — Architecture acquisition gelée** — fin R&D acquisition ; mode maintenance |
+| 2026-07-28 | **Phase 0 terminée** — fondations validées ; Phase 1 Industrialisation active |
+| 2026-07-28 | **R&D acquisition terminée — GO final** — 234 + 330 FIL B |
+| 2026-07-28 | **Item 234 migré FIL B** — vertical slice officiel |
+| 2026-07-28 | **Item 330 vertical slice FIL B** — 54 KPs, validate/build PASS |
+| 2026-07-28 | **FIL B = unique chaîne SSOT** · grille P1–P7 actée |
 
 ---
 
@@ -37,45 +46,58 @@ Pour le séquencement, les priorités et les critères de réussite stables, voi
 
 | Risque | Statut | Bloque |
 |---|---|---|
-| Couche canonique infidèle (Rang A/B, figures, tableaux) | **Actif** | Phase 1 |
-| Pipeline sémantique non automatisé | **Actif** | Phase 3 |
-| Build non reproductible (`data-official-text-id` absent du pipeline) | **Actif** | Phase 2 |
-| Généralisation pédagogique archétype-dépendante | **Ouvert** | Phase 4 (décision, pas architecture) |
-| Portabilité Tool 01 hors cardio | **Latent** | Phase 5 |
-| Tests mutent le chapitre canonique (234) | **Actif** | CI fiable (0A) |
+| Scale-out 20 chapitres — curation / automatisation | **Actif** | Phase 1 |
+| Pipeline sémantique non automatisé | **Actif** | Inventory / Blueprint Factory |
+| Build SVG non reproductible byte-identique | **Actif** | CI fiable |
+| Formats structurés EDN non évalués | **Latent** | Nouveau pipeline (ADR-004 cas B) |
+| Portabilité hors cardio / hors PDF | **Latent** | EDN Scale-out |
+
+**Clos :** R&D acquisition · qualification chaîne · migration FIL A opérationnelle Item 234 · hypothèse suffisance aval.
 
 ---
 
 ## Décisions gelées
 
-Aucune à ce jour. Entrent en vigueur :
-
-- fin de **0A** : modèle d'ancre et identifiants ;
-- fin de **Phase 3** : contrat du manifeste ;
-- fin de **Phase 5** : schéma d'Inventory transversal.
-
----
-
-## Prochains travaux
-
-1. **0B** — Récupération Rang A/B dans Tool 01 ; extraction figures ; validateur d'intégrité tableaux/en-têtes ; rapport sur 22 chapitres cardio.
-2. **0A** (en parallèle de Phase 1) — Modèle d'ancre ; CI ; isolation des tests ; câblage V2 ; `data-official-text-id`.
-3. **Phase 1** — `library.json` ; manifestes `official.source` ; écran d'accueil et recherche.
+| Décision | Date | Référence |
+|---|---|---|
+| Architecture acquisition gelée | 2026-07-28 | [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) |
+| FIL B = chaîne officielle unique | 2026-07-28 | [ADR-003](adr/ADR-003-single-source-of-truth.md) |
+| Tool 01 v1.0.0 | 2026-07-28 | [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) |
+| Tool 02 v1.0.0 | 2026-07-28 | Idem |
+| Grille P1–P7 | 2026-07-28 | [`SOURCE_PIPELINE_QUALIFICATION.md`](SOURCE_PIPELINE_QUALIFICATION.md) |
+| R&D acquisition terminée | 2026-07-28 | [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) |
 
 ---
 
-## Tableau de bord (cibles opérationnelles)
+## Migration FIL A — reliquats
 
-*Les chiffres vivent ici, pas dans la roadmap.*
+| Composant | Statut |
+|---|---|
+| Item 234 package | ✅ Migré FIL B |
+| Tests / paths génériques | ✅ Mis à jour |
+| Fichier legacy `chapter-analysis/…/official-college.md` | ⬜ Suppression après CI |
+| Rapports historiques Phase 2–3 (234) | Trace — hors pipeline |
 
-| Indicateur | Cible actuelle | Mesuré | Notes |
+---
+
+## Prochains travaux (Phase 1 — Industrialisation)
+
+1. **Inventory Factory** — scale-out chapitres FIL B ; voir [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md)
+2. **Blueprint Factory** / **Projection Factory** — automatisation pipeline sémantique
+3. **Renderer Production** — `library.json`, Lecteur multi-chapitres
+4. **Contrats 0A** — CI, modèle d'ancre étendu, build reproductible (en parallèle)
+
+---
+
+## Tableau de bord
+
+| Indicateur | Cible Phase 1 | Mesuré | Notes |
 |---|---|---|---|
-| Minutes humaines / chapitre publié | Phase 3 : faible ; Phase 5 : très faible | — | À mesurer en Phase 2 |
-| Segments source avec disposition | Exhaustivité prouvée par code | — | |
-| Claims sourcés vérifiés déterministiquement | Majorité | ~1 règle aujourd'hui | Extension en Phase 2 |
-| Build textuel reproductible | Octet pour octet en CI | **Non** | `mec-oap.svg` diverge au rebuild |
-| Décisions humaines / chapitre | Comptées, en décroissance | — | |
-| Coût LLM / chapitre | Mesuré, stable | — | Première mesure en Phase 2 |
+| Chapitres packagés FIL B | 22 | **2** (234, 330) | 9 % |
+| lou-build validate PASS | 22 | **2** | |
+| Références FIL A opérationnelles | 0 | **0** | |
+| Tests lou-build | PASS | **96/96** | |
+| Couche acquisition | Maintenance | **Gelée** | ADR-004 |
 
 ---
 
@@ -83,12 +105,11 @@ Aucune à ce jour. Entrent en vigueur :
 
 | Date | Jalon |
 |---|---|
-| 2026-07 | Renderer V2.3 livré (annotation, formatage SVG inline) |
-| 2026-07 | Item 234 — chapitre de référence (Inventory, Blueprint, Projections, manifest) |
-| 2026-07 | Tool 01 (PDF → canonique) et Tool 02 (découpage chapitres) gelés v1.0.0 |
-| 2026-07 | `lou-build` — validate/build pour chapitres packagés |
-| 2026-07 | Audit architecture + Master Roadmap validée |
-| — | Phase 0 — *non démarrée* |
+| 2026-07-28 | **R&D acquisition terminée** — ADR-004 ; Phase 0 close ; Phase 1 active |
+| 2026-07-28 | GO final qualification — 234+330 FIL B |
+| 2026-07-28 | Migration 234 FIL B · vertical slice 330 |
+| 2026-07-28 | FIL B SSOT · Phase 0B · grille P1–P7 |
+| 2026-07 | Tool 01/02 v1.0.0 · Renderer V2.3 |
 
 ---
 
@@ -96,6 +117,9 @@ Aucune à ce jour. Entrent en vigueur :
 
 | Document | Usage |
 |---|---|
-| [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) | Priorités et phases (stable) |
-| [`LLM_STRATEGY.md`](LLM_STRATEGY.md) | Usage des modèles (évolutif) |
-| `IMPLEMENTATION_CONTRACT.md` | Contrat d'implémentation |
+| [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) | Gel acquisition — **normatif** |
+| [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) | Jalon sortie R&D |
+| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Phase 1 Industrialisation |
+| [`acquisition/qualification-report-acquisition-final.md`](acquisition/qualification-report-acquisition-final.md) | Verdict GO |
+| [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) | Chaîne FIL B |
+| [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) | Phases 0 ✅ / 1 active |

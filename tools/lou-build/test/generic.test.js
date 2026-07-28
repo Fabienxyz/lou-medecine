@@ -222,7 +222,7 @@ claims:
   assert.equal(loaded.allClaims.length, 2);
 
   const trace = assembleTraceability(loaded.allClaims, inventory, {
-    edition: "2024-SFC",
+    edition: 2022,
   });
   assert.ok(trace["cb-one"]);
   assert.ok(trace["cb-two"]);

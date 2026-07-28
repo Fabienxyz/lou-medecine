@@ -141,14 +141,16 @@ Toute modification substantielle nécessitera une nouvelle révision explicite.
 | **0 — Fondations** | Contrats, acquisition, gouvernance | ✅ **Terminée** | Fondations immuables | Chaîne FIL B + contrats 01–06 + ADR-004 |
 | **1 — Le Lecteur** | Architecture Reader v1 | ✅ **Terminée** | Vision et spec fonctionnelle du Reader | Docs [14](renderer/14-LOU-READER-ARCHITECTURE.md)–[15](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
 | **2 — La Fabrique — Architecture** | Publication et build | ✅ **Terminée** | Modèle de publication, architecture et pipeline | Docs [16](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)–[19](renderer/19-BUILD-PIPELINE.md) |
-| **3 — Implémentation de lou-build** | Production industrielle | **Active** | Produire les artefacts métier à l'échelle | Collège cardio complet + pipeline automatisé |
+| **3 — Implémentation de lou-build** | Pipeline Migration | ✅ **Terminée** | Engine v1 + stages typés A–K | Tag [`lou-build-pipeline-v1`](releases/phase-3.4-batch-migration-g-k.md) |
+| **3.5 — Legacy Removal / Cutover** | Production cutover | **Active** | Retrait legacy, cutover production | CLI typée seule + lib partagée stabilisée |
 | **4 — Validation pédagogique** | Preuve pédagogique | À venir | Prouver que la méthode enseigne mieux | Décision écrite Phase 4 |
 | **5 — Échelle EDN** | Multi-collèges | À venir | Production EDN | Production EDN |
 | **6 — Régime permanent** | Maintenance éditions | À venir | Système auto-maintenu | Système auto-maintenu |
 
-**Chemin critique actuel :** Phase 3 (Implémentation lou-build) → Phase 4 → Phase 5 → Phase 6.
+**Chemin critique actuel :** Phase 3.5 (Legacy Removal / Cutover) → Phase 4 → Phase 5 → Phase 6.
 
-> **Jalon (2026-07-28).** Architecture v1 **gelée** — clôture des phases 0–2. Le projet entre en implémentation de **lou-build**. Détail opérationnel : [`PROJECT_STATE.md`](PROJECT_STATE.md).
+> **Jalon (2026-07-28).** Architecture v1 **gelée** — phases 0–2 clôturées.  
+> **Jalon (2026-07-28).** Phase 3 — Pipeline Migration **terminée** — tag `lou-build-pipeline-v1`. Prochaine étape : **Phase 3.5**. Détail : [`PROJECT_STATE.md`](PROJECT_STATE.md) · [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md).
 
 ---
 
@@ -210,40 +212,65 @@ Toute modification substantielle nécessitera une nouvelle révision explicite.
 
 ---
 
-### Phase 3 — Implémentation de lou-build *(phase active)*
+### Phase 3 — Implémentation de lou-build ✅ TERMINÉE *(Pipeline Migration)*
 
-> **Remapping :** correspond à l'ancienne **Phase 1 — Industrialisation** (détail opérationnel conservé ci-dessous).
+> **Remapping :** correspond à l'ancienne **Phase 1 — Industrialisation** pour la partie **outil de build**. Le scale-out industriel (22 chapitres, factories) reste planifié **après** le cutover Phase 3.5.
 
-**Objectif.** Transformer le prototype validé en chaîne capable de produire l'ensemble des chapitres EDN — sans retravailler l'acquisition.
+**Objectif (atteint).** Porter lou-build d'une orchestration monolithique vers un **Pipeline Engine v1** générique, un **BuildContext** figé, et **onze stages typés A–K**, avec parité legacy et CLI typée par défaut.
 
-**Pourquoi.** Les fondations sont stables ; le goulot d'étranglement est désormais la **production industrielle** des artefacts métier (Inventory, Blueprint, projections, Renderer) à partir du chapter package FIL B.
+**Statut.** **Terminée** — 2026-07-28. Tag : `lou-build-pipeline-v1`. Jalon : [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md).
 
-**Grands chantiers.**
-
-| Chantier | Objectif | État |
+| Sous-phase | Contenu | Statut |
 |---|---|---|
-| **Inventory Factory** | Extraction, réconciliation et validation Inventory reproductibles par chapitre | 2/22 chapitres (234, 330) |
-| **Blueprint Factory** | Génération et validation Blueprint à partir de l'Inventory | 2/22 chapitres |
-| **Projection Factory** | Projections pédagogiques ancrées, grounding automatisé | 2/22 chapitres |
-| **Renderer Production** | Lecteur multi-chapitres, `library.json`, contenu officiel + compréhension | Prototype Item 234 |
-| **EDN Scale-out** | Collège cardio complet → 2ᵉ collège → production EDN | Non démarré |
+| **3.1** | Engine freeze + Stage A | ✅ |
+| **3.2** | Stage B (Package Input) | ✅ |
+| **3.3** | Stages C → F | ✅ |
+| **3.4** | Stages G → K + audit + correctif F1 + clôture | ✅ |
 
-Feuille de route détaillée : [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
+**Livrables gelés.**
 
-**Critères de sortie Phase 3.**
+- Pipeline Engine v1 (`src/pipeline/`) — figé
+- BuildContext — figé
+- Stages A–K typés (`src/stages/`)
+- Wrappers legacy **conservés volontairement** (filet Phase 3.5)
+- Tests : 188/188 PASS · validate/build Item 234 PASS
+- Invalidation manifest en début de build (F1) restaurée sur la CLI typée
 
-- 22 chapitres cardio packagés — `lou-build validate` PASS sur FIL B.
-- Pipeline sémantique exécutable sans transcription manuelle systématique.
-- Lecteur opérationnel pour le Collège cardio complet.
-- Effort humain et coût LLM **mesurés** par chapitre — [`PROJECT_STATE.md`](PROJECT_STATE.md).
+**Ne pas faire.** Modifier le Pipeline Engine sans révision explicite ; supprimer le legacy avant Phase 3.5 ; rouvrir la R&D acquisition ; modifier l'architecture gelée (docs 14–19) sans révision explicite.
 
-**Ne pas faire.** Rouvrir la R&D acquisition ; modifier l'architecture gelée (docs 14–19) sans révision explicite ; optimiser Tool 01/02 sans bug bloquant ADR-004 ; retoucher le Markdown source à la main.
+---
+
+### Phase 3.5 — Legacy Removal / Production Cutover *(phase active)*
+
+**Objectif.** Retirer le filet legacy de façon contrôlée et basculer définitivement sur la CLI typée / stages `src/`.
+
+**Pourquoi.** La migration métier est complète ; le code legacy (`cli.js`, wrappers de stage, orchestration `runValidation`/`runBuild`) n'est plus nécessaire comme référence de parité permanente.
+
+**Chantiers.**
+
+| Chantier | Objectif |
+|---|---|
+| Suppression des wrappers de stage | Retirer `lib/*-stage.js` et équivalents de parité |
+| Cutover CLI | Retirer `cli.js` / `*:legacy` après filet e2e |
+| Modules `lib/` partagés | **Conserver** la logique métier partagée (ne pas supprimer `lib/` en bloc) |
+| F2 (reporté) | Ordre d'écriture sidecars/figures vs verdict I — à traiter si pertinent |
+| Scale-out industriel | Après cutover — Inventory / Blueprint / Projection Factory (voir plan d'industrialisation) |
+
+Feuille de route scale-out : [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
+
+**Critères de sortie Phase 3.5 (indicatif).**
+
+- Chemin unique : CLI typée + stages `src/`
+- Legacy d'orchestration retiré ; modules métier partagés conservés ou relocalisés
+- Tests métier verts sans dépendance aux wrappers de parité
+
+**Ne pas faire.** Supprimer `lib/` indiscriminément ; modifier le Pipeline Engine ; rouvrir la migration A–K.
 
 ---
 
 ### Détail historique — sous-phases d'industrialisation
 
-Les sections ci-dessous conservent le **détail opérationnel** des chantiers prévus avant la restructuration Phase 0–3. Elles restent valides comme sous-chantiers de la **Phase 3 — Implémentation de lou-build**.
+Les sections ci-dessous conservent le **détail opérationnel** des chantiers prévus avant la restructuration Phase 0–3. Elles restent valides comme sous-chantiers d'industrialisation **après** la Phase 3.5 (cutover).
 
 ---
 
@@ -337,7 +364,7 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 **Ne pas faire.** Modifier un invariant fondamental sans ADR ; dupliquer une règle déjà définie dans un contrat 01–06 ; confondre gouvernance et implémentation.
 
-**Hors périmètre Phase 0A (volontaire).** Contrats composants Tool 03–05, implémentation complète, build reproductible byte-identique, CI — relèvent de la **Phase 3 — Implémentation de lou-build** et des phases suivantes.
+**Hors périmètre Phase 0A (volontaire).** Contrats composants Tool 03–05, implémentation complète, build reproductible byte-identique, CI — relèvent de l'implémentation lou-build (Phase 3 terminée / Phase 3.5+) et des phases suivantes.
 
 ---
 
@@ -565,7 +592,8 @@ Si la réponse est non, la décision attend.
 | [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) | Chaîne officielle FIL B, SSOT, statut FIL A legacy |
 | [`adr/ADR-004-acquisition-architecture-frozen.md`](adr/ADR-004-acquisition-architecture-frozen.md) | Gel architecture acquisition — fin R&D |
 | [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) | Jalon historique sortie R&D acquisition |
-| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route Phase 3 — Implémentation lou-build |
+| [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md) | Jalon Phase 3 — Pipeline Migration close (`lou-build-pipeline-v1`) |
+| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route scale-out industriel (post Phase 3.5) |
 | [`SOURCE_PIPELINE_QUALIFICATION.md`](SOURCE_PIPELINE_QUALIFICATION.md) | Grille P1–P7 (Phase P clôturée) |
 | [`SOURCE_FORMAT_COMPARATIVE.md`](SOURCE_FORMAT_COMPARATIVE.md) | Analyse comparative des formats source EDN |
 | [`acquisition/`](acquisition/) | Dossier de qualification rejouable — produit en Phase P |

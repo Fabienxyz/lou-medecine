@@ -49,4 +49,6 @@ These documents explain the current research and discoveries.
 
 Only after reading the documents above should new product or implementation work begin.
 
-**Phase active :** implémentation de **lou-build** — start with [`tools/lou-build/`](tools/lou-build/), [`docs/renderer/19-BUILD-PIPELINE.md`](docs/renderer/19-BUILD-PIPELINE.md), and [`demo/renderer/`](demo/renderer/).
+**Phase 3 terminée** — tag `lou-build-pipeline-v1` ([jalon](docs/releases/phase-3.4-batch-migration-g-k.md)).
+
+**Phase active :** **Phase 3.5 — Legacy Removal / Production Cutover**. Start with [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md), [`tools/lou-build/`](tools/lou-build/), [`docs/renderer/19-BUILD-PIPELINE.md`](docs/renderer/19-BUILD-PIPELINE.md), and [`demo/renderer/`](demo/renderer/).

@@ -49,7 +49,9 @@ Research, observations and experiments.
 
 **Architecture v1 gelée** (2026-07-28). Phases Fondations, Le Lecteur et La Fabrique — Architecture sont **terminées**.
 
-**Phase active :** implémentation de **lou-build** — production industrielle des artefacts métier (Inventory, Blueprint, projections, packages chapitre) conformément au pipeline défini dans [`docs/renderer/19-BUILD-PIPELINE.md`](docs/renderer/19-BUILD-PIPELINE.md).
+**Phase 3 — Pipeline Migration terminée** — tag [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md) (Pipeline Engine v1, BuildContext figé, stages typés A–K). Legacy conservé volontairement.
+
+**Phase active :** **Phase 3.5 — Legacy Removal / Production Cutover**. Ensuite : scale-out industriel des artefacts métier conformément à [`docs/renderer/19-BUILD-PIPELINE.md`](docs/renderer/19-BUILD-PIPELINE.md).
 
 État opérationnel : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · pilotage : [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
 

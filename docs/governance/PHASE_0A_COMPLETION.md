@@ -92,7 +92,7 @@ La Phase 0A **ne clôt pas** l'industrialisation ni l'implémentation complète 
 - **Outils** — Inventory Factory, Blueprint Factory, Projection Factory, Renderer Production.
 - **Détails techniques** — schémas visualSpec, primitives graphiques, APIs renderer, IndexedDB apprenant.
 
-Ces chantiers continuent sous **Phase 1 — Industrialisation**, en respect des contrats fondamentaux gelés.
+Ces chantiers continuent sous **Phase 3 — Implémentation de lou-build**, en respect des contrats fondamentaux et de l'architecture gelée (docs 14–19).
 
 ---
 
@@ -103,4 +103,4 @@ La **gouvernance fondamentale** est désormais considérée comme **stable**.
 Les six contrats 01–06 constituent la **référence normative** du projet pour les obligations durables. Les évolutions futures — industrialisation, nouveaux outils, scale-out EDN — devront **préserver la cohérence** de ces contrats. Toute modification d'invariant fondamental requiert un **ADR** et une mise à jour contractuelle explicite.
 
 **Phase 0A : terminée.**  
-**Phase active du projet : Phase 1 — Industrialisation** (voir [`PROJECT_STATE.md`](../PROJECT_STATE.md)).
+**Phase active du projet :** voir [`PROJECT_STATE.md`](../PROJECT_STATE.md) (Phase 3 — Implémentation lou-build ; architecture v1 gelée).

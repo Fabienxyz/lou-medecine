@@ -8,6 +8,16 @@ This document set is the official reference for the Lou Médecine renderer, in t
 
 ---
 
+## Architecture de référence (gelée v1)
+
+Les documents **14–19** constituent l'architecture officielle gelée du projet (2026-07-28). Index parent : [`contracts/00-INDEX.md`](../contracts/00-INDEX.md) § 6.
+
+**Chaîne documentaire :** [contrats 01–06](../contracts/00-INDEX.md) → [14](./14-LOU-READER-ARCHITECTURE.md) → [15](./15-READER-FUNCTIONAL-SPECIFICATION.md) → [17](./17-PUBLICATION-MODEL.md) → [18](./18-BUILD-ARCHITECTURE.md) → [19](./19-BUILD-PIPELINE.md) → [16](./16-CONTENT-TO-READER-ARCHITECTURE.md).
+
+**Phase suivante :** implémentation de [`tools/lou-build/`](../../tools/lou-build/) conformément au [doc 19](./19-BUILD-PIPELINE.md).
+
+---
+
 ## Document map
 
 | Document | Purpose |
@@ -25,6 +35,12 @@ This document set is the official reference for the Lou Médecine renderer, in t
 | [11-REPOSITORY_CLEANUP.md](./11-REPOSITORY_CLEANUP.md) | Final directory organisation and obsolete file retirement |
 | [12-NON_GOALS.md](./12-NON_GOALS.md) | Explicit scope boundaries |
 | [13-ROADMAP.md](./13-ROADMAP.md) | Realistic implementation phases |
+| [14-LOU-READER-ARCHITECTURE.md](./14-LOU-READER-ARCHITECTURE.md) | **Baseline v1.0** — Vision pédagogique, principes, architecture trois couches, glossaire, non-objectifs |
+| [15-READER-FUNCTIONAL-SPECIFICATION.md](./15-READER-FUNCTIONAL-SPECIFICATION.md) | **Baseline v1.0** — Spécification fonctionnelle : écrans, interactions, parcours, QCM, Notes, couche apprenante |
+| [16-CONTENT-TO-READER-ARCHITECTURE.md](./16-CONTENT-TO-READER-ARCHITECTURE.md) | **Référence conceptuelle** — Frontière Chapter Package publié ↔ Reader : composition, identités, interdictions |
+| [17-PUBLICATION-MODEL.md](./17-PUBLICATION-MODEL.md) | **Référence conceptuelle — La Fabrique** — Modèle de publication : état, garanties, incomplétude, manifest |
+| [18-BUILD-ARCHITECTURE.md](./18-BUILD-ARCHITECTURE.md) | **Référence conceptuelle — La Fabrique** — Architecture de fabrication : transformations, validations, invariants |
+| [19-BUILD-PIPELINE.md](./19-BUILD-PIPELINE.md) | **Ingénierie — La Fabrique** — Pipeline opérationnel : étapes, artefacts, validations, dépendances |
 | [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) | Architecture Decision Record — why V2 exists |
 
 ---

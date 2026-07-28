@@ -47,13 +47,11 @@ Research, observations and experiments.
 
 ## Current Status
 
-Current work focuses on:
+**Architecture v1 gelée** (2026-07-28). Phases Fondations, Le Lecteur et La Fabrique — Architecture sont **terminées**.
 
-- understanding how Lou studies;
-- analysing the cardiology college;
-- designing the ideal study workflow for a single chapter.
+**Phase active :** implémentation de **lou-build** — production industrielle des artefacts métier (Inventory, Blueprint, projections, packages chapitre) conformément au pipeline défini dans [`docs/renderer/19-BUILD-PIPELINE.md`](docs/renderer/19-BUILD-PIPELINE.md).
 
-The objective is to validate the methodology before building the software.
+État opérationnel : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · pilotage : [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
 
 ---
 
@@ -61,10 +59,10 @@ The objective is to validate the methodology before building the software.
 
 Read in this order:
 
-1. **[Master Roadmap](docs/MASTER_ROADMAP.md)** — document de pilotage officiel du projet
-2. **[Project State](docs/PROJECT_STATE.md)** — état courant et métriques (document vivant)
-3. **[LLM Strategy](docs/LLM_STRATEGY.md)** — stratégie d'utilisation des modèles (évolutive)
-4. **[Implementation Contract](IMPLEMENTATION_CONTRACT.md)** — contrat d'implémentation
-5. **[Final Architecture](FINAL_ARCHITECTURE.md)** — architecture de référence
+1. **[Contrats fondamentaux](docs/contracts/00-INDEX.md)** — gouvernance normative (01–06) et index de l'architecture de référence
+2. **Architecture de référence (gelée v1)** — [`docs/renderer/README.md`](docs/renderer/README.md) · docs [14](docs/renderer/14-LOU-READER-ARCHITECTURE.md)–[19](docs/renderer/19-BUILD-PIPELINE.md)
+3. **[Master Roadmap](docs/MASTER_ROADMAP.md)** — séquencement produit et phases
+4. **[Project State](docs/PROJECT_STATE.md)** — état courant et métriques (document vivant)
+5. **Implémentation (lou-build)** — [`tools/lou-build/`](tools/lou-build/) · [`IMPLEMENTATION_CONTRACT.md`](IMPLEMENTATION_CONTRACT.md)
 
 Entry point for new contributors: [START_HERE.md](START_HERE.md).

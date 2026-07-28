@@ -86,7 +86,7 @@ Toute modification de ces composants est soumise à la **Modification Policy** d
 
 2. **Interdictions.** Aucun chantier ne rouvre la R&D acquisition : pas d'optimisation esthétique PDF, pas de retouche manuelle du Markdown, pas de seconde chaîne parallèle.
 
-3. **Phase active.** Le projet entre en **Phase 1 — Industrialisation** : Inventory Factory, Blueprint Factory, Projection Factory, Renderer Production, EDN Scale-out.
+3. **Phase active (historique).** Le projet entre en industrialisation : Inventory Factory, Blueprint Factory, Projection Factory, Renderer Production, EDN Scale-out. *Séquencement actuel :* **Phase 3 — Implémentation de lou-build** — voir [`PROJECT_STATE.md`](../PROJECT_STATE.md).
 
 4. **Référence normative.** ADR-004 est la décision de gouvernance de référence pour toute question relative à la couche acquisition.
 

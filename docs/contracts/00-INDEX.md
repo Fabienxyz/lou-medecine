@@ -1,7 +1,7 @@
 # Lou Médecine — Index des contrats
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-07-28  
+**Dernière mise à jour :** 2026-07-28 (gouvernance — gel architecture v1)  
 **Audit source :** [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md)
 
 Ce document est la **porte d'entrée** du système contractuel. Il n'énonce aucune règle métier, ne remplace aucun ADR ni aucun contrat existant.
@@ -119,6 +119,25 @@ Pour savoir *si c'est implémenté* : lire le **code** et les **tests**.
 
 ---
 
+## 6. Architecture de référence
+
+Les documents **14–19** (`docs/renderer/`) constituent l'**architecture de référence officielle** du projet depuis le gel **Architecture v1** (2026-07-28). Ils complètent les contrats fondamentaux 01–06 ; ils ne les remplacent pas.
+
+**Chaîne documentaire recommandée :** contrats 01–06 → 14 → 15 → 17 → 18 → 19 → 16.
+
+| Document | Rôle |
+|---|---|
+| [`14-LOU-READER-ARCHITECTURE.md`](../renderer/14-LOU-READER-ARCHITECTURE.md) | Vision pédagogique, principes et architecture conceptuelle du Reader v1.0. |
+| [`15-READER-FUNCTIONAL-SPECIFICATION.md`](../renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) | Spécification fonctionnelle du Reader : écrans, parcours, interactions et comportements. |
+| [`17-PUBLICATION-MODEL.md`](../renderer/17-PUBLICATION-MODEL.md) | Modèle de publication — définit l'état « publié », ses garanties et le contrat aval de La Fabrique. |
+| [`18-BUILD-ARCHITECTURE.md`](../renderer/18-BUILD-ARCHITECTURE.md) | Architecture conceptuelle de La Fabrique — transformations, validations et invariants de fabrication. |
+| [`19-BUILD-PIPELINE.md`](../renderer/19-BUILD-PIPELINE.md) | Pipeline opérationnel de La Fabrique — étapes, artefacts, gates et dépendances du build. |
+| [`16-CONTENT-TO-READER-ARCHITECTURE.md`](../renderer/16-CONTENT-TO-READER-ARCHITECTURE.md) | Frontière Chapter Package publié ↔ Reader — composition déclarative et identités à l'interface. |
+
+Cette architecture est **gelée**. Toute évolution substantielle nécessite une révision explicite. Séquencement projet : [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) · état courant : [`PROJECT_STATE.md`](../PROJECT_STATE.md).
+
+---
+
 ## Documents connexes
 
 | Document | Usage |
@@ -129,3 +148,5 @@ Pour savoir *si c'est implémenté* : lire le **code** et les **tests**.
 | [`PHASE_0A_COMPLETION.md`](../governance/PHASE_0A_COMPLETION.md) | Clôture Phase 0A |
 | [`RENDERER_COMPLIANCE_COMPLETION.md`](../governance/RENDERER_COMPLIANCE_COMPLETION.md) | Clôture conformité Renderer |
 | [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md) | Inventaire et cartographie ayant motivé cette structure |
+| [`renderer/README.md`](../renderer/README.md) | Index de la documentation renderer — navigation vers l'architecture de référence 14–19 |
+| [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) · [`PROJECT_STATE.md`](../PROJECT_STATE.md) | Pilotage et jalon Architecture v1 gelée |

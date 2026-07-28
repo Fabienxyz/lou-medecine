@@ -1,7 +1,7 @@
 # Lou Médecine — Master Roadmap
 
 Document de pilotage officiel du projet.  
-**Dernière mise à jour :** 2026-07-28
+**Dernière mise à jour :** 2026-07-28 (gel architecture v1)
 
 Ce document est la **référence officielle pour le pilotage** du projet. Il définit les objectifs, le séquencement, les priorités et les critères de réussite.
 
@@ -114,23 +114,49 @@ Si une **même classe d'exception** se répète sur plusieurs chapitres, c'est u
 
 ## 5. Vue d'ensemble
 
-| Phase | Statut | Objectif | Principal livrable |
-|---|---|---|---|
-| **0 — Architecture & Acquisition** | ✅ **Terminée** | Fondations : gouvernance, SSOT, acquisition qualifiée et gelée | Chaîne FIL B + ADR-004 |
-| **1 — Industrialisation** | **Active** | Produire les artefacts métier à l'échelle | Collège cardio complet + pipeline automatisé |
-| **2 — Validation pédagogique** | À venir | Prouver que la méthode enseigne mieux | Décision écrite Phase 4 |
-| **3 — Échelle EDN** | À venir | Multi-collèges | Production EDN |
-| **4 — Régime permanent** | À venir | Maintenance éditions | Système auto-maintenu |
+### Architecture v1 — GELÉE
 
-**Chemin critique actuel :** Phase 1 (Industrialisation) → Phase 2 → Phase 3 → Phase 4.
+Les documents suivants constituent désormais l'architecture officielle de Lou Médecine :
 
-> **Changement de cap (2026-07-28).** La R&D acquisition est **clôturée** ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md)). Le projet ne travaille plus sur les fondations d'acquisition mais sur leur **industrialisation**. Détail opérationnel : [`PROJECT_STATE.md`](PROJECT_STATE.md).
+- Contrats fondamentaux 01–06 ([`contracts/00-INDEX.md`](contracts/00-INDEX.md))
+- [Reader Architecture](renderer/14-LOU-READER-ARCHITECTURE.md)
+- [Reader Functional Specification](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md)
+- [Publication ↔ Reader](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)
+- [Publication Model](renderer/17-PUBLICATION-MODEL.md)
+- [Build Architecture](renderer/18-BUILD-ARCHITECTURE.md)
+- [Build Pipeline](renderer/19-BUILD-PIPELINE.md)
+
+Cette architecture est désormais considérée comme **stable**.
+
+Toute évolution future devra être motivée par un besoin démontré pendant l'implémentation.
+
+Toute modification substantielle nécessitera une nouvelle révision explicite.
+
+**Chaîne documentaire :** contrats 01–06 → 14 → 15 → 17 → 18 → 19 → 16.
+
+### Séquencement produit
+
+| Phase | Intitulé | Statut | Objectif | Principal livrable |
+|---|---|---|---|---|
+| **0 — Fondations** | Contrats, acquisition, gouvernance | ✅ **Terminée** | Fondations immuables | Chaîne FIL B + contrats 01–06 + ADR-004 |
+| **1 — Le Lecteur** | Architecture Reader v1 | ✅ **Terminée** | Vision et spec fonctionnelle du Reader | Docs [14](renderer/14-LOU-READER-ARCHITECTURE.md)–[15](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
+| **2 — La Fabrique — Architecture** | Publication et build | ✅ **Terminée** | Modèle de publication, architecture et pipeline | Docs [16](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)–[19](renderer/19-BUILD-PIPELINE.md) |
+| **3 — Implémentation de lou-build** | Production industrielle | **Active** | Produire les artefacts métier à l'échelle | Collège cardio complet + pipeline automatisé |
+| **4 — Validation pédagogique** | Preuve pédagogique | À venir | Prouver que la méthode enseigne mieux | Décision écrite Phase 4 |
+| **5 — Échelle EDN** | Multi-collèges | À venir | Production EDN | Production EDN |
+| **6 — Régime permanent** | Maintenance éditions | À venir | Système auto-maintenu | Système auto-maintenu |
+
+**Chemin critique actuel :** Phase 3 (Implémentation lou-build) → Phase 4 → Phase 5 → Phase 6.
+
+> **Jalon (2026-07-28).** Architecture v1 **gelée** — clôture des phases 0–2. Le projet entre en implémentation de **lou-build**. Détail opérationnel : [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 ---
 
 ## 6. Les phases
 
-### Phase 0 — Architecture & Acquisition ✅ TERMINÉE
+### Phase 0 — Fondations ✅ TERMINÉE
+
+> **Ancien intitulé :** Phase 0 — Architecture & Acquisition.
 
 **Objectif.** Établir et valider les fondations immuables du projet : gouvernance, source de vérité, pipeline d'acquisition, qualification et gel architectural.
 
@@ -146,7 +172,7 @@ Si une **même classe d'exception** se répète sur plusieurs chapitres, c'est u
 | Phase P — qualification P1–P7 | ✅ | [`qualification-report-acquisition-final.md`](acquisition/qualification-report-acquisition-final.md) |
 | Phase 0B — dérivation Collège | ✅ | [`qualification-report-phase-0b.md`](acquisition/qualification-report-phase-0b.md) |
 | Double vertical slice (234 + 330) | ✅ | Migration 234 FIL B ; package 330 FIL B |
-| Architecture Frozen | ✅ | [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) |
+| Architecture Frozen (acquisition) | ✅ | [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) |
 
 **Mode maintenance.** La couche acquisition est **gelée**. Évolutions limitées aux cas ADR-004 § 6 (bug bloquant, nouveau format source, nouvel ADR).
 
@@ -156,7 +182,37 @@ Si une **même classe d'exception** se répète sur plusieurs chapitres, c'est u
 
 ---
 
-### Phase 1 — Industrialisation *(phase active)*
+### Phase 1 — Le Lecteur ✅ TERMINÉE
+
+**Objectif.** Définir l'architecture et la spécification fonctionnelle du Reader v1.0 — vision pédagogique, principes, écrans et parcours.
+
+**Statut.** **Terminée** — 2026-07-28.
+
+| Jalon | Statut | Référence |
+|---|---|---|
+| Reader Architecture v1.0 | ✅ | [`renderer/14-LOU-READER-ARCHITECTURE.md`](renderer/14-LOU-READER-ARCHITECTURE.md) |
+| Reader Functional Specification v1.0 | ✅ | [`renderer/15-READER-FUNCTIONAL-SPECIFICATION.md`](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
+
+---
+
+### Phase 2 — La Fabrique — Architecture ✅ TERMINÉE
+
+**Objectif.** Définir le modèle de publication, l'architecture conceptuelle de La Fabrique, le pipeline opérationnel et la frontière publication ↔ Reader.
+
+**Statut.** **Terminée** — 2026-07-28.
+
+| Jalon | Statut | Référence |
+|---|---|---|
+| Publication Model | ✅ | [`renderer/17-PUBLICATION-MODEL.md`](renderer/17-PUBLICATION-MODEL.md) |
+| Build Architecture | ✅ | [`renderer/18-BUILD-ARCHITECTURE.md`](renderer/18-BUILD-ARCHITECTURE.md) |
+| Build Pipeline | ✅ | [`renderer/19-BUILD-PIPELINE.md`](renderer/19-BUILD-PIPELINE.md) |
+| Content → Reader | ✅ | [`renderer/16-CONTENT-TO-READER-ARCHITECTURE.md`](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md) |
+
+---
+
+### Phase 3 — Implémentation de lou-build *(phase active)*
+
+> **Remapping :** correspond à l'ancienne **Phase 1 — Industrialisation** (détail opérationnel conservé ci-dessous).
 
 **Objectif.** Transformer le prototype validé en chaîne capable de produire l'ensemble des chapitres EDN — sans retravailler l'acquisition.
 
@@ -174,20 +230,20 @@ Si une **même classe d'exception** se répète sur plusieurs chapitres, c'est u
 
 Feuille de route détaillée : [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
 
-**Critères de sortie Phase 1.**
+**Critères de sortie Phase 3.**
 
 - 22 chapitres cardio packagés — `lou-build validate` PASS sur FIL B.
 - Pipeline sémantique exécutable sans transcription manuelle systématique.
 - Lecteur opérationnel pour le Collège cardio complet.
 - Effort humain et coût LLM **mesurés** par chapitre — [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
-**Ne pas faire.** Rouvrir la R&D acquisition ; optimiser Tool 01/02 sans bug bloquant ADR-004 ; retoucher le Markdown source à la main.
+**Ne pas faire.** Rouvrir la R&D acquisition ; modifier l'architecture gelée (docs 14–19) sans révision explicite ; optimiser Tool 01/02 sans bug bloquant ADR-004 ; retoucher le Markdown source à la main.
 
 ---
 
 ### Détail historique — sous-phases d'industrialisation
 
-Les sections ci-dessous conservent le **détail opérationnel** des chantiers prévus avant la restructuration Phase 0/1. Elles restent valides comme sous-chantiers de la **Phase 1 — Industrialisation**.
+Les sections ci-dessous conservent le **détail opérationnel** des chantiers prévus avant la restructuration Phase 0–3. Elles restent valides comme sous-chantiers de la **Phase 3 — Implémentation de lou-build**.
 
 ---
 
@@ -281,7 +337,7 @@ Deux chantiers séquencés différemment parce qu'ils débloquent des phases dif
 
 **Ne pas faire.** Modifier un invariant fondamental sans ADR ; dupliquer une règle déjà définie dans un contrat 01–06 ; confondre gouvernance et implémentation.
 
-**Hors périmètre Phase 0A (volontaire).** Contrats composants Tool 03–05, implémentation complète, build reproductible byte-identique, CI — relèvent de la **Phase 1 — Industrialisation** et des phases suivantes.
+**Hors périmètre Phase 0A (volontaire).** Contrats composants Tool 03–05, implémentation complète, build reproductible byte-identique, CI — relèvent de la **Phase 3 — Implémentation de lou-build** et des phases suivantes.
 
 ---
 
@@ -500,14 +556,16 @@ Si la réponse est non, la décision attend.
 
 | Document | Rôle |
 |---|---|
-| [`contracts/00-INDEX.md`](contracts/00-INDEX.md) | **Contrats fondamentaux 01–06** — gouvernance normative |
+| [`contracts/00-INDEX.md`](contracts/00-INDEX.md) | **Contrats fondamentaux 01–06** — gouvernance normative ; § 6 architecture de référence |
+| [`renderer/README.md`](renderer/README.md) | **Architecture de référence gelée** — docs 14–19 |
+| [`renderer/19-BUILD-PIPELINE.md`](renderer/19-BUILD-PIPELINE.md) | Pipeline opérationnel cible de lou-build |
 | [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md) | Clôture officielle Phase 0A |
 | [`PROJECT_STATE.md`](PROJECT_STATE.md) | État courant, métriques, risques — **document vivant** |
 | [`LLM_STRATEGY.md`](LLM_STRATEGY.md) | Usage des modèles — **stratégie évolutive** |
 | [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) | Chaîne officielle FIL B, SSOT, statut FIL A legacy |
 | [`adr/ADR-004-acquisition-architecture-frozen.md`](adr/ADR-004-acquisition-architecture-frozen.md) | Gel architecture acquisition — fin R&D |
 | [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) | Jalon historique sortie R&D acquisition |
-| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route Phase 1 Industrialisation |
+| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route Phase 3 — Implémentation lou-build |
 | [`SOURCE_PIPELINE_QUALIFICATION.md`](SOURCE_PIPELINE_QUALIFICATION.md) | Grille P1–P7 (Phase P clôturée) |
 | [`SOURCE_FORMAT_COMPARATIVE.md`](SOURCE_FORMAT_COMPARATIVE.md) | Analyse comparative des formats source EDN |
 | [`acquisition/`](acquisition/) | Dossier de qualification rejouable — produit en Phase P |

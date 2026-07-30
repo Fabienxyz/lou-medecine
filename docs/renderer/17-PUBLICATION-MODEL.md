@@ -239,7 +239,7 @@ Le manifest est le **point d'entrée** autorisé pour toute consommation aval : 
 |---|---|
 | La publication elle-même | La publication est l'**état** du package entier — le manifest en est l'index |
 | Une source de vérité médicale | Le contenu médical vit dans les artefacts publiés ; le manifest les référence |
-| Une spécification d'interface | Il ne décide pas de la navigation, des écrans ou de la charge cognitive |
+| Une spécification d'interface | Il ne décide pas de la navigation, des écrans, des libellés de vues ou de la charge cognitive — voir Composition Specification ([`COMPOSITION-COMPONENT-CONTRACT.md`](../contracts/components/COMPOSITION-COMPONENT-CONTRACT.md)) |
 | Un substitut à la traçabilité | La traçabilité détaillée peut être référencée — le manifest ne la remplace pas |
 
 Le manifest **expose ce qui est publié**. Il ne **constitue** pas la publication à lui seul.
@@ -257,7 +257,7 @@ Les interdictions ci-dessous protègent le modèle de publication — indépenda
 | Décider de l'expérience Reader | Autorité d'expérience — Reader (doc 16) |
 | Fixer la navigation, les écrans, la charge cognitive | Autorité d'expérience — Reader |
 | Prescrire les interactions utilisateur | Spécification fonctionnelle — doc 15 |
-| Introduire du vocabulaire produit (labels, parcours) | Couplage présentation ↔ publication |
+| Introduire du vocabulaire produit (labels, emojis, ordre d'affichage des vues, parcours) | Couplage présentation ↔ publication — [`COMPOSITION-COMPONENT-CONTRACT.md`](../contracts/components/COMPOSITION-COMPONENT-CONTRACT.md) §13 |
 
 ## 8.2 Le Reader et l'aval
 

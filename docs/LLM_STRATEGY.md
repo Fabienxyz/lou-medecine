@@ -78,6 +78,7 @@ Après Cardio V1, le premium sur Blueprint peut être réduit aux **archétypes 
 
 | Document | Rôle |
 |---|---|
-| [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) | Pilotage : priorités, phases, gels |
+| [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) | Pilotage : objectifs, séquencement, critères de sortie |
 | [`PROJECT_STATE.md`](PROJECT_STATE.md) | État courant et métriques mesurées |
+| [`governance/DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md) | Organisation du pilotage documentaire |
 | `IMPLEMENTATION_CONTRACT.md` | Contrat de fidélité et de grounding |

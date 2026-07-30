@@ -205,7 +205,7 @@ Contenu généré dont le lien source est incertain : **signalé**, jamais publi
 
 Lorsque les dispositions **missed** / **ambiguously-mapped** non résolues, ou les échecs de grounding, **dépassent le seuil défini pour le chapitre**, le packaging **échoue** et le chapitre est **retenu** plutôt qu'expédié.
 
-Le seuil est une **entrée déclarée** du package chapitre — pas une décision ad hoc sur la sortie ([`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) §4).
+Le seuil est une **entrée déclarée** du package chapitre — pas une décision ad hoc sur la sortie ([`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) Part A.1).
 
 ---
 
@@ -246,7 +246,7 @@ Règles visuelles détaillées : [contrat 05 — Visual Grammar](05-VISUAL-GRAMM
 
 ### 10.4 Artefacts générés
 
-**Interdit :** modifier manuellement un artefact produit par le pipeline pour corriger une fidélité ou un grounding. On corrige les **outils** et on **régénère** ([`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) §4).
+**Interdit :** modifier manuellement un artefact produit par le pipeline pour corriger une fidélité ou un grounding. On corrige les **outils** et on **régénère** ([`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) Part A.1).
 
 ---
 
@@ -271,7 +271,7 @@ Lorsque le pipeline **lève lui-même** une exception (conflit source, segment a
 3. elle est **justifiée par écrit** et limitée à ce que les humains peuvent juger ;
 4. elle est **comptabilisée**.
 
-Une décision humaine est une **entrée versionnée** du pipeline — jamais une retouche de sa sortie ([`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) §4).
+Une décision humaine est une **entrée versionnée** du pipeline — jamais une retouche de sa sortie ([`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) Part A.1).
 
 Si une **même classe d'exception** se répète sur plusieurs chapitres, c'est un **défaut d'outil** — pas une décision à multiplier au niveau du corpus.
 
@@ -310,5 +310,5 @@ Ce contrat **ne définit pas** :
 | [`ADR-004`](../adr/ADR-004-acquisition-architecture-frozen.md) | NP-1 à NP-6 (fidélité information métier, traçabilité, primauté contenu) |
 | [`SOURCE_OF_TRUTH.md`](../SOURCE_OF_TRUTH.md) | Règle SSOT permanente |
 | [`SOURCE_PIPELINE_QUALIFICATION.md`](../SOURCE_PIPELINE_QUALIFICATION.md) | Philosophie suffisance aval (§0) |
-| [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) | Invariants pipeline, canal de décision humaine (§4) |
+| [`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) | Part A.1 — invariants pipeline et canal de décision humaine (consolidés §10–§11) |
 | [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md) | Périmètre contrat 01 vs 02–06 |

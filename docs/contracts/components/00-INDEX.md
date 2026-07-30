@@ -30,6 +30,7 @@ Code et tests
 
 | Document | Composant | Statut |
 |---|---|---|
+| [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md) | Composition (Reader) | En vigueur |
 | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md) | Renderer (lecteur) | En vigueur |
 
 ---
@@ -50,4 +51,5 @@ Code et tests
 | [`../00-INDEX.md`](../00-INDEX.md) | Index des contrats fondamentaux ; § 6 architecture de référence (docs 14–19) |
 | [`../../renderer/README.md`](../../renderer/README.md) | Architecture de référence gelée — Reader et La Fabrique |
 | [ADR-001](../../adr/ADR-001-freeze-svg-grammar-catalogue.md) · [ADR-002](../../adr/ADR-002-renderer-v2-architecture.md) · [ADR-003](../../adr/ADR-003-single-source-of-truth.md) · [ADR-004](../../adr/ADR-004-acquisition-architecture-frozen.md) · [ADR-005](../../adr/ADR-005-learner-layer-annotation-anchoring.md) | Gouvernance |
-| [`../../governance/RENDERER_COMPLIANCE_COMPLETION.md`](../../governance/RENDERER_COMPLIANCE_COMPLETION.md) | Clôture conformité Renderer |
+| [`../../governance/COMPOSITION-DECISION-REGISTRY.md`](../../governance/COMPOSITION-DECISION-REGISTRY.md) | Décisions D1–D6 |
+| [`../../governance/COMPOSITION-IMPLEMENTATION-DEBT.md`](../../governance/COMPOSITION-IMPLEMENTATION-DEBT.md) | Dette d'implémentation |

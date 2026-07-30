@@ -24,6 +24,7 @@ En cas de conflit sur une **obligation normative**, les contrats fondamentaux 01
 |---|---|
 | [14-LOU-READER-ARCHITECTURE.md](./14-LOU-READER-ARCHITECTURE.md) | Vision, principes, structure, glossaire, non-objectifs |
 | [16-CONTENT-TO-READER-ARCHITECTURE.md](./16-CONTENT-TO-READER-ARCHITECTURE.md) | Frontière publication ↔ Reader — composition, identités |
+| [`COMPOSITION-COMPONENT-CONTRACT.md`](../contracts/components/COMPOSITION-COMPONENT-CONTRACT.md) | Contrat composant — Composition Specification, View Model, diagnostics |
 | [17-PUBLICATION-MODEL.md](./17-PUBLICATION-MODEL.md) | Modèle de publication — état, garanties, La Fabrique |
 | [02-PRODUCT_SPECIFICATION.md](./02-PRODUCT_SPECIFICATION.md) | Expérience renderer historique |
 | [06-ANNOTATION_SYSTEM.md](./06-ANNOTATION_SYSTEM.md) | Philosophie des annotations texte |

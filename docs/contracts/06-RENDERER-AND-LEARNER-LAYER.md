@@ -32,12 +32,13 @@ En cas de conflit avec un document non listé dans les sources consolidées, les
 | Couche | Responsabilité | Ne possède pas |
 |---|---|---|
 | **Chapter Package** | Artefacts métier d'un chapitre — curatifs et générés ([contrat 04](04-CHAPTER-PACKAGE.md)) | L'expérience apprenant ; les données personnelles |
-| **Manifest publié** | Index de ce qui est **publié** : ordre, registre, liens, statuts, références aux sidecars | Contenu médical auteur ; données apprenant |
-| **Renderer** | **Présentation** du contenu officiel consommé via le manifest | Contenu médical auteur ; modification du package ; persistance apprenant |
+| **Manifest publié** | Index de ce qui est **publié** : ordre pédagogique, registre, liens, statuts, références aux sidecars | Contenu médical auteur ; données apprenant ; vocabulaire produit |
+| **Composition (Reader)** | **Traduction déclarative** des artefacts publiés en vues cognitives — manifest + Composition Specification → Reading View Model ([`COMPOSITION-COMPONENT-CONTRACT.md`](components/COMPOSITION-COMPONENT-CONTRACT.md)) | Contenu médical auteur ; modification du package ; persistance apprenant |
+| **Renderer** | **Présentation** du contenu officiel à partir du Reading View Model | Contenu médical auteur ; modification du package ; persistance apprenant ; sélection sémantique des vues |
 | **Couche apprenant** | **Annotations personnelles** superposées à l'affichage | Autorité médicale ; entrée du pipeline de génération |
 | **Stockage local** | **Persistance** des seules données apprenant | Artefacts du package ; versions officielles modifiées |
 
-**Invariant structurant :** le renderer **assemble l'expérience** ; il **ne reconstruit jamais** le métier du chapitre en relisant inventaire, Blueprint ou source ([contrat 04](04-CHAPTER-PACKAGE.md) §10.3).
+**Invariant structurant :** la composition **assemble les vues** à partir du publié ; le renderer **présente** le View Model composé. Aucun tier aval **ne reconstruit jamais** le métier du chapitre en relisant inventaire, Blueprint ou source ([contrat 04](04-CHAPTER-PACKAGE.md) §10.3).
 
 ---
 

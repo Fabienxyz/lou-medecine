@@ -103,4 +103,4 @@ La **gouvernance fondamentale** est désormais considérée comme **stable**.
 Les six contrats 01–06 constituent la **référence normative** du projet pour les obligations durables. Les évolutions futures — industrialisation, nouveaux outils, scale-out EDN — devront **préserver la cohérence** de ces contrats. Toute modification d'invariant fondamental requiert un **ADR** et une mise à jour contractuelle explicite.
 
 **Phase 0A : terminée.**  
-**Phase active du projet :** voir [`PROJECT_STATE.md`](../PROJECT_STATE.md) (Phase 3 — Implémentation lou-build ; architecture v1 gelée).
+**État courant du projet :** voir [`PROJECT_STATE.md`](../PROJECT_STATE.md).

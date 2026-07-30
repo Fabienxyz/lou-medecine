@@ -290,7 +290,10 @@ Le manifest (directement ou via sidecars déclarés) expose au minimum :
 
 - dupliquer manuellement un statut d'édition ;
 - introduire un identifiant médical nouveau ;
-- servir de stockage de contenu médical auteur.
+- servir de stockage de contenu médical auteur ;
+- porter du **vocabulaire produit** — libellés d'interface, emojis, ordre d'affichage des vues, nomenclature de navigation ([`16-CONTENT-TO-READER-ARCHITECTURE.md`](../renderer/16-CONTENT-TO-READER-ARCHITECTURE.md) §6.3 ; [`COMPOSITION-COMPONENT-CONTRACT.md`](components/COMPOSITION-COMPONENT-CONTRACT.md) §13).
+
+**Distinction d'ordre :** le registre **peut** exposer un **ordre pédagogique** des projections et des éléments — propriété du Blueprint et du pipeline. Il **ne prescrit pas** l'ordre d'affichage des **vues cognitives** du Reader ; celui-ci relève de la Composition Specification ([`COMPOSITION-COMPONENT-CONTRACT.md`](components/COMPOSITION-COMPONENT-CONTRACT.md) §8).
 
 **Interdit au lecteur** de reconstruire le package en relisant inventaire, Blueprint ou source — [contrat 06](06-RENDERER-AND-LEARNER-LAYER.md).
 

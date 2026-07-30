@@ -201,7 +201,27 @@ Chapter Package publié
 Couche apprenante    ← overlays locaux, jamais fusionnés à l'officiel
 ```
 
-Le Reader **orchestre** ; le Renderer **exécute** la présentation ; la couche apprenante **superpose**.
+Le Reader **orchestre** ; la **composition** traduit le publié en vues cognitives ; le Renderer **exécute** la présentation à partir du **Reading View Model** ; la couche apprenante **superpose**.
+
+Contrat normatif composant : [`COMPOSITION-COMPONENT-CONTRACT.md`](../contracts/components/COMPOSITION-COMPONENT-CONTRACT.md).
+
+## 4.4 Objets de la couche de composition
+
+| Objet | Rôle |
+|---|---|
+| **Composition Specification** | Donnée versionnée, propriété Reader — déclare vues, libellés, ordre d'affichage, sources, agrégation, politique d'absence |
+| **Composition Engine** | Exécute `compose(manifest, spec)` — fonction déterministe, testable sans navigateur |
+| **Reading View Model** | Résultat calculé sans autorité — interface logique Reader → Renderer ; normalement non persisté |
+
+```
+Composition Specification  +  Manifest publié
+              ↓
+       Composition Engine
+              ↓
+       Reading View Model
+              ↓
+          Renderer
+```
 
 ---
 
@@ -266,6 +286,8 @@ Le Reader ne doit **jamais** devenir une nouvelle **autorité pédagogique**.
 **Composition déclarative** signifie : le Reader est un **exécutant** de règles de vue — pas un **auteur** de structure médicale.
 
 Si les règles de composition vivent uniquement dans le code, le Reader devient une seconde source de vérité pédagogique — non versionnée, non auditable, et le Renderer cesse d'être remplaçable.
+
+**Norme composant :** [`COMPOSITION-COMPONENT-CONTRACT.md`](../contracts/components/COMPOSITION-COMPONENT-CONTRACT.md) — obligations durables, critères d'acceptation, interdits architecturaux.
 
 ## 6.3 Frontière étanche dans les deux sens
 

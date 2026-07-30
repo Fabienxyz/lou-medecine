@@ -143,12 +143,14 @@ Principes : un chapitre à la fois (URL) ; découverte légère ; pas de progres
 
 ## Couche 2 — Reader
 
-**Sept onglets** à objectif cognitif fixe, ordre pédagogique :
+**Sept vues cognitives** (onglets) à objectif fixe, ordre d'affichage déclaré dans la **Composition Specification** — distinct de l'ordre pédagogique des projections publiées par le package :
 
 ```
 Amorçage cognitif → Modèle mental → Notions → Cas cliniques
         → Collège officiel → QCM → Notes
 ```
+
+Contrat composant composition : [`COMPOSITION-COMPONENT-CONTRACT.md`](../contracts/components/COMPOSITION-COMPONENT-CONTRACT.md).
 
 | Onglet | Rôle architectural | Spécification fonctionnelle |
 |---|---|---|

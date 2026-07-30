@@ -1,19 +1,20 @@
 # Lou Médecine — Master Roadmap
 
-Document de pilotage officiel du projet.  
-**Dernière mise à jour :** 2026-07-28 (clôture Phase 3.5 — La Fabrique terminée)
+Document de pilotage officiel — **intention et séquencement produit**.
 
-Ce document est la **référence officielle pour le pilotage** du projet. Il définit les objectifs, le séquencement, les priorités et les critères de réussite.
+**Dernière révision :** 2026-07-30 — migration conforme à [`governance/DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md), décisions audit ([`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md), [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)).
 
-Les documents d'architecture et les contrats techniques (`IMPLEMENTATION_CONTRACT.md`, `FINAL_ARCHITECTURE.md`, `VISUAL_GRAMMAR_CONTRACT.md`, etc.) définissent les **comportements attendus** de l'implémentation. Les **contrats fondamentaux** [`docs/contracts/01–06`](contracts/00-INDEX.md) constituent la **référence normative de gouvernance** du projet depuis la clôture de la Phase 0A (2026-07-28). Toute évolution future doit préserver leur cohérence ; toute rupture d'invariant passe par un ADR explicite.
+Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
-En cas de divergence : **la roadmap pilote les priorités** ; **les contrats techniques pilotent l'implémentation**. Ce document n'est pas une spécification technique.
+Il ne porte **aucun statut d'avancement** — voir [`PROJECT_STATE.md`](PROJECT_STATE.md). Il ne recopie **aucune obligation technique** — voir le [référentiel normatif](#référentiel-normatif) ci-dessous.
 
-L'état opérationnel courant (phase active, métriques, risques) est maintenu dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
+**Organisation du pilotage :** [`governance/DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md)
+
+**Arbitrage documentaire** ([`contracts/00-INDEX.md`](contracts/00-INDEX.md) §1) : en cas de conflit de **priorités**, ce document prime ; en cas de conflit de **comportement**, la hiérarchie normative (ADR → contrats → specs) prime.
 
 ---
 
-## 1. Mission
+## Mission et vision
 
 ### Objectif du projet
 
@@ -21,561 +22,351 @@ Transformer les Collèges officiels EDN en supports d'étude qui permettent de *
 
 ### Vision long terme
 
-Lou ouvre un renderer moderne et accède à **n'importe quel chapitre de l'ensemble des Collèges EDN**. Pour chaque chapitre, elle retrouve :
+Lou ouvre une application de lecture locale et accède à **n'importe quel chapitre de l'ensemble des Collèges EDN**. Pour chaque chapitre, elle retrouve le contenu officiel, la couche de compréhension, les schémas, les guides de lecture, les points d'attention, ses annotations personnelles et l'ensemble des fonctionnalités du Reader.
 
-- le contenu officiel ;
-- une vue d'ensemble ;
-- les explications nécessaires à la compréhension ;
-- les schémas ;
-- les guides de lecture ;
-- les points d'attention ;
-- ses annotations personnelles ;
-- toutes les fonctionnalités du renderer.
+À terme, le contenu pédagogique est **produit industriellement** à partir des Collèges officiels, avec un effort humain minimal par chapitre — voir objectif [Industrialisation de la Fabrique productrice](#industrialisation-de-la-fabrique-productrice) et [`LLM_STRATEGY.md`](LLM_STRATEGY.md).
 
-Le tout est **généré industriellement**, à partir des Collèges officiels, avec un effort humain minimal par chapitre.
+### Principe directeur
 
-### Principe « Comprendre avant de mémoriser »
+La couche de compréhension (Inventory → Blueprint → Projections) vient **après** et **en plus** du contenu officiel. Elle ne le remplace pas. Ce principe est **archétype-dépendant** : il produit le plus de valeur sur les chapitres mécanistiques et normatifs complexes ; sur d'autres archétypes, le projet accepte un profil de projections allégé plutôt qu'un échafaudage artificiel.
 
-La couche de compréhension (Inventory → Blueprint → Projections) vient **après** et **en plus** du contenu officiel. Elle ne le remplace pas. L'Inventory porte l'exhaustivité examinable ; le Blueprint porte l'ordre pédagogique ; les Projections portent l'explication.
-
-Ce principe est **archétype-dépendant** : il produit le plus de valeur sur les chapitres mécanistiques et normatifs complexes. Sur d'autres archétypes (catalogues thérapeutiques, reconnaissance de formes), le projet accepte un **profil de projections allégé** plutôt qu'un échafaudage artificiel.
-
-### Industrialisation du pipeline
-
-Le pipeline doit produire un chapitre **sans intervention manuelle sur les artefacts générés**. L'effort humain par chapitre doit être **minimal et mesuré** — voir [`PROJECT_STATE.md`](PROJECT_STATE.md).
+Les obligations de fidélité, de traçabilité et de séparation officiel / généré sont définies dans les [contrats fondamentaux](contracts/00-INDEX.md) et les [ADR](adr/README.md).
 
 ---
 
-## 2. Hors périmètre
+## Périmètre et exclusions
 
 Lou Médecine ne cherche **pas** à :
 
-- **créer un nouveau contenu médical** — le Collège reste l'autorité ; le projet n'ajoute que de la pédagogie traçable ;
-- **remplacer le Collège officiel** — la couche officielle est toujours présente, distincte et complète ;
-- **construire un assistant conversationnel médical généraliste** — pas de chat libre ; chaque énoncé généré est ancré et vérifiable ;
-- **devenir un SaaS** — le projet sert Lou ; pas de multi-tenant, pas de comptes publics, pas de support utilisateur ;
-- **optimiser les coûts au détriment de la fidélité** — un pipeline bon marché qui enseigne faux est un échec ;
-- **ajouter des fonctionnalités qui n'améliorent pas réellement l'apprentissage** — QCM, gamification, statistiques sociales attendent une validation pédagogique explicite (Phase 4).
-
-Toute proposition qui entre dans ces catégories est **hors roadmap**, même si elle paraît séduisante techniquement.
-
----
-
-## 3. Principes fondateurs
-
-1. **Fidélité absolue au Collège officiel.** Le Collège est la seule source de vérité médicale. Toute garantie de qualité repose sur la traçabilité vers cette source, pas sur une relecture humaine du fond médical.
-
-2. **Généralisation à l'ensemble des EDN.** Chaque décision doit tenir à l'échelle de l'ensemble des collèges et chapitres EDN. Ce qui fonctionne sur un prototype ne suffit pas.
-
-3. **Réduction du temps humain par chapitre.** Lou et le propriétaire jugent la clarté, la charge cognitive et l'utilité — jamais la correction médicale. Le pipeline ne doit pas attendre une validation humaine du fond.
-
-4. **Priorité aux traitements déterministes.** PDF officiel → Markdown source (Tool 01) → chapitres (Tool 02), puis segmentation, validation, rendu SVG, règles de grounding : autant que possible, sans LLM. Chaîne officielle gelée : [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md), [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md).
-
-5. **LLM au strict nécessaire.** Le projet privilégie systématiquement les traitements déterministes et limite l'utilisation des LLM au strict nécessaire. Détail opérationnel : [`LLM_STRATEGY.md`](LLM_STRATEGY.md).
-
-6. **Code permanent, LLM temporaire.** Le code est un actif permanent ; un appel LLM est une dépendance temporaire. Toute amélioration durable doit viser à **remplacer** un appel LLM par une règle déterministe, pas à augmenter la dépendance aux modèles.
-
-7. **Séparation stricte officiel / généré.** Le contenu officiel et le contenu produit par Lou Médecine sont visuellement et structurellement distincts. Lou doit toujours savoir ce qui vient du Collège et ce qui est une interprétation pédagogique.
-
-8. **Ordre d'irréversibilité.** Les décisions coûteuses à changer sont prises tôt (modèle d'ancre, schéma d'Inventory). Le reste reste évolutif.
-
-9. **Single Source of Truth.** Pour une même donnée métier, une seule source officielle. Voir [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md).
-
----
-
-## 4. Invariants
-
-Ces règles ne se négocient pas entre les phases.
-
-| Invariant | Règle |
+| Exclusion | Référence |
 |---|---|
-| Source de vérité | Le Collège officiel est la seule source de vérité médicale. |
-| SSOT acquisition | **Une seule chaîne officielle** : PDF → Tool 01 → Markdown source → Tool 02 → chapitres. Aucune duplication ne devient une seconde autorité. Voir [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md). |
-| Artefacts générés | **Aucune modification manuelle** d'un artefact produit par le pipeline. |
-| Décision humaine | Une décision humaine est une **entrée** du pipeline (`chapter.package.yaml`), jamais une retouche de sa **sortie**. Elle doit être versionnée, rejouable, justifiée et comptabilisée. |
-| Build reproductible | Le build est une fonction pure de ses entrées versionnées (voir § Tableau de bord). |
-| Amélioration | On corrige les **outils** (prompts, validateurs, code), jamais les chapitres à la main. |
-| Traçabilité | Chaque claim pédagogique porte une classe (`sourced` \| `bridging` \| `scaffolding`) et des ancres vers la source. |
-| Géométrie | La sémantique visuelle (visualSpec) ne porte aucune géométrie ; le renderer seul possède la mise en page. |
-| Troncature | Aucun raccourcissement silencieux du sens (texte, labels, tableaux). |
+| Créer un nouveau contenu médical — le Collège reste l'autorité | Contrat 01, [ADR-003](adr/ADR-003-single-source-of-truth.md) |
+| Remplacer le Collège officiel | Contrat 01, Contrat 06 |
+| Construire un assistant conversationnel médical généraliste | [PDR-A1](governance/PRODUCT-DECISION-REGISTRY.md) |
+| Devenir un SaaS ou une plateforme multi-utilisateurs | [PDR-G2](governance/PRODUCT-DECISION-REGISTRY.md) |
+| Optimiser les coûts au détriment de la fidélité | Contrat 01 |
+| Introduire la répétition espacée ou la gamification sociale en Reader V1 | [PDR-G1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G2](governance/PRODUCT-DECISION-REGISTRY.md) |
+| Exporter en PDF en V1 | [PDR-D10](governance/PRODUCT-DECISION-REGISTRY.md) |
 
-### Canal de décision humaine
+**Inclus dans le périmètre Reader V1 et du package de référence :** QCM et cas cliniques au niveau chapitre ([PDR-A3](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) — distincts de la répétition espacée différée.
 
-Lorsque le pipeline **lève lui-même** une exception (conflit de source, segment ambigu, grounding indécidable), une décision humaine est admise **uniquement** si :
-
-1. elle référence l'identifiant d'exception levé par la machine ;
-2. elle est relue par le build (régénération = même résultat) ;
-3. elle est justifiée par écrit et limitée à ce que Lou et le propriétaire peuvent juger ;
-4. elle est **comptée**.
-
-Si une **même classe d'exception** se répète sur plusieurs chapitres, c'est un défaut d'outil — pas une décision à prendre à l'échelle du corpus.
+Toute proposition qui entre dans les exclusions ci-dessus est **hors roadmap**, même si elle paraît séduisante techniquement.
 
 ---
 
-## 5. Vue d'ensemble
+## Référentiel normatif
 
-### Architecture v1 — GELÉE
+Ce document **ordonne** ; il n'**oblige** pas. Pour savoir ce qui doit être vrai :
 
-Les documents suivants constituent désormais l'architecture officielle de Lou Médecine :
-
-- Contrats fondamentaux 01–06 ([`contracts/00-INDEX.md`](contracts/00-INDEX.md))
-- [Reader Architecture](renderer/14-LOU-READER-ARCHITECTURE.md)
-- [Reader Functional Specification](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md)
-- [Publication ↔ Reader](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)
-- [Publication Model](renderer/17-PUBLICATION-MODEL.md)
-- [Build Architecture](renderer/18-BUILD-ARCHITECTURE.md)
-- [Build Pipeline](renderer/19-BUILD-PIPELINE.md)
-
-Cette architecture est désormais considérée comme **stable**.
-
-Toute évolution future devra être motivée par un besoin démontré pendant l'implémentation.
-
-Toute modification substantielle nécessitera une nouvelle révision explicite.
-
-**Chaîne documentaire :** contrats 01–06 → 14 → 15 → 17 → 18 → 19 → 16.
-
-### Séquencement produit
-
-| Phase | Intitulé | Statut | Objectif | Principal livrable |
-|---|---|---|---|---|
-| **0 — Fondations** | Contrats, acquisition, gouvernance | ✅ **Terminée** | Fondations immuables | Chaîne FIL B + contrats 01–06 + ADR-004 |
-| **1 — Le Lecteur** | Architecture Reader v1 | ✅ **Terminée** | Vision et spec fonctionnelle du Reader | Docs [14](renderer/14-LOU-READER-ARCHITECTURE.md)–[15](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
-| **2 — La Fabrique — Architecture** | Publication et build | ✅ **Terminée** | Modèle de publication, architecture et pipeline | Docs [16](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)–[19](renderer/19-BUILD-PIPELINE.md) |
-| **3 — Implémentation de lou-build** | Pipeline Migration | ✅ **Terminée** | Engine v1 + stages typés A–K | Tag [`lou-build-pipeline-v1`](releases/phase-3.4-batch-migration-g-k.md) |
-| **3.5 — Legacy Removal / Cutover** | Production cutover | ✅ **Terminée** | Retrait legacy, cutover production | [`phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md) |
-| **— La Fabrique (ensemble)** | Architecture + build + cutover | ✅ **Terminée** | Pipeline unique de production | Phases 2 + 3 + 3.5 |
-| **1 — Le Lecteur (production)** | Expérience apprenant | **Active** | Lecteur multi-chapitres, retrait fallbacks | Docs [14](renderer/14-LOU-READER-ARCHITECTURE.md)–[15](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
-| **4 — Validation pédagogique** | Preuve pédagogique | À venir | Prouver que la méthode enseigne mieux | Décision écrite Phase 4 |
-| **5 — Échelle EDN** | Multi-collèges | À venir | Production EDN | Production EDN |
-| **6 — Régime permanent** | Maintenance éditions | À venir | Système auto-maintenu | Système auto-maintenu |
-
-**Chemin critique actuel :** **Le Lecteur (production)** → Phase 4 → Phase 5 → Phase 6.
-
-> **Jalon (2026-07-28).** **La Fabrique terminée** — Phases 2 + 3 + 3.5 close ; pipeline typé unique en production.  
-> **Jalon (2026-07-28).** Prochaine priorité : **Le Lecteur**. Détail : [`PROJECT_STATE.md`](PROJECT_STATE.md) · [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md).
+| Besoin | Document maître |
+|---|---|
+| Décisions architecturales fondatrices | [Index ADR](adr/README.md) |
+| Obligations métier durables | [Contrats fondamentaux 01–06](contracts/00-INDEX.md) |
+| Obligations composants (Tool, Composition, Renderer, …) | [Contrats composants](contracts/components/00-INDEX.md) |
+| Architecture Reader et Fabrique (specs gelées) | [`contracts/00-INDEX.md` §6](contracts/00-INDEX.md) → docs [14–19](renderer/README.md) |
+| Mémoire des arbitrages produit (audit 2026-07-30) | [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |
+| Patrimoine, packages publiés, lignée éditoriale | [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) |
+| Stratégie LLM | [`LLM_STRATEGY.md`](LLM_STRATEGY.md) |
+| Chaîne d'acquisition officielle | [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md), [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) |
+| Organisation du pilotage documentaire | [`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md) |
 
 ---
 
-## 6. Les phases
+## Livrables de référence
 
-### Phase 0 — Fondations ✅ TERMINÉE
+Un livrable de référence n'est **pas** une phase du projet. C'est un **artefact structurant** — nœud de convergence vers lequel plusieurs chantiers convergent, et à partir duquel plusieurs validations se débloquent.
 
-> **Ancien intitulé :** Phase 0 — Architecture & Acquisition.
+L'**instance courante** de chaque rôle est enregistrée dans [`PROJECT_STATE.md`](PROJECT_STATE.md). La première instance du package de capitalisation est actée dans [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md).
 
-**Objectif.** Établir et valider les fondations immuables du projet : gouvernance, source de vérité, pipeline d'acquisition, qualification et gel architectural.
+### Package de capitalisation de référence
 
-**Statut.** **Terminée** — 2026-07-28. Référence historique : [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md).
+Premier **Chapter Package complet** publié et versionné, produit par capitalisation contrôlée (gates satisfaits, réconciliation exhaustive, contenu d'évaluation au chapitre).
 
-| Jalon | Statut | Référence |
-|---|---|---|
-| **Phase 0A — Contrats fondamentaux** | ✅ | [`contracts/00-INDEX.md`](contracts/00-INDEX.md), [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md) |
-| Gouvernance projet | ✅ | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md) |
-| Single Source of Truth (FIL B) | ✅ | [ADR-003](adr/ADR-003-single-source-of-truth.md), [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) |
-| Tool 01 v1.0.0 qualifié | ✅ | [`qualification-report-tool01-p1.md`](acquisition/qualification-report-tool01-p1.md) |
-| Tool 02 v1.0.0 qualifié | ✅ | Manifest Tool 02, 22 chapitres |
-| Phase P — qualification P1–P7 | ✅ | [`qualification-report-acquisition-final.md`](acquisition/qualification-report-acquisition-final.md) |
-| Phase 0B — dérivation Collège | ✅ | [`qualification-report-phase-0b.md`](acquisition/qualification-report-phase-0b.md) |
-| Double vertical slice (234 + 330) | ✅ | Migration 234 FIL B ; package 330 FIL B |
-| Architecture Frozen (acquisition) | ✅ | [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) |
+**Consommateurs :**
 
-**Mode maintenance.** La couche acquisition est **gelée**. Évolutions limitées aux cas ADR-004 § 6 (bug bloquant, nouveau format source, nouvel ADR).
+- acceptation Reader V1 ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- validation pédagogique de la méthode ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- fixture de non-régression Fabrique et CI ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- modèle de publication pour l'industrialisation ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- base de la lignée éditoriale ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md), [PDR-C7](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-**⛔ Gel acté — ADR-004**
+### Fixture de non-régression
 
-> Tool 01 v1.0.0 · Tool 02 v1.0.0 · FIL B · modèle d'ancres · grille P1–P7 — **socle officiel immuable**.
+Artefact dérivé du package de capitalisation de référence, utilisé pour garantir que les évolutions de La Fabrique et du Reader ne dégradent pas un package publié conforme.
 
 ---
 
-### Phase 1 — Le Lecteur ✅ TERMINÉE
+## Objectifs du projet
 
-**Objectif.** Définir l'architecture et la spécification fonctionnelle du Reader v1.0 — vision pédagogique, principes, écrans et parcours.
+Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critères de sortie sont **falsifiables** ; l'atteinte effective est constatée dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
-**Statut.** **Terminée** — 2026-07-28.
+### Capitalisation d'un package de référence complet
 
-| Jalon | Statut | Référence |
-|---|---|---|
-| Reader Architecture v1.0 | ✅ | [`renderer/14-LOU-READER-ARCHITECTURE.md`](renderer/14-LOU-READER-ARCHITECTURE.md) |
-| Reader Functional Specification v1.0 | ✅ | [`renderer/15-READER-FUNCTIONAL-SPECIFICATION.md`](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
+| | |
+|---|---|
+| **Nature** | Capitalisation répétable (première instance = pilote cardiologie) |
+| **Question directrice** | Comment produire le premier Chapter Package complet de référence, conforme aux gates, par capitalisation contrôlée ? |
+| **Décisions** | [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B3](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md) |
 
----
+**Critère de sortie :**
 
-### Phase 2 — La Fabrique — Architecture ✅ TERMINÉE
+- Chapter Package **complet** publié et versionné (inventaire, blueprint, projections, QCM/cas, texte source, priming, visuels requis) ;
+- tous les gates lou-build en succès sur ce package ;
+- réconciliation exhaustive documentée ;
+- tranche verticale historique remplacée comme jalon produit — la tranche reste un support de développement, pas un jalon d'acceptation ([PDR-B3](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-**Objectif.** Définir le modèle de publication, l'architecture conceptuelle de La Fabrique, le pipeline opérationnel et la frontière publication ↔ Reader.
+**Hors périmètre de cet objectif :** automatisation runtime complète de la production (objectif ultérieur) ; acceptation Reader (objectif distinct, bloquée à l'acceptation) ; réutilisation du corpus SVG legacy pour de nouveaux packages publiés ([PDR-F1](governance/PRODUCT-DECISION-REGISTRY.md), [ADR-001](adr/ADR-001-freeze-svg-grammar-catalogue.md)).
 
-**Statut.** **Terminée** — 2026-07-28.
-
-| Jalon | Statut | Référence |
-|---|---|---|
-| Publication Model | ✅ | [`renderer/17-PUBLICATION-MODEL.md`](renderer/17-PUBLICATION-MODEL.md) |
-| Build Architecture | ✅ | [`renderer/18-BUILD-ARCHITECTURE.md`](renderer/18-BUILD-ARCHITECTURE.md) |
-| Build Pipeline | ✅ | [`renderer/19-BUILD-PIPELINE.md`](renderer/19-BUILD-PIPELINE.md) |
-| Content → Reader | ✅ | [`renderer/16-CONTENT-TO-READER-ARCHITECTURE.md`](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md) |
+**Plan d'exécution détaillé :** voir [`PROJECT_STATE.md`](PROJECT_STATE.md) et les plans de domaine.
 
 ---
 
-### Phase 3 — Implémentation de lou-build ✅ TERMINÉE *(Pipeline Migration)*
+### Acceptation Reader V1
 
-> **Remapping :** correspond à l'ancienne **Phase 1 — Industrialisation** pour la partie **outil de build**. Le scale-out industriel (22 chapitres, factories) reste planifié **post-Fabrique**.
+| | |
+|---|---|
+| **Nature** | Fondation unique (première version produit Reader) |
+| **Question directrice** | Le Reader permet-il à Lou d'étudier un Chapter Package complet dans des conditions d'usage réelles ? |
+| **Décisions** | [PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-D1](governance/PRODUCT-DECISION-REGISTRY.md)–[PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-D9](governance/PRODUCT-DECISION-REGISTRY.md) |
 
-**Objectif (atteint).** Porter lou-build d'une orchestration monolithique vers un **Pipeline Engine v1** générique, un **BuildContext** figé, et **onze stages typés A–K**, avec parité legacy et CLI typée par défaut.
+**Critère de sortie :**
 
-**Statut.** **Terminée** — 2026-07-28. Tag : `lou-build-pipeline-v1`. Jalon : [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md).
+- Reader **local installable**, autonome, hors dépôt Git ([PDR-D1](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- **7 vues alimentées** par le package de capitalisation de référence — pas de Reader V1 fonctionnellement réduit ([PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- mode **hors ligne** intégral sur les packages installés ([PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- **reprise de session** opérationnelle ([PDR-D4](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- **sauvegarde et restauration** des données d'apprentissage ([PDR-E5](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- recherche textuelle locale au chapitre ouvert ([PDR-D6](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- préférences d'affichage de base ([PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- architecture **sync-ready** ; sync automatique différée post-V1 ([PDR-D3](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G5](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-| Sous-phase | Contenu | Statut |
-|---|---|---|
-| **3.1** | Engine freeze + Stage A | ✅ |
-| **3.2** | Stage B (Package Input) | ✅ |
-| **3.3** | Stages C → F | ✅ |
-| **3.4** | Stages G → K + audit + correctif F1 + clôture | ✅ |
+**Hors périmètre V1 :** répétition espacée, recherche globale bibliothèque, export PDF, sync automatique, indicateur de progression élaboré ([PDR-D5](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G4](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-**Livrables gelés.**
-
-- Pipeline Engine v1 (`src/pipeline/`) — figé
-- BuildContext — figé
-- Stages A–K typés (`src/stages/`)
-- Legacy retiré en Phase 3.5 (wrappers, CLI legacy, orchestration monolithique)
-- Tests : 117/117 PASS post-cutover · validate/build Item 234+330 PASS
-- Invalidation manifest en début de build (F1) restaurée sur la CLI typée
-
-**Ne pas faire.** Modifier le Pipeline Engine sans révision explicite ; rouvrir la migration A→K ; rouvrir la R&D acquisition ; modifier l'architecture gelée (docs 14–19) sans révision explicite.
+**Plan d'exécution détaillé :** [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md), [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md).
 
 ---
 
-### Phase 3.5 — Legacy Removal / Production Cutover ✅ TERMINÉE
+### Validation pédagogique de la méthode
 
-**Objectif (atteint).** Retirer le filet legacy et basculer définitivement sur la CLI typée / stages `src/` comme unique chemin de production.
+| | |
+|---|---|
+| **Nature** | Fondation unique (validation produit unique — non rejouée par chapitre) |
+| **Question directrice** | La méthode enseigne-t-elle réellement mieux, sur le premier package complet ? |
+| **Décisions** | [PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md) |
 
-**Statut.** **Terminée** — 2026-07-28. Jalon : [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md). Commits : `ca5782c` · `575fc51` · `bb711c7`.
+**Critère de sortie :**
 
-| Lot | Contenu | Statut |
-|---|---|---|
-| **Lot 1** | Wrappers de stage + tests de parité | ✅ |
-| **Lot 2** | `cli.js` + scripts `*:legacy` | ✅ |
-| **Lot 3** | `runValidation`/`runBuild` + migration `slice.test.ts` | ✅ |
+- Lou confirme la compréhension du chapitre étudié via le Reader sur le package de capitalisation de référence ;
+- décision écrite et datée : *poursuivre* / *poursuivre avec modification nommée* / *modifier la méthode avant l'échelle* ;
+- les sept vues ont été utilisées ; QCM et cas ont été expérimentés.
 
-**Critères de sortie — atteints.**
-
-- Chemin unique : `npm run validate` / `build` → `src/cli/build.ts`
-- Legacy d'orchestration retiré ; modules métier `lib/` conservés
-- Tests métier verts sans dépendance aux wrappers de parité
-
-**La Fabrique est terminée** (Phases 2 architecture + 3 implémentation + 3.5 cutover).
+**Hors périmètre :** validation humaine systématique de chaque chapitre produit — la production courante repose sur les gates automatiques ([PDR-C3](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 ---
 
-### Le Lecteur — production *(phase active)*
+### Patrimoine, publication et données d'apprentissage
 
-**Objectif.** Porter `demo/renderer/` vers un lecteur de production multi-chapitres conforme aux specs gelées (docs 14–15), avec retrait progressif des fallbacks legacy (ADR-002).
+| | |
+|---|---|
+| **Nature** | Maintenance permanente (transversal) |
+| **Question directrice** | Comment garantir zéro perte et une identité stable des packages publiés et des données d'apprentissage ? |
+| **Décisions** | [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md), [PDR-E1](governance/PRODUCT-DECISION-REGISTRY.md)–[PDR-E6](governance/PRODUCT-DECISION-REGISTRY.md) |
 
-**Référence.** [`PROJECT_STATE.md`](PROJECT_STATE.md) · [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md) · [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md).
+**Critère de sortie (V1) :**
 
-**Hors périmètre immédiat.** Scale-out industriel 22 chapitres (Inventory / Blueprint Factory) — voir [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
+- les trois patrimoines gouvernés selon leurs règles respectives ([PDR-E2](governance/PRODUCT-DECISION-REGISTRY.md), [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) §1) ;
+- identité versionnée des packages ; publication atomique ; ancrage des données à une version de package ([PDR-E3](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-E4](governance/PRODUCT-DECISION-REGISTRY.md), [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) §2–§3) ;
+- sauvegarde et restauration sans perte ; aucune opération destructive silencieuse ([PDR-E1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-E5](governance/PRODUCT-DECISION-REGISTRY.md)).
 
----
-
-### Détail historique — sous-phases d'industrialisation
-
-Les sections ci-dessous conservent le **détail opérationnel** des chantiers prévus avant la restructuration Phase 0–3. Elles restent valides comme sous-chantiers d'industrialisation **après** la clôture de La Fabrique (Phase 3.5).
-
----
-
-### Phase P — Qualification du pipeline d'acquisition ✅ *(composante Phase 0 — terminée)*
-
-> **Statut :** terminée — 2026-07-28. Verdict **GO**. Ce bloc est conservé comme référence historique.
-
-**Objectif.** Valider que la chaîne FIL B produit un Markdown source **suffisant pour les artefacts métier** (Inventory, Blueprint, projections, Renderer) — **pas** une reproduction parfaite du PDF.
-
-**Pourquoi.** Le Markdown est un artefact intermédiaire. Qualifier la ressemblance PDF avant de prouver que Inventory et Blueprint peuvent être générés gaspille l'effort. Le format source (PDF aujourd'hui, autre demain) doit être choisi et gelé avant la Phase 0. Débloque la Phase 0.
-
-**Hors périmètre.** La Phase P ne fait **pas partie du pipeline médical Lou**. Elle ne produit ni Inventory, ni Blueprint, ni Projections. Elle ne qualifie pas un LLM — elle qualifie un pipeline reproductible, déterministe et versionné.
-
-**Pipeline cible (chaîne officielle FIL B).**
-
-```
-PDF officiel → Tool 01 → Markdown source → Tool 02 → Chapitres → Pipeline Lou
-```
-
-Détail et emplacements : [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md).
-
-La Phase P qualifie l'étage **d'acquisition** (aujourd'hui Tool 01 pour le PDF). Elle est réalisée **une seule fois par type de source** (ex. PDF éditeur X, DOCX éditeur X), puis appliquée industriellement à l'ensemble des chapitres.
-
-**Livrables.**
-
-- Inventaire des formats disponibles pour le collège pilote.
-- Analyse comparative et choix du format source primaire ([`SOURCE_FORMAT_COMPARATIVE.md`](SOURCE_FORMAT_COMPARATIVE.md)).
-- Pipeline d'acquisition versionné, exécutable en une commande.
-- Dossier [`docs/acquisition/`](acquisition/) : `pipeline.md`, `benchmark.md`, `qualification-report.md`.
-- Markdown source du collège cardio produit par le pipeline qualifié.
-
-**Critères de sortie.** Voir [`SOURCE_PIPELINE_QUALIFICATION.md`](SOURCE_PIPELINE_QUALIFICATION.md) — question directrice (suffisance aval), critères **P1–P7**, décision GO/NO GO.
-
-**⛔ Gel — fin de Phase P**
-
-> **Le pipeline d'acquisition est figé par type de source.** Toute modification de logique d'extraction incrémente la version. Le Markdown source est un artefact dérivé — jamais retouché à la main.
-
-**Ne pas faire.** Qualifier un LLM comme producteur de Markdown source ; étendre le pipeline PDF sans avoir vérifié les formats structurés disponibles ; commencer 0B sur une source non qualifiée ; retoucher le Markdown source ou les chapitres produits ; utiliser le FIL A legacy ([`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md)) ; **optimiser Tool 01 pour la reproduction PDF sans impact démontré sur les artefacts aval**.
+Cet objectif avance **en parallèle** de la capitalisation et du Reader ; ses critères V1 sont vérifiés conjointement à l'acceptation Reader.
 
 ---
 
-### Phase 0 — Le Socle
+### Premier diff éditorial
 
-Deux chantiers séquencés différemment parce qu'ils débloquent des phases différentes.
+| | |
+|---|---|
+| **Nature** | Extension répétable (première instance = même item, nouvelle édition Collège) |
+| **Question directrice** | Comment industrialiser la comparaison entre deux éditions successives d'un même chapitre ? |
+| **Décisions** | [PDR-C7](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G3](governance/PRODUCT-DECISION-REGISTRY.md) |
 
-#### 0B — Fidélité du Collège ✅ *(qualification acquisition — terminée)* · enrichissements canoniques — à venir
+**Critère de sortie (première instance) :**
 
-**Objectif.** Rendre la couche canonique **vraie** et vérifiable.
-
-**Pourquoi.** Sans Markdown source **suffisant pour les artefacts aval** (FIL B), toute la traçabilité garantit la fidélité à une entrée inutilisable. Débloque la Phase 1. S'appuie sur Tool 01 et Tool 02 après qualification Phase P (grille P1–P7).
-
-**Livrables.**
-
-- Récupération du Rang A/B (pastilles ou marqueurs de hiérarchisation → colonne de rang).
-- Extraction des figures (`Fig. N` → fichiers image référencés).
-- Validation bloquante des tableaux et des en-têtes (Tool 01).
-- Rapport d'intégrité sur le Collège cardio.
-
-**Critères de sortie.**
-
-- Aucun tableau malformé ; aucun en-tête fabriqué.
-- Quasi-totalité des lignes de hiérarchisation portent un rang.
-- Toutes les références de figures résolues vers un fichier image.
-- Rapport d'intégrité publié — détail des métriques dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
-
-**Ne pas faire.** Réécrire le pipeline d'acquisition (Phase P) ; viser l'OCR ; commencer le contenu généré du chapitre 2.
+- package de la nouvelle édition publié ;
+- artefact de comparaison fiable produit par La Fabrique ;
+- Reader consomme la comparaison (UI simple — pas de comparaison avancée initialement).
 
 ---
 
-#### 0A — Contrats fondamentaux ✅ TERMINÉE
+### Industrialisation de la Fabrique productrice
 
-**Objectif.** Consolider les obligations durables du projet en contrats fondamentaux irréversibles — fidélité, identité, acquisition, chapter package, grammaire visuelle, renderer lecteur.
+| | |
+|---|---|
+| **Nature** | Fondation unique puis extension répétable |
+| **Question directrice** | Comment produire des chapitres suivants via une chaîne largement autonome, sans capitalisation manuelle intégrale ? |
+| **Décisions** | [PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C3](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C5](governance/PRODUCT-DECISION-REGISTRY.md) |
 
-**Statut.** **Terminée** — 2026-07-28. Rapport de clôture : [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md).
+**Critère de sortie (première étape) :**
 
-**Livrables réalisés.**
+- au moins un chapitre suivant produit de bout en bout via runtime LLM avec gates automatiques, sans capitalisation manuelle intégrale ;
+- coût et effort humain par chapitre **mesurés** ;
+- le modèle de publication du package de capitalisation de référence est reproduit.
 
-- Six contrats fondamentaux (`docs/contracts/01–06`) — chacun répond à **une question unique**.
-- Index documentaire et hiérarchie de gouvernance ([`contracts/00-INDEX.md`](contracts/00-INDEX.md)).
-- Audit transversal de cohérence et corrections documentaires ([`PHASE_0A_CONTRACT_AUDIT.md`](PHASE_0A_CONTRACT_AUDIT.md)).
+**Hors périmètre immédiat :** scale-out massif avant clôture du package de référence et validation de la méthode.
 
-**Critères de sortie — atteints.**
-
-- Gouvernance fondamentale **stable** et **gelée** (maintenance documentaire uniquement).
-- Hiérarchie explicite : ADR → contrats fondamentaux → contrats composants → documentation technique → code.
-- Aucune duplication normative entre contrats ; renvois anti-duplication en place.
-
-**⛔ Gel — fin de Phase 0A**
-
-> **Les contrats fondamentaux 01–06 sont la référence normative de gouvernance.** `IMPLEMENTATION_CONTRACT.md` et `VISUAL_GRAMMAR_CONTRACT.md` restent des références détaillées, subordonnées aux contrats 01–06 pour les règles métier.
-
-**Ne pas faire.** Modifier un invariant fondamental sans ADR ; dupliquer une règle déjà définie dans un contrat 01–06 ; confondre gouvernance et implémentation.
-
-**Hors périmètre Phase 0A (volontaire).** Contrats composants Tool 03–05, build reproductible byte-identique, CI — relèvent des phases post-Fabrique (Lecteur, industrialisation).
+**Plan d'exécution détaillé :** [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
 
 ---
 
-#### 0A (historique) — Contrats fondamentaux *(détail opérationnel initial — conservé)*
+### Couverture Cardio complète
 
-> **Statut :** remplacé par la section ci-dessus. Ce bloc conserve le cadrage initial des livrables techniques prévus en parallèle de l'industrialisation.
+| | |
+|---|---|
+| **Nature** | Extension répétable (premier collège pilote) |
+| **Question directrice** | Comment produire l'ensemble du Collège de cardiologie avec couche de compréhension, industriellement ? |
+| **Décisions** | [PDR-C4](governance/PRODUCT-DECISION-REGISTRY.md) (périmètre pilote) |
 
-**Objectif initial.** Poser les contrats irréversibles et rendre le build fiable.
+**Critère de sortie :**
 
-**Livrables techniques restants (Phase 1).**
-
-- Modèle d'ancre étendu : `quote`, `table-cell`, `figure`, `section` (chemin désambiguïsé).
-- CI ; tests isolés (plus de mutation du chapitre canonique).
-- Purge des littéraux item 234 dans le code générique.
-- Build reproductible des artefacts textuels en CI.
-
-**⛔ Gel — modèle d'ancre (inchangé)**
-
-> **Le modèle d'ancre et le schéma d'identifiants sont figés.** Extensible par **ajout** de type d'ancre uniquement — jamais par modification d'un type existant.
-
-**Ne pas faire.** Perfectionner le renderer ; geler le schéma d'Inventory (trop tôt — voir Phase 2).
-
----
-
-### Phase 1 (historique) — Le Lecteur → *Renderer Production*
-
-> **Remapping Phase 1 Industrialisation :** ce chantier correspond au pilier **Renderer Production**.
-
-**Objectif.** Donner à Lou un lecteur du Collège de cardiologie **meilleur que le PDF**, sans une ligne générée par LLM.
-
-**Pourquoi.** Usage quotidien immédiat ; contrôle qualité humain sur la couche canonique ; exercice du renderer multi-chapitres.
-
-**Livrables.**
-
-- `library.json` (collèges → chapitres, rangs, situations de départ).
-- Un `manifest.json` par chapitre (`official.source` uniquement).
-- Écran d'accueil, recherche plein texte, figures inline, annotations existantes.
-
-**Critères de sortie.**
-
-- Collège cardio entier accessible ; recherche fonctionnelle ; annotations isolées par chapitre.
-- Lou préfère le lecteur au PDF pour chercher, naviguer et annoter.
-- Au moins un défaut de fidélité rapporté par Lou et corrigé en 0B.
-
-**Ne pas faire.** Mettre du contenu généré dans le Lecteur ; QCM / répétition espacée ; refonte esthétique ; approfondir l'annotation.
-
----
-
-### Phase 2 (historique) — La Fabrique → *Inventory / Blueprint / Projection Factory*
-
-> **Remapping Phase 1 Industrialisation :** ce chantier correspond aux piliers **Inventory Factory**, **Blueprint Factory** et **Projection Factory**.
-
-**Objectif.** Transformer le pipeline sémantique en **code exécutable, reproductible et instrumenté**. Le prouver sur 330, 232, 233.
-
-**Pourquoi.** Trois étages sur huit sont exécutables aujourd'hui ; le cœur sémantique est une transcription manuelle. Les chapitres 330, 232, 233 testent les archétypes non mécanistiques.
-
-**Livrables.**
-
-- Segmentation déterministe de la source (unités adressables, hashées).
-- Runtime LLM (prompts versionnés, cache, comptage, retry piloté par validateur).
-- Grounding réel (règles déterministes + juge d'entailment léger sur `bridging`).
-- Extension du vocabulaire d'éléments si requis (`AGENT`, `SCORE`, `RULE`, `PATTERN`, `ALGORITHM`).
-- Primitives visuelles `algorithm` et `comparison` si requis par les trois chapitres.
-- Chapitres 330, 232, 233 produits **de bout en bout sans intervention manuelle**.
-
-**Critères de sortie.**
-
-- Stabilité : deux exécutions produisent le même inventaire (mêmes KP, mêmes IDs).
-- Complétude : tous les segments portent une disposition ; taux de `missed` publié.
-- Première mesure réelle du coût LLM et du temps humain par chapitre — dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
-- Pour chaque archétype test : le résultat apporte-t-il plus qu'une bonne présentation du contenu officiel ?
-
-**Inventory — statut à la fin de Phase 2**
-
-- `inventory_schema_version: 1` — schéma **stable** pour Cardio V1.
-- Évolutions **additives et rattrapables** (nouveau champ avec défaut, nouveau membre d'énumération) : permises, n'incrémentent pas la version.
-- Évolutions **sémantiques ou non rattrapables** : incrémentent la version, justification écrite obligatoire.
-
-**Ne pas faire.** Générer au-delà des 3 chapitres tests ; interface d'administration ; scripts `build/*.mjs` par chapitre ; optimiser les coûts avant de les mesurer ; perfectionner la pédagogie des chapitres tests (régénération en Phase 3).
-
----
-
-### Phase 3 (historique) — Cardio V1 → *EDN Scale-out (cardio)*
-
-> **Remapping Phase 1 Industrialisation :** ce chantier correspond au pilier **EDN Scale-out** (périmètre cardio).
-
-**Objectif.** Produire le Collège de cardiologie complet avec couche de compréhension, industriellement.
-
-**Pourquoi.** Objectif immédiat déclaré ; premier test d'échelle réel.
-
-**Livrables.**
-
-- Tous les chapitres cardio publiés (projections, visuels, traçabilité).
-- Renderer complet : officiel + compréhension + schémas + annotations.
-- Liens inter-chapitres ; discipline terminologique minimale.
-
-**Critères de sortie.**
-
-- Effort humain par chapitre **minimal** — mesuré dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
-- Coût par chapitre **mesuré et stable**.
+- tous les chapitres cardio publiés (projections, visuels, traçabilité) ;
+- effort humain par chapitre **minimal** — mesuré ;
+- coût par chapitre **mesuré et stable** ;
 - Lou révise le cardio dans l'outil, pas dans le Collège papier.
 
-**⛔ Gel — fin de Phase 3**
+---
 
-> **Le contrat du manifeste est figé.** Toute rupture impose une migration explicite.
+### Couverture EDN
 
-**Ne pas faire.** Corriger un artefact à la main ; commencer un 2ᵉ collège ; couche de maîtrise ; nouvelles primitives sans double demande inter-chapitres.
+| | |
+|---|---|
+| **Nature** | Extension répétable |
+| **Question directrice** | Comment porter la méthode à l'ensemble du programme EDN (~360 items) ? |
+| **Décisions** | [PDR-C4](governance/PRODUCT-DECISION-REGISTRY.md) |
+
+**Critère de sortie (première étape) :**
+
+- un **second collège** (dissemblance maximale avec la cardio) produit de bout en bout ;
+- effort humain **minimal**, schéma d'Inventory stable — conforme [`04-CHAPTER-PACKAGE.md`](contracts/04-CHAPTER-PACKAGE.md) et objectif [Industrialisation de la Fabrique productrice](#industrialisation-de-la-fabrique-productrice) ;
+- métriques publiées dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
+
+**Hors périmètre :** lancer plusieurs collèges en parallèle avant validation du second.
 
 ---
 
-### Phase 4 (historique) — L'Épreuve → *Phase 2 roadmap*
+### Interface Admin et exploitabilité Fabrique
 
-> **Remapping :** devient **Phase 2 — Validation pédagogique** dans la vue d'ensemble § 5.
+| | |
+|---|---|
+| **Nature** | Fondation unique (première interface opérateur) |
+| **Question directrice** | Comment permettre au mainteneur d'exploiter La Fabrique sans commandes ad hoc ? |
+| **Décisions** | [PDR-C6](governance/PRODUCT-DECISION-REGISTRY.md) |
 
-**Objectif.** Répondre : **la méthode enseigne-t-elle réellement mieux ?**
+**Critère de sortie :**
 
-**Pourquoi.** Dernier moment où la réponse peut changer la direction avant l'échelle.
+- interface Admin légère, client des interfaces officielles Lou Build ;
+- périmètre : import Collège, lancement fabrication, suivi stages, publication, archivage/restauration ;
+- CLI conservée comme interface de secours et CI.
 
-**Livrables.** Réponse écrite et datée à quatre questions : compréhension ; archétypes à faible valeur ; usage des projections ; manque-t-il la récupération active ?
-
-**Critères de sortie.** Décision explicite : *poursuivre* / *poursuivre avec modification nommée* / *modifier la méthode avant l'échelle*.
-
-**Ne pas faire.** Refonte ; sauter la phase parce que le pipeline fonctionne ; corriger tout ce que Lou signale (ne retenir que ce qui se répète).
-
----
-
-### Phase 5 (historique) — L'Échelle → *EDN Scale-out (multi-collèges)*
-
-> **Remapping :** extension du pilier **EDN Scale-out** ; devient **Phase 3 — Échelle EDN** dans la vue d'ensemble § 5.
-
-**Objectif.** Prouver la portabilité hors cardio ; produire l'ensemble des collèges EDN.
-
-**Pourquoi.** Le pipeline d'acquisition n'a été qualifié que pour un format et un collège ; les autres collèges ont d'autres mises en page, parfois d'autres formats source, et d'autres archétypes de connaissance.
-
-**Livrables.**
-
-- 2ᵉ collège (dissemblance maximale avec la cardio) produit de bout en bout.
-- Production des collèges restants.
-- Renderer multi-collèges avec recherche transversale.
-
-**Critères de sortie.**
-
-- 2ᵉ collège produit avec effort humain **minimal**, **sans modification du schéma d'Inventory**.
-- Métriques dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
-
-**⛔ Gel transversal — fin de Phase 5 (après 2ᵉ collège validé)**
-
-> **Schéma d'Inventory gelé.** Plus aucune évolution non rattrapable.
-
-**Ne pas faire.** Lancer plusieurs collèges en parallèle avant validation du 2ᵉ ; CMS ; ouverture à d'autres utilisateurs.
+**Positionnement :** post-package de référence, avant montée en charge des chapitres cardio suivants ([PDR-C6](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 ---
 
-### Phase 6 (historique) — Régime permanent → *Phase 4 roadmap*
+### Régime éditorial permanent
 
-> **Remapping :** devient **Phase 4 — Régime permanent** dans la vue d'ensemble § 5.
+| | |
+|---|---|
+| **Nature** | Maintenance permanente |
+| **Question directrice** | Comment maintenir le corpus à jour lors des nouvelles éditions Collège, sans repasser en mode projet ? |
+| **Décisions** | [PDR-G3](governance/PRODUCT-DECISION-REGISTRY.md), [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) |
 
-**Objectif.** Le projet cesse d'être un projet ; il devient un système auto-maintenu.
+**Critère de sortie :**
 
-**Livrables.**
-
-- Mises à jour d'édition incrémentales (diff de segments, régénération ciblée, badges nouveau/modifié).
-- Couche de maîtrise **si et seulement si** la Phase 4 l'a exigée.
-- Réduction de la dette (code mort, primitives inutilisées).
-
-**Ne pas faire.** Plateforme médicale généraliste ; tuteur conversationnel en chat (casserait la traçabilité).
+- mises à jour d'édition incrémentales opérationnelles (diff de segments, régénération ciblée, signalement nouveau/modifié) ;
+- dette technique résiduelle réduite (code mort, primitives inutilisées).
 
 ---
 
-## 7. Tableau de bord
+### Maintenabilité et CI
 
-Cinq indicateurs structurels. Les **cibles numériques** et les **mesures courantes** sont maintenues dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
+| | |
+|---|---|
+| **Nature** | Maintenance permanente (transversal) |
+| **Question directrice** | Comment garantir qu'une évolution ne casse pas silencieusement un package publié conforme ? |
+| **Décisions** | [PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md) |
+
+**Critère de sortie :**
+
+- CI opérationnelle avec tests sur le package de capitalisation de référence ;
+- build reproductible des artefacts textuels vérifié en CI — définition normative : contrats et [`renderer/19-BUILD-PIPELINE.md`](renderer/19-BUILD-PIPELINE.md).
+
+Cet objectif avance **en parallèle** dès la capitalisation ; il devient bloquant avant toute montée en charge industrielle.
+
+---
+
+## Dépendances
+
+Deux natures de dépendance coexistent ([`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md) §5.3) :
+
+| Nature | Effet |
+|---|---|
+| **Blocage de démarrage** | le travail ne peut pas commencer |
+| **Blocage d'acceptation** | le travail peut avancer, mais son critère de sortie ne peut pas être prononcé |
+
+| Élément | Bloqué au démarrage par | Bloqué à l'acceptation par | Débloque (à la clôture) |
+|---|---|---|---|
+| Capitalisation package de référence | alignement source éditoriale si requis ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | — | acceptation Reader ; validation Lou ; fixture CI ; modèle industrialisation ; diff éditorial |
+| Développement Reader V1 | — | — | (prépare l'acceptation) |
+| Acceptation Reader V1 | — | package de référence publié | validation Lou en conditions réelles |
+| Validation pédagogique Lou | — | package de référence + Reader V1 accepté | industrialisation ; scale cardio |
+| Patrimoine V1 | — | co-vérifié à l'acceptation Reader | confiance données long terme |
+| Premier diff éditorial | package de référence validé | — | régime éditorial |
+| Industrialisation Fabrique | package de référence + validation méthode | — | scale cardio |
+| Couverture Cardio | industrialisation opérationnelle | — | couverture EDN |
+| Couverture EDN | cardio stabilisé + second collège validé | — | régime permanent |
+| Interface Admin | package de référence | — | exploitabilité scale |
+| CI / maintenabilité | — | co-requis avant scale industriel | non-régression durable |
+
+**Lecture :** plusieurs chantiers (capitalisation contenu, Reader, patrimoine, CI) avancent **en parallèle** ; le package de capitalisation de référence est le **nœud de convergence** — pas la première étape d'une chaîne purement linéaire.
+
+Le chemin critique effectif est constaté dans [`PROJECT_STATE.md`](PROJECT_STATE.md), en fonction de l'objectif actif et des blocages réels.
+
+---
+
+## Indicateurs structurels
+
+Cinq indicateurs suivis sur la durée du projet. Les **cibles numériques** et **mesures courantes** vivent exclusivement dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 | Indicateur | Ce qui est suivi |
 |---|---|
 | **Effort humain / chapitre publié** | Minutes d'intervention humaine (exceptions machine uniquement) |
 | **Complétude source** | Segments avec disposition prouvée par code |
 | **Grounding déterministe** | Part des claims sourcés vérifiés sans LLM |
-| **Reproductibilité du build** | Artefacts textuels : égalité binaire en CI |
-| **Décisions humaines / chapitre** | Compteur, tendance décroissante |
-
-### Reproductibilité du build
-
-Le build est une fonction pure de ses entrées versionnées :
-
-- **Binaire (défaut)** — JSON, YAML, Markdown, SVG. Test : égalité octet pour octet.
-- **Canonique (exception)** — artefacts feuilles dépendant d'outils externes (images rastérisées). Test : forme canonique déclarée en code (région source + hash perceptuel). Un artefact n'est feuille que si aucun étage aval ne consomme ses octets.
+| **Reproductibilité du build** | Artefacts textuels : égalité en CI — voir contrats et pipeline |
+| **Décisions humaines / chapitre** | Compteur ; tendance décroissante attendue à l'industrialisation |
 
 ---
 
-## 8. État actuel
+## Acquis
 
-**Ne pas maintenir l'état opérationnel dans ce document.**
+Objectifs clos — une ligne par acquis, renvoi vers la preuve de clôture. Le détail opérationnel appartient aux rapports et à l'historique Git.
 
-La photographie vivante du projet — phase active, chantier, risques, métriques, jalons — est dans **[`PROJECT_STATE.md`](PROJECT_STATE.md)**, mis à jour régulièrement.
+| Acquis | Preuve de clôture |
+|---|---|
+| Fondations, gouvernance et contrats fondamentaux | [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md), [`contracts/00-INDEX.md`](contracts/00-INDEX.md) |
+| Qualification et gel de l'acquisition (FIL B, Tool 01/02, P1–P7) | [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md), [ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) |
+| Architecture Reader v1 (spec) | Docs [14](renderer/14-LOU-READER-ARCHITECTURE.md)–[15](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
+| Architecture Fabrique v1 (spec) | Docs [16](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)–[19](renderer/19-BUILD-PIPELINE.md), [`contracts/00-INDEX.md` §6](contracts/00-INDEX.md) |
+| Pipeline validateur lou-build (stages A–K, cutover production) | [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md), [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md), tag `lou-build-pipeline-v1` |
 
-Ce roadmap reste **stable** ; l'état du projet **évolue**.
+> **Note terminologique.** Le **pipeline validateur** lou-build est un acquis. La **Fabrique productrice autonome** reste un objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)) — ne pas confondre « cutover lou-build » avec « production autonome de contenu ».
 
 ---
 
-## 9. Philosophie du projet
+## Philosophie de décision
 
 Lou Médecine progresse par **suppression des risques**, pas par accumulation de code.
 
-Chaque phase retire une classe de risque dans l'ordre où l'ignorer coûterait le plus cher. Le renderer est en avance ; la couche canonique et le pipeline sémantique sont en retard. C'est l'ordre correct : la partie qui demandait de l'intelligence est faite ; celle qui demande de la discipline reste à faire.
+Chaque décision retire une classe de risque dans l'ordre où l'ignorer coûterait le plus cher. Le centre de gravité du projet est la **production du premier Chapter Package complet de référence** — livrable structurant à partir duquel Reader, validation, CI et industrialisation s'alignent ([`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md) §13, [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 Le succès se mesure à une question :
 
@@ -585,27 +376,19 @@ Si la réponse est non, la décision attend.
 
 ---
 
-## Documents connexes
+## Points d'entrée documentaires
 
-| Document | Rôle |
+| Besoin | Document |
 |---|---|
-| [`contracts/00-INDEX.md`](contracts/00-INDEX.md) | **Contrats fondamentaux 01–06** — gouvernance normative ; § 6 architecture de référence |
-| [`renderer/README.md`](renderer/README.md) | **Architecture de référence gelée** — docs 14–19 |
-| [`renderer/19-BUILD-PIPELINE.md`](renderer/19-BUILD-PIPELINE.md) | Pipeline opérationnel cible de lou-build |
-| [`governance/PHASE_0A_COMPLETION.md`](governance/PHASE_0A_COMPLETION.md) | Clôture officielle Phase 0A |
-| [`PROJECT_STATE.md`](PROJECT_STATE.md) | État courant, métriques, risques — **document vivant** |
-| [`LLM_STRATEGY.md`](LLM_STRATEGY.md) | Usage des modèles — **stratégie évolutive** |
-| [`SOURCE_OF_TRUTH.md`](SOURCE_OF_TRUTH.md) | Chaîne officielle FIL B, SSOT, statut FIL A legacy |
-| [`adr/ADR-004-acquisition-architecture-frozen.md`](adr/ADR-004-acquisition-architecture-frozen.md) | Gel architecture acquisition — fin R&D |
-| [`releases/acquisition-rd-complete.md`](releases/acquisition-rd-complete.md) | Jalon historique sortie R&D acquisition |
-| [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md) | Jalon Phase 3 — Pipeline Migration close (`lou-build-pipeline-v1`) |
-| [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) | Feuille de route scale-out industriel (post-Fabrique) |
-| [`SOURCE_PIPELINE_QUALIFICATION.md`](SOURCE_PIPELINE_QUALIFICATION.md) | Grille P1–P7 (Phase P clôturée) |
-| [`SOURCE_FORMAT_COMPARATIVE.md`](SOURCE_FORMAT_COMPARATIVE.md) | Analyse comparative des formats source EDN |
-| [`acquisition/`](acquisition/) | Dossier de qualification rejouable — produit en Phase P |
-| `IMPLEMENTATION_CONTRACT.md` | Contrat d'implémentation détaillé |
-| `FINAL_ARCHITECTURE.md` | Architecture de référence |
-| `VISUAL_GRAMMAR_CONTRACT.md` | Contrat visuel normatif |
-| `00-foundation/principles.md` | Principes immuables |
+| Où en est-on ? | [`PROJECT_STATE.md`](PROJECT_STATE.md) |
+| Pourquoi cette décision ? | [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |
+| Comment organiser le pilotage ? | [`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md) |
+| Capitalisation gouvernance post-audit (ADR-006, registre produit) | [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md), [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |
+| Quelles obligations techniques ? | [`contracts/00-INDEX.md`](contracts/00-INDEX.md) |
+| Détail industrialisation | [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) |
+| Détail migration Reader | [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md) |
+| Rapports de clôture | [`docs/releases/`](releases/) |
 
-Les contrats techniques précisent l'implémentation ; **ce roadmap pilote les priorités**.
+---
+
+*Révision 2026-07-30 — migration Phase A.7 ; motive : capitalisation audit système, ADR-006, [`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md).*

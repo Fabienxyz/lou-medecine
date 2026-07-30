@@ -1,7 +1,7 @@
 # Lou Médecine — Index des contrats
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-07-28 (gouvernance — gel architecture v1)  
+**Dernière mise à jour :** 2026-07-30 (synchronisation pilotage v1)  
 **Audit source :** [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md)
 
 Ce document est la **porte d'entrée** du système contractuel. Il n'énonce aucune règle métier, ne remplace aucun ADR ni aucun contrat existant.
@@ -16,7 +16,7 @@ Les **contrats fondamentaux** `docs/contracts/01–06` consolident ces obligatio
 
 **Ils gouvernent :** la fidélité au Collège, l'identité des artefacts, l'acquisition, le chapter package, la grammaire visuelle, le renderer lecteur et la couche apprenant.
 
-**Ils ne gouvernent pas :** le séquencement projet ([`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md)), l'état opérationnel ([`PROJECT_STATE.md`](../PROJECT_STATE.md)), la stratégie LLM ([`LLM_STRATEGY.md`](../LLM_STRATEGY.md)), ni les plans d'industrialisation ou rapports de qualification.
+**Ils ne gouvernent pas :** le séquencement projet ([`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md)), l'état opérationnel ([`PROJECT_STATE.md`](../PROJECT_STATE.md)), l'organisation du pilotage ([`DOCUMENT_ARCHITECTURE.md`](../governance/DOCUMENT_ARCHITECTURE.md)), la mémoire des arbitrages produit ([`PRODUCT-DECISION-REGISTRY.md`](../governance/PRODUCT-DECISION-REGISTRY.md)), la stratégie LLM ([`LLM_STRATEGY.md`](../LLM_STRATEGY.md)), ni les plans d'industrialisation ou rapports de qualification.
 
 En cas de conflit de **priorités** produit, la roadmap l'emporte. En cas de conflit de **comportement** technique, la hiérarchie ci-dessous l'emporte.
 
@@ -84,6 +84,7 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 
 | Document | Responsabilité | Statut |
 |---|---|---|
+| [`COMPOSITION-COMPONENT-CONTRACT.md`](components/COMPOSITION-COMPONENT-CONTRACT.md) | Obligations durables de la couche de composition Reader | En vigueur |
 | [`RENDERER-COMPONENT-CONTRACT.md`](components/RENDERER-COMPONENT-CONTRACT.md) | Obligations durables du composant Renderer lecteur | En vigueur |
 
 ---
@@ -134,7 +135,9 @@ Les documents **14–19** (`docs/renderer/`) constituent l'**architecture de ré
 | [`19-BUILD-PIPELINE.md`](../renderer/19-BUILD-PIPELINE.md) | Pipeline opérationnel de La Fabrique — étapes, artefacts, gates et dépendances du build. |
 | [`16-CONTENT-TO-READER-ARCHITECTURE.md`](../renderer/16-CONTENT-TO-READER-ARCHITECTURE.md) | Frontière Chapter Package publié ↔ Reader — composition déclarative et identités à l'interface. |
 
-Cette architecture est **gelée**. Toute évolution substantielle nécessite une révision explicite. Séquencement projet : [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) · état courant : [`PROJECT_STATE.md`](../PROJECT_STATE.md).
+Cette architecture est **gelée**. Toute évolution substantielle nécessite une révision explicite.
+
+**Pilotage (couche parallèle, non normative) :** organisation — [`DOCUMENT_ARCHITECTURE.md`](../governance/DOCUMENT_ARCHITECTURE.md) · intention — [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) · observation — [`PROJECT_STATE.md`](../PROJECT_STATE.md).
 
 ---
 
@@ -142,11 +145,14 @@ Cette architecture est **gelée**. Toute évolution substantielle nécessite une
 
 | Document | Usage |
 |---|---|
-| [ADR-001](../adr/ADR-001-freeze-svg-grammar-catalogue.md) · [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) · [ADR-003](../adr/ADR-003-single-source-of-truth.md) · [ADR-004](../adr/ADR-004-acquisition-architecture-frozen.md) · [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) | Gouvernance (index ADR) |
+| [`adr/README.md`](../adr/README.md) · [ADR-001](../adr/ADR-001-freeze-svg-grammar-catalogue.md) · [ADR-002](../adr/ADR-002-renderer-v2-architecture.md) · [ADR-003](../adr/ADR-003-single-source-of-truth.md) · [ADR-004](../adr/ADR-004-acquisition-architecture-frozen.md) · [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) · [ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) | Gouvernance — index ADR |
 | [`components/00-INDEX.md`](components/00-INDEX.md) | Index des contrats composants |
-| [`RENDERER-COMPONENT-CONTRACT.md`](components/RENDERER-COMPONENT-CONTRACT.md) | Contrat composant Renderer |
+| [`COMPOSITION-COMPONENT-CONTRACT.md`](components/COMPOSITION-COMPONENT-CONTRACT.md) | Contrat composant Composition (Reader) |
+| [`RENDERER-COMPONENT-CONTRACT.md`](components/RENDERER-COMPONENT-CONTRACT.md) | Renderer — obligations composant |
+| [`DOCUMENT_ARCHITECTURE.md`](../governance/DOCUMENT_ARCHITECTURE.md) | Doctrine pilotage documentaire |
+| [`PRODUCT-DECISION-REGISTRY.md`](../governance/PRODUCT-DECISION-REGISTRY.md) | Mémoire des arbitrages produit (informatif) |
 | [`PHASE_0A_COMPLETION.md`](../governance/PHASE_0A_COMPLETION.md) | Clôture Phase 0A |
 | [`RENDERER_COMPLIANCE_COMPLETION.md`](../governance/RENDERER_COMPLIANCE_COMPLETION.md) | Clôture conformité Renderer |
 | [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md) | Inventaire et cartographie ayant motivé cette structure |
 | [`renderer/README.md`](../renderer/README.md) | Index de la documentation renderer — navigation vers l'architecture de référence 14–19 |
-| [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) · [`PROJECT_STATE.md`](../PROJECT_STATE.md) | Pilotage et jalon Architecture v1 gelée |
+| [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) · [`PROJECT_STATE.md`](../PROJECT_STATE.md) | Pilotage — intention et observation |

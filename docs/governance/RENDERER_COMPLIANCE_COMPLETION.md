@@ -21,7 +21,7 @@ Validation officielle de la conformité du Renderer à la gouvernance Lou Médec
 
 | Niveau | Documents |
 |---|---|
-| ADR | [ADR-001](../adr/ADR-001-freeze-svg-grammar-catalogue.md) à [ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md) |
+| ADR | [ADR-001](../adr/ADR-001-freeze-svg-grammar-catalogue.md) à [ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) — voir [`adr/README.md`](../adr/README.md) |
 | Contrats fondamentaux | [01](../contracts/01-TRUST-AND-FIDELITY.md)–[06](../contracts/06-RENDERER-AND-LEARNER-LAYER.md) |
 | Contrat composant | [Renderer Component Contract](../contracts/components/RENDERER-COMPONENT-CONTRACT.md) |
 

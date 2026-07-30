@@ -47,13 +47,13 @@ Research, observations and experiments.
 
 ## Current Status
 
-**La Fabrique terminée** (2026-07-28). Phases Fondations, Le Lecteur — Architecture et La Fabrique (architecture + implémentation + cutover) sont **closes**.
+**Objectif actif :** capitalisation d'un **package de référence complet** (Item 234 — Insuffisance cardiaque — édition Collège 2023).
 
-**Pipeline lou-build en production** — tag historique [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md) ; cutover Phase 3.5 : [`phase-3.5-completion-report.md`](docs/releases/phase-3.5-completion-report.md).
+**Pipeline validateur lou-build :** acquis — tag historique [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md) ; cutover : [`phase-3.5-completion-report.md`](docs/releases/phase-3.5-completion-report.md).
 
-**Phase active :** **Le Lecteur (production)** — lecteur multi-chapitres, retrait fallbacks legacy renderer.
+**Chantiers en cours :** capitalisation Item 234, développement Reader V1 (acceptation conditionnée par le package complet), patrimoine pédagogique, CI.
 
-État opérationnel : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · pilotage : [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
+État opérationnel : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · intention et séquencement : [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md) · organisation du pilotage : [`docs/governance/DOCUMENT_ARCHITECTURE.md`](docs/governance/DOCUMENT_ARCHITECTURE.md).
 
 ---
 
@@ -61,10 +61,13 @@ Research, observations and experiments.
 
 Read in this order:
 
-1. **[Contrats fondamentaux](docs/contracts/00-INDEX.md)** — gouvernance normative (01–06) et index de l'architecture de référence
-2. **Architecture de référence (gelée v1)** — [`docs/renderer/README.md`](docs/renderer/README.md) · docs [14](docs/renderer/14-LOU-READER-ARCHITECTURE.md)–[19](docs/renderer/19-BUILD-PIPELINE.md)
-3. **[Master Roadmap](docs/MASTER_ROADMAP.md)** — séquencement produit et phases
-4. **[Project State](docs/PROJECT_STATE.md)** — état courant et métriques (document vivant)
-5. **Implémentation (lou-build)** — [`tools/lou-build/`](tools/lou-build/) · [`IMPLEMENTATION_CONTRACT.md`](IMPLEMENTATION_CONTRACT.md)
+1. **[Contrats fondamentaux](docs/contracts/00-INDEX.md)** — gouvernance normative (01–06), ADR et index de l'architecture de référence
+2. **[ADR](docs/adr/README.md)** — décisions architecturales fondatrices
+3. **[Organisation du pilotage](docs/governance/DOCUMENT_ARCHITECTURE.md)** — doctrine documentaire roadmap / état
+4. **[Master Roadmap](docs/MASTER_ROADMAP.md)** — intention : objectifs, séquencement, critères de sortie
+5. **[Project State](docs/PROJECT_STATE.md)** — observation : état courant et métriques (document vivant)
+6. **[Product Decision Registry](docs/governance/PRODUCT-DECISION-REGISTRY.md)** — mémoire des arbitrages produit
+7. **Architecture de référence (gelée v1)** — [`docs/renderer/README.md`](docs/renderer/README.md) · docs [14](docs/renderer/14-LOU-READER-ARCHITECTURE.md)–[19](docs/renderer/19-BUILD-PIPELINE.md)
+8. **Implémentation (lou-build)** — [`tools/lou-build/`](tools/lou-build/) · [`IMPLEMENTATION_CONTRACT.md`](IMPLEMENTATION_CONTRACT.md)
 
 Entry point for new contributors: [START_HERE.md](START_HERE.md).

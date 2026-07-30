@@ -54,9 +54,9 @@ Une organisation de modules ou une technologie navigateur différente **n'invali
 
 ## 2. Mission
 
-Le Renderer **DOIT** transformer un **Chapter Package publié** en expérience de lecture interactive navigable.
+Le Renderer **DOIT** présenter le **Reading View Model** produit par la couche de composition ([`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md)) en expérience de lecture interactive navigable.
 
-Il **DOIT** présenter le contenu officiel tel que publié, et **PEUT** superposer une couche apprenant locale.
+Il **DOIT** présenter le contenu officiel tel que composé et publié, et **PEUT** superposer une couche apprenant locale.
 
 Il **NE DOIT PAS** altérer le contenu officiel, reconstruire la connaissance médicale, ni produire une nouvelle vérité médicale.
 
@@ -106,13 +106,14 @@ Les seules catégories d'entrées autorisées sont :
 
 | Catégorie | Règle |
 |---|---|
-| **Chapter Package publié** | Entrée métier unique pour le contenu officiel |
-| **Manifeste et artefacts déclarés** | Uniquement ceux référencés par le package publié |
+| **Reading View Model** | Représentation composée produite par la couche de composition — entrée logique obligatoire pour le contenu officiel |
+| **Chapter Package publié** | Accès aux artefacts officiels **uniquement** via Package Access — jamais pour sélection de vues ou libellés produit |
+| **Manifeste et artefacts déclarés** | Résolution technique des contenus référencés par le View Model |
 | **Données locales de la couche apprenant** | Données personnelles, hors package |
 | **Événements d'interaction utilisateur** | Navigation, sélection, saisie apprenant, consultation de traçabilité |
 | **Configuration purement technique** | Résolution de chemins, options d'affichage non médicales, bornes de compatibilité legacy |
 
-Le Renderer **NE DOIT PAS** accepter comme entrée autoritaire : inventaire, Blueprint, source d'acquisition, visualSpec sémantique, état de travail non publié, ou toute base métier parallèle au package publié.
+Le Renderer **NE DOIT PAS** accepter comme entrée autoritaire pour la **composition des vues** : le manifest seul, une Composition Specification, l'inventaire, le Blueprint, la source d'acquisition, un visualSpec sémantique, ou toute base métier parallèle au package publié. Ces entrées relèvent de la couche de composition ou de Package Access — voir [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md).
 
 ---
 
@@ -279,30 +280,41 @@ Les responsabilités suivantes sont **logiques**. Elles **NE DOIVENT PAS** être
 
 | | |
 |---|---|
-| **Rôle** | Interpréter le registre et les états de disponibilité des projections et visuels |
-| **Peut recevoir** | Manifeste et métadonnées d'état déclarées |
-| **Peut produire** | Ensemble résolu de projections présentes / absentes connues / manquantes / invalides |
-| **Ne peut pas absorber** | Invention de contenu ; création d'une taxonomie métier parallèle |
+| **Rôle** | Interpréter les états de disponibilité des contenus référencés par le View Model |
+| **Peut recevoir** | Reading View Model ; métadonnées d'état déjà résolues par la composition |
+| **Peut produire** | Confirmation de présentation ; diagnostics de rendu localisés |
+| **Ne peut pas absorber** | Invention de contenu ; création d'une taxonomie métier parallèle ; sélection de vues |
 
-### 7.4 Official Content Rendering
+### 7.4 View Composition
+
+| | |
+|---|---|
+| **Rôle** | Exécuter la Composition Specification contre le manifest publié |
+| **Peut recevoir** | Manifest ; spec applicable ; identifiant chapitre ; configuration technique |
+| **Peut produire** | Reading View Model ; diagnostics de composition |
+| **Ne peut pas absorber** | Rendu DOM ; persistance apprenant ; autorité médicale ; modification du package |
+
+Détail normatif : [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md).
+
+### 7.5 Official Content Rendering
 
 | | |
 |---|---|
 | **Rôle** | Présenter le contenu officiel publié dans le navigateur |
-| **Peut recevoir** | Artefacts officiels résolus (projections, figures publiées, sidecars de traçabilité déclarés) |
+| **Peut recevoir** | Reading View Model ; artefacts officiels résolus pour rendu |
 | **Peut produire** | Représentation officielle immuable à l'affichage |
-| **Ne peut pas absorber** | Écriture apprenant dans les artefacts ; enrichissement médical ; redéfinition de la grammaire visuelle |
+| **Ne peut pas absorber** | Écriture apprenant dans les artefacts ; enrichissement médical ; redéfinition de la grammaire visuelle ; lecture de la Composition Specification |
 
-### 7.5 Navigation and Presentation State
+### 7.6 Navigation and Presentation State
 
 | | |
 |---|---|
-| **Rôle** | Gérer la navigation entre projections et l'état de présentation visible |
-| **Peut recevoir** | Registre résolu ; interactions de navigation |
-| **Peut produire** | Projection active ; états visibles de disponibilité |
-| **Ne peut pas absorber** | Création de vérité métier ; remplacement du registre publié |
+| **Rôle** | Gérer la navigation entre vues composées et l'état de présentation visible |
+| **Peut recevoir** | Reading View Model ; interactions de navigation |
+| **Peut produire** | Vue active ; états visibles de disponibilité |
+| **Ne peut pas absorber** | Création de vérité métier ; remplacement du registre publié ; agrégation de projections |
 
-### 7.6 Learner Layer
+### 7.7 Learner Layer
 
 | | |
 |---|---|
@@ -311,7 +323,7 @@ Les responsabilités suivantes sont **logiques**. Elles **NE DOIVENT PAS** être
 | **Peut produire** | Overlays ; créations / mises à jour / suppressions de données apprenant |
 | **Ne peut pas absorber** | Modification du package ; unification des mécanismes ; mintage d'identifiants médicaux |
 
-### 7.7 Local Persistence
+### 7.8 Local Persistence
 
 | | |
 |---|---|
@@ -320,7 +332,7 @@ Les responsabilités suivantes sont **logiques**. Elles **NE DOIVENT PAS** être
 | **Peut produire** | État local restaurable ; signalement d'enregistrements non résolus |
 | **Ne peut pas absorber** | Contenu officiel ; suppression silencieuse des orphelins ; sync cloud obligatoire |
 
-### 7.8 Diagnostics and Compatibility Boundary
+### 7.9 Diagnostics and Compatibility Boundary
 
 | | |
 |---|---|
@@ -338,7 +350,7 @@ Les responsabilités suivantes sont **logiques**. Elles **NE DOIVENT PAS** être
 ```
 Bootstrap and Runtime Coordination
   → Package Access
-  → Projection Resolution
+  → View Composition
   → Official Content Rendering
   → Navigation and Presentation State
 
@@ -359,6 +371,7 @@ Diagnostics and Compatibility Boundary
 | Renderer → génération | **NE DOIT PAS** générer projections, inventory, Blueprint ou figures |
 | Local Persistence → contenu officiel | **NE DOIT PAS** stocker ni versionner le contenu officiel |
 | Navigation → vérité métier | **NE DOIT PAS** créer une autorité métier parallèle |
+| Renderer → Composition Specification | **NE DOIT PAS** lire la spec pour composer des vues |
 | Legacy → architecture permanente | Un pont legacy **NE DOIT PAS** devenir une seconde norme |
 
 ---
@@ -510,6 +523,7 @@ Relèvent d'autres documents — **non tranchés ici** :
 | Package publié / manifeste / `known_absent` | [Contrat 04](../04-CHAPTER-PACKAGE.md) | Définir les obligations de consommation et de distinction d'états |
 | Visuels officiels (présentation) | [Contrat 05](../05-VISUAL-GRAMMAR.md) | Présenter les figures publiées ; ne pas inférer depuis visualSpec |
 | Learner layer / immutabilité lecteur | [Contrat 06](../06-RENDERER-AND-LEARNER-LAYER.md) | Détailler les obligations du composant sans les redéfinir |
+| Composition / View Model | [COMPOSITION-COMPONENT-CONTRACT.md](COMPOSITION-COMPONENT-CONTRACT.md) | Recevoir le View Model ; ne pas composer ni lire la spec |
 
 ---
 

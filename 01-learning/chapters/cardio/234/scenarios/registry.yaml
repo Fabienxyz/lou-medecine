@@ -1,0 +1,20 @@
+# Scénarios cliniques — registre Release (contrat 04 §7.4, contrat 09)
+# Curated. Manifest declares these entries (generated via lou-build packaging).
+
+release:
+  chapter: cardio/234
+  edition: 2022
+
+scenarios:
+  - scenario_id: sc-234-standard-01
+    kind: standard
+    path: scenarios/sc-234-standard-01.yaml
+    status: published
+  - scenario_id: sc-234-trap-01
+    kind: trap
+    path: scenarios/sc-234-trap-01.yaml
+    status: published
+  - scenario_id: sc-234-synthesis-01
+    kind: synthesis
+    path: scenarios/sc-234-synthesis-01.yaml
+    status: published

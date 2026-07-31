@@ -1,0 +1,228 @@
+[
+  {
+    "num": 50,
+    "kp_refs": ["KP-061"],
+    "element_refs": ["CR-acute"],
+    "stem": "Devant une dyspnée aiguë, quels diagnostics différentiels majeurs évoquer en plus de l'IC ?",
+    "options": [
+      ["a", "pneumopathie, embolie pulmonaire, exacerbation de BPCO, crise d'asthme", 1, "KP-061", "DDx principaux de dyspnée aiguë."],
+      ["b", "uniquement l'embolie pulmonaire", 0, "KP-061", "Liste plus large requise."],
+      ["c", "appendicite aiguë", 0, "KP-061", "Hors DDx respiratoire/aigu."],
+      ["d", "pneumothorax jamais à évoquer", 0, "KP-061", "Plusieurs causes respiratoires/aiguës."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "DDx dyspnée aiguë"
+  },
+  {
+    "num": 51,
+    "kp_refs": ["KP-062"],
+    "stem": "Les facteurs déclenchants d'une décompensation aiguë d'IC comprennent :",
+    "options": [
+      ["a", "rupture de traitement/régime sans sel (1er facteur), infection, FA, anémie, EP, dysthyroïdie, iatrogénie, HTA, SCA…", 1, "KP-062", "Facteurs favorisants à rechercher."],
+      ["b", "uniquement l'arrêt des diurétiques", 0, "KP-062", "Liste plus large."],
+      ["c", "infection jamais impliquée", 0, "KP-062", "Infection = facteur fréquent."],
+      ["d", "recherche inutile si OAP typique", 0, "KP-062", "Toujours rechercher la cause."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Facteurs déclenchants"
+  },
+  {
+    "num": 52,
+    "kp_refs": ["KP-063"],
+    "element_refs": ["CR-acute"],
+    "stem": "Le choc cardiogénique se caractérise par :",
+    "options": [
+      ["a", "défaillance aiguë sévère → hypoperfusion ; PAS < 90 mmHg ou chute > 30 mmHg ≥ 30 min ; extrémités froides, oligurie < 20 mL/h, troubles de conscience", 1, "KP-063", "Critères hémodynamiques et cliniques."],
+      ["b", "PAS toujours > 140 mmHg", 0, "KP-063", "Hypotension sévère."],
+      ["c", "diurèse conservée > 100 mL/h", 0, "KP-063", "Oligurie < 20 mL/h."],
+      ["d", "absence de retentissement tissulaire", 0, "KP-063", "Hypoperfusion/anoxie tissulaire."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Choc cardiogénique"
+  },
+  {
+    "num": 53,
+    "kp_refs": ["KP-064"],
+    "stem": "L'insuffisance cardiaque chronique correspond à :",
+    "options": [
+      ["a", "l'état du patient en dehors d'une décompensation aiguë, ambulatoire sous traitement oral", 1, "KP-064", "Définition IC chronique stable."],
+      ["b", "toute IC nécessitant furosémide IV", 0, "KP-064", "C'est l'IC aiguë décompensée."],
+      ["c", "IC diagnostiquée depuis moins de 24 h", 0, "KP-064", "Chronique = hors poussée aiguë."],
+      ["d", "patient toujours hospitalisé", 0, "KP-064", "Ambulatoire sous traitement oral."]
+    ],
+    "difficulty": "basic",
+    "notes": "IC chronique"
+  },
+  {
+    "num": 54,
+    "kp_refs": ["KP-065"],
+    "stem": "Les critères diagnostiques d'IC à fraction d'éjection préservée incluent :",
+    "options": [
+      ["a", "symptômes/signes + FEVG ≥ 50 % + BNP/NT-proBNP élevés + arguments de pressions de remplissage élevées (HVG, dilatation AG…)", 1, "KP-065", "Profil HFpEF complet."],
+      ["b", "FEVG < 40 % obligatoire", 0, "KP-065", "FEVG ≥ 50 %."],
+      ["c", "peptides bas exclusifs", 0, "KP-065", "Peptides élevés requis."],
+      ["d", "absence de signes congestifs possible", 0, "KP-065", "Symptômes/signes requis."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Critères HFpEF"
+  },
+  {
+    "num": 55,
+    "kp_refs": ["KP-066"],
+    "stem": "L'histoire naturelle de l'insuffisance cardiaque :",
+    "options": [
+      ["a", "dysfonction asymptomatique puis IC ; oscillations stabilité/décompensations ; remodelage inverse possible sous traitement", 1, "KP-066", "Progression et réversibilité partielle."],
+      ["b", "apparition toujours brutale sans phase silencieuse", 0, "KP-066", "Phase asymptomatique possible."],
+      ["c", "amélioration structurelle impossible sous traitement", 0, "KP-066", "Remodelage inverse décrit."],
+      ["d", "cours toujours linéairement ascendant sans rémission", 0, "KP-066", "Oscillations possibles."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Histoire naturelle"
+  },
+  {
+    "num": 56,
+    "kp_refs": ["KP-067", "KP-068"],
+    "stem": "Pronostic et gravité de l'insuffisance cardiaque :",
+    "options": [
+      ["a", "mortalité ~50 % à 5 ans (jusqu'à 40–50 %/an si NYHA IV) ; hospitalisations fréquentes après 65 ans ; toute hospitalisation pour décompensation = facteur de gravité", 1, ["KP-067", "KP-068"], "Mortalité et réhospitalisations."],
+      ["b", "pronostic excellent à 5 ans", 0, "KP-067", "Mortalité élevée."],
+      ["c", "hospitalisation pour décompensation sans valeur pronostique", 0, "KP-068", "Toujours facteur de gravité."],
+      ["d", "mort subite absente", 0, "KP-067", "Mort subite rythmique fréquente."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Pronostic mortalité"
+  },
+  {
+    "num": 57,
+    "kp_refs": ["KP-069"],
+    "stem": "Les complications de l'insuffisance cardiaque comprennent :",
+    "options": [
+      ["a", "arythmies, thromboembolies, hypotension, troubles hydroélectrolytiques et IR, anémie/carence martiale, SAS", 1, "KP-069", "Spectre des complications."],
+      ["b", "uniquement les œdèmes", 0, "KP-069", "Complications multiples."],
+      ["c", "hyperkaliémie impossible sous traitement", 0, "KP-069", "Troubles hydroélectrolytiques possibles."],
+      ["d", "SAS rare et sans lien", 0, "KP-069", "SAS fréquent en IC sévère."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Complications IC"
+  },
+  {
+    "num": 58,
+    "kp_refs": ["KP-071"],
+    "stem": "Les comorbidités dans l'insuffisance cardiaque :",
+    "options": [
+      ["a", "cardiaques et non cardiaques fréquentes ; à prendre en charge car elles impactent qualité de vie, réhospitalisations, survie et tolérance des traitements", 1, "KP-071", "Importance des comorbidités."],
+      ["b", "sans impact sur la survie", 0, "KP-071", "Impact sur survie et réhospitalisations."],
+      ["c", "ne modifient pas la tolérance thérapeutique", 0, "KP-071", "Impactent tolérance des traitements."],
+      ["d", "rares et ignorables", 0, "KP-071", "Fréquentes."]
+    ],
+    "difficulty": "basic",
+    "notes": "Comorbidités"
+  },
+  {
+    "num": 59,
+    "kp_refs": ["KP-073"],
+    "stem": "La prévention et le traitement étiologique de l'IC comprennent :",
+    "options": [
+      ["a", "FDR CV, contrôle HTA/valvulopathies, reperfusion/revascularisation, éviction toxiques, surveillance chimio, contrôle du rythme", 1, "KP-073", "Axes préventifs et étiologiques."],
+      ["b", "uniquement les diurétiques", 0, "KP-073", "Approche étiologique large."],
+      ["c", "pas de rôle pour le contrôle de l'HTA", 0, "KP-073", "HTA = cofacteur majeur."],
+      ["d", "alcool sans effet sur une CMD", 0, "KP-073", "Arrêt alcool peut permettre régression (KP-076 lié)."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Prévention étiologique"
+  },
+  {
+    "num": 60,
+    "kp_refs": ["KP-074"],
+    "stem": "Le régime hyposodé dans l'IC :",
+    "options": [
+      ["a", "viser ≤ 5–6 g de sel/j ; chez certains régime sans sel peut être nuisible (dénutrition) → diététicien, épices ; après écart → ↑ diurétiques le jour même ou lendemain", 1, "KP-074", "Objectif, piège dénutrition, conduite après écart."],
+      ["b", "sel illimité recommandé", 0, "KP-074", "Restriction hyposodée."],
+      ["c", "sels de régime riches en K+ encouragés", 0, "KP-074", "À éviter (risque hyperK)."],
+      ["d", "écart alimentaire sans adaptation diurétique", 0, "KP-074", "Augmenter diurétiques après écart."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Régime hyposodé"
+  },
+  {
+    "num": 61,
+    "kp_refs": ["KP-075"],
+    "stem": "La surveillance du poids dans l'IC :",
+    "options": [
+      ["a", "alerte si +2–3 kg en 2–3 jours ; perte progressive sans œdème = dénutrition/gravité/mauvais pronostic ; signes d'alerte : dyspnée, orthopnée, œdèmes", 1, "KP-075", "Seuils et signification bidirectionnelle."],
+      ["b", "prise de poids toujours bénigne", 0, "KP-075", "Prise rapide = alerte décompensation."],
+      ["c", "perte de poids systématiquement favorable", 0, "KP-075", "Perte sans œdème = mauvais pronostic."],
+      ["d", "surveillance hebdomadaire suffit toujours", 0.2, "KP-075", "Surveillance quotidienne recommandée ; réponse porte sur les seuils."]
+    ],
+    "difficulty": "basic",
+    "notes": "Surveillance poids"
+  },
+  {
+    "num": 62,
+    "kp_refs": ["KP-076"],
+    "stem": "Les mesures générales dans l'IC chronique incluent :",
+    "options": [
+      ["a", "arrêt alcool (régression CMD possible), arrêt tabac, activité physique hors décompensation, vaccinations grippe/Covid/pneumocoque, contraception/grossesse à risque", 1, "KP-076", "Mesures hygiénodiététiques globales."],
+      ["b", "alcool modéré autorisé systématiquement", 0, "KP-076", "Arrêt total recommandé."],
+      ["c", "repos strict permanent", 0, "KP-076", "Activité encouragée hors décompensation."],
+      ["d", "vaccinations non recommandées", 0, "KP-076", "Vaccinations recommandées."]
+    ],
+    "difficulty": "basic",
+    "notes": "Mesures générales"
+  },
+  {
+    "num": 63,
+    "kp_refs": ["KP-078"],
+    "element_refs": ["CR-treat-hfref"],
+    "stem": "Les inhibiteurs de l'enzyme de conversion (IEC) dans l'IC à FE diminuée :",
+    "options": [
+      ["a", "indiqués chez tous FE diminuée quelle que soit NYHA ; ↓ mortalité/hospitalisations ; surveillance PA/créatinine/kaliémie ; arrêt/↓ si créatinine > 20–30 % ; ne pas introduire simultanément IEC + antialdostérone", 1, "KP-078", "Indications, surveillance, associations."],
+      ["b", "réservés NYHA IV uniquement", 0, "KP-078", "Toute NYHA si FE diminuée."],
+      ["c", "introduction simultanée IEC + spironolactone recommandée", 0, "KP-078", "Éviter introduction simultanée."],
+      ["d", "sans effet sur mortalité", 0, "KP-078", "Diminution mortalité démontrée."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "IEC HFrEF"
+  },
+  {
+    "num": 64,
+    "kp_refs": ["KP-079", "KP-080"],
+    "element_refs": ["CR-treat-hfref"],
+    "stem": "ARA2 et sacubitril/valsartan (ARNI) :",
+    "options": [
+      ["a", "ARA2 réservés si intolérance aux IEC ; ARNI supérieur à énalapril, en remplacement IEC/ARA2 si symptomatique malgré traitement optimal", 1, ["KP-079", "KP-080"], "Place respective ARA2 et ARNI."],
+      ["b", "ARA2 en 1re intention devant IEC", 0, "KP-079", "Alternative si intolérance IEC."],
+      ["c", "ARNI en association avec IEC en continu", 0, "KP-080", "Remplacement IEC/ARA2, pas association."],
+      ["d", "ARNI sans bénéfice démontré", 0, "KP-080", "Supérieur à énalapril."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "ARA2 et ARNI"
+  },
+  {
+    "num": 65,
+    "kp_refs": ["KP-083"],
+    "element_refs": ["CR-treat-hfref"],
+    "stem": "Les gliflozines (SGLT2) dans l'insuffisance cardiaque :",
+    "options": [
+      ["a", "indiquées diabétique ou non ; ↓ mortalité CV et hospitalisations pour IC", 1, "KP-083", "Indication élargie HFrEF/HFmrEF."],
+      ["b", "réservées aux diabétiques uniquement", 0, "KP-083", "Efficacité diabétique ou non."],
+      ["c", "augmentent les hospitalisations IC", 0, "KP-083", "Diminuent les hospitalisations."],
+      ["d", "contre-indiquées si FE ≤ 40 %", 0, "KP-083", "Au contraire, indiquées."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Gliflozines"
+  },
+  {
+    "num": 66,
+    "kp_refs": ["KP-084", "KP-085"],
+    "stem": "Diurétiques et IC à FE légèrement diminuée (41–49 %) :",
+    "options": [
+      ["a", "diurétiques de l'anse pour rétention hydrosodée ; thiazidiques associés si résistance aux fortes doses de furosémide ; FE 41–49 % peut bénéficier des mêmes traitements avec preuve moindre", 1, ["KP-084", "KP-085"], "Diurétiques et HFmrEF."],
+      ["b", "diurétiques contre-indiqués en IC", 0, "KP-084", "Indispensables pour congestion."],
+      ["c", "FE 41–49 % exclut tout traitement de l'HFrEF", 0, "KP-085", "Peut bénéficier des mêmes traitements."],
+      ["d", "thiazidiques seuls en 1re intention systématique", 0, "KP-084", "Anses en 1re intention ; thiazidiques si résistance."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Diurétiques HFmrEF"
+  }
+]

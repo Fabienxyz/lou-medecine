@@ -1,0 +1,33 @@
+# OAP vertical slice — chapter package fixture for lou-build regression tests (PDR-B3 historical POC)
+mode: slice
+slug: 234-insuffisance-cardiaque
+title: Insuffisance cardiaque — understanding v1
+specialty: Cardiologie
+chapter_line: Item 234 — Phase 5 understanding projections
+
+known_absent:
+  - mastery
+
+required_visual_elements:
+  - MEC-oap
+
+reconciliation:
+  scope_expected: >
+    pulmonary filling pressure / congestion → upstream VG pressure transmission →
+    PPC threshold crossing → transudation → cardiogenic OAP → cardiogenic transudate
+    vs lesional exudate confusion boundary
+
+semantic_grounding_bootstrap:
+  allowed_claim_ids:
+    - cb-oap-bridge
+    - cb-overview-oap
+  verdicts:
+    cb-oap-bridge:
+      status: pass
+      note: bootstrap-verified entailment
+    cb-overview-oap:
+      status: pass
+      note: bootstrap-verified entailment
+
+visual_alts:
+  MEC-oap: Congestion pulmonaire → seuil PPC → transsudat → OAP cardiogénique

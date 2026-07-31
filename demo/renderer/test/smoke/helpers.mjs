@@ -12,26 +12,54 @@ export async function clearLearnerDb(page) {
   await page.reload({ waitUntil: "networkidle" });
 }
 
-export async function goToProjection(page, tabIndex) {
-  const projection = projectionByTabIndex(tabIndex);
-  await page.locator(".tab").nth(tabIndex).click();
+export async function goToProjection(page, tabIndexOrFixture) {
+  const projection =
+    typeof tabIndexOrFixture === "object" && tabIndexOrFixture !== null
+      ? tabIndexOrFixture
+      : projectionByTabIndex(tabIndexOrFixture);
+  if (!projection) {
+    throw new Error(`No projection fixture for tab index ${tabIndexOrFixture}`);
+  }
+  await page.locator(".tab").nth(projection.tabIndex).click();
   await page.waitForFunction(
-    ({ element, marker }) => {
-      const wt = document.querySelector(
-        `[data-element="${element}"] .block-walkthrough`
-      );
+    ({ element, marker, projectionId }) => {
+      const sel = projectionId
+        ? `.pedagogical-block[data-element="${element}"][data-source-projection="${projectionId}"]`
+        : `.pedagogical-block[data-element="${element}"]`;
+      const block = document.querySelector("#content " + sel);
+      if (!block) {
+        return false;
+      }
+      const wt = block.querySelector(".block-walkthrough");
       return (
         wt &&
         wt.dataset.official === "true" &&
         wt.textContent.includes(marker)
       );
     },
-    { element: projection.element, marker: projection.contentMarker },
+    {
+      element: projection.element,
+      marker: projection.contentMarker,
+      projectionId: projection.id || projection.projection,
+    },
     { timeout: 15_000 }
   );
   await page.waitForFunction(
     () => window.LouTextHighlights?._boundHost?.id === "content"
   );
+  await page.evaluate(async () => {
+    if (window.LouApp && window.LouApp.whenTabReady) {
+      await window.LouApp.whenTabReady();
+    }
+  });
+}
+
+export function blockSelectorFor(projection, element) {
+  const base = `.pedagogical-block[data-element="${element}"]`;
+  if (projection) {
+    return `${base}[data-source-projection="${projection}"]`;
+  }
+  return base;
 }
 
 export async function createHighlight(page, opts) {
@@ -39,11 +67,12 @@ export async function createHighlight(page, opts) {
     projection,
     element,
     phrase,
-    blockSelector = `[data-element="${element}"]`,
+    blockSelector = blockSelectorFor(projection, element),
   } = opts;
   return page.evaluate(
     async ({ chapter, projection, element, phrase, blockSelector }) => {
-      const block = document.querySelector(blockSelector);
+      const content = document.getElementById("content");
+      const block = content ? content.querySelector(blockSelector) : null;
       if (!block) throw new Error(`block not found: ${blockSelector}`);
       const wt = block.querySelector(".block-walkthrough");
       if (!wt) throw new Error("walkthrough not found");
@@ -87,19 +116,21 @@ export async function createHighlights(page, specs) {
   return results;
 }
 
-export async function reloadAndOpenProjection(page, tabIndex) {
+export async function reloadAndOpenProjection(page, tabIndexOrFixture) {
   await page.reload({ waitUntil: "networkidle" });
-  await goToProjection(page, tabIndex);
+  await goToProjection(page, tabIndexOrFixture);
 }
 
-/** Reload and wait for the default boot tab (Story) without clicking tabs. */
+/** Reload and wait for the default boot tab (Amorçage) then open Modèle mental. */
 export async function reloadToDefaultStoryTab(page, storyMarker) {
   await page.reload({ waitUntil: "networkidle" });
+  await page.locator(".tab", { hasText: "Modèle mental" }).click();
   await page.waitForFunction(
     ({ marker }) => {
-      const wt = document.querySelector(
-        '[data-element="MM-pump-decompensation"] .block-walkthrough'
+      const block = document.querySelector(
+        '[data-element="MM-pump-decompensation"][data-source-projection="story"]'
       );
+      const wt = block && block.querySelector(".block-walkthrough");
       return (
         wt &&
         wt.dataset.official === "true" &&
@@ -141,7 +172,17 @@ export async function countStoredHighlightsAllProjections(page) {
 
 export async function inspectMarks(page, rootSelector = "#content") {
   return page.evaluate((rootSel) => {
-    const root = document.querySelector(rootSel) || document;
+    const content = document.getElementById("content");
+    if (!content) {
+      return { markCount: 0, marks: [], walkthroughTextLengths: [], unexpectedBrInWalkthrough: false };
+    }
+    const root =
+      !rootSel || rootSel === "#content"
+        ? content
+        : content.querySelector(rootSel);
+    if (!root) {
+      return { markCount: 0, marks: [], walkthroughTextLengths: [], unexpectedBrInWalkthrough: false };
+    }
     const marks = [...root.querySelectorAll("mark.learner-highlight")];
     const walkthroughs = [...root.querySelectorAll(".block-walkthrough")];
     return {
@@ -187,7 +228,12 @@ export function assertHealthyMarks(report, expect) {
 
 export async function createHighlightViaToolbar(page, opts) {
   const { element, phrase, projectionId } = opts;
-  const ui = await runSelectionChange(page, { element, phrase, projectionId });
+  const ui = await runSelectionChange(page, {
+    element,
+    phrase,
+    projectionId,
+    blockSelector: blockSelectorFor(projectionId, element),
+  });
   if (!ui.ok || !ui.toolbarVisible) {
     throw new Error(
       `toolbar not shown for ${phrase}: ${ui.reason || "no selection context"}`
@@ -199,6 +245,13 @@ export async function createHighlightViaToolbar(page, opts) {
       !window.LouTextHighlights._selectionContext &&
       document.querySelector(".highlight-toolbar")?.hidden !== false
   );
+  await page.waitForFunction(
+    ({ blockSelector }) => {
+      const block = document.querySelector("#content " + blockSelector);
+      return !!(block && block.querySelector("mark.learner-highlight"));
+    },
+    { blockSelector: blockSelectorFor(projectionId, element) }
+  );
   return ui.selectedText;
 }
 
@@ -208,9 +261,11 @@ export async function runSelectionChange(page, opts) {
     ({ element, phrase, projectionId, blockSelector, selectInQuestion }) => {
       window.LouTextHighlights.dismissToolbar();
       const host = document.getElementById("content");
-      const block = document.querySelector(
-        blockSelector || `[data-element="${element}"]`
-      );
+      const block = host
+        ? host.querySelector(
+            blockSelector || `.pedagogical-block[data-element="${element}"]`
+          )
+        : null;
       if (!block) return { ok: false, reason: "block missing" };
 
       let range;
@@ -266,9 +321,9 @@ export async function runSelectionChange(page, opts) {
       sel.removeAllRanges();
       sel.addRange(range);
 
-      const context = {
+      const context = window.LouTextHighlights._bindContext || {
         chapter: "cardio/234",
-        projection: { id: projectionId },
+        projection: projectionId ? { id: projectionId } : null,
         store: window.LouLearnerStore,
       };
       window.LouTextHighlights._onSelectionChange(host, context);

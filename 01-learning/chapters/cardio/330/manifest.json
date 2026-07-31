@@ -7,9 +7,7 @@
   "source_edition": 2022,
   "trace_index": "build/traceability.json",
   "known_absent": [
-    "mastery",
-    "actors",
-    "readiness"
+    "mastery"
   ],
   "projections": [
     {
@@ -19,7 +17,6 @@
       "order": 1,
       "path": "projections/understanding/story.md",
       "status": "published",
-      "label": "📖 Histoire",
       "elements": [
         "ANA-caillot-trois-voies",
         "MM-antithrombotic-pipeline"
@@ -32,7 +29,6 @@
       "order": 2,
       "path": "projections/understanding/overview.md",
       "status": "published",
-      "label": "🗺️ Vue d'ensemble",
       "elements": [
         "MM-antithrombotic-pipeline"
       ]
@@ -44,7 +40,6 @@
       "order": 3,
       "path": "projections/understanding/mechanisms.md",
       "status": "published",
-      "label": "❓ Pourquoi ?",
       "elements": [
         "MEC-hemostasis-classes",
         "MEC-aspirin",
@@ -65,7 +60,6 @@
       "order": 4,
       "path": "projections/understanding/clinical-reasoning.md",
       "status": "published",
-      "label": "🩺 Raisonnement clinique",
       "elements": [
         "CR-prescribe-antiplatelet",
         "CR-prescribe-heparin",

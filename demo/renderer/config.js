@@ -38,8 +38,13 @@ window.LouConfig = {
             "Erreur réseau lors du chargement du manifeste.",
         manifestServer:
             "Erreur serveur lors du chargement du manifeste.",
+        viewPlanned:
+            "Cette vue est prévue — le contenu n'est pas encore disponible.",
+        notesShell:
+            "Espace Notes — tes fiches et annotations de consolidation apparaîtront ici.",
     },
 
+    /** Legacy prototype tabs — manifest 404 only (ADR-002). */
     TABS: [
         {
             id: "histoire",
@@ -108,14 +113,5 @@ window.LouConfig = {
 
     resolveManifestPath(chapter) {
         return this.resolveAssetPath(chapter, this.MANIFEST_FILENAME);
-    },
-
-    projectionTabLabel(projection) {
-        if (projection.label) return projection.label;
-        if (projection.id === "story") return "📖 Histoire";
-        if (projection.id === "overview") return "🗺️ Vue d'ensemble";
-        if (projection.id === "mechanisms") return "❓ Pourquoi ?";
-        if (projection.id === "clinical-reasoning") return "🩺 Raisonnement clinique";
-        return projection.id;
     },
 };

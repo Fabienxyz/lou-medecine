@@ -3,6 +3,9 @@
 # Derived from blueprint.md (MM-pump-decompensation) + inventory.yaml.
 # NOT derived from the legacy 234 SVG corpus.
 #
+# Rendered SVG (pre-publication, Track D.1): build/rendered-visuals/mm-pump-decompensation.svg
+# Publication via Stage G awaits blueprint activation (`active: true` + pipeline integration).
+#
 # Contract: VISUAL_GRAMMAR_CONTRACT.md
 # Validator: tools/lou-build/lib/visual-spec.js
 #

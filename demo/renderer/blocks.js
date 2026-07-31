@@ -94,6 +94,12 @@ window.LouBlocks = {
         const block = document.createElement("section");
         block.className = "pedagogical-block";
         block.dataset.element = elementId;
+        const sourceProjection =
+            context.sourceProjectionId ||
+            (context.projection && context.projection.id);
+        if (sourceProjection) {
+            block.dataset.sourceProjection = sourceProjection;
+        }
 
         heading.classList.add("block-question");
         // Generated content is immutable to the learner: it is marked as generated and no editing
@@ -235,6 +241,17 @@ window.LouBlocks = {
         return card;
     },
 
+    _runtimeBlockKey(element, sourceProjection, composition) {
+        if (composition && sourceProjection) {
+            return sourceProjection + "\0" + element;
+        }
+        return element;
+    },
+
+    _isCompositionContext(context) {
+        return !!(context && context.view);
+    },
+
     /**
      * Load stored Personal Diagrams into the blocks that are on screen.
      *
@@ -244,9 +261,15 @@ window.LouBlocks = {
      */
     async hydrate(root, context) {
         const self = this;
+        const composition = this._isCompositionContext(context);
         const blocks = new Map();
         root.querySelectorAll(".pedagogical-block").forEach(function (block) {
-            blocks.set(block.dataset.element, block);
+            const key = self._runtimeBlockKey(
+                block.dataset.element,
+                block.dataset.sourceProjection,
+                composition
+            );
+            blocks.set(key, block);
         });
 
         const chapterElements = new Set();
@@ -260,7 +283,28 @@ window.LouBlocks = {
         const diagrams = await context.store.listPersonalDiagrams(context.chapter);
 
         diagrams.forEach(function (record) {
-            const block = blocks.get(record.element);
+            let block = null;
+            if (composition) {
+                const matches = [];
+                blocks.forEach(function (candidate, key) {
+                    if (key.endsWith("\0" + record.element)) {
+                        matches.push(candidate);
+                    }
+                });
+                if (matches.length === 1) {
+                    block = matches[0];
+                } else if (matches.length > 1) {
+                    console.warn(
+                        "[LouBlocks] Composition diagram hydrate ambiguous: element=" +
+                            record.element +
+                            " matches " +
+                            matches.length +
+                            " blocks; projection-scoped anchor required"
+                    );
+                }
+            } else {
+                block = blocks.get(record.element);
+            }
             if (block) {
                 const card = self._diagramCard(record, context);
                 if (card) {

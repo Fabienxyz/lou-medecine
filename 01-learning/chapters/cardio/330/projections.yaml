@@ -6,7 +6,6 @@ projections:
     order: 1
     path: projections/understanding/story.md
     status: published
-    label: "📖 Histoire"
     elements: [ANA-caillot-trois-voies, MM-antithrombotic-pipeline]
 
   - id: overview
@@ -15,7 +14,6 @@ projections:
     order: 2
     path: projections/understanding/overview.md
     status: published
-    label: "🗺️ Vue d'ensemble"
     elements:
       - MM-antithrombotic-pipeline
 
@@ -25,7 +23,6 @@ projections:
     order: 3
     path: projections/understanding/mechanisms.md
     status: published
-    label: "❓ Pourquoi ?"
     elements:
       - MEC-hemostasis-classes
       - MEC-aspirin
@@ -44,7 +41,6 @@ projections:
     order: 4
     path: projections/understanding/clinical-reasoning.md
     status: published
-    label: "🩺 Raisonnement clinique"
     elements:
       - CR-prescribe-antiplatelet
       - CR-prescribe-heparin

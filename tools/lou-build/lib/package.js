@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { validateManifestReaderNeutral } from "./manifest-neutralization.js";
 
 function invalidatePublishableState(paths) {
   if (fs.existsSync(paths.manifest)) {
@@ -13,6 +14,7 @@ function assembleManifest({
   projections,
   reconciliation,
   visualBuild,
+  evaluation,
 }) {
   const mode = packageConfig.mode || "slice";
   const manifest = {
@@ -27,6 +29,10 @@ function assembleManifest({
     projections: [],
     visuals: [],
   };
+
+  if (packageConfig.editorial_completeness) {
+    manifest.editorial_completeness = packageConfig.editorial_completeness;
+  }
 
   if (mode === "slice") {
     if (inventory.slice) {
@@ -60,7 +66,6 @@ function assembleManifest({
       path: p.path,
       status: p.status || "published",
     };
-    if (p.label) entry.label = p.label;
     if (p.elements) entry.elements = p.elements;
     if (p.visual_elements) {
       entry.visuals = {};
@@ -109,6 +114,36 @@ function assembleManifest({
     });
   }
   manifest.official_visuals = [...availability.values()];
+
+  // Questions / Scenarios — first-class Release objects (contrat 04 §7.4, 07, 09).
+  // Registry entries only; pedagogical payloads stay in curated YAML files.
+  const questions = evaluation?.questions || [];
+  const scenarios = evaluation?.scenarios || [];
+  if (questions.length || scenarios.length || packageConfig.evaluation) {
+    manifest.questions = questions.map((q) => ({
+      question_id: q.question_id,
+      path: q.path,
+      status: q.status,
+    }));
+    manifest.scenarios = scenarios.map((s) => ({
+      scenario_id: s.scenario_id,
+      kind: s.kind,
+      path: s.path,
+      status: s.status,
+    }));
+    if (evaluation?.evaluationConfig?.completeness_level) {
+      manifest.editorial_completeness =
+        packageConfig.editorial_completeness ||
+        evaluation.evaluationConfig.completeness_level;
+    }
+  }
+
+  const neutralErrors = validateManifestReaderNeutral(manifest);
+  if (neutralErrors.length) {
+    throw new Error(
+      "Reader-neutral manifest assembly failed:\n" + neutralErrors.join("\n")
+    );
+  }
 
   return manifest;
 }

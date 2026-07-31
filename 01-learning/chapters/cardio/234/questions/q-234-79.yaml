@@ -1,0 +1,71 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-79
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-049
+stem:
+  text: |
+    Cathétérisme droit dans l'IC (niveau maîtrise) — valeurs et seuils :
+  claim_facets:
+    - id: cf-q-234-79-stem
+      class: sourced
+      kp:
+        - KP-049
+options:
+  - id: a
+    label: OD < 5 mmHg, VD 25/0, PCAP/PAPO < 15 mmHg, DC 5 L/min, index 3 L/min/m² ; HTAP si PAPm > 25 mmHg ; greffe CI si RAP > 5 UW
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-79-opt-a
+        class: sourced
+        kp: &a1
+          - KP-049
+    explanation: Normes hémodynamiques et CI greffe.
+    claim_facets_explanation:
+      - id: cf-q-234-79-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: PAPm > 15 mmHg définit HTAP
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-79-opt-b
+        class: sourced
+        kp: &a2
+          - KP-049
+    explanation: "HTAP : PAPm > 25 mmHg."
+    claim_facets_explanation:
+      - id: cf-q-234-79-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: RAP > 2 UW contre-indique greffe
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-79-opt-c
+        class: sourced
+        kp: &a3
+          - KP-049
+    explanation: "Seuil : > 5 UW."
+    claim_facets_explanation:
+      - id: cf-q-234-79-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: cathétérisme droit jamais utile
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-79-opt-d
+        class: sourced
+        kp: &a4
+          - KP-049
+    explanation: Mesure pressions/débit.
+    claim_facets_explanation:
+      - id: cf-q-234-79-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: advanced
+  notes: Cathétérisme droit (mastery)
+  kp_disposition: deferred-to-mastery

@@ -21,7 +21,10 @@ const SPEC_PATH = path.join(
   "build/visual-specs/mm-pump-decompensation.yaml"
 );
 const REVIEW_PATH = path.join(CHAPTER_DIR, "build/visual-grounding-review.yaml");
-const FIGURE_PATH = path.join(CHAPTER_DIR, "figures/mm-pump-decompensation.svg");
+const FIGURE_PATH = path.join(
+  CHAPTER_DIR,
+  "build/rendered-visuals/mm-pump-decompensation.svg"
+);
 const GENERIC_FIXTURE = path.join(__dirname, "fixtures/generic-causal-graph.yaml");
 const SOURCE_META = { edition: 2022 };
 

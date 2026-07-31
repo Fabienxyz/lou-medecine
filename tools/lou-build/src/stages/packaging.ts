@@ -39,6 +39,16 @@ export function runPackaging(ctx: BuildContext): StageResult {
     ctx,
     "visualBuild",
   );
+  // Optional: comprehension-only packages may omit evaluation registries.
+  const evaluation = (ctx.workspace?.evaluation || {
+    questions: [],
+    scenarios: [],
+    evaluationConfig: null,
+  }) as {
+    questions?: unknown[];
+    scenarios?: unknown[];
+    evaluationConfig?: Record<string, unknown> | null;
+  };
 
   invalidatePublishableState(paths);
 
@@ -49,6 +59,7 @@ export function runPackaging(ctx: BuildContext): StageResult {
     projections: projectionsManifest.projections,
     reconciliation,
     visualBuild,
+    evaluation,
   });
 
   fs.writeFileSync(paths.manifest, JSON.stringify(manifest, null, 2) + "\n");

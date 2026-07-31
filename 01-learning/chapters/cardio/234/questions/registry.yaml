@@ -1,0 +1,249 @@
+# Questions d'évaluation — registre Release (contrat 04 §7.4, contrat 07)
+release:
+  chapter: cardio/234
+  edition: 2022
+
+questions:
+  - question_id: q-234-01
+    path: questions/q-234-01.yaml
+    status: published
+  - question_id: q-234-02
+    path: questions/q-234-02.yaml
+    status: published
+  - question_id: q-234-03
+    path: questions/q-234-03.yaml
+    status: published
+  - question_id: q-234-04
+    path: questions/q-234-04.yaml
+    status: published
+  - question_id: q-234-05
+    path: questions/q-234-05.yaml
+    status: published
+  - question_id: q-234-06
+    path: questions/q-234-06.yaml
+    status: published
+  - question_id: q-234-07
+    path: questions/q-234-07.yaml
+    status: published
+  - question_id: q-234-08
+    path: questions/q-234-08.yaml
+    status: published
+  - question_id: q-234-09
+    path: questions/q-234-09.yaml
+    status: published
+  - question_id: q-234-10
+    path: questions/q-234-10.yaml
+    status: published
+  - question_id: q-234-11
+    path: questions/q-234-11.yaml
+    status: published
+  - question_id: q-234-12
+    path: questions/q-234-12.yaml
+    status: published
+  - question_id: q-234-13
+    path: questions/q-234-13.yaml
+    status: published
+  - question_id: q-234-14
+    path: questions/q-234-14.yaml
+    status: published
+  - question_id: q-234-15
+    path: questions/q-234-15.yaml
+    status: published
+  - question_id: q-234-16
+    path: questions/q-234-16.yaml
+    status: published
+  - question_id: q-234-17
+    path: questions/q-234-17.yaml
+    status: published
+  - question_id: q-234-18
+    path: questions/q-234-18.yaml
+    status: published
+  - question_id: q-234-19
+    path: questions/q-234-19.yaml
+    status: published
+  - question_id: q-234-20
+    path: questions/q-234-20.yaml
+    status: published
+  - question_id: q-234-21
+    path: questions/q-234-21.yaml
+    status: published
+  - question_id: q-234-22
+    path: questions/q-234-22.yaml
+    status: published
+  - question_id: q-234-23
+    path: questions/q-234-23.yaml
+    status: published
+  - question_id: q-234-24
+    path: questions/q-234-24.yaml
+    status: published
+  - question_id: q-234-25
+    path: questions/q-234-25.yaml
+    status: published
+  - question_id: q-234-26
+    path: questions/q-234-26.yaml
+    status: published
+  - question_id: q-234-27
+    path: questions/q-234-27.yaml
+    status: published
+  - question_id: q-234-28
+    path: questions/q-234-28.yaml
+    status: published
+  - question_id: q-234-29
+    path: questions/q-234-29.yaml
+    status: published
+  - question_id: q-234-30
+    path: questions/q-234-30.yaml
+    status: published
+  - question_id: q-234-31
+    path: questions/q-234-31.yaml
+    status: published
+  - question_id: q-234-32
+    path: questions/q-234-32.yaml
+    status: published
+  - question_id: q-234-33
+    path: questions/q-234-33.yaml
+    status: published
+  - question_id: q-234-34
+    path: questions/q-234-34.yaml
+    status: published
+  - question_id: q-234-35
+    path: questions/q-234-35.yaml
+    status: published
+  - question_id: q-234-36
+    path: questions/q-234-36.yaml
+    status: published
+  - question_id: q-234-37
+    path: questions/q-234-37.yaml
+    status: published
+  - question_id: q-234-38
+    path: questions/q-234-38.yaml
+    status: published
+  - question_id: q-234-39
+    path: questions/q-234-39.yaml
+    status: published
+  - question_id: q-234-40
+    path: questions/q-234-40.yaml
+    status: published
+  - question_id: q-234-41
+    path: questions/q-234-41.yaml
+    status: published
+  - question_id: q-234-42
+    path: questions/q-234-42.yaml
+    status: published
+  - question_id: q-234-43
+    path: questions/q-234-43.yaml
+    status: published
+  - question_id: q-234-44
+    path: questions/q-234-44.yaml
+    status: published
+  - question_id: q-234-45
+    path: questions/q-234-45.yaml
+    status: published
+  - question_id: q-234-46
+    path: questions/q-234-46.yaml
+    status: published
+  - question_id: q-234-47
+    path: questions/q-234-47.yaml
+    status: published
+  - question_id: q-234-48
+    path: questions/q-234-48.yaml
+    status: published
+  - question_id: q-234-49
+    path: questions/q-234-49.yaml
+    status: published
+  - question_id: q-234-50
+    path: questions/q-234-50.yaml
+    status: published
+  - question_id: q-234-51
+    path: questions/q-234-51.yaml
+    status: published
+  - question_id: q-234-52
+    path: questions/q-234-52.yaml
+    status: published
+  - question_id: q-234-53
+    path: questions/q-234-53.yaml
+    status: published
+  - question_id: q-234-54
+    path: questions/q-234-54.yaml
+    status: published
+  - question_id: q-234-55
+    path: questions/q-234-55.yaml
+    status: published
+  - question_id: q-234-56
+    path: questions/q-234-56.yaml
+    status: published
+  - question_id: q-234-57
+    path: questions/q-234-57.yaml
+    status: published
+  - question_id: q-234-58
+    path: questions/q-234-58.yaml
+    status: published
+  - question_id: q-234-59
+    path: questions/q-234-59.yaml
+    status: published
+  - question_id: q-234-60
+    path: questions/q-234-60.yaml
+    status: published
+  - question_id: q-234-61
+    path: questions/q-234-61.yaml
+    status: published
+  - question_id: q-234-62
+    path: questions/q-234-62.yaml
+    status: published
+  - question_id: q-234-63
+    path: questions/q-234-63.yaml
+    status: published
+  - question_id: q-234-64
+    path: questions/q-234-64.yaml
+    status: published
+  - question_id: q-234-65
+    path: questions/q-234-65.yaml
+    status: published
+  - question_id: q-234-66
+    path: questions/q-234-66.yaml
+    status: published
+  - question_id: q-234-67
+    path: questions/q-234-67.yaml
+    status: published
+  - question_id: q-234-68
+    path: questions/q-234-68.yaml
+    status: published
+  - question_id: q-234-69
+    path: questions/q-234-69.yaml
+    status: published
+  - question_id: q-234-70
+    path: questions/q-234-70.yaml
+    status: published
+  - question_id: q-234-71
+    path: questions/q-234-71.yaml
+    status: published
+  - question_id: q-234-72
+    path: questions/q-234-72.yaml
+    status: published
+  - question_id: q-234-73
+    path: questions/q-234-73.yaml
+    status: published
+  - question_id: q-234-74
+    path: questions/q-234-74.yaml
+    status: published
+  - question_id: q-234-75
+    path: questions/q-234-75.yaml
+    status: published
+  - question_id: q-234-76
+    path: questions/q-234-76.yaml
+    status: published
+  - question_id: q-234-77
+    path: questions/q-234-77.yaml
+    status: published
+  - question_id: q-234-78
+    path: questions/q-234-78.yaml
+    status: published
+  - question_id: q-234-79
+    path: questions/q-234-79.yaml
+    status: published
+  - question_id: q-234-80
+    path: questions/q-234-80.yaml
+    status: published
+  - question_id: q-234-81
+    path: questions/q-234-81.yaml
+    status: published

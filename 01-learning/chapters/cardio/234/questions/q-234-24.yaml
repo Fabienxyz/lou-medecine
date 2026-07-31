@@ -1,0 +1,70 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-24
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-011
+stem:
+  text: |
+    La tachycardie compensatrice sympathique dans l'IC :
+  claim_facets:
+    - id: cf-q-234-24-stem
+      class: sourced
+      kp:
+        - KP-011
+options:
+  - id: a
+    label: contribue à maintenir le débit cardiaque mais augmente le travail cardiaque et la consommation en O₂
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-24-opt-a
+        class: sourced
+        kp: &a1
+          - KP-011
+    explanation: Bénéfice hémodynamique court terme, coût métabolique.
+    claim_facets_explanation:
+      - id: cf-q-234-24-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: diminue systématiquement le débit cardiaque
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-24-opt-b
+        class: sourced
+        kp: &a2
+          - KP-011
+    explanation: Elle participe au maintien du DC.
+    claim_facets_explanation:
+      - id: cf-q-234-24-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: n'a aucun effet délétère
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-24-opt-c
+        class: sourced
+        kp: &a3
+          - KP-011
+    explanation: "Effets délétères : travail cardiaque et consommation O₂."
+    claim_facets_explanation:
+      - id: cf-q-234-24-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: est indépendante du système sympathique
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-24-opt-d
+        class: sourced
+        kp: &a4
+          - KP-011
+    explanation: Elle est sous dépendance sympathique.
+    claim_facets_explanation:
+      - id: cf-q-234-24-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: basic
+  notes: Tachycardie compensatrice

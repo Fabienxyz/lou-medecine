@@ -1,0 +1,70 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-43
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-053
+stem:
+  text: |
+    Les cardiomyopathies restrictives (ex. amylose cardiaque) :
+  claim_facets:
+    - id: cf-q-234-43-stem
+      class: sourced
+      kp:
+        - KP-053
+options:
+  - id: a
+    label: infiltration → rigidité et remplissage altéré ; pronostic sévère dès manifestations d'IC
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-43-opt-a
+        class: sourced
+        kp: &a1
+          - KP-053
+    explanation: Mécanisme et pronostic amylose.
+    claim_facets_explanation:
+      - id: cf-q-234-43-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: s'accompagnent d'une dilatation majeure avec FE très basse typiquement
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-43-opt-b
+        class: sourced
+        kp: &a2
+          - KP-053
+    explanation: Profil restrictif, pas dilaté classique.
+    claim_facets_explanation:
+      - id: cf-q-234-43-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: pronostic excellent une fois l'IC installée
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-43-opt-c
+        class: sourced
+        kp: &a3
+          - KP-053
+    explanation: Pronostic sévère.
+    claim_facets_explanation:
+      - id: cf-q-234-43-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: amylose cardiaque est la forme la plus bénigne
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-43-opt-d
+        class: sourced
+        kp: &a4
+          - KP-053
+    explanation: Amylose = forme fréquente et sévère.
+    claim_facets_explanation:
+      - id: cf-q-234-43-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: advanced
+  notes: CM restrictives

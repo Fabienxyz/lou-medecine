@@ -1,0 +1,211 @@
+[
+  {
+    "num": 67,
+    "kp_refs": ["KP-087"],
+    "element_refs": ["CR-treat-hfref"],
+    "stem": "Concernant l'amiodarone dans l'IC à FEVG diminuée :",
+    "options": [
+      ["a", "c'est le seul antiarythmique que l'on peut prescrire chez l'insuffisant cardiaque à FEVG diminuée", 1, "KP-087", "Règle d'exclusivité thérapeutique."],
+      ["b", "flécaïnide est préférée si FEVG basse", 0, "KP-087", "Classe I contre-indiquée (KP-089)."],
+      ["c", "amiodarone contre-indiquée dès FE < 50 %", 0, "KP-087", "Au contraire, seule option autorisée."],
+      ["d", "sotalol toujours en 1re intention", 0, "KP-087", "Amiodarone seule autorisée."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Amiodarone HFrEF"
+  },
+  {
+    "num": 68,
+    "kp_refs": ["KP-091"],
+    "element_refs": ["CR-treat-hfref"],
+    "stem": "La resynchronisation cardiaque (CRT) est indiquée si :",
+    "options": [
+      ["a", "NYHA II–IV, FEVG ≤ 35 %, QRS ≥ 130 ms ; efficacité meilleure si BBG et QRS ≥ 150 ms, forme non ischémique", 1, "KP-091", "Critères CRT."],
+      ["b", "FEVG > 50 % suffit", 0, "KP-091", "FEVG ≤ 35 %."],
+      ["c", "QRS 80 ms suffit", 0, "KP-091", "QRS ≥ 130 ms."],
+      ["d", "BBG défavorable à la CRT", 0, "KP-091", "Efficacité meilleure si BBG."]
+    ],
+    "difficulty": "advanced",
+    "notes": "CRT critères"
+  },
+  {
+    "num": 69,
+    "kp_refs": ["KP-097", "KP-098"],
+    "stem": "Parcours de soins et télésurveillance de l'IC :",
+    "options": [
+      ["a", "post-hospitalisation : risque élevé de réhospitalisation, éducation pluridisciplinaire, IPA/protocole coopération, réadaptation SSR ; télésurveillance remboursée surveillant PA/FC/poids avec alertes", 1, ["KP-097", "KP-098"], "Parcours et télésuivi."],
+      ["b", "réhospitalisation rare après 1re hospitalisation", 0, "KP-097", "Risque important."],
+      ["c", "télésurveillance non remboursée", 0, "KP-098", "Programmes remboursés."],
+      ["d", "réadaptation inutile", 0, "KP-097", "Réadaptation SSR recommandée."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Parcours télésurveillance"
+  },
+  {
+    "num": 70,
+    "kp_refs": ["KP-100"],
+    "element_refs": ["CR-acute"],
+    "stem": "Prise en charge hospitalière de l'OAP (autre angle que le domicile) :",
+    "options": [
+      ["a", "O2 si SaO2 < 90 % ; furosémide IV ; nitrés si PAS ≥ 110 mmHg ; anticoagulation préventive ; morphine IV non recommandée sauf anxiété/douleur ; CPAP si échec ; intubation si épuisement", 1, "KP-100", "Séquence hospitalière complète."],
+      ["b", "morphine IV systématique recommandée", 0, "KP-100", "Non recommandée sauf anxiété/douleur."],
+      ["c", "nitrés si PAS < 90 mmHg", 0, "KP-100", "Nitrés si PAS ≥ 110 mmHg."],
+      ["d", "CPAP en 1re intention avant O2", 0, "KP-100", "O2 d'abord ; CPAP si échec."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "OAP hospitalier"
+  },
+  {
+    "num": 71,
+    "kp_refs": ["KP-104"],
+    "element_refs": ["CR-acute"],
+    "stem": "Poussée d'insuffisance cardiaque globale sans OAP franc :",
+    "options": [
+      ["a", "diurétiques IV, rééquilibration du traitement oral, recherche de la cause ; hospitalisation non systématique", 1, "KP-104", "Prise en charge poussée globale."],
+      ["b", "intubation systématique", 0, "KP-104", "Pas d'OAP franc."],
+      ["c", "arrêt de tous les diurétiques", 0, "KP-104", "Cure de diurétiques IV."],
+      ["d", "hospitalisation obligatoire dans tous les cas", 0, "KP-104", "Non systématique."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Poussée globale"
+  },
+  {
+    "num": 72,
+    "kp_refs": ["KP-105"],
+    "element_refs": ["CR-acute"],
+    "stem": "Traitement du choc cardiogénique :",
+    "options": [
+      ["a", "inotropes (dobutamine ; IPDE si sous bêtabloquant ; lévosimendan) ; discuter assistance/ECMO/greffe si non-réponse", 1, "KP-105", "Escalade thérapeutique choc."],
+      ["b", "bêtabloquant IV en 1re intention", 0, "KP-105", "Inotropes, pas BB."],
+      ["c", "remplissage vasculaire massif", 0, "KP-105", "Hypoperfusion : inotropes/assistance."],
+      ["d", "abstention thérapeutique jusqu'à ETT", 0, "KP-105", "Urgence vitale."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Traitement choc"
+  },
+  {
+    "num": 73,
+    "kp_refs": ["KP-037"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Seuils élevés de peptides en faveur d'une origine cardiaque d'une dyspnée (niveau maîtrise) :",
+    "options": [
+      ["a", "BNP > 300 pg/mL ; NT-proBNP > 450 pg/mL (< 50 ans), > 900 pg/mL (50–75 ans), > 1 800 pg/mL (> 75 ans)", 1, "KP-037", "Seuils positifs âge-bandés."],
+      ["b", "BNP > 100 pg/mL suffit pour confirmer", 0, "KP-037", "Seuil positif : > 300."],
+      ["c", "NT-proBNP identique quel que soit l'âge", 0, "KP-037", "Seuils âge-bandés."],
+      ["d", "peptides élevés excluent une origine cardiaque", 0, "KP-037", "Au contraire, orientent vers origine cardiaque."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Seuils NP positifs (mastery)"
+  },
+  {
+    "num": 74,
+    "kp_refs": ["KP-044"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Bilan biologique standard ESC 2021 devant IC ou suspicion (niveau maîtrise) — inclut notamment :",
+    "options": [
+      ["a", "Na, K, créatinine, BNP/NT-proBNP, glycémie/HbA1c, lipides, bilan hépatique, TSH, NFS, fer", 1, "KP-044", "Panel biologique ESC 2021."],
+      ["b", "uniquement la créatinine", 0, "KP-044", "Bilan plus large."],
+      ["c", "scanner thoracique systématique", 0, "KP-044", "Examens biologiques simples."],
+      ["d", "cathétérisme droit obligatoire", 0, "KP-044", "Examens biologiques standards."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Bilan biologique (mastery)"
+  },
+  {
+    "num": 75,
+    "kp_refs": ["KP-031"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Signes d'IC très avancée (niveau maîtrise) :",
+    "options": [
+      ["a", "pouls alternant, oligurie, cachexie/fonte musculaire, dyspnée de Cheyne-Stokes", 1, "KP-031", "Stade terminal avancé."],
+      ["b", "pouls paradoxique inspiratoire isolé", 0, "KP-031", "Pouls alternant décrit."],
+      ["c", "polyurie avec diurèse > 3 L/j", 0, "KP-031", "Oligurie en phase terminale."],
+      ["d", "prise de poids rapide par œdèmes", 0, "KP-031", "Cachexie/fonte en stade avancé."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Signes stade avancé (mastery)"
+  },
+  {
+    "num": 76,
+    "kp_refs": ["KP-070"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Facteurs pronostiques défavorables dans l'IC (niveau maîtrise) :",
+    "options": [
+      ["a", "NYHA III–IV, réhospitalisations, étiologie ischémique, ↓ FE/débit, ↑ pressions, QRS > 120 ms, hyponatrémie, BNP ↑, ↓ pic VO2", 1, "KP-070", "Facteurs pronostiques majeurs."],
+      ["b", "NYHA I toujours péjoratif", 0, "KP-070", "NYHA III–IV vs I–II."],
+      ["c", "FE élevée toujours péjorative", 0, "KP-070", "↓ FE péjoratif."],
+      ["d", "pic VO2 élevé = mauvais pronostic", 0, "KP-070", "↓ pic VO2 péjoratif."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Facteurs pronostiques (mastery)"
+  },
+  {
+    "num": 77,
+    "kp_refs": ["KP-086"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Traitements de 2e intention chez patient IC symptomatique malgré traitement optimal (niveau maîtrise) :",
+    "options": [
+      ["a", "ivabradine si rythme sinusal et FC élevée ; digoxine (marge étroite, utile en FA) ; dérivés nitrés d'appoint ; vericiguat après poussée", 1, "KP-086", "Options 2e intention."],
+      ["b", "ivabradine en FA permanente", 0, "KP-086", "Rythme sinusal requis."],
+      ["c", "digoxine améliore toujours la survie", 0, "KP-086", "Effet neutre sur survie."],
+      ["d", "vericiguat en 1re intention devant IEC", 0, "KP-086", "Après poussée, patient symptomatique."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Traitements 2e intention (mastery)"
+  },
+  {
+    "num": 78,
+    "kp_refs": ["KP-088"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Antiagrégants et anticoagulants dans l'IC (niveau maîtrise) :",
+    "options": [
+      ["a", "calculer CHA₂DS₂-VASc pour risque embolique ; HAS-BLED pour saignement ; AOD privilégiés ; thrombus intracardiaque et AVC embolique à connaître", 1, "KP-088", "Stratification et choix AOD."],
+      ["b", "aspirine seule suffit pour toute FA", 0, "KP-088", "Anticoagulation selon scores."],
+      ["c", "CHA₂DS₂-VASc inutile en IC", 0, "KP-088", "Recommandé pour évaluation risque embolique."],
+      ["d", "anticoagulation contre-indiquée si IC", 0, "KP-088", "Indiquée selon contexte FA/thrombus."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Antithrombotiques (mastery)"
+  },
+  {
+    "num": 79,
+    "kp_refs": ["KP-049"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Cathétérisme droit dans l'IC (niveau maîtrise) — valeurs et seuils :",
+    "options": [
+      ["a", "OD < 5 mmHg, VD 25/0, PCAP/PAPO < 15 mmHg, DC 5 L/min, index 3 L/min/m² ; HTAP si PAPm > 25 mmHg ; greffe CI si RAP > 5 UW", 1, "KP-049", "Normes hémodynamiques et CI greffe."],
+      ["b", "PAPm > 15 mmHg définit HTAP", 0, "KP-049", "HTAP : PAPm > 25 mmHg."],
+      ["c", "RAP > 2 UW contre-indique greffe", 0, "KP-049", "Seuil : > 5 UW."],
+      ["d", "cathétérisme droit jamais utile", 0, "KP-049", "Mesure pressions/débit."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Cathétérisme droit (mastery)"
+  },
+  {
+    "num": 80,
+    "kp_refs": ["KP-101"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "OAP hospitalier déclenché par une fibrillation atriale rapide (niveau maîtrise) :",
+    "options": [
+      ["a", "digoxine IV et anticoagulation efficace", 1, "KP-101", "Traitement spécifique FA rapide en OAP."],
+      ["b", "introduire bêtabloquant IV immédiatement", 0, "KP-101", "Contexte OAP : pas d'introduction BB (KP-103)."],
+      ["c", "abstention anticoagulante", 0, "KP-101", "Anticoagulation efficace requise."],
+      ["d", "nicardipine en 1re intention", 0, "KP-101", "Réservée à poussée hypertensive (KP-102)."]
+    ],
+    "difficulty": "advanced",
+    "notes": "OAP + FA rapide (mastery)"
+  },
+  {
+    "num": 81,
+    "kp_refs": ["KP-058"],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Insuffisance cardiaque à débit augmenté (niveau maîtrise) — causes classiques :",
+    "options": [
+      ["a", "anémies chroniques, fistules artérioveineuses, hyperthyroïdie, béribéri, maladie de Paget", 1, "KP-058", "Causes de surcharge volumique à débit élevé."],
+      ["b", "rétrécissement aortique serré", 0, "KP-058", "Mécanisme obstructif, pas débit augmenté."],
+      ["c", "tamponnade", 0, "KP-058", "Cause péricardique obstructive."],
+      ["d", "amylose cardiaque restrictive", 0, "KP-058", "Profil restrictif, pas débit augmenté."]
+    ],
+    "difficulty": "advanced",
+    "notes": "IC débit augmenté (mastery)"
+  }
+]

@@ -1,0 +1,67 @@
+{
+  "chapter": "cardio/fixture",
+  "slug": "fixture-chapter",
+  "title": "Fixture Chapter",
+  "specialty": "Cardiologie",
+  "chapterLine": "Fixture",
+  "source_edition": 2022,
+  "trace_index": "build/traceability.json",
+  "known_absent": [],
+  "projections": [
+    {
+      "id": "story",
+      "type": "understanding.story",
+      "order": 1,
+      "path": "projections/understanding/story.md",
+      "status": "published",
+      "elements": ["ANA-ville-pompe", "MM-pump-decompensation"]
+    },
+    {
+      "id": "overview",
+      "type": "understanding.overview",
+      "order": 2,
+      "path": "projections/understanding/overview.md",
+      "status": "published",
+      "elements": ["MM-pump-decompensation"]
+    },
+    {
+      "id": "mechanisms",
+      "type": "understanding.mechanisms",
+      "order": 3,
+      "path": "projections/understanding/mechanisms.md",
+      "status": "published",
+      "elements": ["MEC-output-basics", "MEC-oap"]
+    },
+    {
+      "id": "clinical-reasoning",
+      "type": "understanding.clinical-reasoning",
+      "order": 4,
+      "path": "projections/understanding/clinical-reasoning.md",
+      "status": "published",
+      "elements": ["CR-recognize"]
+    },
+    {
+      "id": "orphan-projection",
+      "type": "understanding.story",
+      "order": 5,
+      "path": "projections/understanding/orphan.md",
+      "status": "published",
+      "elements": ["ORPHAN-1"]
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "q-fixture-01",
+      "path": "questions/q-fixture-01.yaml",
+      "status": "published"
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "sc-fixture-01",
+      "kind": "standard",
+      "path": "scenarios/sc-fixture-01.yaml",
+      "status": "published"
+    }
+  ]
+}

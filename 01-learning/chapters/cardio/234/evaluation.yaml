@@ -1,0 +1,37 @@
+# Evaluation corpus — curated package input (not medical truth)
+# Maps to contrat 08 Release completeness + contrats 07/09 objects.
+# Not an editorial entity "Assessment" / "Mastery" (contrat 08 R-07).
+
+release:
+  chapter: cardio/234
+  edition: 2022
+  publication_version: capitalisation-v1-wip
+
+# contrat 08 §4 — declared completeness level for this Release
+completeness_level: complete  # compréhension + corpus évaluation PDR-A3 (81 QCM, 3 cas)
+
+registries:
+  questions: questions/registry.yaml
+  scenarios: scenarios/registry.yaml
+
+conventions:
+  question_id: "q-234-NN"           # NN zero-padded, local to this Release
+  scenario_id: "sc-234-{kind}-NN"   # kind ∈ standard|trap|synthesis|variant|station
+  claim_facet_id: "cf-{object_id}-{role}"  # e.g. cf-q-234-01-stem, cf-q-234-01-opt-a
+  score_model_v1: edn_v1            # tiers: 1 | 0.5 | 0.2 | 0 (PDR-D9)
+  status_values:
+    planned: "prévu (contrat 08 §5)"
+    published: "publié"
+    withheld: "retenu"
+  paths:
+    questions_dir: questions/
+    scenarios_dir: scenarios/
+  disjointure: "Questions and Scenarios share no structural dependency (contrat 07 I-17, 09 S-17, 08 R-06)"
+  family_tag: "optional technical tag `family: evaluation` on registry entries — not a published entity"
+
+notes:
+  - Capitalisation lot 2026-07-31 tranche 2: 81 Questions + 3 Scenarios status=published.
+  - Couverture QCM projection understanding: 91/91 KP.
+  - KP deferred-to-mastery: 9/16 introduits (q-234-73…81), 7 restants documentés comme écart progressif maîtrise.
+  - Volumes PDR-A3: 81 QCM (chapitre dense, cible ~70) ; 3 cas complémentaires (standard, trap, synthesis).
+  - Editorial audit: build/evaluation-editorial-audit.md

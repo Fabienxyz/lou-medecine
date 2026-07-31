@@ -269,11 +269,11 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     }
   });
 
-  test("WT-17 re-bind with projection B scopes new note to projection B", async () => {
+  test("WT-17 block source-projection scopes new note to DOM projection", async () => {
     const content = await renderMechanisms();
     window.LouInlineNotes.bind(content, storyContext);
     const note = await createPendingNote(content);
-    note.textContent = "Story scoped";
+    note.textContent = "Mechanisms scoped";
     await blurNote(note);
     const storyRows = await window.LouLearnerStore.listWalkthroughNotes(
       CHAPTER,
@@ -283,9 +283,9 @@ describe("Walkthrough Notes — create (commit 5)", () => {
       CHAPTER,
       "mechanisms"
     );
-    assert.equal(storyRows.length, 1);
-    assert.equal(storyRows[0].text, "Story scoped");
-    assert.equal(mechRows.length, 0);
+    assert.equal(storyRows.length, 0);
+    assert.equal(mechRows.length, 1);
+    assert.equal(mechRows[0].text, "Mechanisms scoped");
   });
 
   test("WT-CR-01 contextmenu on official text shows Add note menu", async () => {

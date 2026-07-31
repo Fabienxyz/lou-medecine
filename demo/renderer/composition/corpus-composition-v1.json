@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "views": [
+    {
+      "viewId": "cognitive-priming",
+      "label": "Amorçage cognitif",
+      "displayOrder": 1,
+      "availabilityPolicy": "always-planned",
+      "sources": []
+    },
+    {
+      "viewId": "mental-model",
+      "label": "Modèle mental",
+      "displayOrder": 2,
+      "availabilityPolicy": "default",
+      "sources": [
+        { "kind": "projection", "ref": "story", "mergeOrder": 1 },
+        { "kind": "projection", "ref": "overview", "mergeOrder": 2 }
+      ]
+    },
+    {
+      "viewId": "notions",
+      "label": "Notions",
+      "displayOrder": 3,
+      "availabilityPolicy": "default",
+      "sources": [{ "kind": "projection", "ref": "mechanisms" }]
+    },
+    {
+      "viewId": "clinical-cases",
+      "label": "Cas cliniques",
+      "displayOrder": 4,
+      "availabilityPolicy": "default",
+      "sources": [
+        { "kind": "projection", "ref": "clinical-reasoning" },
+        { "kind": "scenarios", "ref": "registry" }
+      ]
+    },
+    {
+      "viewId": "college-official",
+      "label": "Collège officiel",
+      "displayOrder": 5,
+      "availabilityPolicy": "default",
+      "sources": [{ "kind": "college-source", "ref": "source_edition" }]
+    },
+    {
+      "viewId": "qcm",
+      "label": "QCM",
+      "displayOrder": 6,
+      "availabilityPolicy": "default",
+      "sources": [{ "kind": "questions", "ref": "registry" }]
+    },
+    {
+      "viewId": "notes",
+      "label": "Notes",
+      "displayOrder": 7,
+      "availabilityPolicy": "always-published-for-shell",
+      "sources": [{ "kind": "none" }]
+    }
+  ]
+}

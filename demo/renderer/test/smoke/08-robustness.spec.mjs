@@ -8,6 +8,7 @@ import {
   reloadAndOpenProjection,
   inspectMarks,
   assertHealthyMarks,
+  blockSelectorFor,
 } from "./helpers.mjs";
 
 const M = PROJECTIONS.mechanisms;
@@ -68,7 +69,7 @@ test.describe("V2.1 smoke — robustness", () => {
       phrase: M.threeParagraphPhrases[0],
     });
     for (const tab of Object.values(PROJECTIONS)) {
-      await goToProjection(page, tab.tabIndex);
+      await goToProjection(page, tab);
       if (tab.id === M.id) continue;
       await createHighlight(page, {
         projection: tab.id,
@@ -77,10 +78,13 @@ test.describe("V2.1 smoke — robustness", () => {
       });
     }
     for (let cycle = 0; cycle < 2; cycle++) {
-      await reloadAndOpenProjection(page, PROJECTIONS.story.tabIndex);
+      await reloadAndOpenProjection(page, PROJECTIONS.story);
       for (const tab of Object.values(PROJECTIONS)) {
-        await goToProjection(page, tab.tabIndex);
-        const report = await inspectMarks(page);
+        await goToProjection(page, tab);
+        const report = await inspectMarks(
+          page,
+          blockSelectorFor(tab.id, tab.element)
+        );
         expect(report.markCount).toBe(1);
         assertHealthyMarks(report, expect);
       }

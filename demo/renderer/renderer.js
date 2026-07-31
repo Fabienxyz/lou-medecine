@@ -121,56 +121,6 @@ window.LouRenderer = {
         return messages.loadFailed;
     },
 
-    // Projection tabs from the published manifest only — including known_absent markers.
-    buildProjectionTabs(data, config) {
-        const knownAbsent = new Set(
-            Array.isArray(data.known_absent) ? data.known_absent : []
-        );
-        const seen = new Set();
-        const tabs = (data.projections || [])
-            .slice()
-            .sort(function (a, b) {
-                return (a.order || 0) - (b.order || 0);
-            })
-            .map(function (p) {
-                seen.add(p.id);
-                let availability;
-                if (knownAbsent.has(p.id)) {
-                    availability = "known_absent";
-                } else if (p.status === "published") {
-                    availability = p.path ? "published" : "invalid";
-                } else {
-                    availability = "invalid";
-                }
-                return {
-                    id: p.id,
-                    label: config.projectionTabLabel(p),
-                    path: p.path,
-                    availability: availability,
-                    implemented: availability === "published",
-                    projection: p,
-                };
-            });
-
-        (Array.isArray(data.known_absent) ? data.known_absent : []).forEach(
-            function (id) {
-                if (seen.has(id)) {
-                    return;
-                }
-                tabs.push({
-                    id: id,
-                    label: config.projectionTabLabel({ id: id }),
-                    path: null,
-                    availability: "known_absent",
-                    implemented: false,
-                    projection: null,
-                });
-            }
-        );
-
-        return tabs;
-    },
-
     projectionAvailabilityMessage(availability, config) {
         if (availability === "known_absent") {
             return config.ERROR_MESSAGES.knownAbsent;
@@ -277,6 +227,7 @@ window.LouRenderer = {
 
     // Blocks are assembled as DOM rather than as a string, because the learner affordances need
     // event handlers and stored artifacts need to be loaded asynchronously.
+    /** @deprecated Legacy prototype path — nominal chapters use Composition V1. */
     async renderProjection(html, context) {
         this.replayAnimation(this.contentEl);
         await LouBlocks.render(this.contentEl, html, context);
@@ -353,5 +304,317 @@ window.LouRenderer = {
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;");
+    },
+
+    isCompositionContext(context) {
+        return !!(context && context.view);
+    },
+
+    resolveProjectionId(context, elementId, sourceProjectionId) {
+        if (this.isCompositionContext(context)) {
+            if (typeof context.projectionIdForElement === "function") {
+                const id = context.projectionIdForElement(
+                    elementId,
+                    sourceProjectionId
+                );
+                if (id) {
+                    return id;
+                }
+            }
+            console.warn(
+                "[LouRenderer] Composition resolveProjectionId failed: elementId=" +
+                    elementId +
+                    (sourceProjectionId
+                        ? " sourceProjectionId=" + sourceProjectionId
+                        : " (sourceProjectionId required)")
+            );
+            return null;
+        }
+        if (context && typeof context.projectionForElement === "function") {
+            const projection = context.projectionForElement(elementId);
+            if (projection && projection.id) {
+                return projection.id;
+            }
+        }
+        if (context && typeof context.projectionIdForElement === "function") {
+            const id = context.projectionIdForElement(elementId);
+            if (id) {
+                return id;
+            }
+        }
+        return context && context.projection && context.projection.id;
+    },
+
+    viewAvailabilityMessage(availability, config) {
+        if (availability === "planned") {
+            return config.ERROR_MESSAGES.viewPlanned;
+        }
+        return this.projectionAvailabilityMessage(availability, config);
+    },
+
+    createViewRenderContext(view, manifest, chapter, config) {
+        const projectionIdsToRestore = [];
+        const seen = new Set();
+        (view.blocks || []).forEach(function (block) {
+            if (block.sourceProjectionId && !seen.has(block.sourceProjectionId)) {
+                seen.add(block.sourceProjectionId);
+                projectionIdsToRestore.push(block.sourceProjectionId);
+            }
+        });
+        const primaryProjection = projectionIdsToRestore.length
+            ? (manifest.projections || []).find(function (p) {
+                  return p.id === projectionIdsToRestore[0];
+              })
+            : null;
+
+        return {
+            view: view,
+            manifest: manifest,
+            chapter: chapter,
+            config: config,
+            renderer: this,
+            store: window.LouLearnerStore,
+            projection: primaryProjection || null,
+            projectionIdsToRestore: projectionIdsToRestore,
+            projectionIdForElement: function (elementId, sourceProjectionId) {
+                const blocks = view.blocks || [];
+                if (sourceProjectionId) {
+                    const exact = blocks.find(function (b) {
+                        return (
+                            b.elementId === elementId &&
+                            b.sourceProjectionId === sourceProjectionId
+                        );
+                    });
+                    if (!exact) {
+                        console.warn(
+                            "[LouRenderer] Composition lookup failed: elementId=" +
+                                elementId +
+                                " sourceProjectionId=" +
+                                sourceProjectionId
+                        );
+                    }
+                    return exact ? exact.sourceProjectionId : null;
+                }
+                const matches = blocks.filter(function (b) {
+                    return b.elementId === elementId;
+                });
+                if (matches.length === 1) {
+                    return matches[0].sourceProjectionId;
+                }
+                if (matches.length > 1) {
+                    console.warn(
+                        "[LouRenderer] Composition lookup ambiguous: elementId=" +
+                            elementId +
+                            " matches " +
+                            matches.length +
+                            " projections; sourceProjectionId required"
+                    );
+                    return null;
+                }
+                console.warn(
+                    "[LouRenderer] Composition lookup failed: elementId=" +
+                        elementId +
+                        " not in view"
+                );
+                return null;
+            },
+            projectionForElement: function (elementId, sourceProjectionId) {
+                const id = this.projectionIdForElement(
+                    elementId,
+                    sourceProjectionId
+                );
+                return id
+                    ? (manifest.projections || []).find(function (p) {
+                          return p.id === id;
+                      })
+                    : null;
+            },
+        };
+    },
+
+    async mountLearnerLayers(host, context) {
+        const ids =
+            context.projectionIdsToRestore && context.projectionIdsToRestore.length
+                ? context.projectionIdsToRestore
+                : context.projection && context.projection.id
+                  ? [context.projection.id]
+                  : [];
+
+        for (let i = 0; i < ids.length; i += 1) {
+            const subContext = Object.assign({}, context, {
+                projection: { id: ids[i] },
+            });
+            if (window.LouTextHighlights) {
+                await window.LouTextHighlights.restore(host, subContext);
+            }
+            if (window.LouInlineNotes) {
+                await window.LouInlineNotes.restore(host, subContext);
+            }
+        }
+
+        if (window.LouTextHighlights) {
+            await window.LouTextHighlights.mount(host, context);
+        }
+        if (window.LouInlineNotes) {
+            await window.LouInlineNotes.mount(host, context);
+        }
+        if (window.LouInlineFormatting) {
+            await window.LouInlineFormatting.mount(host, context);
+        }
+    },
+
+    async renderComposedBlocks(view, manifest, chapter, config) {
+        const self = this;
+        const host = this.contentEl;
+        const pathCache = new Map();
+        const combined = document.createDocumentFragment();
+
+        this.replayAnimation(host);
+        window.LouBlocks.releaseObjectUrls();
+
+        for (let i = 0; i < (view.blocks || []).length; i += 1) {
+            const block = view.blocks[i];
+            const projection = (manifest.projections || []).find(function (p) {
+                return p.id === block.sourceProjectionId;
+            });
+            if (!projection) {
+                continue;
+            }
+
+            let html = pathCache.get(block.artifactRef);
+            if (!html) {
+                const url = config.resolveAssetPath(chapter, block.artifactRef);
+                const text = await this.fetchText(url);
+                const learnerMd = this.prepareLearnerMarkdown(text);
+                html = window.LouMarkdown.parse(learnerMd);
+                pathCache.set(block.artifactRef, html);
+            }
+
+            const blockContext = this.createViewRenderContext(view, manifest, chapter, config);
+            blockContext.projection = Object.assign({}, projection, {
+                elements: [block.elementId],
+            });
+            blockContext.sourceProjectionId = block.sourceProjectionId;
+
+            combined.appendChild(window.LouBlocks.assemble(html, blockContext));
+        }
+
+        host.innerHTML = "";
+        host.appendChild(combined);
+
+        const context = this.createViewRenderContext(view, manifest, chapter, config);
+        try {
+            await window.LouBlocks.hydrate(host, context);
+        } catch (err) {
+            console.warn(
+                "[LouRenderer] Learner artifact hydration failed; official content remains.",
+                err
+            );
+        }
+        try {
+            if (window.LouSvgLoader) {
+                await window.LouSvgLoader.loadAllFigures(host, context);
+            }
+        } catch (err) {
+            console.warn(
+                "[LouRenderer] Official SVG loading failed; learner layers continue.",
+                err
+            );
+        }
+
+        await this.mountLearnerLayers(host, context);
+        if (view.scenarios && view.scenarios.length) {
+            host.appendChild(this.createScenariosSection(view));
+        }
+        host.appendChild(this.footerNavNode());
+    },
+
+    showViewNotesShell(config) {
+        this.replayAnimation(this.contentEl);
+        this.contentEl.innerHTML =
+            '<section class="view-notes-shell" role="status"><p>' +
+            this.escapeHtml(config.ERROR_MESSAGES.notesShell) +
+            "</p></section>" +
+            this.wrapWithFooterNav("");
+    },
+
+    showViewQcmList(view, config) {
+        const items = (view.questions || [])
+            .map(function (q) {
+                return (
+                    "<li>" + LouRenderer.escapeHtml(String(q.questionId)) + "</li>"
+                );
+            })
+            .join("");
+        this.replayAnimation(this.contentEl);
+        this.contentEl.innerHTML =
+            '<section class="view-qcm-shell">' +
+            "<p>" +
+            this.escapeHtml(
+                view.questions.length + " question(s) d'évaluation disponibles."
+            ) +
+            "</p>" +
+            '<ul class="view-qcm-list">' +
+            items +
+            "</ul></section>" +
+            this.wrapWithFooterNav("");
+    },
+
+    createScenariosSection(view) {
+        const list = document.createElement("ul");
+        list.className = "view-scenarios-list";
+        (view.scenarios || []).forEach(function (scenario) {
+            const item = document.createElement("li");
+            item.textContent = scenario.scenarioId + " (" + scenario.kind + ")";
+            list.appendChild(item);
+        });
+        const wrapper = document.createElement("section");
+        wrapper.className = "view-scenarios-shell";
+        const title = document.createElement("p");
+        title.textContent = "Scénarios cliniques";
+        wrapper.appendChild(title);
+        wrapper.appendChild(list);
+        return wrapper;
+    },
+
+    appendScenariosList(view) {
+        const existing = this.contentEl.querySelector(".view-scenarios-list");
+        if (existing) {
+            existing.remove();
+        }
+        this.contentEl.appendChild(this.createScenariosSection(view));
+    },
+
+    async renderComposedView(view, manifest, chapter, config) {
+        if (view.availability === "planned") {
+            this.showMessage(this.viewAvailabilityMessage("planned", config), {
+                state: "planned",
+            });
+            return;
+        }
+
+        if (view.viewId === "notes") {
+            this.showViewNotesShell(config);
+            return;
+        }
+
+        if (view.questions && view.questions.length) {
+            this.showViewQcmList(view, config);
+            return;
+        }
+
+        if (view.blocks && view.blocks.length) {
+            await this.renderComposedBlocks(view, manifest, chapter, config);
+            return;
+        }
+
+        if (view.scenarios && view.scenarios.length) {
+            this.replayAnimation(this.contentEl);
+            this.contentEl.innerHTML = this.wrapWithFooterNav("");
+            this.appendScenariosList(view);
+            return;
+        }
+
+        this.showMessage(config.PLACEHOLDER_MESSAGE);
     },
 };

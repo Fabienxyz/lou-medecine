@@ -94,6 +94,9 @@ window.LouInlineNotes = {
         const store = context && context.store;
         const projection =
             context && context.projection && context.projection.id;
+        const composition =
+            window.LouRenderer &&
+            window.LouRenderer.isCompositionContext(context);
         if (!store || !projection || !store.listWalkthroughNotes) {
             return;
         }
@@ -111,7 +114,7 @@ window.LouInlineNotes = {
         const orphans = [];
         const self = this;
         rows.forEach(function (record) {
-            const result = self._restoreRecord(host, record);
+            const result = self._restoreRecord(host, record, composition);
             if (result === "orphan") {
                 orphans.push({ kind: "note", record: record });
             }
@@ -121,14 +124,36 @@ window.LouInlineNotes = {
         }
     },
 
+    _findBlock(host, element, projectionId, composition) {
+        if (projectionId) {
+            const scoped = host.querySelector(
+                '.pedagogical-block[data-element="' +
+                    element +
+                    '"][data-source-projection="' +
+                    projectionId +
+                    '"]'
+            );
+            if (scoped) {
+                return scoped;
+            }
+        }
+        if (composition) {
+            return null;
+        }
+        return host.querySelector('.pedagogical-block[data-element="' + element + '"]');
+    },
+
     // Returns "restored" | "orphan" | "skipped". Never deletes persisted records.
-    _restoreRecord(host, record) {
+    _restoreRecord(host, record, composition) {
         if (!record || !record.text || !String(record.text).trim()) {
             return "skipped";
         }
 
-        const block = host.querySelector(
-            '.pedagogical-block[data-element="' + record.element + '"]'
+        const block = this._findBlock(
+            host,
+            record.element,
+            record.projection,
+            composition
         );
         if (!block) {
             return "orphan";
@@ -344,13 +369,27 @@ window.LouInlineNotes = {
 
         const noteEl = this._createNoteElement();
         this._insertNoteAtRange(range, noteEl);
+        const sourceProjection = block.dataset.sourceProjection || null;
+        let projectionContext = ctx.projection;
+        if (sourceProjection) {
+            projectionContext = { id: sourceProjection };
+        } else if (window.LouRenderer.isCompositionContext(ctx)) {
+            console.warn(
+                "[LouInlineNotes] Composition note blocked: missing data-source-projection on block"
+            );
+            noteEl.remove();
+            return;
+        } else if (ctx.projectionForElement) {
+            projectionContext = ctx.projectionForElement(block.dataset.element);
+        }
         this._pendingAnchors.set(noteEl, {
             walkthrough: walkthrough,
             element: block.dataset.element,
+            sourceProjection: sourceProjection,
             anchor: anchor,
             context: {
                 chapter: ctx.chapter,
-                projection: ctx.projection,
+                projection: projectionContext,
                 store: ctx.store,
             },
         });
@@ -636,7 +675,13 @@ window.LouInlineNotes = {
         const store = pending.context && pending.context.store;
         const chapter = pending.context.chapter;
         const projection =
-            pending.context.projection && pending.context.projection.id;
+            (pending.context.projection && pending.context.projection.id) ||
+            pending.sourceProjection ||
+            window.LouRenderer.resolveProjectionId(
+                pending.context,
+                pending.element,
+                pending.sourceProjection
+            );
         if (!store || !chapter || !projection) {
             this._rollbackNote(noteEl);
             this._pendingAnchors.delete(noteEl);

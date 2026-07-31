@@ -1,0 +1,226 @@
+[
+  {
+    "num": 33,
+    "kp_refs": ["KP-027"],
+    "stem": "Quels signes cardiaques peuvent orienter vers une insuffisance cardiaque ?",
+    "options": [
+      ["a", "choc de pointe dévié, galop B3, éclat du B2, souffles d'IM/IT fonctionnels ou valvulopathie organique", 1, "KP-027", "Signes cardiaques classiques."],
+      ["b", "un B3 exclut toute valvulopathie", 0, "KP-027", "Souffles valvulaires peuvent coexister."],
+      ["c", "éclat du B2 au foyer aortique en HTAP", 0, "KP-027", "Éclat du B2 au foyer pulmonaire en HTAP."],
+      ["d", "galop B3 = bruit systolique d'éjection", 0, "KP-027", "B3 = bruit protodiastolique (galop)."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Signes cardiaques"
+  },
+  {
+    "num": 34,
+    "kp_refs": ["KP-028"],
+    "stem": "Les signes pulmonaires de l'insuffisance cardiaque comprennent :",
+    "options": [
+      ["a", "râles crépitants ou sous-crépitants bilatéraux ; épanchement pleural transsudatif (protides < 30 g/L)", 1, "KP-028", "Stase pulmonaire et critère de transsudat."],
+      ["b", "râles uniquement unilatéraux systématiquement", 0, "KP-028", "Le plus souvent bilatéraux."],
+      ["c", "épanchement exsudatif avec protides > 50 g/L", 0, "KP-028", "Transsudat : protides < 30 g/L."],
+      ["d", "absence possible de râles en OAP", 0.2, "KP-028", "Râles fréquents mais l'énoncé porte sur le profil typique congestif."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Signes pulmonaires"
+  },
+  {
+    "num": 35,
+    "kp_refs": ["KP-029"],
+    "stem": "Concernant la pression artérielle dans l'IC :",
+    "options": [
+      ["a", "PAS < 100 mmHg = facteur de gravité ; un OAP hypertensif peut survenir avec PA élevée", 1, "KP-029", "Hypotension grave vs OAP hypertensif."],
+      ["b", "une PA élevée exclut toujours l'IC", 0, "KP-029", "OAP hypertensif possible."],
+      ["c", "PAS < 100 mmHg est bénigne", 0, "KP-029", "Facteur de gravité."],
+      ["d", "l'hypotension est le mode de révélation le plus fréquent", 0, "KP-029", "Hypotension = gravité, pas mode le plus fréquent."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "PA et gravité"
+  },
+  {
+    "num": 36,
+    "kp_refs": ["KP-030"],
+    "stem": "Les signes périphériques d'insuffisance cardiaque droite incluent :",
+    "options": [
+      ["a", "turgescence jugulaire, reflux hépatojugulaire, hépatomégalie, œdèmes mous déclives prenant le godet, ascite/anasarque", 1, "KP-030", "Congestion systémique droite."],
+      ["b", "crépitants pulmonaires isolés sans signe veineux", 0, "KP-030", "Signes veineux centraux de l'IC droite."],
+      ["c", "œdèmes durs, chauds, inflammatoires", 0, "KP-030", "Œdèmes mous, blancs, indolores."],
+      ["d", "reflux hépatojugulaire sans lien avec la jugulaire", 0, "KP-030", "Dilatation jugulaire après compression hépatique."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Signes IC droite"
+  },
+  {
+    "num": 37,
+    "kp_refs": ["KP-032"],
+    "stem": "L'électrocardiogramme dans l'insuffisance cardiaque :",
+    "options": [
+      ["a", "est peu contributif au diagnostic positif ; un BBG (QRS > 120 ms) a des implications thérapeutiques ; peut orienter l'étiologie", 1, "KP-032", "Rôle limité diagnostique, utile thérapeutique/étiologique."],
+      ["b", "confirme systématiquement l'IC", 0, "KP-032", "Peu contributif au diagnostic positif."],
+      ["c", "un QRS > 120 ms est sans conséquence thérapeutique", 0, "KP-032", "BBG important pour CRT entre autres."],
+      ["d", "ne peut jamais orienter l'étiologie", 0, "KP-032", "Peut orienter (IDM, cardiomyopathie…)."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "ECG IC"
+  },
+  {
+    "num": 38,
+    "kp_refs": ["KP-033", "KP-034"],
+    "stem": "La radiographie thoracique dans l'IC :",
+    "options": [
+      ["a", "RCT > 0,5 si cardiomégalie ; absence de cardiomégalie n'exclut pas l'IC (FE préservée) ; stase : redistribution vasculaire → lignes de Kerley → œdème en ailes de papillon", 1, ["KP-033", "KP-034"], "Cardiomégalie, piège HFpEF, sémiologie de stase."],
+      ["b", "cardiomégalie obligatoire pour diagnostiquer l'IC", 0, "KP-033", "Absence de cardiomégalie n'exclut pas l'IC."],
+      ["c", "l'œdème alvéolaire apparaît avant la redistribution vasculaire", 0, "KP-034", "Progression : redistribution → Kerley → œdème alvéolaire."],
+      ["d", "RCT normal exclut définitivement l'IC", 0, "KP-033", "Faux, surtout en FE préservée."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Radio thorax IC"
+  },
+  {
+    "num": 39,
+    "kp_refs": ["KP-038"],
+    "element_refs": ["CR-diagnose"],
+    "stem": "Les peptides natriurétiques (BNP/NT-proBNP) : facteurs confondants et interprétation",
+    "options": [
+      ["a", "âge, insuffisance rénale et FA augmentent les concentrations ; obésité les diminue ; zone grise nécessitant interprétation clinique", 1, "KP-038", "Confounders et incertitude."],
+      ["b", "obésité augmente les peptides", 0, "KP-038", "Obésité les diminue."],
+      ["c", "aucune zone grise : seuil unique suffit toujours", 0, "KP-038", "Valeurs incertaines existent."],
+      ["d", "la FA abaisse les peptides", 0, "KP-038", "FA les augmente."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Confounders NP"
+  },
+  {
+    "num": 40,
+    "kp_refs": ["KP-043"],
+    "element_refs": ["CR-diagnose"],
+    "stem": "Algorithme diagnostique ESC 2021 hors urgence devant suspicion d'IC :",
+    "options": [
+      ["a", "doser NP si FDR IC + symptômes/signes ou ECG anormal ; rule-out BNP < 35 pg/mL ou NT-proBNP < 125 pg/mL ; si ≥ ou NP indisponible → ETT et typage FEVG", 1, "KP-043", "Parcours chronique complet."],
+      ["b", "ETT systématique avant tout dosage de NP", 0, "KP-043", "NP en amont si critères cliniques."],
+      ["c", "rule-out chronique : BNP < 100 pg/mL", 0, "KP-043", "Seuils chroniques plus bas : 35/125."],
+      ["d", "NP indisponible = pas d'exploration cardiaque", 0, "KP-043", "ETT nécessaire si NP indisponible."]
+    ],
+    "difficulty": "advanced",
+    "notes": "Algo diagnostic chronique"
+  },
+  {
+    "num": 41,
+    "kp_refs": ["KP-045"],
+    "stem": "La coronarographie devant une FEVG diminuée :",
+    "options": [
+      ["a", "proposée pour éliminer une coronaropathie (1re cause) ; sténose + ischémie/viabilité → discuter revascularisation ; coroscanner chez sujet jeune à faible probabilité", 1, "KP-045", "Indications et alternatives."],
+      ["b", "contre-indiquée si FEVG basse", 0, "KP-045", "Au contraire, généralement proposée."],
+      ["c", "coros normales + FEVG basse orientent vers ischémie aiguë", 0, "KP-045", "Orientent vers cardiomyopathie dilatée si pas d'autre cause."],
+      ["d", "revascularisation jamais discutée", 0, "KP-045", "Discutée si ischémie/viabilité."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Coronarographie"
+  },
+  {
+    "num": 42,
+    "kp_refs": ["KP-050", "KP-052"],
+    "stem": "Concernant les étiologies ischémiques et dilatées de l'IC :",
+    "options": [
+      ["a", "cardiopathies ischémiques = 1re cause (IDM → fibrose/↓ FEVG ; ischémie chronique avec viabilité) ; CMD = dilatation + ↓ FEVG après exclusions, ~25 % familiales", 1, ["KP-050", "KP-052"], "Ischémique et CMD."],
+      ["b", "CMD toujours secondaire à une sténose coronarienne", 0, "KP-052", "Après exclusion ischémique/valvulaire/HTA/congénitale."],
+      ["c", "ischémie chronique n'affecte jamais la FEVG", 0, "KP-050", "Responsable d'altération FEVG."],
+      ["d", "CMD jamais familiale", 0, "KP-052", "~25 % familiales."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Étiologies ischémique/CMD"
+  },
+  {
+    "num": 43,
+    "kp_refs": ["KP-053"],
+    "stem": "Les cardiomyopathies restrictives (ex. amylose cardiaque) :",
+    "options": [
+      ["a", "infiltration → rigidité et remplissage altéré ; pronostic sévère dès manifestations d'IC", 1, "KP-053", "Mécanisme et pronostic amylose."],
+      ["b", "s'accompagnent d'une dilatation majeure avec FE très basse typiquement", 0, "KP-053", "Profil restrictif, pas dilaté classique."],
+      ["c", "pronostic excellent une fois l'IC installée", 0, "KP-053", "Pronostic sévère."],
+      ["d", "amylose cardiaque est la forme la plus bénigne", 0, "KP-053", "Amylose = forme fréquente et sévère."]
+    ],
+    "difficulty": "advanced",
+    "notes": "CM restrictives"
+  },
+  {
+    "num": 44,
+    "kp_refs": ["KP-054"],
+    "stem": "Les valvulopathies gauches et l'insuffisance cardiaque :",
+    "options": [
+      ["a", "peuvent toutes se compliquer d'IC ; rétrécissement mitral : OAP/IC droite possible sans atteinte du VG", 1, "KP-054", "Tournant évolutif et particularité RM."],
+      ["b", "seule l'IM peut compliquer une IC", 0, "KP-054", "Toutes les valvulopathies gauches."],
+      ["c", "RM nécessite toujours une atteinte du VG", 0, "KP-054", "OAP/IC droite possible sans atteinte VG."],
+      ["d", "valvulopathie exclut la prise en charge de l'IC", 0, "KP-054", "Complication fréquente, pas exclusion."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Valvulopathies"
+  },
+  {
+    "num": 45,
+    "kp_refs": ["KP-055"],
+    "stem": "Les troubles du rythme comme cause ou facteur déclenchant d'IC :",
+    "options": [
+      ["a", "tachy- ou bradycardie extrême peuvent provoquer une IC ; FA rapide prolongée → tachycardiomyopathie souvent réversible après contrôle du rythme", 1, "KP-055", "Tachycardiomyopathie réversible."],
+      ["b", "FA rapide ne peut jamais causer d'IC", 0, "KP-055", "Tachycardiomyopathie décrite."],
+      ["c", "tachycardiomyopathie toujours irréversible", 0, "KP-055", "Souvent réversible après traitement du rythme."],
+      ["d", "bradycardie extrême sans conséquence sur la pompe", 0, "KP-055", "Peut provoquer une IC."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Rythme et IC"
+  },
+  {
+    "num": 46,
+    "kp_refs": ["KP-056"],
+    "stem": "Les causes péricardiques d'insuffisance cardiaque comprennent :",
+    "options": [
+      ["a", "épanchement péricardique abondant, tamponnade, péricardite chronique constrictive", 1, "KP-056", "Triade péricardique."],
+      ["b", "péricardite aiguë fébrile isolée sans effet hémodynamique", 0, "KP-056", "Formes avec retentissement hémodynamique."],
+      ["c", "tamponnade exclut une IC", 0, "KP-056", "Tamponnade = cause d'IC aiguë."],
+      ["d", "constriction péricardique = dilatation ventriculaire", 0, "KP-056", "Constriction = rigidité/remplissage altéré."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Causes péricardiques"
+  },
+  {
+    "num": 47,
+    "kp_refs": ["KP-057"],
+    "stem": "L'insuffisance cardiaque droite :",
+    "options": [
+      ["a", "le plus souvent secondaire à une IC gauche (IC globale) ; causes isolées : cœur pulmonaire, HTAP, DVDA, pathologies tricuspidiennes, IDM VD, constriction", 1, "KP-057", "Fréquence et étiologies isolées."],
+      ["b", "toujours primitive et isolée", 0, "KP-057", "Le plus souvent secondaire à IC gauche."],
+      ["c", "HTAP n'entraîne jamais d'IC droite", 0, "KP-057", "HTAP = cause isolée possible."],
+      ["d", "IDM antérieur du VG = cause principale d'IC droite isolée", 0, "KP-057", "IDM VD possible ; IC gauche plus fréquente."]
+    ],
+    "difficulty": "intermediate",
+    "notes": "IC droite étiologies"
+  },
+  {
+    "num": 48,
+    "kp_refs": ["KP-072"],
+    "stem": "La cardiomyopathie hypertrophique (CMH) :",
+    "options": [
+      ["a", "hypertrophie souvent asymétrique du SIV, FE conservée, trouble du remplissage ; forme obstructive possible ; familiale sarcomérique ; 1re cause de mort subite chez le jeune athlète", 1, "KP-072", "Profil CMH et risque MS."],
+      ["b", "FE systématiquement < 30 %", 0, "KP-072", "FE conservée typiquement."],
+      ["c", "jamais familiale", 0, "KP-072", "Formes sarcomériques familiales."],
+      ["d", "sans risque de mort subite", 0, "KP-072", "1re cause MS chez jeune athlète."]
+    ],
+    "difficulty": "advanced",
+    "notes": "CMH"
+  },
+  {
+    "num": 49,
+    "kp_refs": ["KP-059"],
+    "element_refs": ["CR-acute"],
+    "stem": "L'insuffisance cardiaque aiguë se définit par :",
+    "options": [
+      ["a", "apparition rapide de symptômes/signes liés à l'altération de pompe (de novo ou aggravation), souvent nécessitant hospitalisation et traitement IV", 1, "KP-059", "Définition clinique IC aiguë."],
+      ["b", "état stable ambulatoire sous traitement oral", 0, "KP-059", "C'est l'IC chronique (KP-064)."],
+      ["c", "toujours un choc cardiogénique", 0, "KP-059", "Formes variées dont OAP, poussée globale."],
+      ["d", "exclut toute décompensation sur IC connue", 0, "KP-059", "Peut être aggravation d'IC chronique."]
+    ],
+    "difficulty": "basic",
+    "notes": "Définition IC aiguë"
+  }
+]

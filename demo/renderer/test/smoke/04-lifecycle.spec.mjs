@@ -8,6 +8,7 @@ import {
   inspectMarks,
   assertHealthyMarks,
   getLifecycleState,
+  blockSelectorFor,
 } from "./helpers.mjs";
 
 const M = PROJECTIONS.mechanisms;
@@ -18,7 +19,7 @@ test.describe("V2.1 smoke — renderer lifecycle", () => {
     await goToProjection(page, M.tabIndex);
   });
 
-  test("LC-01 multiple renderProjection via tab switches", async ({ page }) => {
+  test("LC-01 multiple composed view switches via tabs", async ({ page }) => {
     await createHighlight(page, {
       projection: M.id,
       element: M.element,
@@ -30,7 +31,7 @@ test.describe("V2.1 smoke — renderer lifecycle", () => {
     }
     const report = await inspectMarks(
       page,
-      `[data-element="${M.element}"]`
+      blockSelectorFor(M.id, M.element)
     );
     expect(report.markCount).toBe(1);
     assertHealthyMarks(report, expect);
@@ -88,7 +89,7 @@ test.describe("V2.1 smoke — renderer lifecycle", () => {
     });
     const report = await inspectMarks(
       page,
-      `[data-element="${M.element}"]`
+      blockSelectorFor(M.id, M.element)
     );
     expect(report.markCount).toBe(3);
     assertHealthyMarks(report, expect);
@@ -100,11 +101,11 @@ test.describe("V2.1 smoke — renderer lifecycle", () => {
       element: M.element,
       phrase: M.threeParagraphPhrases[0],
     });
-    await goToProjection(page, PROJECTIONS.overview.tabIndex);
-    await goToProjection(page, M.tabIndex);
+    await goToProjection(page, PROJECTIONS.overview);
+    await goToProjection(page, M);
     const report = await inspectMarks(
       page,
-      `[data-element="${M.element}"]`
+      blockSelectorFor(M.id, M.element)
     );
     expect(report.markCount).toBe(1);
     assertHealthyMarks(report, expect);

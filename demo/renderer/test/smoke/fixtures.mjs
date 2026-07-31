@@ -6,11 +6,13 @@ export const RENDERER_PATH = "/demo/renderer/index.html";
 
 export const DB_NAME = "lou-learner";
 
-/** Published projections in manifest order (cardio/234). */
-export const PROJECTIONS = {
-  story: {
+/** Composition V1 view fixtures — tab order from Reading View Model. */
+export const VIEWS = {
+  mentalModel: {
+    viewId: "mental-model",
+    tabIndex: 1,
+    projection: "story",
     id: "story",
-    tabIndex: 0,
     element: "MM-pump-decompensation",
     contentMarker: "Reprenons la même trajectoire",
     samplePhrase: "débit adapté aux besoins",
@@ -25,17 +27,11 @@ export const PROJECTIONS = {
       "congestion pulmonaire",
     ],
   },
-  overview: {
-    id: "overview",
-    tabIndex: 1,
-    element: "MM-pump-decompensation",
-    contentMarker: "Le chapitre entier tient dans une chaîne",
-    samplePhrase: "Sur le plan physiopathologique",
-    alternatePhrase: "débit adapté aux besoins",
-  },
-  mechanisms: {
-    id: "mechanisms",
+  notions: {
+    viewId: "notions",
     tabIndex: 2,
+    projection: "mechanisms",
+    id: "mechanisms",
     element: "MEC-output-basics",
     contentMarker: "Commence par la définition physiopathologique",
     threeParagraphPhrases: [
@@ -56,9 +52,11 @@ export const PROJECTIONS = {
     congestionElement: "MEC-congestion",
     congestionPhrase: "congestion pulmonaire est donc",
   },
-  clinicalReasoning: {
-    id: "clinical-reasoning",
+  clinicalCases: {
+    viewId: "clinical-cases",
     tabIndex: 3,
+    projection: "clinical-reasoning",
+    id: "clinical-reasoning",
     element: "CR-recognize",
     contentMarker: "Avant tout examen, pose le cadre",
     samplePhrase: "dyspnée d'effort",
@@ -66,8 +64,21 @@ export const PROJECTIONS = {
   },
 };
 
-/** Projections listed in manifest.known_absent — not yet published for this chapter. */
-export const ABSENT_PROJECTIONS = ["actors", "readiness", "mastery"];
+/** Backward-compatible aliases for highlight scope (projection id in learner store). */
+export const PROJECTIONS = {
+  story: VIEWS.mentalModel,
+  overview: {
+    tabIndex: 1,
+    projection: "overview",
+    id: "overview",
+    element: "MM-pump-decompensation",
+    contentMarker: "Le chapitre entier tient dans une chaîne",
+    samplePhrase: "Sur le plan physiopathologique",
+    alternatePhrase: "débit adapté aux besoins",
+  },
+  mechanisms: VIEWS.notions,
+  clinicalReasoning: VIEWS.clinicalCases,
+};
 
 export function chapterUrl(slug = CHAPTER_SLUG) {
   return `${RENDERER_PATH}?chapter=${encodeURIComponent(slug)}`;
@@ -75,4 +86,8 @@ export function chapterUrl(slug = CHAPTER_SLUG) {
 
 export function projectionByTabIndex(index) {
   return Object.values(PROJECTIONS).find((p) => p.tabIndex === index);
+}
+
+export function viewByTabIndex(index) {
+  return Object.values(VIEWS).find((v) => v.tabIndex === index);
 }

@@ -18,32 +18,18 @@ function loadScripts(dom, files) {
   }
 }
 
-function baseManifest() {
-  return {
-    chapter: CHAPTER,
-    known_absent: ["mastery", "actors", "readiness"],
-    projections: [
-      {
-        id: "mechanisms",
-        type: "understanding.mechanisms",
-        path: "projections/understanding/mechanisms.md",
-        status: "published",
-        order: 1,
-        label: "Pourquoi ?",
-        elements: ["MEC-oap"],
-        visuals: { "MEC-oap": "figures/mec-oap.svg" },
-      },
-      {
-        id: "broken-published",
-        type: "understanding.story",
-        status: "published",
-        order: 2,
-        label: "Sans chemin",
-        elements: [],
-      },
-    ],
-    official_visuals: [],
-  };
+import { compose } from "../composition/composition-engine.js";
+import { buildNavigationFromViewModel } from "../composition/navigation.js";
+
+const SPEC_PATH = path.join(ROOT, "composition", "corpus-composition-v1.json");
+
+function loadCorpusSpec() {
+  return JSON.parse(fs.readFileSync(SPEC_PATH, "utf8"));
+}
+
+function composeNavigation(manifest) {
+  const { readingViewModel } = compose(manifest, loadCorpusSpec());
+  return buildNavigationFromViewModel(readingViewModel);
 }
 
 const MECHANISMS_MD = `---
@@ -55,7 +41,7 @@ type: understanding.mechanisms
 Transmission aux capillaires pulmonaires. Au-delà du seuil, transsudat.
 `;
 
-describe("NC-1 — known_absent and projection availability states", () => {
+describe("NC-1 — projection availability messages", () => {
   let window;
   let config;
   let renderer;
@@ -70,36 +56,6 @@ describe("NC-1 — known_absent and projection availability states", () => {
     config = window.LouConfig;
     renderer = window.LouRenderer;
     renderer.init(window.document.getElementById("content"), null);
-  });
-
-  test("published projection is availability=published", () => {
-    const tabs = renderer.buildProjectionTabs(baseManifest(), config);
-    const mechanisms = tabs.find((t) => t.id === "mechanisms");
-    assert.ok(mechanisms);
-    assert.equal(mechanisms.availability, "published");
-    assert.equal(mechanisms.implemented, true);
-  });
-
-  test("known_absent projections appear with availability=known_absent", () => {
-    const tabs = renderer.buildProjectionTabs(baseManifest(), config);
-    const absentIds = tabs
-      .filter((t) => t.availability === "known_absent")
-      .map((t) => t.id)
-      .sort();
-    assert.deepEqual(absentIds, ["actors", "mastery", "readiness"]);
-    absentIds.forEach((id) => {
-      const tab = tabs.find((t) => t.id === id);
-      assert.equal(tab.implemented, false);
-      assert.equal(tab.path, null);
-    });
-  });
-
-  test("published projection without path is availability=invalid", () => {
-    const tabs = renderer.buildProjectionTabs(baseManifest(), config);
-    const broken = tabs.find((t) => t.id === "broken-published");
-    assert.ok(broken);
-    assert.equal(broken.availability, "invalid");
-    assert.equal(broken.implemented, false);
   });
 
   test("known_absent message is distinct from missing and invalid", () => {
@@ -137,6 +93,36 @@ describe("NC-1 — known_absent and projection availability states", () => {
     assert.equal(
       window.document.querySelector(".content-status").dataset.state,
       "invalid"
+    );
+  });
+});
+
+describe("NC-1 — composition navigation availability (Reading View Model path)", () => {
+  test("manifest-backed navigation exposes 7 views, not known_absent package ids", () => {
+    const manifestPath = path.resolve(
+      ROOT,
+      "../../01-learning/chapters/cardio/234/manifest.json"
+    );
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    const tabs = composeNavigation(manifest);
+    assert.equal(tabs.length, 7);
+    const viewIds = tabs.map((t) => t.viewId);
+    assert.ok(!viewIds.includes("actors"));
+    assert.ok(!viewIds.includes("mastery"));
+    assert.ok(!viewIds.includes("readiness"));
+  });
+
+  test("planned views surface planned availability in navigation", () => {
+    const manifestPath = path.resolve(
+      ROOT,
+      "../../01-learning/chapters/cardio/234/manifest.json"
+    );
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    const tabs = composeNavigation(manifest);
+    const planned = tabs.filter((t) => t.availability === "planned");
+    assert.deepEqual(
+      planned.map((t) => t.viewId).sort(),
+      ["cognitive-priming", "college-official"]
     );
   });
 });

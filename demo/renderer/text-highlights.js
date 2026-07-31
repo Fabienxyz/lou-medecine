@@ -87,6 +87,7 @@ window.LouTextHighlights = {
             context: context,
             walkthrough: walkthrough,
             element: block.dataset.element,
+            sourceProjection: block.dataset.sourceProjection || null,
             range: range.cloneRange(),
         };
         this._showToolbar(range);
@@ -174,7 +175,26 @@ window.LouTextHighlights = {
         }
 
         const store = ctx.context.store;
-        const projection = ctx.context.projection.id;
+        let projection = ctx.sourceProjection;
+        if (!projection) {
+            if (window.LouRenderer.isCompositionContext(ctx.context)) {
+                console.warn(
+                    "[LouTextHighlights] Composition highlight blocked: missing data-source-projection on block"
+                );
+                wrapped.remove();
+                this.dismissToolbar();
+                return;
+            }
+            projection = window.LouRenderer.resolveProjectionId(
+                ctx.context,
+                ctx.element
+            );
+        }
+        if (!projection) {
+            wrapped.remove();
+            this.dismissToolbar();
+            return;
+        }
         const self = this;
         store
             .addTextHighlight(ctx.context.chapter, projection, ctx.element, selector)
@@ -187,9 +207,31 @@ window.LouTextHighlights = {
             });
     },
 
+    _findBlock(host, element, projectionId, composition) {
+        if (projectionId) {
+            const scoped = host.querySelector(
+                '.pedagogical-block[data-element="' +
+                    element +
+                    '"][data-source-projection="' +
+                    projectionId +
+                    '"]'
+            );
+            if (scoped) {
+                return scoped;
+            }
+        }
+        if (composition) {
+            return null;
+        }
+        return host.querySelector('.pedagogical-block[data-element="' + element + '"]');
+    },
+
     async restore(host, context) {
         const self = this;
         const projection = context.projection && context.projection.id;
+        const composition =
+            window.LouRenderer &&
+            window.LouRenderer.isCompositionContext(context);
         if (!projection || !context.store.listTextHighlights) {
             return;
         }
@@ -200,8 +242,11 @@ window.LouTextHighlights = {
         );
         const orphans = [];
         rows.forEach(function (record) {
-            const block = host.querySelector(
-                '.pedagogical-block[data-element="' + record.element + '"]'
+            const block = self._findBlock(
+                host,
+                record.element,
+                projection,
+                composition
             );
             if (!block) {
                 orphans.push({ kind: "highlight", record: record });

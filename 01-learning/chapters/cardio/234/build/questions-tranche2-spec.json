@@ -1,0 +1,2669 @@
+[
+  {
+    "num": 16,
+    "kp_refs": [
+      "KP-002"
+    ],
+    "stem": "Selon la définition ESC 2021 retenue par le Collège, l'insuffisance cardiaque correspond à :",
+    "options": [
+      [
+        "a",
+        "un syndrome associant symptômes et/ou signes cliniques, causés par une anomalie structurelle et/ou fonctionnelle du cœur entraînant un débit insuffisant et/ou des pressions intracardiaques élevées",
+        1,
+        "KP-002",
+        "Définition syndromique ESC 2021 : symptômes/signes + anomalie cardiaque structurelle/fonctionnelle."
+      ],
+      [
+        "b",
+        "uniquement une fraction d'éjection ≤ 40 %",
+        0,
+        "KP-002",
+        "La FE n'entre pas dans la définition syndromique ESC."
+      ],
+      [
+        "c",
+        "toute dyspnée d'effort chez le sujet âgé",
+        0,
+        "KP-002",
+        "Symptôme non spécifique ; ne suffit pas à définir l'IC."
+      ],
+      [
+        "d",
+        "un défaut de remplissage isolé sans symptôme",
+        0.2,
+        "KP-002",
+        "La dysfonction asymptomatique existe mais ne définit pas le syndrome clinique d'IC."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Définition ESC 2021"
+  },
+  {
+    "num": 17,
+    "kp_refs": [
+      "KP-003"
+    ],
+    "stem": "Concernant le diagnostic de l'insuffisance cardiaque, quelle affirmation est exacte ?",
+    "options": [
+      [
+        "a",
+        "les symptômes ne sont pas spécifiques et les signes ne sont pas sensibles ; une dysfonction cardiaque asymptomatique peut précéder les symptômes",
+        1,
+        "KP-003",
+        "Diagnostic difficile : faible spécificité/sensibilité et phase asymptomatique possible."
+      ],
+      [
+        "b",
+        "un examen clinique normal exclut définitivement l'IC",
+        0,
+        "KP-003",
+        "Les signes peu sensibles : un examen normal n'exclut pas l'IC."
+      ],
+      [
+        "c",
+        "la dyspnée d'effort est pathognomonique de l'IC",
+        0,
+        "KP-003",
+        "Au contraire : symptôme peu spécifique."
+      ],
+      [
+        "d",
+        "l'IC ne peut jamais être asymptomatique",
+        0,
+        "KP-003",
+        "Une période de dysfonction asymptomatique est décrite."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Difficulté diagnostique"
+  },
+  {
+    "num": 18,
+    "kp_refs": [
+      "KP-004"
+    ],
+    "stem": "Concernant l'épidémiologie de l'insuffisance cardiaque en Europe, quelle proposition est correcte ?",
+    "options": [
+      [
+        "a",
+        "prévalence 1–2 % ; âge moyen du diagnostic 75–80 ans ; prévalence augmente avec l'âge alors que l'incidence standardisée tend à diminuer",
+        1,
+        "KP-004",
+        "Chiffres et tendances épidémiologiques du Collège."
+      ],
+      [
+        "b",
+        "prévalence < 0,1 % chez l'adulte",
+        0,
+        "KP-004",
+        "Sous-estimation : prévalence 1–2 %."
+      ],
+      [
+        "c",
+        "diagnostic le plus souvent avant 50 ans",
+        0,
+        "KP-004",
+        "Âge moyen du diagnostic 75–80 ans."
+      ],
+      [
+        "d",
+        "incidence standardisée en forte hausse continue",
+        0,
+        "KP-004",
+        "L'incidence standardisée tend à diminuer."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Épidémiologie IC"
+  },
+  {
+    "num": 19,
+    "kp_refs": [
+      "KP-005"
+    ],
+    "element_refs": [
+      "MEC-output-basics"
+    ],
+    "stem": "Concernant les relations hémodynamiques de base, quelle formule est exacte ?",
+    "options": [
+      [
+        "a",
+        "DC = VES × FC ; FE = VES/VTD ; le VES dépend de la précharge, de la postcharge et de la contractilité",
+        1,
+        "KP-005",
+        "Formules fondamentales et déterminants du VES."
+      ],
+      [
+        "b",
+        "DC = VTD × FC",
+        0,
+        "KP-005",
+        "Le débit dépend du volume d'éjection systolique, pas du VTD."
+      ],
+      [
+        "c",
+        "FE = VTS/VTD",
+        0,
+        "KP-005",
+        "FE = VES/VTD = (VTD − VTS)/VTD."
+      ],
+      [
+        "d",
+        "le VES ne dépend que de la fréquence cardiaque",
+        0,
+        "KP-005",
+        "Le VES dépend de précharge, postcharge et contractilité."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Formules hémodynamiques"
+  },
+  {
+    "num": 20,
+    "kp_refs": [
+      "KP-040",
+      "KP-007"
+    ],
+    "element_refs": [
+      "MM-pump-decompensation"
+    ],
+    "stem": "Lors d'un dysfonctionnement de pompe avec élévation des pressions de remplissage, quelle transmission est correcte ?",
+    "options": [
+      [
+        "a",
+        "VG : pression télédiastolique → OG → veines et capillaires pulmonaires ; VD : pressions diastoliques → OD → stase hépatique et jugulaire",
+        1,
+        [
+          "KP-040",
+          "KP-007"
+        ],
+        "Transmission amont des pressions de remplissage VG et VD."
+      ],
+      [
+        "b",
+        "uniquement une baisse de débit sans congestion veineuse",
+        0,
+        "KP-040",
+        "La dyade inclut aussi l'élévation des pressions de remplissage transmises en amont."
+      ],
+      [
+        "c",
+        "transmission pulmonaire uniquement si PPC > 50 mmHg systématiquement",
+        0,
+        "KP-040",
+        "Seuil PPC classique > 25 mmHg pour transsudat, pas 50."
+      ],
+      [
+        "d",
+        "stase systémique sans atteinte pulmonaire possible",
+        0,
+        "KP-007",
+        "Les deux circulations peuvent être congestives selon le mécanisme."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Transmission congestive VG/VD"
+  },
+  {
+    "num": 21,
+    "kp_refs": [
+      "KP-008"
+    ],
+    "stem": "Les mécanismes compensateurs de l'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "sont bénéfiques à court terme (maintien du débit) mais délétères à long terme (augmentation du travail cardiaque)",
+        1,
+        "KP-008",
+        "Paradoxe temporel des compensations."
+      ],
+      [
+        "b",
+        "sont uniquement délétères dès leur apparition",
+        0,
+        "KP-008",
+        "Ils maintiennent le débit à court terme."
+      ],
+      [
+        "c",
+        "n'ont aucun effet sur le travail cardiaque",
+        0,
+        "KP-008",
+        "À long terme ils augmentent le travail cardiaque."
+      ],
+      [
+        "d",
+        "disparaissent spontanément sans traitement",
+        0,
+        "KP-008",
+        "Au contraire, ils contribuent à l'aggravation."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Compensations CT/LT"
+  },
+  {
+    "num": 22,
+    "kp_refs": [
+      "KP-009"
+    ],
+    "stem": "Concernant le remodelage cardiaque dans l'IC, quelle affirmation est exacte ?",
+    "options": [
+      [
+        "a",
+        "changement de géométrie des cavités ; dilatation/hypertrophie excentrique ou concentrique (loi de Laplace) ; exemple : VTD 100→200 mL et FE 60→30 % peuvent conserver un VES de 60 mL",
+        1,
+        "KP-009",
+        "Remodelage, Laplace et exemple chiffré de compensation par dilatation."
+      ],
+      [
+        "b",
+        "le remodelage exclut toute dilatation ventriculaire",
+        0,
+        "KP-009",
+        "La dilatation fait partie du remodelage."
+      ],
+      [
+        "c",
+        "si la FE chute, le VES diminue toujours proportionnellement",
+        0,
+        "KP-009",
+        "Contre-exemple : VES peut rester conservé par dilatation."
+      ],
+      [
+        "d",
+        "le remodelage est toujours bénéfique à long terme",
+        0,
+        "KP-009",
+        "Compensation initiale puis effets délétères."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Remodelage cardiaque"
+  },
+  {
+    "num": 23,
+    "kp_refs": [
+      "KP-010"
+    ],
+    "stem": "La loi de Starling dans l'insuffisance cardiaque implique que :",
+    "options": [
+      [
+        "a",
+        "l'étirement des fibres (précharge) augmente l'inotropie ventriculaire jusqu'à une limite de dilatation",
+        1,
+        "KP-010",
+        "Relation étirement-inotropie avec plafond."
+      ],
+      [
+        "b",
+        "toute dilatation améliore indéfiniment la performance",
+        0,
+        "KP-010",
+        "Il existe une limite de dilatation."
+      ],
+      [
+        "c",
+        "la précharge n'influence pas la contractilité",
+        0,
+        "KP-010",
+        "La précharge module l'inotropie via l'étirement."
+      ],
+      [
+        "d",
+        "Starling décrit uniquement la postcharge artérielle",
+        0,
+        "KP-010",
+        "Starling concerne la précharge et l'étirement des fibres."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Loi de Starling"
+  },
+  {
+    "num": 24,
+    "kp_refs": [
+      "KP-011"
+    ],
+    "stem": "La tachycardie compensatrice sympathique dans l'IC :",
+    "options": [
+      [
+        "a",
+        "contribue à maintenir le débit cardiaque mais augmente le travail cardiaque et la consommation en O₂",
+        1,
+        "KP-011",
+        "Bénéfice hémodynamique court terme, coût métabolique."
+      ],
+      [
+        "b",
+        "diminue systématiquement le débit cardiaque",
+        0,
+        "KP-011",
+        "Elle participe au maintien du DC."
+      ],
+      [
+        "c",
+        "n'a aucun effet délétère",
+        0,
+        "KP-011",
+        "Effets délétères : travail cardiaque et consommation O₂."
+      ],
+      [
+        "d",
+        "est indépendante du système sympathique",
+        0,
+        "KP-011",
+        "Elle est sous dépendance sympathique."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Tachycardie compensatrice"
+  },
+  {
+    "num": 25,
+    "kp_refs": [
+      "KP-012"
+    ],
+    "stem": "Les compensations extra-cardiaques dans l'IC incluent :",
+    "options": [
+      [
+        "a",
+        "vasoconstriction, rétention hydrosodée et activation sympathique + SRAA, avec effets délétères (travail cardiaque, proarythmie, toxicité catécholaminergique)",
+        1,
+        "KP-012",
+        "Triade neurohormonale et conséquences."
+      ],
+      [
+        "b",
+        "uniquement une vasodilatation systémique",
+        0,
+        "KP-012",
+        "C'est l'inverse : vasoconstriction."
+      ],
+      [
+        "c",
+        "une diurèse compensatrice sans rétention sodée",
+        0,
+        "KP-012",
+        "Rétention hydrosodée liée à la baisse de perfusion rénale."
+      ],
+      [
+        "d",
+        "aucune activation neurohormonale",
+        0,
+        "KP-012",
+        "Sympathique et SRAA sont centraux."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Compensations neurohormonales"
+  },
+  {
+    "num": 26,
+    "kp_refs": [
+      "KP-013"
+    ],
+    "stem": "La désynchronisation cardiaque (ex. bloc de branche gauche) :",
+    "options": [
+      [
+        "a",
+        "peut aggraver une insuffisance cardiaque par contraction asynchrone",
+        1,
+        "KP-013",
+        "Mécanisme direct de désynchronisation."
+      ],
+      [
+        "b",
+        "améliore toujours la fraction d'éjection",
+        0,
+        "KP-013",
+        "Elle aggrave l'IC."
+      ],
+      [
+        "c",
+        "n'a aucune implication thérapeutique",
+        0,
+        "KP-013",
+        "Base de la resynchronisation (CRT)."
+      ],
+      [
+        "d",
+        "concerne uniquement l'oreillette droite",
+        0,
+        "KP-013",
+        "Concerne la contraction ventriculaire asynchrone."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Désynchronisation"
+  },
+  {
+    "num": 27,
+    "kp_refs": [
+      "KP-017",
+      "KP-018"
+    ],
+    "stem": "Concernant les arythmies dans l'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "FA favorisée par dilatation atriale, aggravant l'IC et le risque d'AVC ; TV/FV = principale cause de mort subite → intérêt du DAI",
+        1,
+        [
+          "KP-017",
+          "KP-018"
+        ],
+        "FA et arythmies ventriculaires graves."
+      ],
+      [
+        "b",
+        "la FA protège contre l'AVC",
+        0,
+        "KP-017",
+        "La FA augmente le risque d'AVC."
+      ],
+      [
+        "c",
+        "les TV/FV ne participent pas à la mort subite",
+        0,
+        "KP-018",
+        "Principale cause de mort subite."
+      ],
+      [
+        "d",
+        "le DAI est indiqué pour toute FA isolée",
+        0,
+        "KP-018",
+        "DAI pour prévention TV/FV, pas pour FA seule."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Arythmies IC"
+  },
+  {
+    "num": 28,
+    "kp_refs": [
+      "KP-021"
+    ],
+    "stem": "Quels signes respiratoires peuvent tromper dans l'IC ?",
+    "options": [
+      [
+        "a",
+        "asthme cardiaque (bradypnée expiratoire sifflante), toux d'effort ou de décubitus, hémoptysies d'hypertension veineuse pulmonaire",
+        1,
+        "KP-021",
+        "Manifestations respiratoires trompeuses."
+      ],
+      [
+        "b",
+        "uniquement la dyspnée de repos",
+        0,
+        "KP-021",
+        "Plusieurs présentations atypiques existent."
+      ],
+      [
+        "c",
+        "l'asthme cardiaque est une obstruction bronchique pure",
+        0,
+        "KP-021",
+        "C'est une bradypnée expiratoire d'origine cardiaque."
+      ],
+      [
+        "d",
+        "la toux ne peut jamais révéler une IC",
+        0,
+        "KP-021",
+        "Toux à l'effort ou au décubitus possible."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Signes respiratoires trompeurs"
+  },
+  {
+    "num": 29,
+    "kp_refs": [
+      "KP-022"
+    ],
+    "element_refs": [
+      "MEC-oap"
+    ],
+    "stem": "L'œdème aigu pulmonaire cardiogénique se manifeste cliniquement par :",
+    "options": [
+      [
+        "a",
+        "dyspnée aiguë de repos, position assise, expectoration mousseuse ; subœdème pulmonaire si crise spontanément résolutive",
+        1,
+        "KP-022",
+        "Tableau typique et notion de subœdème."
+      ],
+      [
+        "b",
+        "dyspnée uniquement à l'effort intense",
+        0,
+        "KP-022",
+        "OAP = dyspnée aiguë de repos."
+      ],
+      [
+        "c",
+        "subœdème = OAP persistant non résolutif",
+        0,
+        "KP-022",
+        "Subœdème = crise spontanément résolutive."
+      ],
+      [
+        "d",
+        "absence de position assise préférentielle",
+        0,
+        "KP-022",
+        "Position assise classique."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Manifestations OAP"
+  },
+  {
+    "num": 30,
+    "kp_refs": [
+      "KP-023",
+      "KP-024"
+    ],
+    "stem": "Parmi les manifestations suivantes de l'IC, lesquelles sont exactes ?",
+    "options": [
+      [
+        "a",
+        "fatigue, prise de poids/œdèmes, faiblesse musculaire, palpitations ; formes sévères : SAS/Cheyne-Stokes, confusion, troubles digestifs",
+        1,
+        [
+          "KP-023",
+          "KP-024"
+        ],
+        "Symptômes généraux et formes avancées."
+      ],
+      [
+        "b",
+        "l'IC ne provoque jamais de fatigue",
+        0,
+        "KP-023",
+        "Fatigue fréquente."
+      ],
+      [
+        "c",
+        "confusion exclut une IC",
+        0,
+        "KP-024",
+        "Peut survenir en IC sévère/terminale."
+      ],
+      [
+        "d",
+        "palpitations sont toujours bénignes et non liées à l'IC",
+        0,
+        "KP-023",
+        "Palpitations font partie du tableau."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Autres symptômes IC"
+  },
+  {
+    "num": 31,
+    "kp_refs": [
+      "KP-025"
+    ],
+    "stem": "L'hépatalgie dans l'insuffisance cardiaque droite correspond à :",
+    "options": [
+      [
+        "a",
+        "une pesanteur douloureuse de l'hypocondre droit liée à la distension capsulaire hépatique",
+        1,
+        "KP-025",
+        "Mécanisme et localisation."
+      ],
+      [
+        "b",
+        "une colique hépatique lithiasique",
+        0,
+        "KP-025",
+        "Mécanisme congestif, pas biliaire."
+      ],
+      [
+        "c",
+        "une douleur uniquement à l'inspiration sans lien avec l'IC",
+        0,
+        "KP-025",
+        "Liée à l'IC droite/congestion hépatique."
+      ],
+      [
+        "d",
+        "un signe d'IC gauche isolée sans atteinte droite",
+        0,
+        "KP-025",
+        "Symptôme d'IC droite."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Hépatalgie IC droite"
+  },
+  {
+    "num": 32,
+    "kp_refs": [
+      "KP-026"
+    ],
+    "stem": "Les signes physiques d'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "sont souvent pauvres sous traitement ; leur présence traduit une gravité (rétention hydrosodée ou bas débit)",
+        1,
+        "KP-026",
+        "Sensibilité clinique et valeur pronostique."
+      ],
+      [
+        "b",
+        "sont toujours présents et sensibles",
+        0,
+        "KP-026",
+        "Souvent pauvres sous traitement."
+      ],
+      [
+        "c",
+        "n'ont aucune valeur pronostique",
+        0,
+        "KP-026",
+        "Leur présence = élément de gravité."
+      ],
+      [
+        "d",
+        "disparaissent toujours en décompensation aiguë",
+        0,
+        "KP-026",
+        "Au contraire, ils peuvent s'accentuer."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Signes physiques gravité"
+  },
+  {
+    "num": 33,
+    "kp_refs": [
+      "KP-027"
+    ],
+    "stem": "Quels signes cardiaques peuvent orienter vers une insuffisance cardiaque ?",
+    "options": [
+      [
+        "a",
+        "choc de pointe dévié, galop B3, éclat du B2, souffles d'IM/IT fonctionnels ou valvulopathie organique",
+        1,
+        "KP-027",
+        "Signes cardiaques classiques."
+      ],
+      [
+        "b",
+        "un B3 exclut toute valvulopathie",
+        0,
+        "KP-027",
+        "Souffles valvulaires peuvent coexister."
+      ],
+      [
+        "c",
+        "éclat du B2 au foyer aortique en HTAP",
+        0,
+        "KP-027",
+        "Éclat du B2 au foyer pulmonaire en HTAP."
+      ],
+      [
+        "d",
+        "galop B3 = bruit systolique d'éjection",
+        0,
+        "KP-027",
+        "B3 = bruit protodiastolique (galop)."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Signes cardiaques"
+  },
+  {
+    "num": 34,
+    "kp_refs": [
+      "KP-028"
+    ],
+    "stem": "Les signes pulmonaires de l'insuffisance cardiaque comprennent :",
+    "options": [
+      [
+        "a",
+        "râles crépitants ou sous-crépitants bilatéraux ; épanchement pleural transsudatif (protides < 30 g/L)",
+        1,
+        "KP-028",
+        "Stase pulmonaire et critère de transsudat."
+      ],
+      [
+        "b",
+        "râles uniquement unilatéraux systématiquement",
+        0,
+        "KP-028",
+        "Le plus souvent bilatéraux."
+      ],
+      [
+        "c",
+        "épanchement exsudatif avec protides > 50 g/L",
+        0,
+        "KP-028",
+        "Transsudat : protides < 30 g/L."
+      ],
+      [
+        "d",
+        "absence possible de râles en OAP",
+        0.2,
+        "KP-028",
+        "Râles fréquents mais l'énoncé porte sur le profil typique congestif."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Signes pulmonaires"
+  },
+  {
+    "num": 35,
+    "kp_refs": [
+      "KP-029"
+    ],
+    "stem": "Concernant la pression artérielle dans l'IC :",
+    "options": [
+      [
+        "a",
+        "PAS < 100 mmHg = facteur de gravité ; un OAP hypertensif peut survenir avec PA élevée",
+        1,
+        "KP-029",
+        "Hypotension grave vs OAP hypertensif."
+      ],
+      [
+        "b",
+        "une PA élevée exclut toujours l'IC",
+        0,
+        "KP-029",
+        "OAP hypertensif possible."
+      ],
+      [
+        "c",
+        "PAS < 100 mmHg est bénigne",
+        0,
+        "KP-029",
+        "Facteur de gravité."
+      ],
+      [
+        "d",
+        "l'hypotension est le mode de révélation le plus fréquent",
+        0,
+        "KP-029",
+        "Hypotension = gravité, pas mode le plus fréquent."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "PA et gravité"
+  },
+  {
+    "num": 36,
+    "kp_refs": [
+      "KP-030"
+    ],
+    "stem": "Les signes périphériques d'insuffisance cardiaque droite incluent :",
+    "options": [
+      [
+        "a",
+        "turgescence jugulaire, reflux hépatojugulaire, hépatomégalie, œdèmes mous déclives prenant le godet, ascite/anasarque",
+        1,
+        "KP-030",
+        "Congestion systémique droite."
+      ],
+      [
+        "b",
+        "crépitants pulmonaires isolés sans signe veineux",
+        0,
+        "KP-030",
+        "Signes veineux centraux de l'IC droite."
+      ],
+      [
+        "c",
+        "œdèmes durs, chauds, inflammatoires",
+        0,
+        "KP-030",
+        "Œdèmes mous, blancs, indolores."
+      ],
+      [
+        "d",
+        "reflux hépatojugulaire sans lien avec la jugulaire",
+        0,
+        "KP-030",
+        "Dilatation jugulaire après compression hépatique."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Signes IC droite"
+  },
+  {
+    "num": 37,
+    "kp_refs": [
+      "KP-032"
+    ],
+    "stem": "L'électrocardiogramme dans l'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "est peu contributif au diagnostic positif ; un BBG (QRS > 120 ms) a des implications thérapeutiques ; peut orienter l'étiologie",
+        1,
+        "KP-032",
+        "Rôle limité diagnostique, utile thérapeutique/étiologique."
+      ],
+      [
+        "b",
+        "confirme systématiquement l'IC",
+        0,
+        "KP-032",
+        "Peu contributif au diagnostic positif."
+      ],
+      [
+        "c",
+        "un QRS > 120 ms est sans conséquence thérapeutique",
+        0,
+        "KP-032",
+        "BBG important pour CRT entre autres."
+      ],
+      [
+        "d",
+        "ne peut jamais orienter l'étiologie",
+        0,
+        "KP-032",
+        "Peut orienter (IDM, cardiomyopathie…)."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "ECG IC"
+  },
+  {
+    "num": 38,
+    "kp_refs": [
+      "KP-033",
+      "KP-034"
+    ],
+    "stem": "La radiographie thoracique dans l'IC :",
+    "options": [
+      [
+        "a",
+        "RCT > 0,5 si cardiomégalie ; absence de cardiomégalie n'exclut pas l'IC (FE préservée) ; stase : redistribution vasculaire → lignes de Kerley → œdème en ailes de papillon",
+        1,
+        [
+          "KP-033",
+          "KP-034"
+        ],
+        "Cardiomégalie, piège HFpEF, sémiologie de stase."
+      ],
+      [
+        "b",
+        "cardiomégalie obligatoire pour diagnostiquer l'IC",
+        0,
+        "KP-033",
+        "Absence de cardiomégalie n'exclut pas l'IC."
+      ],
+      [
+        "c",
+        "l'œdème alvéolaire apparaît avant la redistribution vasculaire",
+        0,
+        "KP-034",
+        "Progression : redistribution → Kerley → œdème alvéolaire."
+      ],
+      [
+        "d",
+        "RCT normal exclut définitivement l'IC",
+        0,
+        "KP-033",
+        "Faux, surtout en FE préservée."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Radio thorax IC"
+  },
+  {
+    "num": 39,
+    "kp_refs": [
+      "KP-038"
+    ],
+    "element_refs": [
+      "CR-diagnose"
+    ],
+    "stem": "Les peptides natriurétiques (BNP/NT-proBNP) : facteurs confondants et interprétation",
+    "options": [
+      [
+        "a",
+        "âge, insuffisance rénale et FA augmentent les concentrations ; obésité les diminue ; zone grise nécessitant interprétation clinique",
+        1,
+        "KP-038",
+        "Confounders et incertitude."
+      ],
+      [
+        "b",
+        "obésité augmente les peptides",
+        0,
+        "KP-038",
+        "Obésité les diminue."
+      ],
+      [
+        "c",
+        "aucune zone grise : seuil unique suffit toujours",
+        0,
+        "KP-038",
+        "Valeurs incertaines existent."
+      ],
+      [
+        "d",
+        "la FA abaisse les peptides",
+        0,
+        "KP-038",
+        "FA les augmente."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Confounders NP"
+  },
+  {
+    "num": 40,
+    "kp_refs": [
+      "KP-043"
+    ],
+    "element_refs": [
+      "CR-diagnose"
+    ],
+    "stem": "Algorithme diagnostique ESC 2021 hors urgence devant suspicion d'IC :",
+    "options": [
+      [
+        "a",
+        "doser NP si FDR IC + symptômes/signes ou ECG anormal ; rule-out BNP < 35 pg/mL ou NT-proBNP < 125 pg/mL ; si ≥ ou NP indisponible → ETT et typage FEVG",
+        1,
+        "KP-043",
+        "Parcours chronique complet."
+      ],
+      [
+        "b",
+        "ETT systématique avant tout dosage de NP",
+        0,
+        "KP-043",
+        "NP en amont si critères cliniques."
+      ],
+      [
+        "c",
+        "rule-out chronique : BNP < 100 pg/mL",
+        0,
+        "KP-043",
+        "Seuils chroniques plus bas : 35/125."
+      ],
+      [
+        "d",
+        "NP indisponible = pas d'exploration cardiaque",
+        0,
+        "KP-043",
+        "ETT nécessaire si NP indisponible."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Algo diagnostic chronique"
+  },
+  {
+    "num": 41,
+    "kp_refs": [
+      "KP-045"
+    ],
+    "stem": "La coronarographie devant une FEVG diminuée :",
+    "options": [
+      [
+        "a",
+        "proposée pour éliminer une coronaropathie (1re cause) ; sténose + ischémie/viabilité → discuter revascularisation ; coroscanner chez sujet jeune à faible probabilité",
+        1,
+        "KP-045",
+        "Indications et alternatives."
+      ],
+      [
+        "b",
+        "contre-indiquée si FEVG basse",
+        0,
+        "KP-045",
+        "Au contraire, généralement proposée."
+      ],
+      [
+        "c",
+        "coros normales + FEVG basse orientent vers ischémie aiguë",
+        0,
+        "KP-045",
+        "Orientent vers cardiomyopathie dilatée si pas d'autre cause."
+      ],
+      [
+        "d",
+        "revascularisation jamais discutée",
+        0,
+        "KP-045",
+        "Discutée si ischémie/viabilité."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Coronarographie"
+  },
+  {
+    "num": 42,
+    "kp_refs": [
+      "KP-050",
+      "KP-052"
+    ],
+    "stem": "Concernant les étiologies ischémiques et dilatées de l'IC :",
+    "options": [
+      [
+        "a",
+        "cardiopathies ischémiques = 1re cause (IDM → fibrose/↓ FEVG ; ischémie chronique avec viabilité) ; CMD = dilatation + ↓ FEVG après exclusions, ~25 % familiales",
+        1,
+        [
+          "KP-050",
+          "KP-052"
+        ],
+        "Ischémique et CMD."
+      ],
+      [
+        "b",
+        "CMD toujours secondaire à une sténose coronarienne",
+        0,
+        "KP-052",
+        "Après exclusion ischémique/valvulaire/HTA/congénitale."
+      ],
+      [
+        "c",
+        "ischémie chronique n'affecte jamais la FEVG",
+        0,
+        "KP-050",
+        "Responsable d'altération FEVG."
+      ],
+      [
+        "d",
+        "CMD jamais familiale",
+        0,
+        "KP-052",
+        "~25 % familiales."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Étiologies ischémique/CMD"
+  },
+  {
+    "num": 43,
+    "kp_refs": [
+      "KP-053"
+    ],
+    "stem": "Les cardiomyopathies restrictives (ex. amylose cardiaque) :",
+    "options": [
+      [
+        "a",
+        "infiltration → rigidité et remplissage altéré ; pronostic sévère dès manifestations d'IC",
+        1,
+        "KP-053",
+        "Mécanisme et pronostic amylose."
+      ],
+      [
+        "b",
+        "s'accompagnent d'une dilatation majeure avec FE très basse typiquement",
+        0,
+        "KP-053",
+        "Profil restrictif, pas dilaté classique."
+      ],
+      [
+        "c",
+        "pronostic excellent une fois l'IC installée",
+        0,
+        "KP-053",
+        "Pronostic sévère."
+      ],
+      [
+        "d",
+        "amylose cardiaque est la forme la plus bénigne",
+        0,
+        "KP-053",
+        "Amylose = forme fréquente et sévère."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "CM restrictives"
+  },
+  {
+    "num": 44,
+    "kp_refs": [
+      "KP-054"
+    ],
+    "stem": "Les valvulopathies gauches et l'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "peuvent toutes se compliquer d'IC ; rétrécissement mitral : OAP/IC droite possible sans atteinte du VG",
+        1,
+        "KP-054",
+        "Tournant évolutif et particularité RM."
+      ],
+      [
+        "b",
+        "seule l'IM peut compliquer une IC",
+        0,
+        "KP-054",
+        "Toutes les valvulopathies gauches."
+      ],
+      [
+        "c",
+        "RM nécessite toujours une atteinte du VG",
+        0,
+        "KP-054",
+        "OAP/IC droite possible sans atteinte VG."
+      ],
+      [
+        "d",
+        "valvulopathie exclut la prise en charge de l'IC",
+        0,
+        "KP-054",
+        "Complication fréquente, pas exclusion."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Valvulopathies"
+  },
+  {
+    "num": 45,
+    "kp_refs": [
+      "KP-055"
+    ],
+    "stem": "Les troubles du rythme comme cause ou facteur déclenchant d'IC :",
+    "options": [
+      [
+        "a",
+        "tachy- ou bradycardie extrême peuvent provoquer une IC ; FA rapide prolongée → tachycardiomyopathie souvent réversible après contrôle du rythme",
+        1,
+        "KP-055",
+        "Tachycardiomyopathie réversible."
+      ],
+      [
+        "b",
+        "FA rapide ne peut jamais causer d'IC",
+        0,
+        "KP-055",
+        "Tachycardiomyopathie décrite."
+      ],
+      [
+        "c",
+        "tachycardiomyopathie toujours irréversible",
+        0,
+        "KP-055",
+        "Souvent réversible après traitement du rythme."
+      ],
+      [
+        "d",
+        "bradycardie extrême sans conséquence sur la pompe",
+        0,
+        "KP-055",
+        "Peut provoquer une IC."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Rythme et IC"
+  },
+  {
+    "num": 46,
+    "kp_refs": [
+      "KP-056"
+    ],
+    "stem": "Les causes péricardiques d'insuffisance cardiaque comprennent :",
+    "options": [
+      [
+        "a",
+        "épanchement péricardique abondant, tamponnade, péricardite chronique constrictive",
+        1,
+        "KP-056",
+        "Triade péricardique."
+      ],
+      [
+        "b",
+        "péricardite aiguë fébrile isolée sans effet hémodynamique",
+        0,
+        "KP-056",
+        "Formes avec retentissement hémodynamique."
+      ],
+      [
+        "c",
+        "tamponnade exclut une IC",
+        0,
+        "KP-056",
+        "Tamponnade = cause d'IC aiguë."
+      ],
+      [
+        "d",
+        "constriction péricardique = dilatation ventriculaire",
+        0,
+        "KP-056",
+        "Constriction = rigidité/remplissage altéré."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Causes péricardiques"
+  },
+  {
+    "num": 47,
+    "kp_refs": [
+      "KP-057"
+    ],
+    "stem": "L'insuffisance cardiaque droite :",
+    "options": [
+      [
+        "a",
+        "le plus souvent secondaire à une IC gauche (IC globale) ; causes isolées : cœur pulmonaire, HTAP, DVDA, pathologies tricuspidiennes, IDM VD, constriction",
+        1,
+        "KP-057",
+        "Fréquence et étiologies isolées."
+      ],
+      [
+        "b",
+        "toujours primitive et isolée",
+        0,
+        "KP-057",
+        "Le plus souvent secondaire à IC gauche."
+      ],
+      [
+        "c",
+        "HTAP n'entraîne jamais d'IC droite",
+        0,
+        "KP-057",
+        "HTAP = cause isolée possible."
+      ],
+      [
+        "d",
+        "IDM antérieur du VG = cause principale d'IC droite isolée",
+        0,
+        "KP-057",
+        "IDM VD possible ; IC gauche plus fréquente."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "IC droite étiologies"
+  },
+  {
+    "num": 48,
+    "kp_refs": [
+      "KP-072"
+    ],
+    "stem": "La cardiomyopathie hypertrophique (CMH) :",
+    "options": [
+      [
+        "a",
+        "hypertrophie souvent asymétrique du SIV, FE conservée, trouble du remplissage ; forme obstructive possible ; familiale sarcomérique ; 1re cause de mort subite chez le jeune athlète",
+        1,
+        "KP-072",
+        "Profil CMH et risque MS."
+      ],
+      [
+        "b",
+        "FE systématiquement < 30 %",
+        0,
+        "KP-072",
+        "FE conservée typiquement."
+      ],
+      [
+        "c",
+        "jamais familiale",
+        0,
+        "KP-072",
+        "Formes sarcomériques familiales."
+      ],
+      [
+        "d",
+        "sans risque de mort subite",
+        0,
+        "KP-072",
+        "1re cause MS chez jeune athlète."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "CMH"
+  },
+  {
+    "num": 49,
+    "kp_refs": [
+      "KP-059"
+    ],
+    "element_refs": [
+      "CR-acute"
+    ],
+    "stem": "L'insuffisance cardiaque aiguë se définit par :",
+    "options": [
+      [
+        "a",
+        "apparition rapide de symptômes/signes liés à l'altération de pompe (de novo ou aggravation), souvent nécessitant hospitalisation et traitement IV",
+        1,
+        "KP-059",
+        "Définition clinique IC aiguë."
+      ],
+      [
+        "b",
+        "état stable ambulatoire sous traitement oral",
+        0,
+        "KP-059",
+        "C'est l'IC chronique (KP-064)."
+      ],
+      [
+        "c",
+        "toujours un choc cardiogénique",
+        0,
+        "KP-059",
+        "Formes variées dont OAP, poussée globale."
+      ],
+      [
+        "d",
+        "exclut toute décompensation sur IC connue",
+        0,
+        "KP-059",
+        "Peut être aggravation d'IC chronique."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Définition IC aiguë"
+  },
+  {
+    "num": 50,
+    "kp_refs": [
+      "KP-061"
+    ],
+    "element_refs": [
+      "CR-acute"
+    ],
+    "stem": "Devant une dyspnée aiguë, quels diagnostics différentiels majeurs évoquer en plus de l'IC ?",
+    "options": [
+      [
+        "a",
+        "pneumopathie, embolie pulmonaire, exacerbation de BPCO, crise d'asthme",
+        1,
+        "KP-061",
+        "DDx principaux de dyspnée aiguë."
+      ],
+      [
+        "b",
+        "uniquement l'embolie pulmonaire",
+        0,
+        "KP-061",
+        "Liste plus large requise."
+      ],
+      [
+        "c",
+        "appendicite aiguë",
+        0,
+        "KP-061",
+        "Hors DDx respiratoire/aigu."
+      ],
+      [
+        "d",
+        "pneumothorax jamais à évoquer",
+        0,
+        "KP-061",
+        "Plusieurs causes respiratoires/aiguës."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "DDx dyspnée aiguë"
+  },
+  {
+    "num": 51,
+    "kp_refs": [
+      "KP-062"
+    ],
+    "stem": "Les facteurs déclenchants d'une décompensation aiguë d'IC comprennent :",
+    "options": [
+      [
+        "a",
+        "rupture de traitement/régime sans sel (1er facteur), infection, FA, anémie, EP, dysthyroïdie, iatrogénie, HTA, SCA…",
+        1,
+        "KP-062",
+        "Facteurs favorisants à rechercher."
+      ],
+      [
+        "b",
+        "uniquement l'arrêt des diurétiques",
+        0,
+        "KP-062",
+        "Liste plus large."
+      ],
+      [
+        "c",
+        "infection jamais impliquée",
+        0,
+        "KP-062",
+        "Infection = facteur fréquent."
+      ],
+      [
+        "d",
+        "recherche inutile si OAP typique",
+        0,
+        "KP-062",
+        "Toujours rechercher la cause."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Facteurs déclenchants"
+  },
+  {
+    "num": 52,
+    "kp_refs": [
+      "KP-063"
+    ],
+    "element_refs": [
+      "CR-acute"
+    ],
+    "stem": "Le choc cardiogénique se caractérise par :",
+    "options": [
+      [
+        "a",
+        "défaillance aiguë sévère → hypoperfusion ; PAS < 90 mmHg ou chute > 30 mmHg ≥ 30 min ; extrémités froides, oligurie < 20 mL/h, troubles de conscience",
+        1,
+        "KP-063",
+        "Critères hémodynamiques et cliniques."
+      ],
+      [
+        "b",
+        "PAS toujours > 140 mmHg",
+        0,
+        "KP-063",
+        "Hypotension sévère."
+      ],
+      [
+        "c",
+        "diurèse conservée > 100 mL/h",
+        0,
+        "KP-063",
+        "Oligurie < 20 mL/h."
+      ],
+      [
+        "d",
+        "absence de retentissement tissulaire",
+        0,
+        "KP-063",
+        "Hypoperfusion/anoxie tissulaire."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Choc cardiogénique"
+  },
+  {
+    "num": 53,
+    "kp_refs": [
+      "KP-064"
+    ],
+    "stem": "L'insuffisance cardiaque chronique correspond à :",
+    "options": [
+      [
+        "a",
+        "l'état du patient en dehors d'une décompensation aiguë, ambulatoire sous traitement oral",
+        1,
+        "KP-064",
+        "Définition IC chronique stable."
+      ],
+      [
+        "b",
+        "toute IC nécessitant furosémide IV",
+        0,
+        "KP-064",
+        "C'est l'IC aiguë décompensée."
+      ],
+      [
+        "c",
+        "IC diagnostiquée depuis moins de 24 h",
+        0,
+        "KP-064",
+        "Chronique = hors poussée aiguë."
+      ],
+      [
+        "d",
+        "patient toujours hospitalisé",
+        0,
+        "KP-064",
+        "Ambulatoire sous traitement oral."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "IC chronique"
+  },
+  {
+    "num": 54,
+    "kp_refs": [
+      "KP-065"
+    ],
+    "stem": "Les critères diagnostiques d'IC à fraction d'éjection préservée incluent :",
+    "options": [
+      [
+        "a",
+        "symptômes/signes + FEVG ≥ 50 % + BNP/NT-proBNP élevés + arguments de pressions de remplissage élevées (HVG, dilatation AG…)",
+        1,
+        "KP-065",
+        "Profil HFpEF complet."
+      ],
+      [
+        "b",
+        "FEVG < 40 % obligatoire",
+        0,
+        "KP-065",
+        "FEVG ≥ 50 %."
+      ],
+      [
+        "c",
+        "peptides bas exclusifs",
+        0,
+        "KP-065",
+        "Peptides élevés requis."
+      ],
+      [
+        "d",
+        "absence de signes congestifs possible",
+        0,
+        "KP-065",
+        "Symptômes/signes requis."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Critères HFpEF"
+  },
+  {
+    "num": 55,
+    "kp_refs": [
+      "KP-066"
+    ],
+    "stem": "L'histoire naturelle de l'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "dysfonction asymptomatique puis IC ; oscillations stabilité/décompensations ; remodelage inverse possible sous traitement",
+        1,
+        "KP-066",
+        "Progression et réversibilité partielle."
+      ],
+      [
+        "b",
+        "apparition toujours brutale sans phase silencieuse",
+        0,
+        "KP-066",
+        "Phase asymptomatique possible."
+      ],
+      [
+        "c",
+        "amélioration structurelle impossible sous traitement",
+        0,
+        "KP-066",
+        "Remodelage inverse décrit."
+      ],
+      [
+        "d",
+        "cours toujours linéairement ascendant sans rémission",
+        0,
+        "KP-066",
+        "Oscillations possibles."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Histoire naturelle"
+  },
+  {
+    "num": 56,
+    "kp_refs": [
+      "KP-067",
+      "KP-068"
+    ],
+    "stem": "Pronostic et gravité de l'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "mortalité ~50 % à 5 ans (jusqu'à 40–50 %/an si NYHA IV) ; hospitalisations fréquentes après 65 ans ; toute hospitalisation pour décompensation = facteur de gravité",
+        1,
+        [
+          "KP-067",
+          "KP-068"
+        ],
+        "Mortalité et réhospitalisations."
+      ],
+      [
+        "b",
+        "pronostic excellent à 5 ans",
+        0,
+        "KP-067",
+        "Mortalité élevée."
+      ],
+      [
+        "c",
+        "hospitalisation pour décompensation sans valeur pronostique",
+        0,
+        "KP-068",
+        "Toujours facteur de gravité."
+      ],
+      [
+        "d",
+        "mort subite absente",
+        0,
+        "KP-067",
+        "Mort subite rythmique fréquente."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Pronostic mortalité"
+  },
+  {
+    "num": 57,
+    "kp_refs": [
+      "KP-069"
+    ],
+    "stem": "Les complications de l'insuffisance cardiaque comprennent :",
+    "options": [
+      [
+        "a",
+        "arythmies, thromboembolies, hypotension, troubles hydroélectrolytiques et IR, anémie/carence martiale, SAS",
+        1,
+        "KP-069",
+        "Spectre des complications."
+      ],
+      [
+        "b",
+        "uniquement les œdèmes",
+        0,
+        "KP-069",
+        "Complications multiples."
+      ],
+      [
+        "c",
+        "hyperkaliémie impossible sous traitement",
+        0,
+        "KP-069",
+        "Troubles hydroélectrolytiques possibles."
+      ],
+      [
+        "d",
+        "SAS rare et sans lien",
+        0,
+        "KP-069",
+        "SAS fréquent en IC sévère."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Complications IC"
+  },
+  {
+    "num": 58,
+    "kp_refs": [
+      "KP-071"
+    ],
+    "stem": "Les comorbidités dans l'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "cardiaques et non cardiaques fréquentes ; à prendre en charge car elles impactent qualité de vie, réhospitalisations, survie et tolérance des traitements",
+        1,
+        "KP-071",
+        "Importance des comorbidités."
+      ],
+      [
+        "b",
+        "sans impact sur la survie",
+        0,
+        "KP-071",
+        "Impact sur survie et réhospitalisations."
+      ],
+      [
+        "c",
+        "ne modifient pas la tolérance thérapeutique",
+        0,
+        "KP-071",
+        "Impactent tolérance des traitements."
+      ],
+      [
+        "d",
+        "rares et ignorables",
+        0,
+        "KP-071",
+        "Fréquentes."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Comorbidités"
+  },
+  {
+    "num": 59,
+    "kp_refs": [
+      "KP-073"
+    ],
+    "stem": "La prévention et le traitement étiologique de l'IC comprennent :",
+    "options": [
+      [
+        "a",
+        "FDR CV, contrôle HTA/valvulopathies, reperfusion/revascularisation, éviction toxiques, surveillance chimio, contrôle du rythme",
+        1,
+        "KP-073",
+        "Axes préventifs et étiologiques."
+      ],
+      [
+        "b",
+        "uniquement les diurétiques",
+        0,
+        "KP-073",
+        "Approche étiologique large."
+      ],
+      [
+        "c",
+        "pas de rôle pour le contrôle de l'HTA",
+        0,
+        "KP-073",
+        "HTA = cofacteur majeur."
+      ],
+      [
+        "d",
+        "alcool sans effet sur une CMD",
+        0,
+        "KP-073",
+        "Arrêt alcool peut permettre régression (KP-076 lié)."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Prévention étiologique"
+  },
+  {
+    "num": 60,
+    "kp_refs": [
+      "KP-074"
+    ],
+    "stem": "Le régime hyposodé dans l'IC :",
+    "options": [
+      [
+        "a",
+        "viser ≤ 5–6 g de sel/j ; chez certains régime sans sel peut être nuisible (dénutrition) → diététicien, épices ; après écart → ↑ diurétiques le jour même ou lendemain",
+        1,
+        "KP-074",
+        "Objectif, piège dénutrition, conduite après écart."
+      ],
+      [
+        "b",
+        "sel illimité recommandé",
+        0,
+        "KP-074",
+        "Restriction hyposodée."
+      ],
+      [
+        "c",
+        "sels de régime riches en K+ encouragés",
+        0,
+        "KP-074",
+        "À éviter (risque hyperK)."
+      ],
+      [
+        "d",
+        "écart alimentaire sans adaptation diurétique",
+        0,
+        "KP-074",
+        "Augmenter diurétiques après écart."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Régime hyposodé"
+  },
+  {
+    "num": 61,
+    "kp_refs": [
+      "KP-075"
+    ],
+    "stem": "La surveillance du poids dans l'IC :",
+    "options": [
+      [
+        "a",
+        "alerte si +2–3 kg en 2–3 jours ; perte progressive sans œdème = dénutrition/gravité/mauvais pronostic ; signes d'alerte : dyspnée, orthopnée, œdèmes",
+        1,
+        "KP-075",
+        "Seuils et signification bidirectionnelle."
+      ],
+      [
+        "b",
+        "prise de poids toujours bénigne",
+        0,
+        "KP-075",
+        "Prise rapide = alerte décompensation."
+      ],
+      [
+        "c",
+        "perte de poids systématiquement favorable",
+        0,
+        "KP-075",
+        "Perte sans œdème = mauvais pronostic."
+      ],
+      [
+        "d",
+        "surveillance hebdomadaire suffit toujours",
+        0.2,
+        "KP-075",
+        "Surveillance quotidienne recommandée ; réponse porte sur les seuils."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Surveillance poids"
+  },
+  {
+    "num": 62,
+    "kp_refs": [
+      "KP-076"
+    ],
+    "stem": "Les mesures générales dans l'IC chronique incluent :",
+    "options": [
+      [
+        "a",
+        "arrêt alcool (régression CMD possible), arrêt tabac, activité physique hors décompensation, vaccinations grippe/Covid/pneumocoque, contraception/grossesse à risque",
+        1,
+        "KP-076",
+        "Mesures hygiénodiététiques globales."
+      ],
+      [
+        "b",
+        "alcool modéré autorisé systématiquement",
+        0,
+        "KP-076",
+        "Arrêt total recommandé."
+      ],
+      [
+        "c",
+        "repos strict permanent",
+        0,
+        "KP-076",
+        "Activité encouragée hors décompensation."
+      ],
+      [
+        "d",
+        "vaccinations non recommandées",
+        0,
+        "KP-076",
+        "Vaccinations recommandées."
+      ]
+    ],
+    "difficulty": "basic",
+    "notes": "Mesures générales"
+  },
+  {
+    "num": 63,
+    "kp_refs": [
+      "KP-078"
+    ],
+    "element_refs": [
+      "CR-treat-hfref"
+    ],
+    "stem": "Les inhibiteurs de l'enzyme de conversion (IEC) dans l'IC à FE diminuée :",
+    "options": [
+      [
+        "a",
+        "indiqués chez tous FE diminuée quelle que soit NYHA ; ↓ mortalité/hospitalisations ; surveillance PA/créatinine/kaliémie ; arrêt/↓ si créatinine > 20–30 % ; ne pas introduire simultanément IEC + antialdostérone",
+        1,
+        "KP-078",
+        "Indications, surveillance, associations."
+      ],
+      [
+        "b",
+        "réservés NYHA IV uniquement",
+        0,
+        "KP-078",
+        "Toute NYHA si FE diminuée."
+      ],
+      [
+        "c",
+        "introduction simultanée IEC + spironolactone recommandée",
+        0,
+        "KP-078",
+        "Éviter introduction simultanée."
+      ],
+      [
+        "d",
+        "sans effet sur mortalité",
+        0,
+        "KP-078",
+        "Diminution mortalité démontrée."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "IEC HFrEF"
+  },
+  {
+    "num": 64,
+    "kp_refs": [
+      "KP-079",
+      "KP-080"
+    ],
+    "element_refs": [
+      "CR-treat-hfref"
+    ],
+    "stem": "ARA2 et sacubitril/valsartan (ARNI) :",
+    "options": [
+      [
+        "a",
+        "ARA2 réservés si intolérance aux IEC ; ARNI supérieur à énalapril, en remplacement IEC/ARA2 si symptomatique malgré traitement optimal",
+        1,
+        [
+          "KP-079",
+          "KP-080"
+        ],
+        "Place respective ARA2 et ARNI."
+      ],
+      [
+        "b",
+        "ARA2 en 1re intention devant IEC",
+        0,
+        "KP-079",
+        "Alternative si intolérance IEC."
+      ],
+      [
+        "c",
+        "ARNI en association avec IEC en continu",
+        0,
+        "KP-080",
+        "Remplacement IEC/ARA2, pas association."
+      ],
+      [
+        "d",
+        "ARNI sans bénéfice démontré",
+        0,
+        "KP-080",
+        "Supérieur à énalapril."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "ARA2 et ARNI"
+  },
+  {
+    "num": 65,
+    "kp_refs": [
+      "KP-083"
+    ],
+    "element_refs": [
+      "CR-treat-hfref"
+    ],
+    "stem": "Les gliflozines (SGLT2) dans l'insuffisance cardiaque :",
+    "options": [
+      [
+        "a",
+        "indiquées diabétique ou non ; ↓ mortalité CV et hospitalisations pour IC",
+        1,
+        "KP-083",
+        "Indication élargie HFrEF/HFmrEF."
+      ],
+      [
+        "b",
+        "réservées aux diabétiques uniquement",
+        0,
+        "KP-083",
+        "Efficacité diabétique ou non."
+      ],
+      [
+        "c",
+        "augmentent les hospitalisations IC",
+        0,
+        "KP-083",
+        "Diminuent les hospitalisations."
+      ],
+      [
+        "d",
+        "contre-indiquées si FE ≤ 40 %",
+        0,
+        "KP-083",
+        "Au contraire, indiquées."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Gliflozines"
+  },
+  {
+    "num": 66,
+    "kp_refs": [
+      "KP-084",
+      "KP-085"
+    ],
+    "stem": "Diurétiques et IC à FE légèrement diminuée (41–49 %) :",
+    "options": [
+      [
+        "a",
+        "diurétiques de l'anse pour rétention hydrosodée ; thiazidiques associés si résistance aux fortes doses de furosémide ; FE 41–49 % peut bénéficier des mêmes traitements avec preuve moindre",
+        1,
+        [
+          "KP-084",
+          "KP-085"
+        ],
+        "Diurétiques et HFmrEF."
+      ],
+      [
+        "b",
+        "diurétiques contre-indiqués en IC",
+        0,
+        "KP-084",
+        "Indispensables pour congestion."
+      ],
+      [
+        "c",
+        "FE 41–49 % exclut tout traitement de l'HFrEF",
+        0,
+        "KP-085",
+        "Peut bénéficier des mêmes traitements."
+      ],
+      [
+        "d",
+        "thiazidiques seuls en 1re intention systématique",
+        0,
+        "KP-084",
+        "Anses en 1re intention ; thiazidiques si résistance."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Diurétiques HFmrEF"
+  },
+  {
+    "num": 67,
+    "kp_refs": [
+      "KP-087"
+    ],
+    "element_refs": [
+      "CR-treat-hfref"
+    ],
+    "stem": "Concernant l'amiodarone dans l'IC à FEVG diminuée :",
+    "options": [
+      [
+        "a",
+        "c'est le seul antiarythmique que l'on peut prescrire chez l'insuffisant cardiaque à FEVG diminuée",
+        1,
+        "KP-087",
+        "Règle d'exclusivité thérapeutique."
+      ],
+      [
+        "b",
+        "flécaïnide est préférée si FEVG basse",
+        0,
+        "KP-087",
+        "Classe I contre-indiquée (KP-089)."
+      ],
+      [
+        "c",
+        "amiodarone contre-indiquée dès FE < 50 %",
+        0,
+        "KP-087",
+        "Au contraire, seule option autorisée."
+      ],
+      [
+        "d",
+        "sotalol toujours en 1re intention",
+        0,
+        "KP-087",
+        "Amiodarone seule autorisée."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Amiodarone HFrEF"
+  },
+  {
+    "num": 68,
+    "kp_refs": [
+      "KP-091"
+    ],
+    "element_refs": [
+      "CR-treat-hfref"
+    ],
+    "stem": "La resynchronisation cardiaque (CRT) est indiquée si :",
+    "options": [
+      [
+        "a",
+        "NYHA II–IV, FEVG ≤ 35 %, QRS ≥ 130 ms ; efficacité meilleure si BBG et QRS ≥ 150 ms, forme non ischémique",
+        1,
+        "KP-091",
+        "Critères CRT."
+      ],
+      [
+        "b",
+        "FEVG > 50 % suffit",
+        0,
+        "KP-091",
+        "FEVG ≤ 35 %."
+      ],
+      [
+        "c",
+        "QRS 80 ms suffit",
+        0,
+        "KP-091",
+        "QRS ≥ 130 ms."
+      ],
+      [
+        "d",
+        "BBG défavorable à la CRT",
+        0,
+        "KP-091",
+        "Efficacité meilleure si BBG."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "CRT critères"
+  },
+  {
+    "num": 69,
+    "kp_refs": [
+      "KP-097",
+      "KP-098"
+    ],
+    "stem": "Parcours de soins et télésurveillance de l'IC :",
+    "options": [
+      [
+        "a",
+        "post-hospitalisation : risque élevé de réhospitalisation, éducation pluridisciplinaire, IPA/protocole coopération, réadaptation SSR ; télésurveillance remboursée surveillant PA/FC/poids avec alertes",
+        1,
+        [
+          "KP-097",
+          "KP-098"
+        ],
+        "Parcours et télésuivi."
+      ],
+      [
+        "b",
+        "réhospitalisation rare après 1re hospitalisation",
+        0,
+        "KP-097",
+        "Risque important."
+      ],
+      [
+        "c",
+        "télésurveillance non remboursée",
+        0,
+        "KP-098",
+        "Programmes remboursés."
+      ],
+      [
+        "d",
+        "réadaptation inutile",
+        0,
+        "KP-097",
+        "Réadaptation SSR recommandée."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Parcours télésurveillance"
+  },
+  {
+    "num": 70,
+    "kp_refs": [
+      "KP-100"
+    ],
+    "element_refs": [
+      "CR-acute"
+    ],
+    "stem": "Prise en charge hospitalière de l'OAP (autre angle que le domicile) :",
+    "options": [
+      [
+        "a",
+        "O2 si SaO2 < 90 % ; furosémide IV ; nitrés si PAS ≥ 110 mmHg ; anticoagulation préventive ; morphine IV non recommandée sauf anxiété/douleur ; CPAP si échec ; intubation si épuisement",
+        1,
+        "KP-100",
+        "Séquence hospitalière complète."
+      ],
+      [
+        "b",
+        "morphine IV systématique recommandée",
+        0,
+        "KP-100",
+        "Non recommandée sauf anxiété/douleur."
+      ],
+      [
+        "c",
+        "nitrés si PAS < 90 mmHg",
+        0,
+        "KP-100",
+        "Nitrés si PAS ≥ 110 mmHg."
+      ],
+      [
+        "d",
+        "CPAP en 1re intention avant O2",
+        0,
+        "KP-100",
+        "O2 d'abord ; CPAP si échec."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "OAP hospitalier"
+  },
+  {
+    "num": 71,
+    "kp_refs": [
+      "KP-104"
+    ],
+    "element_refs": [
+      "CR-acute"
+    ],
+    "stem": "Poussée d'insuffisance cardiaque globale sans OAP franc :",
+    "options": [
+      [
+        "a",
+        "diurétiques IV, rééquilibration du traitement oral, recherche de la cause ; hospitalisation non systématique",
+        1,
+        "KP-104",
+        "Prise en charge poussée globale."
+      ],
+      [
+        "b",
+        "intubation systématique",
+        0,
+        "KP-104",
+        "Pas d'OAP franc."
+      ],
+      [
+        "c",
+        "arrêt de tous les diurétiques",
+        0,
+        "KP-104",
+        "Cure de diurétiques IV."
+      ],
+      [
+        "d",
+        "hospitalisation obligatoire dans tous les cas",
+        0,
+        "KP-104",
+        "Non systématique."
+      ]
+    ],
+    "difficulty": "intermediate",
+    "notes": "Poussée globale"
+  },
+  {
+    "num": 72,
+    "kp_refs": [
+      "KP-105"
+    ],
+    "element_refs": [
+      "CR-acute"
+    ],
+    "stem": "Traitement du choc cardiogénique :",
+    "options": [
+      [
+        "a",
+        "inotropes (dobutamine ; IPDE si sous bêtabloquant ; lévosimendan) ; discuter assistance/ECMO/greffe si non-réponse",
+        1,
+        "KP-105",
+        "Escalade thérapeutique choc."
+      ],
+      [
+        "b",
+        "bêtabloquant IV en 1re intention",
+        0,
+        "KP-105",
+        "Inotropes, pas BB."
+      ],
+      [
+        "c",
+        "remplissage vasculaire massif",
+        0,
+        "KP-105",
+        "Hypoperfusion : inotropes/assistance."
+      ],
+      [
+        "d",
+        "abstention thérapeutique jusqu'à ETT",
+        0,
+        "KP-105",
+        "Urgence vitale."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Traitement choc"
+  },
+  {
+    "num": 73,
+    "kp_refs": [
+      "KP-037"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Seuils élevés de peptides en faveur d'une origine cardiaque d'une dyspnée (niveau maîtrise) :",
+    "options": [
+      [
+        "a",
+        "BNP > 300 pg/mL ; NT-proBNP > 450 pg/mL (< 50 ans), > 900 pg/mL (50–75 ans), > 1 800 pg/mL (> 75 ans)",
+        1,
+        "KP-037",
+        "Seuils positifs âge-bandés."
+      ],
+      [
+        "b",
+        "BNP > 100 pg/mL suffit pour confirmer",
+        0,
+        "KP-037",
+        "Seuil positif : > 300."
+      ],
+      [
+        "c",
+        "NT-proBNP identique quel que soit l'âge",
+        0,
+        "KP-037",
+        "Seuils âge-bandés."
+      ],
+      [
+        "d",
+        "peptides élevés excluent une origine cardiaque",
+        0,
+        "KP-037",
+        "Au contraire, orientent vers origine cardiaque."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Seuils NP positifs (mastery)"
+  },
+  {
+    "num": 74,
+    "kp_refs": [
+      "KP-044"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Bilan biologique standard ESC 2021 devant IC ou suspicion (niveau maîtrise) — inclut notamment :",
+    "options": [
+      [
+        "a",
+        "Na, K, créatinine, BNP/NT-proBNP, glycémie/HbA1c, lipides, bilan hépatique, TSH, NFS, fer",
+        1,
+        "KP-044",
+        "Panel biologique ESC 2021."
+      ],
+      [
+        "b",
+        "uniquement la créatinine",
+        0,
+        "KP-044",
+        "Bilan plus large."
+      ],
+      [
+        "c",
+        "scanner thoracique systématique",
+        0,
+        "KP-044",
+        "Examens biologiques simples."
+      ],
+      [
+        "d",
+        "cathétérisme droit obligatoire",
+        0,
+        "KP-044",
+        "Examens biologiques standards."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Bilan biologique (mastery)"
+  },
+  {
+    "num": 75,
+    "kp_refs": [
+      "KP-031"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Signes d'IC très avancée (niveau maîtrise) :",
+    "options": [
+      [
+        "a",
+        "pouls alternant, oligurie, cachexie/fonte musculaire, dyspnée de Cheyne-Stokes",
+        1,
+        "KP-031",
+        "Stade terminal avancé."
+      ],
+      [
+        "b",
+        "pouls paradoxique inspiratoire isolé",
+        0,
+        "KP-031",
+        "Pouls alternant décrit."
+      ],
+      [
+        "c",
+        "polyurie avec diurèse > 3 L/j",
+        0,
+        "KP-031",
+        "Oligurie en phase terminale."
+      ],
+      [
+        "d",
+        "prise de poids rapide par œdèmes",
+        0,
+        "KP-031",
+        "Cachexie/fonte en stade avancé."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Signes stade avancé (mastery)"
+  },
+  {
+    "num": 76,
+    "kp_refs": [
+      "KP-070"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Facteurs pronostiques défavorables dans l'IC (niveau maîtrise) :",
+    "options": [
+      [
+        "a",
+        "NYHA III–IV, réhospitalisations, étiologie ischémique, ↓ FE/débit, ↑ pressions, QRS > 120 ms, hyponatrémie, BNP ↑, ↓ pic VO2",
+        1,
+        "KP-070",
+        "Facteurs pronostiques majeurs."
+      ],
+      [
+        "b",
+        "NYHA I toujours péjoratif",
+        0,
+        "KP-070",
+        "NYHA III–IV vs I–II."
+      ],
+      [
+        "c",
+        "FE élevée toujours péjorative",
+        0,
+        "KP-070",
+        "↓ FE péjoratif."
+      ],
+      [
+        "d",
+        "pic VO2 élevé = mauvais pronostic",
+        0,
+        "KP-070",
+        "↓ pic VO2 péjoratif."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Facteurs pronostiques (mastery)"
+  },
+  {
+    "num": 77,
+    "kp_refs": [
+      "KP-086"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Traitements de 2e intention chez patient IC symptomatique malgré traitement optimal (niveau maîtrise) :",
+    "options": [
+      [
+        "a",
+        "ivabradine si rythme sinusal et FC élevée ; digoxine (marge étroite, utile en FA) ; dérivés nitrés d'appoint ; vericiguat après poussée",
+        1,
+        "KP-086",
+        "Options 2e intention."
+      ],
+      [
+        "b",
+        "ivabradine en FA permanente",
+        0,
+        "KP-086",
+        "Rythme sinusal requis."
+      ],
+      [
+        "c",
+        "digoxine améliore toujours la survie",
+        0,
+        "KP-086",
+        "Effet neutre sur survie."
+      ],
+      [
+        "d",
+        "vericiguat en 1re intention devant IEC",
+        0,
+        "KP-086",
+        "Après poussée, patient symptomatique."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Traitements 2e intention (mastery)"
+  },
+  {
+    "num": 78,
+    "kp_refs": [
+      "KP-088"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Antiagrégants et anticoagulants dans l'IC (niveau maîtrise) :",
+    "options": [
+      [
+        "a",
+        "calculer CHA₂DS₂-VASc pour risque embolique ; HAS-BLED pour saignement ; AOD privilégiés ; thrombus intracardiaque et AVC embolique à connaître",
+        1,
+        "KP-088",
+        "Stratification et choix AOD."
+      ],
+      [
+        "b",
+        "aspirine seule suffit pour toute FA",
+        0,
+        "KP-088",
+        "Anticoagulation selon scores."
+      ],
+      [
+        "c",
+        "CHA₂DS₂-VASc inutile en IC",
+        0,
+        "KP-088",
+        "Recommandé pour évaluation risque embolique."
+      ],
+      [
+        "d",
+        "anticoagulation contre-indiquée si IC",
+        0,
+        "KP-088",
+        "Indiquée selon contexte FA/thrombus."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Antithrombotiques (mastery)"
+  },
+  {
+    "num": 79,
+    "kp_refs": [
+      "KP-049"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Cathétérisme droit dans l'IC (niveau maîtrise) — valeurs et seuils :",
+    "options": [
+      [
+        "a",
+        "OD < 5 mmHg, VD 25/0, PCAP/PAPO < 15 mmHg, DC 5 L/min, index 3 L/min/m² ; HTAP si PAPm > 25 mmHg ; greffe CI si RAP > 5 UW",
+        1,
+        "KP-049",
+        "Normes hémodynamiques et CI greffe."
+      ],
+      [
+        "b",
+        "PAPm > 15 mmHg définit HTAP",
+        0,
+        "KP-049",
+        "HTAP : PAPm > 25 mmHg."
+      ],
+      [
+        "c",
+        "RAP > 2 UW contre-indique greffe",
+        0,
+        "KP-049",
+        "Seuil : > 5 UW."
+      ],
+      [
+        "d",
+        "cathétérisme droit jamais utile",
+        0,
+        "KP-049",
+        "Mesure pressions/débit."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "Cathétérisme droit (mastery)"
+  },
+  {
+    "num": 80,
+    "kp_refs": [
+      "KP-101"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "OAP hospitalier déclenché par une fibrillation atriale rapide (niveau maîtrise) :",
+    "options": [
+      [
+        "a",
+        "digoxine IV et anticoagulation efficace",
+        1,
+        "KP-101",
+        "Traitement spécifique FA rapide en OAP."
+      ],
+      [
+        "b",
+        "introduire bêtabloquant IV immédiatement",
+        0,
+        "KP-101",
+        "Contexte OAP : pas d'introduction BB (KP-103)."
+      ],
+      [
+        "c",
+        "abstention anticoagulante",
+        0,
+        "KP-101",
+        "Anticoagulation efficace requise."
+      ],
+      [
+        "d",
+        "nicardipine en 1re intention",
+        0,
+        "KP-101",
+        "Réservée à poussée hypertensive (KP-102)."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "OAP + FA rapide (mastery)"
+  },
+  {
+    "num": 81,
+    "kp_refs": [
+      "KP-058"
+    ],
+    "kp_disposition": "deferred-to-mastery",
+    "stem": "Insuffisance cardiaque à débit augmenté (niveau maîtrise) — causes classiques :",
+    "options": [
+      [
+        "a",
+        "anémies chroniques, fistules artérioveineuses, hyperthyroïdie, béribéri, maladie de Paget",
+        1,
+        "KP-058",
+        "Causes de surcharge volumique à débit élevé."
+      ],
+      [
+        "b",
+        "rétrécissement aortique serré",
+        0,
+        "KP-058",
+        "Mécanisme obstructif, pas débit augmenté."
+      ],
+      [
+        "c",
+        "tamponnade",
+        0,
+        "KP-058",
+        "Cause péricardique obstructive."
+      ],
+      [
+        "d",
+        "amylose cardiaque restrictive",
+        0,
+        "KP-058",
+        "Profil restrictif, pas débit augmenté."
+      ]
+    ],
+    "difficulty": "advanced",
+    "notes": "IC débit augmenté (mastery)"
+  }
+]

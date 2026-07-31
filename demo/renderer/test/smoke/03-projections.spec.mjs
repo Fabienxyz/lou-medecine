@@ -11,6 +11,7 @@ import {
   assertHealthyMarks,
   listStoredHighlights,
   countStoredHighlightsAllProjections,
+  blockSelectorFor,
 } from "./helpers.mjs";
 
 test.describe("V2.1 smoke — projections", () => {
@@ -28,14 +29,14 @@ test.describe("V2.1 smoke — projections", () => {
     await goToProjection(page, PROJECTIONS.mechanisms.tabIndex);
     const mechMarks = await inspectMarks(
       page,
-      `[data-element="${PROJECTIONS.mechanisms.element}"]`
+      blockSelectorFor(PROJECTIONS.mechanisms.id, PROJECTIONS.mechanisms.element)
     );
     expect(mechMarks.markCount).toBe(0);
 
     await goToProjection(page, PROJECTIONS.story.tabIndex);
     const storyMarks = await inspectMarks(
       page,
-      `[data-element="${PROJECTIONS.story.element}"]`
+      blockSelectorFor(PROJECTIONS.story.id, PROJECTIONS.story.element)
     );
     expect(storyMarks.markCount).toBe(1);
     assertHealthyMarks(storyMarks, expect);
@@ -50,13 +51,13 @@ test.describe("V2.1 smoke — projections", () => {
       element: PROJECTIONS.story.element,
       phrase: PROJECTIONS.story.samplePhrase,
     });
-    await goToProjection(page, PROJECTIONS.mechanisms.tabIndex);
-    await goToProjection(page, PROJECTIONS.overview.tabIndex);
-    await goToProjection(page, PROJECTIONS.clinicalReasoning.tabIndex);
-    await goToProjection(page, PROJECTIONS.story.tabIndex);
+    await goToProjection(page, PROJECTIONS.mechanisms);
+    await goToProjection(page, PROJECTIONS.overview);
+    await goToProjection(page, PROJECTIONS.clinicalReasoning);
+    await goToProjection(page, PROJECTIONS.story);
     const report = await inspectMarks(
       page,
-      `[data-element="${PROJECTIONS.story.element}"]`
+      blockSelectorFor(PROJECTIONS.story.id, PROJECTIONS.story.element)
     );
     expect(report.markCount).toBe(1);
     expect(report.marks[0].text).toContain("débit adapté");
@@ -84,7 +85,7 @@ test.describe("V2.1 smoke — projections", () => {
       },
     ];
     for (const { tab, phrase } of specs) {
-      await goToProjection(page, tab.tabIndex);
+      await goToProjection(page, tab);
       await createHighlight(page, {
         projection: tab.id,
         element: tab.element,
@@ -93,17 +94,17 @@ test.describe("V2.1 smoke — projections", () => {
     }
     for (let round = 0; round < 2; round++) {
       for (const tab of Object.values(PROJECTIONS)) {
-        await goToProjection(page, tab.tabIndex);
+        await goToProjection(page, tab);
       }
     }
     const totalStored = await countStoredHighlightsAllProjections(page);
     expect(totalStored).toBe(4);
 
     for (const tab of Object.values(PROJECTIONS)) {
-      await goToProjection(page, tab.tabIndex);
+      await goToProjection(page, tab);
       const report = await inspectMarks(
         page,
-        `[data-element="${tab.element}"]`
+        blockSelectorFor(tab.id, tab.element)
       );
       expect(report.markCount).toBe(1);
       assertHealthyMarks(report, expect);
@@ -114,21 +115,41 @@ test.describe("V2.1 smoke — projections", () => {
     page,
   }) => {
     for (const tab of Object.values(PROJECTIONS)) {
-      await goToProjection(page, tab.tabIndex);
+      await goToProjection(page, tab);
       await createHighlight(page, {
         projection: tab.id,
         element: tab.element,
         phrase: tab.samplePhrase,
       });
     }
-    await reloadAndOpenProjection(page, PROJECTIONS.story.tabIndex);
+    await reloadAndOpenProjection(page, PROJECTIONS.story);
+    let activeTabIndex = PROJECTIONS.story.tabIndex;
     for (const tab of Object.values(PROJECTIONS)) {
-      await goToProjection(page, tab.tabIndex);
+      if (tab.tabIndex !== activeTabIndex) {
+        await goToProjection(page, tab);
+        activeTabIndex = tab.tabIndex;
+      } else if (tab.id !== PROJECTIONS.story.id) {
+        await page.waitForFunction(
+          ({ blockSelector }) => {
+            const block = document.querySelector("#content " + blockSelector);
+            return !!(
+              block &&
+              block.querySelector(".block-walkthrough")?.dataset.official === "true"
+            );
+          },
+          { blockSelector: blockSelectorFor(tab.id, tab.element) }
+        );
+        await page.evaluate(async () => {
+          if (window.LouApp && window.LouApp.whenTabReady) {
+            await window.LouApp.whenTabReady();
+          }
+        });
+      }
       const stored = await listStoredHighlights(page, tab.id);
       expect(stored.length).toBe(1);
       const report = await inspectMarks(
         page,
-        `[data-element="${tab.element}"]`
+        blockSelectorFor(tab.id, tab.element)
       );
       expect(report.markCount).toBe(1);
       assertHealthyMarks(report, expect);
@@ -139,8 +160,9 @@ test.describe("V2.1 smoke — projections", () => {
     page,
   }) => {
     await goToProjection(page, PROJECTIONS.story.tabIndex);
-    const official = await page.locator(
-      `[data-element="${PROJECTIONS.story.element}"] .block-walkthrough[data-official="true"]`
+    const official = page.locator(
+      blockSelectorFor(PROJECTIONS.story.id, PROJECTIONS.story.element) +
+        ' .block-walkthrough[data-official="true"]'
     );
     await expect(official).toBeVisible();
   });
@@ -148,10 +170,11 @@ test.describe("V2.1 smoke — projections", () => {
   test("PR-06 overview projection walkthrough renders official container", async ({
     page,
   }) => {
-    await goToProjection(page, PROJECTIONS.overview.tabIndex);
+    await goToProjection(page, PROJECTIONS.overview);
     await expect(
       page.locator(
-        `[data-element="${PROJECTIONS.overview.element}"] .block-walkthrough[data-official="true"]`
+        blockSelectorFor(PROJECTIONS.overview.id, PROJECTIONS.overview.element) +
+          ' .block-walkthrough[data-official="true"]'
       )
     ).toBeVisible();
   });
@@ -184,8 +207,8 @@ test.describe("V2.1 smoke — projections", () => {
     const story = PROJECTIONS.story;
     const overview = PROJECTIONS.overview;
 
-    // 1. Open Story (default after clearLearnerDb reload)
-    await goToProjection(page, story.tabIndex);
+    // 1. Open Modèle mental (story block)
+    await goToProjection(page, story);
 
     // 2. Create three highlights in Story (three different paragraphs)
     for (const phrase of story.threeParagraphPhrases) {
@@ -197,12 +220,12 @@ test.describe("V2.1 smoke — projections", () => {
     }
     const storyBeforeReload = await inspectMarks(
       page,
-      `[data-element="${story.element}"]`
+      blockSelectorFor(story.id, story.element)
     );
     expect(storyBeforeReload.markCount).toBe(3);
 
     // 3. Switch to Overview
-    await goToProjection(page, overview.tabIndex);
+    await goToProjection(page, overview);
 
     // 4. Create one highlight in Overview
     await createHighlight(page, {
@@ -212,7 +235,7 @@ test.describe("V2.1 smoke — projections", () => {
     });
     const overviewBeforeReload = await inspectMarks(
       page,
-      `[data-element="${overview.element}"]`
+      blockSelectorFor(overview.id, overview.element)
     );
     expect(overviewBeforeReload.markCount).toBe(1);
 
@@ -221,16 +244,16 @@ test.describe("V2.1 smoke — projections", () => {
 
     const storyAfterReload = await inspectMarks(
       page,
-      `[data-element="${story.element}"]`
+      blockSelectorFor(story.id, story.element)
     );
     expect(storyAfterReload.markCount).toBe(3);
 
     // 7. Switch back to Overview only
-    await goToProjection(page, overview.tabIndex);
+    await goToProjection(page, overview);
 
     const overviewAfterReload = await inspectMarks(
       page,
-      `[data-element="${overview.element}"]`
+      blockSelectorFor(overview.id, overview.element)
     );
     const overviewStored = await listStoredHighlights(page, overview.id);
 
@@ -252,7 +275,7 @@ test.describe("V2.1 smoke — projections", () => {
     const story = PROJECTIONS.story;
     const overview = PROJECTIONS.overview;
 
-    await goToProjection(page, story.tabIndex);
+    await goToProjection(page, story);
 
     for (const phrase of story.threeParagraphPhrases) {
       await createHighlightViaToolbar(page, {
@@ -262,7 +285,7 @@ test.describe("V2.1 smoke — projections", () => {
       });
     }
 
-    await goToProjection(page, overview.tabIndex);
+    await goToProjection(page, overview);
     await createHighlightViaToolbar(page, {
       element: overview.element,
       phrase: overview.samplePhrase,
@@ -270,11 +293,11 @@ test.describe("V2.1 smoke — projections", () => {
     });
 
     await reloadToDefaultStoryTab(page, story.contentMarker);
-    await goToProjection(page, overview.tabIndex);
+    await goToProjection(page, overview);
 
     const overviewAfterReload = await inspectMarks(
       page,
-      `[data-element="${overview.element}"]`
+      blockSelectorFor(overview.id, overview.element)
     );
     const overviewStored = await listStoredHighlights(page, overview.id);
 

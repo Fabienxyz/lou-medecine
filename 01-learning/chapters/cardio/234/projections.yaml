@@ -6,7 +6,6 @@ projections:
     order: 1
     path: projections/understanding/story.md
     status: published
-    label: "📖 Histoire"
     elements: [ANA-ville-pompe, MM-pump-decompensation]
 
   - id: overview
@@ -15,7 +14,6 @@ projections:
     order: 2
     path: projections/understanding/overview.md
     status: published
-    label: "🗺️ Vue d’ensemble"
     # The Chapter Overview is a single pedagogical block acting as the chapter map: it projects the
     # mental model, and its walkthrough traverses the whole causal chain once. The elements it
     # traverses keep their own blocks in "Pourquoi ?" and "Raisonnement clinique", where the
@@ -29,7 +27,6 @@ projections:
     order: 3
     path: projections/understanding/mechanisms.md
     status: published
-    label: "❓ Pourquoi ?"
     elements:
       - MEC-output-basics
       - MEC-compensation
@@ -50,7 +47,6 @@ projections:
     order: 4
     path: projections/understanding/clinical-reasoning.md
     status: published
-    label: "🩺 Raisonnement clinique"
     elements:
       - CR-recognize
       - CR-diagnose

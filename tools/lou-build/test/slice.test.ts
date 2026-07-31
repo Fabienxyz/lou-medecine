@@ -137,11 +137,21 @@ function canonicalBlueprint(text: string) {
   );
 }
 
+const CHAPTER_PACKAGE_SLICE_FIXTURE = fs.readFileSync(
+  path.join(CHAPTER, "build/oap-slice-chapter.package.fixture.yaml"),
+  "utf8"
+);
+const CHAPTER_PACKAGE_FULL_FIXTURE = fs.readFileSync(
+  path.join(CHAPTER, "build/full-chapter-chapter.package.fixture.yaml"),
+  "utf8"
+);
+
 function resetChapterFixtures() {
   fs.writeFileSync(
     path.join(CHAPTER, "build/reconciliation.yaml"),
     RECONCILIATION_FIXTURE
   );
+  fs.writeFileSync(path.join(CHAPTER, "chapter.package.yaml"), CHAPTER_PACKAGE_SLICE_FIXTURE);
   const bpPath = path.join(CHAPTER, "blueprint.md");
   const mechPath = path.join(
     CHAPTER,
@@ -163,6 +173,7 @@ function resetChapterFixtures() {
     blueprint: normalizedBp,
     inventory: fs.readFileSync(path.join(CHAPTER, "inventory.yaml"), "utf8"),
     reconciliation: RECONCILIATION_FIXTURE,
+    chapterPackage: CHAPTER_PACKAGE_SLICE_FIXTURE,
   };
 }
 
@@ -174,6 +185,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     blueprint: path.join(CHAPTER, "blueprint.md"),
     inventory: path.join(CHAPTER, "inventory.yaml"),
     reconciliation: path.join(CHAPTER, "build/reconciliation.yaml"),
+    chapterPackage: path.join(CHAPTER, "chapter.package.yaml"),
   };
 
   function restoreBaseline(name: keyof typeof artifactPaths) {
@@ -203,13 +215,23 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       assert.match(restored, /\*\*PPC > 25 mmHg\*\*/);
       return;
     }
-    fs.writeFileSync(artifactPaths[name], BASELINE[name]);
     if (name === "reconciliation") {
+      fs.writeFileSync(artifactPaths.reconciliation, BASELINE.reconciliation);
       assert.match(
         fs.readFileSync(artifactPaths.reconciliation, "utf8"),
         /  - id: seg-D\n/
       );
+      return;
     }
+    if (name === "chapterPackage") {
+      fs.writeFileSync(artifactPaths.chapterPackage, BASELINE.chapterPackage);
+      assert.match(
+        fs.readFileSync(artifactPaths.chapterPackage, "utf8"),
+        /^mode: slice/m
+      );
+      return;
+    }
+    fs.writeFileSync(artifactPaths[name], BASELINE[name]);
   }
 
   function reconcileChapter(reconciliationPath = artifactPaths.reconciliation) {
@@ -223,13 +245,24 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
 
   function restoreAllBaselines() {
     restoreBaseline("reconciliation");
+    restoreBaseline("chapterPackage");
     restoreBaseline("mechanisms");
     restoreBaseline("blueprint");
     restoreBaseline("inventory");
   }
 
-  after(() => {
-    resetChapterFixtures();
+  after(async () => {
+    fs.writeFileSync(
+      path.join(CHAPTER, "build/reconciliation.yaml"),
+      fs.readFileSync(path.join(CHAPTER, "build/reconciliation-full-v3.yaml"), "utf8")
+    );
+    fs.writeFileSync(
+      path.join(CHAPTER, "chapter.package.yaml"),
+      CHAPTER_PACKAGE_FULL_FIXTURE
+    );
+    // Restore canonical full-chapter manifest after slice regression tests (Stage J).
+    const result = await runTypedBuild(CHAPTER);
+    assert.equal(result.ok, true, (result.errors || []).join("; "));
   });
 
   test("anchor validation — all slice KPs resolve in 2022 FIL B source", () => {
@@ -574,5 +607,19 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     );
     assert.equal(manifest.visuals.length, 1);
     assert.equal(manifest.visuals[0].element, "MEC-oap");
+    for (const projection of manifest.projections) {
+      assert.ok(
+        !Object.prototype.hasOwnProperty.call(projection, "label"),
+        `projection ${projection.id} must not publish Reader label`
+      );
+    }
+    assert.ok(
+      !(manifest.known_absent || []).includes("actors"),
+      "known_absent must not list Reader pseudo-view actors"
+    );
+    assert.ok(
+      !(manifest.known_absent || []).includes("readiness"),
+      "known_absent must not list Reader pseudo-view readiness"
+    );
   });
 });

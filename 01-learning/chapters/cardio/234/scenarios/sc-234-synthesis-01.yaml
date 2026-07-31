@@ -1,0 +1,203 @@
+# Scénario clinique — synthesis (contrat 09)
+# Intègre mécanismes de congestion, triage aigu, facteur déclenchant, SCA associé, phénotype.
+
+scenario_id: sc-234-synthesis-01
+kind: synthesis
+status: published
+title: "OAP sur IC connue — congestion, déclencheur et SCA associé"
+
+kp_refs:
+  - KP-006
+  - KP-040
+  - KP-041
+  - KP-042
+  - KP-014
+  - KP-050
+  - KP-059
+  - KP-060
+  - KP-061
+  - KP-063
+  - KP-099
+  - KP-100
+  - KP-103
+  - KP-104
+  - KP-106
+  - KP-109
+
+element_refs:
+  - MEC-oap
+  - CR-acute
+  - CONF-bb-chronic-vs-acute
+  - CR-etiology
+
+situation:
+  text: >
+    Homme de 68 ans, IC à FE 28 % post-infarctus, sous quadrithérapie neurohormonale
+    et furosémide oral. Depuis 48 h : infection bronchique fébrile. Cette nuit :
+    dyspnée de repos brutale, orthopnée, expectoration mousseuse, sueurs.
+    Aux urgences : PA 95/60 mmHg, extrémités froides, marbrures débutantes,
+    râles bilatéraux, SpO2 82 %. ECG : rythme sinusal 110/min, sus-décalage ST
+    en antérieur étendu d'apparition récente. Troponine nettement élevée.
+  claim_facets:
+    - id: cf-sc-234-synthesis-01-sit-ic
+      class: sourced
+      kp: [KP-014, KP-050]
+    - id: cf-sc-234-synthesis-01-sit-oap
+      class: sourced
+      kp: [KP-060, KP-041]
+    - id: cf-sc-234-synthesis-01-sit-choc
+      class: sourced
+      kp: [KP-063]
+    - id: cf-sc-234-synthesis-01-sit-sca
+      class: sourced
+      kp: [KP-109]
+
+segments:
+  - type: decision
+    id: seg-1
+    prompt: >
+      Sur le plan physiopathologique, quel enchaînement explique le mieux
+      l'inondation alvéolaire ?
+    choices:
+      - id: a
+        label: >
+          ↑ pressions de remplissage VG → transmission amont → PPC > 25 mmHg →
+          transsudat → OAP cardiogénique
+        feedback: >
+          Correct. C'est le tronc commun congestion pulmonaire → seuil PPC →
+          OAP cardiogénique (transsudat), distinct de l'OAP lésionnel.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d1-a
+            class: sourced
+            kp: [KP-006, KP-040, KP-041]
+      - id: b
+        label: Lésion primaire de la membrane alvéolo-capillaire → exsudat
+        feedback: >
+          C'est le mécanisme de l'OAP lésionnel non cardiogénique, pas celui
+          attendu ici devant une IC gauche connue.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d1-b
+            class: sourced
+            kp: [KP-042]
+      - id: c
+        label: Bas débit isolé sans élévation des pressions de remplissage
+        feedback: >
+          Le bas débit explique fatigue/hypoperfusion ; l'OAP relève de la
+          branche congestion / pressions de remplissage.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d1-c
+            class: sourced
+            kp: [KP-006, KP-060]
+
+  - type: decision
+    id: seg-2
+    prompt: >
+      Quel triage clinique synthétise le mieux la situation actuelle ?
+    choices:
+      - id: a
+        label: >
+          Congestion alvéolaire majeure + signes d'hypoperfusion (choc
+          cardiogénique possible) — urgence, traiter sans retard
+        feedback: >
+          Correct. L'IC aiguë se trie sur congestion et hypoperfusion en
+          parallèle ; ici OAP + PAS basse / extrémités froides orientent vers
+          une forme sévère, potentiellement choc.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d2-a
+            class: sourced
+            kp: [KP-059, KP-060, KP-063]
+      - id: b
+        label: Poussée globale sans OAP, hospitalisation optionnelle
+        feedback: >
+          Incorrect. Expectoration mousseuse, orthopnée, râles diffus = OAP,
+          pas une simple poussée globale sans OAP franc.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d2-b
+            class: sourced
+            kp: [KP-060, KP-104]
+      - id: c
+        label: Écarter l'IC au profit d'un asthme pur sans bilan cardiaque
+        feedback: >
+          Les différentiels de dyspnée aiguë existent (pneumopathie, EP, BPCO,
+          asthme), mais le terrain d'IC et le tableau d'OAP imposent de traiter
+          l'hypothèse cardiogénique sans la négliger.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d2-c
+            class: sourced
+            kp: [KP-061]
+
+  - type: narrative
+    id: seg-3
+    text: >
+      Pendant la prise en charge respiratoire et hémodynamique, deux fils
+      doivent rester actifs : rechercher un facteur déclenchant (ici infection
+      et probable SCA) et ne pas différer la filière coronaire.
+    claim_facets:
+      - id: cf-sc-234-synthesis-01-n3
+        class: sourced
+        kp: [KP-106, KP-109]
+
+  - type: decision
+    id: seg-4
+    prompt: >
+      Quelle conduite est la plus fidèle au Collège concernant SCA et
+      bêtabloquant dans cet OAP ?
+    choices:
+      - id: a
+        label: >
+          Prise en charge simultanée du SCA et de la poussée d'IC ; ne pas
+          introduire de bêtabloquant en OAP ; s'il est déjà pris → arrêt ou ↓
+        feedback: >
+          Correct. KP-109 impose la simultanéité SCA + IC aiguë ; KP-103 fixe
+          la règle bêtabloquant propre à l'OAP.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d4-a
+            class: sourced
+            kp: [KP-109, KP-103]
+      - id: b
+        label: Stabiliser complètement l'OAP pendant 48 h avant tout avis coronaire
+        feedback: >
+          Incorrect. En IC aiguë sur SCA, la prise en charge du SCA n'est pas
+          différée après stabilisation complète.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d4-b
+            class: sourced
+            kp: [KP-109]
+      - id: c
+        label: Majorer le bisoprolol dès l'arrivée pour freiner la fréquence
+        feedback: >
+          Incorrect en OAP : pas d'introduction / majoration de bêtabloquant
+          dans ce contexte.
+        claim_facets:
+          - id: cf-sc-234-synthesis-01-d4-c
+            class: sourced
+            kp: [KP-103]
+
+resolution:
+  text: >
+    Synthèse attendue : (1) mécanisme OAP = congestion / PPC > 25 mmHg /
+    transsudat ; (2) triage = congestion + hypoperfusion ; (3) traitement OAP
+    sans retard (O2, diurétique, nitrés selon PA) ; (4) facteur déclenchant
+    (CHAMPIT : infection + coronaire) ; (5) SCA pris en charge en même temps
+    que l'IC aiguë ; (6) règle bêtabloquant de l'OAP (KP-103).
+  claim_facets:
+    - id: cf-sc-234-synthesis-01-res
+      class: sourced
+      kp: [KP-041, KP-060, KP-063, KP-099, KP-100, KP-106, KP-109, KP-103]
+
+final_explanation:
+  text: >
+    Ce cas de synthèse enchaîne plusieurs nœuds du chapitre qu'un QCM isolé ne
+    capture pas : mécanique de pompe (débit vs pressions), seuil d'OAP,
+    triage congestion/hypoperfusion, différentiels de dyspnée aiguë, mnémonique
+    CHAMPIT, dualité SCA + IC aiguë, et règle bêtabloquant spécifique de l'OAP.
+    Il complète le cas standard (diagnostic chronique) et le cas piège
+    (distinction VI.C / VII.A) sans les dupliquer.
+  claim_facets:
+    - id: cf-sc-234-synthesis-01-fin
+      class: sourced
+      kp: [KP-006, KP-041, KP-060, KP-106, KP-109, KP-103]
+
+editorial:
+  difficulty: advanced
+  notes: "Référence kind=synthesis — ≥3 KP intégrés (mécanisme + aigu + SCA)"

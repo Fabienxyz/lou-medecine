@@ -1,6 +1,7 @@
 import { loadYamlFile } from "../../lib/anchors.js";
 import {
   loadChapterPackage,
+  loadEvaluationRegistries,
   loadProjectionsManifest,
 } from "../../lib/chapter-config.js";
 import { chapterPaths } from "../../lib/paths.js";
@@ -20,6 +21,17 @@ export function runPackageInput(ctx: BuildContext): StageResult {
 
   const pkg = loadChapterPackage(ctx.chapterDir);
   const projectionsManifest = loadProjectionsManifest(ctx.chapterDir);
+  const evaluation = pkg.config
+    ? loadEvaluationRegistries(ctx.chapterDir, pkg.config)
+    : {
+        ok: true,
+        errors: [] as string[],
+        evaluationConfig: null,
+        questions: [],
+        scenarios: [],
+        questionsRegistryPath: null,
+        scenariosRegistryPath: null,
+      };
 
   let sourceMeta: Record<string, unknown> | null = null;
   try {
@@ -32,14 +44,16 @@ export function runPackageInput(ctx: BuildContext): StageResult {
 
   if (!pkg.ok) errors.push(...pkg.errors);
   if (!projectionsManifest.ok) errors.push(...projectionsManifest.errors);
+  if (!evaluation.ok) errors.push(...evaluation.errors);
 
   setWorkspace(ctx, "paths", paths);
   setWorkspace(ctx, "packageConfig", pkg.config);
   setWorkspace(ctx, "projectionsManifest", projectionsManifest);
+  setWorkspace(ctx, "evaluation", evaluation);
   setWorkspace(ctx, "sourceMeta", sourceMeta);
 
   return errors.length === 0
-    ? ok({ pkg, projectionsManifest, sourceMeta })
+    ? ok({ pkg, projectionsManifest, evaluation, sourceMeta })
     : fail(errors);
 }
 

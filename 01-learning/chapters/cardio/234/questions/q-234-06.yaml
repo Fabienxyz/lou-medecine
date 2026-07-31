@@ -1,0 +1,81 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-06
+status: published
+score_model: edn_v1
+
+kp_refs:
+  - KP-036
+  - KP-035
+
+element_refs:
+  - CR-diagnose
+
+stem:
+  text: |
+    En dyspnée aiguë, quels seuils de peptides rendent l'insuffisance cardiaque très improbable (rule-out) ?
+  claim_facets:
+    - id: cf-q-234-06-stem
+      class: sourced
+      kp: [KP-036, KP-035]
+
+options:
+  - id: a
+    label: |
+      BNP < 100 pg/mL ou NT-proBNP < 300 pg/mL
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-06-opt-a
+        class: sourced
+        kp: [KP-036]
+    explanation: |
+      Seuils de rule-out en dyspnée aiguë retenus par le Collège.
+    claim_facets_explanation:
+      - id: cf-q-234-06-exp-a
+        class: sourced
+        kp: [KP-036]
+  - id: b
+    label: |
+      BNP > 1000 pg/mL obligatoirement pour écarter l'IC
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-06-opt-b
+        class: sourced
+        kp: [KP-035, KP-036]
+    explanation: |
+      Inverse la logique : des peptides bas écartent ; des peptides élevés n'écartent pas.
+    claim_facets_explanation:
+      - id: cf-q-234-06-exp-b
+        class: sourced
+        kp: [KP-035, KP-036]
+  - id: c
+    label: |
+      NT-proBNP < 3000 pg/mL suffit toujours à écarter l'IC
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-06-opt-c
+        class: sourced
+        kp: [KP-036]
+    explanation: |
+      Seuil incorrect ; le rule-out aigu retient NT-proBNP < 300 pg/mL.
+    claim_facets_explanation:
+      - id: cf-q-234-06-exp-c
+        class: sourced
+        kp: [KP-036]
+  - id: d
+    label: |
+      les peptides n'ont aucune valeur prédictive négative
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-06-opt-d
+        class: sourced
+        kp: [KP-035]
+    explanation: |
+      Au contraire : leur intérêt principal est une bonne VPN.
+    claim_facets_explanation:
+      - id: cf-q-234-06-exp-d
+        class: sourced
+        kp: [KP-035]
+
+editorial:
+  difficulty: intermediate
+  notes: "Rule-out NP aigu"

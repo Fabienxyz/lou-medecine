@@ -1,0 +1,70 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-62
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-076
+stem:
+  text: |
+    Les mesures générales dans l'IC chronique incluent :
+  claim_facets:
+    - id: cf-q-234-62-stem
+      class: sourced
+      kp:
+        - KP-076
+options:
+  - id: a
+    label: arrêt alcool (régression CMD possible), arrêt tabac, activité physique hors décompensation, vaccinations grippe/Covid/pneumocoque, contraception/grossesse à risque
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-62-opt-a
+        class: sourced
+        kp: &a1
+          - KP-076
+    explanation: Mesures hygiénodiététiques globales.
+    claim_facets_explanation:
+      - id: cf-q-234-62-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: alcool modéré autorisé systématiquement
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-62-opt-b
+        class: sourced
+        kp: &a2
+          - KP-076
+    explanation: Arrêt total recommandé.
+    claim_facets_explanation:
+      - id: cf-q-234-62-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: repos strict permanent
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-62-opt-c
+        class: sourced
+        kp: &a3
+          - KP-076
+    explanation: Activité encouragée hors décompensation.
+    claim_facets_explanation:
+      - id: cf-q-234-62-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: vaccinations non recommandées
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-62-opt-d
+        class: sourced
+        kp: &a4
+          - KP-076
+    explanation: Vaccinations recommandées.
+    claim_facets_explanation:
+      - id: cf-q-234-62-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: basic
+  notes: Mesures générales

@@ -1,0 +1,150 @@
+# Scénario clinique — trap (contrat 09)
+# Piège documenté : règle bêtabloquant VI.C (poursuivre) vs VII.A OAP (arrêter/réduire).
+
+scenario_id: sc-234-trap-01
+kind: trap
+status: published
+title: "Décompensation et bêtabloquant — ne pas fusionner VI.C et VII.A"
+
+kp_refs:
+  - KP-059
+  - KP-060
+  - KP-081
+  - KP-103
+  - KP-099
+  - KP-100
+  - KP-104
+  - KP-041
+  - KP-089
+
+element_refs:
+  - CR-acute
+  - CONF-bb-chronic-vs-acute
+
+situation:
+  text: >
+    Femme de 78 ans suivie pour IC à FE diminuée sous bisoprolol, IEC et
+    spironolactone. Elle est amenée aux urgences pour dyspnée de repos brutale,
+    orthopnée impossible, expectoration mousseuse rosée, râles diffus, SaO2 84 %
+    à l'air. PAS 150/90 mmHg. Le médecin urgentiste hésite : « elle décompense —
+    on arrête forcément le bêtabloquant ? »
+  claim_facets:
+    - id: cf-sc-234-trap-01-sit
+      class: sourced
+      kp: [KP-060, KP-041, KP-081]
+
+segments:
+  - type: decision
+    id: seg-1
+    prompt: >
+      Quel est le bon cadre pour trancher la conduite du bêtabloquant ici ?
+    choices:
+      - id: a
+        label: >
+          C'est un OAP cardiogénique (VII.A) : ne pas introduire de bêtabloquant ;
+          s'il est déjà pris → généralement arrêt ou diminution
+        feedback: >
+          Correct. Le critère n'est pas « décompensation » en général, mais le
+          contexte OAP aigu du Collège (VII.A), distinct de la règle VI.C.
+        claim_facets:
+          - id: cf-sc-234-trap-01-d1-a
+            class: sourced
+            kp: [KP-103, KP-060]
+      - id: b
+        label: >
+          Toute hospitalisation pour décompensation impose de poursuivre le
+          bêtabloquant sans nuance
+        feedback: >
+          Piège. La règle « ne pas arrêter sauf échec ou choc » relève de VI.C
+          (KP-081) pour une décompensation hors cadre OAP VII.A. Ici le tableau
+          est celui d'un OAP : c'est KP-103 qui s'applique.
+        claim_facets:
+          - id: cf-sc-234-trap-01-d1-b
+            class: sourced
+            kp: [KP-081, KP-103]
+      - id: c
+        label: Introduire un deuxième bêtabloquant IV pour freiner la tachycardie
+        feedback: >
+          Incorrect. En OAP aigu, le bêtabloquant ne doit pas être introduit ;
+          freiner ainsi aggrave le risque.
+        claim_facets:
+          - id: cf-sc-234-trap-01-d1-c
+            class: sourced
+            kp: [KP-103]
+
+  - type: narrative
+    id: seg-2
+    text: >
+      La prise en charge initiale de l'OAP est démarrée sans retarder le bilan :
+      position assise, oxygène, diurétique IV, dérivés nitrés selon la pression
+      artérielle.
+    claim_facets:
+      - id: cf-sc-234-trap-01-n2
+        class: sourced
+        kp: [KP-099, KP-100, KP-060]
+
+  - type: decision
+    id: seg-3
+    prompt: >
+      Trois semaines plus tard, la même patiente est réhospitalisée pour œdèmes
+      et prise de 4 kg, sans OAP franc, PAS 110 mmHg, bien perfusée. Elle est
+      toujours sous bisoprolol. Que faire du bêtabloquant ?
+    choices:
+      - id: a
+        label: >
+          En règle générale le poursuivre, sauf difficulté de réponse au
+          traitement ou choc cardiogénique
+        feedback: >
+          Correct. Hors OAP VII.A, la règle VI.C (portée par KP-081) prévaut :
+          ne pas arrêter le bêtabloquant par réflexe lors d'une hospitalisation
+          pour décompensation.
+        claim_facets:
+          - id: cf-sc-234-trap-01-d3-a
+            class: sourced
+            kp: [KP-081, KP-104]
+      - id: b
+        label: L'arrêter systématiquement parce qu'« elle décompense encore »
+        feedback: >
+          Incorrect — c'est exactement le piège : fusionner « décompensation »
+          avec la règle OAP. Sans OAP, l'arrêt n'est pas la règle.
+        claim_facets:
+          - id: cf-sc-234-trap-01-d3-b
+            class: sourced
+            kp: [KP-081, KP-103]
+      - id: c
+        label: Remplacer le bisoprolol par du diltiazem pour le contrôle de fréquence
+        feedback: >
+          Incorrect. Diltiazem et vérapamil sont à éviter dans l'IC systolique.
+        claim_facets:
+          - id: cf-sc-234-trap-01-d3-c
+            class: sourced
+            kp: [KP-089]
+
+resolution:
+  text: >
+    Premier épisode = OAP → conduite VII.A (KP-103) : pas d'introduction de
+    bêtabloquant ; s'il est déjà pris, arrêt ou diminution habituelle, tout en
+    traitant l'OAP. Second épisode = poussée sans OAP franc → règle VI.C
+    (KP-081) : poursuivre le bêtabloquant sauf échec de réponse ou choc.
+  claim_facets:
+    - id: cf-sc-234-trap-01-res
+      class: sourced
+      kp: [KP-103, KP-081, KP-060, KP-104]
+
+final_explanation:
+  text: >
+    PIÈGE EXPLICITE : fabriquer une règle unique « toujours arrêter » ou
+    « toujours continuer » le bêtabloquant dès qu'il y a décompensation.
+    Le Collège distingue deux contextes — OAP aigu (VII.A / KP-103) versus
+    hospitalisation pour décompensation hors ce cadre (VI.C / KP-081). La
+    question à se poser avant de répondre est : « OAP aigu, ou autre
+    décompensation ? ». La fidélité au Collège l'emporte sur le confort d'une
+    règle unique.
+  claim_facets:
+    - id: cf-sc-234-trap-01-fin
+      class: sourced
+      kp: [KP-081, KP-103]
+
+editorial:
+  difficulty: advanced
+  notes: "Référence kind=trap — piège BB VI.C vs VII.A (CONF-bb-chronic-vs-acute)"

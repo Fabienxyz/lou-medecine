@@ -1,0 +1,72 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-68
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-091
+stem:
+  text: |
+    La resynchronisation cardiaque (CRT) est indiquée si :
+  claim_facets:
+    - id: cf-q-234-68-stem
+      class: sourced
+      kp:
+        - KP-091
+options:
+  - id: a
+    label: NYHA II–IV, FEVG ≤ 35 %, QRS ≥ 130 ms ; efficacité meilleure si BBG et QRS ≥ 150 ms, forme non ischémique
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-68-opt-a
+        class: sourced
+        kp: &a1
+          - KP-091
+    explanation: Critères CRT.
+    claim_facets_explanation:
+      - id: cf-q-234-68-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: FEVG > 50 % suffit
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-68-opt-b
+        class: sourced
+        kp: &a2
+          - KP-091
+    explanation: FEVG ≤ 35 %.
+    claim_facets_explanation:
+      - id: cf-q-234-68-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: QRS 80 ms suffit
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-68-opt-c
+        class: sourced
+        kp: &a3
+          - KP-091
+    explanation: QRS ≥ 130 ms.
+    claim_facets_explanation:
+      - id: cf-q-234-68-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: BBG défavorable à la CRT
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-68-opt-d
+        class: sourced
+        kp: &a4
+          - KP-091
+    explanation: Efficacité meilleure si BBG.
+    claim_facets_explanation:
+      - id: cf-q-234-68-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: advanced
+  notes: CRT critères
+element_refs:
+  - CR-treat-hfref

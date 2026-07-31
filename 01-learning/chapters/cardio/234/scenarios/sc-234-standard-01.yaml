@@ -1,0 +1,158 @@
+# Scénario clinique — standard (contrat 09)
+# Cas fil rouge : suspicion IC chronique → peptides → ETT → phénotype HFrEF → fond thérapeutique.
+
+scenario_id: sc-234-standard-01
+kind: standard
+status: published
+title: "Dyspnée d'effort progressive — confirmer une IC à FE diminuée"
+
+kp_refs:
+  - KP-002
+  - KP-003
+  - KP-019
+  - KP-020
+  - KP-035
+  - KP-039
+  - KP-043
+  - KP-014
+  - KP-015
+  - KP-050
+  - KP-064
+  - KP-077
+
+element_refs:
+  - CR-recognize
+  - CR-diagnose
+  - CR-treat-hfref
+
+situation:
+  text: >
+    Homme de 72 ans, ancien fumeur, hypertendu traité, consulte pour une dyspnée
+    d'effort croissante depuis trois mois. Il monte encore un étage, mais doit
+    s'arrêter ; il dort sur deux oreillers depuis peu et se réveille parfois
+    brutalement essoufflé. L'examen trouve des râles basithoraciques discrets et
+    des œdèmes malléolaires bilatéraux. L'ECG montre un rythme sinusal et des
+    séquelles de nécrose antérieure ancienne.
+  claim_facets:
+    - id: cf-sc-234-standard-01-sit-cadre
+      class: sourced
+      kp: [KP-002, KP-003]
+    - id: cf-sc-234-standard-01-sit-symptomes
+      class: sourced
+      kp: [KP-019, KP-020]
+    - id: cf-sc-234-standard-01-sit-contexte
+      class: sourced
+      kp: [KP-050]
+
+segments:
+  - type: decision
+    id: seg-1
+    prompt: >
+      Hors urgence, quelle est la première étape diagnostique la plus pertinente
+      pour avancer (ou écarter) l'hypothèse d'insuffisance cardiaque ?
+    choices:
+      - id: a
+        label: Doser les peptides natriurétiques (BNP ou NT-proBNP)
+        feedback: >
+          Correct. Les peptides ont une bonne valeur prédictive négative et
+          s'inscrivent dans l'algorithme ESC hors urgence devant symptômes /
+          facteurs de risque ou ECG anormal.
+        claim_facets:
+          - id: cf-sc-234-standard-01-d1-a
+            class: sourced
+            kp: [KP-035, KP-043]
+      - id: b
+        label: Commencer d'emblée les quatre classes thérapeutiques de l'HFrEF
+        feedback: >
+          Trop tôt. Le traitement de fond suppose un diagnostic confirmé et un
+          phénotype de fraction d'éjection ; la chaîne diagnostique précède.
+        claim_facets:
+          - id: cf-sc-234-standard-01-d1-b
+            class: sourced
+            kp: [KP-039, KP-077]
+      - id: c
+        label: Éliminer l'IC parce que les signes physiques sont discrets
+        feedback: >
+          Incorrect. Le diagnostic est difficile : symptômes non spécifiques,
+          signes peu sensibles ; des signes pauvres n'éliminent pas l'IC.
+        claim_facets:
+          - id: cf-sc-234-standard-01-d1-c
+            class: sourced
+            kp: [KP-003]
+
+  - type: narrative
+    id: seg-2
+    text: >
+      Le NT-proBNP est nettement élevé. Une échographie transthoracique avec
+      Doppler est réalisée : FEVG à 32 %, dilatation VG, séquelles d'infarctus
+      antérieur, pressions de remplissage élevées, pas de valvulopathie serrée
+      évidente.
+    claim_facets:
+      - id: cf-sc-234-standard-01-n2
+        class: sourced
+        kp: [KP-035, KP-039, KP-014]
+
+  - type: decision
+    id: seg-3
+    prompt: >
+      Quel raisonnement thérapeutique de fond est le plus adapté une fois le
+      patient stabilisé en ambulatoire ?
+    choices:
+      - id: a
+        label: >
+          Mesures générales + quatre classes réduisant mortalité/décompensations
+          si FE ≤ 40 %, et diurétique si congestion
+        feedback: >
+          Correct. Hors décompensation aiguë, l'HFrEF repose sur les quatre
+          classes (bloqueurs du SRA, bêtabloquants validés, ARM, gliflozines)
+          plus le traitement de la congestion.
+        claim_facets:
+          - id: cf-sc-234-standard-01-d3-a
+            class: sourced
+            kp: [KP-064, KP-077]
+      - id: b
+        label: Traitement uniquement diurétique « à la demande », sans fond neurohormonal
+        feedback: >
+          Insuffisant. Les diurétiques traitent la congestion ; la réduction de
+          mortalité repose sur le blocage neurohormonal des quatre classes.
+        claim_facets:
+          - id: cf-sc-234-standard-01-d3-b
+            class: sourced
+            kp: [KP-077]
+      - id: c
+        label: Appliquer d'emblée la logique thérapeutique de l'IC à FE préservée
+        feedback: >
+          Incorrect. Ici FE ≤ 40 % : phénotype HFrEF, pas HFpEF (FE ≥ 50 %).
+        claim_facets:
+          - id: cf-sc-234-standard-01-d3-c
+            class: sourced
+            kp: [KP-014, KP-015]
+
+resolution:
+  text: >
+    Le tableau clinique (dyspnée d'effort, orthopnée/DPN, stase) fait suspecter
+    une IC. Les peptides ne l'écartent pas ; l'ETT confirme une IC à FE diminuée
+    d'origine ischémique probable. Une fois stabilisé, le patient relève du
+    traitement chronique de l'HFrEF (mesures générales + quatre classes ±
+    diurétique) et d'une discussion étiologique / de revascularisation selon le
+    contexte.
+  claim_facets:
+    - id: cf-sc-234-standard-01-res
+      class: sourced
+      kp: [KP-002, KP-039, KP-014, KP-050, KP-077]
+
+final_explanation:
+  text: >
+    Cas standard du chapitre : reconnaître la suspicion clinique malgré des
+    signes parfois pauvres, utiliser les peptides pour leur VPN, confirmer et
+    typer par ETT, puis traiter l'HFrEF selon la logique des quatre classes.
+    L'ischémie comme première cause oriente la suite étiologique en parallèle,
+    sans retarder la prise en charge du syndrome.
+  claim_facets:
+    - id: cf-sc-234-standard-01-fin
+      class: sourced
+      kp: [KP-003, KP-035, KP-039, KP-077, KP-050]
+
+editorial:
+  difficulty: intermediate
+  notes: "Référence kind=standard — fil diagnostique puis thérapeutique HFrEF"

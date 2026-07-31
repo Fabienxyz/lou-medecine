@@ -1,0 +1,70 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-45
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-055
+stem:
+  text: |
+    Les troubles du rythme comme cause ou facteur déclenchant d'IC :
+  claim_facets:
+    - id: cf-q-234-45-stem
+      class: sourced
+      kp:
+        - KP-055
+options:
+  - id: a
+    label: tachy- ou bradycardie extrême peuvent provoquer une IC ; FA rapide prolongée → tachycardiomyopathie souvent réversible après contrôle du rythme
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-45-opt-a
+        class: sourced
+        kp: &a1
+          - KP-055
+    explanation: Tachycardiomyopathie réversible.
+    claim_facets_explanation:
+      - id: cf-q-234-45-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: FA rapide ne peut jamais causer d'IC
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-45-opt-b
+        class: sourced
+        kp: &a2
+          - KP-055
+    explanation: Tachycardiomyopathie décrite.
+    claim_facets_explanation:
+      - id: cf-q-234-45-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: tachycardiomyopathie toujours irréversible
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-45-opt-c
+        class: sourced
+        kp: &a3
+          - KP-055
+    explanation: Souvent réversible après traitement du rythme.
+    claim_facets_explanation:
+      - id: cf-q-234-45-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: bradycardie extrême sans conséquence sur la pompe
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-45-opt-d
+        class: sourced
+        kp: &a4
+          - KP-055
+    explanation: Peut provoquer une IC.
+    claim_facets_explanation:
+      - id: cf-q-234-45-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: intermediate
+  notes: Rythme et IC

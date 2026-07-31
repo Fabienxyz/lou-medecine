@@ -17,6 +17,7 @@
     let currentTab = 0;
     let chapter = null;
     let manifest = null;
+    let readingViewModel = null;
     let tabs = config.TABS.slice();
     let traceIndexUrl = null;
 
@@ -26,8 +27,6 @@
         );
     }
 
-    // Probe the canonical build output first. Legacy activates only on true manifest absence
-    // (404). Invalid JSON, network and server errors stay explicit (RCC §6.7).
     async function loadChapterMetadata(chapterId) {
         return renderer.loadPublishedManifest(chapterId, config);
     }
@@ -50,6 +49,9 @@
             el.className = "tab" + (index === 0 ? " active" : "");
             el.textContent = tab.label;
             el.dataset.index = String(index);
+            if (tab.viewId) {
+                el.dataset.viewId = tab.viewId;
+            }
             if (tab.availability) {
                 el.dataset.availability = tab.availability;
             }
@@ -66,7 +68,8 @@
         });
     }
 
-    async function loadTabContent(index) {
+    // Legacy prototype chapters only — manifest 404 activates this path (ADR-002).
+    async function loadLegacyPrototypeTabContent(index) {
         const tab = tabs[index];
 
         if (!chapter) {
@@ -114,18 +117,14 @@
             }
             const learnerMd = renderer.prepareLearnerMarkdown(text);
             const html = markdown.parse(learnerMd);
-            if (tab.projection && manifest) {
-                await renderer.renderProjection(html, {
-                    projection: tab.projection,
-                    manifest: manifest,
-                    chapter: chapter,
-                    config: config,
-                    renderer: renderer,
-                    store: window.LouLearnerStore,
-                });
-            } else {
-                renderer.injectHtml(renderer.wrapWithFooterNav(html));
-            }
+            await renderer.renderProjection(html, {
+                projection: tab.projection,
+                manifest: manifest,
+                chapter: chapter,
+                config: config,
+                renderer: renderer,
+                store: window.LouLearnerStore,
+            });
         } catch (err) {
             if (err.status === 404 || err.code === "not_found") {
                 renderer.showMessage(
@@ -143,14 +142,43 @@
         }
     }
 
-    function showTab(index) {
+    async function loadComposedViewContent(index) {
+        const tab = tabs[index];
+        const view = tab.view;
+
+        if (!chapter || !view) {
+            renderer.showMessage(config.ERROR_MESSAGES.noChapter);
+            return;
+        }
+
+        await renderer.renderComposedView(view, manifest, chapter, config);
+    }
+
+    async function loadTabContent(index) {
+        if (readingViewModel) {
+            await loadComposedViewContent(index);
+            return;
+        }
+        await loadLegacyPrototypeTabContent(index);
+    }
+
+    let tabContentReady = Promise.resolve();
+
+    async function showTab(index) {
         if (index < 0 || index >= tabs.length) {
             return;
         }
         currentTab = index;
         setActiveTab(index);
-        loadTabContent(index);
+        tabContentReady = loadTabContent(index);
+        await tabContentReady;
     }
+
+    window.LouApp = {
+        whenTabReady: function () {
+            return tabContentReady;
+        },
+    };
 
     contentEl.addEventListener("click", function (e) {
         const traceBtn = e.target.closest(".claim-trace-link");
@@ -177,7 +205,6 @@
         const loaded = await loadChapterMetadata(chapter);
         if (loaded.ok) {
             manifest = loaded.manifest;
-            tabs = renderer.buildProjectionTabs(manifest, config);
             traceIndexUrl = manifest.trace_index
                 ? config.resolveAssetPath(chapter, manifest.trace_index)
                 : null;
@@ -186,6 +213,18 @@
                 chapterLine: manifest.chapterLine || manifest.chapter,
                 chapterTitle: manifest.title || manifest.chapter,
             });
+
+            if (!window.LouComposition) {
+                renderer.showMessage(config.ERROR_MESSAGES.loadFailed);
+                return;
+            }
+            const composed = await window.LouComposition.buildReadingViewModel(
+                manifest
+            );
+            readingViewModel = composed.readingViewModel;
+            tabs = window.LouComposition.buildNavigationFromViewModel(
+                readingViewModel
+            );
         } else if (loaded.useLegacy) {
             config.useLegacyContentRoot();
             tabs = config.TABS.slice();
@@ -201,7 +240,7 @@
         }
 
         buildTabs();
-        showTab(0);
+        await showTab(0);
     }
 
     boot();

@@ -12,9 +12,9 @@ Ce document est la **porte d'entrée** du système contractuel. Il n'énonce auc
 
 Lou Médecine transforme les Collèges EDN en supports d'étude traçables. Cette transformation repose sur des **obligations durables** — ce qui est autorisé, interdit, et garanti à chaque étape du pipeline.
 
-Les **contrats fondamentaux** `docs/contracts/01–06` consolident ces obligations là où elles existent déjà — principalement dans [`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md), [`VISUAL_GRAMMAR_CONTRACT.md`](../../VISUAL_GRAMMAR_CONTRACT.md), les ADR et les contrats Tool — sans en inventer de nouvelles.
+Les **contrats fondamentaux** `docs/contracts/01–09` consolident ces obligations là où elles existent déjà — principalement dans [`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md), [`VISUAL_GRAMMAR_CONTRACT.md`](../../VISUAL_GRAMMAR_CONTRACT.md), les ADR et les contrats Tool — sans en inventer de nouvelles.
 
-**Ils gouvernent :** la fidélité au Collège, l'identité des artefacts, l'acquisition, le chapter package, la grammaire visuelle, le renderer lecteur et la couche apprenant.
+**Ils gouvernent :** la fidélité au Collège, l'identité des artefacts, l'acquisition, le chapter package / Release, la grammaire visuelle, les objets éditoriaux publiés (contrats 07–09), le renderer lecteur et la couche apprenant.
 
 **Ils ne gouvernent pas :** le séquencement projet ([`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md)), l'état opérationnel ([`PROJECT_STATE.md`](../PROJECT_STATE.md)), l'organisation du pilotage ([`DOCUMENT_ARCHITECTURE.md`](../governance/DOCUMENT_ARCHITECTURE.md)), la mémoire des arbitrages produit ([`PRODUCT-DECISION-REGISTRY.md`](../governance/PRODUCT-DECISION-REGISTRY.md)), la stratégie LLM ([`LLM_STRATEGY.md`](../LLM_STRATEGY.md)), ni les plans d'industrialisation ou rapports de qualification.
 
@@ -29,7 +29,7 @@ Du plus autoritaire au moins autoritaire :
 ```
 Décisions de gouvernance (ADR)
         ↓
-Contrats fondamentaux (docs/contracts/01–06)
+Contrats fondamentaux (docs/contracts/01–09)
         ↓
 Contrats composants (docs/contracts/components/, Tool 01/02 CONTRACT.md, futurs Tool 03–05)
         ↓
@@ -42,7 +42,7 @@ Implémentations de référence (REFERENCE_IMPLEMENTATION_DESIGN, chapitres 234/
 Rapports et documentation historique
 ```
 
-**Contrats fondamentaux (01–06).** Référence **normative de gouvernance** Phase 0A — **en vigueur**. Chaque contrat répond à **une question unique** ; en cas de conflit sur une obligation métier, le contrat fondamental applicable prime sur toute documentation technique détaillée.
+**Contrats fondamentaux (01–09).** Référence **normative de gouvernance** Phase 0A — **en vigueur**. Chaque contrat répond à **une question unique** ; en cas de conflit sur une obligation métier, le contrat fondamental applicable prime sur toute documentation technique détaillée.
 
 **Références détaillées** (sources de consolidation, non supprimées) :
 
@@ -52,7 +52,7 @@ Rapports et documentation historique
 | [`VISUAL_GRAMMAR_CONTRACT.md`](../../VISUAL_GRAMMAR_CONTRACT.md) | Spécification visuelle détaillée (invariants I1–I12, primitives, schéma visualSpec) |
 | [`docs/renderer/`](../renderer/) | Spécification produit et architecture du renderer lecteur |
 
-Pour une **règle de gouvernance** : lire le contrat fondamental **01–06** applicable. Pour le **détail technique** ou l'historique : lire la référence détaillée correspondante.
+Pour une **règle de gouvernance** : lire le contrat fondamental **01–09** applicable. Pour le **détail technique** ou l'historique : lire la référence détaillée correspondante.
 
 **Règle de résolution :** le niveau supérieur prime. Un rapport ou un exemple de chapitre ne peut contredire un contrat ; un contrat ne peut contredire un ADR sans nouvel ADR.
 
@@ -72,6 +72,9 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 | **04-CHAPTER-PACKAGE.md** | Inventaire, Blueprint, projections, manifest, build, publication | En vigueur |
 | **05-VISUAL-GRAMMAR.md** | Visuels officiels : visualSpec, moteur de rendu graphique (build), gouvernance grammaire | En vigueur |
 | **06-RENDERER-AND-LEARNER-LAYER.md** | Renderer lecteur, immutabilité, couche apprenant | En vigueur |
+| **07-ASSESSMENT-QUESTION.md** | Question d'évaluation (QCM) : structure, invariants, qualité, validation, cycle de vie | En vigueur |
+| **08-RELEASE-EDITORIAL-ARCHITECTURE.md** | Architecture éditoriale Release : coexistence, complétude, absences, publication | En vigueur |
+| **09-CLINICAL-SCENARIO.md** | Scénario clinique : structure, invariants, qualité, validation, cycle de vie | En vigueur |
 
 **Contrats composants gelés** (hors dossier `contracts/`, inchangés) :
 
@@ -93,16 +96,16 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 
 | Type | Rôle |
 |---|---|
-| **Contrat fondamental (01–06)** | Obligation durable de gouvernance : entrées, sorties, invariants, garanties |
+| **Contrat fondamental (01–09)** | Obligation durable de gouvernance : entrées, sorties, invariants, garanties |
 | **ADR** | Décision de gouvernance : contexte, choix, conséquences — pas un schéma de données |
-| **Contrat composant** | Spécialisation d'un composant (ex. Renderer) — subordonné aux ADR et contrats 01–06 |
+| **Contrat composant** | Spécialisation d'un composant (ex. Renderer) — subordonné aux ADR et contrats 01–09 |
 | **Contrat Tool** | Garanties entre composants d'un outil et l'aval |
-| **Documentation technique détaillée** | Profondeur d'implémentation, schémas, exemples — subordonnée aux contrats 01–06 pour les règles métier |
+| **Documentation technique détaillée** | Profondeur d'implémentation, schémas, exemples — subordonnée aux contrats 01–09 pour les règles métier |
 | **Code / tests** | Implémentation et vérification ; en cas d'écart documenté, le contrat prime |
 | **Implémentation de référence** | Exemple (Item 234, 330) — illustration, pas autorité |
 | **Rapport de qualification** | Preuve de conformité passée — ne modifie jamais un contrat |
 
-Pour savoir *ce qui doit être vrai* : lire le **contrat fondamental** applicable (01–06).  
+Pour savoir *ce qui doit être vrai* : lire le **contrat fondamental** applicable (01–09).  
 Pour savoir *pourquoi c'est ainsi* : lire l'**ADR**.  
 Pour savoir *comment c'est spécifié en détail* : lire la **documentation technique** (`IMPLEMENTATION_CONTRACT`, `VISUAL_GRAMMAR_CONTRACT`, `docs/renderer/`).  
 Pour savoir *si c'est implémenté* : lire le **code** et les **tests**.
@@ -122,9 +125,9 @@ Pour savoir *si c'est implémenté* : lire le **code** et les **tests**.
 
 ## 6. Architecture de référence
 
-Les documents **14–19** (`docs/renderer/`) constituent l'**architecture de référence officielle** du projet depuis le gel **Architecture v1** (2026-07-28). Ils complètent les contrats fondamentaux 01–06 ; ils ne les remplacent pas.
+Les documents **14–19** (`docs/renderer/`) constituent l'**architecture de référence officielle** du projet depuis le gel **Architecture v1** (2026-07-28). Ils complètent les contrats fondamentaux 01–09 ; ils ne les remplacent pas.
 
-**Chaîne documentaire recommandée :** contrats 01–06 → 14 → 15 → 17 → 18 → 19 → 16.
+**Chaîne documentaire recommandée :** contrats 01–09 → 14 → 15 → 17 → 18 → 19 → 16.
 
 | Document | Rôle |
 |---|---|

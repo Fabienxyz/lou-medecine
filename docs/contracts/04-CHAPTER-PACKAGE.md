@@ -23,7 +23,13 @@ En cas de conflit avec un document non listé dans les sources consolidées, les
 | [05 — Visual Grammar](05-VISUAL-GRAMMAR.md) | Sémantique visuelle, visualSpec, moteur de rendu graphique (build) — détail : [`VISUAL_GRAMMAR_CONTRACT.md`](../../VISUAL_GRAMMAR_CONTRACT.md) |
 | [06 — Renderer & Learner Layer](06-RENDERER-AND-LEARNER-LAYER.md) | Consommation du manifest ; expérience apprenant |
 
-**Ce contrat (04)** définit les **objets métier** du chapitre, leurs relations, les **obligations de build** et les **conditions de publication** au niveau package.
+**Ce contrat (04)** définit les **objets métier** du chapitre, leurs relations, les **obligations de build** et les **conditions de publication** au niveau package. L'**architecture éditoriale de coexistence** des objets publiés relève du [contrat 08](08-RELEASE-EDITORIAL-ARCHITECTURE.md). Les **Questions d'évaluation** et **Scénarios cliniques** relèvent des [contrats 07](07-ASSESSMENT-QUESTION.md) et [09](09-CLINICAL-SCENARIO.md).
+
+| Contrat | Ce qu'il définit — non recopié ici |
+|---|---|
+| [07 — Assessment Question](07-ASSESSMENT-QUESTION.md) | Question d'évaluation — structure et invariants |
+| [08 — Release Editorial Architecture](08-RELEASE-EDITORIAL-ARCHITECTURE.md) | Coexistence des objets publiés ; états d'absence (référence normative) |
+| [09 — Clinical Scenario](09-CLINICAL-SCENARIO.md) | Scénario clinique — structure et invariants |
 
 ---
 
@@ -33,7 +39,16 @@ En cas de conflit avec un document non listé dans les sources consolidées, les
 
 Un **Chapter Package** est l'ensemble cohérent d'artefacts représentant **un chapitre** identifié ([contrat 02](02-IDENTITY-AND-ANCHORS.md)) pour une **édition d'acquisition qualifiée** ([contrat 03](03-ACQUISITION-SSOT.md)). C'est l'**unique unité de publication** du chapitre et l'**unique frontière** entre pipeline métier et consommation ([contrat 06](06-RENDERER-AND-LEARNER-LAYER.md)) — conditions de **publication** : §14.
 
-### 1.2 Réponse directrice
+### 1.2 Release et Chapter Package — même agrégat
+
+| Terme | Point de vue | Énoncé |
+|---|---|---|
+| **Release** | **Éditorial** — contenu publié, coexistence des objets, complétude, absences ([contrat 08](08-RELEASE-EDITORIAL-ARCHITECTURE.md), [ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Identité `(chapitre, édition Collège, version de publication)` |
+| **Chapter Package** | **Matérialisation** — artefacts, manifest, sidecars, cycle de build et de publication (ce contrat) | **Même agrégat patrimonial** que la Release lorsqu'il est **publié** |
+
+**Règle.** *Release* et *Chapter Package publié* **désignent le même patrimoine** : la Release en est la **lecture éditoriale** ; le Chapter Package en est la **frontière technique et documentaire**. Aucun objet éditorial publié (explication, visuel, Question, Scénario) n'existe **hors** cet agrégat.
+
+### 1.3 Réponse directrice
 
 Un chapitre Lou Médecine comprend :
 
@@ -218,7 +233,20 @@ Le registre **ne fixe pas** une liste fermée de types — de nouvelles projecti
 
 ### 7.3 Projections de maîtrise (future)
 
-Le contrat de maîtrise (QCM, flashcards, etc.) est **figé conceptuellement** mais **non construit** à ce stade. Un package **peut** déclarer des absences connues de maîtrise sans invalider la **publication** de compréhension.
+Le contrat de maîtrise (QCM, flashcards, etc.) est **figé conceptuellement** mais **non construit** à ce stade. Les **Questions d'évaluation** sont normées par le [contrat 07](07-ASSESSMENT-QUESTION.md) ; les **Scénarios cliniques** par le [contrat 09](09-CLINICAL-SCENARIO.md). Un package **peut** déclarer des absences connues de maîtrise sans invalider la **publication** de compréhension.
+
+### 7.4 Objets éditoriaux d'évaluation — dans la Release
+
+Les **Questions d'évaluation** et **Scénarios cliniques** sont des **objets éditoriaux publiés** **composant la Release** — au même titre que les explications et visuels ([contrat 08](08-RELEASE-EDITORIAL-ARCHITECTURE.md) §1).
+
+| Règle | Énoncé |
+|---|---|
+| **Appartenance** | Toute Question (`question_id`) et tout Scénario (`scenario_id`) appartient à **exactement une** Release / Chapter Package publié |
+| **Registre** | Le manifest **déclare** les Questions et Scénarios publiés, retenus ou absents — il ne les place **pas** hors package |
+| **Famille** | Le tag technique `mastery` sur une entrée de registre **n'est pas** une entité métier — il classe des objets **déjà** dans la Release |
+| **Interdit** | Traiter QCM ou cas cliniques comme artefacts aval, parallèles ou « hors Release » |
+
+**Frontière :** structure et invariants de chaque objet — [contrats 07](07-ASSESSMENT-QUESTION.md) et [09](09-CLINICAL-SCENARIO.md) ; coexistence — [contrat 08](08-RELEASE-EDITORIAL-ARCHITECTURE.md).
 
 ---
 
@@ -232,7 +260,7 @@ Chaque bloc comprend :
 
 | Composant | Obligation |
 |---|---|
-| **Question** | Requise — origine canonique : élément pédagogique du Blueprint |
+| **Prompt pédagogique** | Requis — origine canonique : élément pédagogique du Blueprint ; **ne pas confondre** avec une **Question d'évaluation** ([contrat 07](07-ASSESSMENT-QUESTION.md)) |
 | **walkthrough guidé** | Requise — explication **canonique** de l'élément pédagogique |
 | **Visuel officiel** | Optionnel — support pédagogique, jamais l'artefact explicatif primaire |
 
@@ -277,6 +305,7 @@ Le manifest (directement ou via sidecars déclarés) expose au minimum :
 
 - **registre des projections** et ordre d'apprentissage ;
 - **famille** de chaque projection ;
+- **Questions d'évaluation** et **Scénarios cliniques** publiés ou absents (§7.4) ;
 - **graphe de traçabilité** ou référence authoritative ;
 - **édition source** et tampons de provenance ;
 - **résultats** de réconciliation et de grounding ;
@@ -301,13 +330,14 @@ Le manifest (directement ou via sidecars déclarés) expose au minimum :
 
 ## 11. Visuels officiels — frontière package
 
-Les visuels relèvent du [contrat 05](05-VISUAL-GRAMMAR.md). Au niveau package, trois **états** doivent être **distincts** dans le manifest :
+Les visuels relèvent du [contrat 05](05-VISUAL-GRAMMAR.md). Au niveau package, trois **états** doivent être **distincts** dans le manifest — vocabulaire technique mappé sur les **états d'absence éditoriaux** du [contrat 08](08-RELEASE-EDITORIAL-ARCHITECTURE.md) §5.0 :
 
-| État | Signification |
-|---|---|
-| **none planned** | Aucun visuel prévu — issue légitime et fréquente |
-| **planned-not-built** | Prévu par le Blueprint, non encore produit |
-| **built-but-withheld** | Produite mais non publiée (échec validation, grounding ou éligibilité de rendu) |
+| État (package) | État éditorial (contrat 08) | Signification |
+|---|---|---|
+| **none planned** | **Non applicable** | Aucun visuel prévu — issue légitime et fréquente |
+| **planned-not-built** | **Prévu** | Prévu par le Blueprint, non encore produit |
+| **built-but-withheld** | **Retenu** | Produite mais non publiée (échec validation, grounding ou éligibilité de rendu) |
+| *(visuel publié)* | **Publié** | Visuel validé et disponible |
 
 **Publication partielle :** l'échec d'un visuel officiel **n'invalide pas** un walkthrough par ailleurs valide — sous réserve que l'échec soit **rapporté**, tout visuel obsolète **retiré**, traçabilité et verdicts **préservés** ([contrat 01](01-TRUST-AND-FIDELITY.md) §10.3).
 
@@ -414,7 +444,7 @@ Un tampon de provenance **inchangé** prouve la **lignée**, pas la **validité 
 Après toute mise à jour partielle, une **vérification de cohérence au niveau chapitre** demande si l'**ensemble assemblé** reste globalement consistent avec la nouvelle source.
 
 - **Échec ou incertitude** → élargir le périmètre régénéré ou **retenir** le chapitre ;
-- **Succès** → republication via nouveau manifest.
+- **Succès** → **nouvelle Release** / nouveau Chapter Package publié via nouveau manifest — l'ancienne Release active est **archivée**, jamais écrasée ([ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) §2, §5).
 
 Les classifications et confiances d'identité : [contrat 02](02-IDENTITY-AND-ANCHORS.md) §10 — non redéfinies ici.
 

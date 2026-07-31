@@ -61,7 +61,7 @@ Ce document **ordonne** ; il n'**oblige** pas. Pour savoir ce qui doit être vra
 | Besoin | Document maître |
 |---|---|
 | Décisions architecturales fondatrices | [Index ADR](adr/README.md) |
-| Obligations métier durables | [Contrats fondamentaux 01–06](contracts/00-INDEX.md) |
+| Obligations métier durables | [Contrats fondamentaux 01–09](contracts/00-INDEX.md) |
 | Obligations composants (Tool, Composition, Renderer, …) | [Contrats composants](contracts/components/00-INDEX.md) |
 | Architecture Reader et Fabrique (specs gelées) | [`contracts/00-INDEX.md` §6](contracts/00-INDEX.md) → docs [14–19](renderer/README.md) |
 | Mémoire des arbitrages produit (audit 2026-07-30) | [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |

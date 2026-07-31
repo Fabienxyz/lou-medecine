@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-07-30 (migration Phase A.8 — alignement [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md))
+**Dernière mise à jour :** 2026-07-31 (réconciliation architecture éditoriale ; contrats 07–09)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -125,6 +125,10 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-07-31 | **Réconciliation architecture éditoriale** — Release = Chapter Package ; Questions/Scénarios dans Release ; vocabulaire absences (contrat 08 §5) ; triple ancrage apprenant ; ADR-006 / doc 17 alignés sur archivage et bascule atomique |
+| 2026-07-31 | **Contrat 09** — spécification normative Scénario clinique |
+| 2026-07-31 | **Contrat 08** — architecture éditoriale Release (coexistence, complétude, absences) |
+| 2026-07-31 | **Contrat 07** — spécification normative Question d'évaluation (QCM) |
 | 2026-07-30 | Migration pilotage — [`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md), [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) A.7, [`PROJECT_STATE.md`](PROJECT_STATE.md) A.8 ; capitalisation [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md), [PRODUCT-DECISION-REGISTRY](governance/PRODUCT-DECISION-REGISTRY.md) |
 | 2026-07-28 | Phase 3.5 close — cutover production lou-build ([`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md)) |
 | 2026-07-28 | Phase 3 close — Pipeline Engine v1 ; tag `lou-build-pipeline-v1` |

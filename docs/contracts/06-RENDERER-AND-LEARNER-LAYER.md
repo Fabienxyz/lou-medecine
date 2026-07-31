@@ -187,10 +187,10 @@ Les trois mécanismes **coexistent** ; aucun ne se substitue aux autres.
 
 | Donnée | Cycle de vie | Stockage |
 |---|---|---|
-| **Contenu officiel** | Versionné avec le **Chapter Package** ; régénéré par le build | Package publié |
-| **Données apprenant** | Propres à l'apprenant et à sa session locale | **Stockage local** uniquement |
+| **Contenu officiel (Release / Chapter Package)** | Versionné ; identité `(chapitre, édition, version de publication)` ; **jamais écrasé silencieusement** ([ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Package publié |
+| **Données apprenant** | Propres à l'apprenant ; ancrées sur Release + cible ([contrat 02](02-IDENTITY-AND-ANCHORS.md) §11.1) | **Stockage local** uniquement |
 
-**Invariant structurant :** les données officielles et apprenantes ont des **cycles de vie distincts**. La republication d'un chapitre **remplace** le contenu officiel ; les données apprenant **peuvent être restaurées indépendamment** — sous réserve de la résolution des ancres (§6).
+**Invariant structurant :** les données officielles et apprenantes ont des **cycles de vie distincts**. Une **nouvelle Release** devient la référence officielle **active** après **bascule explicite** ; la Release précédente est **archivée** — les données apprenant **restent attachées** à la Release sur laquelle elles ont été créées ([ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) §3).
 
 ### 9.2 Restauration
 

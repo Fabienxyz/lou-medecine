@@ -12,7 +12,7 @@ This document set is the official reference for the Lou Médecine renderer, in t
 
 Les documents **14–19** constituent l'architecture officielle gelée du projet (2026-07-28). Index parent : [`contracts/00-INDEX.md`](../contracts/00-INDEX.md) § 6.
 
-**Chaîne documentaire :** [contrats 01–06](../contracts/00-INDEX.md) → [14](./14-LOU-READER-ARCHITECTURE.md) → [15](./15-READER-FUNCTIONAL-SPECIFICATION.md) → [17](./17-PUBLICATION-MODEL.md) → [18](./18-BUILD-ARCHITECTURE.md) → [19](./19-BUILD-PIPELINE.md) → [16](./16-CONTENT-TO-READER-ARCHITECTURE.md).
+**Chaîne documentaire :** [contrats 01–09](../contracts/00-INDEX.md) → [14](./14-LOU-READER-ARCHITECTURE.md) → [15](./15-READER-FUNCTIONAL-SPECIFICATION.md) → [17](./17-PUBLICATION-MODEL.md) → [18](./18-BUILD-ARCHITECTURE.md) → [19](./19-BUILD-PIPELINE.md) → [16](./16-CONTENT-TO-READER-ARCHITECTURE.md).
 
 **État courant du projet :** voir [`PROJECT_STATE.md`](../PROJECT_STATE.md). Outil de build : [`tools/lou-build/`](../../tools/lou-build/) — CLI typée unique, conforme au [doc 19](./19-BUILD-PIPELINE.md).
 

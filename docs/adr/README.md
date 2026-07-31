@@ -8,7 +8,7 @@ Ce document recense les ADR du projet. Il ne remplace aucun ADR et n'énonce auc
 Pour la hiérarchie d'autorité, voir [`docs/contracts/00-INDEX.md`](../contracts/00-INDEX.md) §2 :
 
 ```
-ADR → contrats fondamentaux 01–06 → contrats composants → documentation technique → code
+ADR → contrats fondamentaux 01–09 → contrats composants → documentation technique → code
 ```
 
 Les ADR évoluent lentement et capturent les **décisions architecturales fondatrices** du projet. Ils ne constituent ni un journal des évolutions fonctionnelles, ni une roadmap, ni une documentation d'implémentation.
@@ -35,8 +35,9 @@ Les ADR évoluent lentement et capturent les **décisions architecturales fondat
 | **002 §4** | **Superseded** par **005** pour l'ancrage des notes walkthrough (claim-block → CaretAnchor) |
 | **002** (reste) | **En vigueur** — immutabilité contenu officiel, mécanismes apprenant distincts, anti-rewrite |
 | **003** | **006 étend le périmètre de 003** — SSOT des *sources* vs patrimoine des *artefacts publiés* |
-| **004** | **006 complète architecturalement 004** — acquisition en entrée vs identité des packages publiés consommés |
+| **004** | **006 complète architecturalement 004** — acquisition en entrée vs identité des packages publiés consommés ; Release = Chapter Package publié ([contrat 04](../contracts/04-CHAPTER-PACKAGE.md) §1.2) |
 | **005** | **006 étend 005** — ancrage caret + obligation de lier les données d'apprentissage à une *version* de package |
+| **006** | **Complète 003–005** — triple ancrage apprenant détaillé : [contrat 02](../contracts/02-IDENTITY-AND-ANCHORS.md) §11.1 |
 | **001** | **Indépendant** — grammaire visuelle ; cohérent avec 006 (visuels dans packages patrimoniaux) |
 
 ---

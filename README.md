@@ -61,7 +61,7 @@ Research, observations and experiments.
 
 Read in this order:
 
-1. **[Contrats fondamentaux](docs/contracts/00-INDEX.md)** — gouvernance normative (01–06), ADR et index de l'architecture de référence
+1. **[Contrats fondamentaux](docs/contracts/00-INDEX.md)** — gouvernance normative (01–09), ADR et index de l'architecture de référence
 2. **[ADR](docs/adr/README.md)** — décisions architecturales fondatrices
 3. **[Organisation du pilotage](docs/governance/DOCUMENT_ARCHITECTURE.md)** — doctrine documentaire roadmap / état
 4. **[Master Roadmap](docs/MASTER_ROADMAP.md)** — intention : objectifs, séquencement, critères de sortie

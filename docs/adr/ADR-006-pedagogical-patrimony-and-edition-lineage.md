@@ -72,7 +72,7 @@ Un Chapter Package **publié** possède une **identité propre**, distincte de s
 
 | Propriété | Règle |
 |---|---|
-| **Identité** | Chaque publication possède une identité stable `(chapter, edition, publication_version)` — détail normatif à porter dans les contrats 04 / doc 17 |
+| **Identité** | Chaque publication possède une identité stable `(chapter, edition, publication_version)` — **Release** (point de vue éditorial) = **Chapter Package publié** (matérialisation) ; détail : [contrat 04](../contracts/04-CHAPTER-PACKAGE.md) §1.2, [contrat 08](../contracts/08-RELEASE-EDITORIAL-ARCHITECTURE.md) |
 | **Régénération** | Une nouvelle exécution de La Fabrique produit un **nouveau candidat** ; ce n'est pas le même objet que le package précédemment publié, même si médicalement équivalent |
 | **Écrasement** | Aucun package **publié et actif** ne peut être remplacé ou supprimé **silencieusement** par un build incomplet, échoué ou non validé |
 | **Patrimoine** | Un package publié validé fait partie du **patrimoine pédagogique du projet** et doit être **conservé** (archivage, pas suppression par défaut) |
@@ -85,7 +85,7 @@ Les données d'apprentissage de l'apprenant sont **structurellement liées** à 
 
 | Règle | Contenu |
 |---|---|
-| **Clé d'appartenance** | Toute donnée apprenante référence `(chapter, edition, publication_version)` — ou empreinte équivalente du manifest publié |
+| **Clé d'appartenance** | Toute donnée apprenante référence `(chapter, edition, publication_version)` — ou empreinte équivalente du manifest publié ; détail des cibles (KP, `question_id`, `scenario_id`, élément) : [contrat 02](../contracts/02-IDENTITY-AND-ANCHORS.md) §11.1 |
 | **Changement d'édition** | Une nouvelle édition ou une nouvelle publication produit un **nouveau package** ; les données existantes restent attachées à l'ancienne version |
 | **Orphelins** | Si le contenu ne peut plus être résolu, la donnée est **signalée**, jamais supprimée silencieusement (cohérent ADR-005) |
 | **Sync future** | Les identifiants et schémas de persistance doivent être **compatibles** avec une synchronisation multi-appareils ultérieure — sans imposer de technologie ici |

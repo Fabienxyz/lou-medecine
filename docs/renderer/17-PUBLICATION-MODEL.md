@@ -9,7 +9,7 @@
 | **Dernière mise à jour** | 2026-07-28 |
 | **Parent** | [README.md](./README.md) |
 | **Précède** | [`16-CONTENT-TO-READER-ARCHITECTURE.md`](./16-CONTENT-TO-READER-ARCHITECTURE.md) |
-| **Gouverné par** | Contrats fondamentaux 01–06 ([`docs/contracts/`](../contracts/00-INDEX.md)) — ce document **ne les remplace pas** |
+| **Gouverné par** | Contrats fondamentaux 01–09 ([`docs/contracts/`](../contracts/00-INDEX.md)) — ce document **ne les remplace pas** |
 
 Ce document définit le **modèle de publication** d'un chapitre Lou Médecine.
 
@@ -77,7 +77,7 @@ La publication est le **moment de bascule** où la responsabilité passe du pipe
 |---|---|
 | Une simple fin de build | Un build peut échouer ; un état stale peut exister — seul un état **validé et déclaré** est publié |
 | Une autorisation d'expérience | Le package publié ne décide pas de l'interface — voir doc 16 |
-| Une immuabilité absolue du contenu | Une nouvelle publication remplace la précédente ; l'identité du chapitre persiste |
+| Une immuabilité absolue du contenu | Une republication produit une **nouvelle Release** ; l'ancienne est **archivée**, jamais écrasée silencieusement — voir §6.3 et [ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) |
 | Une garantie d'exhaustivité produit | Un chapitre publié peut être **incomplet mais honnête** — voir §5 |
 
 ## 1.3 La publication comme contrat
@@ -179,6 +179,8 @@ L'aval — et le Reader — doivent pouvoir distinguer :
 
 **Absence connue ≠ non généré silencieux.** Un contenu non produit sans déclaration viole le contrat de publication.
 
+**Vocabulaire normatif des absences éditoriales :** [contrat 08](../contracts/08-RELEASE-EDITORIAL-ARCHITECTURE.md) §5 — seule référence des états *Publié*, *Prévu*, *Retenu*, *Non applicable*, etc.
+
 ## 5.3 Principe
 
 > **Publier honnêtement vaut mieux que publier silencieusement incomplet.**
@@ -209,11 +211,13 @@ L'évolution amont **ne change pas** le contrat aval tant que la publication res
 | **Contrat de publication** | Les garanties du §2 — indépendantes de l'implémentation |
 | **Frontière package ↔ aval** | Le Reader consomme un package publié — jamais autre chose |
 
-## 6.3 Republication
+## 6.3 Republication et bascule
 
-Une **nouvelle publication** du même chapitre **remplace** la précédente pour le contenu officiel. Les identités persistantes permettent à l'aval de réconcilier les contributions personnelles — sous réserve de la résolution des ancres (doc 16).
+Une **nouvelle publication** du même chapitre produit une **nouvelle Release** / un **nouveau Chapter Package** avec identité de version distincte. Elle devient la référence officielle **active** pour l'étude **uniquement** après **bascule atomique explicite** ([ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) §2, §5).
 
-Une republication n'est pas une modification in-place : c'est un **nouvel état** déclaré, avec sa propre version identifiable.
+La Release / le package précédemment actif est **archivé** et **conservé** — **jamais écrasé silencieusement**. Les données d'apprentissage créées sur l'ancienne version **restent attachées** à cette version. Les identités persistantes (KP, éléments pédagogiques) permettent à l'aval de réconcilier les contributions personnelles — sous réserve de la résolution des ancres ([doc 16](./16-CONTENT-TO-READER-ARCHITECTURE.md)).
+
+Une republication **n'est pas** une modification in-place du contenu publié : c'est un **nouvel état** déclaré, avec sa propre version identifiable.
 
 ---
 

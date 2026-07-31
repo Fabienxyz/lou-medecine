@@ -11,7 +11,13 @@ Ce contrat consolide les invariants d'**identité** et de **référence vers la 
 
 En cas de conflit avec un document non listé dans les sources consolidées, les sources consolidées et les ADR de gouvernance priment selon [`00-INDEX.md`](00-INDEX.md).
 
-**Terminologie.** Dans ce contrat, les termes *identité*, *ancre source*, *point de connaissance*, *élément pédagogique*, *bloc pédagogique*, *bloc de claim*, *projection*, *édition* (du Collège), *révision* (de contenu) et *provenance* (de génération) sont employés au sens défini ici. Les autres contrats reprennent ces définitions et ne les redéfinissent pas.
+**Terminologie.** Dans ce contrat, les termes *identité*, *ancre source*, *point de connaissance*, *élément pédagogique*, *bloc pédagogique*, *prompt pédagogique*, *bloc de claim*, *projection*, *édition* (du Collège), *révision* (de contenu) et *provenance* (de génération) sont employés au sens défini ici. Les autres contrats reprennent ces définitions et ne les redéfinissent pas.
+
+| Terme | Définition | Ne pas confondre avec |
+|---|---|---|
+| **Prompt pédagogique** | Question d'accroche du bloc d'explication de compréhension ([contrat 04](04-CHAPTER-PACKAGE.md) §8) | **Question d'évaluation** ([contrat 07](07-ASSESSMENT-QUESTION.md)) |
+| **Question d'évaluation** | Objet QCM scorable publié dans une Release | Prompt pédagogique |
+| **Narratif** | Convention de scope d'une explication publiée — identifiant de projection ; définition unique : [contrat 08](08-RELEASE-EDITORIAL-ARCHITECTURE.md) §1 | Objet métier ; onglet Reader |
 
 ---
 
@@ -105,7 +111,7 @@ Forme qualifiée : `cardio/234#MEC-oap`.
 |---|---|
 | **Mintage minimal** | Tout paragraphe ou section **n'obtient pas** d'identifiant par défaut. |
 | **Permanence** | Même règle de non-réutilisation que les points de connaissance. |
-| **Bloc pédagogique** | Unité d'expérience présentée à l'apprenant (question, visuel officiel optionnel, walkthrough). **N'introduit pas** d'espace d'identifiants supplémentaire : partage l'identité de l'**élément pédagogique** issu du Blueprint. |
+| **Bloc pédagogique** | Unité d'expérience présentée à l'apprenant (**prompt pédagogique**, visuel officiel optionnel, walkthrough). **N'introduit pas** d'espace d'identifiants supplémentaire : partage l'identité de l'**élément pédagogique** issu du Blueprint. |
 
 ---
 
@@ -120,6 +126,8 @@ Chaque projection publiée possède dans le registre du chapitre :
 - un **ordre** pédagogique relatif aux autres projections.
 
 L'identifiant de projection **n'est pas** un identifiant médical global.
+
+Dans la couche **Publication**, l'identifiant de projection sert de **narratif** — convention structurante de scope pour les explications publiées ([contrat 08](08-RELEASE-EDITORIAL-ARCHITECTURE.md) §1). Le terme *narratif* **n'est pas redéfini** ailleurs.
 
 ### 6.2 Adressage du contenu
 
@@ -281,6 +289,19 @@ Les contenus strictement apprenant (non générés) **n'introduisent pas** d'esp
 | Surlignages / annotations textuelles | Ancrage par **sélection textuelle** dans le **walkthrough** officiel — mécanisme distinct ; règles : [contrat 06](06-RENDERER-AND-LEARNER-LAYER.md) §8.3. |
 
 **Frontière :** règles de couche apprenant, immutabilité et affichage — [contrat 06](06-RENDERER-AND-LEARNER-LAYER.md). Ces références **ne participent pas** à la chaîne de traçabilité médicale (§9). Le **bloc de claim** reste une unité de traçabilité officielle ; il n'est **pas** l'ancre structurelle des notes apprenant ([ADR-005](../adr/ADR-005-learner-layer-annotation-anchoring.md)).
+
+### 11.1 Persistance d'étude — trois ancrages distincts
+
+Les données d'apprentissage **n'appartiennent pas** à la Release ([ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md), [contrat 08](08-RELEASE-EDITORIAL-ARCHITECTURE.md) R-08). Elles référencent **toujours** une **Release** `(chapitre, édition, version de publication)` **et** une cible selon la nature de la donnée :
+
+| Nature | Ancrage | Rôle |
+|---|---|---|
+| **Maîtrise conceptuelle / SR** | `(apprenant, Release, KP)` | Persistance **conceptuelle** — identité durable du savoir |
+| **Historique QCM** | `(apprenant, Release, question_id)` | **Tentatives** et scores par item ([contrat 07](07-ASSESSMENT-QUESTION.md) I-13) |
+| **Parcours de cas** | `(apprenant, Release, scenario_id)` | Complétion et historique de cas ([contrat 09](09-CLINICAL-SCENARIO.md) S-13) |
+| **Annotations walkthrough** | `(apprenant, Release, élément pédagogique)` + CaretAnchor | Couche apprenant — §11 ci-dessus |
+
+**Interdit :** ancrer la maîtrise conceptuelle durable **uniquement** sur `question_id` sans KP ; confondre **identité de savoir** (KP) et **identité de publication** (Release).
 
 ---
 

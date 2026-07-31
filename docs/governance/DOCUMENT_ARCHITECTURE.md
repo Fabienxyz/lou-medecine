@@ -34,7 +34,7 @@ Le pilotage s'inscrit **en parallèle** de la hiérarchie normative, sans en fai
 
 ```
 Doctrine normative
-  ADR → contrats fondamentaux 01–06 → contrats composants → specs techniques → code
+  ADR → contrats fondamentaux 01–09 → contrats composants → specs techniques → code
 
 Mémoire de décision
   Registres produit et domaine (PDR, Composition, …)

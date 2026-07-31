@@ -4,7 +4,7 @@
 **Dernière mise à jour :** 2026-07-28  
 **Index parent :** [`../00-INDEX.md`](../00-INDEX.md)
 
-Ce dossier regroupe les **contrats composants** : spécialisations durables d’un composant du système, **subordonnées** aux ADR et aux contrats fondamentaux 01–06.
+Ce dossier regroupe les **contrats composants** : spécialisations durables d’un composant du système, **subordonnées** aux ADR et aux contrats fondamentaux 01–09.
 
 Ils ne redéfinissent pas l’architecture. Ils ne remplacent pas la documentation technique ni le code.
 
@@ -15,7 +15,7 @@ Ils ne redéfinissent pas l’architecture. Ils ne remplacent pas la documentati
 ```
 ADR
   ↓
-Contrats fondamentaux (01–06)
+Contrats fondamentaux (01–09)
   ↓
 Contrats composants   ← ce dossier
   ↓

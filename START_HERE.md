@@ -6,7 +6,7 @@ If you are returning to the project after a break, read the following documents 
 
 Read in this order:
 
-1. [`docs/contracts/00-INDEX.md`](docs/contracts/00-INDEX.md) — contrats fondamentaux 01–06, ADR et architecture de référence (§ 6)
+1. [`docs/contracts/00-INDEX.md`](docs/contracts/00-INDEX.md) — contrats fondamentaux 01–09, ADR et architecture de référence (§ 6)
 2. [`docs/adr/README.md`](docs/adr/README.md) — index des Architecture Decision Records
 3. [`docs/governance/DOCUMENT_ARCHITECTURE.md`](docs/governance/DOCUMENT_ARCHITECTURE.md) — organisation du pilotage documentaire
 4. [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md) — intention : objectifs, séquencement, critères de sortie

@@ -3,9 +3,37 @@
 | | |
 |---|---|
 | **Type** | Inventaire technique — **informatif** |
-| **Statut** | Baseline pré-implémentation — 2026-07-28 |
+| **Statut** | **Clôturé** — migration Reader Composition V1 (Lots A–F, 2026-07-31) ; audit indépendant ✅ Conforme |
+| **Tag attendu** | `reader-composition-v1` — après commit de gouvernance |
 | **Contrat cible** | [`COMPOSITION-COMPONENT-CONTRACT.md`](../contracts/components/COMPOSITION-COMPONENT-CONTRACT.md) |
-| **Règle** | Aucun fichier listé ci-dessous n'a été modifié lors de la formalisation documentaire |
+| **Règle** | Ce document conserve l'inventaire baseline pré-implémentation ; les entrées résolues sont marquées ci-dessous |
+
+---
+
+## Clôture migration (Lot F)
+
+**Chemin nominal actif :**
+
+```
+Composition Specification → Composition Engine → Reading View Model → Renderer → Learner Layer
+```
+
+| Zone | Résolution |
+|---|---|
+| §1 Labels produit en amont | **Lot E** — `label` retiré amont ; gate lou-build ; manifests régénérés |
+| §2 Emojis | **Lot E/F** — spec = seule source ; `TABS` legacy isolé (manifest 404) |
+| §3 Ordre d'affichage | **Lots B/C–D** — `displayOrder` spec ; `buildProjectionTabs` supprimé |
+| §4 `known_absent` ids produit | **Lot E** — recentré familles production ; plus de pseudo-vues `actors`/`readiness` |
+| §5 Fallbacks codés en dur | **Lot F** — `projectionTabLabel()` supprimé ; `TABS` conservé ADR-002 uniquement |
+| §6 projection = onglet | **Lots C–F** — navigation depuis View Model ; nominal sans `buildProjectionTabs` |
+| §9 Modules cibles | **Lots B/C** — `composition/` livré |
+| §10 Tests | **Lots D–F** — tests View Model ; nominal path test ajouté |
+
+**Hors scope clôturé (dette résiduelle documentée, non bloquante V1) :** §7 gate convention blocs pipeline · §8 Package Access refactor · catalogue corpus (D6).
+
+---
+
+## Inventaire baseline (pré-implémentation — 2026-07-28)
 
 Inventaire des éléments à migrer lors de la future phase d'implémentation. Chaque entrée indique l'emplacement actuel, la violation contractuelle et l'action cible.
 

@@ -52,8 +52,8 @@ These documents explain the current research and discoveries.
 
 Only after reading the documents above should new product or implementation work begin.
 
-**Objectif actif :** capitalisation d'un **package de référence complet** (Item 234 — édition Collège 2023) — voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
+**Objectif actif :** **Reader Acceptance V1** sur le package de capitalisation de référence (Item 234 — édition Collège 2022, Release `complete`) — voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
 
-**Chantiers parallèles :** Reader V1 (développement, acceptation conditionnée par le package complet), patrimoine pédagogique, CI. Le détail opérationnel est dans [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
+**Chantiers parallèles :** Reader Acceptance V1 (phase active), patrimoine pédagogique, CI. **Reader Composition V1 clôturée** (Lots A–F) — le Reader n'est pas terminé. Détail : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
 
-**Pour démarrer concrètement :** [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (capitalisation), [`demo/renderer/`](demo/renderer/) (Reader), docs [14](docs/renderer/14-LOU-READER-ARCHITECTURE.md)–[15](docs/renderer/15-READER-FUNCTIONAL-SPECIFICATION.md).
+**Pour démarrer concrètement :** [`demo/renderer/`](demo/renderer/) (Reader), [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (package de référence), [`docs/renderer/READER-COMPOSITION-V1-FREEZE.md`](docs/renderer/READER-COMPOSITION-V1-FREEZE.md) (architecture Composition gelée).

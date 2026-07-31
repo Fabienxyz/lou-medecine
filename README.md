@@ -47,11 +47,13 @@ Research, observations and experiments.
 
 ## Current Status
 
-**Objectif actif :** capitalisation d'un **package de référence complet** (Item 234 — Insuffisance cardiaque — édition Collège 2023).
+**Objectif actif :** **Reader Acceptance V1** — critères d'acceptation sur le package de capitalisation de référence (Item 234 — Insuffisance cardiaque — édition Collège 2022, Release `complete`).
+
+**Reader Composition V1 :** clôturée (Lots A–F) — Spec → Engine → Reading View Model → Renderer en production ; audit indépendant ✅ Conforme. Voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
 
 **Pipeline validateur lou-build :** acquis — tag historique [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md) ; cutover : [`phase-3.5-completion-report.md`](docs/releases/phase-3.5-completion-report.md).
 
-**Chantiers en cours :** capitalisation Item 234, développement Reader V1 (acceptation conditionnée par le package complet), patrimoine pédagogique, CI.
+**Chantiers en cours :** Reader Acceptance V1, patrimoine pédagogique, CI.
 
 État opérationnel : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · intention et séquencement : [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md) · organisation du pilotage : [`docs/governance/DOCUMENT_ARCHITECTURE.md`](docs/governance/DOCUMENT_ARCHITECTURE.md).
 

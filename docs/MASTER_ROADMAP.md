@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-07-31 — gel architecture éditoriale V1 ([`contracts/07–09`](contracts/00-INDEX.md), tag `editorial-architecture-v1`).
+**Dernière révision :** 2026-07-31 — clôture Reader Composition V1 (Lots A–F) ; phase active Reader Acceptance V1.
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -31,6 +31,23 @@ Lou ouvre une application de lecture locale et accède à **n'importe quel chapi
 La couche de compréhension (Inventory → Blueprint → Projections) vient **après** et **en plus** du contenu officiel. Elle ne le remplace pas. Ce principe est **archétype-dépendant** : il produit le plus de valeur sur les chapitres mécanistiques et normatifs complexes ; sur d'autres archétypes, le projet accepte un profil de projections allégé plutôt qu'un échafaudage artificiel.
 
 Les obligations de fidélité, de traçabilité et de séparation officiel / généré sont définies dans les [contrats fondamentaux](contracts/00-INDEX.md) et les [ADR](adr/README.md).
+
+---
+
+## Progression V1
+
+Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
+
+| Jalon | Statut |
+|---|---|
+| Gouvernance et contrats fondamentaux | ✅ Clôturé |
+| La Fabrique (pipeline validateur lou-build) | ✅ Clôturé — tag `lou-build-pipeline-v1` |
+| Reader Composition V1 (Lots A–F) | ✅ Clôturé — audit indépendant ✅ Conforme ; tag `reader-composition-v1` en attente |
+| **Reader Acceptance V1** | 🔄 **Phase active** |
+| Validation pédagogique Lou | ⏳ En attente (Reader accepté) |
+| Industrialisation Fabrique productrice | ⏳ En attente |
+
+**Distinction obligatoire :** la clôture **Reader Composition V1** ne signifie **pas** que le Reader est terminé. L'objectif [Acceptation Reader V1](#acceptation-reader-v1) reste ouvert.
 
 ---
 
@@ -316,8 +333,9 @@ Deux natures de dépendance coexistent ([`DOCUMENT_ARCHITECTURE.md`](governance/
 | Élément | Bloqué au démarrage par | Bloqué à l'acceptation par | Débloque (à la clôture) |
 |---|---|---|---|
 | Capitalisation package de référence | — | — | acceptation Reader ; validation Lou ; fixture CI ; modèle industrialisation ; diff éditorial |
-| Développement Reader V1 | — | — | (prépare l'acceptation) |
-| Acceptation Reader V1 | — | package de référence publié | validation Lou en conditions réelles |
+| Reader Composition V1 | — | — | (architecture Composition en production — clôturée) |
+| Reader Acceptance V1 | package de référence publié | critères PDR-B1/B5/D/E | acceptation Reader V1 |
+| Acceptation Reader V1 | — | package de référence publié + critères acceptance | validation Lou en conditions réelles |
 | Validation pédagogique Lou | — | package de référence + Reader V1 accepté | industrialisation ; scale cardio |
 | Patrimoine V1 | — | co-vérifié à l'acceptation Reader | confiance données long terme |
 | Premier diff éditorial | package de référence validé | — | régime éditorial |
@@ -359,6 +377,8 @@ Objectifs clos — une ligne par acquis, renvoi vers la preuve de clôture. Le d
 | Architecture Fabrique v1 (spec) | Docs [16](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)–[19](renderer/19-BUILD-PIPELINE.md), [`contracts/00-INDEX.md` §6](contracts/00-INDEX.md) |
 | Pipeline validateur lou-build (stages A–K, cutover production) | [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md), [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md), tag `lou-build-pipeline-v1` |
 | Architecture éditoriale v1 (contrats 07–09, réconciliation ADR-006) | [`07`](contracts/07-ASSESSMENT-QUESTION.md)–[`09`](contracts/09-CLINICAL-SCENARIO.md), commit `54c3054`, tag `editorial-architecture-v1` |
+| Reader Composition V1 (Spec, Engine, ViewModel, branchement Renderer, neutralisation manifests) | [`READER-COMPOSITION-V1-FREEZE.md`](renderer/READER-COMPOSITION-V1-FREEZE.md), [`COMPOSITION-IMPLEMENTATION-DEBT.md`](governance/COMPOSITION-IMPLEMENTATION-DEBT.md) § Clôture migration ; audit indépendant ✅ Conforme |
+| Package de capitalisation de référence (Item 234, Release `complete`) | [`PROJECT_STATE.md`](PROJECT_STATE.md) § Livrables de référence |
 
 > **Note terminologique.** Le **pipeline validateur** lou-build est un acquis. La **Fabrique productrice autonome** reste un objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)) — ne pas confondre « cutover lou-build » avec « production autonome de contenu ».
 
@@ -393,4 +413,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-07-31 — gel architecture éditoriale V1 (tag `editorial-architecture-v1`).*
+*Révision 2026-07-31 — clôture Reader Composition V1 ; phase active Reader Acceptance V1.*

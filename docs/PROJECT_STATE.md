@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-07-31 (gel architecture éditoriale V1 — tag `editorial-architecture-v1` ; contrats 07–09)
+**Dernière mise à jour :** 2026-07-31 (clôture Reader Composition V1 — Lots A–F ; phase active : Reader Acceptance V1)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -20,16 +20,17 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | | |
 |---|---|
-| **Objectif actif** | [Capitalisation d'un package de référence complet](MASTER_ROADMAP.md#capitalisation-dun-package-de-référence-complet) |
-| **Livrable visé** | Package de capitalisation de référence — première instance [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md) |
-| **Chemin critique** | Convergence vers la **publication du package complet** — goulet principal avant acceptation Reader, validation Lou et industrialisation |
-| **Blocage structurant** | Package **incomplet** (mastery + QCM/cas absents) — bloque l'**acceptation** Reader V1, pas le développement Reader en parallèle |
-| **Dernier jalon produit** | Gel architecture éditoriale V1 — tag `editorial-architecture-v1` (commit `54c3054`) ; contrats [07](contracts/07-ASSESSMENT-QUESTION.md)–[09](contracts/09-CLINICAL-SCENARIO.md) en vigueur |
+| **Objectif actif** | [Acceptation Reader V1](MASTER_ROADMAP.md#acceptation-reader-v1) |
+| **Livrable visé** | Reader local installable, 7 vues alimentées sur le package de capitalisation de référence ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) |
+| **Chemin critique** | **Reader Acceptance V1** — goulet principal avant validation pédagogique Lou et industrialisation |
+| **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — architecture Composition en production ; reste patrimoine, offline, CI, alimentation complète des 7 vues |
+| **Dernier jalon produit** | **Reader Composition V1 clôturée** (Lots A–F) — audit indépendant ✅ Conforme ; package 234 Release `complete` (81 QCM + 3 scénarios) |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
 - Pipeline validateur lou-build en production — CLI unique `src/cli/build.ts` ; stages A–K ; tag `lou-build-pipeline-v1`.
 - **Architecture éditoriale normative gelée** — contrats 07–09 ; tag `editorial-architecture-v1` publié sur `origin/main`.
+- **Reader Composition V1 en production** — Spec → Engine → Reading View Model → Renderer ; manifests neutres ; couplage « 1 projection = 1 onglet » supprimé sur le chemin nominal ; legacy prototype isolé (manifest 404).
 - Acquisition en mode maintenance ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md)).
 - La **Fabrique productrice autonome** n'est **pas** opérationnelle — objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)).
 
@@ -39,10 +40,10 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Capitalisation Item 234** | Package de référence complet | Architecture éditoriale **gelée** ([contrats 07](contracts/07-ASSESSMENT-QUESTION.md)–[09](contracts/09-CLINICAL-SCENARIO.md), tag `editorial-architecture-v1`) ; **prochaine tranche : capitalisation QCM + 3–5 cas** ([PDR-A3](governance/PRODUCT-DECISION-REGISTRY.md)) |
-| **Reader V1 — développement** | Acceptation Reader V1 | Prototype `demo/renderer/` — architecture 7 vues, retrait fallbacks legacy ; **acceptation bloquée** tant que le package complet n'est pas publié ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md)) |
+| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **le Reader n'est pas terminé** — alimentation complète des 7 vues, offline, patrimoine, recherche |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Modèle de publication, version package, persistance — en retard sur la spec ; co-vérification prévue à l'acceptation Reader |
-| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | Préparation fixture sur tranche puis package complet ; CI non opérationnelle comme exigence de sortie |
+| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | Fixture sur package 234 complet ; CI non opérationnelle comme exigence de sortie |
+| **Capitalisation Item 234** | Package de référence complet | **Clôturé** — Release `complete` ; extension optionnelle (7 KP mastery restants) |
 
 ---
 
@@ -50,8 +51,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Rôle (roadmap) | Instance courante | État observé |
 |---|---|---|
-| **Package de capitalisation de référence** | Item **234** — Insuffisance cardiaque — édition Collège **2022** ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | **Baseline canonique understanding** (Étape 0) — manifest synchronisé full-chapter ; réconciliation v3 PASS ; **mastery / QCM absents** ; validate/build PASS |
-| **Fixture de non-régression** | — | **Non établie** — en attente du package complet publié |
+| **Package de capitalisation de référence** | Item **234** — Insuffisance cardiaque — édition Collège **2022** ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | Understanding + **évaluation complète** — 81 Questions + 3 Scénarios ; `editorial_completeness: complete` ; couverture understanding 91/91 ; validate/build PASS |
+| **Fixture de non-régression** | — | **À établir** — package complet publié, CI à brancher |
 
 ---
 
@@ -59,8 +60,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Blocage / risque | Impact | Objectif ou chantier concerné |
 |---|---|---|
-| Package 234 incomplet (mastery + QCM/cas absents) | Bloque **acceptation** Reader V1, validation Lou, fixture CI | Capitalisation · Acceptation Reader V1 |
-| Fallback renderer legacy (`generated-assets/`) | Retarde conformité Reader V1 | Reader V1 — développement |
+| Package 234 — 7 KP mastery sans QCM (progressif) | N'empêche pas Release `complete` ; extension future possible | Capitalisation (extension optionnelle) |
+| Fallback renderer legacy (`generated-assets/`, manifest 404) | Prototype historique isolé — hors chemin nominal Composition | Reader Acceptance V1 (extinction ADR-002 ultérieure) |
 | Pipeline sémantique non automatisé | Bloque industrialisation aval (pas le golden master capitalisé manuellement) | Industrialisation Fabrique productrice |
 | Build SVG non reproductible byte-identique | Bloque CI fiable | Maintenabilité et CI |
 | Patrimoine non implémenté (version package, export/restauration) | Bloque critères V1 patrimoine + acceptation Reader | Patrimoine · Acceptation Reader V1 |
@@ -78,7 +79,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Dette | État | Référence |
 |---|---|---|
 | Reliquat FIL A — `chapter-analysis/…/official-college.md` | À supprimer après CI | Migration FIL A |
-| Composition Engine (7 vues) — implémentation absente | Ouverte | [`governance/COMPOSITION-IMPLEMENTATION-DEBT.md`](governance/COMPOSITION-IMPLEMENTATION-DEBT.md) |
+| Composition Engine (7 vues) | **Clôturée** (Lots A–F) | [`governance/COMPOSITION-IMPLEMENTATION-DEBT.md`](governance/COMPOSITION-IMPLEMENTATION-DEBT.md) |
 | SVG V1 en production (Stage G) vs moteur grammaire cible | Ouverte | [PDR-F4](governance/PRODUCT-DECISION-REGISTRY.md) |
 | F2 sidecars G/H | Ouverte | Risques ci-dessus |
 
@@ -90,14 +91,15 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 | Indicateur | Mesuré | Notes |
 |---|---|---|
-| **Package de référence complet** | **Non** — baseline understanding seulement | Baseline canonique Étape 0 établie ; mastery/QCM restants |
-| **Reader V1 — critères d'acceptation** | **Partiel** — prototype slice (~3 vues utiles sur tranche) | Acceptation bloquée par package complet |
+| **Package de référence complet** | **Oui** — Release `complete` PDR-A3 | 81 QCM + 3 scénarios ; 91/91 KP understanding ; 9/16 deferred mastery |
+| **Reader Composition V1** | **Clôturée** — Spec, Engine, ViewModel en production ; 246 unit + 56 smoke PASS | Audit indépendant ✅ Conforme |
+| **Reader V1 — critères d'acceptation** | **Non prononcés** — phase Reader Acceptance V1 active | 2 vues `planned` (Amorçage, Collège) ; offline, patrimoine, CI restants |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
-| **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Mastery / QCM non produits |
-| **Grounding déterministe** | Non consolidé au niveau projet | — |
+| **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
+| **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
 | **Reproductibilité du build en CI** | **Non** — CI non opérationnelle comme exigence | Voir risque SVG / CI |
 | **Décisions humaines / chapitre** | Non suivi en production | — |
-| lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS mode `full-chapter` ; **0** package complet (mastery/QCM) |
+| lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS ; Release `complete` ; **1** package complet PDR-A3 |
 | Tests lou-build | **117/117** PASS | 78 JS + 39 TS |
 | Références FIL A opérationnelles | **0** | |
 
@@ -107,13 +109,11 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 Ordre hérité de [`MASTER_ROADMAP.md` § Dépendances](MASTER_ROADMAP.md#dépendances) — **pas une repriorisation locale**.
 
-1. **Capitalisation** — mastery + QCM/cas cliniques Item 234 ([PDR-A3](governance/PRODUCT-DECISION-REGISTRY.md)).
-2. **Reader V1** — poursuite développement architecture (parallèle ; acceptation bloquée).
-3. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
-4. **CI** — préparation fixture et non-régression (parallèle).
-5. **Acceptation Reader V1** — lorsque le package complet est publié.
-6. **Validation pédagogique Lou** — package + Reader accepté.
-7. Premier **diff éditorial** (2022 → 2026), puis **industrialisation** — voir roadmap.
+1. **Reader Acceptance V1** — critères PDR-B1/B5/D/E sur package 234 complet (chantier actif).
+2. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
+3. **CI** — fixture et non-régression sur package complet (parallèle).
+4. **Validation pédagogique Lou** — package + Reader accepté.
+5. **Extension optionnelle** — 7 KP mastery restants + scénarios variant/station si intérêt pédagogique.
 
 ---
 
@@ -123,6 +123,9 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-07-31 | **Clôture Reader Composition V1** (Lots A–F) — Spec, Engine, ViewModel en production ; manifests neutres ; `buildProjectionTabs` supprimé ; audit indépendant ✅ Conforme ; tag `reader-composition-v1` **en attente** |
+| 2026-07-31 | **Capitalisation évaluation 234 tranche 2** — 81 Questions (`q-234-01`…`81`) ; couverture understanding 91/91 ; 9 Q mastery ; Release `complete` ; audit `build/evaluation-editorial-audit.md` ; validate/build PASS |
+| 2026-07-31 | **Capitalisation évaluation 234 tranche 1** — 15 Questions + 3 Scénarios (standard/trap/synthesis) ; registres + wiring manifest lou-build |
 | 2026-07-31 | **Tag `editorial-architecture-v1`** — gel officiel architecture éditoriale publié sur `origin/main` (commit `54c3054`) |
 | 2026-07-31 | **Réconciliation architecture éditoriale** — Release = Chapter Package ; Questions/Scénarios dans Release ; vocabulaire absences (contrat 08 §5) ; triple ancrage apprenant ; ADR-006 / doc 17 alignés sur archivage et bascule atomique |
 | 2026-07-31 | **Contrat 09** — spécification normative Scénario clinique |
@@ -146,9 +149,11 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 | Organisation du pilotage | [`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md) |
 | Obligations techniques | [`contracts/00-INDEX.md`](contracts/00-INDEX.md) |
 | Rapports de clôture | [`docs/releases/`](releases/) |
-| Détail Reader | [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md) |
+| Détail Reader Composition | [`renderer/READER-COMPOSITION-V1-FREEZE.md`](renderer/READER-COMPOSITION-V1-FREEZE.md) |
+| Dette Composition (clôturée) | [`governance/COMPOSITION-IMPLEMENTATION-DEBT.md`](governance/COMPOSITION-IMPLEMENTATION-DEBT.md) |
+| Détail migration Reader | [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md) |
 | Détail industrialisation (ultérieur) | [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) |
 
 ---
 
-*Révision 2026-07-31 — tag `editorial-architecture-v1` ; synchronisation pilotage post-gel éditorial.*
+*Révision 2026-07-31 — clôture Reader Composition V1 ; phase active Reader Acceptance V1.*

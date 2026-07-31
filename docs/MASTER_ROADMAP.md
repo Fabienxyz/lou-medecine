@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-07-30 — migration conforme à [`governance/DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md), décisions audit ([`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md), [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)).
+**Dernière révision :** 2026-07-31 — gel architecture éditoriale V1 ([`contracts/07–09`](contracts/00-INDEX.md), tag `editorial-architecture-v1`).
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -62,6 +62,7 @@ Ce document **ordonne** ; il n'**oblige** pas. Pour savoir ce qui doit être vra
 |---|---|
 | Décisions architecturales fondatrices | [Index ADR](adr/README.md) |
 | Obligations métier durables | [Contrats fondamentaux 01–09](contracts/00-INDEX.md) |
+| Architecture éditoriale gelée (contrats 07–09) | [Contrats 07–09](contracts/00-INDEX.md), tag `editorial-architecture-v1` |
 | Obligations composants (Tool, Composition, Renderer, …) | [Contrats composants](contracts/components/00-INDEX.md) |
 | Architecture Reader et Fabrique (specs gelées) | [`contracts/00-INDEX.md` §6](contracts/00-INDEX.md) → docs [14–19](renderer/README.md) |
 | Mémoire des arbitrages produit (audit 2026-07-30) | [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |
@@ -314,7 +315,7 @@ Deux natures de dépendance coexistent ([`DOCUMENT_ARCHITECTURE.md`](governance/
 
 | Élément | Bloqué au démarrage par | Bloqué à l'acceptation par | Débloque (à la clôture) |
 |---|---|---|---|
-| Capitalisation package de référence | alignement source éditoriale si requis ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | — | acceptation Reader ; validation Lou ; fixture CI ; modèle industrialisation ; diff éditorial |
+| Capitalisation package de référence | — | — | acceptation Reader ; validation Lou ; fixture CI ; modèle industrialisation ; diff éditorial |
 | Développement Reader V1 | — | — | (prépare l'acceptation) |
 | Acceptation Reader V1 | — | package de référence publié | validation Lou en conditions réelles |
 | Validation pédagogique Lou | — | package de référence + Reader V1 accepté | industrialisation ; scale cardio |
@@ -357,6 +358,7 @@ Objectifs clos — une ligne par acquis, renvoi vers la preuve de clôture. Le d
 | Architecture Reader v1 (spec) | Docs [14](renderer/14-LOU-READER-ARCHITECTURE.md)–[15](renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) |
 | Architecture Fabrique v1 (spec) | Docs [16](renderer/16-CONTENT-TO-READER-ARCHITECTURE.md)–[19](renderer/19-BUILD-PIPELINE.md), [`contracts/00-INDEX.md` §6](contracts/00-INDEX.md) |
 | Pipeline validateur lou-build (stages A–K, cutover production) | [`releases/phase-3.4-batch-migration-g-k.md`](releases/phase-3.4-batch-migration-g-k.md), [`releases/phase-3.5-completion-report.md`](releases/phase-3.5-completion-report.md), tag `lou-build-pipeline-v1` |
+| Architecture éditoriale v1 (contrats 07–09, réconciliation ADR-006) | [`07`](contracts/07-ASSESSMENT-QUESTION.md)–[`09`](contracts/09-CLINICAL-SCENARIO.md), commit `54c3054`, tag `editorial-architecture-v1` |
 
 > **Note terminologique.** Le **pipeline validateur** lou-build est un acquis. La **Fabrique productrice autonome** reste un objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)) — ne pas confondre « cutover lou-build » avec « production autonome de contenu ».
 
@@ -391,4 +393,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-07-30 — migration Phase A.7 ; motive : capitalisation audit système, ADR-006, [`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md).*
+*Révision 2026-07-31 — gel architecture éditoriale V1 (tag `editorial-architecture-v1`).*

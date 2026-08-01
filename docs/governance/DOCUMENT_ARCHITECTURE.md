@@ -398,6 +398,7 @@ Cette doctrine encode structurellement ce changement : la roadmap organise l'int
 | [`PRODUCT-DECISION-REGISTRY.md`](PRODUCT-DECISION-REGISTRY.md) | Mémoire des arbitrages produit ; annexe C — propagation |
 | [`contracts/00-INDEX.md`](../contracts/00-INDEX.md) | Hiérarchie normative ; §1 arbitrage priorités / comportement |
 | [`adr/README.md`](../adr/README.md) | Index des ADR |
+| [`OFFLINE-IMPLEMENTATION-PLAN.md`](OFFLINE-IMPLEMENTATION-PLAN.md) | Plan d'exécution PDR-D2 (lots D2-A…I — clôturé) |
 | [`docs/releases/`](../releases/) | Rapports de clôture et jalons datés |
 | [`COMPOSITION-IMPLEMENTATION-DEBT.md`](COMPOSITION-IMPLEMENTATION-DEBT.md) | Modèle de registre de dette par domaine |
 

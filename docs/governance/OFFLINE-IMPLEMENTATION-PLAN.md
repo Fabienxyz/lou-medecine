@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Plan d'exécution — **informatif** |
-| **Statut** | En vigueur — 2026-08-01 |
+| **Statut** | **Clôturé** — 2026-08-01 (D2-I) |
 | **Décision produit** | [PDR-D2](PRODUCT-DECISION-REGISTRY.md) |
 | **Contrat** | [`OFFLINE-COMPONENT-CONTRACT.md`](../contracts/components/OFFLINE-COMPONENT-CONTRACT.md) (D2-A) |
 | **Autorité** | Séquencement des lots d'implémentation uniquement — ne remplace ni le contrat, ni la roadmap |
@@ -24,7 +24,7 @@ Ce document porte la **numérotation opérationnelle unique** des lots PDR-D2. L
 | **D2-F** | Préparation automatique après installation | **Livré** |
 | **D2-G** | Acceptation Offline | **Livré** |
 | **D2-H** | Update / Repair / Archive | **Livré** |
-| **D2-I** | Propagation documentaire / clôture | À venir |
+| **D2-I** | Propagation documentaire / clôture | **Livré** |
 
 ---
 
@@ -40,7 +40,7 @@ Ce document porte la **numérotation opérationnelle unique** des lots PDR-D2. L
 | **D2-F — Préparation automatique après installation** | Hook post-install → préparation auxiliaire ; vérif digest ; **sans certification** | D2-E, B1 | Install 234 → `not_prepared` ; matérialisation auxiliaire optionnelle |
 | **D2-G — Acceptation Offline** | Runtime de production ; certification `offline_ready` / `failed` ; 7 vues offline froid | D2-F | Suite Playwright OF-D2-* PASS ; CI 234 |
 | **D2-H — Update / Repair / Archive** | Conserver cache archived ; stale detection ; repair | D2-F | Install v2 → v1 cache intact ; stale → repair |
-| **D2-I — Propagation documentaire / clôture** | PROJECT_STATE ; critère roadmap ; clôture gouvernance PDR-D2 | D2-G | PDR-D2 clôturé gouvernance |
+| **D2-I — Propagation documentaire / clôture** | PROJECT_STATE ; MASTER_ROADMAP § Acquis ; PRODUCT-DECISION-REGISTRY annexe C ; clôture gouvernance PDR-D2 | D2-H | PDR-D2 clôturé gouvernance — 2026-08-01 |
 
 **Clarification D2-F — préparation auxiliaire :** le lot D2-F introduit un mécanisme auxiliaire de préparation déclenché après installation. Cette matérialisation est informative : ni son succès ni son échec n'affectent `offline_status`. Toute Release nouvellement installée reste `not_prepared` jusqu'à la certification par le runtime de production (lot D2-G). Les transitions `not_prepared` → `preparing` → `offline_ready` ou `failed` sont réservées à ce runtime de production.
 
@@ -100,7 +100,7 @@ Harmonisation documentaire uniquement — contenu des lots inchangé, identifian
 | D2-E — Prepare à l'install | **D2-F** — Préparation automatique après installation |
 | D2-F — Tests acceptation D2 | **D2-G** — Acceptation Offline |
 | D2-G — Update & archive | **D2-H** — Update / Repair / Archive |
-| D2-H — Contrat + docs | **D2-A** (contrat, livré) · **D2-I** (propagation / clôture) |
+| D2-H — Contrat + docs | **D2-A** (contrat, livré) · **D2-I** (propagation / clôture, livré) |
 
 ---
 
@@ -114,4 +114,4 @@ Harmonisation documentaire uniquement — contenu des lots inchangé, identifian
 
 ---
 
-*Plan d'implémentation PDR-D2 — numérotation harmonisée 2026-08-01.*
+*Plan d'implémentation PDR-D2 — clôturé 2026-08-01 (lots D2-A…I livrés ; gouvernance synchronisée).*

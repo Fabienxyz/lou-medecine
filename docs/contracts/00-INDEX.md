@@ -1,7 +1,7 @@
 # Lou Médecine — Index des contrats
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-08-01 (contrat Offline D2-A)  
+**Dernière mise à jour :** 2026-08-01 (PDR-D2 clôturé — contrats composants Offline + Catalogue)  
 **Audit source :** [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md)
 
 Ce document est la **porte d'entrée** du système contractuel. Il n'énonce aucune règle métier, ne remplace aucun ADR ni aucun contrat existant.

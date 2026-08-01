@@ -1,7 +1,7 @@
 # Index des contrats composants
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-08-01 (contrat Offline D2-A)  
+**Dernière mise à jour :** 2026-08-01 (PDR-D2 clôturé — contrats composants Offline + Catalogue)  
 **Index parent :** [`../00-INDEX.md`](../00-INDEX.md)
 
 Ce dossier regroupe les **contrats composants** : spécialisations durables d’un composant du système, **subordonnées** aux ADR et aux contrats fondamentaux 01–09.

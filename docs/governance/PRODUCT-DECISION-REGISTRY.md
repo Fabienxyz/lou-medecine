@@ -285,9 +285,11 @@ Ce registre consolide l'ensemble des arbitrages produit issus de l'audit systèm
 | **Source audit** | Q11 |
 | **Décision retenue** | Reader 100 % offline pour tous les packages **déjà installés** : texte, projections, figures, annotations, progression. La Fabrique peut nécessiter le réseau (LLM). Technologie ouverte (Tauri, PWA, etc.). |
 | **Justification** | Compagnon d'apprentissage utilisable sans connexion. |
-| **Documents cibles** | `14-LOU-READER-ARCHITECTURE.md` ; `15-READER-FUNCTIONAL-SPECIFICATION.md` |
+| **Documents cibles** | `14-LOU-READER-ARCHITECTURE.md` ; `15-READER-FUNCTIONAL-SPECIFICATION.md` ; contrat composant [`OFFLINE-COMPONENT-CONTRACT.md`](../contracts/components/OFFLINE-COMPONENT-CONTRACT.md) |
 | **ADR associé** | ADR-006 §6 |
 | **Critère de propagation** | Offline sur packages installés = exigence Reader documentée. |
+| **Propagation normative** | [`OFFLINE-COMPONENT-CONTRACT.md`](../contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur ; [`LIBRARY-CATALOG-CONTRACT.md`](../contracts/components/LIBRARY-CATALOG-CONTRACT.md) §11.1 ; lots D2-A…I livrés — clôture gouvernance 2026-08-01 ([`OFFLINE-IMPLEMENTATION-PLAN.md`](OFFLINE-IMPLEMENTATION-PLAN.md)). |
+| **Propagation différée** | Docs [14](../renderer/14-LOU-READER-ARCHITECTURE.md)–[15](../renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) — hors périmètre D2-I ; le contrat composant Offline fait autorité pour le comportement normatif. |
 
 ---
 
@@ -711,9 +713,11 @@ Vue consolidée pour le suivi de propagation et l'audit de cohérence ([`PRODUCT
 | `COMPOSITION-COMPONENT-CONTRACT.md` | A2, A4, B5 | À faire |
 | `RENDERER-COMPONENT-CONTRACT.md` | D4, D6, D7 | À faire |
 | `ADMIN-OPERATIONS-CONTRACT.md` *(à créer)* | C6 | À faire |
-| [`LIBRARY-CATALOG-CONTRACT.md`](../contracts/components/LIBRARY-CATALOG-CONTRACT.md) | D1 | En vigueur (D1-A) |
-| `MASTER_ROADMAP.md` | B1–B3, C1–C2, C4, C6–C7, D1, F1, G2, G6 | Fait — 2026-07-30 |
-| `PROJECT_STATE.md` | B1–B2, C1, G6 | Fait — 2026-07-30 |
+| [`LIBRARY-CATALOG-CONTRACT.md`](../contracts/components/LIBRARY-CATALOG-CONTRACT.md) | D1, D2 | En vigueur (D1-A, D2 §11.1) — 2026-08-01 |
+| [`OFFLINE-COMPONENT-CONTRACT.md`](../contracts/components/OFFLINE-COMPONENT-CONTRACT.md) | D2 | En vigueur (D2-A…I) — 2026-08-01 |
+| [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](OFFLINE-IMPLEMENTATION-PLAN.md) | D2 | Clôturé — 2026-08-01 |
+| `MASTER_ROADMAP.md` | B1–B3, C1–C2, C4, C6–C7, D1, D2, F1, G2, G6 | Fait — 2026-08-01 |
+| `PROJECT_STATE.md` | B1–B2, C1, D2, G6 | Fait — 2026-08-01 |
 | [`ADR-006`](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) | E1–E4, G3, C7, A4 | Fait |
 
 ---

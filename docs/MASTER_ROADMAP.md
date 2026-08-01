@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-07-31 — clôture Reader Composition V1 (Lots A–F) ; phase active Reader Acceptance V1.
+**Dernière révision :** 2026-08-01 — clôture PDR-D2 (lots D2-A…I) ; phase active Reader Acceptance V1.
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -160,7 +160,7 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 
 **Hors périmètre V1 :** répétition espacée, recherche globale bibliothèque, export PDF, sync automatique, indicateur de progression élaboré ([PDR-D5](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G4](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-**Plan d'exécution détaillé :** [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md), [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md), [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) (PDR-D2 — lots D2-A…I).
+**Plan d'exécution détaillé :** [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md), [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md), [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) (PDR-D2 — lots D2-A…I **livrés** ; plan **clôturé**).
 
 ---
 
@@ -379,6 +379,7 @@ Objectifs clos — une ligne par acquis, renvoi vers la preuve de clôture. Le d
 | Architecture éditoriale v1 (contrats 07–09, réconciliation ADR-006) | [`07`](contracts/07-ASSESSMENT-QUESTION.md)–[`09`](contracts/09-CLINICAL-SCENARIO.md), commit `54c3054`, tag `editorial-architecture-v1` |
 | Reader Composition V1 (Spec, Engine, ViewModel, branchement Renderer, neutralisation manifests) | [`READER-COMPOSITION-V1-FREEZE.md`](renderer/READER-COMPOSITION-V1-FREEZE.md), [`COMPOSITION-IMPLEMENTATION-DEBT.md`](governance/COMPOSITION-IMPLEMENTATION-DEBT.md) § Clôture migration ; audit indépendant ✅ Conforme |
 | Package de capitalisation de référence (Item 234, Release `complete`) | [`PROJECT_STATE.md`](PROJECT_STATE.md) § Livrables de référence |
+| Mode hors ligne intégral — packages installés ([PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md)) | [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md), [`OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) — lots D2-A…I livrés |
 
 > **Note terminologique.** Le **pipeline validateur** lou-build est un acquis. La **Fabrique productrice autonome** reste un objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)) — ne pas confondre « cutover lou-build » avec « production autonome de contenu ».
 
@@ -413,4 +414,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-07-31 — clôture Reader Composition V1 ; phase active Reader Acceptance V1.*
+*Révision 2026-08-01 — clôture PDR-D2 (D2-A…I) ; phase active Reader Acceptance V1.*

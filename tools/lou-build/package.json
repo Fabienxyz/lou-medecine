@@ -10,7 +10,8 @@
     "test": "npm run test:ci && npm run test:integration",
     "typecheck": "tsc --noEmit",
     "validate": "tsx src/cli/build.ts validate",
-    "build": "tsx src/cli/build.ts build"
+    "build": "tsx src/cli/build.ts build",
+    "library:install": "tsx src/cli/library.ts install"
   },
   "dependencies": {
     "yaml": "^2.7.0"

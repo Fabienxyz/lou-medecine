@@ -41,7 +41,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **D1-A** contrat Library Catalog gelé ; **D1-B** identité Release (`publication_version` / `release_id` / `content_digest`) ; suite D1-C… ; infra offline minimale ; **PDR-D2 complet ouvert** ; Amorçage, patrimoine, reprise, recherche ouverts |
+| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **D1-A…C** Library Catalog + identité Release + install atomique ; suite D1-D Package Access… ; infra offline minimale ; **PDR-D2 complet ouvert** ; Amorçage, patrimoine, reprise, recherche ouverts |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Modèle de publication, version package, persistance — en retard sur la spec ; co-vérification prévue à l'acceptation Reader |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; première exécution sur GitHub après push ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
 | **Capitalisation Item 234** | Package de référence complet | **Clôturé** — Release `complete` ; extension optionnelle (7 KP mastery restants) |
@@ -125,6 +125,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-01 | **D1-C — Installation atomique** — `lou-library install` → `LIBRARY_ROOT` + `library.json` ; activation / archivage ; vérif `content_digest` |
 | 2026-08-01 | **D1-B — Identité Release** — `publication_version`, `release_id`, `content_digest` portés par le manifest publié (lou-build) |
 | 2026-08-01 | **D1-A — Library Catalog Contract** — [`LIBRARY-CATALOG-CONTRACT.md`](contracts/components/LIBRARY-CATALOG-CONTRACT.md) en vigueur ; index contrats mis à jour |
 | 2026-08-01 | **Fixture CI 234 validée** — run GitHub Actions [#30689638119](https://github.com/Fabienxyz/lou-medecine/actions/runs/30689638119) PASS (~3 min) ; Lot 1 clôturé |

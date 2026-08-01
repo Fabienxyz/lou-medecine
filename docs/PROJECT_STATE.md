@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-01 (D4 publié sur `origin/main` ; lot D6 — recherche locale — ouvert)
+**Dernière mise à jour :** 2026-08-01 (D6 publié sur `origin/main` ; lot D7 — préférences d'affichage — ouvert)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -23,8 +23,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Objectif actif** | [Acceptation Reader V1](MASTER_ROADMAP.md#acceptation-reader-v1) — critères PDR-B1/B5/D/E sur package 234 complet |
 | **Livrable visé** | Reader local installable, 7 vues alimentées sur le package de capitalisation de référence ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Chemin critique** | **Reader Acceptance V1** — goulet principal avant validation pédagogique Lou et industrialisation |
-| **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — recherche locale, Amorçage (1 vue `planned`), CI ouverts |
-| **Dernier jalon produit** | **D4 publié** — reprise de session Reader (`feat(renderer): implement session resume (PDR-D4)` sur `origin/main`) ; ResumePlan · Session Service · store `session_resume` ; E-D (`c6821dc`) ; patrimoine E-A…E-D clôturé |
+| **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — Amorçage (1 vue `planned`), préférences D7, CI ouverts |
+| **Dernier jalon produit** | **D6 publié** — recherche textuelle locale Reader (`docs(governance): publish local search (PDR-D6)` sur `origin/main`) ; contrat [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; tag `local-search-v1` ; validation D6-F 493 unit + 19 smoke LS-F PASS |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -42,7 +42,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; PDR-D1, PDR-D2, **PDR-D4** **publiés** ; recherche D6 et Amorçage ouverts |
+| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; PDR-D1, PDR-D2, **PDR-D4**, **PDR-D6** **publiés** ; D7 et Amorçage ouverts |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
 
@@ -93,9 +93,10 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | Indicateur | Mesuré | Notes |
 |---|---|---|
 | **Package de référence complet** | **Oui** — Release `complete` PDR-A3 | 81 QCM + 3 scénarios ; 91/91 KP understanding ; 9/16 deferred mastery |
-| **Reader Composition V1** | **Publiée** — tag `reader-composition-v1` ; Spec, Engine, ViewModel en production ; **396 unit + 71 smoke PASS** (10 OF-D2-*) | Audit indépendant ✅ Conforme |
+| **Reader Composition V1** | **Publiée** — tag `reader-composition-v1` ; Spec, Engine, ViewModel en production ; **493 unit PASS** (dont D6-C/D/D/E/F) | Audit indépendant ✅ Conforme |
 | **PDR-D2 — Offline intégral** | **Publié** — tag `offline-certification-v1` ; lots D2-A…I livrés ; Browser Offline Manager seul certifiant ; 9 tests Playwright OF-D2-* PASS | Contrat [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur |
-| **Reader V1 — critères d'acceptation** | **Non prononcés** — phase Reader Acceptance V1 active | 1 vue `planned` (Amorçage) ; Collège officiel alimenté ; **PDR-D1 clôturé** ; **PDR-D2 clôturé** ; **PDR-D4 clôturé** ; patrimoine E-A…E-D clôturé ; recherche D6 ouverte ; fixture CI branchée |
+| **PDR-D6 — Recherche locale** | **Publié** — tag `local-search-v1` ; contrat [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; lots D6-A…G ; **493 unit + 19 smoke LS-F PASS** (D6-F) | Implémentation Reader validée localement — commit code distinct hors D6-G |
+| **Reader V1 — critères d'acceptation** | **Non prononcés** — phase Reader Acceptance V1 active | 1 vue `planned` (Amorçage) ; Collège officiel alimenté ; **PDR-D1 clôturé** ; **PDR-D2 clôturé** ; **PDR-D4 clôturé** ; **PDR-D6 clôturé** ; patrimoine E-A…E-D clôturé ; D7 ouvert ; fixture CI branchée |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
@@ -125,7 +126,8 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-08-01 | **Publication D4** — `feat(renderer): implement session resume (PDR-D4)` sur `origin/main` ; ResumePlan · Session Service · store `session_resume` (IndexedDB v7) · RestoreContext · CE-01…CE-08 ; shell offline inclut `restore-catalog-facts.js` ; **396 unit + 71 smoke PASS** ; lot D6 ouvert |
+| 2026-08-01 | **Publication D6** — `docs(governance): publish local search (PDR-D6)` sur `origin/main` ; [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; tag `local-search-v1` ; lots D6-A…G ; **493 unit + 19 smoke LS-F PASS** ; lot D7 ouvert |
+| 2026-08-01 | **Publication D4** — `feat(renderer): implement session resume (PDR-D4)` sur `origin/main` ; ResumePlan · Session Service · store `session_resume` (IndexedDB v7) · RestoreContext · CE-01…CE-08 ; shell offline inclut `restore-catalog-facts.js` ; **396 unit + 71 smoke PASS** |
 | 2026-08-01 | **Publication E-D** — `c6821dc` `feat(renderer): implement learner patrimony snapshot import` sur `origin/main` ; LP-06 satisfait ; 351 tests PASS ; PDR-E5 export + import livré — lot D4 ouvert |
 | 2026-08-01 | **Publication E-C** — `0d7ba1d` `feat(renderer): implement learner patrimony snapshot export` sur `origin/main` ; LP-05 satisfait ; 333 tests PASS ; PDR-E5 export §8 livré — import E-D ouvert |
 | 2026-08-01 | **Ouverture lot E-C** — export Learner Snapshot (PDR-E5 §8, contrat E-A §8) ; persistance E-B publiée sur `origin/main` |
@@ -188,4 +190,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-01 — D4 publié (reprise de session Reader / PDR-D4) ; ResumePlan · Session Service · session_resume · Offline ; 396 unit + 71 smoke PASS ; lot D6 ouvert ; objectif actif : Acceptation Reader V1 — non prononcée.*
+*Révision 2026-08-01 — D6 publié (recherche locale Reader / PDR-D6) ; contrat Local Search en vigueur ; tag local-search-v1 ; 493 unit + 19 smoke LS-F PASS ; lot D7 ouvert ; objectif actif : Acceptation Reader V1 — non prononcée.*

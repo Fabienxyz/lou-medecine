@@ -704,17 +704,18 @@ Vue consolidée pour le suivi de propagation et l'audit de cohérence ([`PRODUCT
 | `04-CHAPTER-PACKAGE.md` | A1, A3, A4, E3, F3, G3, C7 | À faire |
 | `05-VISUAL-GRAMMAR.md` | F1, F2, F3, F4 | À faire |
 | `06-RENDERER-AND-LEARNER-LAYER.md` | A1, D2–D5, E1, E4–E6, G5 | À faire |
-| `14-LOU-READER-ARCHITECTURE.md` | B1, D1–D3, E5, G2, G5 | À faire |
-| `15-READER-FUNCTIONAL-SPECIFICATION.md` | A2–A4, B1, B4–B5, D4–D10, E6, G1, G4 | À faire |
+| `14-LOU-READER-ARCHITECTURE.md` | B1, D1–D3, E5, G2, G5 | D6 propagé — 2026-08-01 |
+| `15-READER-FUNCTIONAL-SPECIFICATION.md` | A2–A4, B1, B4–B5, D4–D10, E6, G1, G4 | D6 propagé — 2026-08-01 |
 | `16-CONTENT-TO-READER-ARCHITECTURE.md` | A1 | À faire |
 | `17-PUBLICATION-MODEL.md` | A3, A4, B2, D1, E1–E3, G3, C7 | À faire |
 | `18-BUILD-ARCHITECTURE.md` | C1–C6, E2, G6 | À faire |
 | `19-BUILD-PIPELINE.md` | A3, B2, C3, C7, E3, F1, F4, G3 | À faire |
 | `COMPOSITION-COMPONENT-CONTRACT.md` | A2, A4, B5 | À faire |
-| `RENDERER-COMPONENT-CONTRACT.md` | D4, D6, D7 | À faire |
+| `RENDERER-COMPONENT-CONTRACT.md` | D4, D6, D7 | D6 propagé — 2026-08-01 |
 | `ADMIN-OPERATIONS-CONTRACT.md` *(à créer)* | C6 | À faire |
 | [`LIBRARY-CATALOG-CONTRACT.md`](../contracts/components/LIBRARY-CATALOG-CONTRACT.md) | D1, D2 | En vigueur (D1-A, D2 §11.1) — 2026-08-01 |
 | [`OFFLINE-COMPONENT-CONTRACT.md`](../contracts/components/OFFLINE-COMPONENT-CONTRACT.md) | D2 | En vigueur (D2-A…I) — 2026-08-01 |
+| [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](../contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) | D6 | En vigueur (D6-A…G) — 2026-08-01 |
 | [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](OFFLINE-IMPLEMENTATION-PLAN.md) | D2 | Clôturé — 2026-08-01 |
 | `MASTER_ROADMAP.md` | B1–B3, C1–C2, C4, C6–C7, D1, D2, F1, G2, G6 | Fait — 2026-08-01 |
 | `PROJECT_STATE.md` | B1–B2, C1, D2, G6 | Fait — 2026-08-01 |

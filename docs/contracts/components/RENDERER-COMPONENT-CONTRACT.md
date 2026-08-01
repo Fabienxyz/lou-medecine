@@ -531,6 +531,7 @@ Relèvent d'autres documents — **non tranchés ici** :
 
 | Document | Usage |
 |---|---|
+| [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](LOCAL-SEARCH-COMPONENT-CONTRACT.md) | Recherche textuelle locale — Release ouverte ([PDR-D6](../../governance/PRODUCT-DECISION-REGISTRY.md)) |
 | [`docs/renderer/`](../../renderer/) | Spécification produit et architecture technique du lecteur |
 | [`PHASE_0A_COMPLETION.md`](../../governance/PHASE_0A_COMPLETION.md) | Clôture de gouvernance fondamentale |
 | Documentation d'implémentation versionnée du lecteur | Détail technique subordonné |

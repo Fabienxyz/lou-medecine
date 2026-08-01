@@ -145,7 +145,7 @@ Overlays apprenant conservés en vue agrandie (formatage figure).
 | Breadcrumb, barre d'onglets | Permanent dans le chapitre |
 | TOC | Notions uniquement |
 | Ancres internes | Notions ; Modèle mental → Notions |
-| Recherche in-chapter | Hors V1 |
+| Recherche in-chapter | V1 — Release ouverte uniquement ([PDR-D6](../governance/PRODUCT-DECISION-REGISTRY.md)) ; panneau Ctrl/Cmd+K ; navigation vers ancre ; surbrillance éphémère ; état non persisté |
 | Historique navigateur | Natif |
 
 Règles UX structurelles : doc 14 § UX.

@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-01 (PDR-D2 clôturé — D2-A…I livrés ; objectif actif : Acceptation Reader V1)
+**Dernière mise à jour :** 2026-08-01 (PDR-D2 publié — tag `offline-certification-v1` ; objectif actif : Acceptation Reader V1)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -24,7 +24,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Livrable visé** | Reader local installable, 7 vues alimentées sur le package de capitalisation de référence ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Chemin critique** | **Reader Acceptance V1** — goulet principal avant validation pédagogique Lou et industrialisation |
 | **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — patrimoine, reprise de session, recherche, CI, Amorçage ouverts |
-| **Dernier jalon produit** | **PDR-D2 clôturé** (D2-I) — lots D2-A…I livrés ; mode hors ligne intégral sur packages installés opérationnel en mode produit |
+| **Dernier jalon produit** | **PDR-D2 publié** (D2-I) — lots D2-A…I livrés ; certification offline produit opérationnelle ; tag `offline-certification-v1` sur `origin/main` |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -42,12 +42,9 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **PDR-D1 clôturé** ; **PDR-D2 clôturé** ; Amorçage, patrimoine, reprise, recherche ouverts |
+| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; PDR-D1 et PDR-D2 **publiés** ; Amorçage, patrimoine, reprise, recherche ouverts |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Modèle de publication, version package, persistance — en retard sur la spec ; co-vérification prévue à l'acceptation Reader |
-| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; première exécution sur GitHub après push ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
-| **Capitalisation Item 234** | Package de référence complet | **Clôturé** — Release `complete` ; extension optionnelle (7 KP mastery restants) |
-| **PDR-D1 — Bibliothèque installable** | [PDR-D1](governance/PRODUCT-DECISION-REGISTRY.md) | **Clôturé** — D1-A Library Catalog Contract · D1-B identité Release · D1-C installation atomique · D1-D Package Access |
-| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) | **Clôturé** — D2-A…I livrés — contrat + modèle + Offline Manager + Package Access Browser + Runtime Offline + préparation auto + certification produit + repair/purge/stale ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) |
+| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
 
 ---
 
@@ -97,6 +94,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 |---|---|---|
 | **Package de référence complet** | **Oui** — Release `complete` PDR-A3 | 81 QCM + 3 scénarios ; 91/91 KP understanding ; 9/16 deferred mastery |
 | **Reader Composition V1** | **Publiée** — tag `reader-composition-v1` ; Spec, Engine, ViewModel en production ; 249 unit + **70 smoke PASS** (9 OF-D2-*) | Audit indépendant ✅ Conforme |
+| **PDR-D2 — Offline intégral** | **Publié** — tag `offline-certification-v1` ; lots D2-A…I livrés ; Browser Offline Manager seul certifiant ; 9 tests Playwright OF-D2-* PASS | Contrat [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur |
 | **Reader V1 — critères d'acceptation** | **Non prononcés** — phase Reader Acceptance V1 active | 1 vue `planned` (Amorçage) ; Collège officiel alimenté ; **PDR-D1 clôturé** ; **PDR-D2 clôturé** ; patrimoine, reprise de session, recherche ouverts ; fixture CI branchée, validation GitHub Actions après push |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
@@ -127,6 +125,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-01 | **Publication PDR-D2** — tag `offline-certification-v1` sur `origin/main` ; commit `docs(governance): finalize PDR-D2 publication state` ; handover synchronisé |
 | 2026-08-01 | **D2-I — clôture PDR-D2** — propagation gouvernance ; lots D2-A…I livrés ; objectif actif → Acceptation Reader V1 ; commit `docs(governance): close PDR-D2 offline implementation` |
 | 2026-08-01 | **D2-H — clarifications contractuelles** — purge administrative hors graphe §5.2 ; détection stale non automatique à l'ouverture Reader ; `offline_ready` = dernier état certifié ; commit `docs(contract): clarify offline lifecycle semantics` |
 | 2026-08-01 | **D2-H — Update / Repair / Archive** — `repair`, `purge`, `detectStale`, `invalidateIfStale` dans Browser Offline Manager ; archivage sans reset offline ; 8 tests unit D2-H PASS |
@@ -182,4 +181,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-01 — PDR-D2 clôturé (D2-A…I) ; objectif actif : Acceptation Reader V1.*
+*Révision 2026-08-01 — PDR-D2 publié (`offline-certification-v1`) ; objectif actif : Acceptation Reader V1.*

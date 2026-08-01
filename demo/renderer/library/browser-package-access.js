@@ -80,13 +80,13 @@ export class BrowserPackageAccess {
   }
 
   /**
-   * Stable manifest URL for a catalogued Release (does not verify catalog membership).
+   * Stable manifest URL for a catalogued Release.
    * @param {string} releaseId
-   * @returns {string}
+   * @returns {Promise<string>}
    */
-  resolveManifestUrl(releaseId) {
-    this._assertValidReleaseId(releaseId);
-    return buildReleaseScopedUrl(this._libraryBaseUrl, releaseId, "manifest.json");
+  async resolveManifestUrl(releaseId) {
+    await this._requireEntry(releaseId);
+    return this._buildManifestUrl(releaseId);
   }
 
   /**
@@ -120,13 +120,30 @@ export class BrowserPackageAccess {
 
     assertManifestPathWithinRelease(normalized);
 
-    const url = buildReleaseScopedUrl(this._libraryBaseUrl, releaseId, normalized);
+    const url = this._buildReleaseScopedUrl(releaseId, normalized);
     await this._assertAssetAvailable(url, normalized);
     return {
       releaseId: entry.release_id,
       relativePath: normalized,
       url,
     };
+  }
+
+  /**
+   * @param {string} releaseId
+   * @returns {string}
+   */
+  _buildManifestUrl(releaseId) {
+    return this._buildReleaseScopedUrl(releaseId, "manifest.json");
+  }
+
+  /**
+   * @param {string} releaseId
+   * @param {string} relativePath normalized package-relative path
+   * @returns {string}
+   */
+  _buildReleaseScopedUrl(releaseId, relativePath) {
+    return buildReleaseScopedUrl(this._libraryBaseUrl, releaseId, relativePath);
   }
 
   /**
@@ -250,7 +267,7 @@ export class BrowserPackageAccess {
 
     assertCatalogManifestPath(entry, manifestRel);
 
-    const url = this.resolveManifestUrl(releaseId);
+    const url = this._buildManifestUrl(releaseId);
     let response;
     try {
       response = await this._fetch(url);

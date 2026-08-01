@@ -205,7 +205,7 @@ describe("browser package access (D2-D)", () => {
   });
 
   test("resolveManifestUrl and resolveAssetUrl produce stable release-scoped URLs", async () => {
-    const manifestUrl = access.resolveManifestUrl(releaseId);
+    const manifestUrl = await access.resolveManifestUrl(releaseId);
     const expectedManifest = buildReleaseScopedUrl(
       LIBRARY_BASE,
       releaseId,
@@ -230,11 +230,19 @@ describe("browser package access (D2-D)", () => {
     );
     assertNoMonorepoPaths(asset.url);
 
-    assert.equal(access.resolveManifestUrl(releaseId), manifestUrl);
+    assert.equal(await access.resolveManifestUrl(releaseId), manifestUrl);
     assert.equal(
       (await access.resolveAssetUrl(releaseId, "source/official-college.md"))
         .url,
       asset.url
+    );
+  });
+
+  test("resolveManifestUrl rejects unknown release_id", async () => {
+    await assert.rejects(
+      () => access.resolveManifestUrl("nonexistent__2022__1"),
+      (err) =>
+        err instanceof PackageAccessError && err.code === "UNKNOWN_RELEASE"
     );
   });
 

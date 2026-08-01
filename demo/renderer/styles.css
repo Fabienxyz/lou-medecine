@@ -1,10 +1,18 @@
 body{
     margin:0;
     background:#f5f7fb;
-    font-family:Inter,sans-serif;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     color:#1d1d1f;
     line-height:1.65;
     -webkit-font-smoothing:antialiased;
+}
+
+@font-face{
+    font-family:Inter;
+    font-style:normal;
+    font-weight:400 700;
+    font-display:swap;
+    src:url("lib/fonts/inter-latin.woff2") format("woff2");
 }
 
 .container{

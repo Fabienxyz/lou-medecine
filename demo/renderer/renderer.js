@@ -560,6 +560,53 @@ window.LouRenderer = {
             this.wrapWithFooterNav("");
     },
 
+    async renderCollegeOfficial(view, manifest, chapter, config) {
+        const collegePath = view.collegeRef && view.collegeRef.path;
+        if (!collegePath) {
+            this.showMessage(config.ERROR_MESSAGES.projectionMissing);
+            return;
+        }
+
+        let text;
+        try {
+            text = await this.fetchText(config.resolveAssetPath(chapter, collegePath));
+        } catch (err) {
+            this.showMessage(config.ERROR_MESSAGES.loadFailed);
+            return;
+        }
+
+        if (!text.trim()) {
+            this.showMessage(config.ERROR_MESSAGES.emptyContent);
+            return;
+        }
+
+        const edition =
+            view.collegeRef && view.collegeRef.value !== undefined
+                ? String(view.collegeRef.value)
+                : null;
+        const header =
+            '<header class="college-official-header">' +
+            "<p class=\"college-official-badge\">Texte officiel Collège" +
+            (edition ? " — édition " + this.escapeHtml(edition) : "") +
+            "</p></header>";
+        const body = window.LouMarkdown.parse(text);
+
+        this.replayAnimation(this.contentEl);
+        this.contentEl.innerHTML =
+            '<section class="college-official-view lou-official-content">' +
+            header +
+            '<article class="college-official-body">' +
+            body +
+            "</article></section>" +
+            this.wrapWithFooterNav("");
+
+        const host = this.contentEl.querySelector(".college-official-body");
+        if (host) {
+            const context = this.createViewRenderContext(view, manifest, chapter, config);
+            await this.mountLearnerLayers(host, context);
+        }
+    },
+
     createScenariosSection(view) {
         const list = document.createElement("ul");
         list.className = "view-scenarios-list";
@@ -612,6 +659,11 @@ window.LouRenderer = {
             this.replayAnimation(this.contentEl);
             this.contentEl.innerHTML = this.wrapWithFooterNav("");
             this.appendScenariosList(view);
+            return;
+        }
+
+        if (view.collegeRef && view.collegeRef.path) {
+            await this.renderCollegeOfficial(view, manifest, chapter, config);
             return;
         }
 

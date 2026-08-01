@@ -98,13 +98,19 @@ describe("Lot D — navigation from compose()", () => {
     const amorçage = readingViewModel.views.find(
       (v) => v.viewId === "cognitive-priming"
     );
+    assert.equal(amorçage.availability, "planned");
+    assert.equal(tabs.find((t) => t.viewId === "cognitive-priming").availability, "planned");
+  });
+
+  test("college-official is published when manifest declares college_source_path", () => {
     const college = readingViewModel.views.find(
       (v) => v.viewId === "college-official"
     );
-    assert.equal(amorçage.availability, "planned");
-    assert.equal(college.availability, "planned");
-    assert.equal(tabs.find((t) => t.viewId === "cognitive-priming").availability, "planned");
-    assert.equal(tabs.find((t) => t.viewId === "college-official").availability, "planned");
+    assert.equal(college.availability, "published");
+    assert.ok(college.collegeRef.path);
+    assert.equal(college.collegeRef.ref, "source_edition");
+    assert.equal(college.collegeRef.value, 2022);
+    assert.equal(tabs.find((t) => t.viewId === "college-official").availability, "published");
   });
 
   test("navigation carries view entries without composition logic", () => {

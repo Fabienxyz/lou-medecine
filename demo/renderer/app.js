@@ -193,6 +193,19 @@
         showTab(btn.dataset.nav === "next" ? currentTab + 1 : currentTab - 1);
     });
 
+    function registerServiceWorker() {
+        if (!("serviceWorker" in navigator)) {
+            return;
+        }
+        // Playwright sets navigator.webdriver; its page.route() does not apply to SW fetch().
+        if (navigator.webdriver) {
+            return;
+        }
+        navigator.serviceWorker.register("/sw.js").catch(function (err) {
+            console.warn("[LouApp] Service worker registration failed", err);
+        });
+    }
+
     async function boot() {
         renderer.init(contentEl, headerEls);
         chapter = getChapterFromUrl();
@@ -241,6 +254,7 @@
 
         buildTabs();
         await showTab(0);
+        registerServiceWorker();
     }
 
     boot();

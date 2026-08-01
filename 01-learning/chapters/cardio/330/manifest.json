@@ -71,6 +71,7 @@
     }
   ],
   "visuals": [],
+  "college_source_path": "source/official-college.md",
   "chapter_reconciliation_invariant": "pass",
   "chapter_reconciliation_scope": "antithrombotic pipeline — antiplatelet agents → heparins → oral anticoagulants (AVK and AOD) → fibrinolytics → anticoagulant accidents (bleeding, TIH, overdose management)",
   "chapter_reconciliation_segments": [

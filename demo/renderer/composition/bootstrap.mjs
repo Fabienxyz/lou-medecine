@@ -1,20 +1,9 @@
 import { compose } from "./composition-engine.js";
 import { buildNavigationFromViewModel } from "./navigation.js";
-
-let corpusSpecPromise = null;
+import corpusSpec from "./corpus-composition-v1.json" with { type: "json" };
 
 export function loadCorpusSpec() {
-  if (!corpusSpecPromise) {
-    corpusSpecPromise = fetch(
-      new URL("./corpus-composition-v1.json", import.meta.url)
-    ).then(function (response) {
-      if (!response.ok) {
-        throw new Error("Failed to load corpus composition spec");
-      }
-      return response.json();
-    });
-  }
-  return corpusSpecPromise;
+  return Promise.resolve(corpusSpec);
 }
 
 export async function buildReadingViewModel(manifest) {

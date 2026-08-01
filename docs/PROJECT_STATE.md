@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-07-31 (clôture Reader Composition V1 — Lots A–F ; phase active : Reader Acceptance V1)
+**Dernière mise à jour :** 2026-08-01 (publication tag `reader-composition-v1` ; phase active : Reader Acceptance V1)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -23,8 +23,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Objectif actif** | [Acceptation Reader V1](MASTER_ROADMAP.md#acceptation-reader-v1) |
 | **Livrable visé** | Reader local installable, 7 vues alimentées sur le package de capitalisation de référence ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Chemin critique** | **Reader Acceptance V1** — goulet principal avant validation pédagogique Lou et industrialisation |
-| **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — architecture Composition en production ; reste patrimoine, offline, CI, alimentation complète des 7 vues |
-| **Dernier jalon produit** | **Reader Composition V1 clôturée** (Lots A–F) — audit indépendant ✅ Conforme ; package 234 Release `complete` (81 QCM + 3 scénarios) |
+| **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — infra offline **minimale** livrée (package autonome Collège, SW cache-first, usage après warm cache) ; **PDR-D2 complet ouvert** ; PDR-D1, patrimoine, reprise de session, recherche, CI, Amorçage ouverts |
+| **Dernier jalon produit** | **Reader Composition V1 publiée** — tag `reader-composition-v1` (`65f8a55`) sur `origin/main` ; Lots A–F ; audit indépendant ✅ Conforme ; package 234 Release `complete` (81 QCM + 3 scénarios) |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -32,6 +32,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 - **Architecture éditoriale normative gelée** — contrats 07–09 ; tag `editorial-architecture-v1` publié sur `origin/main`.
 - **Reader Composition V1 en production** — Spec → Engine → Reading View Model → Renderer ; manifests neutres ; couplage « 1 projection = 1 onglet » supprimé sur le chemin nominal ; legacy prototype isolé (manifest 404).
 - Acquisition en mode maintenance ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md)).
+- **Infra offline Reader minimale** — package autonome (Collège in-package), shell sans CDN, Service Worker cache-first ; fonctionnement hors ligne après warm cache ; **PDR-D2 complet et PDR-D1 restent ouverts** (cache SW ≠ bibliothèque installable).
 - La **Fabrique productrice autonome** n'est **pas** opérationnelle — objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 ---
@@ -40,7 +41,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **le Reader n'est pas terminé** — alimentation complète des 7 vues, offline, patrimoine, recherche |
+| **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; infra offline minimale livrée ; **PDR-D2 complet ouvert** ; PDR-D1, Amorçage, patrimoine, reprise de session, recherche ouverts |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Modèle de publication, version package, persistance — en retard sur la spec ; co-vérification prévue à l'acceptation Reader |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | Fixture sur package 234 complet ; CI non opérationnelle comme exigence de sortie |
 | **Capitalisation Item 234** | Package de référence complet | **Clôturé** — Release `complete` ; extension optionnelle (7 KP mastery restants) |
@@ -65,6 +66,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Pipeline sémantique non automatisé | Bloque industrialisation aval (pas le golden master capitalisé manuellement) | Industrialisation Fabrique productrice |
 | Build SVG non reproductible byte-identique | Bloque CI fiable | Maintenabilité et CI |
 | Patrimoine non implémenté (version package, export/restauration) | Bloque critères V1 patrimoine + acceptation Reader | Patrimoine · Acceptation Reader V1 |
+| PDR-D2 offline intégral non satisfait | Cache SW ≠ packages installés ([PDR-D1](governance/PRODUCT-DECISION-REGISTRY.md)) ; offline après warm cache seulement | Acceptation Reader V1 |
 | F2 — ordre écriture sidecars G/H vs verdict I | Cohérence disque lou-build | Dette pipeline |
 | Scale-out prématuré (tentation multi-chapitres partiels) | Dispersion — contredit [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md) | — (risque de pilotage) |
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
@@ -92,8 +94,8 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | Indicateur | Mesuré | Notes |
 |---|---|---|
 | **Package de référence complet** | **Oui** — Release `complete` PDR-A3 | 81 QCM + 3 scénarios ; 91/91 KP understanding ; 9/16 deferred mastery |
-| **Reader Composition V1** | **Clôturée** — Spec, Engine, ViewModel en production ; 246 unit + 56 smoke PASS | Audit indépendant ✅ Conforme |
-| **Reader V1 — critères d'acceptation** | **Non prononcés** — phase Reader Acceptance V1 active | 2 vues `planned` (Amorçage, Collège) ; offline, patrimoine, CI restants |
+| **Reader Composition V1** | **Publiée** — tag `reader-composition-v1` ; Spec, Engine, ViewModel en production ; 249 unit + 61 smoke PASS | Audit indépendant ✅ Conforme |
+| **Reader V1 — critères d'acceptation** | **Non prononcés** — phase Reader Acceptance V1 active | 1 vue `planned` (Amorçage) ; Collège officiel alimenté ; infra offline minimale livrée ; **PDR-D2 complet ouvert** ; PDR-D1, patrimoine, reprise de session, recherche, CI ouverts |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
@@ -123,7 +125,9 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-07-31 | **Clôture Reader Composition V1** (Lots A–F) — Spec, Engine, ViewModel en production ; manifests neutres ; `buildProjectionTabs` supprimé ; audit indépendant ✅ Conforme ; tag `reader-composition-v1` **en attente** |
+| 2026-08-01 | **Infra offline Reader minimale** — package autonome Collège, shell sans CDN, SW cache-first, offline après warm cache ; 5 tests Playwright offline ; 249 unit + 61 smoke PASS — **PDR-D2 complet non satisfait** |
+| 2026-08-01 | **Publication Reader Composition V1** — commits `08546b3` (code) + `65f8a55` (gouvernance) ; tag `reader-composition-v1` sur `origin/main` ; phase active Reader Acceptance V1 |
+| 2026-07-31 | **Clôture Reader Composition V1** (Lots A–F) — Spec, Engine, ViewModel en production ; manifests neutres ; `buildProjectionTabs` supprimé ; audit indépendant ✅ Conforme |
 | 2026-07-31 | **Capitalisation évaluation 234 tranche 2** — 81 Questions (`q-234-01`…`81`) ; couverture understanding 91/91 ; 9 Q mastery ; Release `complete` ; audit `build/evaluation-editorial-audit.md` ; validate/build PASS |
 | 2026-07-31 | **Capitalisation évaluation 234 tranche 1** — 15 Questions + 3 Scénarios (standard/trap/synthesis) ; registres + wiring manifest lou-build |
 | 2026-07-31 | **Tag `editorial-architecture-v1`** — gel officiel architecture éditoriale publié sur `origin/main` (commit `54c3054`) |
@@ -156,4 +160,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-07-31 — clôture Reader Composition V1 ; phase active Reader Acceptance V1.*
+*Révision 2026-08-01 — infra offline Reader minimale ; phase active Reader Acceptance V1 (PDR-D2 complet ouvert).*

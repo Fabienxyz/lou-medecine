@@ -83,6 +83,7 @@
       "alt": "Congestion pulmonaire → seuil PPC → transsudat → OAP cardiogénique"
     }
   ],
+  "college_source_path": "source/official-college.md",
   "chapter_reconciliation_invariant": "pass",
   "chapter_reconciliation_scope": "Item 234 — Insuffisance cardiaque de l'adulte — full chapter (109 KPs)",
   "chapter_reconciliation_segments": [

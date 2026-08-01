@@ -122,7 +122,7 @@ describe("NC-1 — composition navigation availability (Reading View Model path)
     const planned = tabs.filter((t) => t.availability === "planned");
     assert.deepEqual(
       planned.map((t) => t.viewId).sort(),
-      ["cognitive-priming", "college-official"]
+      ["cognitive-priming"]
     );
   });
 });

@@ -215,6 +215,10 @@ describe("Lot B — acceptance fixture cardio/234", () => {
     const cas = readingViewModel.views.find((v) => v.viewId === "clinical-cases");
     assert.equal(cas.scenarios.length, 3);
 
+    const college = readingViewModel.views.find((v) => v.viewId === "college-official");
+    assert.equal(college.availability, "published");
+    assert.ok(college.collegeRef.path);
+
     assert.ok(
       !diagnostics.some((d) => d.code === "published-projection-unconsumed"),
       "all published projections should be consumed"

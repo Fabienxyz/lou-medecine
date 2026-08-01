@@ -2,6 +2,7 @@ import fs from "node:fs";
 import {
   assembleManifest,
   invalidatePublishableState,
+  publishCollegeSource,
 } from "../../lib/package.js";
 import type { BuildContext } from "../pipeline/context.js";
 import type { Stage } from "../pipeline/stage.js";
@@ -18,7 +19,10 @@ export function runPackaging(ctx: BuildContext): StageResult {
     return ok({ skipped: true, reason: "validate mode — no manifest write" });
   }
 
-  const paths = requireWorkspace<{ manifest: string }>(ctx, "paths");
+  const paths = requireWorkspace<{ manifest: string; chapterDir: string }>(
+    ctx,
+    "paths",
+  );
   const inventory = requireWorkspace<Record<string, unknown>>(ctx, "inventory");
   const sourceMeta = requireWorkspace<Record<string, unknown>>(
     ctx,
@@ -52,7 +56,10 @@ export function runPackaging(ctx: BuildContext): StageResult {
 
   invalidatePublishableState(paths);
 
+  publishCollegeSource(paths.chapterDir, sourceMeta);
+
   const manifest = assembleManifest({
+    chapterDir: paths.chapterDir,
     inventory,
     sourceMeta,
     packageConfig,

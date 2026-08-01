@@ -1,5 +1,37 @@
 import fs from "node:fs";
+import path from "node:path";
 import { validateManifestReaderNeutral } from "./manifest-neutralization.js";
+
+/** In-package path for verbatim Collège source (Reader offline / ADR-006). */
+export const PUBLISHED_COLLEGE_SOURCE_REL = "source/official-college.md";
+
+/**
+ * Copy FIL B source into the published package (contrat 04 §3).
+ * @returns {string | null} manifest-relative path when published
+ */
+export function publishCollegeSource(chapterDir, sourceMeta) {
+  const rel = sourceMeta?.source_file;
+  if (typeof rel !== "string" || !rel.trim()) {
+    return null;
+  }
+  const metaPath = sourceMeta._path;
+  if (typeof metaPath !== "string") {
+    return null;
+  }
+  const absSource = path.resolve(path.dirname(metaPath), rel);
+  if (!fs.existsSync(absSource)) {
+    throw new Error(`College source file not found: ${absSource}`);
+  }
+  const destDir = path.join(chapterDir, "source");
+  fs.mkdirSync(destDir, { recursive: true });
+  fs.copyFileSync(absSource, path.join(destDir, "official-college.md"));
+  return PUBLISHED_COLLEGE_SOURCE_REL;
+}
+
+function collegeSourceManifestPath(chapterDir) {
+  const published = path.join(chapterDir, PUBLISHED_COLLEGE_SOURCE_REL);
+  return fs.existsSync(published) ? PUBLISHED_COLLEGE_SOURCE_REL : null;
+}
 
 function invalidatePublishableState(paths) {
   if (fs.existsSync(paths.manifest)) {
@@ -8,6 +40,7 @@ function invalidatePublishableState(paths) {
 }
 
 function assembleManifest({
+  chapterDir,
   inventory,
   sourceMeta,
   packageConfig,
@@ -32,6 +65,13 @@ function assembleManifest({
 
   if (packageConfig.editorial_completeness) {
     manifest.editorial_completeness = packageConfig.editorial_completeness;
+  }
+
+  if (chapterDir) {
+    const collegeSourcePath = collegeSourceManifestPath(chapterDir);
+    if (collegeSourcePath) {
+      manifest.college_source_path = collegeSourcePath;
+    }
   }
 
   if (mode === "slice") {

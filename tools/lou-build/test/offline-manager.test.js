@@ -22,6 +22,8 @@ import {
   OfflineManagerError,
   verifyInstalledReleaseAvailability,
 } from "../lib/offline-manager.js";
+import { createTestOfflineManager } from "./offline-test-helpers.js";
+import { createNodeOfflineRuntime } from "../lib/offline-runtime-node.js";
 
 const REPO_ROOT = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -136,10 +138,7 @@ describe("offline manager (D2-C)", () => {
     writeMiniRelease(releaseDir);
     installPublishedRelease(releaseDir, libraryRoot);
     releaseId = "cardio__234__2022__1";
-    manager = createOfflineManager({
-      packageAccess: createPackageAccess(libraryRoot),
-      catalog: libraryRoot,
-    });
+    manager = createTestOfflineManager(libraryRoot);
   });
 
   afterEach(() => {
@@ -275,23 +274,14 @@ describe("offline manager (D2-C)", () => {
   });
 
   test("deduplicates concurrent prepare calls for the same release_id", async () => {
-    let prepareCount = 0;
-    const access = createPackageAccess(libraryRoot);
-    const wrapped = {
-      resolveManifest(releaseIdArg) {
-        return access.resolveManifest(releaseIdArg);
-      },
-      resolveAsset(releaseIdArg, rel) {
-        if (rel === "source/official-college.md") {
-          prepareCount += 1;
-        }
-        return access.resolveAsset(releaseIdArg, rel);
-      },
+    let prepareReleaseCalls = 0;
+    const runtime = createNodeOfflineRuntime(libraryRoot);
+    const originalPrepare = runtime.prepareRelease.bind(runtime);
+    runtime.prepareRelease = async (args) => {
+      prepareReleaseCalls += 1;
+      return originalPrepare(args);
     };
-    const concurrentManager = createOfflineManager({
-      packageAccess: wrapped,
-      libraryRoot,
-    });
+    const concurrentManager = createTestOfflineManager(libraryRoot, { runtime });
 
     const [a, b] = await Promise.all([
       concurrentManager.prepare(releaseId),
@@ -299,7 +289,7 @@ describe("offline manager (D2-C)", () => {
     ]);
     assert.equal(a.status, OFFLINE_STATUS.OFFLINE_READY);
     assert.deepEqual(a, b);
-    assert.equal(prepareCount, 1);
+    assert.equal(prepareReleaseCalls, 1);
   });
 
   test("does not modify installed package tree during prepare", async () => {
@@ -348,10 +338,7 @@ describe("offline manager robustness (D2-C fixes)", () => {
   });
 
   test("parallel prepare on two release_ids preserves both final statuses", async () => {
-    const manager = createOfflineManager({
-      packageAccess: createPackageAccess(libraryRoot),
-      catalog: libraryRoot,
-    });
+    const manager = createTestOfflineManager(libraryRoot);
 
     const [r1, r2] = await Promise.all([
       manager.prepare(releaseIdV1),
@@ -369,10 +356,7 @@ describe("offline manager robustness (D2-C fixes)", () => {
       path.join(libraryRoot, "packages", releaseIdV2, "build/traceability.json")
     );
 
-    const manager = createOfflineManager({
-      packageAccess: createPackageAccess(libraryRoot),
-      catalog: libraryRoot,
-    });
+    const manager = createTestOfflineManager(libraryRoot);
 
     const [success, failure] = await Promise.allSettled([
       manager.prepare(releaseIdV1),
@@ -386,23 +370,14 @@ describe("offline manager robustness (D2-C fixes)", () => {
   });
 
   test("same release_id deduplication remains effective under serialized catalog writes", async () => {
-    let verifyPasses = 0;
-    const access = createPackageAccess(libraryRoot);
-    const wrapped = {
-      resolveManifest(id) {
-        return access.resolveManifest(id);
-      },
-      resolveAsset(id, rel) {
-        if (rel === "source/official-college.md") {
-          verifyPasses += 1;
-        }
-        return access.resolveAsset(id, rel);
-      },
+    let prepareReleaseCalls = 0;
+    const runtime = createNodeOfflineRuntime(libraryRoot);
+    const originalPrepare = runtime.prepareRelease.bind(runtime);
+    runtime.prepareRelease = async (args) => {
+      prepareReleaseCalls += 1;
+      return originalPrepare(args);
     };
-    const manager = createOfflineManager({
-      packageAccess: wrapped,
-      catalog: libraryRoot,
-    });
+    const manager = createTestOfflineManager(libraryRoot, { runtime });
 
     const [a, b] = await Promise.all([
       manager.prepare(releaseIdV1),
@@ -411,7 +386,7 @@ describe("offline manager robustness (D2-C fixes)", () => {
 
     assert.equal(a.status, OFFLINE_STATUS.OFFLINE_READY);
     assert.deepEqual(a, b);
-    assert.equal(verifyPasses, 1);
+    assert.equal(prepareReleaseCalls, 1);
   });
 
   test("verification failure finalizes to failed when catalog mutation succeeds", async () => {
@@ -419,10 +394,7 @@ describe("offline manager robustness (D2-C fixes)", () => {
       path.join(libraryRoot, "packages", releaseIdV1, "build/traceability.json")
     );
 
-    const manager = createOfflineManager({
-      packageAccess: createPackageAccess(libraryRoot),
-      catalog: libraryRoot,
-    });
+    const manager = createTestOfflineManager(libraryRoot);
 
     await assert.rejects(
       () => manager.prepare(releaseIdV1),
@@ -446,9 +418,7 @@ describe("offline manager robustness (D2-C fixes)", () => {
       return mutateCatalogAtomic(root, mutator);
     };
 
-    const manager = createOfflineManager({
-      packageAccess: createPackageAccess(libraryRoot),
-      catalog: libraryRoot,
+    const manager = createTestOfflineManager(libraryRoot, {
       catalogMutate,
     });
 
@@ -469,10 +439,7 @@ describe("offline manager robustness (D2-C fixes)", () => {
   });
 
   test("parallel prepares do not modify installed package trees", async () => {
-    const manager = createOfflineManager({
-      packageAccess: createPackageAccess(libraryRoot),
-      catalog: libraryRoot,
-    });
+    const manager = createTestOfflineManager(libraryRoot);
     const beforeV1 = snapshotPackageTree(
       path.join(libraryRoot, "packages", releaseIdV1)
     );
@@ -514,10 +481,7 @@ describe("offline manager — package 234 installed (D2-C)", () => {
       fs.readFileSync(path.join(CHAPTER_234, "manifest.json"), "utf8")
     );
     releaseId = manifest.release_id;
-    manager = createOfflineManager({
-      packageAccess: createPackageAccess(libraryRoot),
-      catalog: libraryRoot,
-    });
+    manager = createTestOfflineManager(libraryRoot);
   });
 
   afterEach(() => {

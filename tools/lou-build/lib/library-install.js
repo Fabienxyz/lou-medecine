@@ -88,7 +88,7 @@ export function installPublishedRelease(
   libraryRoot,
   options = {}
 ) {
-  const { libraryId, activate = true } = options;
+  const { libraryId, activate = true, onInstalled } = options;
   const sourceDir = path.resolve(sourceChapterDir);
   const libRoot = path.resolve(libraryRoot);
   const sourceManifestPath = path.join(sourceDir, "manifest.json");
@@ -150,6 +150,11 @@ export function installPublishedRelease(
         installedAt: existingEntry?.installed_at || new Date().toISOString(),
       });
       saveCatalogAtomic(libRoot, catalog);
+      notifyInstalled(onInstalled, {
+        releaseId,
+        libraryRoot: libRoot,
+        idempotent: true,
+      });
       return {
         ok: true,
         release_id: releaseId,
@@ -178,6 +183,11 @@ export function installPublishedRelease(
       installedAt: new Date().toISOString(),
     });
     saveCatalogAtomic(libRoot, catalog);
+    notifyInstalled(onInstalled, {
+      releaseId,
+      libraryRoot: libRoot,
+      idempotent: false,
+    });
 
     return {
       ok: true,
@@ -192,6 +202,16 @@ export function installPublishedRelease(
       fs.rmSync(stagingRoot, { recursive: true, force: true });
     }
     throw err;
+  }
+}
+
+/**
+ * @param {((args: { releaseId: string, libraryRoot: string, idempotent: boolean }) => void) | undefined} onInstalled
+ * @param {{ releaseId: string, libraryRoot: string, idempotent: boolean }} args
+ */
+function notifyInstalled(onInstalled, args) {
+  if (typeof onInstalled === "function") {
+    onInstalled(args);
   }
 }
 

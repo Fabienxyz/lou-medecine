@@ -6,6 +6,7 @@ import path from "node:path";
 import { installPublishedRelease } from "../../lib/library-install.js";
 import { catalogPath, loadOrCreateCatalog } from "../../lib/library-catalog.js";
 import { resolveChapterDir } from "../../lib/paths.js";
+import { scheduleOfflinePrepareAfterInstall } from "../../lib/library-offline-scheduler.js";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -56,6 +57,9 @@ try {
   const result = installPublishedRelease(chapterDir, libraryRoot, {
     libraryId,
     activate: true,
+    onInstalled: ({ releaseId, libraryRoot: root, idempotent }) => {
+      scheduleOfflinePrepareAfterInstall(root, { releaseId, idempotent });
+    },
   });
   const catalog = loadOrCreateCatalog(libraryRoot);
   console.log("INSTALL PASS");

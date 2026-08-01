@@ -4,6 +4,7 @@
  * No browser cache, no Service Worker, no Reader.
  */
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import {
   loadOrCreateCatalog,
   mutateCatalogAtomic,
@@ -18,8 +19,10 @@ import {
 } from "./offline-state.js";
 import { collectDeclaredArtifactPaths } from "./release-identity.js";
 import { PackageAccessError } from "./package-access.js";
+import { prepareReleaseViaRuntime } from "./offline-manager-runtime-bridge.js";
+import { OfflineRuntimeError } from "../../../demo/renderer/library/offline-runtime-shared.js";
 
-/** @typedef {'UNKNOWN_RELEASE' | 'MANIFEST_INCOHERENT' | 'ASSET_MISSING' | 'DIGEST_DIVERGENT' | 'INVALID_TRANSITION' | 'INVALID_CATALOG' | 'FINALIZATION_FAILED'} OfflineManagerErrorCode */
+/** @typedef {'UNKNOWN_RELEASE' | 'MANIFEST_INCOHERENT' | 'ASSET_MISSING' | 'DIGEST_DIVERGENT' | 'INVALID_TRANSITION' | 'INVALID_CATALOG' | 'FINALIZATION_FAILED' | 'RUNTIME_PREPARATION_FAILED'} OfflineManagerErrorCode */
 
 export class OfflineManagerError extends Error {
   /**
@@ -41,13 +44,20 @@ export class OfflineManagerError extends Error {
 }
 
 /**
- * @param {{ packageAccess: import("./package-access.js").PackageAccess, libraryRoot?: string, catalog?: string, catalogMutate?: typeof mutateCatalogAtomic }} deps
+ * @param {{
+ *   packageAccess: import("./package-access.js").PackageAccess,
+ *   libraryRoot?: string,
+ *   catalog?: string,
+ *   catalogMutate?: typeof mutateCatalogAtomic,
+ *   runtime?: import("../../../demo/renderer/library/offline-runtime.js").OfflineRuntime,
+ * }} deps
  */
 export function createOfflineManager({
   packageAccess,
   libraryRoot,
   catalog,
   catalogMutate,
+  runtime,
 }) {
   const root = libraryRoot ?? catalog;
   if (!packageAccess) {
@@ -56,10 +66,14 @@ export function createOfflineManager({
   if (typeof root !== "string" || !root.trim()) {
     throw new Error("offline manager: libraryRoot (catalog) is required");
   }
+  if (!runtime) {
+    throw new Error("offline manager: runtime is required");
+  }
   return new OfflineManager(
     packageAccess,
     path.resolve(root),
-    catalogMutate ?? mutateCatalogAtomic
+    catalogMutate ?? mutateCatalogAtomic,
+    runtime
   );
 }
 
@@ -68,11 +82,13 @@ class OfflineManager {
    * @param {import("./package-access.js").PackageAccess} packageAccess
    * @param {string} libraryRoot
    * @param {typeof mutateCatalogAtomic} catalogMutate
+   * @param {import("../../../demo/renderer/library/offline-runtime.js").OfflineRuntime} runtime
    */
-  constructor(packageAccess, libraryRoot, catalogMutate) {
+  constructor(packageAccess, libraryRoot, catalogMutate, runtime) {
     this._packageAccess = packageAccess;
     this._libraryRoot = libraryRoot;
     this._catalogMutate = catalogMutate;
+    this._runtime = runtime;
     /** @type {Map<string, Promise<{ releaseId: string, status: string }>>} */
     this._inFlight = new Map();
   }
@@ -130,6 +146,11 @@ class OfflineManager {
    * @param {string} releaseId
    */
   async _prepareInternal(releaseId) {
+    const currentStatus = this.getStatus(releaseId);
+    if (currentStatus === OFFLINE_STATUS.OFFLINE_READY) {
+      return { releaseId, status: OFFLINE_STATUS.OFFLINE_READY };
+    }
+
     try {
       await this._catalogMutate(this._libraryRoot, (catalog) => {
         this._requireCatalogEntry(catalog, releaseId);
@@ -140,6 +161,19 @@ class OfflineManager {
     }
 
     try {
+      const { declaredPaths, contentDigest } =
+        this._resolveRuntimePrepareInputs(releaseId);
+
+      if (!(await this._runtime.hasRelease(releaseId, contentDigest))) {
+        await prepareReleaseViaRuntime(this._runtime, {
+          releaseId,
+          contentDigest,
+          declaredPaths,
+          resolveResourceUrl: (rid, relativePath) =>
+            this._resolveRuntimeResourceUrl(rid, relativePath),
+        });
+      }
+
       verifyInstalledReleaseAvailability({
         packageAccess: this._packageAccess,
         libraryRoot: this._libraryRoot,
@@ -155,17 +189,53 @@ class OfflineManager {
       });
       return { releaseId, status: OFFLINE_STATUS.OFFLINE_READY };
     } catch (err) {
-      const verificationError = toOfflineManagerError(err);
+      const preparationError = toOfflineManagerError(err);
       try {
         await this._finalizeFailed(releaseId);
       } catch (finalizationErr) {
         throw composeVerificationFinalizationError(
-          verificationError,
+          preparationError,
           finalizationErr
         );
       }
-      throw verificationError;
+      throw preparationError;
     }
+  }
+
+  /**
+   * @param {string} releaseId
+   * @param {string} relativePath
+   */
+  _resolveRuntimeResourceUrl(releaseId, relativePath) {
+    const normalized = relativePath.replace(/\\/g, "/");
+    if (normalized === "manifest.json") {
+      const catalog = this._loadCatalog();
+      const entry = this._requireCatalogEntry(catalog, releaseId);
+      const manifestPath = path.join(this._libraryRoot, entry.manifest);
+      return pathToFileURL(manifestPath).href;
+    }
+    return pathToFileURL(
+      this._packageAccess.resolveAsset(releaseId, normalized).absolutePath
+    ).href;
+  }
+
+  /**
+   * Runtime inputs only — no offline_status, no library.json writes.
+   * @param {string} releaseId
+   */
+  _resolveRuntimePrepareInputs(releaseId) {
+    const manifest = this._packageAccess.resolveManifest(releaseId);
+    const contentDigest = manifest.content_digest;
+    if (typeof contentDigest !== "string" || !contentDigest.trim()) {
+      throw new OfflineManagerError(
+        "MANIFEST_INCOHERENT",
+        `offline manager: manifest content_digest missing for ${releaseId}`
+      );
+    }
+    return {
+      declaredPaths: collectDeclaredArtifactPaths(manifest),
+      contentDigest,
+    };
   }
 
   /**
@@ -350,6 +420,22 @@ function toOfflineManagerError(err) {
         cause: err,
       });
     }
+  }
+
+  if (err instanceof OfflineRuntimeError) {
+    /** @type {Record<string, OfflineManagerErrorCode>} */
+    const map = {
+      DIGEST_MISMATCH: "DIGEST_DIVERGENT",
+      RESOURCE_FETCH_FAILED: "ASSET_MISSING",
+      RESOURCE_MISSING: "ASSET_MISSING",
+      PREPARATION_INCOMPLETE: "RUNTIME_PREPARATION_FAILED",
+      STORAGE_QUOTA_EXCEEDED: "RUNTIME_PREPARATION_FAILED",
+      INVALID_RESOURCE_LIST: "MANIFEST_INCOHERENT",
+      FORBIDDEN_PATH: "MANIFEST_INCOHERENT",
+      RUNTIME_UNAVAILABLE: "RUNTIME_PREPARATION_FAILED",
+    };
+    const code = map[err.code] || "RUNTIME_PREPARATION_FAILED";
+    return new OfflineManagerError(code, err.message, { cause: err });
   }
 
   if (err instanceof PackageAccessError) {

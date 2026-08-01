@@ -21,7 +21,7 @@ Ce document porte la **numérotation opérationnelle unique** des lots PDR-D2. L
 | **D2-C** | Offline Manager | **Livré** |
 | **D2-D** | Package Access Browser | **Livré** |
 | **D2-E** | Runtime Offline (routage local) | **Livré** |
-| **D2-F** | Préparation automatique après installation | À venir |
+| **D2-F** | Préparation automatique après installation | **Livré** |
 | **D2-G** | Acceptation Offline | À venir |
 | **D2-H** | Update / Repair / Archive | À venir |
 | **D2-I** | Propagation documentaire / clôture | À venir |

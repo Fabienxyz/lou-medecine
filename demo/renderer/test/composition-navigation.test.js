@@ -94,12 +94,16 @@ describe("Lot D — navigation from compose()", () => {
     assert.ok(!("questions" in view));
   });
 
-  test("cognitive-priming and college-official respect planned availability", () => {
+  test("cognitive-priming is published when manifest declares cognitive_priming_path", () => {
     const amorçage = readingViewModel.views.find(
       (v) => v.viewId === "cognitive-priming"
     );
-    assert.equal(amorçage.availability, "planned");
-    assert.equal(tabs.find((t) => t.viewId === "cognitive-priming").availability, "planned");
+    assert.equal(amorçage.availability, "published");
+    assert.equal(amorçage.primingRef.path, manifest.cognitive_priming_path);
+    assert.equal(
+      tabs.find((t) => t.viewId === "cognitive-priming").availability,
+      "published"
+    );
   });
 
   test("college-official is published when manifest declares college_source_path", () => {

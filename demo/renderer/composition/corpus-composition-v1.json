@@ -5,8 +5,8 @@
       "viewId": "cognitive-priming",
       "label": "Amorçage cognitif",
       "displayOrder": 1,
-      "availabilityPolicy": "always-planned",
-      "sources": []
+      "availabilityPolicy": "default",
+      "sources": [{ "kind": "cognitive-priming", "ref": "manifest" }]
     },
     {
       "viewId": "mental-model",

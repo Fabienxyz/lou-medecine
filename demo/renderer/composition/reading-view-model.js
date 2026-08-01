@@ -10,6 +10,7 @@ const VIEW_KEYS = new Set([
   "questions",
   "scenarios",
   "collegeRef",
+  "primingRef",
 ]);
 const BLOCK_KEYS = new Set([
   "elementId",
@@ -20,6 +21,7 @@ const BLOCK_KEYS = new Set([
 const QUESTION_KEYS = new Set(["questionId", "path", "status"]);
 const SCENARIO_KEYS = new Set(["scenarioId", "kind", "path", "status"]);
 const COLLEGE_REF_KEYS = new Set(["ref", "path", "value"]);
+const PRIMING_REF_KEYS = new Set(["ref", "path", "schema_version", "resolved"]);
 
 const FORBIDDEN_NESTED = new Set([
   "officialContent",
@@ -151,6 +153,10 @@ function validateView(view, prefix, errors) {
   if ("collegeRef" in view && view.collegeRef !== null) {
     validateCollegeRef(view.collegeRef, `${prefix}.collegeRef`, errors);
   }
+
+  if ("primingRef" in view && view.primingRef !== null) {
+    validatePrimingRef(view.primingRef, `${prefix}.primingRef`, errors);
+  }
 }
 
 function validateBlock(block, prefix, errors) {
@@ -194,6 +200,35 @@ function validateCollegeRef(ref, prefix, errors) {
     if (!COLLEGE_REF_KEYS.has(key)) {
       errors.push(`${prefix}: forbidden field: ${key}`);
     }
+  }
+}
+
+function validatePrimingRef(ref, prefix, errors) {
+  if (ref === null || typeof ref !== "object" || Array.isArray(ref)) {
+    errors.push(`${prefix} must be a plain object`);
+    return;
+  }
+  for (const key of Object.keys(ref)) {
+    if (!PRIMING_REF_KEYS.has(key)) {
+      errors.push(`${prefix}: forbidden field: ${key}`);
+    }
+  }
+  for (const required of ["ref", "path", "schema_version", "resolved"]) {
+    if (!(required in ref)) {
+      errors.push(`${prefix}: missing ${required}`);
+    }
+  }
+  if (ref.ref !== undefined && ref.ref !== "manifest") {
+    errors.push(`${prefix}: ref must be "manifest"`);
+  }
+  if (
+    ref.schema_version !== undefined &&
+    ref.schema_version !== 1
+  ) {
+    errors.push(`${prefix}: schema_version must be 1`);
+  }
+  if (ref.resolved !== undefined && ref.resolved !== true) {
+    errors.push(`${prefix}: resolved must be true when primingRef is present`);
   }
 }
 

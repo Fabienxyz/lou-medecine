@@ -32,6 +32,7 @@ export const ALLOWED_SOURCE_KINDS = [
   "questions",
   "scenarios",
   "college-source",
+  "cognitive-priming",
   "none",
 ];
 
@@ -182,6 +183,15 @@ export function validateCompositionSpec(spec) {
           errors.push(`${sp}: mergeOrder must not be set when kind is "none"`);
         }
         return;
+      }
+
+      if (source.kind === "cognitive-priming") {
+        if ("mergeOrder" in source) {
+          errors.push(`${sp}: mergeOrder must not be set when kind is "cognitive-priming"`);
+        }
+        if (source.ref !== "manifest") {
+          errors.push(`${sp}: ref must be "manifest" when kind is "cognitive-priming"`);
+        }
       }
 
       if (!("ref" in source)) {

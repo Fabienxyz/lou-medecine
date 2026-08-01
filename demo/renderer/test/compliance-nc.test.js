@@ -112,18 +112,16 @@ describe("NC-1 — composition navigation availability (Reading View Model path)
     assert.ok(!viewIds.includes("readiness"));
   });
 
-  test("planned views surface planned availability in navigation", () => {
+  test("cognitive-priming is published when package declares artefact path", () => {
     const manifestPath = path.resolve(
       ROOT,
       "../../01-learning/chapters/cardio/234/manifest.json"
     );
     const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
     const tabs = composeNavigation(manifest);
-    const planned = tabs.filter((t) => t.availability === "planned");
-    assert.deepEqual(
-      planned.map((t) => t.viewId).sort(),
-      ["cognitive-priming"]
-    );
+    const cp = tabs.find((t) => t.viewId === "cognitive-priming");
+    assert.equal(cp.availability, "published");
+    assert.equal(cp.view.primingRef.path, manifest.cognitive_priming_path);
   });
 });
 

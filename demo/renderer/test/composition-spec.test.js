@@ -98,11 +98,13 @@ describe("Lot A — corpus-composition-v1.json", () => {
     );
   });
 
-  test("cognitive-priming has no sources and always-planned policy", () => {
+  test("cognitive-priming uses cognitive-priming source and default policy", () => {
     const spec = loadCorpusSpec();
     const view = spec.views.find((v) => v.viewId === "cognitive-priming");
-    assert.deepEqual(view.sources, []);
-    assert.equal(view.availabilityPolicy, "always-planned");
+    assert.equal(view.sources.length, 1);
+    assert.equal(view.sources[0].kind, "cognitive-priming");
+    assert.equal(view.sources[0].ref, "manifest");
+    assert.equal(view.availabilityPolicy, "default");
   });
 
   test("notes uses kind none without ref", () => {
@@ -139,6 +141,44 @@ describe("Lot A — validateCompositionSpec edge cases", () => {
     const result = validateCompositionSpec(bad);
     assert.equal(result.ok, false);
     assert.ok(result.errors.some((e) => e.includes("duplicate viewId")));
+  });
+
+  test("rejects mergeOrder on cognitive-priming kind", () => {
+    const result = validateCompositionSpec({
+      version: SPEC_VERSION,
+      views: [
+        {
+          viewId: "cognitive-priming",
+          label: "Amorçage cognitif",
+          displayOrder: 1,
+          availabilityPolicy: "default",
+          sources: [{ kind: "cognitive-priming", ref: "manifest", mergeOrder: 1 }],
+        },
+      ],
+    });
+    assert.equal(result.ok, false);
+    assert.ok(
+      result.errors.some((e) => e.includes("mergeOrder must not be set when kind is \"cognitive-priming\""))
+    );
+  });
+
+  test("rejects invalid ref on cognitive-priming kind", () => {
+    const result = validateCompositionSpec({
+      version: SPEC_VERSION,
+      views: [
+        {
+          viewId: "cognitive-priming",
+          label: "Amorçage cognitif",
+          displayOrder: 1,
+          availabilityPolicy: "default",
+          sources: [{ kind: "cognitive-priming", ref: "registry" }],
+        },
+      ],
+    });
+    assert.equal(result.ok, false);
+    assert.ok(
+      result.errors.some((e) => e.includes('ref must be "manifest" when kind is "cognitive-priming"'))
+    );
   });
 
   test("rejects mergeOrder on non-projection kind", () => {

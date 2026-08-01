@@ -72,13 +72,21 @@ describe("Lot B — compose()", () => {
     );
   });
 
-  test("cognitive-priming is planned with no blocks", () => {
+  test("cognitive-priming is planned without manifest path (retrocompat)", () => {
     const manifest = loadJson(FIXTURE_MANIFEST_PATH);
     const spec = loadCorpusSpec();
-    const { readingViewModel } = compose(manifest, spec);
+    const { readingViewModel, diagnostics } = compose(manifest, spec);
     const view = readingViewModel.views.find((v) => v.viewId === "cognitive-priming");
     assert.equal(view.availability, "planned");
     assert.ok(!("blocks" in view));
+    assert.ok(!("primingRef" in view));
+    assert.ok(
+      !diagnostics.some(
+        (d) =>
+          d.code === "view-without-resolved-source" &&
+          d.context?.viewId === "cognitive-priming"
+      )
+    );
   });
 
   test("notes is published shell without blocks", () => {
@@ -219,9 +227,96 @@ describe("Lot B — acceptance fixture cardio/234", () => {
     assert.equal(college.availability, "published");
     assert.ok(college.collegeRef.path);
 
+    const amorçage = readingViewModel.views.find((v) => v.viewId === "cognitive-priming");
+    assert.equal(amorçage.availability, "published");
+    assert.ok(amorçage.primingRef);
+    assert.equal(amorçage.primingRef.ref, "manifest");
+    assert.equal(amorçage.primingRef.path, manifest.cognitive_priming_path);
+    assert.equal(amorçage.primingRef.schema_version, 1);
+    assert.equal(amorçage.primingRef.resolved, true);
+    assert.ok(!("blocks" in amorçage));
+
     assert.ok(
       !diagnostics.some((d) => d.code === "published-projection-unconsumed"),
       "all published projections should be consumed"
     );
+  });
+});
+
+describe("Lot AP-D — cognitive priming composition", () => {
+  test("published package exposes primingRef without medical content", () => {
+    const manifest = loadJson(ACCEPTANCE_MANIFEST_PATH);
+    const spec = loadCorpusSpec();
+    const { readingViewModel, validation } = composeAndValidate(manifest, spec);
+    assert.equal(validation.ok, true, validation.errors.join("; "));
+    const view = readingViewModel.views.find((v) => v.viewId === "cognitive-priming");
+    assert.equal(view.availability, "published");
+    assert.deepEqual(Object.keys(view.primingRef).sort(), [
+      "path",
+      "ref",
+      "resolved",
+      "schema_version",
+    ]);
+    const json = JSON.stringify(view.primingRef);
+    assert.ok(!json.includes("profile"));
+    assert.ok(!json.includes("summary"));
+    assert.ok(!json.includes("prerequisites"));
+  });
+
+  test("manifest without cognitive_priming_path stays planned", () => {
+    const manifest = loadJson(FIXTURE_MANIFEST_PATH);
+    const spec = loadCorpusSpec();
+    const { readingViewModel } = compose(manifest, spec);
+    const view = readingViewModel.views.find((v) => v.viewId === "cognitive-priming");
+    assert.equal(view.availability, "planned");
+    assert.ok(!("primingRef" in view));
+  });
+
+  test("empty cognitive_priming_path stays planned", () => {
+    const manifest = loadJson(FIXTURE_MANIFEST_PATH);
+    manifest.cognitive_priming_path = "   ";
+    const spec = loadCorpusSpec();
+    const { readingViewModel } = compose(manifest, spec);
+    const view = readingViewModel.views.find((v) => v.viewId === "cognitive-priming");
+    assert.equal(view.availability, "planned");
+    assert.ok(!("primingRef" in view));
+  });
+
+  test("invalid cognitive-priming ref is rejected before composition", () => {
+    const manifest = loadJson(FIXTURE_MANIFEST_PATH);
+    manifest.cognitive_priming_path = "build/cognitive-priming.v1.json";
+    const spec = structuredClone(loadCorpusSpec());
+    const cp = spec.views.find((v) => v.viewId === "cognitive-priming");
+    cp.sources[0].ref = "registry";
+    const { diagnostics, readingViewModel } = compose(manifest, spec);
+    assert.ok(
+      diagnostics.some((d) => d.code === "incompatible-spec-version")
+    );
+    assert.equal(readingViewModel.views.length, 0);
+  });
+
+  test("primingRef path is normalized with forward slashes", () => {
+    const manifest = loadJson(FIXTURE_MANIFEST_PATH);
+    manifest.cognitive_priming_path = "build\\cognitive-priming.v1.json";
+    const spec = loadCorpusSpec();
+    const { readingViewModel } = compose(manifest, spec);
+    const view = readingViewModel.views.find((v) => v.viewId === "cognitive-priming");
+    assert.equal(view.primingRef.path, "build/cognitive-priming.v1.json");
+  });
+
+  test("empty manifest keeps cognitive-priming planned", () => {
+    const spec = loadCorpusSpec();
+    const { readingViewModel } = compose({}, spec);
+    const view = readingViewModel.views.find((v) => v.viewId === "cognitive-priming");
+    assert.equal(view.availability, "planned");
+    assert.ok(!("primingRef" in view));
+  });
+
+  test("schema_version is fixed at 1 for published primingRef", () => {
+    const manifest = loadJson(ACCEPTANCE_MANIFEST_PATH);
+    const spec = loadCorpusSpec();
+    const { readingViewModel } = compose(manifest, spec);
+    const view = readingViewModel.views.find((v) => v.viewId === "cognitive-priming");
+    assert.equal(view.primingRef.schema_version, 1);
   });
 });

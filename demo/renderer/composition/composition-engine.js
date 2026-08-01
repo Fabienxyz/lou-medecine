@@ -7,6 +7,9 @@
 import { validateCompositionSpec, SPEC_VERSION } from "./composition-spec-schema.js";
 import { validateReadingViewModel, assertNoMedicalContent } from "./reading-view-model.js";
 
+/** Cognitive Priming artefact schema version expected by Composition V1 (AP-A). */
+const COGNITIVE_PRIMING_SCHEMA_VERSION = 1;
+
 /** @typedef {{ code: string, severity: 'error' | 'warn', message: string, context?: Record<string, unknown> }} CompositionDiagnostic */
 
 /**
@@ -100,7 +103,15 @@ function resolveSource(manifest, source, diagnostics, viewId) {
   const kind = source.kind;
 
   if (kind === "none") {
-    return { kind, resolved: true, blocks: [], questions: [], scenarios: [], collegeRef: null };
+    return {
+      kind,
+      resolved: true,
+      blocks: [],
+      questions: [],
+      scenarios: [],
+      collegeRef: null,
+      primingRef: null,
+    };
   }
 
   if (kind === "projection") {
@@ -116,11 +127,27 @@ function resolveSource(manifest, source, diagnostics, viewId) {
           { viewId, projectionId }
         )
       );
-      return { kind, resolved: false, blocks: [], questions: [], scenarios: [], collegeRef: null };
+      return {
+        kind,
+        resolved: false,
+        blocks: [],
+        questions: [],
+        scenarios: [],
+        collegeRef: null,
+        primingRef: null,
+      };
     }
 
     if (isProjectionKnownAbsent(manifest, projectionId)) {
-      return { kind, resolved: false, blocks: [], questions: [], scenarios: [], collegeRef: null };
+      return {
+        kind,
+        resolved: false,
+        blocks: [],
+        questions: [],
+        scenarios: [],
+        collegeRef: null,
+        primingRef: null,
+      };
     }
 
     const { blocks, resolved } = blocksFromProjection(projection, projectionId);
@@ -134,7 +161,16 @@ function resolveSource(manifest, source, diagnostics, viewId) {
         )
       );
     }
-    return { kind, resolved, blocks, questions: [], scenarios: [], collegeRef: null, mergeOrder: source.mergeOrder };
+    return {
+      kind,
+      resolved,
+      blocks,
+      questions: [],
+      scenarios: [],
+      collegeRef: null,
+      primingRef: null,
+      mergeOrder: source.mergeOrder,
+    };
   }
 
   if (kind === "questions") {
@@ -147,7 +183,15 @@ function resolveSource(manifest, source, diagnostics, viewId) {
           { viewId, ref: source.ref }
         )
       );
-      return { kind, resolved: false, blocks: [], questions: [], scenarios: [], collegeRef: null };
+      return {
+        kind,
+        resolved: false,
+        blocks: [],
+        questions: [],
+        scenarios: [],
+        collegeRef: null,
+        primingRef: null,
+      };
     }
     const questions = (Array.isArray(manifest.questions) ? manifest.questions : [])
       .filter(function (q) {
@@ -167,6 +211,7 @@ function resolveSource(manifest, source, diagnostics, viewId) {
       questions,
       scenarios: [],
       collegeRef: null,
+      primingRef: null,
     };
   }
 
@@ -180,7 +225,15 @@ function resolveSource(manifest, source, diagnostics, viewId) {
           { viewId, ref: source.ref }
         )
       );
-      return { kind, resolved: false, blocks: [], questions: [], scenarios: [], collegeRef: null };
+      return {
+        kind,
+        resolved: false,
+        blocks: [],
+        questions: [],
+        scenarios: [],
+        collegeRef: null,
+        primingRef: null,
+      };
     }
     const scenarios = (Array.isArray(manifest.scenarios) ? manifest.scenarios : [])
       .filter(function (s) {
@@ -201,6 +254,7 @@ function resolveSource(manifest, source, diagnostics, viewId) {
       questions: [],
       scenarios,
       collegeRef: null,
+      primingRef: null,
     };
   }
 
@@ -223,7 +277,15 @@ function resolveSource(manifest, source, diagnostics, viewId) {
           { viewId, ref }
         )
       );
-      return { kind, resolved: false, blocks: [], questions: [], scenarios: [], collegeRef: null };
+      return {
+        kind,
+        resolved: false,
+        blocks: [],
+        questions: [],
+        scenarios: [],
+        collegeRef: null,
+        primingRef: null,
+      };
     }
 
     /** @type {Record<string, unknown>} */
@@ -238,10 +300,74 @@ function resolveSource(manifest, source, diagnostics, viewId) {
       questions: [],
       scenarios: [],
       collegeRef,
+      primingRef: null,
     };
   }
 
-  return { kind, resolved: false, blocks: [], questions: [], scenarios: [], collegeRef: null };
+  if (kind === "cognitive-priming") {
+    if (source.ref !== "manifest") {
+      diagnostics.push(
+        diagnostic(
+          "cognitive-priming-ref-invalid",
+          "error",
+          `Cognitive priming source ref must be "manifest" (got "${source.ref}")`,
+          { viewId, ref: source.ref }
+        )
+      );
+      return {
+        kind,
+        resolved: false,
+        blocks: [],
+        questions: [],
+        scenarios: [],
+        collegeRef: null,
+        primingRef: null,
+      };
+    }
+
+    const rawPath =
+      typeof manifest.cognitive_priming_path === "string"
+        ? manifest.cognitive_priming_path.trim()
+        : "";
+    if (!rawPath) {
+      return {
+        kind,
+        resolved: false,
+        blocks: [],
+        questions: [],
+        scenarios: [],
+        collegeRef: null,
+        primingRef: null,
+      };
+    }
+
+    const primingRef = {
+      ref: "manifest",
+      path: rawPath.replace(/\\/g, "/"),
+      schema_version: COGNITIVE_PRIMING_SCHEMA_VERSION,
+      resolved: true,
+    };
+
+    return {
+      kind,
+      resolved: true,
+      blocks: [],
+      questions: [],
+      scenarios: [],
+      collegeRef: null,
+      primingRef,
+    };
+  }
+
+  return {
+    kind,
+    resolved: false,
+    blocks: [],
+    questions: [],
+    scenarios: [],
+    collegeRef: null,
+    primingRef: null,
+  };
 }
 
 /**
@@ -342,6 +468,8 @@ export function compose(manifest, compositionSpec) {
       let scenarios = [];
       /** @type {Record<string, unknown> | null} */
       let collegeRef = null;
+      /** @type {Record<string, unknown> | null} */
+      let primingRef = null;
 
       for (const resolved of resolvedSources) {
         if (resolved.questions?.length) {
@@ -353,18 +481,27 @@ export function compose(manifest, compositionSpec) {
         if (resolved.collegeRef) {
           collegeRef = resolved.collegeRef;
         }
+        if (resolved.primingRef) {
+          primingRef = resolved.primingRef;
+        }
       }
 
       const anyResolved = resolvedSources.some(function (r) {
         return r.resolved;
       });
 
-      const availability = availabilityFromPolicy(specView.availabilityPolicy, anyResolved);
+      const availability =
+        specView.viewId === "cognitive-priming"
+          ? primingRef?.resolved === true
+            ? "published"
+            : "planned"
+          : availabilityFromPolicy(specView.availabilityPolicy, anyResolved);
 
       if (
         specView.availabilityPolicy === "default" &&
         specView.sources.length > 0 &&
-        !anyResolved
+        !anyResolved &&
+        specView.viewId !== "cognitive-priming"
       ) {
         diagnostics.push(
           diagnostic(
@@ -388,6 +525,7 @@ export function compose(manifest, compositionSpec) {
       if (questions.length > 0) viewEntry.questions = questions;
       if (scenarios.length > 0) viewEntry.scenarios = scenarios;
       if (collegeRef) viewEntry.collegeRef = collegeRef;
+      if (primingRef) viewEntry.primingRef = primingRef;
 
       return viewEntry;
     });

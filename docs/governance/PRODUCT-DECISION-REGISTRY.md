@@ -271,7 +271,7 @@ Ce registre consolide l'ensemble des arbitrages produit issus de l'audit systèm
 | **Source audit** | Q8 |
 | **Décision retenue** | Cible produit = Reader **local installable**, autonome, indépendant du dépôt Git, sans commandes de développement. Bibliothèque de Chapter Packages séparée de l'arborescence projet. Pas de serveur comme prérequis Reader. Mode dev localhost ≠ cible produit. |
 | **Justification** | Usage personnel durable : Lou ouvre sa bibliothèque et étudie. |
-| **Documents cibles** | `14-LOU-READER-ARCHITECTURE.md` ; contrat composant `LIBRARY-CATALOG-CONTRACT.md` *(à créer)* |
+| **Documents cibles** | `14-LOU-READER-ARCHITECTURE.md` ; contrat composant [`LIBRARY-CATALOG-CONTRACT.md`](../contracts/components/LIBRARY-CATALOG-CONTRACT.md) |
 | **ADR associé** | ADR-006 §6 |
 | **Critère de propagation** | Architecture installable documentée ; chemins dépôt supprimés comme prérequis produit. |
 
@@ -711,7 +711,7 @@ Vue consolidée pour le suivi de propagation et l'audit de cohérence ([`PRODUCT
 | `COMPOSITION-COMPONENT-CONTRACT.md` | A2, A4, B5 | À faire |
 | `RENDERER-COMPONENT-CONTRACT.md` | D4, D6, D7 | À faire |
 | `ADMIN-OPERATIONS-CONTRACT.md` *(à créer)* | C6 | À faire |
-| `LIBRARY-CATALOG-CONTRACT.md` *(à créer)* | D1 | À faire |
+| [`LIBRARY-CATALOG-CONTRACT.md`](../contracts/components/LIBRARY-CATALOG-CONTRACT.md) | D1 | En vigueur (D1-A) |
 | `MASTER_ROADMAP.md` | B1–B3, C1–C2, C4, C6–C7, D1, F1, G2, G6 | Fait — 2026-07-30 |
 | `PROJECT_STATE.md` | B1–B2, C1, G6 | Fait — 2026-07-30 |
 | [`ADR-006`](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) | E1–E4, G3, C7, A4 | Fait |

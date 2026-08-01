@@ -44,6 +44,9 @@ describe("publishCollegeSource", () => {
     assert.ok(fs.existsSync(published));
     assert.match(fs.readFileSync(published, "utf8"), /Verbatim text/);
 
+    fs.mkdirSync(path.join(chapterDir, "build"), { recursive: true });
+    fs.writeFileSync(path.join(chapterDir, "build", "traceability.json"), "{}\n");
+
     const manifest = assembleManifest({
       chapterDir,
       inventory: { chapter: "test/1" },
@@ -57,5 +60,8 @@ describe("publishCollegeSource", () => {
 
     assert.equal(manifest.college_source_path, PUBLISHED_COLLEGE_SOURCE_REL);
     assert.ok(!manifest.college_source_path.includes(".."));
+    assert.equal(manifest.publication_version, 1);
+    assert.equal(manifest.release_id, "test__1__2022__1");
+    assert.match(manifest.content_digest, /^sha256:[a-f0-9]{64}$/);
   });
 });

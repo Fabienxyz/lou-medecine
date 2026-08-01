@@ -1,6 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { validateManifestReaderNeutral } from "./manifest-neutralization.js";
+import {
+  attachReleaseIdentity,
+  loadPreviousManifest,
+} from "./release-identity.js";
 
 /** In-package path for verbatim Collège source (Reader offline / ADR-006). */
 export const PUBLISHED_COLLEGE_SOURCE_REL = "source/official-college.md";
@@ -48,6 +52,7 @@ function assembleManifest({
   reconciliation,
   visualBuild,
   evaluation,
+  previousManifest = null,
 }) {
   const mode = packageConfig.mode || "slice";
   const manifest = {
@@ -183,6 +188,17 @@ function assembleManifest({
     throw new Error(
       "Reader-neutral manifest assembly failed:\n" + neutralErrors.join("\n")
     );
+  }
+
+  if (chapterDir) {
+    attachReleaseIdentity(manifest, {
+      chapterDir,
+      packageConfig,
+      previousManifest:
+        previousManifest !== undefined && previousManifest !== null
+          ? previousManifest
+          : loadPreviousManifest(chapterDir),
+    });
   }
 
   return manifest;

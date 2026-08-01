@@ -639,5 +639,8 @@
       "status": "published"
     }
   ],
-  "editorial_completeness": "complete"
+  "editorial_completeness": "complete",
+  "publication_version": 1,
+  "release_id": "cardio__234__2022__1",
+  "content_digest": "sha256:fbadd8232e9d0aa133364365d752603dcde38199f786e5eddd137fcfe2b534f5"
 }

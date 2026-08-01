@@ -4,6 +4,7 @@ import {
   invalidatePublishableState,
   publishCollegeSource,
 } from "../../lib/package.js";
+import { loadPreviousManifest } from "../../lib/release-identity.js";
 import type { BuildContext } from "../pipeline/context.js";
 import type { Stage } from "../pipeline/stage.js";
 import type { StageResult } from "../pipeline/stage.js";
@@ -54,6 +55,9 @@ export function runPackaging(ctx: BuildContext): StageResult {
     evaluationConfig?: Record<string, unknown> | null;
   };
 
+  // Capture prior identity before invalidation removes manifest.json.
+  const previousManifest = loadPreviousManifest(paths.chapterDir);
+
   invalidatePublishableState(paths);
 
   publishCollegeSource(paths.chapterDir, sourceMeta);
@@ -67,6 +71,7 @@ export function runPackaging(ctx: BuildContext): StageResult {
     reconciliation,
     visualBuild,
     evaluation,
+    previousManifest,
   });
 
   fs.writeFileSync(paths.manifest, JSON.stringify(manifest, null, 2) + "\n");

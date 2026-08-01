@@ -16,7 +16,7 @@ export default {
     command: "python3 -m http.server 8765",
     cwd: "../..",
     url: "http://127.0.0.1:8765/demo/renderer/index.html",
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
     timeout: 15_000,
   },
 };

@@ -1,0 +1,63 @@
+# Non-regression gate — golden master Item 234 (PDR-G6, PDR-B2).
+# Validates published package 234, lou-build pipeline, and Reader tests.
+
+name: CI — Fixture 234
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-234-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fixture-234:
+    name: Package 234 + Reader
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: |
+            demo/renderer/package-lock.json
+            tools/lou-build/package-lock.json
+
+      - name: Install lou-build
+        working-directory: tools/lou-build
+        run: npm ci
+
+      - name: Install renderer
+        working-directory: demo/renderer
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        working-directory: demo/renderer
+        run: npx playwright install chromium --with-deps
+
+      - name: lou-build validate — package 234
+        working-directory: tools/lou-build
+        run: npm run validate -- --chapter 01-learning/chapters/cardio/234
+
+      - name: lou-build tests
+        working-directory: tools/lou-build
+        run: npm test
+
+      - name: Renderer unit tests
+        working-directory: demo/renderer
+        run: npm test
+
+      - name: Renderer smoke tests (fixture cardio/234)
+        working-directory: demo/renderer
+        run: npm run test:smoke
+        env:
+          CI: "true"

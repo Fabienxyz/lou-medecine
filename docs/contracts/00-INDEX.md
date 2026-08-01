@@ -1,7 +1,7 @@
 # Lou Médecine — Index des contrats
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-08-01 (PDR-D7 clôturé — contrat composant Display Preferences)  
+**Dernière mise à jour :** 2026-08-01 (Reader Acceptance — contrat composant Cognitive Priming AP-A)  
 **Audit source :** [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md)
 
 Ce document est la **porte d'entrée** du système contractuel. Il n'énonce aucune règle métier, ne remplace aucun ADR ni aucun contrat existant.
@@ -94,6 +94,7 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 | [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine des données apprenantes — persistance, export, import | En vigueur |
 | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) | Recherche textuelle locale Reader — Release ouverte, index, navigation | En vigueur |
 | [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) | Préférences d'affichage Reader — thème, taille police, largeur lecture | En vigueur |
+| [`COGNITIVE-PRIMING-COMPONENT-CONTRACT.md`](components/COGNITIVE-PRIMING-COMPONENT-CONTRACT.md) | Amorçage cognitif Reader — profil, pré-requis EDN, résumé | Proposé (AP-A) |
 
 ---
 

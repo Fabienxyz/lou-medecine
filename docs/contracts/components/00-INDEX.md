@@ -1,7 +1,7 @@
 # Index des contrats composants
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-08-01 (PDR-D7 — contrat composant Display Preferences D7-G)  
+**Dernière mise à jour :** 2026-08-01 (Reader Acceptance — contrat composant Cognitive Priming AP-A)  
 **Index parent :** [`../00-INDEX.md`](../00-INDEX.md)
 
 Ce dossier regroupe les **contrats composants** : spécialisations durables d’un composant du système, **subordonnées** aux ADR et aux contrats fondamentaux 01–09.
@@ -37,6 +37,7 @@ Code et tests
 | [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine des données apprenantes | En vigueur |
 | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](LOCAL-SEARCH-COMPONENT-CONTRACT.md) | Recherche textuelle locale Reader (Release ouverte) | En vigueur |
 | [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) | Préférences d'affichage Reader (thème, police, largeur) | En vigueur |
+| [`COGNITIVE-PRIMING-COMPONENT-CONTRACT.md`](COGNITIVE-PRIMING-COMPONENT-CONTRACT.md) | Amorçage cognitif Reader (profil, pré-requis, résumé) | Proposé (AP-A) |
 
 ---
 

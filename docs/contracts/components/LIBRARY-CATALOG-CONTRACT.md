@@ -250,6 +250,19 @@ L'installation **DOIT** partir d'une Release **publiée valide** (gates satisfai
 
 L'installation **DOIT** rendre le package visible au catalogue seulement lorsque la copie sous `packages/<release_id>/` est **complète et cohérente**. Une interruption **NE DOIT PAS** laisser une entrée catalogue pointant vers un arbre partiel.
 
+L'atomicité garantie par ce contrat est une **atomicité de visibilité opérationnelle**, non une transaction atomique globale :
+
+- la Release **NE DOIT PAS** être référencée dans `library.json` avant la publication complète du répertoire installé sous `packages/<release_id>/` ;
+- cette publication **DOIT** reposer sur un **renommage atomique** au sein du **même système de fichiers local** (typiquement depuis un répertoire de staging vers `packages/<release_id>/`) ;
+- l'installation **N'EST PAS** une transaction filesystem unique couvrant simultanément l'arbre du package et `library.json`.
+
+Conséquences normatives :
+
+- un crash entre le renommage du package et la persistance de `library.json` **PEUT** laisser un package **orphelin** non catalogué ; cette situation est **acceptable** au regard du présent contrat (le package reste invisible au Reader, qui ne découvre que via `library.json`) ;
+- en revanche, une entrée catalogue pointant vers un package **partiel** ou incohérent est **interdite**.
+
+Les garanties de ce paragraphe concernent les systèmes de fichiers locaux officiellement ciblés (**APFS**, **NTFS**, **ext4**). Elles **ne couvrent pas** les volumes réseau (SMB/NFS), FAT/exFAT, ni les montages cloud.
+
 ### 8.3 Mise à jour du catalogue
 
 Après copie réussie, l'installation **DOIT** :

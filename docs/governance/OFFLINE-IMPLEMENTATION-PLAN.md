@@ -23,7 +23,7 @@ Ce document porte la **numérotation opérationnelle unique** des lots PDR-D2. L
 | **D2-E** | Runtime Offline (routage local) | **Livré** |
 | **D2-F** | Préparation automatique après installation | **Livré** |
 | **D2-G** | Acceptation Offline | **Livré** |
-| **D2-H** | Update / Repair / Archive | À venir |
+| **D2-H** | Update / Repair / Archive | **Livré** |
 | **D2-I** | Propagation documentaire / clôture | À venir |
 
 ---
@@ -69,7 +69,16 @@ Les deux composants portent le nom « Offline Manager » dans le code, mais seul
 | **Shell Reader** | Garantie **globale distincte** (§6.3 contrat D2-A) — ressources statiques nécessaires à l'exécution du Reader, indépendantes de toute Release |
 | **Acceptation D2** | Exige **simultanément** : Release `offline_ready` **et** shell offline opérationnel — le statut du shell **n'est pas** porté par `library.json` |
 
-**Ordre critique :** D2-A → D2-B → D2-C ∥ D2-D → D2-E → D2-F → D2-G ; D2-H après D2-F ; D2-I clôture.
+**Ordre critique :** D2-A → D2-B → D2-C ∥ D2-D → D2-E → D2-F → D2-G → D2-H ; D2-I clôture.
+
+**Clarification D2-H — repair, purge, stale, archivage :**
+
+| Opération | Comportement |
+|---|---|
+| **`repair(release_id)`** | Supprime le namespace runtime ; conserve package + catalogue ; relance préparation + certification |
+| **`purge(release_id)`** | Supprime le namespace runtime ; remet `offline_status` à `not_prepared` ; ne touche pas au package |
+| **`detectStale` / `invalidateIfStale`** | Détecte incohérence d'une Release `offline_ready` ; invalide vers `failed` — jamais `offline_ready` incohérent |
+| **Archivage catalogue** | Nouvelle Release active archive l'ancienne sans purge runtime ni reset `offline_status` (install D1-C) |
 
 **Hors lots D2 :** wiring UI bibliothèque riche, Tauri, purge auto quota, install depuis cloud.
 

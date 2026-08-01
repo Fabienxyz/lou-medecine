@@ -1,10 +1,12 @@
 /**
- * Browser Offline Manager (D2-G) — production runtime preparation and certification.
+ * Browser Offline Manager (D2-G/H) — production runtime preparation, certification,
+ * repair, purge, and stale invalidation.
  * Sole component authorized to transition offline_status to offline_ready or failed.
  */
 import {
   OFFLINE_STATUS,
   getCatalogOfflineStatus,
+  setCatalogOfflineStatus,
   transitionCatalogOfflineStatus,
 } from "./offline-state.js";
 import { collectDeclaredArtifactPaths } from "./package-access-shared.js";
@@ -110,6 +112,174 @@ class BrowserOfflineManager {
   }
 
   /**
+   * Remove runtime namespace, re-prepare and re-certify (D2-H repair).
+   * @param {string} releaseId
+   */
+  repair(releaseId) {
+    return /** @type {Promise<{ releaseId: string, status: import("../../../tools/lou-build/lib/offline-state.js").OfflineStatus }>} */ (
+      this._runExclusive(releaseId, () => this._repairInternal(releaseId))
+    );
+  }
+
+  /**
+   * Remove runtime namespace and reset offline_status to not_prepared (D2-H purge).
+   * @param {string} releaseId
+   */
+  purge(releaseId) {
+    return /** @type {Promise<{ releaseId: string, status: import("../../../tools/lou-build/lib/offline-state.js").OfflineStatus }>} */ (
+      this._runExclusive(releaseId, () => this._purgeInternal(releaseId))
+    );
+  }
+
+  /**
+   * Assess whether a certified Release is stale relative to catalogue and runtime.
+   * @param {string} releaseId
+   */
+  async detectStale(releaseId) {
+    if (typeof releaseId !== "string" || !releaseId.trim()) {
+      throw new BrowserOfflineManagerError(
+        "UNKNOWN_RELEASE",
+        `browser offline manager: invalid release_id ${JSON.stringify(releaseId)}`
+      );
+    }
+
+    const catalog = await loadCatalogFromLibrary(this._libraryBaseUrl, this._fetch);
+    const entry = this._requireCatalogEntry(catalog, releaseId);
+    const catalogStatus = getCatalogOfflineStatus(catalog, releaseId);
+    const manifest = await this._packageAccess.resolveManifest(releaseId);
+    const runtimeMetadata = await this._runtime.getReleaseMetadata(releaseId);
+    const catalogDigest = entry.content_digest;
+
+    const hasCompleteRuntime =
+      typeof catalogDigest === "string" &&
+      (await this._runtime.hasRelease(releaseId, catalogDigest));
+
+    return this._assessReleaseStale({
+      catalogStatus,
+      catalogDigest,
+      manifestDigest: manifest.content_digest,
+      runtimeMetadata,
+      hasCompleteRuntime,
+    });
+  }
+
+  /**
+   * @param {{
+   *   catalogStatus: import("./offline-state.js").OfflineStatus,
+   *   catalogDigest: unknown,
+   *   manifestDigest: unknown,
+   *   runtimeMetadata: { content_digest?: string } | null,
+   *   hasCompleteRuntime: boolean,
+   * }} input
+   */
+  _assessReleaseStale(input) {
+    if (input.catalogStatus !== OFFLINE_STATUS.OFFLINE_READY) {
+      return { stale: false, recommendedStatus: null, reasons: [] };
+    }
+
+    /** @type {string[]} */
+    const reasons = [];
+
+    if (
+      typeof input.catalogDigest === "string" &&
+      typeof input.manifestDigest === "string" &&
+      input.catalogDigest !== input.manifestDigest
+    ) {
+      reasons.push("CATALOG_MANIFEST_DIGEST_DIVERGENT");
+    }
+
+    if (!input.runtimeMetadata) {
+      reasons.push("RUNTIME_NAMESPACE_MISSING");
+    } else if (
+      typeof input.catalogDigest === "string" &&
+      input.runtimeMetadata.content_digest !== input.catalogDigest
+    ) {
+      reasons.push("RUNTIME_CATALOG_DIGEST_DIVERGENT");
+    }
+
+    if (!input.hasCompleteRuntime) {
+      reasons.push("RUNTIME_INCOMPLETE");
+    }
+
+    if (reasons.length === 0) {
+      return { stale: false, recommendedStatus: null, reasons: [] };
+    }
+
+    return {
+      stale: true,
+      recommendedStatus: OFFLINE_STATUS.FAILED,
+      reasons,
+    };
+  }
+
+  /**
+   * Invalidate offline_ready Releases that fail stale checks (→ failed).
+   * @param {string} releaseId
+   */
+  async invalidateIfStale(releaseId) {
+    const assessment = await this.detectStale(releaseId);
+    if (!assessment.stale || assessment.recommendedStatus !== OFFLINE_STATUS.FAILED) {
+      return assessment;
+    }
+
+    const catalog = await loadCatalogFromLibrary(this._libraryBaseUrl, this._fetch);
+    const status = getCatalogOfflineStatus(catalog, releaseId);
+    if (status === OFFLINE_STATUS.OFFLINE_READY) {
+      await this._persistTransition(releaseId, OFFLINE_STATUS.FAILED);
+    }
+    return assessment;
+  }
+
+  /**
+   * @param {string} releaseId
+   * @param {() => Promise<{ releaseId: string, status: import("../../../tools/lou-build/lib/offline-state.js").OfflineStatus }>} fn
+   */
+  _runExclusive(releaseId, fn) {
+    if (typeof releaseId !== "string" || !releaseId.trim()) {
+      throw new BrowserOfflineManagerError(
+        "UNKNOWN_RELEASE",
+        `browser offline manager: invalid release_id ${JSON.stringify(releaseId)}`
+      );
+    }
+
+    const existing = this._inFlight.get(releaseId);
+    if (existing) {
+      return existing;
+    }
+
+    const job = fn().finally(() => {
+      this._inFlight.delete(releaseId);
+    });
+    this._inFlight.set(releaseId, job);
+    return job;
+  }
+
+  /**
+   * @param {string} releaseId
+   */
+  async _repairInternal(releaseId) {
+    const catalog = await loadCatalogFromLibrary(this._libraryBaseUrl, this._fetch);
+    this._requireCatalogEntry(catalog, releaseId);
+    const status = getCatalogOfflineStatus(catalog, releaseId);
+    if (status === OFFLINE_STATUS.OFFLINE_READY) {
+      await this.invalidateIfStale(releaseId);
+    }
+    await this._runtime.removeRelease(releaseId);
+    return this._prepareAndCertifyInternal(releaseId);
+  }
+
+  /**
+   * @param {string} releaseId
+   */
+  async _purgeInternal(releaseId) {
+    const catalog = await loadCatalogFromLibrary(this._libraryBaseUrl, this._fetch);
+    this._requireCatalogEntry(catalog, releaseId);
+    await this._runtime.removeRelease(releaseId);
+    await this._persistDirectStatus(releaseId, OFFLINE_STATUS.NOT_PREPARED);
+    return { releaseId, status: OFFLINE_STATUS.NOT_PREPARED };
+  }
+
+  /**
    * @param {string} releaseId
    */
   async _prepareAndCertifyInternal(releaseId) {
@@ -197,6 +367,22 @@ class BrowserOfflineManager {
       this._libraryBaseUrl,
       (catalog) => {
         transitionCatalogOfflineStatus(catalog, releaseId, toStatus);
+      },
+      this._fetch
+    );
+    this._packageAccess.invalidateCatalogCache?.();
+    await this._cacheLibraryCatalogSnapshot();
+  }
+
+  /**
+   * @param {string} releaseId
+   * @param {import("../../../tools/lou-build/lib/offline-state.js").OfflineStatus} status
+   */
+  async _persistDirectStatus(releaseId, status) {
+    await mutateCatalogInLibrary(
+      this._libraryBaseUrl,
+      (catalog) => {
+        setCatalogOfflineStatus(catalog, releaseId, status);
       },
       this._fetch
     );

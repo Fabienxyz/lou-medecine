@@ -185,6 +185,18 @@ export function transitionCatalogOfflineStatus(catalog, releaseId, toStatus) {
 }
 
 /**
+ * Explicit offline_status reset (purge) — bypasses transition graph.
+ * @param {Record<string, unknown>} catalog
+ * @param {string} releaseId
+ * @param {unknown} status
+ * @returns {OfflineStatus}
+ */
+export function setCatalogOfflineStatus(catalog, releaseId, status) {
+  const entry = requireCatalogEntry(catalog, releaseId);
+  return setOfflineStatus(entry, status);
+}
+
+/**
  * Add default offline_status to legacy entries (not_prepared).
  * @param {Record<string, unknown>} catalog
  * @returns {Record<string, unknown>}

@@ -255,6 +255,15 @@ class OfflineRuntime {
 
   /**
    * @param {string} releaseId
+   * @returns {Promise<{ release_id?: string, content_digest?: string, resources?: string[] } | null>}
+   */
+  async getReleaseMetadata(releaseId) {
+    const namespace = buildReleaseNamespace(releaseId);
+    return this._readNamespaceMetadata(namespace);
+  }
+
+  /**
+   * @param {string} releaseId
    */
   async removeRelease(releaseId) {
     const namespace = buildReleaseNamespace(releaseId);

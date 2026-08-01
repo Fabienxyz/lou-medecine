@@ -12,6 +12,7 @@ import { loadOrCreateCatalog } from "../../../tools/lou-build/lib/library-catalo
 import { OFFLINE_STATUS } from "../../../tools/lou-build/lib/offline-state.js";
 import { createBrowserPackageAccess } from "../library/browser-package-access.js";
 import { createOfflineRuntime } from "../library/offline-runtime.js";
+import { buildReleaseNamespace } from "../library/offline-runtime-shared.js";
 import {
   BrowserOfflineManagerError,
   createBrowserOfflineManager,
@@ -49,11 +50,14 @@ function createMemoryRuntimeStorage() {
 
 /**
  * @param {string} root
+ * @param {{ publication_version?: number, body?: string }} [opts]
  */
-function writeMiniRelease(root) {
+function writeMiniRelease(root, opts = {}) {
+  const publication_version = opts.publication_version ?? 1;
+  const body = opts.body ?? "body\n";
   fs.mkdirSync(path.join(root, "source"), { recursive: true });
   fs.mkdirSync(path.join(root, "build"), { recursive: true });
-  fs.writeFileSync(path.join(root, "source", "official-college.md"), "body\n");
+  fs.writeFileSync(path.join(root, "source", "official-college.md"), body);
   fs.writeFileSync(path.join(root, "build", "traceability.json"), "{}\n");
   const manifest = {
     chapter: "cardio/234",
@@ -71,13 +75,37 @@ function writeMiniRelease(root) {
   };
   attachReleaseIdentity(manifest, {
     chapterDir: root,
-    packageConfig: { publication_version: 1 },
+    packageConfig: { publication_version },
   });
   fs.writeFileSync(
     path.join(root, "manifest.json"),
     JSON.stringify(manifest, null, 2) + "\n"
   );
   return manifest;
+}
+
+/**
+ * @param {string} libraryRoot
+ */
+function createTestManager(libraryRoot) {
+  const fetchFn = createMockLibraryFetch(libraryRoot);
+  const packageAccess = createBrowserPackageAccess({
+    libraryBaseUrl: LIBRARY_BASE,
+    fetch: fetchFn,
+  });
+  const runtime = createOfflineRuntime({
+    storage: createMemoryRuntimeStorage(),
+    libraryBasePath: "/library",
+    allowDevPackageWarmCache: false,
+    fetch: fetchFn,
+  });
+  const manager = createBrowserOfflineManager({
+    libraryBaseUrl: LIBRARY_BASE,
+    packageAccess,
+    fetch: fetchFn,
+    runtime,
+  });
+  return { manager, runtime, fetchFn, packageAccess };
 }
 
 /**
@@ -265,5 +293,151 @@ describe("browser offline manager (D2-G)", () => {
 
     const result = await manager.prepareAndCertify(releaseId);
     assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+  });
+});
+
+describe("browser offline manager lifecycle (D2-H)", () => {
+  let tmp;
+  let libraryRoot;
+  let releaseId;
+
+  beforeEach(() => {
+    tmp = fs.mkdtempSync(path.join(os.tmpdir(), "lou-bom-h-"));
+    libraryRoot = path.join(tmp, "library");
+    const releaseDir = path.join(tmp, "release");
+    writeMiniRelease(releaseDir);
+    installPublishedRelease(releaseDir, libraryRoot);
+    releaseId = "cardio__234__2022__1";
+  });
+
+  afterEach(() => {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  });
+
+  test("repair after runtime removed restores offline_ready", async () => {
+    const { manager, runtime } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    await runtime.removeRelease(releaseId);
+
+    const result = await manager.repair(releaseId);
+    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+    const digest = loadOrCreateCatalog(libraryRoot).entries[0].content_digest;
+    assert.equal(await runtime.hasRelease(releaseId, digest), true);
+    assert.equal(
+      loadOrCreateCatalog(libraryRoot).entries[0].offline_status,
+      OFFLINE_STATUS.OFFLINE_READY
+    );
+  });
+
+  test("repair after corrupted runtime restores offline_ready", async () => {
+    const { manager, runtime } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    const namespace = buildReleaseNamespace(releaseId);
+    const storage = runtime.getStorage();
+    const cache = await storage.open(namespace);
+    await cache.put("build/traceability.json", {
+      body: new TextEncoder().encode("{}"),
+      contentType: "application/json",
+    });
+
+    const result = await manager.repair(releaseId);
+    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+  });
+
+  test("repair after runtime digest divergent restores offline_ready", async () => {
+    const { manager, runtime } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    const namespace = buildReleaseNamespace(releaseId);
+    const storage = runtime.getStorage();
+    const cache = await storage.open(namespace);
+    const meta = await runtime.getReleaseMetadata(releaseId);
+    assert.ok(meta);
+    meta.content_digest = "sha256:deadbeef";
+    await cache.put("__lou-offline-meta.json", {
+      body: new TextEncoder().encode(JSON.stringify(meta)),
+      contentType: "application/json",
+    });
+
+    const stale = await manager.detectStale(releaseId);
+    assert.equal(stale.stale, true);
+
+    const result = await manager.repair(releaseId);
+    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+  });
+
+  test("purge removes runtime and resets offline_status to not_prepared", async () => {
+    const { manager, runtime } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    const packagePath = path.join(libraryRoot, "packages", releaseId, "manifest.json");
+    assert.ok(fs.existsSync(packagePath));
+
+    const result = await manager.purge(releaseId);
+    assert.equal(result.status, OFFLINE_STATUS.NOT_PREPARED);
+    assert.ok(fs.existsSync(packagePath));
+    assert.equal(await runtime.getReleaseMetadata(releaseId), null);
+    assert.equal(
+      loadOrCreateCatalog(libraryRoot).entries[0].offline_status,
+      OFFLINE_STATUS.NOT_PREPARED
+    );
+  });
+
+  test("stale offline_ready without runtime is detected and invalidated to failed", async () => {
+    const { manager, runtime } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    await runtime.removeRelease(releaseId);
+
+    const stale = await manager.detectStale(releaseId);
+    assert.equal(stale.stale, true);
+    assert.equal(stale.recommendedStatus, OFFLINE_STATUS.FAILED);
+
+    await manager.invalidateIfStale(releaseId);
+    assert.equal(
+      loadOrCreateCatalog(libraryRoot).entries.find((e) => e.release_id === releaseId)
+        .offline_status,
+      OFFLINE_STATUS.FAILED
+    );
+  });
+
+  test("parallel repair calls share one in-flight job", async () => {
+    const { manager } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    await manager.purge(releaseId);
+
+    const [first, second] = await Promise.all([
+      manager.repair(releaseId),
+      manager.repair(releaseId),
+    ]);
+    assert.equal(first.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(second.status, OFFLINE_STATUS.OFFLINE_READY);
+  });
+
+  test("repair is idempotent when runtime is already complete", async () => {
+    const { manager } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    const result = await manager.repair(releaseId);
+    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+  });
+
+  test("installing new active release preserves archived offline_ready and runtime", async () => {
+    const { manager, runtime } = createTestManager(libraryRoot);
+    const releaseIdV1 = releaseId;
+    await manager.prepareAndCertify(releaseIdV1);
+
+    const release2Dir = path.join(tmp, "release-v2");
+    writeMiniRelease(release2Dir, { publication_version: 2, body: "v2 body\n" });
+    installPublishedRelease(release2Dir, libraryRoot);
+    const releaseIdV2 = "cardio__234__2022__2";
+
+    const catalog = loadOrCreateCatalog(libraryRoot);
+    const v1 = catalog.entries.find((e) => e.release_id === releaseIdV1);
+    const v2 = catalog.entries.find((e) => e.release_id === releaseIdV2);
+    assert.equal(v1.status, "archived");
+    assert.equal(v1.offline_status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(v2.status, "active");
+    assert.equal(await runtime.hasRelease(releaseIdV1, v1.content_digest), true);
+
+    await manager.prepareAndCertify(releaseIdV2);
+    assert.equal(await runtime.hasRelease(releaseIdV1, v1.content_digest), true);
+    assert.equal(await runtime.hasRelease(releaseIdV2, v2.content_digest), true);
   });
 });

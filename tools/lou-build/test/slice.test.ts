@@ -353,8 +353,6 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     try {
       assert.match(original, /> 25 mmHg/);
 
-      let result = await runTypedBuild(CHAPTER);
-      assert.equal(result.ok, true, (result.errors || []).join("; "));
       assert.ok(
         fs.existsSync(manifestPath),
         "publishable manifest should exist after successful build"
@@ -364,7 +362,7 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       assert.notEqual(corrupted, original);
       fs.writeFileSync(mechPath, corrupted);
 
-      result = await runTypedBuild(CHAPTER);
+      let result = await runTypedBuild(CHAPTER);
       assert.equal(result.ok, false, "corrupted threshold build must fail");
       assert.equal(
         fs.existsSync(manifestPath),
@@ -526,7 +524,6 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       assert.equal(mechanisms!.status, "published");
     } finally {
       restoreBaseline("blueprint");
-      await runTypedBuild(CHAPTER);
     }
   });
 

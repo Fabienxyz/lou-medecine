@@ -41,12 +41,19 @@ export function isIndexableDocumentRef(documentRef) {
 
 /**
  * @param {string} documentRef
- * @returns {"projection_markdown" | "college_markdown" | "question_yaml" | "scenario_yaml" | null}
+ * @returns {"projection_markdown" | "college_markdown" | "question_yaml" | "scenario_yaml" | "cognitive_priming_json" | null}
  */
 export function inferDocumentKind(documentRef) {
     const ref = documentRef.replace(/\\/g, "/");
     if (ref.startsWith("manifest:")) {
         return null;
+    }
+    if (
+        ref.startsWith("build/") &&
+        ref.includes("cognitive") &&
+        ref.endsWith(".json")
+    ) {
+        return "cognitive_priming_json";
     }
     if (ref.startsWith("questions/") && ref.endsWith(".yaml")) {
         return "question_yaml";
@@ -159,6 +166,22 @@ function resolveSourceBinding(manifest, source, viewId) {
             projectionId: "",
             projectionOrder: 9999,
             documentRefs: [collegePath],
+        };
+    }
+
+    if (kind === "cognitive-priming") {
+        const primingPath =
+            typeof manifest.cognitive_priming_path === "string"
+                ? manifest.cognitive_priming_path.trim().replace(/\\/g, "/")
+                : null;
+        if (!primingPath || !isIndexableDocumentRef(primingPath)) {
+            return null;
+        }
+        return {
+            sourceKind: "cognitive-priming",
+            projectionId: "",
+            projectionOrder: 1,
+            documentRefs: [primingPath],
         };
     }
 
@@ -367,6 +390,9 @@ export function registryMetadataForDocument(manifest, documentRef) {
         return { projectionId: projection.id, publicationStatus: projection.status };
     }
     if (manifest.college_source_path === ref) {
+        return { publicationStatus: "published" };
+    }
+    if (manifest.cognitive_priming_path === ref) {
         return { publicationStatus: "published" };
     }
     return { publicationStatus: "published" };

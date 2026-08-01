@@ -43,6 +43,7 @@ export const SHELL_URLS = [
   "/demo/renderer/svg-loader.js",
   "/demo/renderer/inline-formatting.js",
   "/demo/renderer/blocks.js",
+  "/demo/renderer/cognitive-priming-render.js",
   "/demo/renderer/renderer.js",
   "/demo/renderer/app.js",
   "/demo/renderer/lib/marked.min.js",

@@ -171,6 +171,14 @@ function makeManifestAltAnchor(elementId, visualId) {
     return { kind: "manifest_alt", elementId, visualId };
 }
 
+function makeViewEntryAnchor() {
+    return { kind: "view_entry" };
+}
+
+function isNonEmptyString(value) {
+    return typeof value === "string" && value.trim().length > 0;
+}
+
 function buildPassage(fieldPath, sourceOrdinal, rawText) {
     const normalizedText = normText(rawText);
     if (!normalizedText) {
@@ -687,6 +695,125 @@ export function extractScenarioUnits(content, scenarioIdFallback) {
 }
 
 /**
+ * Extract units from published Cognitive Priming JSON (AP-B §7.2).
+ * Indexable fields only: edn label, item_label, ai sentence, summary bullets.
+ */
+export function extractCognitivePrimingUnits(content) {
+    const diagnostics = [];
+    if (typeof content !== "string" || content.includes("\uFFFD")) {
+        diagnostics.push(DIAGNOSTICS.DOC_INVALID);
+        return { units: [], diagnostics };
+    }
+
+    /** @type {unknown} */
+    let parsed;
+    try {
+        parsed = JSON.parse(content);
+    } catch {
+        diagnostics.push(DIAGNOSTICS.DOC_INVALID);
+        return { units: [], diagnostics };
+    }
+
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        diagnostics.push(DIAGNOSTICS.DOC_INVALID);
+        return { units: [], diagnostics };
+    }
+
+    const record = /** @type {Record<string, unknown>} */ (parsed);
+    if (record.schema_version !== 1) {
+        diagnostics.push(DIAGNOSTICS.DOC_INVALID);
+        return { units: [], diagnostics };
+    }
+
+    const passages = [];
+    const prerequisites = record.prerequisites;
+    if (prerequisites && typeof prerequisites === "object" && !Array.isArray(prerequisites)) {
+        const ednRefs = Array.isArray(prerequisites.edn_references)
+            ? prerequisites.edn_references
+            : [];
+        for (let i = 0; i < ednRefs.length; i += 1) {
+            const ref = ednRefs[i];
+            if (!ref || typeof ref !== "object") {
+                continue;
+            }
+            const refObj = /** @type {Record<string, unknown>} */ (ref);
+            if (isNonEmptyString(refObj.label)) {
+                passages.push(
+                    buildPassage(
+                        `prerequisites.edn_references[${i}].label`,
+                        passages.length,
+                        String(refObj.label)
+                    )
+                );
+            }
+            if (isNonEmptyString(refObj.item_label)) {
+                passages.push(
+                    buildPassage(
+                        `prerequisites.edn_references[${i}].item_label`,
+                        passages.length,
+                        String(refObj.item_label)
+                    )
+                );
+            }
+        }
+
+        const aiComplements = Array.isArray(prerequisites.ai_complements)
+            ? prerequisites.ai_complements
+            : [];
+        for (let i = 0; i < aiComplements.length; i += 1) {
+            const item = aiComplements[i];
+            if (!item || typeof item !== "object") {
+                continue;
+            }
+            const sentence = /** @type {Record<string, unknown>} */ (item).sentence;
+            if (isNonEmptyString(sentence)) {
+                passages.push(
+                    buildPassage(
+                        `prerequisites.ai_complements[${i}].sentence`,
+                        passages.length,
+                        String(sentence)
+                    )
+                );
+            }
+        }
+    }
+
+    const summary = record.summary;
+    if (summary && typeof summary === "object" && !Array.isArray(summary)) {
+        const bullets = Array.isArray(summary.bullets) ? summary.bullets : [];
+        for (let i = 0; i < bullets.length; i += 1) {
+            if (isNonEmptyString(bullets[i])) {
+                passages.push(
+                    buildPassage(`summary.bullets[${i}]`, passages.length, String(bullets[i]))
+                );
+            }
+        }
+    }
+
+    const normalizedPassages = passages.filter(Boolean).map((p, idx) => ({
+        ...p,
+        sourceOrdinal: idx,
+    }));
+
+    if (!normalizedPassages.length) {
+        diagnostics.push(DIAGNOSTICS.DOC_INVALID);
+        return { units: [], diagnostics };
+    }
+
+    return {
+        units: [
+            {
+                unitType: "cognitive_priming",
+                unitId: "cognitive-priming",
+                anchor: makeViewEntryAnchor(),
+                passages: normalizedPassages,
+            },
+        ],
+        diagnostics,
+    };
+}
+
+/**
  * Extract manifest alt visual entry.
  */
 export function extractManifestAltUnit(visual) {
@@ -718,4 +845,5 @@ export {
     makeQuestionAnchor,
     makeScenarioAnchor,
     makeManifestAltAnchor,
+    makeViewEntryAnchor,
 };

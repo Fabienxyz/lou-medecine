@@ -275,6 +275,14 @@ describe("offline runtime (D2-E)", () => {
     assert.ok(restoreIdx < bootstrapIdx);
   });
 
+  test("E1 shell precache includes cognitive-priming-render.js before renderer.js", () => {
+    const cpIdx = SHELL_URLS.indexOf("/demo/renderer/cognitive-priming-render.js");
+    const rendererIdx = SHELL_URLS.indexOf("/demo/renderer/renderer.js");
+    assert.ok(cpIdx >= 0);
+    assert.ok(rendererIdx >= 0);
+    assert.ok(cpIdx < rendererIdx);
+  });
+
   test("prepareRelease stores a complete Release namespace", async () => {
     const result = await runtime.prepareRelease({
       releaseId: RELEASE_A,

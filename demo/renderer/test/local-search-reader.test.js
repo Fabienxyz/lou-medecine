@@ -118,6 +118,7 @@ function createFixtureRuntime() {
 
 function buildTabs() {
     return [
+        { viewId: "cognitive-priming", label: "Amorçage" },
         { viewId: "mental-model", label: "Schéma" },
         { viewId: "notions", label: "Notions" },
         { viewId: "college-official", label: "Collège officiel" },
@@ -255,7 +256,7 @@ describe("D6-E search-navigation", () => {
             }
         );
         assert.equal(result.ok, true);
-        assert.equal(tabIndex, 0);
+        assert.equal(tabIndex, 1);
         const el = dom.window.document.getElementById("MEC-oap");
         assert.ok(el.classList.contains("search-hit-highlight"));
     });
@@ -438,6 +439,9 @@ describe("D6-E package 234 end-to-end", () => {
         } else if (hit.anchor.kind === "question_id") {
             dom.window.document.body.innerHTML =
                 '<li data-question-id="' + hit.anchor.questionId + '"></li>';
+        } else if (hit.anchor.kind === "view_entry") {
+            dom.window.document.body.innerHTML =
+                '<div id="content"><section class="cognitive-priming-view"></section></div>';
         }
 
         const tabs = buildTabs();

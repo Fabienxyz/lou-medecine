@@ -98,6 +98,19 @@
             return { element: el, code: null };
         }
 
+        if (anchor.kind === "view_entry") {
+            const el =
+                document.querySelector(".cognitive-priming-view") ||
+                document.querySelector(".cognitive-priming-body") ||
+                document.getElementById("content") ||
+                document.scrollingElement ||
+                document.body;
+            if (!el) {
+                return { element: null, code: "LS-READER-ANCHOR-MISSING" };
+            }
+            return { element: el, code: null };
+        }
+
         return { element: null, code: "LS-READER-ANCHOR-INVALID" };
     }
 

@@ -27,6 +27,7 @@ import {
     extractQuestionUnits,
     extractScenarioUnits,
     extractManifestAltUnit,
+    extractCognitivePrimingUnits,
 } from "./local-search-extract.js";
 
 function uniqueDiagnostics(list) {
@@ -96,6 +97,9 @@ function extractUnitsForArtifact(artifact) {
     }
     if (kind === "scenario_yaml") {
         return extractScenarioUnits(artifact.content, artifact.scenarioId);
+    }
+    if (kind === "cognitive_priming_json") {
+        return extractCognitivePrimingUnits(artifact.content);
     }
     return { units: [], diagnostics: [DIAGNOSTICS.DOC_INVALID] };
 }

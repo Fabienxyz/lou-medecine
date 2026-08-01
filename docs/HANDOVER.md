@@ -18,8 +18,8 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Branche** | `main` |
-| **HEAD** | `0d7ba1d` — `feat(renderer): implement learner patrimony snapshot export` (E-C) |
-| **Remote** | `origin/main` — aligné avec HEAD (`0d7ba1d`) |
+| **HEAD** | `c6821dc` — `feat(renderer): implement learner patrimony snapshot import` (E-D) |
+| **Remote** | `origin/main` — aligné avec HEAD (`c6821dc`) |
 | **Tags de référence** | `offline-certification-v1` (D2) · `reader-composition-v1` (Composition) · pas de tag E-B |
 
 **Commits patrimoine récents :**
@@ -29,6 +29,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | `aaed24c` | `docs(contract): define learner patrimony contract` (E-A) |
 | `9abd4ba` | `feat(renderer): implement release-scoped learner patrimony` (E-B) |
 | `0d7ba1d` | `feat(renderer): implement learner patrimony snapshot export` (E-C) |
+| `c6821dc` | `feat(renderer): implement learner patrimony snapshot import` (E-D) |
 
 **Fichiers non suivis hors périmètre** (ne pas committer sans instruction) :
 
@@ -44,10 +45,10 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Phase** | Execution Mode V1 — livraison roadmap V1 en cours |
-| **Dernier jalon publié** | **E-C** — export Learner Snapshot / LP-05 sur `origin/main` |
+| **Dernier jalon publié** | **E-D** — import Learner Snapshot / LP-06 sur `origin/main` |
 | **Objectif actif** | **Reader Acceptance V1** — critères PDR-B1/B5/D/E sur package 234 complet |
-| **Lot patrimoine actif** | **E-D** — import / restauration patrimoniale (contrat E-A §9) |
-| **Instance courante** | Package 234 Release `complete` ; Composition V1 ; D1 ; D2 ; contrat patrimoine E-A ; persistance E-B ; **Learner Snapshot E-C publié** ; **acceptation Reader non prononcée** |
+| **Lot actif** | **D4** — reprise de session ([PDR-D4](governance/PRODUCT-DECISION-REGISTRY.md)) |
+| **Instance courante** | Package 234 Release `complete` ; Composition V1 ; D1 ; D2 ; contrat patrimoine E-A ; persistance E-B ; export E-C ; **import E-D publié** ; **acceptation Reader non prononcée** |
 
 **Acquis majeurs (publiés) :**
 
@@ -61,6 +62,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 - **E-A** — contrat Learner Patrimony en vigueur
 - **E-B** — persistance Release-scoped (IndexedDB v5, `learner-patrimony.js`)
 - **E-C** — export Learner Snapshot (`learner-snapshot.js`, LP-05)
+- **E-D** — import / restauration patrimoniale (`importSnapshot`, LP-06, IndexedDB v6)
 
 ---
 
@@ -68,33 +70,31 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 **Prochain jalon :** **Reader Acceptance V1**
 
-**Étape immédiate (patrimoine) :** **Lot E-D** — implémenter l'import / restauration patrimoniale conforme au contrat E-A §9.
+**Étape immédiate :** **Lot D4** — reprise de session opérationnelle ([PDR-D4](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-**Critères restants hors E-D :** reprise session D4, recherche D6, Amorçage (1 vue `planned`).
+**Critères restants hors D4 :** recherche D6, Amorçage (1 vue `planned`).
 
 **Points d'entrée code patrimoine :**
 
-- `demo/renderer/learner-patrimony.js` — logique identité Release
-- `demo/renderer/learner-store.js` — persistance IndexedDB v5
-- `demo/renderer/learner-snapshot.js` — export Learner Snapshot (LP-05)
-- Contrat : [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](contracts/components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) §9
+- `demo/renderer/learner-patrimony.js` — logique identité Release, `deriveLogicalRecordId`
+- `demo/renderer/learner-store.js` — persistance IndexedDB v6
+- `demo/renderer/learner-snapshot.js` — export (LP-05) et import (LP-06)
+- Contrat : [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](contracts/components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) §8–§9
 
 ---
 
 ## 4. Architecture stabilisée
 
-Chaîne patrimoine (E-A / E-B / E-C publiés) :
+Chaîne patrimoine (E-A / E-B / E-C / E-D publiés) :
 
 ```
 Manifest / Package Access → release_id (catalogue)
         ↓ setReleaseContext (app.js)
 LouLearnerPatrimony (identité, scope, legacy __legacy__*)
         ↓
-LouLearnerStore (IndexedDB v5 — highlights, notes, SVG, diagrammes)
-        ↓
-LouLearnerSnapshot (export patrimonial — contrat §8, LP-05)
-        ↕  [E-D à implémenter]
-Import / restauration patrimoniale (contrat §9)
+LouLearnerStore (IndexedDB v6 — highlights, notes, SVG, diagrammes)
+        ↕
+LouLearnerSnapshot (export §8 LP-05 · import §9 LP-06)
 ```
 
 **Décisions figées E-B :**
@@ -127,20 +127,20 @@ Import / restauration patrimoniale (contrat §9)
 | **Patrimoine — contrat E-A** | En vigueur |
 | **Patrimoine — persistance E-B** | **Publié** (`9abd4ba`) |
 | **Patrimoine — export E-C** | **Publié** (`0d7ba1d`) — Learner Snapshot / LP-05 |
-| **Patrimoine — import E-D** | Non implémenté |
+| **Patrimoine — import E-D** | **Publié** (`c6821dc`) — import / restauration / LP-06 |
 | **Reprise session (D4)** | Non implémenté |
 | **Recherche locale (D6)** | Non implémenté |
 | **Critères d'acceptation** | **Non prononcés** |
 
-**Tests renderer :** 333 PASS (`demo/renderer/npm test`).
+**Tests renderer :** 351 PASS (`demo/renderer/npm test`).
 
 ---
 
 ## 7. Chantiers recommandés
 
-1. **E-D — Import / restauration patrimoniale** (lot actif patrimoine)
+1. **D4 — Reprise de session** (lot actif)
 2. **Reader Acceptance V1** (cadre global)
-3. D4 reprise · D6 recherche (après E-D ou en parallèle selon roadmap)
+3. D6 recherche · Amorçage (en parallèle selon roadmap)
 
 ---
 
@@ -150,9 +150,9 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
 2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md).
-3. Lot actif patrimoine : **E-D — import / restauration patrimoniale**.
-4. Contrat §9 fait autorité pour E-D.
+3. Lot actif : **D4 — reprise de session**.
+4. Lots patrimoine E-A…E-D **clôturés** ; contrat E-A §8–§9 fait autorité.
 
 ---
 
-*Handover — 2026-08-01 — E-C publié ; lot E-D ouvert. Non normatif.*
+*Handover — 2026-08-01 — E-D publié ; lot D4 ouvert. Non normatif.*

@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-01 (E-C publié sur `origin/main` ; lot E-D — import / restauration patrimoniale — ouvert)
+**Dernière mise à jour :** 2026-08-01 (E-D publié sur `origin/main` ; lot D4 — reprise de session — ouvert)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -24,7 +24,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Livrable visé** | Reader local installable, 7 vues alimentées sur le package de capitalisation de référence ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Chemin critique** | **Reader Acceptance V1** — goulet principal avant validation pédagogique Lou et industrialisation |
 | **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — patrimoine, reprise de session, recherche, CI, Amorçage ouverts |
-| **Dernier jalon produit** | **E-C publié** — export Learner Snapshot / LP-05 (`0d7ba1d` sur `origin/main`) ; persistance E-B (`9abd4ba`) ; contrat E-A en vigueur depuis `aaed24c` |
+| **Dernier jalon produit** | **E-D publié** — import Learner Snapshot / LP-06 (`c6821dc` sur `origin/main`) ; export E-C (`0d7ba1d`) ; persistance E-B (`9abd4ba`) ; contrat E-A en vigueur depuis `aaed24c` |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -43,7 +43,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
 | **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; PDR-D1 et PDR-D2 **publiés** ; Amorçage, patrimoine, reprise, recherche ouverts |
-| **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D ouvert** — import / restauration patrimoniale ; **E-C publié** — Learner Snapshot (LP-05, PDR-E5 export §8) ; E-B publié |
+| **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
 
 ---
@@ -65,7 +65,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Fallback renderer legacy (`generated-assets/`, manifest 404) | Prototype historique isolé — hors chemin nominal Composition | Reader Acceptance V1 (extinction ADR-002 ultérieure) |
 | Pipeline sémantique non automatisé | Bloque industrialisation aval (pas le golden master capitalisé manuellement) | Industrialisation Fabrique productrice |
 | Build SVG non reproductible byte-identique | Bloque CI fiable | Maintenabilité et CI |
-| Patrimoine apprenant — export / restauration | **Export (E-C) publié** — Learner Snapshot / LP-05 livré ; **import E-D ouvert** ; acceptation Reader non prononcée | Patrimoine · Acceptation Reader V1 |
+| Patrimoine apprenant — export / restauration | **E-D publié** — export (E-C) + import (E-D) ; LP-05 et LP-06 satisfaits ; **PDR-E5 livré** ; acceptation Reader non prononcée | Patrimoine · Acceptation Reader V1 |
 | F2 — ordre écriture sidecars G/H vs verdict I | Cohérence disque lou-build | Dette pipeline |
 | Scale-out prématuré (tentation multi-chapitres partiels) | Dispersion — contredit [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md) | — (risque de pilotage) |
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
@@ -125,6 +125,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-01 | **Publication E-D** — `c6821dc` `feat(renderer): implement learner patrimony snapshot import` sur `origin/main` ; LP-06 satisfait ; 351 tests PASS ; PDR-E5 export + import livré — lot D4 ouvert |
 | 2026-08-01 | **Publication E-C** — `0d7ba1d` `feat(renderer): implement learner patrimony snapshot export` sur `origin/main` ; LP-05 satisfait ; 333 tests PASS ; PDR-E5 export §8 livré — import E-D ouvert |
 | 2026-08-01 | **Ouverture lot E-C** — export Learner Snapshot (PDR-E5 §8, contrat E-A §8) ; persistance E-B publiée sur `origin/main` |
 | 2026-08-01 | **Publication E-B** — `9abd4ba` `feat(renderer): implement release-scoped learner patrimony` sur `origin/main` ; 313 tests PASS |
@@ -186,4 +187,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-01 — E-C publié (Learner Snapshot / LP-05) ; lot E-D ouvert ; PDR-E5 partiellement satisfait (export livré, import ouvert) ; objectif actif : Acceptation Reader V1 — non prononcée.*
+*Révision 2026-08-01 — E-D publié (import Learner Snapshot / LP-06) ; PDR-E5 livré (export + import) ; lots patrimoine E-A…E-D clôturés ; lot D4 ouvert ; objectif actif : Acceptation Reader V1 — non prononcée.*

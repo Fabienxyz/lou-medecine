@@ -366,7 +366,7 @@ describe("Learner patrimony store (Lot E-B)", () => {
 
   test("E5 migration on empty database completes without error", async () => {
     const db = await window.LouLearnerStore.open();
-    assert.equal(db.version, 7);
+    assert.equal(db.version, 8);
     const rows = await readAllRows(window, "text_annotations");
     assert.deepEqual(rows, []);
   });

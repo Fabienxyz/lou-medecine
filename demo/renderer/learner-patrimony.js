@@ -166,6 +166,7 @@
         svg_text_formats: "svg_text_formats",
         personal_diagrams: "personal_diagrams",
         session_resume: "session_resume",
+        display_preferences: "display_preferences",
     };
 
     global.LouLearnerPatrimony = {

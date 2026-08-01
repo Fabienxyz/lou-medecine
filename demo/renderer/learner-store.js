@@ -18,12 +18,13 @@ if (!window.LouLearnerPatrimony) {
 }
 window.LouLearnerStore = {
     DB_NAME: "lou-learner",
-    DB_VERSION: 7,
+    DB_VERSION: 8,
     DIAGRAMS: "personal_diagrams",
     HIGHLIGHTS: "text_annotations",
     WALKTHROUGH_NOTES: "walkthrough_notes",
     SVG_TEXT_FORMATS: "svg_text_formats",
     SESSION_RESUME: "session_resume",
+    DISPLAY_PREFERENCES: "display_preferences",
     LEGACY_INLINE_NOTES: "inline_notes",
     META: "patrimony_meta",
     MIGRATION_V5_KEY: "migration_v5",
@@ -98,7 +99,7 @@ window.LouLearnerStore = {
         "svg_text_formats",
     ],
 
-    APPLICATION_SCOPED_STORES: ["session_resume"],
+    APPLICATION_SCOPED_STORES: ["session_resume", "display_preferences"],
 
     _isProductMode() {
         return (
@@ -472,6 +473,17 @@ window.LouLearnerStore = {
                             unique: true,
                         });
                     }
+                }
+                if (!db.objectStoreNames.contains(self.DISPLAY_PREFERENCES)) {
+                    const displayStore = db.createObjectStore(self.DISPLAY_PREFERENCES, {
+                        keyPath: "id",
+                        autoIncrement: true,
+                    });
+                    self._ensureLogicalRecordIdIndex(displayStore);
+                } else if (event.oldVersion > 0 && event.oldVersion < 8) {
+                    self._ensureLogicalRecordIdIndex(
+                        request.transaction.objectStore(self.DISPLAY_PREFERENCES)
+                    );
                 }
             };
             request.onblocked = function () {
@@ -1188,6 +1200,141 @@ window.LouLearnerStore = {
                 lookup.onerror = function () {
                     reject(lookup.error);
                 };
+            });
+        });
+    },
+
+    /**
+     * Lot D7-D — list all display_preferences records (application scope).
+     * @returns {Promise<object[]>}
+     */
+    listDisplayPreferencesRecords() {
+        return this._run(this.DISPLAY_PREFERENCES, "readonly", function (store) {
+            return store.getAll();
+        }).then(function (rows) {
+            return rows || [];
+        });
+    },
+
+    /**
+     * Upsert singleton display_preferences record (Lot D7-D).
+     * @param {object} record
+     * @returns {Promise<object>}
+     */
+    upsertDisplayPreferencesRecord(record) {
+        if (!record || typeof record !== "object") {
+            return Promise.reject(new Error("display preferences record is required"));
+        }
+        const required = [
+            "record_id",
+            "logical_record_id",
+            "schema_version",
+            "theme",
+            "fontSize",
+            "readingWidth",
+        ];
+        for (let i = 0; i < required.length; i++) {
+            const key = required[i];
+            if (record[key] === undefined || record[key] === null) {
+                return Promise.reject(
+                    new Error("Display preferences record missing required field: " + key)
+                );
+            }
+        }
+        if (record.release_id !== undefined) {
+            return Promise.reject(
+                new Error("Display preferences record must not include release_id")
+            );
+        }
+
+        const self = this;
+        const row = Object.assign({}, record);
+        row.record_id = row.record_id || "display-preferences-v1";
+        row.logical_record_id = row.logical_record_id || row.record_id;
+
+        return this.open().then(function (db) {
+            return new Promise(function (resolve, reject) {
+                const tx = db.transaction(self.DISPLAY_PREFERENCES, "readwrite");
+                const store = tx.objectStore(self.DISPLAY_PREFERENCES);
+                const lookup = store.index("logical_record_id").get(row.logical_record_id);
+                lookup.onsuccess = function () {
+                    const existing = lookup.result;
+                    if (existing) {
+                        row.id = existing.id;
+                    }
+                    const putReq = store.put(row);
+                    putReq.onsuccess = function () {
+                        row.id = putReq.result || row.id;
+                        resolve(row);
+                    };
+                    putReq.onerror = function () {
+                        reject(putReq.error);
+                    };
+                };
+                lookup.onerror = function () {
+                    reject(lookup.error);
+                };
+            });
+        });
+    },
+
+    /**
+     * Delete all display_preferences records (Lot D7-D reset).
+     * @returns {Promise<void>}
+     */
+    deleteDisplayPreferencesRecords() {
+        return this._run(this.DISPLAY_PREFERENCES, "readwrite", function (store) {
+            return store.clear();
+        });
+    },
+
+    /**
+     * Delete duplicate display_preferences records, keeping one logical_record_id.
+     * @param {string} keepLogicalRecordId
+     * @returns {Promise<number>} number of deleted rows
+     */
+    deleteDisplayPreferencesExcept(keepLogicalRecordId) {
+        if (!keepLogicalRecordId) {
+            return Promise.reject(new Error("keepLogicalRecordId is required"));
+        }
+        const self = this;
+        return this.listDisplayPreferencesRecords().then(function (rows) {
+            const toDelete = (rows || []).filter(function (row) {
+                return row.logical_record_id !== keepLogicalRecordId;
+            });
+            if (toDelete.length === 0) {
+                return 0;
+            }
+            return self.open().then(function (db) {
+                return new Promise(function (resolve, reject) {
+                    const tx = db.transaction(self.DISPLAY_PREFERENCES, "readwrite");
+                    const store = tx.objectStore(self.DISPLAY_PREFERENCES);
+                    let pending = toDelete.length;
+                    let deleted = 0;
+                    let failed = false;
+
+                    function finish() {
+                        pending -= 1;
+                        if (!failed && pending === 0) {
+                            resolve(deleted);
+                        }
+                    }
+
+                    for (let i = 0; i < toDelete.length; i++) {
+                        const row = toDelete[i];
+                        const req = store.delete(row.id);
+                        req.onsuccess = function () {
+                            deleted += 1;
+                            finish();
+                        };
+                        req.onerror = function () {
+                            if (!failed) {
+                                failed = true;
+                                reject(req.error);
+                            }
+                        };
+                    }
+                });
             });
         });
     },

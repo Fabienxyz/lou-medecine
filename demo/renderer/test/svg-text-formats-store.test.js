@@ -97,7 +97,7 @@ describe("svg_text_formats store (unit)", () => {
 
   test("SF-01 DB v6 creates svg_text_formats with compound indexes", async () => {
     const db = await window.LouLearnerStore.open();
-    assert.equal(db.version, 7);
+    assert.equal(db.version, 8);
     assert.ok(db.objectStoreNames.contains("svg_text_formats"));
     assert.ok(db.objectStoreNames.contains("walkthrough_notes"));
     assert.ok(db.objectStoreNames.contains("patrimony_meta"));

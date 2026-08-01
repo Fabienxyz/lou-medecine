@@ -15,6 +15,7 @@
         svg_text_formats: "svg_text_formats",
         personal_diagrams: "personal_diagrams",
         session_resume: "session_resume",
+        display_preferences: "display_preferences",
     };
 
     /** Fixed §4 domain order — canonicalization invariant. */
@@ -34,7 +35,6 @@
         "assessment_history",
         "scenario_progress",
         "concept_mastery",
-        "display_preferences",
     ];
 
     const EXPORT_INCOMPLETE_PREFIX = "[LouLearnerSnapshot] Incomplete export:";
@@ -47,6 +47,7 @@
         "svg_text_formats",
         "personal_diagrams",
         "session_resume",
+        "display_preferences",
     ];
 
     const DOMAIN_TO_STORE = {
@@ -55,6 +56,7 @@
         svg_text_formats: "svg_text_formats",
         personal_diagrams: "personal_diagrams",
         session_resume: "session_resume",
+        display_preferences: "display_preferences",
     };
 
     function exportIncompleteError(detail) {
@@ -95,11 +97,37 @@
         if (!row || typeof row !== "object") {
             throw exportIncompleteError("invalid patrimonial record at " + where);
         }
+        if (storeName === "display_preferences") {
+            assertExportableDisplayPreferencesRow(row, where);
+            return;
+        }
         if (typeof row.release_id !== "string" || !row.release_id) {
             throw exportIncompleteError("missing release_id at " + where);
         }
         if (row.schema_version == null) {
             throw exportIncompleteError("missing schema_version at " + where);
+        }
+    }
+
+    function assertExportableDisplayPreferencesRow(row, where) {
+        if (typeof row.record_id !== "string" || !row.record_id) {
+            throw exportIncompleteError("missing record_id at " + where);
+        }
+        if (typeof row.logical_record_id !== "string" || !row.logical_record_id) {
+            throw exportIncompleteError("missing logical_record_id at " + where);
+        }
+        if (row.schema_version == null) {
+            throw exportIncompleteError("missing schema_version at " + where);
+        }
+        if (row.release_id !== undefined) {
+            throw exportIncompleteError("release_id forbidden at " + where);
+        }
+        const required = ["theme", "fontSize", "readingWidth"];
+        for (let i = 0; i < required.length; i++) {
+            const key = required[i];
+            if (row[key] === undefined || row[key] === null) {
+                throw exportIncompleteError("missing " + key + " at " + where);
+            }
         }
     }
 
@@ -312,16 +340,28 @@
         };
     }
 
+    function projectDisplayPreferences(row, domainId) {
+        return {
+            record_id: row.logical_record_id || row.record_id,
+            schema_version: row.schema_version,
+            domain: domainId,
+            payload: pickFields(row, ["theme", "fontSize", "readingWidth"]),
+        };
+    }
+
     const DOMAIN_PROJECTORS = {
         walkthrough_annotations: projectWalkthroughAnnotation,
         walkthrough_notes: projectWalkthroughNote,
         svg_text_formats: projectSvgTextFormat,
         personal_diagrams: projectPersonalDiagram,
         session_resume: projectSessionResume,
+        display_preferences: projectDisplayPreferences,
     };
 
     function compareRecords(a, b) {
-        const releaseCmp = String(a.release_id).localeCompare(String(b.release_id));
+        const aRelease = a.release_id != null ? String(a.release_id) : "";
+        const bRelease = b.release_id != null ? String(b.release_id) : "";
+        const releaseCmp = aRelease.localeCompare(bRelease);
         if (releaseCmp !== 0) {
             return releaseCmp;
         }
@@ -543,6 +583,17 @@
             return localBase64 === inverseBase64;
         }
 
+        if (domainId === "display_preferences") {
+            const keys = ["theme", "fontSize", "readingWidth"];
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+                if (localRow[key] !== inverseRow[key]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         const keys =
             domainId === "walkthrough_annotations"
                 ? [
@@ -624,17 +675,33 @@
                 "domain mismatch at " + where + " (expected " + domainId + ")"
             );
         }
-        if (typeof record.release_id !== "string" || !record.release_id) {
-            throw importInvalidError("missing release_id at " + where);
-        }
         if (record.schema_version == null) {
             throw importInvalidError("missing schema_version at " + where);
         }
-        if (typeof record.chapter !== "string" || !record.chapter) {
-            throw importInvalidError("missing chapter at " + where);
-        }
         if (!record.payload || typeof record.payload !== "object") {
             throw importInvalidError("missing payload at " + where);
+        }
+        if (domainId === "display_preferences") {
+            if (record.release_id !== undefined) {
+                throw importInvalidError("release_id forbidden at " + where);
+            }
+            if (record.chapter !== undefined) {
+                throw importInvalidError("chapter forbidden at " + where);
+            }
+            const required = ["theme", "fontSize", "readingWidth"];
+            for (let i = 0; i < required.length; i++) {
+                const key = required[i];
+                if (record.payload[key] === undefined || record.payload[key] === null) {
+                    throw importInvalidError("missing payload." + key + " at " + where);
+                }
+            }
+            return;
+        }
+        if (typeof record.release_id !== "string" || !record.release_id) {
+            throw importInvalidError("missing release_id at " + where);
+        }
+        if (typeof record.chapter !== "string" || !record.chapter) {
+            throw importInvalidError("missing chapter at " + where);
         }
     }
 
@@ -752,13 +819,45 @@
         };
     }
 
+    function inverseProjectDisplayPreferences(record) {
+        const payload = record.payload || {};
+        return {
+            logical_record_id: record.record_id,
+            record_id: record.record_id,
+            schema_version: record.schema_version,
+            theme: payload.theme,
+            fontSize: payload.fontSize,
+            readingWidth: payload.readingWidth,
+        };
+    }
+
     const INVERSE_PROJECTORS = {
         walkthrough_annotations: inverseProjectWalkthroughAnnotation,
         walkthrough_notes: inverseProjectWalkthroughNote,
         svg_text_formats: inverseProjectSvgTextFormat,
         personal_diagrams: inverseProjectPersonalDiagram,
         session_resume: inverseProjectSessionResume,
+        display_preferences: inverseProjectDisplayPreferences,
     };
+
+    function compareDisplayPreferencesSnapshotRecords(a, b) {
+        const preferredId = "display-preferences-v1";
+        const aPreferred = a.record_id === preferredId ? 0 : 1;
+        const bPreferred = b.record_id === preferredId ? 0 : 1;
+        if (aPreferred !== bPreferred) {
+            return aPreferred - bPreferred;
+        }
+        return String(a.record_id).localeCompare(String(b.record_id));
+    }
+
+    function resolveDisplayPreferencesImportRecords(records) {
+        const rows = records || [];
+        if (rows.length <= 1) {
+            return { records: rows, resolved: false };
+        }
+        const sorted = rows.slice().sort(compareDisplayPreferencesSnapshotRecords);
+        return { records: [sorted[0]], resolved: true };
+    }
 
     function validateSnapshotStructure(snapshot) {
         if (!snapshot || typeof snapshot !== "object") {
@@ -896,6 +995,7 @@
     async function buildImportPlan(snapshot, storeGroups, store) {
         const plan = [];
         const conflicts = [];
+        const warnings = [];
         const existingByLogicalId = indexExistingRecords(storeGroups);
         const canonicalBody = canonicalizeBody(snapshot.body);
 
@@ -905,7 +1005,19 @@
             const domain = canonicalBody.domains.find(function (entry) {
                 return entry.domain_id === domainId;
             });
-            const records = domain ? domain.records : [];
+            let records = domain ? domain.records : [];
+            if (domainId === "display_preferences" && records.length > 1) {
+                const resolved = resolveDisplayPreferencesImportRecords(records);
+                if (resolved.resolved) {
+                    warnings.push({
+                        code: "DP-DUPLICATE-RESOLVED",
+                        domain: domainId,
+                        message:
+                            "Multiple display_preferences snapshot records resolved to singleton import",
+                    });
+                }
+                records = resolved.records;
+            }
             const projector = INVERSE_PROJECTORS[domainId];
 
             for (let r = 0; r < records.length; r++) {
@@ -966,7 +1078,7 @@
             }
         }
 
-        return { plan: plan, conflicts: conflicts };
+        return { plan: plan, conflicts: conflicts, warnings: warnings };
     }
 
     /**
@@ -1000,7 +1112,9 @@
             await store.open();
             const storeGroups = await store.listAllPatrimonialRecords();
             const built = await buildImportPlan(snapshot, storeGroups, store);
-            result.warnings = collectOptionalCatalogWarnings(snapshot, options);
+            result.warnings = collectOptionalCatalogWarnings(snapshot, options).concat(
+                built.warnings || []
+            );
 
             if (options._injectApplyError) {
                 throw options._injectApplyError;

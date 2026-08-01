@@ -806,11 +806,14 @@ describe("D4 audit — migration v6 → v7 (m3)", () => {
     await seedLegacyV6Patrimony(window);
   });
 
-  test("v6 → v7 conserve E-B/E-C stores et crée session_resume", async () => {
+  test("v6 → v8 conserve E-B/E-C stores, crée session_resume et display_preferences", async () => {
     await window.LouLearnerStore.open();
-    assert.equal(window.LouLearnerStore.db.version, 7);
+    assert.equal(window.LouLearnerStore.db.version, 8);
     assert.ok(
       window.LouLearnerStore.db.objectStoreNames.contains("session_resume")
+    );
+    assert.ok(
+      window.LouLearnerStore.db.objectStoreNames.contains("display_preferences")
     );
 
     const highlights = await new Promise(function (resolve, reject) {
@@ -840,7 +843,7 @@ describe("D4 audit — migration v6 → v7 (m3)", () => {
     window.LouLearnerStore.db.close();
     window.LouLearnerStore.db = null;
     await window.LouLearnerStore.open();
-    assert.equal(window.LouLearnerStore.db.version, 7);
+    assert.equal(window.LouLearnerStore.db.version, 8);
 
     const sessionRows = await window.LouLearnerStore.listSessionRecords();
     assert.equal(sessionRows.length, 0);

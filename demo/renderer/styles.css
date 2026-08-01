@@ -861,3 +861,127 @@ mark.learner-highlight{
     border-radius:4px;
     transition:outline-color .2s ease;
 }
+
+/* Lot D7-E — Display Preferences (presentation-only) */
+.display-preferences-root[hidden]{
+    display:none;
+}
+
+.display-preferences-root{
+    margin-top:16px;
+}
+
+.display-preferences-panel{
+    padding:14px 16px;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    background:#fafafa;
+}
+
+.display-preferences-title{
+    margin:0 0 10px;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+    color:#6b7280;
+}
+
+.display-preferences-fields{
+    display:grid;
+    gap:10px;
+}
+
+.display-preferences-field{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.display-preferences-label{
+    font-size:13px;
+    font-weight:500;
+    color:#374151;
+}
+
+.display-preferences-select{
+    font:inherit;
+    padding:8px 10px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    background:#fff;
+    color:inherit;
+}
+
+.display-preferences-select:focus{
+    outline:2px solid #2563eb;
+    outline-offset:1px;
+}
+
+.display-preferences-reset{
+    margin-top:12px;
+    font:inherit;
+    padding:8px 12px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    background:#fff;
+    cursor:pointer;
+}
+
+.display-preferences-reset:hover{
+    background:#f3f4f6;
+}
+
+html[data-dp-font-size="small"] .content{
+    font-size:14px;
+}
+
+html[data-dp-font-size="medium"] .content{
+    font-size:16px;
+}
+
+html[data-dp-font-size="large"] .content{
+    font-size:18px;
+}
+
+html[data-dp-reading-width="narrow"] .container{
+    max-width:720px;
+}
+
+html[data-dp-reading-width="standard"] .container{
+    max-width:1000px;
+}
+
+html[data-dp-reading-width="wide"] .container{
+    max-width:1200px;
+}
+
+html[data-dp-theme="dark"]{
+    color-scheme:dark;
+}
+
+html[data-dp-theme="dark"] body{
+    background:#111827;
+    color:#f3f4f6;
+}
+
+html[data-dp-theme="dark"] .container{
+    background:#1f2937;
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+}
+
+html[data-dp-theme="dark"] .header{
+    border-bottom-color:#374151;
+}
+
+html[data-dp-theme="dark"] .display-preferences-panel{
+    background:#111827;
+    border-color:#374151;
+}
+
+html[data-dp-theme="dark"] .display-preferences-select,
+html[data-dp-theme="dark"] .display-preferences-reset{
+    background:#1f2937;
+    border-color:#4b5563;
+    color:#f3f4f6;
+}

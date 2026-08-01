@@ -27,6 +27,9 @@
     let commitController = null;
     let restorePlanBuilt = false;
     let localSearchUI = null;
+    let displayPreferencesRuntime = null;
+    let displayPreferencesUI = null;
+    let displayPreferencesLoaded = false;
 
     function getChapterFromUrl() {
         return config.sanitizeChapter(
@@ -301,6 +304,40 @@
         });
     }
 
+    async function initDisplayPreferences() {
+        if (
+            !window.LouDisplayPreferencesApply ||
+            !window.LouDisplayPreferencesUI ||
+            !window.LouLearnerStore
+        ) {
+            return;
+        }
+
+        try {
+            await window.LouLearnerStore.open();
+            const dpModule = await import("./library/browser-display-preferences-runtime.js");
+            displayPreferencesRuntime = dpModule.createBrowserDisplayPreferencesRuntime({
+                store: window.LouLearnerStore,
+                applyDisplayPreferences:
+                    window.LouDisplayPreferencesApply.applyDisplayPreferences,
+            });
+            await displayPreferencesRuntime.loadAndApply();
+            displayPreferencesLoaded = true;
+
+            displayPreferencesUI = window.LouDisplayPreferencesUI.create({
+                runtime: displayPreferencesRuntime,
+            });
+            displayPreferencesUI.mount();
+
+            window.LouDisplayPreferences = {
+                runtime: displayPreferencesRuntime,
+                ui: displayPreferencesUI,
+            };
+        } catch (err) {
+            console.warn("[LouApp] display preferences init failed", err);
+        }
+    }
+
     async function initLocalSearch() {
         if (
             !window.LouLocalSearchUI ||
@@ -358,6 +395,12 @@
         },
         wasRestorePlanBuilt: function () {
             return restorePlanBuilt;
+        },
+        wasDisplayPreferencesLoaded: function () {
+            return displayPreferencesLoaded;
+        },
+        getDisplayPreferencesRuntime: function () {
+            return displayPreferencesRuntime;
         },
     };
 
@@ -520,6 +563,8 @@
 
         buildTabs();
         bindBreadcrumbAmorçage();
+
+        await initDisplayPreferences();
 
         commitController = sessionResume.createCommitController(getCurrentViewState);
         commitController.bindLifecycleEvents();

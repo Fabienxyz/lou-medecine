@@ -12,7 +12,9 @@ import {
   loadOrCreateCatalog,
   validateLibraryCatalog,
   catalogPath,
+  mutateCatalogAtomic,
 } from "../lib/library-catalog.js";
+import { OFFLINE_STATUS } from "../lib/offline-state.js";
 import {
   installPublishedRelease,
   copyReleaseToStaging,
@@ -80,6 +82,46 @@ describe("library catalog (D1-C)", () => {
     const c = createEmptyCatalog();
     c.extra = true;
     assert.ok(validateLibraryCatalog(c).some((e) => e.includes("unknown root")));
+  });
+
+  test("mutateCatalogAtomic serializes parallel updates without lost writes", async () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "lou-mutate-"));
+    try {
+      const libRoot = path.join(tmpDir, "mutate-lib");
+      const releaseDir = path.join(tmpDir, "mutate-release");
+      writeMiniRelease(releaseDir, { publication_version: 1, body: "v1\n" });
+      installPublishedRelease(releaseDir, libRoot);
+
+      const releaseDir2 = path.join(tmpDir, "mutate-release-2");
+      writeMiniRelease(releaseDir2, { publication_version: 2, body: "v2\n" });
+      installPublishedRelease(releaseDir2, libRoot);
+
+      const id1 = "cardio__234__2022__1";
+      const id2 = "cardio__234__2022__2";
+
+      await Promise.all([
+        mutateCatalogAtomic(libRoot, (catalog) => {
+          const entry = catalog.entries.find((e) => e.release_id === id1);
+          entry.offline_status = OFFLINE_STATUS.OFFLINE_READY;
+        }),
+        mutateCatalogAtomic(libRoot, (catalog) => {
+          const entry = catalog.entries.find((e) => e.release_id === id2);
+          entry.offline_status = OFFLINE_STATUS.FAILED;
+        }),
+      ]);
+
+      const reloaded = loadOrCreateCatalog(libRoot);
+      assert.equal(
+        reloaded.entries.find((e) => e.release_id === id1).offline_status,
+        OFFLINE_STATUS.OFFLINE_READY
+      );
+      assert.equal(
+        reloaded.entries.find((e) => e.release_id === id2).offline_status,
+        OFFLINE_STATUS.FAILED
+      );
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
   });
 });
 

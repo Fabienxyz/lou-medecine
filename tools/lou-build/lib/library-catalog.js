@@ -112,6 +112,37 @@ export function saveCatalogAtomic(libraryRoot, catalog) {
   fs.renameSync(tmp, target);
 }
 
+/** @type {Map<string, Promise<unknown>>} */
+const catalogMutationQueues = new Map();
+
+/**
+ * Serialize catalog read-modify-write cycles for one LIBRARY_ROOT.
+ * Each call loads the latest library.json, runs mutator (in-place), then saveCatalogAtomic.
+ * Failures do not block subsequent mutations on the same root.
+ *
+ * @template T
+ * @param {string} libraryRoot
+ * @param {(catalog: Record<string, unknown>) => T} mutator
+ * @returns {Promise<T>}
+ */
+export function mutateCatalogAtomic(libraryRoot, mutator) {
+  const root = path.resolve(libraryRoot);
+  const prior = catalogMutationQueues.get(root) ?? Promise.resolve();
+
+  const job = prior.catch(() => {}).then(() => {
+    const catalog = loadOrCreateCatalog(root);
+    const result = mutator(catalog);
+    saveCatalogAtomic(root, catalog);
+    return result;
+  });
+
+  catalogMutationQueues.set(
+    root,
+    job.catch(() => {})
+  );
+  return job;
+}
+
 /**
  * @param {unknown} catalog
  * @returns {string[]}

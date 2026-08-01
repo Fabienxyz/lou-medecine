@@ -11,6 +11,8 @@ import {
 import {
   loadOrCreateCatalog,
   saveCatalogAtomic,
+  mutateCatalogAtomic,
+  createEmptyCatalog,
 } from "../lib/library-catalog.js";
 import { installPublishedRelease } from "../lib/library-install.js";
 import { createPackageAccess } from "../lib/package-access.js";
@@ -319,6 +321,178 @@ describe("offline manager (D2-C)", () => {
     });
     const viaManager = manager.verify(releaseId);
     assert.deepEqual(direct, viaManager);
+  });
+});
+
+describe("offline manager robustness (D2-C fixes)", () => {
+  let tmp;
+  let libraryRoot;
+  let releaseIdV1;
+  let releaseIdV2;
+
+  beforeEach(() => {
+    tmp = fs.mkdtempSync(path.join(os.tmpdir(), "lou-offmgr-robust-"));
+    libraryRoot = path.join(tmp, "library");
+    const releaseDirV1 = path.join(tmp, "release-v1");
+    const releaseDirV2 = path.join(tmp, "release-v2");
+    writeMiniRelease(releaseDirV1, { publication_version: 1, body: "v1\n" });
+    writeMiniRelease(releaseDirV2, { publication_version: 2, body: "v2\n" });
+    installPublishedRelease(releaseDirV1, libraryRoot);
+    installPublishedRelease(releaseDirV2, libraryRoot);
+    releaseIdV1 = "cardio__234__2022__1";
+    releaseIdV2 = "cardio__234__2022__2";
+  });
+
+  afterEach(() => {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  });
+
+  test("parallel prepare on two release_ids preserves both final statuses", async () => {
+    const manager = createOfflineManager({
+      packageAccess: createPackageAccess(libraryRoot),
+      catalog: libraryRoot,
+    });
+
+    const [r1, r2] = await Promise.all([
+      manager.prepare(releaseIdV1),
+      manager.prepare(releaseIdV2),
+    ]);
+
+    assert.equal(r1.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(r2.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(manager.getStatus(releaseIdV2), OFFLINE_STATUS.OFFLINE_READY);
+  });
+
+  test("parallel success and failure do not overwrite each other's status", async () => {
+    fs.unlinkSync(
+      path.join(libraryRoot, "packages", releaseIdV2, "build/traceability.json")
+    );
+
+    const manager = createOfflineManager({
+      packageAccess: createPackageAccess(libraryRoot),
+      catalog: libraryRoot,
+    });
+
+    const [success, failure] = await Promise.allSettled([
+      manager.prepare(releaseIdV1),
+      manager.prepare(releaseIdV2),
+    ]);
+
+    assert.equal(success.status, "fulfilled");
+    assert.equal(failure.status, "rejected");
+    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(manager.getStatus(releaseIdV2), OFFLINE_STATUS.FAILED);
+  });
+
+  test("same release_id deduplication remains effective under serialized catalog writes", async () => {
+    let verifyPasses = 0;
+    const access = createPackageAccess(libraryRoot);
+    const wrapped = {
+      resolveManifest(id) {
+        return access.resolveManifest(id);
+      },
+      resolveAsset(id, rel) {
+        if (rel === "source/official-college.md") {
+          verifyPasses += 1;
+        }
+        return access.resolveAsset(id, rel);
+      },
+    };
+    const manager = createOfflineManager({
+      packageAccess: wrapped,
+      catalog: libraryRoot,
+    });
+
+    const [a, b] = await Promise.all([
+      manager.prepare(releaseIdV1),
+      manager.prepare(releaseIdV1),
+    ]);
+
+    assert.equal(a.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.deepEqual(a, b);
+    assert.equal(verifyPasses, 1);
+  });
+
+  test("verification failure finalizes to failed when catalog mutation succeeds", async () => {
+    fs.unlinkSync(
+      path.join(libraryRoot, "packages", releaseIdV1, "build/traceability.json")
+    );
+
+    const manager = createOfflineManager({
+      packageAccess: createPackageAccess(libraryRoot),
+      catalog: libraryRoot,
+    });
+
+    await assert.rejects(
+      () => manager.prepare(releaseIdV1),
+      (err) =>
+        err instanceof OfflineManagerError && err.code === "ASSET_MISSING"
+    );
+    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.FAILED);
+  });
+
+  test("verification failure with finalize mutation error exposes composed failure", async () => {
+    fs.unlinkSync(
+      path.join(libraryRoot, "packages", releaseIdV1, "build/traceability.json")
+    );
+
+    let mutateCalls = 0;
+    const catalogMutate = async (root, mutator) => {
+      mutateCalls += 1;
+      if (mutateCalls === 2) {
+        throw new Error("simulated catalog finalize failure");
+      }
+      return mutateCatalogAtomic(root, mutator);
+    };
+
+    const manager = createOfflineManager({
+      packageAccess: createPackageAccess(libraryRoot),
+      catalog: libraryRoot,
+      catalogMutate,
+    });
+
+    await assert.rejects(
+      () => manager.prepare(releaseIdV1),
+      (err) => {
+        assert.ok(err instanceof OfflineManagerError);
+        assert.equal(err.code, "FINALIZATION_FAILED");
+        assert.ok(err.cause instanceof OfflineManagerError);
+        assert.equal(err.cause.code, "ASSET_MISSING");
+        assert.ok(err.finalizationError instanceof OfflineManagerError);
+        assert.match(String(err.message), /verification failed/i);
+        assert.match(String(err.message), /preparing → failed/i);
+        return true;
+      }
+    );
+    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.PREPARING);
+  });
+
+  test("parallel prepares do not modify installed package trees", async () => {
+    const manager = createOfflineManager({
+      packageAccess: createPackageAccess(libraryRoot),
+      catalog: libraryRoot,
+    });
+    const beforeV1 = snapshotPackageTree(
+      path.join(libraryRoot, "packages", releaseIdV1)
+    );
+    const beforeV2 = snapshotPackageTree(
+      path.join(libraryRoot, "packages", releaseIdV2)
+    );
+
+    await Promise.all([
+      manager.prepare(releaseIdV1),
+      manager.prepare(releaseIdV2),
+    ]);
+
+    assert.deepEqual(
+      snapshotPackageTree(path.join(libraryRoot, "packages", releaseIdV1)),
+      beforeV1
+    );
+    assert.deepEqual(
+      snapshotPackageTree(path.join(libraryRoot, "packages", releaseIdV2)),
+      beforeV2
+    );
   });
 });
 

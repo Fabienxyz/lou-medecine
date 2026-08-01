@@ -215,6 +215,8 @@ Le Reader shell et les ressources statiques nécessaires à son exécution **DOI
 | **Asynchrone** | La préparation offline **DOIT** s'exécuter de façon **asynchrone** ; elle **NE DOIT PAS** bloquer la visibilité catalogue d'une installation réussie. |
 | **Point d'ancrage** | La préparation offline **DOIT** être déclenchée à l'issue d'une installation réussie, ou par une opération explicite de retry. |
 | **Interdit warm cache** | Le remplissage opportuniste du cache **NE DOIT PAS** être utilisé comme mécanisme de certification offline. |
+| **Préparation auxiliaire** | Une implémentation **PEUT** déclencher, après installation, un mécanisme auxiliaire de matérialisation locale. Ce mécanisme **NE DOIT PAS** modifier `offline_status` ; son succès comme son échec **N'ONT AUCUN EFFET** sur la certification. |
+| **Runtime de production** | Seule la préparation orchestrée par le **runtime de production** utilisé par le Reader **PEUT** entraîner les transitions `not_prepared` → `preparing` → `offline_ready` ou `failed`. |
 
 ### 7.2 Transition vers `offline_ready`
 
@@ -240,6 +242,7 @@ Une Release **NE DOIT** passer à `offline_ready` que lorsque **toutes** les con
 |---|---|
 | **`offline_ready` sans préparation terminée** | Une Release **NE DOIT JAMAIS** être `offline_ready` pendant `preparing`. |
 | **Ouverture offline non garantie** | Tant que `offline_status` ≠ `offline_ready`, aucune garantie offline **NE DOIT** être attribuée à la Release. |
+| **Certification réservée au runtime de production** | Aucune préparation auxiliaire **NE DOIT** porter `offline_status` à `offline_ready` ou `failed`. |
 
 ---
 

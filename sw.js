@@ -4,6 +4,7 @@
  */
 import {
   SHELL_CACHE_NAME,
+  SHELL_URLS,
   DEV_WARM_CACHE_NAME,
 } from "./demo/renderer/library/offline-runtime-shared.js";
 import {
@@ -40,9 +41,14 @@ function cacheFirstDev(request) {
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
-    runtime.prepareShell().then(function () {
-      return self.skipWaiting();
-    })
+    caches
+      .open(SHELL_CACHE_NAME)
+      .then(function (cache) {
+        return cache.addAll(SHELL_URLS);
+      })
+      .then(function () {
+        return self.skipWaiting();
+      })
   );
 });
 
@@ -54,7 +60,7 @@ self.addEventListener("activate", function (event) {
           keys
             .filter(function (key) {
               if (key.startsWith("lou-offline-")) {
-                return false;
+                return key.endsWith("-staging") || key.endsWith("-backup");
               }
               if (key === SHELL_CACHE_NAME || key === DEV_WARM_CACHE_NAME) {
                 return false;

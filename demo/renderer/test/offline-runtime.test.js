@@ -6,6 +6,7 @@ import {
   SHELL_URLS,
   buildReleaseNamespace,
   buildReleaseStagingNamespace,
+  buildReleaseBackupNamespace,
   parseReleaseScopedPath,
   isMonorepoDevPath,
 } from "../library/offline-runtime-shared.js";
@@ -55,6 +56,55 @@ function createMemoryStorage() {
     },
     async delete(name) {
       return caches.delete(name);
+    },
+    async deleteKey(namespace, key) {
+      const store = caches.get(namespace);
+      if (store) {
+        store.delete(key);
+      }
+    },
+  };
+}
+
+/**
+ * @param {ReturnType<typeof createMemoryStorage>} baseStorage
+ * @param {{ namespace: string, failOnce?: boolean }} options
+ */
+function createFailingPutStorage(baseStorage, { namespace, failOnce = true }) {
+  let shouldFail = failOnce;
+  return {
+    has(name) {
+      return baseStorage.has(name);
+    },
+    keys() {
+      return baseStorage.keys();
+    },
+    delete(name) {
+      return baseStorage.delete(name);
+    },
+    async open(name) {
+      const inner = await baseStorage.open(name);
+      if (name !== namespace) {
+        return inner;
+      }
+      return {
+        get(key) {
+          return inner.get(key);
+        },
+        keys() {
+          return inner.keys();
+        },
+        clear() {
+          return inner.clear?.();
+        },
+        async put(key, resource) {
+          if (shouldFail) {
+            shouldFail = false;
+            throw new Error("simulated publish copy failure");
+          }
+          return inner.put(key, resource);
+        },
+      };
     },
   };
 }
@@ -478,5 +528,130 @@ describe("offline runtime (D2-E)", () => {
       ),
       null
     );
+  });
+
+  test("failed first publish removes partial final namespace", async () => {
+    const finalNamespace = buildReleaseNamespace(RELEASE_A);
+    const failingStorage = createFailingPutStorage(storage, {
+      namespace: finalNamespace,
+    });
+    const failingRuntime = createOfflineRuntime({
+      storage: failingStorage,
+      fetch: fetchImpl,
+      libraryBasePath: LIBRARY_BASE,
+    });
+
+    await assert.rejects(() =>
+      failingRuntime.prepareRelease({
+        releaseId: RELEASE_A,
+        contentDigest: DIGEST_A,
+        resources: miniResources(RELEASE_A),
+      })
+    );
+
+    const keys = await storage.keys();
+    assert.equal(keys.includes(finalNamespace), false);
+    assert.equal(keys.includes(buildReleaseStagingNamespace(RELEASE_A)), false);
+    assert.equal(keys.includes(buildReleaseBackupNamespace(RELEASE_A)), false);
+    assert.equal(await failingRuntime.hasRelease(RELEASE_A, DIGEST_A), false);
+  });
+
+  test("failed replacement restores the previous release cache", async () => {
+    await runtime.prepareRelease({
+      releaseId: RELEASE_A,
+      contentDigest: DIGEST_A,
+      resources: miniResources(RELEASE_A),
+    });
+    assert.equal(await runtime.hasRelease(RELEASE_A, DIGEST_A), true);
+
+    const stagingNamespace = buildReleaseStagingNamespace(RELEASE_A);
+    const finalNamespace = buildReleaseNamespace(RELEASE_A);
+    const staging = await storage.open(stagingNamespace);
+    for (const resource of miniResources(RELEASE_A)) {
+      const response = await fetchImpl(resource.url);
+      const body = new Uint8Array(await response.arrayBuffer());
+      await staging.put(resource.relativePath, {
+        body,
+        contentType: response.headers.get("content-type") || undefined,
+        status: response.status,
+      });
+    }
+
+    const failingStorage = createFailingPutStorage(storage, {
+      namespace: finalNamespace,
+    });
+    const failingRuntime = createOfflineRuntime({
+      storage: failingStorage,
+      fetch: fetchImpl,
+      libraryBasePath: LIBRARY_BASE,
+    });
+
+    await assert.rejects(() =>
+      failingRuntime._publishStagingNamespace(
+        stagingNamespace,
+        finalNamespace,
+        RELEASE_A
+      )
+    );
+
+    assert.equal(await failingRuntime.hasRelease(RELEASE_A, DIGEST_A), true);
+    const response = await failingRuntime.resolveOrServe(
+      resourceUrl(RELEASE_A, "source/official-college.md")
+    );
+    assert.ok(response);
+    assert.match(await response.text(), /college body/);
+
+    const keys = await storage.keys();
+    assert.equal(keys.includes(buildReleaseBackupNamespace(RELEASE_A)), false);
+    assert.equal(keys.includes(stagingNamespace), true);
+  });
+
+  test("failed repair of incomplete release restores prior partial cache", async () => {
+    await runtime.prepareRelease({
+      releaseId: RELEASE_A,
+      contentDigest: DIGEST_A,
+      resources: miniResources(RELEASE_A),
+    });
+
+    const finalNamespace = buildReleaseNamespace(RELEASE_A);
+    await storage.deleteKey(finalNamespace, "source/official-college.md");
+    assert.equal(await runtime.hasRelease(RELEASE_A, DIGEST_A), false);
+
+    const failingStorage = createFailingPutStorage(storage, {
+      namespace: finalNamespace,
+    });
+    const failingRuntime = createOfflineRuntime({
+      storage: failingStorage,
+      fetch: fetchImpl,
+      libraryBasePath: LIBRARY_BASE,
+    });
+
+    await assert.rejects(() =>
+      failingRuntime.prepareRelease({
+        releaseId: RELEASE_A,
+        contentDigest: DIGEST_A,
+        resources: miniResources(RELEASE_A),
+      })
+    );
+
+    const manifestResponse = await failingRuntime.resolveOrServe(
+      resourceUrl(RELEASE_A, "manifest.json")
+    );
+    assert.ok(manifestResponse);
+    assert.equal(manifestResponse.status, 200);
+
+    const missingAsset = await failingRuntime.resolveOrServe(
+      resourceUrl(RELEASE_A, "source/official-college.md")
+    );
+    assert.ok(missingAsset);
+    assert.equal(
+      missingAsset.headers.get("x-lou-offline-error"),
+      "RESOURCE_MISSING"
+    );
+
+    const keys = await storage.keys();
+    assert.equal(keys.includes(finalNamespace), true);
+    assert.equal(keys.includes(buildReleaseBackupNamespace(RELEASE_A)), false);
+    assert.equal(keys.includes(buildReleaseStagingNamespace(RELEASE_A)), false);
   });
 });

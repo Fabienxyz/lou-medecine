@@ -73,6 +73,14 @@ export function buildReleaseStagingNamespace(releaseId) {
 }
 
 /**
+ * @param {string} releaseId
+ * @returns {string}
+ */
+export function buildReleaseBackupNamespace(releaseId) {
+  return `${buildReleaseNamespace(releaseId)}-backup`;
+}
+
+/**
  * @param {unknown} releaseId
  */
 export function assertReleaseId(releaseId) {

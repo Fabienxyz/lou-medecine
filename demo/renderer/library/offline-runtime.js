@@ -10,6 +10,7 @@ import {
   META_ENTRY_PATH,
   buildReleaseNamespace,
   buildReleaseStagingNamespace,
+  buildReleaseBackupNamespace,
   buildReleaseMetadata,
   metadataMatches,
   normalizeReleaseResourcePath,
@@ -251,7 +252,9 @@ class OfflineRuntime {
   async removeRelease(releaseId) {
     const namespace = buildReleaseNamespace(releaseId);
     const staging = buildReleaseStagingNamespace(releaseId);
+    const backup = buildReleaseBackupNamespace(releaseId);
     await this._storage.delete(staging);
+    await this._storage.delete(backup);
     return this._storage.delete(namespace);
   }
 
@@ -394,7 +397,11 @@ class OfflineRuntime {
         contentType: "application/json",
       });
 
-      await this._publishStagingNamespace(stagingNamespace, finalNamespace);
+      await this._publishStagingNamespace(
+        stagingNamespace,
+        finalNamespace,
+        releaseId
+      );
       return {
         releaseId,
         contentDigest,
@@ -410,28 +417,70 @@ class OfflineRuntime {
   }
 
   /**
-   * @param {string} stagingNamespace
-   * @param {string} finalNamespace
+   * @param {string} fromNamespace
+   * @param {string} toNamespace
    */
-  async _publishStagingNamespace(stagingNamespace, finalNamespace) {
-    const staging = await this._storage.open(stagingNamespace);
-    const keys = await staging.keys();
-
-    await this._storage.delete(finalNamespace);
-    const finalCache = await this._storage.open(finalNamespace);
-
+  async _copyNamespace(fromNamespace, toNamespace) {
+    await this._storage.delete(toNamespace);
+    const from = await this._storage.open(fromNamespace);
+    const keys = await from.keys();
+    const to = await this._storage.open(toNamespace);
     for (const key of keys) {
-      const stored = await staging.get(key);
+      const stored = await from.get(key);
       if (!stored) {
         throw new OfflineRuntimeError(
           "PREPARATION_INCOMPLETE",
-          `offline runtime: staging entry missing during publish: ${key}`
+          `offline runtime: namespace copy missing entry ${key}`
         );
       }
-      await finalCache.put(key, stored);
+      await to.put(key, stored);
+    }
+  }
+
+  /**
+   * @param {string} stagingNamespace
+   * @param {string} finalNamespace
+   * @param {string} releaseId
+   */
+  async _publishStagingNamespace(stagingNamespace, finalNamespace, releaseId) {
+    const staging = await this._storage.open(stagingNamespace);
+    const keys = await staging.keys();
+    const backupNs = buildReleaseBackupNamespace(releaseId);
+    const hadFinal = await this._storage.has(finalNamespace);
+
+    if (hadFinal) {
+      await this._storage.delete(backupNs);
+      await this._copyNamespace(finalNamespace, backupNs);
     }
 
-    await this._storage.delete(stagingNamespace);
+    try {
+      await this._storage.delete(finalNamespace);
+      const finalCache = await this._storage.open(finalNamespace);
+
+      for (const key of keys) {
+        const stored = await staging.get(key);
+        if (!stored) {
+          throw new OfflineRuntimeError(
+            "PREPARATION_INCOMPLETE",
+            `offline runtime: staging entry missing during publish: ${key}`
+          );
+        }
+        await finalCache.put(key, stored);
+      }
+
+      await this._storage.delete(backupNs);
+      await this._storage.delete(stagingNamespace);
+    } catch (err) {
+      await this._storage.delete(finalNamespace);
+      if (hadFinal) {
+        await this._copyNamespace(backupNs, finalNamespace);
+      }
+      await this._storage.delete(backupNs);
+      if (err instanceof OfflineRuntimeError) {
+        throw err;
+      }
+      throw toStorageQuotaError(err);
+    }
   }
 
   /**

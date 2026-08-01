@@ -143,7 +143,7 @@ describe("M4 split algorithm", () => {
       runScripts: "outside-only",
     });
     window = dom.window;
-    loadScripts(dom, ["learner-store.js", "inline-formatting.js"]);
+    loadScripts(dom, ["learner-patrimony.js", "learner-store.js", "inline-formatting.js"]);
   });
 
   beforeEach(() => {
@@ -333,7 +333,7 @@ describe("M4 apply and restore", () => {
     });
     window = dom.window;
     window.indexedDB = new IDBFactory();
-    loadScripts(dom, ["learner-store.js", "inline-formatting.js"]);
+    loadScripts(dom, ["learner-patrimony.js", "learner-store.js", "inline-formatting.js"]);
     host = window.document.getElementById("content");
   });
 

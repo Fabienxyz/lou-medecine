@@ -156,6 +156,7 @@ describe("Lot D.1 — Composition runtime identity", () => {
       "node_modules/marked/marked.min.js",
       "config.js",
       "markdown.js",
+      "learner-patrimony.js",
       "learner-store.js",
       "caret-anchor.js",
       "text-highlights.js",

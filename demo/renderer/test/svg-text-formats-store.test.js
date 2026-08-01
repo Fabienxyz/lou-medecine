@@ -82,25 +82,32 @@ describe("svg_text_formats store (unit)", () => {
       runScripts: "outside-only",
     });
     window = dom.window;
-    loadScripts(dom, ["learner-store.js"]);
+    loadScripts(dom, ["learner-patrimony.js", "learner-store.js"]);
   });
 
   beforeEach(() => {
     window.indexedDB = new IDBFactory();
     window.LouLearnerStore.db = null;
+    window.LouLearnerStore.clearReleaseContext();
+    window.LouLearnerStore.setReleaseContext({
+      releaseId: "cardio__234__2022__1",
+      chapter: CHAPTER,
+    });
   });
 
-  test("SF-01 DB v4 creates svg_text_formats with compound indexes", async () => {
+  test("SF-01 DB v5 creates svg_text_formats with compound indexes", async () => {
     const db = await window.LouLearnerStore.open();
-    assert.equal(db.version, 4);
+    assert.equal(db.version, 5);
     assert.ok(db.objectStoreNames.contains("svg_text_formats"));
     assert.ok(db.objectStoreNames.contains("walkthrough_notes"));
+    assert.ok(db.objectStoreNames.contains("patrimony_meta"));
 
     const tx = db.transaction("svg_text_formats", "readonly");
     const store = tx.objectStore("svg_text_formats");
     assert.deepEqual(Array.from(store.indexNames).sort(), [
       "chapter_projection",
       "chapter_projection_element",
+      "release_id",
     ]);
   });
 
@@ -121,6 +128,7 @@ describe("svg_text_formats store (unit)", () => {
     });
     legacyDb.close();
 
+    window.LouLearnerStore.clearReleaseContext();
     await window.LouLearnerStore.open();
     const notes = await window.LouLearnerStore.listWalkthroughNotes(
       CHAPTER,
@@ -149,6 +157,8 @@ describe("svg_text_formats store (unit)", () => {
     assert.equal(rows[0].anchor.exact, "OAP");
     assert.equal(rows[0].anchor.start.position, 0);
     assert.equal(rows[0].anchor.end.position, 5);
+    assert.equal(rows[0].release_id, "cardio__234__2022__1");
+    assert.equal(rows[0].schema_version, 1);
     assert.match(rows[0].created, /^\d{4}-\d{2}-\d{2}T/);
     assert.equal(rows[0].updated, undefined);
   });

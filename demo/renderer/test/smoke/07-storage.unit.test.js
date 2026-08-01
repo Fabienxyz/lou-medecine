@@ -33,6 +33,7 @@ describe("V2.1 smoke — learner storage (unit)", () => {
       "node_modules/marked/marked.min.js",
       "config.js",
       "markdown.js",
+      "learner-patrimony.js",
       "learner-store.js",
       "text-highlights.js",
       "svg-loader.js",
@@ -156,7 +157,7 @@ describe("walkthrough_notes store (unit)", () => {
       runScripts: "outside-only",
     });
     window = dom.window;
-    loadScripts(dom, ["learner-store.js"]);
+    loadScripts(dom, ["learner-patrimony.js", "learner-store.js"]);
   });
 
   beforeEach(() => {

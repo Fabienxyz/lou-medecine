@@ -111,6 +111,7 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
       "node_modules/marked/marked.min.js",
       "config.js",
       "markdown.js",
+      "learner-patrimony.js",
       "learner-store.js",
       "caret-anchor.js",
       "text-highlights.js",

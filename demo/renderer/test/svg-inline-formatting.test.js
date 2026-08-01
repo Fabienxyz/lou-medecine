@@ -41,6 +41,7 @@ function selectRange(window, startNode, startOffset, endNode, endOffset) {
 }
 
 const BASE_SCRIPTS = [
+  "learner-patrimony.js",
   "learner-store.js",
   "svg-loader.js",
   "inline-formatting.js",
@@ -522,7 +523,8 @@ describe("SVG formatting pipeline mount order", () => {
       "node_modules/marked/marked.min.js",
       "config.js",
       "markdown.js",
-      "learner-store.js",
+      "learner-patrimony.js",
+  "learner-store.js",
       "text-highlights.js",
       "caret-anchor.js",
       "inline-notes.js",

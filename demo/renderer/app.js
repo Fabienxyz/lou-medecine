@@ -242,6 +242,17 @@
         }
         if (loaded.ok) {
             manifest = loaded.manifest;
+            if (window.LouLearnerStore) {
+                const releaseId = config.isProductMode()
+                    ? config._releaseId
+                    : manifest.release_id || null;
+                if (releaseId) {
+                    window.LouLearnerStore.setReleaseContext({
+                        releaseId: releaseId,
+                        chapter: chapter,
+                    });
+                }
+            }
             traceIndexUrl = manifest.trace_index
                 ? config.resolveAssetPath(chapter, manifest.trace_index)
                 : null;

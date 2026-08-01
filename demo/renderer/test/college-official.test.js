@@ -40,6 +40,7 @@ describe("Reader Acceptance — Collège officiel view", () => {
       "config.js",
       "lib/marked.min.js",
       "markdown.js",
+      "learner-patrimony.js",
       "learner-store.js",
       "renderer.js",
     ]);

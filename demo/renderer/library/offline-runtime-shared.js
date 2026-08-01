@@ -32,6 +32,7 @@ export const SHELL_URLS = [
   "/demo/renderer/styles.css",
   "/demo/renderer/config.js",
   "/demo/renderer/markdown.js",
+  "/demo/renderer/learner-patrimony.js",
   "/demo/renderer/learner-store.js",
   "/demo/renderer/text-highlights.js",
   "/demo/renderer/caret-anchor.js",

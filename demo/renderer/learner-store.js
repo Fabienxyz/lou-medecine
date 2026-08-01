@@ -18,11 +18,12 @@ if (!window.LouLearnerPatrimony) {
 }
 window.LouLearnerStore = {
     DB_NAME: "lou-learner",
-    DB_VERSION: 6,
+    DB_VERSION: 7,
     DIAGRAMS: "personal_diagrams",
     HIGHLIGHTS: "text_annotations",
     WALKTHROUGH_NOTES: "walkthrough_notes",
     SVG_TEXT_FORMATS: "svg_text_formats",
+    SESSION_RESUME: "session_resume",
     LEGACY_INLINE_NOTES: "inline_notes",
     META: "patrimony_meta",
     MIGRATION_V5_KEY: "migration_v5",
@@ -96,6 +97,8 @@ window.LouLearnerStore = {
         "walkthrough_notes",
         "svg_text_formats",
     ],
+
+    APPLICATION_SCOPED_STORES: ["session_resume"],
 
     _isProductMode() {
         return (
@@ -448,6 +451,28 @@ window.LouLearnerStore = {
                 if (!db.objectStoreNames.contains(self.META)) {
                     db.createObjectStore(self.META, { keyPath: "key" });
                 }
+                if (!db.objectStoreNames.contains(self.SESSION_RESUME)) {
+                    const sessionStore = db.createObjectStore(self.SESSION_RESUME, {
+                        keyPath: "id",
+                        autoIncrement: true,
+                    });
+                    self._ensureLogicalRecordIdIndex(sessionStore);
+                    if (!sessionStore.indexNames.contains("release_id")) {
+                        sessionStore.createIndex("release_id", "release_id", {
+                            unique: true,
+                        });
+                    }
+                } else if (event.oldVersion > 0 && event.oldVersion < 7) {
+                    const sessionStore = request.transaction.objectStore(
+                        self.SESSION_RESUME
+                    );
+                    self._ensureLogicalRecordIdIndex(sessionStore);
+                    if (!sessionStore.indexNames.contains("release_id")) {
+                        sessionStore.createIndex("release_id", "release_id", {
+                            unique: true,
+                        });
+                    }
+                }
             };
             request.onblocked = function () {
                 console.warn(
@@ -698,7 +723,9 @@ window.LouLearnerStore = {
      */
     listAllPatrimonialRecords() {
         const self = this;
-        const storeNames = self.RELEASE_SCOPED_STORES;
+        const storeNames = self.RELEASE_SCOPED_STORES.concat(
+            self.APPLICATION_SCOPED_STORES
+        );
         return this.open().then(function (db) {
             return Promise.all(
                 storeNames.map(function (storeName) {
@@ -1061,6 +1088,106 @@ window.LouLearnerStore = {
                     return false;
                 }
                 return true;
+            });
+        });
+    },
+
+    /**
+     * Lot D4 — list all session_resume records (application scope).
+     * @returns {Promise<object[]>}
+     */
+    listSessionRecords() {
+        return this._run(this.SESSION_RESUME, "readonly", function (store) {
+            return store.getAll();
+        }).then(function (rows) {
+            return rows || [];
+        });
+    },
+
+    /**
+     * @param {string} releaseId
+     * @returns {Promise<object|null>}
+     */
+    getSessionForRelease(releaseId) {
+        if (!releaseId) {
+            return Promise.reject(new Error("releaseId is required"));
+        }
+        return this.open().then(function (db) {
+            return new Promise(function (resolve, reject) {
+                const store = db
+                    .transaction(window.LouLearnerStore.SESSION_RESUME, "readonly")
+                    .objectStore(window.LouLearnerStore.SESSION_RESUME);
+                const req = store.index("release_id").get(releaseId);
+                req.onsuccess = function () {
+                    resolve(req.result || null);
+                };
+                req.onerror = function () {
+                    reject(req.error);
+                };
+            });
+        });
+    },
+
+    /**
+     * Upsert SessionState after handleCommitEvent (IA-25).
+     * @param {object} sessionState
+     * @returns {Promise<object>}
+     */
+    upsertSessionState(sessionState) {
+        if (!sessionState || typeof sessionState !== "object") {
+            return Promise.reject(new Error("sessionState is required"));
+        }
+        const required = [
+            "release_id",
+            "chapter",
+            "viewId",
+            "resumePoint",
+            "last_activity_at",
+            "schema_version",
+        ];
+        for (let i = 0; i < required.length; i++) {
+            const key = required[i];
+            if (sessionState[key] === undefined || sessionState[key] === null) {
+                return Promise.reject(
+                    new Error("SessionState missing required field: " + key)
+                );
+            }
+        }
+
+        const self = this;
+        const row = Object.assign({}, sessionState);
+        delete row.resume_status;
+        if (!row.logical_record_id) {
+            row.logical_record_id = window.LouLearnerPatrimony.deriveLogicalRecordId(
+                "session_resume",
+                row.release_id,
+                row.id || 1
+            );
+        }
+
+        return this.open().then(function (db) {
+            return new Promise(function (resolve, reject) {
+                const tx = db.transaction(self.SESSION_RESUME, "readwrite");
+                const store = tx.objectStore(self.SESSION_RESUME);
+                const lookup = store.index("release_id").get(row.release_id);
+                lookup.onsuccess = function () {
+                    const existing = lookup.result;
+                    if (existing) {
+                        row.id = existing.id;
+                        row.logical_record_id = existing.logical_record_id;
+                    }
+                    const putReq = store.put(row);
+                    putReq.onsuccess = function () {
+                        row.id = putReq.result || row.id;
+                        resolve(row);
+                    };
+                    putReq.onerror = function () {
+                        reject(putReq.error);
+                    };
+                };
+                lookup.onerror = function () {
+                    reject(lookup.error);
+                };
             });
         });
     },

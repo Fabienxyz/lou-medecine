@@ -2,6 +2,7 @@ window.LouRenderer = {
     contentEl: null,
     headerEls: null,
     tracePanelEl: null,
+    _pendingLearnerLayers: null,
 
     init(contentEl, headerEls) {
         this.contentEl = contentEl;
@@ -463,8 +464,25 @@ window.LouRenderer = {
         }
     },
 
-    async renderComposedBlocks(view, manifest, chapter, config) {
-        const self = this;
+    deferLearnerLayers(host, context) {
+        this._pendingLearnerLayers = { host: host, context: context };
+    },
+
+    async flushPendingLearnerLayers() {
+        if (!this._pendingLearnerLayers) {
+            return;
+        }
+        const pending = this._pendingLearnerLayers;
+        this._pendingLearnerLayers = null;
+        await this.mountLearnerLayers(pending.host, pending.context);
+    },
+
+    clearPendingLearnerLayers() {
+        this._pendingLearnerLayers = null;
+    },
+
+    async renderComposedBlocks(view, manifest, chapter, config, renderOptions) {
+        renderOptions = renderOptions || {};
         const host = this.contentEl;
         const pathCache = new Map();
         const combined = document.createDocumentFragment();
@@ -522,7 +540,11 @@ window.LouRenderer = {
             );
         }
 
-        await this.mountLearnerLayers(host, context);
+        if (renderOptions.deferLearnerLayers) {
+            this.deferLearnerLayers(host, context);
+        } else {
+            await this.mountLearnerLayers(host, context);
+        }
         if (view.scenarios && view.scenarios.length) {
             host.appendChild(this.createScenariosSection(view));
         }
@@ -542,7 +564,11 @@ window.LouRenderer = {
         const items = (view.questions || [])
             .map(function (q) {
                 return (
-                    "<li>" + LouRenderer.escapeHtml(String(q.questionId)) + "</li>"
+                    '<li class="view-qcm-item" data-question-id="' +
+                    LouRenderer.escapeHtml(String(q.questionId)) +
+                    '">' +
+                    LouRenderer.escapeHtml(String(q.questionId)) +
+                    "</li>"
                 );
             })
             .join("");
@@ -560,7 +586,8 @@ window.LouRenderer = {
             this.wrapWithFooterNav("");
     },
 
-    async renderCollegeOfficial(view, manifest, chapter, config) {
+    async renderCollegeOfficial(view, manifest, chapter, config, renderOptions) {
+        renderOptions = renderOptions || {};
         const collegePath = view.collegeRef && view.collegeRef.path;
         if (!collegePath) {
             this.showMessage(config.ERROR_MESSAGES.projectionMissing);
@@ -603,7 +630,11 @@ window.LouRenderer = {
         const host = this.contentEl.querySelector(".college-official-body");
         if (host) {
             const context = this.createViewRenderContext(view, manifest, chapter, config);
-            await this.mountLearnerLayers(host, context);
+            if (renderOptions.deferLearnerLayers) {
+                this.deferLearnerLayers(host, context);
+            } else {
+                await this.mountLearnerLayers(host, context);
+            }
         }
     },
 
@@ -632,7 +663,8 @@ window.LouRenderer = {
         this.contentEl.appendChild(this.createScenariosSection(view));
     },
 
-    async renderComposedView(view, manifest, chapter, config) {
+    async renderComposedView(view, manifest, chapter, config, renderOptions) {
+        renderOptions = renderOptions || {};
         if (view.availability === "planned") {
             this.showMessage(this.viewAvailabilityMessage("planned", config), {
                 state: "planned",
@@ -651,7 +683,13 @@ window.LouRenderer = {
         }
 
         if (view.blocks && view.blocks.length) {
-            await this.renderComposedBlocks(view, manifest, chapter, config);
+            await this.renderComposedBlocks(
+                view,
+                manifest,
+                chapter,
+                config,
+                renderOptions
+            );
             return;
         }
 
@@ -663,7 +701,13 @@ window.LouRenderer = {
         }
 
         if (view.collegeRef && view.collegeRef.path) {
-            await this.renderCollegeOfficial(view, manifest, chapter, config);
+            await this.renderCollegeOfficial(
+                view,
+                manifest,
+                chapter,
+                config,
+                renderOptions
+            );
             return;
         }
 

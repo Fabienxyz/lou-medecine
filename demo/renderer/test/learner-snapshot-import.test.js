@@ -604,7 +604,7 @@ describe("Lot E-D — Learner Snapshot import", () => {
     ).find((g) => g.storeName === "text_annotations").records;
 
     assert.deepEqual(secondPass, firstPass);
-    assert.equal(window.LouLearnerStore.DB_VERSION, 6);
+    assert.equal(window.LouLearnerStore.DB_VERSION, 7);
   });
 
   test("LP-I13 pre-apply validation error leaves store unchanged", async () => {
@@ -702,7 +702,7 @@ describe("Lot E-D — Learner Snapshot import", () => {
     window.LouLearnerStore.db = null;
 
     const db = await window.LouLearnerStore.open();
-    assert.equal(db.version, 6);
+    assert.equal(db.version, 7);
 
     const rows = (
       await window.LouLearnerStore.listAllPatrimonialRecords()

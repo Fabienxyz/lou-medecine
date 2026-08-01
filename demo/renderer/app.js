@@ -2,6 +2,8 @@
     const config = window.LouConfig;
     const renderer = window.LouRenderer;
     const markdown = window.LouMarkdown;
+    const sessionService = window.LouSessionService;
+    const sessionResume = window.LouSessionResume;
 
     const tabsEl = document.getElementById("tabs");
     const contentEl = document.getElementById("content");
@@ -20,11 +22,34 @@
     let readingViewModel = null;
     let tabs = config.TABS.slice();
     let traceIndexUrl = null;
+    let releaseId = null;
+    let offlineStatus = null;
+    let commitController = null;
+    let restorePlanBuilt = false;
 
     function getChapterFromUrl() {
         return config.sanitizeChapter(
             new URLSearchParams(window.location.search).get("chapter")
         );
+    }
+
+    function redirectChapter(targetChapter) {
+        const params = new URLSearchParams(window.location.search);
+        params.set("chapter", targetChapter);
+        window.location.assign(
+            window.location.pathname + "?" + params.toString()
+        );
+    }
+
+    function getCurrentViewState() {
+        const tab = tabs[currentTab];
+        if (!tab) {
+            return null;
+        }
+        return {
+            viewId: tab.viewId,
+            index: currentTab,
+        };
     }
 
     async function loadChapterMetadata(chapterId) {
@@ -46,7 +71,7 @@
         tabsEl.innerHTML = "";
         tabs.forEach(function (tab, index) {
             const el = document.createElement("div");
-            el.className = "tab" + (index === 0 ? " active" : "");
+            el.className = "tab" + (index === currentTab ? " active" : "");
             el.textContent = tab.label;
             el.dataset.index = String(index);
             if (tab.viewId) {
@@ -68,7 +93,6 @@
         });
     }
 
-    // Legacy prototype chapters only — manifest 404 activates this path (ADR-002).
     async function loadLegacyPrototypeTabContent(index) {
         const tab = tabs[index];
 
@@ -142,7 +166,8 @@
         }
     }
 
-    async function loadComposedViewContent(index) {
+    async function loadComposedViewContent(index, options) {
+        options = options || {};
         const tab = tabs[index];
         const view = tab.view;
 
@@ -151,12 +176,14 @@
             return;
         }
 
-        await renderer.renderComposedView(view, manifest, chapter, config);
+        await renderer.renderComposedView(view, manifest, chapter, config, {
+            deferLearnerLayers: options.deferLearnerLayers === true,
+        });
     }
 
-    async function loadTabContent(index) {
+    async function loadTabContent(index, options) {
         if (readingViewModel) {
-            await loadComposedViewContent(index);
+            await loadComposedViewContent(index, options);
             return;
         }
         await loadLegacyPrototypeTabContent(index);
@@ -164,21 +191,144 @@
 
     let tabContentReady = Promise.resolve();
 
-    async function showTab(index) {
+    async function showTab(index, options) {
+        options = options || {};
         if (index < 0 || index >= tabs.length) {
             return;
         }
+
+        if (
+            commitController &&
+            !options.fromResumePlan &&
+            index !== currentTab
+        ) {
+            await commitController.flushViewLeave();
+        }
+
+        const previousTab = currentTab;
         currentTab = index;
         setActiveTab(index);
-        tabContentReady = loadTabContent(index);
+        tabContentReady = loadTabContent(index, options);
         await tabContentReady;
+
+        if (
+            commitController &&
+            !options.fromResumePlan &&
+            !options.skipViewCommit &&
+            index !== previousTab
+        ) {
+            const tab = tabs[index];
+            commitController.onViewChanged(
+                tab.viewId,
+                sessionService.defaultResumePointForView(tab.viewId)
+            );
+            if (tab.viewId === "notes") {
+                commitController.onNotesFocusChanged("shell").catch(function (err) {
+                    console.warn("[LouApp] CE-05 commit failed", err);
+                });
+            }
+        }
+    }
+
+    async function resolveRestoreCatalogFacts() {
+        if (config.isProductMode() && config._packageAccess) {
+            const bootstrap = await import("./product-bootstrap.mjs");
+            return bootstrap.buildRestoreCatalogFacts({
+                chapter: chapter,
+                packageAccess: config._packageAccess,
+                releaseId: releaseId,
+                offlineStatus: offlineStatus,
+            });
+        }
+        return {
+            activeReleaseId: releaseId,
+            installedReleaseIds: releaseId ? [releaseId] : [],
+            releaseInstalled: !!releaseId,
+            offlineStatus: offlineStatus || null,
+        };
+    }
+
+    async function runSessionRestore() {
+        if (!sessionResume || !sessionService || !releaseId) {
+            currentTab = 0;
+            await showTab(0, { fromResumePlan: true });
+            return;
+        }
+
+        if (restorePlanBuilt) {
+            throw new Error("[LouApp] Second buildResumePlan forbidden (IA-20)");
+        }
+
+        const catalogFacts = await resolveRestoreCatalogFacts();
+
+        const restoreContext = await sessionResume.buildRestoreContext({
+            chapter: chapter,
+            releaseId: catalogFacts.activeReleaseId,
+            tabs: tabs,
+            offlineStatus: catalogFacts.offlineStatus,
+            releaseInstalled: catalogFacts.releaseInstalled,
+            installedReleaseIds: catalogFacts.installedReleaseIds,
+            productMode: config.isProductMode(),
+            isOfflineRequired:
+                config.isProductMode() &&
+                typeof navigator !== "undefined" &&
+                !navigator.onLine,
+            observedAt: new Date().toISOString(),
+        });
+
+        const plan = sessionService.buildResumePlan(restoreContext);
+        restorePlanBuilt = true;
+
+        await sessionResume.applyResumePlan(plan, {
+            tabs: tabs,
+            chapter: chapter,
+            showTab: showTab,
+            redirectChapter: redirectChapter,
+            showBlocked: function (reason) {
+                renderer.showMessage(
+                    "Contenu hors ligne indisponible (" + reason + ").",
+                    { state: "blocked_offline" }
+                );
+            },
+        });
     }
 
     window.LouApp = {
         whenTabReady: function () {
             return tabContentReady;
         },
+        getCurrentViewId: function () {
+            const tab = tabs[currentTab];
+            return tab ? tab.viewId : null;
+        },
+        wasRestorePlanBuilt: function () {
+            return restorePlanBuilt;
+        },
     };
+
+    function bindBreadcrumbAmorçage() {
+        const chapterLine = headerEls.chapterLine;
+        if (!chapterLine) {
+            return;
+        }
+        chapterLine.classList.add("chapter-line-nav");
+        chapterLine.setAttribute("role", "button");
+        chapterLine.tabIndex = 0;
+        chapterLine.addEventListener("click", async function () {
+            const amorIndex = tabs.findIndex(function (tab) {
+                return tab.viewId === sessionService.AMORCAGE_VIEW_ID;
+            });
+            if (amorIndex < 0) {
+                return;
+            }
+            await showTab(amorIndex, { skipViewCommit: true });
+            if (commitController) {
+                commitController.onInternalNavValidated().catch(function (err) {
+                    console.warn("[LouApp] CE-04 commit failed", err);
+                });
+            }
+        });
+    }
 
     contentEl.addEventListener("click", function (e) {
         const traceBtn = e.target.closest(".claim-trace-link");
@@ -186,6 +336,31 @@
             renderer.showTraceability(traceBtn.dataset.claim, traceIndexUrl);
             return;
         }
+
+        const qcmItem = e.target.closest(".view-qcm-item[data-question-id]");
+        if (qcmItem && commitController) {
+            const questionId = qcmItem.getAttribute("data-question-id");
+            if (questionId) {
+                commitController.onQcmQuestionChanged(questionId).catch(function (err) {
+                    console.warn("[LouApp] CE-03 commit failed", err);
+                });
+            }
+            return;
+        }
+
+        const notionBlock = e.target.closest(".pedagogical-block[data-element]");
+        if (notionBlock && commitController) {
+            const viewState = getCurrentViewState();
+            if (viewState && viewState.viewId === "notions") {
+                const elementId = notionBlock.getAttribute("data-element");
+                if (elementId) {
+                    commitController.onNotionChanged(elementId).catch(function (err) {
+                        console.warn("[LouApp] CE-02 commit failed", err);
+                    });
+                }
+            }
+        }
+
         const btn = e.target.closest("[data-nav]");
         if (!btn) {
             return;
@@ -197,7 +372,6 @@
         if (!("serviceWorker" in navigator)) {
             return;
         }
-        // Playwright sets navigator.webdriver; its page.route() does not apply to SW fetch().
         if (navigator.webdriver) {
             return;
         }
@@ -215,7 +389,6 @@
             return;
         }
 
-        /** @type {{ ok: boolean, manifest?: object, reason?: string, useLegacy?: boolean }} */
         let loaded;
         const productRequested =
             new URLSearchParams(window.location.search).get("product") === "1" ||
@@ -233,6 +406,8 @@
                 };
                 const product = await bootstrap.initProductMode(chapter);
                 loaded = { ok: true, manifest: product.manifest };
+                releaseId = product.releaseId;
+                offlineStatus = product.offlineStatus;
             } catch (err) {
                 console.error("[LouApp] product bootstrap failed", err);
                 loaded = { ok: false, reason: "network", useLegacy: false };
@@ -242,16 +417,17 @@
         }
         if (loaded.ok) {
             manifest = loaded.manifest;
-            if (window.LouLearnerStore) {
-                const releaseId = config.isProductMode()
+            releaseId =
+                releaseId ||
+                (config.isProductMode()
                     ? config._releaseId
-                    : manifest.release_id || null;
-                if (releaseId) {
-                    window.LouLearnerStore.setReleaseContext({
-                        releaseId: releaseId,
-                        chapter: chapter,
-                    });
-                }
+                    : manifest.release_id || null);
+            offlineStatus = offlineStatus || null;
+            if (window.LouLearnerStore && releaseId) {
+                window.LouLearnerStore.setReleaseContext({
+                    releaseId: releaseId,
+                    chapter: chapter,
+                });
             }
             traceIndexUrl = manifest.trace_index
                 ? config.resolveAssetPath(chapter, manifest.trace_index)
@@ -288,7 +464,13 @@
         }
 
         buildTabs();
-        await showTab(0);
+        bindBreadcrumbAmorçage();
+
+        commitController = sessionResume.createCommitController(getCurrentViewState);
+        commitController.bindLifecycleEvents();
+
+        await runSessionRestore();
+
         if (!config.productMode) {
             registerServiceWorker();
         }

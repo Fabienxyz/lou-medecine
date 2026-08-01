@@ -1,5 +1,8 @@
 import { test, describe, beforeEach } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   OfflineRuntimeError,
   SHELL_CACHE_NAME,
@@ -19,6 +22,26 @@ const DIGEST_A = "sha256:" + "a".repeat(64);
 const DIGEST_B = "sha256:" + "b".repeat(64);
 const RELEASE_A = "cardio__234__2022__1";
 const RELEASE_B = "cardio__234__2022__2";
+const RENDERER_ROOT = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  ".."
+);
+
+/** @returns {string[]} */
+function productBootstrapStaticImportShellUrls() {
+  const source = fs.readFileSync(
+    path.join(RENDERER_ROOT, "product-bootstrap.mjs"),
+    "utf8"
+  );
+  /** @type {string[]} */
+  const imports = [];
+  for (const match of source.matchAll(/from\s+["'](\.\/[^"']+)["']/g)) {
+    imports.push(match[1]);
+  }
+  return imports.map(function (relativeImport) {
+    return "/demo/renderer/" + relativeImport.replace(/^\.\//, "");
+  });
+}
 
 /**
  * @returns {import("../library/offline-runtime.js").OfflineRuntimeStorage}
@@ -229,6 +252,27 @@ describe("offline runtime (D2-E)", () => {
 
     const keys = await storage.keys();
     assert.ok(keys.includes(SHELL_CACHE_NAME));
+  });
+
+  test("D4 — product-bootstrap static imports are precached in SHELL_URLS", () => {
+    const required = productBootstrapStaticImportShellUrls();
+    assert.ok(
+      required.includes("/demo/renderer/library/restore-catalog-facts.js"),
+      "fixture must include restore-catalog-facts.js"
+    );
+    for (const shellUrl of required) {
+      assert.ok(
+        SHELL_URLS.includes(shellUrl),
+        shellUrl + " missing from SHELL_URLS (required by product-bootstrap.mjs)"
+      );
+    }
+    const restoreIdx = SHELL_URLS.indexOf(
+      "/demo/renderer/library/restore-catalog-facts.js"
+    );
+    const bootstrapIdx = SHELL_URLS.indexOf("/demo/renderer/product-bootstrap.mjs");
+    assert.ok(restoreIdx >= 0);
+    assert.ok(bootstrapIdx >= 0);
+    assert.ok(restoreIdx < bootstrapIdx);
   });
 
   test("prepareRelease stores a complete Release namespace", async () => {

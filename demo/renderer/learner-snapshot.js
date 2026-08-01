@@ -14,6 +14,7 @@
         walkthrough_notes: "walkthrough_notes",
         svg_text_formats: "svg_text_formats",
         personal_diagrams: "personal_diagrams",
+        session_resume: "session_resume",
     };
 
     /** Fixed §4 domain order — canonicalization invariant. */
@@ -33,7 +34,6 @@
         "assessment_history",
         "scenario_progress",
         "concept_mastery",
-        "session_resume",
         "display_preferences",
     ];
 
@@ -46,6 +46,7 @@
         "walkthrough_notes",
         "svg_text_formats",
         "personal_diagrams",
+        "session_resume",
     ];
 
     const DOMAIN_TO_STORE = {
@@ -53,6 +54,7 @@
         walkthrough_notes: "walkthrough_notes",
         svg_text_formats: "svg_text_formats",
         personal_diagrams: "personal_diagrams",
+        session_resume: "session_resume",
     };
 
     function exportIncompleteError(detail) {
@@ -292,11 +294,30 @@
         };
     }
 
+    function projectSessionResume(row, domainId) {
+        return {
+            record_id:
+                row.logical_record_id ||
+                deriveLogicalRecordId(domainId, row.release_id, row.id),
+            release_id: row.release_id,
+            schema_version: row.schema_version,
+            domain: domainId,
+            chapter: row.chapter,
+            orphan_status: resolveOrphanStatus(row.release_id),
+            payload: pickFields(row, [
+                "viewId",
+                "resumePoint",
+                "last_activity_at",
+            ]),
+        };
+    }
+
     const DOMAIN_PROJECTORS = {
         walkthrough_annotations: projectWalkthroughAnnotation,
         walkthrough_notes: projectWalkthroughNote,
         svg_text_formats: projectSvgTextFormat,
         personal_diagrams: projectPersonalDiagram,
+        session_resume: projectSessionResume,
     };
 
     function compareRecords(a, b) {
@@ -718,11 +739,25 @@
         };
     }
 
+    function inverseProjectSessionResume(record) {
+        const payload = record.payload || {};
+        return {
+            logical_record_id: record.record_id,
+            release_id: record.release_id,
+            schema_version: record.schema_version,
+            chapter: record.chapter,
+            viewId: payload.viewId,
+            resumePoint: payload.resumePoint,
+            last_activity_at: payload.last_activity_at,
+        };
+    }
+
     const INVERSE_PROJECTORS = {
         walkthrough_annotations: inverseProjectWalkthroughAnnotation,
         walkthrough_notes: inverseProjectWalkthroughNote,
         svg_text_formats: inverseProjectSvgTextFormat,
         personal_diagrams: inverseProjectPersonalDiagram,
+        session_resume: inverseProjectSessionResume,
     };
 
     function validateSnapshotStructure(snapshot) {

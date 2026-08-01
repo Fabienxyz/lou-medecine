@@ -165,6 +165,7 @@
         walkthrough_notes: "walkthrough_notes",
         svg_text_formats: "svg_text_formats",
         personal_diagrams: "personal_diagrams",
+        session_resume: "session_resume",
     };
 
     global.LouLearnerPatrimony = {

@@ -6,6 +6,9 @@ import { createBrowserOfflineManager } from "./library/browser-offline-manager.j
 import { buildReleaseScopedUrl } from "./library/package-access-shared.js";
 import { loadCatalogFromLibrary } from "./library/library-catalog-browser.js";
 import { OFFLINE_STATUS } from "./library/offline-state.js";
+import { buildRestoreCatalogFacts } from "./library/restore-catalog-facts.js";
+
+export { buildRestoreCatalogFacts };
 
 const params = new URLSearchParams(window.location.search);
 

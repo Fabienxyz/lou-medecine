@@ -18,8 +18,8 @@ Ce document porte la **numérotation opérationnelle unique** des lots PDR-D2. L
 |---|---|---|
 | **D2-A** | Contrat Offline | **Livré** |
 | **D2-B** | Offline State Model | **Livré** |
-| **D2-C** | Offline Manager | À venir |
-| **D2-D** | Package Access Browser | À venir |
+| **D2-C** | Offline Manager | **Livré** |
+| **D2-D** | Package Access Browser | **Livré** |
 | **D2-E** | Runtime Offline (routage local) | À venir |
 | **D2-F** | Préparation automatique après installation | À venir |
 | **D2-G** | Acceptation Offline | À venir |

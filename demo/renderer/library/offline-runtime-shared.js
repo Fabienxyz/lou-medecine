@@ -34,6 +34,7 @@ export const SHELL_URLS = [
   "/demo/renderer/markdown.js",
   "/demo/renderer/learner-patrimony.js",
   "/demo/renderer/learner-store.js",
+  "/demo/renderer/learner-snapshot.js",
   "/demo/renderer/text-highlights.js",
   "/demo/renderer/caret-anchor.js",
   "/demo/renderer/inline-notes.js",

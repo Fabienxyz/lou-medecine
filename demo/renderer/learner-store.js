@@ -383,6 +383,35 @@ window.LouLearnerStore = {
         });
     },
 
+    /**
+     * Read all Release-scoped patrimonial stores for snapshot export (Lot E-C).
+     * Read-only — does not mutate source data.
+     * @returns {Promise<{ storeName: string, records: object[] }[]>}
+     */
+    listAllPatrimonialRecords() {
+        const self = this;
+        const storeNames = self.RELEASE_SCOPED_STORES;
+        return this.open().then(function (db) {
+            return Promise.all(
+                storeNames.map(function (storeName) {
+                    if (!db.objectStoreNames.contains(storeName)) {
+                        return { storeName: storeName, records: [] };
+                    }
+                    return self
+                        ._run(storeName, "readonly", function (store) {
+                            return store.getAll();
+                        })
+                        .then(function (rows) {
+                            return {
+                                storeName: storeName,
+                                records: rows || [],
+                            };
+                        });
+                })
+            );
+        });
+    },
+
     listRecordsForRelease(releaseId) {
         if (!releaseId) {
             return Promise.reject(new Error("releaseId is required"));

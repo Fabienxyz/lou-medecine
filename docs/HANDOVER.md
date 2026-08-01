@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-01 |
+| **Statut** | Document d'accueil — 2026-08-02 |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -18,12 +18,12 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Branche** | `main` |
-| **HEAD** | *(gouvernance D7 — voir commit `docs(governance): publish display preferences (PDR-D7)`)* |
-| **Implémentation D7** | `49dde7a` — `feat(renderer): implement display preferences (PDR-D7)` |
-| **Remote** | `origin/main` — publication D7 en cours |
-| **Tags de référence** | `display-preferences-v1` (D7) · `local-search-v1` (D6) · `offline-certification-v1` (D2) · `reader-composition-v1` (Composition) |
+| **HEAD** | `f2801de05501738b9075a482c73aec0b7b9341b0` — AP-F (Reader Acceptance technique) |
+| **Gouvernance RA V1** | Commit documentaire à publier — prononcé Reader Acceptance V1 |
+| **Remote** | `origin/main` — AP-F publié |
+| **Tags de référence** | `reader-acceptance-v1` (RA V1) · `display-preferences-v1` (D7) · `local-search-v1` (D6) · `offline-certification-v1` (D2) · `reader-composition-v1` (Composition) |
 
-**Exclusions volontaires :** `_Roadmap Opus - 27 Juillet 2026.docx` · `demo/renderer/docs/learner-session-d4-technical-design.md` (hors périmètre D7).
+**Exclusions volontaires :** `_Roadmap Opus - 27 Juillet 2026.docx` · `demo/renderer/docs/learner-session-d4-technical-design.md`
 
 ---
 
@@ -33,11 +33,11 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 | | |
 |---|---|
-| **Phase** | Execution Mode V1 — livraison roadmap V1 en cours |
-| **Dernier jalon publié** | **D7** — préférences d'affichage Reader (gouvernance D7-G) |
-| **Objectif actif** | **Reader Acceptance V1** — critères PDR-B1/B5/D/E sur package 234 complet |
-| **Chantier actif** | **Amorçage cognitif** (1 vue `planned`) + prononcé d'acceptation Reader |
-| **Instance courante** | Package 234 Release `complete` ; Composition V1 ; D1 ; D2 ; D4 ; D6 ; D7 ; patrimoine E-A…E-D ; **acceptation Reader non prononcée** |
+| **Phase** | Execution Mode V1 — Reader Acceptance V1 **clôturé** |
+| **Dernier jalon publié** | **Reader Acceptance V1** — prononcé 2026-08-02 |
+| **Objectif actif** | **Validation pédagogique Lou** — étude package 234 via Reader accepté |
+| **Chantier actif** | **Validation pédagogique Lou** ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)) |
+| **Instance courante** | Package 234 Release `complete` ; Reader V1 accepté ; 7 vues alimentées ; D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D · AP-A…AP-F |
 
 **Acquis majeurs (publiés) :**
 
@@ -49,59 +49,49 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 - PDR-D1 — bibliothèque installable
 - PDR-D2 — offline intégral (tag `offline-certification-v1`)
 - Patrimoine E-A…E-D — contrat, persistance, export, import
-- **PDR-D4** — reprise de session (ResumePlan, Session Service, store `session_resume`)
-- **PDR-D6** — recherche locale (contrat en vigueur, tag `local-search-v1`)
-- **PDR-D7** — préférences d'affichage (contrat en vigueur ; tag `display-preferences-v1` recommandé)
+- PDR-D4 — reprise de session
+- PDR-D6 — recherche locale (tag `local-search-v1`)
+- PDR-D7 — préférences d'affichage (tag `display-preferences-v1`)
+- **Amorçage cognitif** — AP-A…AP-F (contrat AP-A, implémentation AP-C…AP-F)
+- **Reader Acceptance V1** — prononcé (tag `reader-acceptance-v1`)
 
-**Validations D7 (locale, D7-F) :** 589/589 tests unitaires renderer PASS · 18/18 smoke Display Preferences PASS · 19/19 validation Node D7-F PASS.
+**Validations de référence :** 632/632 tests unitaires renderer PASS · 14/14 smoke AP-F PASS.
 
 ---
 
 ## 3. Chemin critique
 
-**Prochain jalon :** **Reader Acceptance V1**
+**Prochain jalon :** **Validation pédagogique Lou**
 
-**Étape immédiate :** **Amorçage cognitif** — alimenter la vue `planned` sur package 234.
+**Étape immédiate :** Lou étudie le chapitre 234 via le Reader accepté et rend une **décision écrite datée** (*poursuivre* / *poursuivre avec modification nommée* / *modifier la méthode avant l'échelle*).
 
-**Critères restants :** Amorçage + prononcé d'acceptation Reader.
-
-**Action recommandée :** committer l'implémentation D6 puis D7 sur `main` (code + tests) pour aligner origin avec l'état livré D6-F / D7-F.
-
-**Points d'entrée code Display Preferences (D7, working tree local) :**
-
-- `demo/renderer/display-preferences-service.js` — Service pur (D7-C)
-- `demo/renderer/display-preferences-runtime.js` — Runtime + patrimoine (D7-D)
-- `demo/renderer/display-preferences-apply.js` — callback visuel `data-dp-*` (D7-E)
-- `demo/renderer/display-preferences-ui.js` — panneau Reader (D7-E)
-- `demo/renderer/app.js` — boot `loadAndApply` avant reprise session
-- Rapports : [`demo/renderer/docs/learner-display-preferences-d7-f-validation-report.md`](../demo/renderer/docs/learner-display-preferences-d7-f-validation-report.md)
+**Critères :** les sept vues utilisées ; QCM et cas expérimentés ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 ---
 
 ## 4. Architecture stabilisée
 
-Chaîne Display Preferences (D7) :
+Chaîne Reader V1 (acceptée) :
 
 ```
-Display Preferences Service (pur)
+Library Catalog (D1) → Package Access → Browser Offline Manager (D2)
         ↓
-Display Preferences Runtime — store display_preferences (singleton global)
+Composition V1 → Reading View Model → Renderer (7 vues, dont Amorçage)
         ↓
-LouLearnerStore / Learner Snapshot (export-import domaine)
+Session Resume (D4) · Local Search (D6) · Display Preferences (D7)
         ↓
-applyDisplayPreferences — attributs data-dp-* sur <html>
-        ↓
-Reader UI — 3 réglages + reset
+Learner Patrimony (E-A…E-D)
 ```
 
-**Décisions figées D7 :**
+**Décisions figées Reader Acceptance :**
 
-- Trois préférences V1 : thème, taille police, largeur lecture
-- Singleton global — pas de scope Release / chapitre / vue
-- Premier boot sans écriture patrimoniale tant qu'aucune modification utilisateur
-- Orthogonalité Session (D4), Local Search (D6), Composition, Offline
+- 7 vues alimentées sur package 234 — PDR-B5 satisfait
+- Amorçage via artefact `build/cognitive-priming.v1.json` — manifest-only
+- Navigation EDN inter-chapitres avec `view=cognitive-priming` explicite (AP-EF)
+- Local Search indexe champs texte Amorçage publié — C-CP-09
+- Offline shell inclut `cognitive-priming-render.js` — AP-F-11
 
-Contrat faisant autorité : [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md).
+Rapport faisant autorité : [`releases/reader-acceptance-v1-publication.md`](releases/reader-acceptance-v1-publication.md).
 
 ---
 
@@ -109,12 +99,12 @@ Contrat faisant autorité : [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contra
 
 | Document | Rôle |
 |---|---|
-| [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) | Préférences d'affichage — singleton global, Snapshot, boot |
-| [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) | Recherche locale — périmètre Release, index, navigation |
-| [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](contracts/components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine — persistance §7, export §8, import §9 |
-| [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) | Offline — indépendance préférences |
+| [`COGNITIVE-PRIMING-COMPONENT-CONTRACT.md`](contracts/components/COGNITIVE-PRIMING-COMPONENT-CONTRACT.md) | Amorçage — statut Proposé (AP-A) ; promotion En vigueur = AP-G |
+| [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) | Préférences d'affichage — En vigueur |
+| [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) | Recherche locale — En vigueur |
+| [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](contracts/components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine — En vigueur |
+| [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) | Offline — En vigueur |
 | [`LIBRARY-CATALOG-CONTRACT.md`](contracts/components/LIBRARY-CATALOG-CONTRACT.md) | Identité Release catalogue |
-| [PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md) | Préférences d'affichage — critère Acceptation Reader V1 |
 
 ---
 
@@ -129,17 +119,18 @@ Contrat faisant autorité : [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contra
 | **Reprise session (D4)** | Publié |
 | **Recherche locale (D6)** | Publié |
 | **Préférences (D7)** | Publié |
-| **Amorçage cognitif** | Vue `planned` — **chantier actif** |
-| **Critères d'acceptation** | **Non prononcés** |
+| **Amorçage cognitif (AP-A…AP-F)** | Publié — package 234 |
+| **Critères d'acceptation** | **Prononcés** — 2026-08-02 |
 
-**Tests renderer (D7-F, local) :** 589 PASS unit · 108 PASS smoke (71 + 19 LS-F + 18 DP-F) · 19 PASS Node D7-F.
+**Tests renderer (référence) :** 632 PASS unit · 14 PASS smoke AP-F.
 
 ---
 
 ## 7. Chantiers recommandés
 
-1. **Amorçage cognitif** — alimenter la vue `planned` (chantier actif)
-2. **Reader Acceptance V1** — prononcé d'acceptation (cadre global)
+1. **Validation pédagogique Lou** — décision écrite sur la méthode (chantier actif)
+2. **Follow-up smoke CN-07** — Amorçage `published` en mode dev (mineur, non bloquant)
+3. **AP-G gouvernance** — promotion contrat Cognitive Priming « En vigueur » (optionnel, post-RA)
 
 ---
 
@@ -149,9 +140,9 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
 2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md).
-3. Chantier actif : **Amorçage cognitif** + acceptation Reader.
-4. Lots D4, D6, D7 (gouvernance) et patrimoine E-A…E-D **clôturés**.
+3. Chantier actif : **Validation pédagogique Lou**.
+4. Reader Acceptance V1 et lots AP-A…AP-F **clôturés**.
 
 ---
 
-*Handover — 2026-08-01 — D7 publié ; chantier actif Amorçage. Non normatif.*
+*Handover — 2026-08-02 — Reader Acceptance V1 prononcé ; chantier actif Validation pédagogique Lou. Non normatif.*

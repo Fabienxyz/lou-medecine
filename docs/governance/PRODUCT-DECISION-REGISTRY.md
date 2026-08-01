@@ -718,8 +718,8 @@ Vue consolidée pour le suivi de propagation et l'audit de cohérence ([`PRODUCT
 | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](../contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) | D6 | En vigueur (D6-A…G) — 2026-08-01 |
 | [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](../contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) | D7 | En vigueur (D7-A…G) — 2026-08-01 |
 | [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](OFFLINE-IMPLEMENTATION-PLAN.md) | D2 | Clôturé — 2026-08-01 |
-| `MASTER_ROADMAP.md` | B1–B3, C1–C2, C4, C6–C7, D1, D2, F1, G2, G6 | Fait — 2026-08-01 |
-| `PROJECT_STATE.md` | B1–B2, C1, D2, G6 | Fait — 2026-08-01 |
+| `MASTER_ROADMAP.md` | B1–B3, C1–C2, C4, C6–C7, D1, D2, F1, G2, G6 | Reader Acceptance prononcé — 2026-08-02 |
+| `PROJECT_STATE.md` | B1–B2, C1, D2, G6 | Reader Acceptance prononcé — 2026-08-02 |
 | [`ADR-006`](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) | E1–E4, G3, C7, A4 | Fait |
 
 ---

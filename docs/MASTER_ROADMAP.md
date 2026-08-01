@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-01 — publication D7 (préférences d'affichage / PDR-D7) ; chantier actif **Amorçage cognitif** + prononcé d'acceptation Reader ; phase active Reader Acceptance V1.
+**Dernière révision :** 2026-08-02 — Reader Acceptance V1 prononcé ; chantier actif **Validation pédagogique Lou**.
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -42,12 +42,12 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 |---|---|
 | Gouvernance et contrats fondamentaux | ✅ Clôturé |
 | La Fabrique (pipeline validateur lou-build) | ✅ Clôturé — tag `lou-build-pipeline-v1` |
-| Reader Composition V1 (Lots A–F) | ✅ Clôturé — audit indépendant ✅ Conforme ; tag `reader-composition-v1` en attente |
-| **Reader Acceptance V1** | 🔄 **Phase active** |
-| Validation pédagogique Lou | ⏳ En attente (Reader accepté) |
+| Reader Composition V1 (Lots A–F) | ✅ Clôturé — audit indépendant ✅ Conforme ; tag `reader-composition-v1` |
+| **Reader Acceptance V1** | ✅ **Clôturé** — prononcé 2026-08-02 ; tag `reader-acceptance-v1` |
+| **Validation pédagogique Lou** | 🔄 **Phase active** |
 | Industrialisation Fabrique productrice | ⏳ En attente |
 
-**Distinction obligatoire :** la clôture **Reader Composition V1** ne signifie **pas** que le Reader est terminé. L'objectif [Acceptation Reader V1](#acceptation-reader-v1) reste ouvert.
+**Distinction obligatoire :** la clôture **Reader Composition V1** ne signifiait **pas** que le Reader était terminé. L'objectif [Acceptation Reader V1](#acceptation-reader-v1) est **clôturé** depuis le 2026-08-02.
 
 ---
 
@@ -160,7 +160,7 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 
 **Hors périmètre V1 :** répétition espacée, recherche globale bibliothèque, export PDF, sync automatique, indicateur de progression élaboré ([PDR-D5](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G4](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-**Plan d'exécution détaillé :** [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md), [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md), [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) (PDR-D2 — lots D2-A…I **livrés** ; plan **clôturé**). **Chantier actif :** Amorçage cognitif (1 vue `planned`) + prononcé d'acceptation Reader. **Lots Reader Acceptance livrés :** D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D.
+**Plan d'exécution détaillé :** [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md), [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md), [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) (PDR-D2 — lots D2-A…I **livrés** ; plan **clôturé**). **Lots Reader Acceptance livrés :** D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D · **AP-A…AP-F** (Amorçage cognitif). **Prononcé :** 2026-08-02 — voir [`releases/reader-acceptance-v1-publication.md`](releases/reader-acceptance-v1-publication.md).
 
 ---
 
@@ -384,6 +384,7 @@ Objectifs clos — une ligne par acquis, renvoi vers la preuve de clôture. Le d
 | Reprise de session Reader V1 ([PDR-D4](governance/PRODUCT-DECISION-REGISTRY.md)) | `session-service.js`, `session-resume.js`, store `session_resume` ; ResumePlan · RestoreContext · CE-01…CE-08 ; shell offline complet ; 396 unit + 71 smoke PASS ; clôture 2026-08-01 |
 | Recherche textuelle locale Reader V1 ([PDR-D6](governance/PRODUCT-DECISION-REGISTRY.md)) | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) — lots D6-A…G ; Service · Runtime · Reader · validation E2E ; tag `local-search-v1` ; clôture 2026-08-01 |
 | Préférences d'affichage Reader V1 ([PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md)) | [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) — lots D7-A…G ; Service · Runtime · Patrimoine · Reader · validation E2E ; clôture 2026-08-01 |
+| Acceptation Reader V1 ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) | [`releases/reader-acceptance-v1-publication.md`](releases/reader-acceptance-v1-publication.md) — 7 vues alimentées package 234 ; lots AP-A…AP-F ; tag `reader-acceptance-v1` ; clôture 2026-08-02 |
 
 > **Note terminologique.** Le **pipeline validateur** lou-build est un acquis. La **Fabrique productrice autonome** reste un objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)) — ne pas confondre « cutover lou-build » avec « production autonome de contenu ».
 
@@ -418,4 +419,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-08-01 — publication D7 (préférences d'affichage / PDR-D7) ; chantier actif Amorçage + acceptation Reader ; phase active Reader Acceptance V1.*
+*Révision 2026-08-02 — Reader Acceptance V1 prononcé ; chantier actif Validation pédagogique Lou.*

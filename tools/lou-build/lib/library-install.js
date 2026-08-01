@@ -222,9 +222,12 @@ function applyCatalogActivation(catalog, manifest, opts) {
   if (idx === -1) {
     catalog.entries.push(entry);
   } else {
-    // Preserve first installed_at on idempotent refresh unless missing.
+    // Preserve first installed_at and offline_status on idempotent refresh unless missing.
     const prev = catalog.entries[idx];
     entry.installed_at = prev.installed_at || installedAt;
+    if (prev.offline_status !== undefined && prev.offline_status !== null) {
+      entry.offline_status = prev.offline_status;
+    }
     catalog.entries[idx] = entry;
   }
 

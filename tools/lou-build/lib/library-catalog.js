@@ -5,6 +5,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { buildReleaseId } from "./release-identity.js";
+import {
+  DEFAULT_OFFLINE_STATUS,
+  migrateCatalogOfflineStatus,
+  validateOfflineStatus,
+} from "./offline-state.js";
 
 export const LIBRARY_SCHEMA_VERSION = 1;
 export const DEFAULT_LIBRARY_ID = "lou-local";
@@ -27,6 +32,7 @@ const ENTRY_KEYS = new Set([
   "root",
   "manifest",
   "content_digest",
+  "offline_status",
   "slug",
   "title",
   "specialty",
@@ -70,6 +76,7 @@ export function loadOrCreateCatalog(libraryRoot, libraryId = DEFAULT_LIBRARY_ID)
     const message = e instanceof Error ? e.message : String(e);
     throw new Error(`library catalog corrupted (unreadable JSON): ${message}`);
   }
+  migrateCatalogOfflineStatus(raw);
   const errors = validateLibraryCatalog(raw);
   if (errors.length) {
     throw new Error(
@@ -85,6 +92,7 @@ export function loadOrCreateCatalog(libraryRoot, libraryId = DEFAULT_LIBRARY_ID)
  * @param {Record<string, unknown>} catalog
  */
 export function saveCatalogAtomic(libraryRoot, catalog) {
+  migrateCatalogOfflineStatus(catalog);
   catalog.updated_at = new Date().toISOString();
   const errors = validateLibraryCatalog(catalog);
   if (errors.length) {
@@ -170,9 +178,16 @@ export function validateLibraryCatalog(catalog) {
       "root",
       "manifest",
       "content_digest",
+      "offline_status",
     ]) {
       if (entry[req] === undefined || entry[req] === null || entry[req] === "") {
         errors.push(`${prefix}: missing ${req}`);
+      }
+    }
+
+    if (entry.offline_status !== undefined && entry.offline_status !== null) {
+      for (const msg of validateOfflineStatus(entry.offline_status)) {
+        errors.push(`${prefix}: ${msg}`);
       }
     }
 
@@ -287,6 +302,7 @@ export function catalogEntryFromManifest(manifest, installedAt = new Date().toIS
     root: `packages/${releaseId}`,
     manifest: `packages/${releaseId}/manifest.json`,
     content_digest: manifest.content_digest,
+    offline_status: DEFAULT_OFFLINE_STATUS,
   };
   for (const key of ["slug", "title", "specialty", "editorial_completeness"]) {
     if (manifest[key] !== undefined && manifest[key] !== null) {

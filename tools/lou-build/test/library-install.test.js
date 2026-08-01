@@ -108,6 +108,7 @@ describe("library install (D1-C)", () => {
     const catalog = loadOrCreateCatalog(libraryRoot);
     assert.equal(catalog.entries.length, 1);
     assert.equal(catalog.entries[0].status, "active");
+    assert.equal(catalog.entries[0].offline_status, "not_prepared");
     assert.equal(catalog.active_by_chapter["cardio/234"], "cardio__234__2022__1");
     assert.ok(
       fs.existsSync(path.join(libraryRoot, "packages", "cardio__234__2022__1", "manifest.json"))

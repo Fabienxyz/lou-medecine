@@ -31,6 +31,8 @@
     let displayPreferencesUI = null;
     let displayPreferencesLoaded = false;
 
+    const EXPLICIT_VIEW_URL_PARAM = "view";
+
     function getChapterFromUrl() {
         return config.sanitizeChapter(
             new URLSearchParams(window.location.search).get("chapter")
@@ -43,6 +45,57 @@
         window.location.assign(
             window.location.pathname + "?" + params.toString()
         );
+    }
+
+    function sanitizeExplicitViewId(viewId) {
+        if (typeof viewId !== "string") {
+            return null;
+        }
+        const trimmed = viewId.trim();
+        if (!trimmed || !/^[a-z][a-z0-9_-]*$/.test(trimmed)) {
+            return null;
+        }
+        return trimmed;
+    }
+
+    function getExplicitTargetViewFromUrl() {
+        return sanitizeExplicitViewId(
+            new URLSearchParams(window.location.search).get(EXPLICIT_VIEW_URL_PARAM)
+        );
+    }
+
+    function consumeExplicitTargetViewFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        if (!params.has(EXPLICIT_VIEW_URL_PARAM)) {
+            return;
+        }
+        params.delete(EXPLICIT_VIEW_URL_PARAM);
+        const qs = params.toString();
+        const next =
+            window.location.pathname + (qs ? "?" + qs : "") + window.location.hash;
+        window.history.replaceState(null, "", next);
+    }
+
+    async function applyExplicitTargetViewFromUrl() {
+        const targetViewId = getExplicitTargetViewFromUrl();
+        if (!targetViewId) {
+            return false;
+        }
+
+        const tabIndex = tabs.findIndex(function (tab) {
+            return tab.viewId === targetViewId;
+        });
+        consumeExplicitTargetViewFromUrl();
+
+        if (tabIndex < 0) {
+            console.warn(
+                "[LouApp] Explicit target view not in rendered tabs: " + targetViewId
+            );
+            return false;
+        }
+
+        await showTab(tabIndex, { fromResumePlan: true, skipViewCommit: true });
+        return true;
     }
 
     function getCurrentViewState() {
@@ -385,6 +438,55 @@
         }
     }
 
+    function buildChapterNavigationHref(targetChapterId, options) {
+        options = options || {};
+        const sanitized = config.sanitizeChapter(targetChapterId);
+        if (!sanitized) {
+            return null;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        params.set("chapter", sanitized);
+        if (options.targetViewId) {
+            const explicitView = sanitizeExplicitViewId(options.targetViewId);
+            if (explicitView) {
+                params.set(EXPLICIT_VIEW_URL_PARAM, explicitView);
+            }
+        }
+        if (config.isProductMode()) {
+            params.set("product", "1");
+        } else {
+            params.delete("product");
+            params.delete("library");
+        }
+        return window.location.pathname + "?" + params.toString();
+    }
+
+    async function navigateToChapterById(targetChapterId, options) {
+        options = options || {};
+        const sanitized = config.sanitizeChapter(targetChapterId);
+        if (!sanitized) {
+            return;
+        }
+
+        if (sanitized === chapter) {
+            const targetViewId =
+                options.targetViewId || sessionService.AMORCAGE_VIEW_ID;
+            const amorIndex = tabs.findIndex(function (tab) {
+                return tab.viewId === targetViewId;
+            });
+            if (amorIndex >= 0) {
+                await showTab(amorIndex);
+            }
+            return;
+        }
+
+        const href = buildChapterNavigationHref(targetChapterId, options);
+        if (href) {
+            window.location.assign(href);
+        }
+    }
+
     window.LouApp = {
         whenTabReady: function () {
             return tabContentReady;
@@ -402,6 +504,8 @@
         getDisplayPreferencesRuntime: function () {
             return displayPreferencesRuntime;
         },
+        navigateToChapterById: navigateToChapterById,
+        buildChapterNavigationHref: buildChapterNavigationHref,
     };
 
     function bindBreadcrumbAmorçage() {
@@ -569,7 +673,10 @@
         commitController = sessionResume.createCommitController(getCurrentViewState);
         commitController.bindLifecycleEvents();
 
-        await runSessionRestore();
+        const explicitViewApplied = await applyExplicitTargetViewFromUrl();
+        if (!explicitViewApplied) {
+            await runSessionRestore();
+        }
 
         await initLocalSearch();
         if (localSearchUI) {

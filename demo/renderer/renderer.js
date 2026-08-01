@@ -586,6 +586,93 @@ window.LouRenderer = {
             this.wrapWithFooterNav("");
     },
 
+    async renderCognitivePrimingView(view, manifest, chapter, config, renderOptions) {
+        renderOptions = renderOptions || {};
+        const cp = window.LouCognitivePrimingRender;
+        const primingRef = view.primingRef;
+
+        if (!primingRef || !primingRef.path) {
+            this.showMessage(config.ERROR_MESSAGES.cognitivePrimingArtifactMissing, {
+                state: "cp_artifact_missing",
+            });
+            return;
+        }
+
+        let text;
+        try {
+            text = await this.fetchText(
+                config.resolveAssetPath(chapter, primingRef.path)
+            );
+        } catch (err) {
+            if (err && (err.code === "not_found" || err.status === 404)) {
+                this.showMessage(config.ERROR_MESSAGES.cognitivePrimingArtifactMissing, {
+                    state: "cp_artifact_missing",
+                });
+            } else {
+                this.showMessage(config.ERROR_MESSAGES.cognitivePrimingLoadFailed, {
+                    state: "cp_load_failed",
+                });
+            }
+            return;
+        }
+
+        const parsed = cp.parseCognitivePrimingArtifact(text);
+        if (!parsed.ok) {
+            const messageKey =
+                parsed.code === "schema"
+                    ? "cognitivePrimingSchema"
+                    : parsed.code === "badge"
+                      ? "cognitivePrimingBadge"
+                      : "cognitivePrimingParse";
+            this.showMessage(config.ERROR_MESSAGES[messageKey], {
+                state: "cp_" + parsed.code,
+            });
+            return;
+        }
+
+        if (
+            parsed.record.chapter_id &&
+            manifest.chapter &&
+            parsed.record.chapter_id !== manifest.chapter
+        ) {
+            console.warn(
+                "[LouRenderer] CP-RENDER-CHAPTER-MISMATCH: artefact chapter_id=" +
+                    parsed.record.chapter_id +
+                    " manifest.chapter=" +
+                    manifest.chapter
+            );
+        }
+
+        this.replayAnimation(this.contentEl);
+        this.contentEl.innerHTML =
+            '<section class="cognitive-priming-view lou-official-content">' +
+            '<div class="cognitive-priming-body"></div></section>' +
+            this.wrapWithFooterNav("");
+
+        const host = this.contentEl.querySelector(".cognitive-priming-body");
+        if (!host) {
+            return;
+        }
+
+        await cp.renderCognitivePriming(host, parsed.record, {
+            chapterTitle: manifest.title || manifest.chapter,
+            manifestChapter: manifest.chapter,
+            packageAccess:
+                config.isProductMode() && config._packageAccess
+                    ? config._packageAccess
+                    : null,
+            onEdnNavigate:
+                window.LouApp && typeof window.LouApp.navigateToChapterById === "function"
+                    ? function (targetChapterId) {
+                          window.LouApp.navigateToChapterById(targetChapterId, {
+                              targetViewId: "cognitive-priming",
+                          });
+                      }
+                    : null,
+            document: this.contentEl.ownerDocument,
+        });
+    },
+
     async renderCollegeOfficial(view, manifest, chapter, config, renderOptions) {
         renderOptions = renderOptions || {};
         const collegePath = view.collegeRef && view.collegeRef.path;
@@ -685,6 +772,17 @@ window.LouRenderer = {
 
         if (view.questions && view.questions.length) {
             this.showViewQcmList(view, config);
+            return;
+        }
+
+        if (view.primingRef && view.primingRef.resolved === true) {
+            await this.renderCognitivePrimingView(
+                view,
+                manifest,
+                chapter,
+                config,
+                renderOptions
+            );
             return;
         }
 

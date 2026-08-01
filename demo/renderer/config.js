@@ -42,6 +42,16 @@ window.LouConfig = {
             "Cette vue est prévue — le contenu n'est pas encore disponible.",
         notesShell:
             "Espace Notes — tes fiches et annotations de consolidation apparaîtront ici.",
+        cognitivePrimingArtifactMissing:
+            "Artefact d'amorçage cognitif introuvable : le package le déclare publié, mais le fichier est absent.",
+        cognitivePrimingLoadFailed:
+            "Échec du chargement de l'artefact d'amorçage cognitif.",
+        cognitivePrimingParse:
+            "Artefact d'amorçage cognitif invalide ou inutilisable.",
+        cognitivePrimingSchema:
+            "Version de schéma d'amorçage cognitif non supportée.",
+        cognitivePrimingBadge:
+            "Badge de complément IA invalide dans l'artefact d'amorçage cognitif.",
     },
 
     /** Legacy prototype tabs — manifest 404 only (ADR-002). */

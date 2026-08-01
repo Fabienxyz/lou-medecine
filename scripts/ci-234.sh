@@ -9,8 +9,8 @@ export CI="${CI:-true}"
 echo "==> lou-build validate — package 234"
 (cd "$ROOT/tools/lou-build" && npm ci && npm run validate -- --chapter 01-learning/chapters/cardio/234)
 
-echo "==> lou-build tests"
-(cd "$ROOT/tools/lou-build" && npm test)
+echo "==> lou-build tests (gate — excludes test:integration)"
+(cd "$ROOT/tools/lou-build" && npm run test:ci)
 
 echo "==> Renderer unit tests"
 (cd "$ROOT/demo/renderer" && npm ci && npm test)

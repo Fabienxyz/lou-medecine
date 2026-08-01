@@ -48,9 +48,9 @@ jobs:
         working-directory: tools/lou-build
         run: npm run validate -- --chapter 01-learning/chapters/cardio/234
 
-      - name: lou-build tests
+      - name: lou-build tests (gate)
         working-directory: tools/lou-build
-        run: npm test
+        run: npm run test:ci
 
       - name: Renderer unit tests
         working-directory: demo/renderer

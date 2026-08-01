@@ -53,7 +53,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Rôle (roadmap) | Instance courante | État observé |
 |---|---|---|
 | **Package de capitalisation de référence** | Item **234** — Insuffisance cardiaque — édition Collège **2022** ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | Understanding + **évaluation complète** — 81 Questions + 3 Scénarios ; `editorial_completeness: complete` ; couverture understanding 91/91 ; validate/build PASS |
-| **Fixture de non-régression** | Item **234** — workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) | **Branchée** — gate locale validée (validate 234 + lou-build + Reader 249 unit + 61 smoke) ; validation GitHub Actions **pas encore exécutée** (première run après push) ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) |
+| **Fixture de non-régression** | Item **234** — workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) | **Branchée** — gate `test:ci` (hors `slice.test.ts`, suite intégration `npm run test:integration`) ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; validation GitHub Actions en cours |
 
 ---
 
@@ -99,7 +99,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
-| **Reproductibilité du build en CI** | **Configurée** — gate fixture 234 sur `push`/`pull_request` main ; première exécution GitHub Actions après push | Gate locale validée (validate 234 + lou-build + Reader) ; run GitHub à confirmer |
+| **Reproductibilité du build en CI** | **Configurée** — gate fixture 234 sur `push`/`pull_request` main ; `lou-build test:ci` (sans suite slice OAP) | Gate locale validée ; intégration slice via `npm run test:integration` (hors gate, ~3–5 min) |
 | **Décisions humaines / chapitre** | Non suivi en production | — |
 | lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS ; Release `complete` ; **1** package complet PDR-A3 |
 | Tests lou-build | **117/117** PASS | 78 JS + 39 TS |
@@ -125,7 +125,8 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-08-01 | **Fixture CI 234 branchée** — workflow GitHub Actions `ci-234.yml` + script local `scripts/ci-234.sh` ; gate locale validée ; **première run GitHub Actions après push** |
+| 2026-08-01 | **Fixture CI 234** — scission `test:ci` / `test:integration` (`slice.test.ts` hors gate, timeout CI) ; workflow + script local alignés |
+| 2026-08-01 | **Fixture CI 234 branchée** — workflow GitHub Actions `ci-234.yml` + script local `scripts/ci-234.sh` ; première run GitHub Actions timeout `slice.test.ts` |
 | 2026-08-01 | **Infra offline Reader minimale** — package autonome Collège, shell sans CDN, SW cache-first, offline après warm cache ; 5 tests Playwright offline ; 249 unit + 61 smoke PASS — **PDR-D2 complet non satisfait** |
 | 2026-08-01 | **Publication Reader Composition V1** — commits `08546b3` (code) + `65f8a55` (gouvernance) ; tag `reader-composition-v1` sur `origin/main` ; phase active Reader Acceptance V1 |
 | 2026-07-31 | **Clôture Reader Composition V1** (Lots A–F) — Spec, Engine, ViewModel en production ; manifests neutres ; `buildProjectionTabs` supprimé ; audit indépendant ✅ Conforme |

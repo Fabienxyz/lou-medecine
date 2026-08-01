@@ -30,7 +30,7 @@ En mode produit, les critères d'acceptation du mode hors ligne **DOIVENT** êtr
 | Domaine | Couverture |
 |---|---|
 | **Définition normative** | Offline garanti vs warm cache |
-| **Architecture** | Responsabilités Bibliothèque, Package Access, Offline Manager, couche de cache runtime, Reader |
+| **Architecture** | Responsabilités Bibliothèque, Package Access, Offline Manager, disponibilité locale certifiée, Reader |
 | **Cycle de vie offline** | États, transitions, préparation asynchrone |
 | **Granularité** | Périmètre offline d'une Release installée |
 | **Identité** | Lien `release_id`, `content_digest`, cache, données apprenantes |
@@ -89,6 +89,20 @@ Pour une Release `offline_ready`, sans connexion réseau, **DOIVENT** être disp
 3. le **Reader shell** et les ressources statiques nécessaires à l'exécution du Reader sur cette Release ;
 4. la **couche apprenante** locale déjà persistée pour cette `release_id`.
 
+### 3.5 Disponibilité locale certifiée
+
+L'obligation normative du mode hors ligne **EST** la **disponibilité locale certifiée** : chaque élément du §3.4 **DOIT** être accessible **sans connexion réseau** via **Package Access** — unique frontière d'accès du Reader au contenu publié.
+
+| Règle | Énoncé |
+|---|---|
+| **Résultat, pas mécanisme** | Le contrat **NE FIXE PAS** comment la disponibilité locale est matérialisée. |
+| **Pas de double copie imposée** | Aucune seconde copie des artefacts installés **N'EST REQUISE** pour satisfaire le contrat. |
+| **Shell natif** | Une implémentation **PEUT** servir directement les packages installés sous `packages/<release_id>/`. |
+| **Shell avec stockage runtime** | Une implémentation **PEUT** recourir à une couche de stockage local runtime distincte du tree installé. |
+| **Équivalence** | Les deux approches **DOIVENT** produire le même résultat observable : accès offline complet via Package Access lorsque `offline_status` vaut `offline_ready`. |
+
+La **couche de stockage local runtime** (§4) **EST** un **moyen d'implémentation optionnel** — jamais une obligation de double matérialisation.
+
 ---
 
 ## 4. Architecture
@@ -101,10 +115,10 @@ Fabrique (lou-build)
 Bibliothèque locale (installation + catalogue)
         ↓  préparation offline asynchrone
 Offline Manager
-        ↓  alimentation du stockage local runtime
-Couche de cache runtime (moyen d'implémentation)
-        ↓  résolution transparente
-Package Access
+        ↓  certification de la disponibilité locale (§3.5)
+[Couche de stockage local runtime — moyen d'implémentation optionnel]
+        ↓
+Package Access   ← unique frontière d'accès
         ↓
 Reader (Composition → Reading View Model → Renderer)
 ```
@@ -114,18 +128,18 @@ Reader (Composition → Reading View Model → Renderer)
 | Acteur | DOIT | NE DOIT PAS |
 |---|---|---|
 | **Bibliothèque** | Porter `offline_status` dans `library.json` ; déclencher la préparation offline après installation ; conserver les packages archivés | Gérer le rendu ; modifier les artefacts publiés ; inventer un second index offline |
-| **Package Access** | Résoudre manifest et artefacts **déclarés** ; produire des références d'accès stables par `release_id` | Écrire dans le cache runtime ; scanner `packages/` ; connaître la stratégie de stockage local |
-| **Offline Manager** | Orchestrer la préparation asynchrone ; énumérer les artefacts via Package Access ; vérifier l'intégrité ; mettre à jour `offline_status` | Interpréter le médical ; composer des vues ; être consommé par la Composition |
-| **Couche de cache runtime** | Stocker et restituer localement le shell Reader et les artefacts Release ; servir les accès sans réseau lorsque `offline_ready` | Lire `library.json` comme autorité catalogue ; modifier le package installé ; composer des vues |
-| **Reader** | Consommer Package Access ; afficher des états honnêtes ; persister la couche apprenante | Connaître les mécanismes de cache ; référencer `LIBRARY_ROOT` ; scanner `packages/` |
+| **Package Access** | Résoudre manifest et artefacts **déclarés** ; produire des références d'accès stables par `release_id` ; constituer l'**unique frontière d'accès** du Reader au contenu publié | Implémenter la préparation offline ; scanner `packages/` ; connaître la stratégie de matérialisation locale |
+| **Offline Manager** | Orchestrer la préparation asynchrone ; énumérer les artefacts via Package Access ; vérifier l'intégrité ; certifier la disponibilité locale (§3.5) ; mettre à jour `offline_status` | Interpréter le médical ; composer des vues ; être consommé par la Composition |
+| **Couche de stockage local runtime** *(optionnelle)* | **PEUT** matérialiser la disponibilité locale certifiée lorsqu'une implémentation le requiert | Lire `library.json` comme autorité catalogue ; modifier le package installé ; composer des vues ; devenir une seconde frontière d'accès |
+| **Reader** | Consommer **uniquement** Package Access ; afficher des états honnêtes ; persister la couche apprenante | Accéder directement au stockage local ou au tree installé ; référencer `LIBRARY_ROOT` ; scanner `packages/` |
 
 ### 4.3 Frontières
 
 | Frontière | Règle |
 |---|---|
-| **Reader ↔ cache** | Le Reader **NE DOIT JAMAIS** accéder directement au stockage local runtime des Releases. |
-| **Package Access ↔ cache** | Package Access **NE DOIT PAS** implémenter la préparation offline ni la politique de cache. |
-| **Bibliothèque ↔ Offline Manager** | La bibliothèque **DOIT** porter le statut ; l'Offline Manager **DOIT** exécuter la préparation. |
+| **Reader ↔ contenu publié** | Le Reader **NE DOIT JAMAIS** accéder directement au tree installé, au stockage local runtime ou à toute matérialisation locale — **uniquement** via Package Access. |
+| **Package Access ↔ préparation offline** | Package Access **NE DOIT PAS** implémenter la préparation offline ni choisir la stratégie de matérialisation locale. |
+| **Bibliothèque ↔ Offline Manager** | La bibliothèque **DOIT** porter le statut ; l'Offline Manager **DOIT** exécuter la préparation et certifier la disponibilité locale. |
 | **Composition ↔ offline** | La Composition **NE DOIT PAS** dépendre du statut offline ni du catalogue. |
 
 ---
@@ -184,7 +198,7 @@ Une Release `offline_ready` **DOIT** inclure localement :
 |---|---|
 | **Manifest-only** | Seuls les artefacts **déclarés** par le manifest **SONT** éligibles à la préparation offline. |
 | **Interdit scan** | Aucun scan libre de `packages/<release_id>/` **NE DOIT** compléter, remplacer ou contredire l'énumération manifest. |
-| **Interdit partiel certifié** | Une Release **NE DOIT PAS** passer à `offline_ready` si un artefact déclaré manque localement ou dans le stockage runtime. |
+| **Interdit partiel certifié** | Une Release **NE DOIT PAS** passer à `offline_ready` si un artefact déclaré manque à la **disponibilité locale certifiée** (§3.5). |
 
 ### 6.3 Reader shell
 
@@ -208,7 +222,7 @@ Une Release **NE DOIT** passer à `offline_ready` que lorsque **toutes** les con
 
 1. l'entrée catalogue existe et pointe vers un package installé cohérent ;
 2. le `content_digest` de publication recopié au catalogue **correspond** au contenu installé ;
-3. **tous** les artefacts déclarés (§6) sont présents on-disk **et** disponibles dans le stockage runtime local ;
+3. **tous** les artefacts déclarés (§6) sont **disponibles localement sans connexion réseau** via Package Access ;
 4. aucune erreur n'a interrompu la préparation.
 
 ### 7.3 Conditions d'échec — `failed`
@@ -216,9 +230,9 @@ Une Release **NE DOIT** passer à `offline_ready` que lorsque **toutes** les con
 `offline_status` **DOIT** valoir `failed` lorsque :
 
 - la préparation est interrompue avant complétion ;
-- un artefact déclaré est absent on-disk ou inaccessible via Package Access ;
+- un artefact déclaré est absent, inaccessible via Package Access, ou indisponible localement sans connexion réseau ;
 - le `content_digest` ne correspond pas au contenu installé ;
-- le stockage local runtime refuse l'écriture (quota, corruption, autre erreur fatale).
+- la matérialisation locale choisie par l'implémentation échoue de façon fatale (quota, corruption, autre erreur empêchant la disponibilité locale certifiée).
 
 ### 7.4 Interdiction de certification prématurée
 
@@ -231,11 +245,11 @@ Une Release **NE DOIT** passer à `offline_ready` que lorsque **toutes** les con
 
 ## 8. Identité
 
-### 8.1 Clé primaire du cache Release
+### 8.1 Clé primaire de la disponibilité locale Release
 
-Le stockage local runtime des artefacts d'une Release **DOIT** être indexé par **`release_id`**.
+La **disponibilité locale certifiée** d'une Release **DOIT** être indexée par **`release_id`**.
 
-Le cache **NE DOIT PAS** être indexé par `chapter` seul.
+Elle **NE DOIT PAS** être indexée par `chapter` seul.
 
 ### 8.2 `content_digest`
 
@@ -244,19 +258,19 @@ Le cache **NE DOIT PAS** être indexé par `chapter` seul.
 | **Origine** | Le `content_digest` est une propriété de **publication** portée par le manifest ([`LIBRARY-CATALOG-CONTRACT.md`](LIBRARY-CATALOG-CONTRACT.md) §5.5). |
 | **Vérification** | La préparation offline **DOIT** vérifier la cohérence du contenu installé avec ce digest. |
 | **Invalidation** | Toute divergence **DOIT** empêcher `offline_ready` et **DOIT** conduire à `failed` si le statut était `offline_ready`. |
-| **Non-substitution** | Le digest **NE DOIT PAS** remplacer `release_id` comme clé de cache. |
+| **Non-substitution** | Le digest **NE DOIT PAS** remplacer `release_id` comme clé de la disponibilité locale certifiée. |
 
 ### 8.3 Données apprenantes
 
 | Règle | Énoncé |
 |---|---|
 | **Ancrage** | Toute donnée apprenante persistante **DOIT** référencer une `release_id` (ou identité Release équivalente) — [contrat 02](../02-IDENTITY-AND-ANCHORS.md) §11.1, [ADR-006](../../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) §3. |
-| **Indépendance du cache Release** | Les données apprenantes **NE SONT PAS** des artefacts déclarés du manifest ; elles **NE DOIVENT PAS** être confondues avec le cache Release. |
+| **Indépendance de la disponibilité locale Release** | Les données apprenantes **NE SONT PAS** des artefacts déclarés du manifest ; elles **NE DOIVENT PAS** être confondues avec la disponibilité locale du contenu publié. |
 | **Disponibilité offline** | Les données apprenantes déjà persistées pour une `release_id` **DOIVENT** rester accessibles offline indépendamment de la préparation offline du contenu publié. |
 
 ### 8.4 Coexistence de Releases
 
-Deux `release_id` distinctes **DOIVENT** disposer de stockages locaux runtime **distincts**, même pour un même `chapter`.
+Deux `release_id` distinctes **DOIVENT** disposer de disponibilités locales certifiées **distinctes**, même pour un même `chapter`.
 
 ---
 
@@ -268,13 +282,13 @@ Deux `release_id` distinctes **DOIVENT** disposer de stockages locaux runtime **
 |---|---|
 | **Nouvelle identité** | L'installation d'une nouvelle `publication_version` **DOIT** produire une nouvelle entrée catalogue et une nouvelle `release_id`. |
 | **Statut initial** | Toute Release nouvellement installée **DOIT** débuter à `not_prepared` ou `preparing` — jamais `offline_ready` sans préparation complète. |
-| **Activation** | L'activation éditoriale d'une Release **NE DOIT PAS** supprimer le stockage local runtime d'une Release archivée. |
+| **Activation** | L'activation éditoriale d'une Release **NE DOIT PAS** supprimer la disponibilité locale certifiée d'une Release archivée. |
 
 ### 9.2 Archivage
 
 | Règle | Énoncé |
 |---|---|
-| **Conservation** | L'archivage catalogue **DOIT** conserver le package installé et **DOIT** conserver le stockage local runtime associé à la `release_id` archivée. |
+| **Conservation** | L'archivage catalogue **DOIT** conserver le package installé et **DOIT** conserver la disponibilité locale certifiée associée à la `release_id` archivée. |
 | **Statut offline** | Une Release archivée **PEUT** rester `offline_ready` pour consultation historique offline. |
 | **Données apprenantes** | L'archivage **NE DOIT PAS** entraîner la perte silencieuse de données apprenantes ancrées à cette `release_id`. |
 
@@ -282,9 +296,9 @@ Deux `release_id` distinctes **DOIVENT** disposer de stockages locaux runtime **
 
 | Règle | Énoncé |
 |---|---|
-| **Explicite** | La purge du stockage local runtime d'une `release_id` **DOIT** être une opération **explicite** et traçable. |
-| **Interdit silencieux** | Aucune installation, archivage, mise à jour ou migration **NE DOIT** purger silencieusement le cache d'une Release archivée. |
-| **Orphelins** | Si des données apprenantes subsistent pour une `release_id` dont le cache a été purgé, elles **DOIVENT** être signalées — jamais supprimées silencieusement. |
+| **Explicite** | La suppression de la disponibilité locale certifiée d'une `release_id` — y compris toute matérialisation locale optionnelle au-delà du package installé — **DOIT** être une opération **explicite** et traçable. |
+| **Interdit silencieux** | Aucune installation, archivage, mise à jour ou migration **NE DOIT** supprimer silencieusement la disponibilité locale d'une Release archivée. |
+| **Orphelins** | Si des données apprenantes subsistent pour une `release_id` dont la disponibilité locale a été supprimée, elles **DOIVENT** être signalées — jamais supprimées silencieusement. |
 
 ---
 
@@ -296,10 +310,10 @@ Deux `release_id` distinctes **DOIVENT** disposer de stockages locaux runtime **
 | **Cache partiel certifié offline** | Interdit de porter `offline_ready` si un artefact déclaré manque. |
 | **Scan `packages/`** | Interdit d'inventorier ou de préparer offline par scan runtime de `packages/` — catalogue et manifest only. |
 | **Modification des artefacts publiés** | Interdit d'altérer le manifest ou les artefacts médicaux installés lors de la préparation offline. |
-| **Purge silencieuse** | Interdit d'effacer le stockage local runtime d'une Release sans opération explicite. |
+| **Purge silencieuse** | Interdit de supprimer la disponibilité locale certifiée d'une Release sans opération explicite. |
 | **Prérequis dépôt Git** | En mode produit, interdit de fonder la garantie offline sur l'arborescence de production du dépôt Git. |
 | **Index offline parallèle** | Interdit de créer une seconde source de vérité du statut offline hors `library.json`. |
-| **Reader ↔ cache direct** | Interdit au Reader d'implémenter ou de configurer directement la politique de cache Release. |
+| **Reader ↔ accès direct** | Interdit au Reader d'accéder au contenu publié en dehors de Package Access ou d'implémenter directement la politique de disponibilité locale. |
 
 ---
 
@@ -309,7 +323,7 @@ Ces interfaces sont **prévues** ; leur implémentation **N'EST PAS** définie i
 
 ### 11.1 PDR-E5 — Sauvegarde et restauration
 
-Une sauvegarde patrimoniale **DOIT** pouvoir inclure `library.json` (y compris `offline_status`), les packages installés référencés et le stockage local runtime associé, conjointement aux données apprenantes. La restauration **NE DOIT PAS** supprimer silencieusement des données apprenantes orphelines.
+Une sauvegarde patrimoniale **DOIT** pouvoir inclure `library.json` (y compris `offline_status`), les packages installés référencés et toute matérialisation locale optionnelle de la disponibilité offline, conjointement aux données apprenantes. La restauration **NE DOIT PAS** supprimer silencieusement des données apprenantes orphelines.
 
 ### 11.2 PDR-D4 — Reprise de session
 
@@ -359,9 +373,9 @@ Ce contrat **NE DOIT PAS** modifier la Composition Specification, le Composition
 | **O-01** | Seul `offline_ready` garantit l'offline d'une Release installée. |
 | **O-02** | `library.json` est l'unique source de vérité de `offline_status`. |
 | **O-03** | Le périmètre offline Release = manifest + artefacts déclarés — jamais un scan libre. |
-| **O-04** | Le stockage local runtime Release est indexé par `release_id`. |
-| **O-05** | Le Reader ne connaît pas les mécanismes de cache. |
-| **O-06** | Aucune purge silencieuse du stockage local runtime d'une Release archivée. |
+| **O-04** | La disponibilité locale certifiée d'une Release est indexée par `release_id`. |
+| **O-05** | Le Reader accède au contenu publié uniquement via Package Access. |
+| **O-06** | Aucune suppression silencieuse de la disponibilité locale certifiée d'une Release archivée. |
 | **O-07** | En mode produit, la garantie offline ne dépend pas du dépôt Git. |
 | **O-08** | Les données apprenantes référencent une `release_id`, jamais le seul `chapter`. |
 

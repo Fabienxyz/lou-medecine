@@ -1,11 +1,11 @@
 /**
  * Post-install offline preparation scheduler (D2-F).
  * Fires OfflineManager.prepare asynchronously — never blocks installation.
+ * Does not certify offline_status (D2-G).
  */
 import { createPackageAccess } from "./package-access.js";
 import { createOfflineManager } from "./offline-manager.js";
 import { createNodeOfflineRuntime } from "./offline-runtime-node.js";
-import { OFFLINE_STATUS } from "./offline-state.js";
 
 /** @type {Map<string, ReturnType<typeof createLibraryOfflineScheduler>>} */
 const schedulersByRoot = new Map();
@@ -27,27 +27,37 @@ export function createLibraryOfflineScheduler(libraryRoot, options = {}) {
   return {
     manager,
     runtime,
+    packageAccess,
     /**
      * @param {{ releaseId: string, idempotent?: boolean }} args
      */
     scheduleAfterInstall({ releaseId, idempotent = false }) {
-      if (idempotent) {
-        try {
-          if (manager.getStatus(releaseId) === OFFLINE_STATUS.OFFLINE_READY) {
-            return;
+      void (async () => {
+        if (idempotent) {
+          try {
+            const manifest = packageAccess.resolveManifest(releaseId);
+            const digest = manifest.content_digest;
+            if (
+              typeof digest === "string" &&
+              (await runtime.hasRelease(releaseId, digest))
+            ) {
+              return;
+            }
+          } catch {
+            // Unknown release should not happen after successful install.
           }
-        } catch {
-          // Unknown release should not happen after successful install.
         }
-      }
-      void manager.prepare(releaseId).catch((err) => {
-        const message = err instanceof Error ? err.message : String(err);
-        if (options.logger?.warn) {
-          options.logger.warn(
-            `offline prepare failed for ${releaseId}: ${message}`
-          );
+        try {
+          await manager.prepare(releaseId);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          if (options.logger?.warn) {
+            options.logger.warn(
+              `offline prepare failed for ${releaseId}: ${message}`
+            );
+          }
         }
-      });
+      })();
     },
   };
 }

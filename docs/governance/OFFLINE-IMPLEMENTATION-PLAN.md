@@ -37,8 +37,8 @@ Ce document porte la **numérotation opérationnelle unique** des lots PDR-D2. L
 | **D2-C — Offline Manager** | Offline Manager appelle Package Access (Node) pour liste declared paths + digest | D2-B | 234 → liste = `collectDeclaredArtifactPaths` ; digest match |
 | **D2-D — Package Access Browser** | URLs `/library/releases/<release_id>/…` ; Reader quitte `CHAPTERS_ROOT` en mode produit | D1-D, D2-B | Smoke : manifest 234 via URL logique |
 | **D2-E — Runtime Offline** | Precache shell ; cache namespace par release_id ; routing fetch | D2-C, D2-D, B3 | Shell offline froid ; `/library/releases/<release_id>/…` servi depuis Cache API |
-| **D2-F — Préparation automatique après installation** | Hook post-install → prepare ; vérif digest ; flip `offline_ready` | D2-E, B1 | Install 234 → offline_ready sans navigation |
-| **D2-G — Acceptation Offline** | Remplacer warm-cache par install+prepare ; 7 vues offline froid | D2-F | Suite Playwright OF-D2-* PASS ; CI 234 |
+| **D2-F — Préparation automatique après installation** | Hook post-install → prepare Node (interne) ; vérif digest ; **sans flip `offline_ready`** | D2-E, B1 | Install 234 → `not_prepared` ; runtime Node matérialisé |
+| **D2-G — Acceptation Offline** | Runtime navigateur + SW ; certification `offline_ready` ; 7 vues offline froid | D2-F | Suite Playwright OF-D2-* PASS ; CI 234 |
 | **D2-H — Update / Repair / Archive** | Conserver cache archived ; stale detection ; repair | D2-F | Install v2 → v1 cache intact ; stale → repair |
 | **D2-I — Propagation documentaire / clôture** | PROJECT_STATE ; critère roadmap ; clôture gouvernance PDR-D2 | D2-G | PDR-D2 clôturé gouvernance |
 

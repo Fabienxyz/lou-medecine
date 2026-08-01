@@ -105,7 +105,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **Reproductibilité du build en CI** | **Validée** — gate fixture 234 PASS sur GitHub Actions (`test:ci`, sans suite slice OAP) | Run [#30689638119](https://github.com/Fabienxyz/lou-medecine/actions/runs/30689638119) ; intégration slice hors gate via `npm run test:integration` (~3–5 min) |
 | **Décisions humaines / chapitre** | Non suivi en production | — |
 | lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS ; Release `complete` ; **1** package complet PDR-A3 |
-| Tests lou-build | **181/181** PASS | 160 JS + 21 TS (test:ci) ; 11 tests D2-F auto-prepare + 17 Runtime Offline D2-E + 14 Browser PA + 19 Offline Manager |
+| Tests lou-build | **180/180** PASS | 159 JS + 21 TS (test:ci) ; 11 tests D2-F auto-prepare + 19 Offline Manager + 13 offline-state + intégration slice 18 |
 | Références FIL A opérationnelles | **0** | |
 
 ---
@@ -129,9 +129,10 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-08-01 | **D2-F — Préparation automatique après installation** — hook post-install → `OfflineManager.prepare` ; Runtime Node (filesystem) ; transitions via `transitionCatalogOfflineStatus` ; 11 tests dédiés |
+| 2026-08-01 | **D2-F — Préparation automatique après installation (refactor)** — hook post-install → `OfflineManager.prepare` (Runtime Node interne) ; **sans certification** `offline_ready`/`failed` ; `offline_status` reste `not_prepared` jusqu'à D2-G ; 11 tests adaptés |
+| 2026-08-01 | **D2-F — Préparation automatique après installation** — hook post-install → `OfflineManager.prepare` ; Runtime Node (filesystem) ; ~~transitions via `transitionCatalogOfflineStatus`~~ (retiré — certification réservée D2-G) |
 | 2026-08-01 | **D2-E — Runtime Offline** — `offline-runtime.js` : precache shell, namespace `lou-offline-<release_id>-v1`, préparation transactionnelle, routage `/library/releases/…` ; bridge Offline Manager ; SW module ; 17 tests dédiés |
-| 2026-08-01 | **D2-C — Offline Manager** — `offline-manager.js` : énumération artefacts via Package Access, vérif digest, certification locale, transitions `offline_status` ; 14 tests dédiés |
+| 2026-08-01 | **D2-C — Offline Manager** — `offline-manager.js` : énumération artefacts via Package Access, vérif digest, préparation runtime Node ; **ne certifie plus** `offline_status` (D2-G) ; 19 tests dédiés |
 | 2026-08-01 | **Harmonisation lots PDR-D2** — séquence officielle D2-A…I ; [`OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) |
 | 2026-08-01 | **D2-B — Offline State Model** — `offline-state.js` : machine à états, validation transitions, persistance `offline_status` dans `library.json` ; migration legacy → `not_prepared` ; 13 tests dédiés |
 | 2026-08-01 | **D2-A — Offline Component Contract** — [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur ; `offline_status` porté par `library.json` ; index contrats mis à jour |
@@ -179,4 +180,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-01 — Préparation automatique D2-F livrée ; prochain D2-G (acceptation offline / wiring Reader).*
+*Révision 2026-08-01 — D2-F refactoré : certification offline réservée D2-G ; prochain D2-G (acceptation offline / wiring Reader).*

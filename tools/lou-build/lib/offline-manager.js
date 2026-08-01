@@ -1,34 +1,31 @@
 /**
- * Offline Manager — local availability certification (OFFLINE-COMPONENT-CONTRACT D2-C).
- * Orchestrates verification via Package Access; persists offline_status via library.json.
- * No browser cache, no Service Worker, no Reader.
+ * Offline Manager (Node) — runtime preparation and verification (D2-C / D2-F).
+ * Prepares optional Node runtime storage and verifies installed releases via Package Access.
+ * Does not certify offline_status — browser certification is D2-G.
  */
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import {
   loadOrCreateCatalog,
-  mutateCatalogAtomic,
   validateLibraryCatalog,
 } from "./library-catalog.js";
 import { verifyPublicationDigest } from "./library-install.js";
 import {
-  OFFLINE_STATUS,
   OfflineStateError,
   getCatalogOfflineStatus,
-  transitionCatalogOfflineStatus,
 } from "./offline-state.js";
 import { collectDeclaredArtifactPaths } from "./release-identity.js";
 import { PackageAccessError } from "./package-access.js";
 import { prepareReleaseViaRuntime } from "./offline-manager-runtime-bridge.js";
 import { OfflineRuntimeError } from "../../../demo/renderer/library/offline-runtime-shared.js";
 
-/** @typedef {'UNKNOWN_RELEASE' | 'MANIFEST_INCOHERENT' | 'ASSET_MISSING' | 'DIGEST_DIVERGENT' | 'INVALID_TRANSITION' | 'INVALID_CATALOG' | 'FINALIZATION_FAILED' | 'RUNTIME_PREPARATION_FAILED'} OfflineManagerErrorCode */
+/** @typedef {'UNKNOWN_RELEASE' | 'MANIFEST_INCOHERENT' | 'ASSET_MISSING' | 'DIGEST_DIVERGENT' | 'INVALID_TRANSITION' | 'INVALID_CATALOG' | 'RUNTIME_PREPARATION_FAILED'} OfflineManagerErrorCode */
 
 export class OfflineManagerError extends Error {
   /**
    * @param {OfflineManagerErrorCode} code
    * @param {string} message
-   * @param {{ cause?: unknown, finalizationError?: unknown }} [options]
+   * @param {{ cause?: unknown }} [options]
    */
   constructor(code, message, options = {}) {
     super(message);
@@ -36,9 +33,6 @@ export class OfflineManagerError extends Error {
     this.code = code;
     if (options.cause !== undefined) {
       this.cause = options.cause;
-    }
-    if (options.finalizationError !== undefined) {
-      this.finalizationError = options.finalizationError;
     }
   }
 }
@@ -48,7 +42,6 @@ export class OfflineManagerError extends Error {
  *   packageAccess: import("./package-access.js").PackageAccess,
  *   libraryRoot?: string,
  *   catalog?: string,
- *   catalogMutate?: typeof mutateCatalogAtomic,
  *   runtime?: import("../../../demo/renderer/library/offline-runtime.js").OfflineRuntime,
  * }} deps
  */
@@ -56,7 +49,6 @@ export function createOfflineManager({
   packageAccess,
   libraryRoot,
   catalog,
-  catalogMutate,
   runtime,
 }) {
   const root = libraryRoot ?? catalog;
@@ -69,27 +61,20 @@ export function createOfflineManager({
   if (!runtime) {
     throw new Error("offline manager: runtime is required");
   }
-  return new OfflineManager(
-    packageAccess,
-    path.resolve(root),
-    catalogMutate ?? mutateCatalogAtomic,
-    runtime
-  );
+  return new OfflineManager(packageAccess, path.resolve(root), runtime);
 }
 
 class OfflineManager {
   /**
    * @param {import("./package-access.js").PackageAccess} packageAccess
    * @param {string} libraryRoot
-   * @param {typeof mutateCatalogAtomic} catalogMutate
    * @param {import("../../../demo/renderer/library/offline-runtime.js").OfflineRuntime} runtime
    */
-  constructor(packageAccess, libraryRoot, catalogMutate, runtime) {
+  constructor(packageAccess, libraryRoot, runtime) {
     this._packageAccess = packageAccess;
     this._libraryRoot = libraryRoot;
-    this._catalogMutate = catalogMutate;
     this._runtime = runtime;
-    /** @type {Map<string, Promise<{ releaseId: string, status: string }>>} */
+    /** @type {Map<string, Promise<{ releaseId: string, runtimePrepared: boolean }>>} */
     this._inFlight = new Map();
   }
 
@@ -117,10 +102,10 @@ class OfflineManager {
   }
 
   /**
-   * Certify local availability: preparing → offline_ready | failed.
-   * Concurrent calls for the same release_id share one in-flight preparation.
+   * Prepare Node runtime storage and verify the installed release.
+   * Never reads or writes offline_status.
    * @param {string} releaseId
-   * @returns {Promise<{ releaseId: string, status: string }>}
+   * @returns {Promise<{ releaseId: string, runtimePrepared: boolean }>}
    */
   prepare(releaseId) {
     if (typeof releaseId !== "string" || !releaseId.trim()) {
@@ -146,24 +131,14 @@ class OfflineManager {
    * @param {string} releaseId
    */
   async _prepareInternal(releaseId) {
-    const currentStatus = this.getStatus(releaseId);
-    if (currentStatus === OFFLINE_STATUS.OFFLINE_READY) {
-      return { releaseId, status: OFFLINE_STATUS.OFFLINE_READY };
-    }
-
     try {
-      await this._catalogMutate(this._libraryRoot, (catalog) => {
-        this._requireCatalogEntry(catalog, releaseId);
-        transitionCatalogOfflineStatus(catalog, releaseId, OFFLINE_STATUS.PREPARING);
-      });
-    } catch (err) {
-      throw toOfflineManagerError(err);
-    }
+      const catalog = this._loadCatalog();
+      this._requireCatalogEntry(catalog, releaseId);
 
-    try {
       const { declaredPaths, contentDigest } =
         this._resolveRuntimePrepareInputs(releaseId);
 
+      let runtimePrepared = false;
       if (!(await this._runtime.hasRelease(releaseId, contentDigest))) {
         await prepareReleaseViaRuntime(this._runtime, {
           releaseId,
@@ -172,6 +147,7 @@ class OfflineManager {
           resolveResourceUrl: (rid, relativePath) =>
             this._resolveRuntimeResourceUrl(rid, relativePath),
         });
+        runtimePrepared = true;
       }
 
       verifyInstalledReleaseAvailability({
@@ -180,25 +156,9 @@ class OfflineManager {
         releaseId,
       });
 
-      await this._catalogMutate(this._libraryRoot, (catalog) => {
-        transitionCatalogOfflineStatus(
-          catalog,
-          releaseId,
-          OFFLINE_STATUS.OFFLINE_READY
-        );
-      });
-      return { releaseId, status: OFFLINE_STATUS.OFFLINE_READY };
+      return { releaseId, runtimePrepared };
     } catch (err) {
-      const preparationError = toOfflineManagerError(err);
-      try {
-        await this._finalizeFailed(releaseId);
-      } catch (finalizationErr) {
-        throw composeVerificationFinalizationError(
-          preparationError,
-          finalizationErr
-        );
-      }
-      throw preparationError;
+      throw toOfflineManagerError(err);
     }
   }
 
@@ -236,18 +196,6 @@ class OfflineManager {
       declaredPaths: collectDeclaredArtifactPaths(manifest),
       contentDigest,
     };
-  }
-
-  /**
-   * @param {string} releaseId
-   */
-  async _finalizeFailed(releaseId) {
-    await this._catalogMutate(this._libraryRoot, (catalog) => {
-      const current = getCatalogOfflineStatus(catalog, releaseId);
-      if (current === OFFLINE_STATUS.PREPARING) {
-        transitionCatalogOfflineStatus(catalog, releaseId, OFFLINE_STATUS.FAILED);
-      }
-    });
   }
 
   /**
@@ -383,21 +331,6 @@ export function verifyInstalledReleaseAvailability({
   }
 
   return { releaseId, declaredPaths };
-}
-
-/**
- * @param {OfflineManagerError} verificationError
- * @param {unknown} finalizationErr
- * @returns {OfflineManagerError}
- */
-function composeVerificationFinalizationError(verificationError, finalizationErr) {
-  const finalizationError = toOfflineManagerError(finalizationErr);
-  return new OfflineManagerError(
-    "FINALIZATION_FAILED",
-    `offline manager: verification failed (${verificationError.message}); ` +
-      `could not transition preparing → failed (${finalizationError.message})`,
-    { cause: verificationError, finalizationError }
-  );
 }
 
 /**

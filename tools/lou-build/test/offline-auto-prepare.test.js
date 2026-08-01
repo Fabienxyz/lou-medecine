@@ -10,7 +10,6 @@ import {
 } from "../lib/release-identity.js";
 import { loadOrCreateCatalog } from "../lib/library-catalog.js";
 import { installPublishedRelease } from "../lib/library-install.js";
-import { createPackageAccess } from "../lib/package-access.js";
 import { OFFLINE_STATUS } from "../lib/offline-state.js";
 import { OfflineManagerError } from "../lib/offline-manager.js";
 import { buildReleaseNamespace } from "../../../demo/renderer/library/offline-runtime-shared.js";
@@ -107,7 +106,7 @@ describe("offline auto-prepare after install (D2-F)", () => {
     fs.rmSync(tmp, { recursive: true, force: true });
   });
 
-  test("installation triggers preparing then offline_ready asynchronously", async () => {
+  test("installation leaves offline_status not_prepared while runtime prepares asynchronously", async () => {
     const releaseDir = path.join(tmp, "release");
     writeMiniRelease(releaseDir);
     const releaseId = "cardio__234__2022__1";
@@ -127,20 +126,23 @@ describe("offline auto-prepare after install (D2-F)", () => {
     );
 
     await waitUntil(async () => {
-      const catalog = loadOrCreateCatalog(libraryRoot);
-      assert.equal(catalog.entries[0].offline_status, OFFLINE_STATUS.OFFLINE_READY);
+      assert.equal(
+        await scheduler.runtime.hasRelease(
+          releaseId,
+          catalogAfterInstall.entries[0].content_digest
+        ),
+        true
+      );
     });
 
+    const catalogAfterPrepare = loadOrCreateCatalog(libraryRoot);
     assert.equal(
-      await scheduler.runtime.hasRelease(
-        releaseId,
-        catalogAfterInstall.entries[0].content_digest
-      ),
-      true
+      catalogAfterPrepare.entries[0].offline_status,
+      OFFLINE_STATUS.NOT_PREPARED
     );
   });
 
-  test("install returns before offline preparation completes", async () => {
+  test("install returns before offline preparation completes without status change", async () => {
     const releaseDir = path.join(tmp, "release");
     writeMiniRelease(releaseDir);
     const releaseId = "cardio__234__2022__1";
@@ -175,10 +177,10 @@ describe("offline auto-prepare after install (D2-F)", () => {
     });
 
     await preparePromise;
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
-  test("runtime failure transitions preparing to failed", async () => {
+  test("runtime failure does not transition offline_status to failed", async () => {
     const releaseDir = path.join(tmp, "release");
     writeMiniRelease(releaseDir);
     const releaseId = "cardio__234__2022__1";
@@ -195,10 +197,10 @@ describe("offline auto-prepare after install (D2-F)", () => {
       (err) =>
         err instanceof OfflineManagerError && err.code === "ASSET_MISSING"
     );
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.FAILED);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
-  test("digest error surfaces as failed without offline_ready", async () => {
+  test("digest error surfaces without offline_ready or failed", async () => {
     const releaseDir = path.join(tmp, "release");
     writeMiniRelease(releaseDir);
     const releaseId = "cardio__234__2022__1";
@@ -215,7 +217,7 @@ describe("offline auto-prepare after install (D2-F)", () => {
       (err) =>
         err instanceof OfflineManagerError && err.code === "DIGEST_DIVERGENT"
     );
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.FAILED);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
   test("idempotent prepare skips runtime when release namespace is complete", async () => {
@@ -237,11 +239,12 @@ describe("offline auto-prepare after install (D2-F)", () => {
     const secondManager = createTestOfflineManager(libraryRoot, { runtime });
 
     const result = await secondManager.prepare(releaseId);
-    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.runtimePrepared, false);
     assert.equal(prepareCalls, 0);
+    assert.equal(secondManager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
-  test("double installation of same release does not relaunch runtime when offline_ready", async () => {
+  test("double installation of same release skips runtime when namespace exists", async () => {
     const releaseDir = path.join(tmp, "release");
     writeMiniRelease(releaseDir);
     const releaseId = "cardio__234__2022__1";
@@ -252,9 +255,13 @@ describe("offline auto-prepare after install (D2-F)", () => {
     });
 
     await waitUntil(async () => {
+      const catalog = loadOrCreateCatalog(libraryRoot);
       assert.equal(
-        loadOrCreateCatalog(libraryRoot).entries[0].offline_status,
-        OFFLINE_STATUS.OFFLINE_READY
+        await scheduler.runtime.hasRelease(
+          releaseId,
+          catalog.entries[0].content_digest
+        ),
+        true
       );
     });
 
@@ -269,10 +276,9 @@ describe("offline auto-prepare after install (D2-F)", () => {
 
     installPublishedRelease(releaseDir, libraryRoot, {
       onInstalled: ({ releaseId: rid, idempotent }) => {
-        if (idempotent && manager.getStatus(rid) === OFFLINE_STATUS.OFFLINE_READY) {
-          return;
+        if (idempotent) {
+          void manager.prepare(rid);
         }
-        void manager.prepare(rid);
       },
     });
 
@@ -280,7 +286,7 @@ describe("offline auto-prepare after install (D2-F)", () => {
     assert.equal(prepareCalls, 0);
     assert.equal(
       loadOrCreateCatalog(libraryRoot).entries[0].offline_status,
-      OFFLINE_STATUS.OFFLINE_READY
+      OFFLINE_STATUS.NOT_PREPARED
     );
     assert.equal(
       await runtime.hasRelease(
@@ -291,7 +297,7 @@ describe("offline auto-prepare after install (D2-F)", () => {
     );
   });
 
-  test("parallel installations of different releases prepare independently", async () => {
+  test("parallel installations of different releases prepare independently without certification", async () => {
     const releaseDirV1 = path.join(tmp, "release-v1");
     const releaseDirV2 = path.join(tmp, "release-v2");
     writeMiniRelease(releaseDirV1, { publication_version: 1, body: "v1\n" });
@@ -307,17 +313,27 @@ describe("offline auto-prepare after install (D2-F)", () => {
 
     await waitUntil(async () => {
       const catalog = loadOrCreateCatalog(libraryRoot);
-      assert.equal(
-        catalog.entries.find((e) => e.release_id === "cardio__234__2022__1")
-          .offline_status,
-        OFFLINE_STATUS.OFFLINE_READY
-      );
-      assert.equal(
-        catalog.entries.find((e) => e.release_id === "cardio__234__2022__2")
-          .offline_status,
-        OFFLINE_STATUS.OFFLINE_READY
-      );
+      const digestV1 = catalog.entries.find(
+        (e) => e.release_id === "cardio__234__2022__1"
+      ).content_digest;
+      const digestV2 = catalog.entries.find(
+        (e) => e.release_id === "cardio__234__2022__2"
+      ).content_digest;
+      assert.equal(await scheduler.runtime.hasRelease("cardio__234__2022__1", digestV1), true);
+      assert.equal(await scheduler.runtime.hasRelease("cardio__234__2022__2", digestV2), true);
     });
+
+    const catalog = loadOrCreateCatalog(libraryRoot);
+    assert.equal(
+      catalog.entries.find((e) => e.release_id === "cardio__234__2022__1")
+        .offline_status,
+      OFFLINE_STATUS.NOT_PREPARED
+    );
+    assert.equal(
+      catalog.entries.find((e) => e.release_id === "cardio__234__2022__2")
+        .offline_status,
+      OFFLINE_STATUS.NOT_PREPARED
+    );
   });
 
   test("runtime receives only release_id, content_digest and declared resources", async () => {
@@ -367,10 +383,17 @@ describe("offline auto-prepare after install (D2-F)", () => {
 
     await waitUntil(async () => {
       const catalog = loadOrCreateCatalog(libraryRoot);
-      assert.equal(catalog.entries[0].offline_status, OFFLINE_STATUS.OFFLINE_READY);
+      assert.equal(
+        await scheduler.runtime.hasRelease(
+          catalog.entries[0].release_id,
+          catalog.entries[0].content_digest
+        ),
+        true
+      );
     });
 
     const catalog = loadOrCreateCatalog(libraryRoot);
+    assert.equal(catalog.entries[0].offline_status, OFFLINE_STATUS.NOT_PREPARED);
     assert.equal(Object.keys(catalog).sort().join(","), "active_by_chapter,entries,library_id,schema_version,updated_at");
     assert.ok(
       fs.existsSync(
@@ -435,7 +458,7 @@ describe("offline auto-prepare — package 234 installed (D2-F)", () => {
     if (tmp) fs.rmSync(tmp, { recursive: true, force: true });
   });
 
-  test("install 234 schedules offline_ready without blocking", async (t) => {
+  test("install 234 schedules runtime prepare without certification", async (t) => {
     if (!fs.existsSync(path.join(CHAPTER_234, "manifest.json"))) {
       t.skip("chapter 234 manifest not present");
       return;
@@ -451,12 +474,19 @@ describe("offline auto-prepare — package 234 installed (D2-F)", () => {
     await waitUntil(
       async () => {
         const catalog = loadOrCreateCatalog(libraryRoot);
+        const entry = catalog.entries.find((e) => e.release_id === releaseId);
         assert.equal(
-          catalog.entries.find((e) => e.release_id === releaseId).offline_status,
-          OFFLINE_STATUS.OFFLINE_READY
+          await scheduler.runtime.hasRelease(releaseId, entry.content_digest),
+          true
         );
       },
       30_000
+    );
+
+    const catalog = loadOrCreateCatalog(libraryRoot);
+    assert.equal(
+      catalog.entries.find((e) => e.release_id === releaseId).offline_status,
+      OFFLINE_STATUS.NOT_PREPARED
     );
   });
 });

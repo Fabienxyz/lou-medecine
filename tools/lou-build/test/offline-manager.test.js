@@ -8,17 +8,11 @@ import {
   attachReleaseIdentity,
   buildReleaseId,
 } from "../lib/release-identity.js";
-import {
-  loadOrCreateCatalog,
-  saveCatalogAtomic,
-  mutateCatalogAtomic,
-  createEmptyCatalog,
-} from "../lib/library-catalog.js";
+import { loadOrCreateCatalog } from "../lib/library-catalog.js";
 import { installPublishedRelease } from "../lib/library-install.js";
 import { createPackageAccess } from "../lib/package-access.js";
 import { OFFLINE_STATUS } from "../lib/offline-state.js";
 import {
-  createOfflineManager,
   OfflineManagerError,
   verifyInstalledReleaseAvailability,
 } from "../lib/offline-manager.js";
@@ -127,7 +121,6 @@ describe("offline manager (D2-C)", () => {
   let tmp;
   let libraryRoot;
   let releaseDir;
-  /** @type {ReturnType<typeof createOfflineManager>} */
   let manager;
   let releaseId;
 
@@ -145,13 +138,13 @@ describe("offline manager (D2-C)", () => {
     fs.rmSync(tmp, { recursive: true, force: true });
   });
 
-  test("successful prepare transitions not_prepared → preparing → offline_ready", async () => {
+  test("successful prepare materializes runtime without changing offline_status", async () => {
     assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
 
     const result = await manager.prepare(releaseId);
     assert.equal(result.releaseId, releaseId);
-    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.runtimePrepared, true);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
   test("verify is read-only and succeeds on installed release", () => {
@@ -162,7 +155,7 @@ describe("offline manager (D2-C)", () => {
     assert.equal(manager.getStatus(releaseId), before);
   });
 
-  test("retry failed → preparing → offline_ready", async () => {
+  test("prepare can succeed after a prior verification failure without status change", async () => {
     const pkgRoot = path.join(libraryRoot, "packages", releaseId);
     const collegePath = path.join(pkgRoot, "source/official-college.md");
     fs.unlinkSync(collegePath);
@@ -172,11 +165,12 @@ describe("offline manager (D2-C)", () => {
       (err) =>
         err instanceof OfflineManagerError && err.code === "ASSET_MISSING"
     );
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.FAILED);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
 
     fs.writeFileSync(collegePath, "college body\n");
     const result = await manager.prepare(releaseId);
-    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.runtimePrepared, true);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
   test("rejects unknown release_id", async () => {
@@ -187,7 +181,7 @@ describe("offline manager (D2-C)", () => {
     );
   });
 
-  test("fails when declared artefact is absent", async () => {
+  test("fails when declared artefact is absent without changing offline_status", async () => {
     fs.unlinkSync(
       path.join(libraryRoot, "packages", releaseId, "build/traceability.json")
     );
@@ -197,10 +191,10 @@ describe("offline manager (D2-C)", () => {
       (err) =>
         err instanceof OfflineManagerError && err.code === "ASSET_MISSING"
     );
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.FAILED);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
-  test("fails on manifest incoherent with catalog", async () => {
+  test("fails on manifest incoherent with catalog without changing offline_status", async () => {
     const manifestPath = path.join(
       libraryRoot,
       "packages",
@@ -217,10 +211,10 @@ describe("offline manager (D2-C)", () => {
         err instanceof OfflineManagerError &&
         err.code === "MANIFEST_INCOHERENT"
     );
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.FAILED);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
-  test("fails on digest divergent when artefact bytes change", async () => {
+  test("fails on digest divergent when artefact bytes change without changing offline_status", async () => {
     const collegePath = path.join(
       libraryRoot,
       "packages",
@@ -234,20 +228,23 @@ describe("offline manager (D2-C)", () => {
       (err) =>
         err instanceof OfflineManagerError && err.code === "DIGEST_DIVERGENT"
     );
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.FAILED);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
-  test("fails on catalog content_digest divergent from manifest", async () => {
+  test("fails on catalog content_digest divergent from manifest without changing offline_status", async () => {
     const catalog = loadOrCreateCatalog(libraryRoot);
     catalog.entries[0].content_digest = "sha256:" + "f".repeat(64);
-    saveCatalogAtomic(libraryRoot, catalog);
+    fs.writeFileSync(
+      path.join(libraryRoot, "library.json"),
+      JSON.stringify(catalog, null, 2) + "\n"
+    );
 
     await assert.rejects(
       () => manager.prepare(releaseId),
       (err) =>
         err instanceof OfflineManagerError && err.code === "DIGEST_DIVERGENT"
     );
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.FAILED);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
   test("orphan package not in catalog is ignored during prepare", async () => {
@@ -260,7 +257,8 @@ describe("offline manager (D2-C)", () => {
     );
 
     const result = await manager.prepare(releaseId);
-    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.runtimePrepared, true);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
   test("undeclared extra file in package does not fail prepare", async () => {
@@ -270,7 +268,8 @@ describe("offline manager (D2-C)", () => {
     );
 
     const result = await manager.prepare(releaseId);
-    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.runtimePrepared, true);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
   test("deduplicates concurrent prepare calls for the same release_id", async () => {
@@ -287,9 +286,10 @@ describe("offline manager (D2-C)", () => {
       concurrentManager.prepare(releaseId),
       concurrentManager.prepare(releaseId),
     ]);
-    assert.equal(a.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(a.runtimePrepared, true);
     assert.deepEqual(a, b);
     assert.equal(prepareReleaseCalls, 1);
+    assert.equal(concurrentManager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 
   test("does not modify installed package tree during prepare", async () => {
@@ -337,7 +337,7 @@ describe("offline manager robustness (D2-C fixes)", () => {
     fs.rmSync(tmp, { recursive: true, force: true });
   });
 
-  test("parallel prepare on two release_ids preserves both final statuses", async () => {
+  test("parallel prepare on two release_ids leaves both statuses not_prepared", async () => {
     const manager = createTestOfflineManager(libraryRoot);
 
     const [r1, r2] = await Promise.all([
@@ -345,13 +345,13 @@ describe("offline manager robustness (D2-C fixes)", () => {
       manager.prepare(releaseIdV2),
     ]);
 
-    assert.equal(r1.status, OFFLINE_STATUS.OFFLINE_READY);
-    assert.equal(r2.status, OFFLINE_STATUS.OFFLINE_READY);
-    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.OFFLINE_READY);
-    assert.equal(manager.getStatus(releaseIdV2), OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(r1.runtimePrepared, true);
+    assert.equal(r2.runtimePrepared, true);
+    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.NOT_PREPARED);
+    assert.equal(manager.getStatus(releaseIdV2), OFFLINE_STATUS.NOT_PREPARED);
   });
 
-  test("parallel success and failure do not overwrite each other's status", async () => {
+  test("parallel success and failure leave both statuses not_prepared", async () => {
     fs.unlinkSync(
       path.join(libraryRoot, "packages", releaseIdV2, "build/traceability.json")
     );
@@ -365,11 +365,11 @@ describe("offline manager robustness (D2-C fixes)", () => {
 
     assert.equal(success.status, "fulfilled");
     assert.equal(failure.status, "rejected");
-    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.OFFLINE_READY);
-    assert.equal(manager.getStatus(releaseIdV2), OFFLINE_STATUS.FAILED);
+    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.NOT_PREPARED);
+    assert.equal(manager.getStatus(releaseIdV2), OFFLINE_STATUS.NOT_PREPARED);
   });
 
-  test("same release_id deduplication remains effective under serialized catalog writes", async () => {
+  test("same release_id deduplication remains effective", async () => {
     let prepareReleaseCalls = 0;
     const runtime = createNodeOfflineRuntime(libraryRoot);
     const originalPrepare = runtime.prepareRelease.bind(runtime);
@@ -384,12 +384,12 @@ describe("offline manager robustness (D2-C fixes)", () => {
       manager.prepare(releaseIdV1),
     ]);
 
-    assert.equal(a.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(a.runtimePrepared, true);
     assert.deepEqual(a, b);
     assert.equal(prepareReleaseCalls, 1);
   });
 
-  test("verification failure finalizes to failed when catalog mutation succeeds", async () => {
+  test("verification failure leaves status not_prepared", async () => {
     fs.unlinkSync(
       path.join(libraryRoot, "packages", releaseIdV1, "build/traceability.json")
     );
@@ -401,41 +401,7 @@ describe("offline manager robustness (D2-C fixes)", () => {
       (err) =>
         err instanceof OfflineManagerError && err.code === "ASSET_MISSING"
     );
-    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.FAILED);
-  });
-
-  test("verification failure with finalize mutation error exposes composed failure", async () => {
-    fs.unlinkSync(
-      path.join(libraryRoot, "packages", releaseIdV1, "build/traceability.json")
-    );
-
-    let mutateCalls = 0;
-    const catalogMutate = async (root, mutator) => {
-      mutateCalls += 1;
-      if (mutateCalls === 2) {
-        throw new Error("simulated catalog finalize failure");
-      }
-      return mutateCatalogAtomic(root, mutator);
-    };
-
-    const manager = createTestOfflineManager(libraryRoot, {
-      catalogMutate,
-    });
-
-    await assert.rejects(
-      () => manager.prepare(releaseIdV1),
-      (err) => {
-        assert.ok(err instanceof OfflineManagerError);
-        assert.equal(err.code, "FINALIZATION_FAILED");
-        assert.ok(err.cause instanceof OfflineManagerError);
-        assert.equal(err.cause.code, "ASSET_MISSING");
-        assert.ok(err.finalizationError instanceof OfflineManagerError);
-        assert.match(String(err.message), /verification failed/i);
-        assert.match(String(err.message), /preparing → failed/i);
-        return true;
-      }
-    );
-    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.PREPARING);
+    assert.equal(manager.getStatus(releaseIdV1), OFFLINE_STATUS.NOT_PREPARED);
   });
 
   test("parallel prepares do not modify installed package trees", async () => {
@@ -466,7 +432,6 @@ describe("offline manager robustness (D2-C fixes)", () => {
 describe("offline manager — package 234 installed (D2-C)", () => {
   let tmp;
   let libraryRoot;
-  /** @type {ReturnType<typeof createOfflineManager>} */
   let manager;
   let releaseId;
 
@@ -488,7 +453,7 @@ describe("offline manager — package 234 installed (D2-C)", () => {
     if (tmp) fs.rmSync(tmp, { recursive: true, force: true });
   });
 
-  test("successful prepare of installed package 234", async (t) => {
+  test("successful prepare of installed package 234 without certification", async (t) => {
     if (!fs.existsSync(path.join(CHAPTER_234, "manifest.json"))) {
       t.skip("chapter 234 manifest not present");
       return;
@@ -498,7 +463,7 @@ describe("offline manager — package 234 installed (D2-C)", () => {
     assert.ok(verifyResult.declaredPaths.length > 10);
 
     const result = await manager.prepare(releaseId);
-    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
-    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.runtimePrepared, true);
+    assert.equal(manager.getStatus(releaseId), OFFLINE_STATUS.NOT_PREPARED);
   });
 });

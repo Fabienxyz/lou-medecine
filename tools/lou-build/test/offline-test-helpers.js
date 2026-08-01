@@ -7,7 +7,6 @@ import { createNodeOfflineRuntime } from "../lib/offline-runtime-node.js";
  * @param {{
  *   packageAccess?: import("../lib/package-access.js").PackageAccess,
  *   runtime?: import("../../../demo/renderer/library/offline-runtime.js").OfflineRuntime,
- *   catalogMutate?: typeof import("../lib/library-catalog.js").mutateCatalogAtomic,
  * }} [overrides]
  */
 export function createTestOfflineManager(libraryRoot, overrides = {}) {
@@ -18,6 +17,5 @@ export function createTestOfflineManager(libraryRoot, overrides = {}) {
     packageAccess,
     libraryRoot,
     runtime,
-    catalogMutate: overrides.catalogMutate,
   });
 }

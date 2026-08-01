@@ -1,7 +1,7 @@
 # Index des contrats composants
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-08-01 (PDR-D2 clôturé — contrats composants Offline + Catalogue)  
+**Dernière mise à jour :** 2026-08-01 (PDR-E — contrat composant Learner Patrimony E-A)  
 **Index parent :** [`../00-INDEX.md`](../00-INDEX.md)
 
 Ce dossier regroupe les **contrats composants** : spécialisations durables d’un composant du système, **subordonnées** aux ADR et aux contrats fondamentaux 01–09.
@@ -34,6 +34,7 @@ Code et tests
 | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md) | Renderer (lecteur) | En vigueur |
 | [`LIBRARY-CATALOG-CONTRACT.md`](LIBRARY-CATALOG-CONTRACT.md) | Bibliothèque locale installable (catalogue) | En vigueur |
 | [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md) | Mode hors ligne Reader (offline garanti) | En vigueur |
+| [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine des données apprenantes | En vigueur |
 
 ---
 

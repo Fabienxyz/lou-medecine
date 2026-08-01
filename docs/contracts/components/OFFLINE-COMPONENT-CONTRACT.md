@@ -45,9 +45,9 @@ En mode produit, les critères d'acceptation du mode hors ligne **DOIVENT** êtr
 | Contenu médical, manifest, artefacts déclarés | [Contrat 04](../04-CHAPTER-PACKAGE.md), [contrat 08](../08-RELEASE-EDITORIAL-ARCHITECTURE.md) |
 | Composition des vues cognitives | [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md) |
 | Présentation DOM, couche apprenant | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md), [contrat 06](../06-RENDERER-AND-LEARNER-LAYER.md) |
-| Sauvegarde / restauration | [PDR-E5](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 |
-| Reprise de session | [PDR-D4](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 |
-| Préférences d'affichage | [PDR-D7](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 |
+| Sauvegarde / restauration | [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) |
+| Reprise de session | [PDR-D4](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 ; persistance [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) §11.5 |
+| Préférences d'affichage | [PDR-D7](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 ; persistance [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) §11.7 |
 | Sync multi-appareils | [PDR-D3](../../governance/PRODUCT-DECISION-REGISTRY.md) — hors V1 |
 | Installation d'une Release depuis un réseau distant | Hors périmètre offline |
 
@@ -342,7 +342,7 @@ Ces interfaces sont **prévues** ; leur implémentation **N'EST PAS** définie i
 
 ### 11.1 PDR-E5 — Sauvegarde et restauration
 
-Une sauvegarde patrimoniale **DOIT** pouvoir inclure `library.json` (y compris `offline_status`), les packages installés référencés et toute matérialisation locale optionnelle de la disponibilité offline, conjointement aux données apprenantes. La restauration **NE DOIT PAS** supprimer silencieusement des données apprenantes orphelines.
+Une sauvegarde patrimoniale **DOIT** pouvoir inclure `library.json` (y compris `offline_status`), les packages installés référencés et toute matérialisation locale optionnelle de la disponibilité offline, conjointement aux données apprenantes. La restauration **NE DOIT PAS** supprimer silencieusement des données apprenantes orphelines. Le détail normatif du patrimoine apprenant relève du [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) — notamment le Learner Snapshot §8.
 
 ### 11.2 PDR-D4 — Reprise de session
 
@@ -380,6 +380,7 @@ Ce contrat **prime** sur :
 | [`LIBRARY-CATALOG-CONTRACT.md`](LIBRARY-CATALOG-CONTRACT.md) | Le catalogue porte `offline_status` ; ce contrat définit sa sémantique et les obligations offline. |
 | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md) | Le Renderer consomme Package Access ; il **NE DOIT PAS** connaître le cache. |
 | [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md) | Indépendante du statut offline. |
+| [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine apprenant — indépendant de l'offline certifié |
 
 Ce contrat **NE DOIT PAS** modifier la Composition Specification, le Composition Engine, le Reading View Model ni les obligations du [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md).
 
@@ -412,6 +413,7 @@ Ce contrat **NE DOIT PAS** modifier la Composition Specification, le Composition
 | [Contrat 08](../08-RELEASE-EDITORIAL-ARCHITECTURE.md) | Architecture éditoriale Release |
 | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md) §7.2 | Package Access |
 | [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md) | Composition — indépendante du offline |
+| [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine apprenant ; Learner Snapshot |
 
 ---
 

@@ -91,6 +91,7 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 | [`RENDERER-COMPONENT-CONTRACT.md`](components/RENDERER-COMPONENT-CONTRACT.md) | Obligations durables du composant Renderer lecteur | En vigueur |
 | [`LIBRARY-CATALOG-CONTRACT.md`](components/LIBRARY-CATALOG-CONTRACT.md) | Bibliothèque locale installable — catalogue, identité Release, installation, Package Access | En vigueur |
 | [`OFFLINE-COMPONENT-CONTRACT.md`](components/OFFLINE-COMPONENT-CONTRACT.md) | Mode hors ligne Reader — offline garanti, préparation, cache Release | En vigueur |
+| [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine des données apprenantes — persistance, export, import | En vigueur |
 
 ---
 

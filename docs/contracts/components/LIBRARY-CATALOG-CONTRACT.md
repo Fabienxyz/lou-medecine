@@ -46,7 +46,7 @@ Elle **DOIT** constituer la **seule source opérationnelle** de découverte des 
 | Composition des vues cognitives | [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md) |
 | Présentation DOM, immutabilité affichée, couche apprenant | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md), [contrat 06](../06-RENDERER-AND-LEARNER-LAYER.md) |
 | Mode hors ligne (mécanismes de cache) | [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md) |
-| Sauvegarde / restauration des données apprenantes | [PDR-E5](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 |
+| Sauvegarde / restauration des données apprenantes | [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) |
 | Recherche globale multi-packages | [PDR-G4](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 |
 | Sync multi-appareils | [PDR-D3](../../governance/PRODUCT-DECISION-REGISTRY.md) — hors V1 |
 | Choix technologique du shell installable | Hors contrat |
@@ -355,7 +355,7 @@ Les mécanismes hors ligne **DOIVENT** porter sur des packages **déjà install�
 
 ### 11.2 PDR-E5 — Sauvegarde et restauration
 
-Une sauvegarde patrimoniale **DOIT** pouvoir inclure le catalogue et les packages installés référencés, conjointement aux données d'apprentissage ancrées par identité Release. La restauration **NE DOIT PAS** supprimer silencieusement des données apprenantes orphelines.
+Une sauvegarde patrimoniale **DOIT** pouvoir inclure le catalogue et les packages installés référencés, conjointement aux données d'apprentissage ancrées par identité Release. La restauration **NE DOIT PAS** supprimer silencieusement des données apprenantes orphelines. Le détail normatif relève du [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) — notamment le Learner Snapshot §8 et le bundle patrimonial étendu §8.3.
 
 ### 11.3 PDR-G4 — Recherche globale
 
@@ -401,6 +401,7 @@ Ce contrat **NE DOIT PAS** modifier la Composition Specification, le Composition
 | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md) §7.2 | Package Access (composant Renderer) |
 | [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md) | Composition — indépendante du catalogue |
 | [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md) | Mode hors ligne — statut `offline_status` |
+| [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine apprenant — Learner Snapshot |
 
 ---
 

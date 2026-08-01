@@ -1,7 +1,7 @@
 # Lou Médecine — Index des contrats
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-08-01 (contrat Library Catalog D1-A)  
+**Dernière mise à jour :** 2026-08-01 (contrat Offline D2-A)  
 **Audit source :** [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md)
 
 Ce document est la **porte d'entrée** du système contractuel. Il n'énonce aucune règle métier, ne remplace aucun ADR ni aucun contrat existant.
@@ -90,6 +90,7 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 | [`COMPOSITION-COMPONENT-CONTRACT.md`](components/COMPOSITION-COMPONENT-CONTRACT.md) | Obligations durables de la couche de composition Reader | En vigueur |
 | [`RENDERER-COMPONENT-CONTRACT.md`](components/RENDERER-COMPONENT-CONTRACT.md) | Obligations durables du composant Renderer lecteur | En vigueur |
 | [`LIBRARY-CATALOG-CONTRACT.md`](components/LIBRARY-CATALOG-CONTRACT.md) | Bibliothèque locale installable — catalogue, identité Release, installation, Package Access | En vigueur |
+| [`OFFLINE-COMPONENT-CONTRACT.md`](components/OFFLINE-COMPONENT-CONTRACT.md) | Mode hors ligne Reader — offline garanti, préparation, cache Release | En vigueur |
 
 ---
 

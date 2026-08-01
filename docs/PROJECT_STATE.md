@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-01 (clôture PDR-D1 ; objectif actif : PDR-D2 — offline complet)
+**Dernière mise à jour :** 2026-08-01 (contrat Offline D2-A ; objectif actif : implémentation PDR-D2)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -42,7 +42,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) · Acceptation Reader V1 | **Chantier actif** — offline intégral sur packages installés ; wiring Reader ↔ Package Access ; patrimoine offline |
+| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) · Acceptation Reader V1 | **D2-A contrat en vigueur** — implémentation offline garanti (Package Access browser, Offline Manager, cache release-scoped) |
 | **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **PDR-D1 clôturé** ; Amorçage, patrimoine, reprise, recherche ouverts |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Modèle de publication, version package, persistance — en retard sur la spec ; co-vérification prévue à l'acceptation Reader |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; première exécution sur GitHub après push ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
@@ -129,6 +129,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-01 | **D2-A — Offline Component Contract** — [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur ; `offline_status` porté par `library.json` ; index contrats mis à jour |
 | 2026-08-01 | **Clôture PDR-D1** — bibliothèque installable : D1-A Library Catalog Contract · D1-B identité Release · D1-C installation atomique · D1-D Package Access ; objectif actif → PDR-D2 |
 | 2026-08-01 | **D1-D — Package Access** — `createPackageAccess` : catalogue, manifest, artefacts déclarés ; lecture seule ; frontière Reader ↔ bibliothèque |
 | 2026-08-01 | **D1-C — Installation atomique** — `lou-library install` → `LIBRARY_ROOT` + `library.json` ; activation / archivage ; vérif `content_digest` |
@@ -172,4 +173,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-01 — clôture PDR-D1 (D1-A…D) ; objectif actif PDR-D2 — offline complet.*
+*Révision 2026-08-01 — contrat Offline D2-A en vigueur ; implémentation PDR-D2 active.*

@@ -45,7 +45,7 @@ Elle **DOIT** constituer la **seule source opérationnelle** de découverte des 
 | Contenu médical, gates de build, structure interne du package publié | [Contrat 04](../04-CHAPTER-PACKAGE.md), [contrat 08](../08-RELEASE-EDITORIAL-ARCHITECTURE.md) |
 | Composition des vues cognitives | [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md) |
 | Présentation DOM, immutabilité affichée, couche apprenant | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md), [contrat 06](../06-RENDERER-AND-LEARNER-LAYER.md) |
-| Mode hors ligne (mécanismes de cache) | [PDR-D2](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 |
+| Mode hors ligne (mécanismes de cache) | [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md) |
 | Sauvegarde / restauration des données apprenantes | [PDR-E5](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 |
 | Recherche globale multi-packages | [PDR-G4](../../governance/PRODUCT-DECISION-REGISTRY.md) — interface prévue §11 |
 | Sync multi-appareils | [PDR-D3](../../governance/PRODUCT-DECISION-REGISTRY.md) — hors V1 |
@@ -146,6 +146,7 @@ Chaque élément de `entries` **DOIT** comporter :
 | `root` | **DOIT** | Chemin relatif à `LIBRARY_ROOT` vers la racine du package (`packages/<release_id>`). |
 | `manifest` | **DOIT** | Chemin relatif à `LIBRARY_ROOT` vers le manifest installé. |
 | `content_digest` | **DOIT** | Empreinte de **publication** de la Release (§5.5) — valeur identique à celle du manifest publié, jamais une empreinte inventée à l'install. |
+| `offline_status` | **DOIT** | Statut offline de la Release — sémantique et valeurs : [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md) §5.1. |
 | `slug` | **PEUT** | Copie non autoritaire depuis le manifest. |
 | `title` | **PEUT** | Copie non autoritaire depuis le manifest. |
 | `specialty` | **PEUT** | Copie non autoritaire depuis le manifest. |
@@ -350,7 +351,7 @@ Ces interfaces sont **prévues** ; leur implémentation n'est **pas** définie i
 
 ### 11.1 PDR-D2 — Offline
 
-Les mécanismes hors ligne **DOIVENT** porter sur des packages **déjà installés** (présents au catalogue). L'événement d'installation est le point d'ancrage naturel d'une préparation offline ; le détail des caches relève de PDR-D2.
+Les mécanismes hors ligne **DOIVENT** porter sur des packages **déjà installés** (présents au catalogue). L'événement d'installation est le point d'ancrage de la préparation offline. Le détail normatif relève du [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md). Chaque entrée catalogue **DOIT** porter un champ `offline_status` défini par ce contrat.
 
 ### 11.2 PDR-E5 — Sauvegarde et restauration
 
@@ -399,6 +400,7 @@ Ce contrat **NE DOIT PAS** modifier la Composition Specification, le Composition
 | [Contrat 06](../06-RENDERER-AND-LEARNER-LAYER.md) | Renderer ; consommation du publié |
 | [`RENDERER-COMPONENT-CONTRACT.md`](RENDERER-COMPONENT-CONTRACT.md) §7.2 | Package Access (composant Renderer) |
 | [`COMPOSITION-COMPONENT-CONTRACT.md`](COMPOSITION-COMPONENT-CONTRACT.md) | Composition — indépendante du catalogue |
+| [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md) | Mode hors ligne — statut `offline_status` |
 
 ---
 

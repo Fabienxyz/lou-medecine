@@ -134,8 +134,38 @@
         merged.release_id = existing.release_id;
         merged.chapter = existing.chapter;
         merged.schema_version = existing.schema_version;
+        if (existing.logical_record_id) {
+            merged.logical_record_id = existing.logical_record_id;
+        }
         return merged;
     }
+
+    function padStorageKey(value) {
+        const n = Number(value);
+        if (!Number.isFinite(n) || n < 0) {
+            return "0000000000";
+        }
+        return String(Math.trunc(n)).padStart(10, "0");
+    }
+
+    /**
+     * Logical record identity — stable within an installation (LP-10).
+     * @param {string} domainId
+     * @param {string} releaseId
+     * @param {number|string} storageKey
+     */
+    function deriveLogicalRecordId(domainId, releaseId, storageKey) {
+        const release =
+            typeof releaseId === "string" && releaseId ? releaseId : "unknown";
+        return domainId + "::" + release + "::" + padStorageKey(storageKey);
+    }
+
+    const STORE_TO_DOMAIN = {
+        text_annotations: "walkthrough_annotations",
+        walkthrough_notes: "walkthrough_notes",
+        svg_text_formats: "svg_text_formats",
+        personal_diagrams: "personal_diagrams",
+    };
 
     global.LouLearnerPatrimony = {
         PATRIMONY_RECORD_SCHEMA_VERSION,
@@ -150,5 +180,8 @@
         needsPatrimonyMigration,
         migratePatrimonyRow,
         preservePatrimonyIdentity,
+        padStorageKey,
+        deriveLogicalRecordId,
+        STORE_TO_DOMAIN,
     };
 })(typeof window !== "undefined" ? window : globalThis);

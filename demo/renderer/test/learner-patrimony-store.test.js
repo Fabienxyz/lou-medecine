@@ -58,6 +58,16 @@ function sampleSvgRecord(chapter, overrides) {
   );
 }
 
+function sampleAnchor() {
+  return {
+    type: "CaretAnchor",
+    position: 42,
+    exact: "OAP",
+    prefix: "MEC ",
+    suffix: " flow",
+  };
+}
+
 function openLegacyV4Database(window) {
   return new Promise(function (resolve, reject) {
     const request = window.indexedDB.open("lou-learner", 4);
@@ -356,7 +366,7 @@ describe("Learner patrimony store (Lot E-B)", () => {
 
   test("E5 migration on empty database completes without error", async () => {
     const db = await window.LouLearnerStore.open();
-    assert.equal(db.version, 5);
+    assert.equal(db.version, 6);
     const rows = await readAllRows(window, "text_annotations");
     assert.deepEqual(rows, []);
   });
@@ -502,5 +512,28 @@ describe("Learner patrimony store (Lot E-B)", () => {
     assert.equal(rows[0].release_id, RELEASE_ID);
     assert.equal(rows[0].chapter, CHAPTER);
     assert.equal(rows[0].format, "italic");
+  });
+
+  test("E6 v6 migration assigns logical_record_id on write", async () => {
+    setCatalogContext(window);
+    await window.LouLearnerStore.open();
+    await window.LouLearnerStore.addWalkthroughNote(
+      CHAPTER,
+      "story",
+      "LRID",
+      sampleAnchor(),
+      "Logical id note"
+    );
+    const rows = await readAllRows(window, "walkthrough_notes");
+    assert.equal(rows.length, 1);
+    assert.ok(rows[0].logical_record_id);
+    assert.equal(
+      rows[0].logical_record_id,
+      window.LouLearnerPatrimony.deriveLogicalRecordId(
+        "walkthrough_notes",
+        RELEASE_ID,
+        rows[0].id
+      )
+    );
   });
 });

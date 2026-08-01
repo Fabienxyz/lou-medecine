@@ -1,9 +1,7 @@
 /**
- * Learner Snapshot — patrimonial export (Lot E-C, LP-05).
+ * Learner Snapshot — patrimonial export (Lot E-C, LP-05) and import (Lot E-D, LP-06).
  * Pure projection from local patrimony into a storage-independent logical artefact
- * (LEARNER-PATRIMONY-COMPONENT-CONTRACT.md §8).
- *
- * Export only — no import, no bundle, no catalog/offline coupling in the body.
+ * (LEARNER-PATRIMONY-COMPONENT-CONTRACT.md §8–§9).
  */
 (function (global) {
     const SNAPSHOT_FORMAT_VERSION = 1;
@@ -40,9 +38,42 @@
     ];
 
     const EXPORT_INCOMPLETE_PREFIX = "[LouLearnerSnapshot] Incomplete export:";
+    const IMPORT_INVALID_PREFIX = "[LouLearnerSnapshot] Invalid import:";
+    const IMPORTER_COMPONENT = "lou-learner-snapshot-import/1";
+
+    const ACTIVE_DOMAIN_IDS = [
+        "walkthrough_annotations",
+        "walkthrough_notes",
+        "svg_text_formats",
+        "personal_diagrams",
+    ];
+
+    const DOMAIN_TO_STORE = {
+        walkthrough_annotations: "text_annotations",
+        walkthrough_notes: "walkthrough_notes",
+        svg_text_formats: "svg_text_formats",
+        personal_diagrams: "personal_diagrams",
+    };
 
     function exportIncompleteError(detail) {
         return new Error(EXPORT_INCOMPLETE_PREFIX + " " + detail);
+    }
+
+    function importInvalidError(detail) {
+        return new Error(IMPORT_INVALID_PREFIX + " " + detail);
+    }
+
+    function createEmptyImportResult() {
+        return {
+            success: false,
+            inserted: [],
+            updated: [],
+            unchanged: [],
+            conflicts: [],
+            warnings: [],
+            refused: [],
+            rollback: null,
+        };
     }
 
     function describeStoreRecord(storeName, index) {
@@ -70,21 +101,26 @@
         }
     }
 
-    function padStorageKey(value) {
-        const n = Number(value);
-        if (!Number.isFinite(n) || n < 0) {
-            return "0000000000";
-        }
-        return String(Math.trunc(n)).padStart(10, "0");
-    }
-
-    /**
-     * Logical record identity — stable within an installation, independent of IndexedDB
-     * as an identity model (A2). The storage sequence is mapped only at projection time.
-     */
     function deriveLogicalRecordId(domainId, releaseId, storageKey) {
-        const release = typeof releaseId === "string" && releaseId ? releaseId : "unknown";
-        return domainId + "::" + release + "::" + padStorageKey(storageKey);
+        if (
+            global.LouLearnerPatrimony &&
+            typeof global.LouLearnerPatrimony.deriveLogicalRecordId === "function"
+        ) {
+            return global.LouLearnerPatrimony.deriveLogicalRecordId(
+                domainId,
+                releaseId,
+                storageKey
+            );
+        }
+        const release =
+            typeof releaseId === "string" && releaseId ? releaseId : "unknown";
+        return (
+            domainId +
+            "::" +
+            release +
+            "::" +
+            String(Math.trunc(Number(storageKey) || 0)).padStart(10, "0")
+        );
     }
 
     function resolveOrphanStatus(releaseId) {
@@ -151,7 +187,9 @@
 
     function projectWalkthroughAnnotation(row, domainId) {
         return {
-            record_id: deriveLogicalRecordId(domainId, row.release_id, row.id),
+            record_id:
+                row.logical_record_id ||
+                deriveLogicalRecordId(domainId, row.release_id, row.id),
             release_id: row.release_id,
             schema_version: row.schema_version,
             domain: domainId,
@@ -170,7 +208,9 @@
 
     function projectWalkthroughNote(row, domainId) {
         return {
-            record_id: deriveLogicalRecordId(domainId, row.release_id, row.id),
+            record_id:
+                row.logical_record_id ||
+                deriveLogicalRecordId(domainId, row.release_id, row.id),
             release_id: row.release_id,
             schema_version: row.schema_version,
             domain: domainId,
@@ -201,7 +241,9 @@
             payload.style = row.style;
         }
         return {
-            record_id: deriveLogicalRecordId(domainId, row.release_id, row.id),
+            record_id:
+                row.logical_record_id ||
+                deriveLogicalRecordId(domainId, row.release_id, row.id),
             release_id: row.release_id,
             schema_version: row.schema_version,
             domain: domainId,
@@ -230,7 +272,9 @@
             );
         }
         return {
-            record_id: deriveLogicalRecordId(domainId, row.release_id, row.id),
+            record_id:
+                row.logical_record_id ||
+                deriveLogicalRecordId(domainId, row.release_id, row.id),
             release_id: row.release_id,
             schema_version: row.schema_version,
             domain: domainId,
@@ -452,6 +496,522 @@
         };
     }
 
+    async function snapshotRecordsEquivalent(localRow, snapshotRecord, domainId, store) {
+        let inverseRow;
+        if (domainId === "svg_text_formats") {
+            inverseRow = inverseProjectSvgTextFormat(snapshotRecord, store);
+        } else {
+            inverseRow = INVERSE_PROJECTORS[domainId](snapshotRecord);
+        }
+
+        if (domainId === "personal_diagrams") {
+            if (
+                localRow.element !== inverseRow.element ||
+                localRow.created !== inverseRow.created
+            ) {
+                return false;
+            }
+            if (!localRow.blob || !inverseRow.blob) {
+                return false;
+            }
+            const localBase64 = await blobToBase64(localRow.blob);
+            const inverseBase64 = await blobToBase64(inverseRow.blob);
+            if (localBase64 == null || inverseBase64 == null) {
+                return false;
+            }
+            return localBase64 === inverseBase64;
+        }
+
+        const keys =
+            domainId === "walkthrough_annotations"
+                ? [
+                      "projection",
+                      "element",
+                      "selector",
+                      "kind",
+                      "created",
+                      "updated",
+                  ]
+                : domainId === "walkthrough_notes"
+                  ? [
+                        "projection",
+                        "element",
+                        "anchor",
+                        "text",
+                        "created",
+                        "updated",
+                    ]
+                  : [
+                        "projection",
+                        "element",
+                        "assetPath",
+                        "format",
+                        "anchor",
+                        "style",
+                        "created",
+                        "updated",
+                    ];
+
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            const left = localRow[key];
+            const right = inverseRow[key];
+            if (left === undefined && right === undefined) {
+                continue;
+            }
+            if (stableStringify(left) !== stableStringify(right)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function base64ToBytes(base64) {
+        if (typeof Buffer !== "undefined") {
+            return Buffer.from(base64, "base64");
+        }
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    function base64ToBlob(base64, mediaType) {
+        const bytes = base64ToBytes(base64);
+        const type =
+            typeof mediaType === "string" && mediaType
+                ? mediaType
+                : "application/octet-stream";
+        if (typeof Blob !== "undefined") {
+            return new Blob([bytes], { type: type });
+        }
+        return { type: type, _bytes: bytes };
+    }
+
+    function validateSnapshotRecord(record, domainId, index) {
+        const where = domainId + " record index " + index;
+        if (!record || typeof record !== "object") {
+            throw importInvalidError("invalid record at " + where);
+        }
+        if (typeof record.record_id !== "string" || !record.record_id) {
+            throw importInvalidError("missing record_id at " + where);
+        }
+        if (record.domain !== domainId) {
+            throw importInvalidError(
+                "domain mismatch at " + where + " (expected " + domainId + ")"
+            );
+        }
+        if (typeof record.release_id !== "string" || !record.release_id) {
+            throw importInvalidError("missing release_id at " + where);
+        }
+        if (record.schema_version == null) {
+            throw importInvalidError("missing schema_version at " + where);
+        }
+        if (typeof record.chapter !== "string" || !record.chapter) {
+            throw importInvalidError("missing chapter at " + where);
+        }
+        if (!record.payload || typeof record.payload !== "object") {
+            throw importInvalidError("missing payload at " + where);
+        }
+    }
+
+    function inverseProjectWalkthroughAnnotation(record) {
+        const payload = record.payload;
+        return {
+            logical_record_id: record.record_id,
+            release_id: record.release_id,
+            schema_version: record.schema_version,
+            chapter: record.chapter,
+            projection: payload.projection,
+            element: payload.element,
+            selector: payload.selector,
+            kind: payload.kind || "highlight",
+            created: payload.created,
+            updated: payload.updated,
+        };
+    }
+
+    function inverseProjectWalkthroughNote(record) {
+        const payload = record.payload;
+        if (!payload.text || !String(payload.text).trim()) {
+            throw importInvalidError(
+                "walkthrough note text must be non-empty for " + record.record_id
+            );
+        }
+        return {
+            logical_record_id: record.record_id,
+            release_id: record.release_id,
+            schema_version: record.schema_version,
+            chapter: record.chapter,
+            projection: payload.projection,
+            element: payload.element,
+            anchor: payload.anchor,
+            text: payload.text,
+            created: payload.created,
+            updated: payload.updated,
+        };
+    }
+
+    function inverseProjectSvgTextFormat(record, store) {
+        const payload = record.payload;
+        const row = {
+            logical_record_id: record.record_id,
+            release_id: record.release_id,
+            schema_version: record.schema_version,
+            chapter: record.chapter,
+            projection: payload.projection,
+            element: payload.element,
+            assetPath: payload.assetPath,
+            format: payload.format,
+            anchor: payload.anchor,
+            created: payload.created,
+            updated: payload.updated,
+        };
+        if (payload.style !== undefined) {
+            row.style = payload.style;
+        }
+        if (store && typeof store._validateSvgTextFormatRecord === "function") {
+            store._validateSvgTextFormatRecord(Object.assign({}, row));
+        }
+        return row;
+    }
+
+    function inverseProjectPersonalDiagram(record) {
+        const payload = record.payload;
+        if (
+            payload.binary_base64 == null ||
+            typeof payload.binary_base64 !== "string" ||
+            payload.binary_base64 === ""
+        ) {
+            throw importInvalidError(
+                "personal diagram missing binary_base64 for " + record.record_id
+            );
+        }
+        let bytes;
+        try {
+            bytes = base64ToBytes(payload.binary_base64);
+        } catch (err) {
+            throw importInvalidError(
+                "personal diagram binary could not be decoded for " +
+                    record.record_id
+            );
+        }
+        if (!bytes || bytes.length === 0) {
+            throw importInvalidError(
+                "personal diagram binary is empty for " + record.record_id
+            );
+        }
+        const blob = base64ToBlob(
+            payload.binary_base64,
+            payload.media_type || "application/octet-stream"
+        );
+        return {
+            logical_record_id: record.record_id,
+            release_id: record.release_id,
+            schema_version: record.schema_version,
+            chapter: record.chapter,
+            element: payload.element,
+            created: payload.created,
+            blob: blob,
+        };
+    }
+
+    const INVERSE_PROJECTORS = {
+        walkthrough_annotations: inverseProjectWalkthroughAnnotation,
+        walkthrough_notes: inverseProjectWalkthroughNote,
+        svg_text_formats: inverseProjectSvgTextFormat,
+        personal_diagrams: inverseProjectPersonalDiagram,
+    };
+
+    function validateSnapshotStructure(snapshot) {
+        if (!snapshot || typeof snapshot !== "object") {
+            throw importInvalidError("snapshot must be an object");
+        }
+        if (snapshot.snapshot_format_version !== SNAPSHOT_FORMAT_VERSION) {
+            throw importInvalidError(
+                "unsupported snapshot_format_version: " +
+                    snapshot.snapshot_format_version
+            );
+        }
+        if (!snapshot.integrity || typeof snapshot.integrity !== "object") {
+            throw importInvalidError("missing integrity section");
+        }
+        if (snapshot.integrity.algorithm !== INTEGRITY_ALGORITHM) {
+            throw importInvalidError(
+                "unsupported integrity algorithm: " + snapshot.integrity.algorithm
+            );
+        }
+        if (
+            typeof snapshot.integrity.digest !== "string" ||
+            !/^[a-f0-9]{64}$/.test(snapshot.integrity.digest)
+        ) {
+            throw importInvalidError("missing or invalid integrity digest");
+        }
+        if (!snapshot.body || !Array.isArray(snapshot.body.domains)) {
+            throw importInvalidError("missing body.domains");
+        }
+        const seenRecordIds = {};
+        for (let d = 0; d < snapshot.body.domains.length; d++) {
+            const domain = snapshot.body.domains[d];
+            if (!domain || typeof domain.domain_id !== "string") {
+                throw importInvalidError("invalid domain entry at index " + d);
+            }
+            if (domain.domain_schema_version !== DOMAIN_SCHEMA_VERSION) {
+                throw importInvalidError(
+                    "unsupported domain_schema_version for " + domain.domain_id
+                );
+            }
+            if (!Array.isArray(domain.records)) {
+                throw importInvalidError("domain records must be an array");
+            }
+            if (
+                FUTURE_DOMAIN_IDS.indexOf(domain.domain_id) >= 0 &&
+                domain.records.length > 0
+            ) {
+                throw importInvalidError(
+                    "future domain not importable in V1: " + domain.domain_id
+                );
+            }
+            for (let r = 0; r < domain.records.length; r++) {
+                validateSnapshotRecord(domain.records[r], domain.domain_id, r);
+                const recordId = domain.records[r].record_id;
+                if (seenRecordIds[recordId]) {
+                    throw importInvalidError(
+                        "duplicate record_id in snapshot: " + recordId
+                    );
+                }
+                seenRecordIds[recordId] = true;
+            }
+        }
+    }
+
+    async function verifySnapshotIntegrity(snapshot) {
+        const canonicalBody = canonicalizeBody(snapshot.body);
+        const digest = await computeBodyDigest(canonicalBody);
+        if (digest !== snapshot.integrity.digest) {
+            throw importInvalidError("integrity digest mismatch");
+        }
+        return canonicalBody;
+    }
+
+    function indexExistingRecords(storeGroups) {
+        const byLogicalId = {};
+        for (let g = 0; g < storeGroups.length; g++) {
+            const group = storeGroups[g];
+            const rows = group.records || [];
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if (row && row.logical_record_id) {
+                    byLogicalId[row.logical_record_id] = {
+                        storeName: group.storeName,
+                        row: row,
+                        index: i,
+                    };
+                }
+            }
+        }
+        return byLogicalId;
+    }
+
+    function collectOptionalCatalogWarnings(snapshot, options) {
+        const warnings = [];
+        if (
+            !options ||
+            !options.catalogReleaseIds ||
+            !Array.isArray(options.catalogReleaseIds)
+        ) {
+            return warnings;
+        }
+        const installed = {};
+        for (let i = 0; i < options.catalogReleaseIds.length; i++) {
+            installed[options.catalogReleaseIds[i]] = true;
+        }
+        const canonicalBody = canonicalizeBody(snapshot.body);
+        const missing = [];
+        for (let d = 0; d < canonicalBody.domains.length; d++) {
+            const domain = canonicalBody.domains[d];
+            for (let r = 0; r < domain.records.length; r++) {
+                const record = domain.records[r];
+                if (
+                    record.release_id &&
+                    !global.LouLearnerPatrimony.isLegacyReleaseId(
+                        record.release_id
+                    ) &&
+                    !installed[record.release_id]
+                ) {
+                    if (missing.indexOf(record.release_id) < 0) {
+                        missing.push(record.release_id);
+                    }
+                }
+            }
+        }
+        for (let m = 0; m < missing.length; m++) {
+            warnings.push({
+                code: "release_not_in_catalog",
+                release_id: missing[m],
+                message:
+                    "Imported record references release not present in optional catalog diagnostics",
+            });
+        }
+        return warnings;
+    }
+
+    async function buildImportPlan(snapshot, storeGroups, store) {
+        const plan = [];
+        const conflicts = [];
+        const existingByLogicalId = indexExistingRecords(storeGroups);
+        const canonicalBody = canonicalizeBody(snapshot.body);
+
+        for (let d = 0; d < ACTIVE_DOMAIN_IDS.length; d++) {
+            const domainId = ACTIVE_DOMAIN_IDS[d];
+            const storeName = DOMAIN_TO_STORE[domainId];
+            const domain = canonicalBody.domains.find(function (entry) {
+                return entry.domain_id === domainId;
+            });
+            const records = domain ? domain.records : [];
+            const projector = INVERSE_PROJECTORS[domainId];
+
+            for (let r = 0; r < records.length; r++) {
+                const snapshotRecord = records[r];
+                let row;
+                if (domainId === "svg_text_formats") {
+                    row = projector(snapshotRecord, store);
+                } else {
+                    row = projector(snapshotRecord);
+                }
+
+                const existing = existingByLogicalId[snapshotRecord.record_id];
+                if (!existing) {
+                    plan.push({
+                        storeName: storeName,
+                        domainId: domainId,
+                        logicalRecordId: snapshotRecord.record_id,
+                        action: "insert",
+                        row: row,
+                        snapshotRecord: snapshotRecord,
+                    });
+                    continue;
+                }
+
+                const equivalent = await snapshotRecordsEquivalent(
+                    existing.row,
+                    snapshotRecord,
+                    domainId,
+                    store
+                );
+                if (equivalent) {
+                    plan.push({
+                        storeName: storeName,
+                        domainId: domainId,
+                        logicalRecordId: snapshotRecord.record_id,
+                        action: "unchanged",
+                        row: row,
+                        snapshotRecord: snapshotRecord,
+                    });
+                    continue;
+                }
+
+                plan.push({
+                    storeName: storeName,
+                    domainId: domainId,
+                    logicalRecordId: snapshotRecord.record_id,
+                    action: "update",
+                    row: row,
+                    snapshotRecord: snapshotRecord,
+                });
+                conflicts.push({
+                    record_id: snapshotRecord.record_id,
+                    domain: domainId,
+                    resolution: "snapshot_wins",
+                    local_store: existing.storeName,
+                    local_id: existing.row.id,
+                });
+            }
+        }
+
+        return { plan: plan, conflicts: conflicts };
+    }
+
+    /**
+     * @param {object} snapshot
+     * @param {{
+     *   store?: object,
+     *   catalogReleaseIds?: string[],
+     *   _injectApplyError?: Error
+     * }} [options]
+     */
+    async function importSnapshot(snapshot, options) {
+        options = options || {};
+        const result = createEmptyImportResult();
+        const store = options.store || global.LouLearnerStore;
+
+        if (
+            !store ||
+            typeof store.listAllPatrimonialRecords !== "function" ||
+            typeof store.applyPatrimonialImportPlan !== "function"
+        ) {
+            result.refused.push({
+                reason: "Patrimony store with import support is required",
+            });
+            result.rollback = { reason: "store_unavailable" };
+            return result;
+        }
+
+        try {
+            validateSnapshotStructure(snapshot);
+            await verifySnapshotIntegrity(snapshot);
+            await store.open();
+            const storeGroups = await store.listAllPatrimonialRecords();
+            const built = await buildImportPlan(snapshot, storeGroups, store);
+            result.warnings = collectOptionalCatalogWarnings(snapshot, options);
+
+            if (options._injectApplyError) {
+                throw options._injectApplyError;
+            }
+
+            const applyOutcome = await store.applyPatrimonialImportPlan(
+                built.plan
+            );
+
+            result.inserted = applyOutcome.inserted.map(function (entry) {
+                return {
+                    record_id: entry.logical_record_id,
+                    store: entry.storeName,
+                    id: entry.id,
+                };
+            });
+            result.updated = applyOutcome.updated.map(function (entry) {
+                return {
+                    record_id: entry.logical_record_id,
+                    store: entry.storeName,
+                    id: entry.id,
+                };
+            });
+            result.unchanged = applyOutcome.unchanged.map(function (entry) {
+                return {
+                    record_id: entry.logical_record_id,
+                    store: entry.storeName,
+                    id: entry.id,
+                };
+            });
+            result.conflicts = built.conflicts;
+            result.success = true;
+            return result;
+        } catch (err) {
+            result.success = false;
+            result.refused.push({
+                reason: String(err && err.message ? err.message : err),
+            });
+            result.rollback = {
+                reason: "full_rollback",
+                detail: String(err && err.message ? err.message : err),
+            };
+            return result;
+        }
+    }
+
     /**
      * @param {{
      *   store?: { listAllPatrimonialRecords: () => Promise<{ storeName: string, records: object[] }[]> },
@@ -502,10 +1062,14 @@
         DOMAIN_SCHEMA_VERSION,
         INTEGRITY_ALGORITHM,
         EXPORTER_COMPONENT,
+        IMPORTER_COMPONENT,
         EXPORT_INCOMPLETE_PREFIX,
+        IMPORT_INVALID_PREFIX,
         ALL_DOMAIN_IDS,
+        ACTIVE_DOMAIN_IDS,
         FUTURE_DOMAIN_IDS,
         STORE_TO_DOMAIN,
+        DOMAIN_TO_STORE,
         assertExportablePatrimonyRow,
         deriveLogicalRecordId,
         resolveOrphanStatus,
@@ -514,6 +1078,11 @@
         stableStringify,
         computeBodyDigest,
         buildSummary,
+        createEmptyImportResult,
+        validateSnapshotStructure,
+        verifySnapshotIntegrity,
+        buildImportPlan,
+        importSnapshot,
         exportSnapshot,
     };
 })(typeof window !== "undefined" ? window : globalThis);

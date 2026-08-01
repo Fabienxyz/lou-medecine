@@ -423,7 +423,19 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     await openCreateMenu(content, "MEC-oap", 30);
     const menu = window.document.querySelector(".inline-notes-context-menu");
     menu.querySelector("button").click();
-    await flushPromises();
+    for (let attempt = 0; attempt < 50; attempt++) {
+      await flushPromises();
+      await window.LouInlineNotes._waitForCommitIdle();
+      const committed = content.querySelectorAll(
+        '[data-element="MEC-oap"] .walkthrough-note[data-note-id]'
+      );
+      const pending = content.querySelector(
+        '[data-element="MEC-oap"] .walkthrough-note:not([data-note-id])'
+      );
+      if (committed.length === 1 && pending) {
+        break;
+      }
+    }
 
     const notes = content.querySelectorAll(
       '[data-element="MEC-oap"] .walkthrough-note[data-note-id]'

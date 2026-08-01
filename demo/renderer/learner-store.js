@@ -18,7 +18,7 @@ if (!window.LouLearnerPatrimony) {
 }
 window.LouLearnerStore = {
     DB_NAME: "lou-learner",
-    DB_VERSION: 5,
+    DB_VERSION: 6,
     DIAGRAMS: "personal_diagrams",
     HIGHLIGHTS: "text_annotations",
     WALKTHROUGH_NOTES: "walkthrough_notes",
@@ -26,6 +26,7 @@ window.LouLearnerStore = {
     LEGACY_INLINE_NOTES: "inline_notes",
     META: "patrimony_meta",
     MIGRATION_V5_KEY: "migration_v5",
+    MIGRATION_V6_KEY: "migration_v6",
 
     SVG_TEXT_FORMAT_KINDS: [
         "bold",
@@ -170,6 +171,88 @@ window.LouLearnerStore = {
         }
     },
 
+    _ensureLogicalRecordIdIndex(store) {
+        if (!store.indexNames.contains("logical_record_id")) {
+            store.createIndex("logical_record_id", "logical_record_id", {
+                unique: true,
+            });
+        }
+    },
+
+    _domainIdForStore(storeName) {
+        return window.LouLearnerPatrimony.STORE_TO_DOMAIN[storeName] || null;
+    },
+
+    _deriveLogicalRecordIdForRow(storeName, row) {
+        const domainId = this._domainIdForStore(storeName);
+        if (!domainId || row == null || row.id == null) {
+            return null;
+        }
+        return window.LouLearnerPatrimony.deriveLogicalRecordId(
+            domainId,
+            row.release_id,
+            row.id
+        );
+    },
+
+    _runPatrimonyMigrationV6(db) {
+        const self = this;
+        const storeNames = self.RELEASE_SCOPED_STORES;
+
+        return storeNames.reduce(function (chain, storeName) {
+            return chain.then(function () {
+                if (!db.objectStoreNames.contains(storeName)) {
+                    return undefined;
+                }
+                return self._backfillLogicalRecordIds(db, storeName);
+            });
+        }, Promise.resolve());
+    },
+
+    _backfillLogicalRecordIds(db, storeName) {
+        const self = this;
+        return new Promise(function (resolve, reject) {
+            const tx = db.transaction(storeName, "readwrite");
+            const store = tx.objectStore(storeName);
+            const cursorReq = store.openCursor();
+
+            cursorReq.onsuccess = function () {
+                const cursor = cursorReq.result;
+                if (!cursor) {
+                    return;
+                }
+                const row = cursor.value;
+                if (
+                    !row.logical_record_id ||
+                    typeof row.logical_record_id !== "string"
+                ) {
+                    const logicalRecordId = self._deriveLogicalRecordIdForRow(
+                        storeName,
+                        row
+                    );
+                    if (logicalRecordId) {
+                        row.logical_record_id = logicalRecordId;
+                        cursor.update(row);
+                    }
+                }
+                cursor.continue();
+            };
+
+            tx.oncomplete = function () {
+                resolve();
+            };
+            tx.onerror = function () {
+                reject(tx.error);
+            };
+            tx.onabort = function () {
+                reject(tx.error || new Error("Patrimony v6 migration aborted"));
+            };
+            cursorReq.onerror = function () {
+                reject(cursorReq.error);
+            };
+        });
+    },
+
     _runPatrimonyMigrationV5(db) {
         const self = this;
         const options = this._migrationPatrimonyOptions();
@@ -269,9 +352,25 @@ window.LouLearnerStore = {
                     return self._writeMeta(db, self.MIGRATION_V5_KEY, {
                         completed: true,
                         completedAt: new Date().toISOString(),
-                        targetDbVersion: self.DB_VERSION,
+                        targetDbVersion: 5,
                         recordSchemaVersion:
                             window.LouLearnerPatrimony.PATRIMONY_RECORD_SCHEMA_VERSION,
+                    });
+                });
+            })
+            .then(function () {
+                return self._readMeta(db, self.MIGRATION_V6_KEY);
+            })
+            .then(function (meta) {
+                if (meta && meta.completed === true) {
+                    return undefined;
+                }
+                return self._runPatrimonyMigrationV6(db).then(function () {
+                    return self._writeMeta(db, self.MIGRATION_V6_KEY, {
+                        completed: true,
+                        completedAt: new Date().toISOString(),
+                        targetDbVersion: self.DB_VERSION,
+                        logicalRecordIdIndex: true,
                     });
                 });
             })
@@ -291,22 +390,37 @@ window.LouLearnerStore = {
             request.onupgradeneeded = function (event) {
                 const db = request.result;
                 if (!db.objectStoreNames.contains(self.DIAGRAMS)) {
-                    db.createObjectStore(self.DIAGRAMS, {
+                    const diagramStore = db.createObjectStore(self.DIAGRAMS, {
                         keyPath: "id",
                         autoIncrement: true,
                     });
+                    self._ensureLogicalRecordIdIndex(diagramStore);
+                } else if (event.oldVersion > 0 && event.oldVersion < 6) {
+                    self._ensureLogicalRecordIdIndex(
+                        request.transaction.objectStore(self.DIAGRAMS)
+                    );
                 }
                 if (!db.objectStoreNames.contains(self.HIGHLIGHTS)) {
-                    db.createObjectStore(self.HIGHLIGHTS, {
+                    const highlightStore = db.createObjectStore(self.HIGHLIGHTS, {
                         keyPath: "id",
                         autoIncrement: true,
                     });
+                    self._ensureLogicalRecordIdIndex(highlightStore);
+                } else if (event.oldVersion > 0 && event.oldVersion < 6) {
+                    self._ensureLogicalRecordIdIndex(
+                        request.transaction.objectStore(self.HIGHLIGHTS)
+                    );
                 }
                 if (!db.objectStoreNames.contains(self.WALKTHROUGH_NOTES)) {
-                    db.createObjectStore(self.WALKTHROUGH_NOTES, {
+                    const noteStore = db.createObjectStore(self.WALKTHROUGH_NOTES, {
                         keyPath: "id",
                         autoIncrement: true,
                     });
+                    self._ensureLogicalRecordIdIndex(noteStore);
+                } else if (event.oldVersion > 0 && event.oldVersion < 6) {
+                    self._ensureLogicalRecordIdIndex(
+                        request.transaction.objectStore(self.WALKTHROUGH_NOTES)
+                    );
                 }
                 if (db.objectStoreNames.contains(self.LEGACY_INLINE_NOTES)) {
                     db.deleteObjectStore(self.LEGACY_INLINE_NOTES);
@@ -317,11 +431,19 @@ window.LouLearnerStore = {
                         autoIncrement: true,
                     });
                     self._ensureSvgTextFormatIndexes(formatStore);
+                    self._ensureLogicalRecordIdIndex(formatStore);
                 } else if (event.oldVersion > 0 && event.oldVersion < 5) {
                     const formatStore = request.transaction.objectStore(
                         self.SVG_TEXT_FORMATS
                     );
                     self._ensureSvgTextFormatIndexes(formatStore);
+                }
+                if (event.oldVersion > 0 && event.oldVersion < 6) {
+                    if (db.objectStoreNames.contains(self.SVG_TEXT_FORMATS)) {
+                        self._ensureLogicalRecordIdIndex(
+                            request.transaction.objectStore(self.SVG_TEXT_FORMATS)
+                        );
+                    }
                 }
                 if (!db.objectStoreNames.contains(self.META)) {
                     db.createObjectStore(self.META, { keyPath: "key" });
@@ -362,6 +484,192 @@ window.LouLearnerStore = {
                 };
                 request.onerror = function () {
                     reject(request.error);
+                };
+            });
+        });
+    },
+
+    _addPatrimonyRecord(storeName, record) {
+        const self = this;
+        const domainId = this._domainIdForStore(storeName);
+        return this.open().then(function (db) {
+            return new Promise(function (resolve, reject) {
+                const tx = db.transaction(storeName, "readwrite");
+                const store = tx.objectStore(storeName);
+                const addReq = store.add(record);
+                addReq.onsuccess = function () {
+                    const id = addReq.result;
+                    record.id = id;
+                    record.logical_record_id =
+                        window.LouLearnerPatrimony.deriveLogicalRecordId(
+                            domainId,
+                            record.release_id,
+                            id
+                        );
+                    const putReq = store.put(record);
+                    putReq.onsuccess = function () {
+                        resolve(id);
+                    };
+                    putReq.onerror = function () {
+                        reject(putReq.error);
+                    };
+                };
+                addReq.onerror = function () {
+                    reject(addReq.error);
+                };
+                tx.onerror = function () {
+                    reject(tx.error);
+                };
+            });
+        });
+    },
+
+    /**
+     * Apply a patrimonial import plan inside one global IndexedDB transaction (Lot E-D).
+     * @param {{ storeName: string, action: string, row: object, logicalRecordId: string }[]} plan
+     * @returns {Promise<{ inserted: object[], updated: object[], unchanged: object[] }>}
+     */
+    applyPatrimonialImportPlan(plan) {
+        const self = this;
+        const touchedStores = {};
+        for (let i = 0; i < plan.length; i++) {
+            touchedStores[plan[i].storeName] = true;
+        }
+        const storeNames = Object.keys(touchedStores);
+        if (storeNames.length === 0) {
+            return Promise.resolve({
+                inserted: [],
+                updated: [],
+                unchanged: [],
+            });
+        }
+
+        return this.open().then(function (db) {
+            return new Promise(function (resolve, reject) {
+                const tx = db.transaction(storeNames, "readwrite");
+                const outcome = {
+                    inserted: [],
+                    updated: [],
+                    unchanged: [],
+                };
+                let pending = plan.length;
+                let failed = false;
+
+                function finishEntry() {
+                    pending -= 1;
+                }
+
+                function fail(err) {
+                    if (failed) {
+                        return;
+                    }
+                    failed = true;
+                    try {
+                        tx.abort();
+                    } catch (abortErr) {
+                        // Transaction may already be aborting.
+                    }
+                    reject(err);
+                }
+
+                if (pending === 0) {
+                    resolve(outcome);
+                    return;
+                }
+
+                for (let i = 0; i < plan.length; i++) {
+                    const entry = plan[i];
+                    const store = tx.objectStore(entry.storeName);
+                    const lookupReq = store
+                        .index("logical_record_id")
+                        .get(entry.logicalRecordId);
+                    lookupReq.onsuccess = function () {
+                        if (failed) {
+                            return;
+                        }
+                        const existing = lookupReq.result;
+                        if (entry.action === "insert") {
+                            if (existing) {
+                                fail(
+                                    new Error(
+                                        "[LouLearnerStore] Import insert collision for " +
+                                            entry.logicalRecordId
+                                    )
+                                );
+                                return;
+                            }
+                            const addReq = store.add(entry.row);
+                            addReq.onerror = function () {
+                                fail(addReq.error);
+                            };
+                            addReq.onsuccess = function () {
+                                outcome.inserted.push({
+                                    storeName: entry.storeName,
+                                    logical_record_id: entry.logicalRecordId,
+                                    id: addReq.result,
+                                });
+                                finishEntry();
+                            };
+                            return;
+                        }
+                        if (entry.action === "unchanged") {
+                            outcome.unchanged.push({
+                                storeName: entry.storeName,
+                                logical_record_id: entry.logicalRecordId,
+                                id: existing ? existing.id : null,
+                            });
+                            finishEntry();
+                            return;
+                        }
+                        if (entry.action === "update") {
+                            if (!existing) {
+                                fail(
+                                    new Error(
+                                        "[LouLearnerStore] Import update missing row for " +
+                                            entry.logicalRecordId
+                                    )
+                                );
+                                return;
+                            }
+                            const merged = Object.assign({}, entry.row, {
+                                id: existing.id,
+                            });
+                            window.LouLearnerPatrimony.preservePatrimonyIdentity(
+                                existing,
+                                merged
+                            );
+                            const putReq = store.put(merged);
+                            putReq.onerror = function () {
+                                fail(putReq.error);
+                            };
+                            putReq.onsuccess = function () {
+                                outcome.updated.push({
+                                    storeName: entry.storeName,
+                                    logical_record_id: entry.logicalRecordId,
+                                    id: existing.id,
+                                });
+                                finishEntry();
+                            };
+                        }
+                    };
+                    lookupReq.onerror = function () {
+                        fail(lookupReq.error);
+                    };
+                }
+
+                tx.oncomplete = function () {
+                    if (!failed) {
+                        resolve(outcome);
+                    }
+                };
+                tx.onerror = function () {
+                    fail(tx.error);
+                };
+                tx.onabort = function () {
+                    fail(
+                        tx.error ||
+                            new Error("Patrimonial import transaction aborted")
+                    );
                 };
             });
         });
@@ -451,9 +759,7 @@ window.LouLearnerStore = {
         } catch (err) {
             return Promise.reject(err);
         }
-        return this._run(this.DIAGRAMS, "readwrite", function (store) {
-            return store.add(record);
-        });
+        return this._addPatrimonyRecord(this.DIAGRAMS, record);
     },
 
     listPersonalDiagrams(chapter) {
@@ -480,9 +786,7 @@ window.LouLearnerStore = {
         } catch (err) {
             return Promise.reject(err);
         }
-        return this._run(this.HIGHLIGHTS, "readwrite", function (store) {
-            return store.add(record);
-        });
+        return this._addPatrimonyRecord(this.HIGHLIGHTS, record);
     },
 
     listTextHighlights(chapter, projection) {
@@ -512,9 +816,7 @@ window.LouLearnerStore = {
         } catch (err) {
             return Promise.reject(err);
         }
-        return this._run(this.WALKTHROUGH_NOTES, "readwrite", function (store) {
-            return store.add(record);
-        });
+        return this._addPatrimonyRecord(this.WALKTHROUGH_NOTES, record);
     },
 
     updateWalkthroughNote(id, text) {
@@ -695,9 +997,7 @@ window.LouLearnerStore = {
         } catch (err) {
             return Promise.reject(err);
         }
-        return this._run(this.SVG_TEXT_FORMATS, "readwrite", function (store) {
-            return store.add(payload);
-        });
+        return this._addPatrimonyRecord(this.SVG_TEXT_FORMATS, payload);
     },
 
     updateSvgTextFormat(id, partial) {

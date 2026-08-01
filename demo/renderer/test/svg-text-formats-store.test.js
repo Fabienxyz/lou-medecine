@@ -95,9 +95,9 @@ describe("svg_text_formats store (unit)", () => {
     });
   });
 
-  test("SF-01 DB v5 creates svg_text_formats with compound indexes", async () => {
+  test("SF-01 DB v6 creates svg_text_formats with compound indexes", async () => {
     const db = await window.LouLearnerStore.open();
-    assert.equal(db.version, 5);
+    assert.equal(db.version, 6);
     assert.ok(db.objectStoreNames.contains("svg_text_formats"));
     assert.ok(db.objectStoreNames.contains("walkthrough_notes"));
     assert.ok(db.objectStoreNames.contains("patrimony_meta"));
@@ -107,6 +107,7 @@ describe("svg_text_formats store (unit)", () => {
     assert.deepEqual(Array.from(store.indexNames).sort(), [
       "chapter_projection",
       "chapter_projection_element",
+      "logical_record_id",
       "release_id",
     ]);
   });

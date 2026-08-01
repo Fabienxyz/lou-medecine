@@ -407,7 +407,7 @@ describe("Lot E-C — Learner Snapshot export", () => {
     const withDiagnostics = await window.LouLearnerSnapshot.exportSnapshot({
       exportedAt: "2026-08-01T00:00:00.000Z",
       diagnostics: {
-        source_persistence: { engine: "indexeddb", store_version: 5 },
+        source_persistence: { engine: "indexeddb", store_version: 6 },
       },
     });
 

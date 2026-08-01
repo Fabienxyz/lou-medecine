@@ -75,8 +75,8 @@ Reader (Composition → Reading View Model → Renderer)
 
 | Acteur | DOIT | NE DOIT PAS |
 |---|---|---|
-| **Fabrique** | Produire une Release autonome validée ; porter l'identité dans le manifest publié | Dépendre de la bibliothèque pour valider ; écrire `library.json` comme vérité médicale |
-| **Bibliothèque** | Installer, indexer, activer, archiver ; exposer le catalogue | Rebuild, modifier le contenu médical, inventer une Release |
+| **Fabrique** | Produire une Release autonome validée ; porter l'identité et le `content_digest` de publication dans le manifest publié | Dépendre de la bibliothèque pour valider ; écrire `library.json` comme vérité médicale |
+| **Bibliothèque** | Installer, indexer, activer, archiver ; exposer le catalogue ; **vérifier** le `content_digest` de publication | Rebuild ; modifier le contenu médical ; inventer une Release ; redéfinir l'identité ou le digest comme nouvelle vérité |
 | **Package Access** | Résoudre manifest et artefacts **déclarés** pour une `release_id` | Scanner `packages/` ; lire inventaire, Blueprint ou sources d'acquisition |
 | **Reader** | Découvrir via le catalogue ; ouvrir via Package Access | Traiter le dépôt Git comme bibliothèque produit |
 
@@ -84,8 +84,8 @@ Reader (Composition → Reading View Model → Renderer)
 
 | Artefact | Autorité | Portée |
 |---|---|---|
-| **`manifest.json`** (dans le package installé) | Source de vérité du **package publié** — contenu, registre, édition, `publication_version` | Patrimoine Release ([contrat 04](../04-CHAPTER-PACKAGE.md) §10) |
-| **`library.json`** | Source de vérité **opérationnelle** de la bibliothèque — ce qui est installé, actif, archivé, où | Découverte et cycle de vie install |
+| **`manifest.json`** (dans le package installé) | Source de vérité du **package publié** — contenu, registre, édition, `publication_version`, `content_digest` de publication | Patrimoine Release ([contrat 04](../04-CHAPTER-PACKAGE.md) §10) |
+| **`library.json`** | Source de vérité **opérationnelle** de la bibliothèque — ce qui est installé, actif, archivé, où ; recopie non autoritaire du `content_digest` de publication | Découverte et cycle de vie install |
 | **`package.meta.json`** | **Interdit** | — |
 
 Le catalogue **PEUT** recopier des métadonnées non médicales du manifest (titre, specialty, complétude) pour la découverte. En cas de divergence sur l'**identité Release** ou le contenu médical, le **manifest du package installé** prime pour le contenu ; une divergence d'index **DOIT** être traitée comme corruption catalogue (réparation admin), jamais comme autorité médicale parallèle.
@@ -145,7 +145,7 @@ Chaque élément de `entries` **DOIT** comporter :
 | `installed_at` | **DOIT** | Horodatage d'installation réussie (ISO-8601). |
 | `root` | **DOIT** | Chemin relatif à `LIBRARY_ROOT` vers la racine du package (`packages/<release_id>`). |
 | `manifest` | **DOIT** | Chemin relatif à `LIBRARY_ROOT` vers le manifest installé. |
-| `content_digest` | **DOIT** | Empreinte du contenu installé permettant de détecter une altération. |
+| `content_digest` | **DOIT** | Empreinte de **publication** de la Release (§5.5) — valeur identique à celle du manifest publié, jamais une empreinte inventée à l'install. |
 | `slug` | **PEUT** | Copie non autoritaire depuis le manifest. |
 | `title` | **PEUT** | Copie non autoritaire depuis le manifest. |
 | `specialty` | **PEUT** | Copie non autoritaire depuis le manifest. |
@@ -165,6 +165,19 @@ Chaque élément de `entries` **DOIT** comporter :
 - de contenu médical auteur ;
 - de chemins absolus du dépôt de production comme prérequis produit ;
 - de deuxième autorité médicale parallèle au manifest.
+
+### 5.5 `content_digest` — empreinte de publication
+
+Le `content_digest` est une **propriété de la Release publiée**, pas une vérité créée par la bibliothèque.
+
+| Règle | Énoncé |
+|---|---|
+| **Origine** | Le digest **DOIT** être **calculé par la Fabrique** lors de la publication de la Release et **porté par le manifest publié**. |
+| **Nature** | Il désigne l'empreinte du contenu de cette publication — **digest de publication**. |
+| **Installation** | L'installation **DOIT** **vérifier** que le contenu copié correspond à ce digest de publication (ou signaler une **corruption** / échec d'intégrité). |
+| **Catalogue** | L'entrée catalogue **DOIT** recopier le digest de publication **sans le redéfinir**. |
+| **Interdit** | L'installation **NE DOIT PAS** recalculer un digest pour en faire une **nouvelle vérité** d'identité ou de contenu. Un recalcul local n'est admis que comme **moyen de vérification** contre le digest de publication déjà fixé. |
+| **Identité** | Le digest **NE DOIT PAS** remplacer ni modifier le triplet `(chapter, edition, publication_version)`. L'installation **ne redéfinit jamais** l'identité du package. |
 
 ---
 
@@ -222,6 +235,8 @@ Exemple normatif : `(cardio/234, 2022, 1)` → `cardio__234__2022__1`.
 - La dérivation **DOIT** être stable dans le temps pour un triplet donné.
 - Deux triplets distincts **NE DOIVENT PAS** produire le même `release_id`.
 - Le répertoire installé **DOIT** être nommé exactement `packages/<release_id>/`.
+- Deux Releases présentant le même `release_id` **SONT RÉPUTÉES** représenter **exactement la même identité Release** (même triplet).
+- Le `release_id` **reste un dérivé** : il **N'EST JAMAIS** la source de vérité de l'identité. La source de vérité de l'identité **DOIT** demeurer le triplet `(chapter, edition, publication_version)` porté par le manifest publié.
 
 ---
 
@@ -239,10 +254,11 @@ L'installation **DOIT** rendre le package visible au catalogue seulement lorsque
 
 Après copie réussie, l'installation **DOIT** :
 
-1. calculer `content_digest` sur le contenu installé ;
-2. ajouter ou mettre à jour l'entrée correspondante dans `entries` ;
-3. mettre à jour `updated_at` ;
-4. persister `library.json` de façon à ce qu'un lecteur concurrent ne voie pas un catalogue tronqué.
+1. lire le `content_digest` de **publication** depuis le manifest de la Release ;
+2. **vérifier** l'intégrité du contenu installé contre ce digest (échec = corruption — pas de nouvelle empreinte autoritaire) ;
+3. ajouter ou mettre à jour l'entrée correspondante dans `entries`, en y recopiant ce même digest de publication ;
+4. mettre à jour `updated_at` ;
+5. persister `library.json` de façon à ce qu'un lecteur concurrent ne voie pas un catalogue tronqué.
 
 ### 8.4 Activation
 
@@ -304,7 +320,7 @@ La Composition **NE DOIT PAS** dépendre du catalogue. Elle consomme le **manife
 | Interdit | Précision |
 |---|---|
 | **Scan runtime `packages/`** | Le Reader en fonctionnement normal **NE DOIT PAS** découvrir des Releases en listant le système de fichiers. |
-| **Scan comme autorité produit** | Un scan éventuel est **réservé** à un outil d'administration ou de réparation ; il **NE DOIT PAS** remplacer `library.json` en usage normal. |
+| **Scan d'administration comme vérité** | Un scan éventuel **PEUT** exister uniquement comme **outil de diagnostic ou de réparation**. Il **NE DEVIENT JAMAIS** une source de vérité. Il **NE DOIT JAMAIS** remplacer `library.json` pendant le fonctionnement normal du Reader. |
 | **Modification du manifest installé** | Aucun composant bibliothèque ou Reader **NE DOIT** altérer le manifest ou les artefacts médicaux installés. |
 | **Suppression silencieuse** | Interdit d'effacer une Release active ou archivée, ou des données apprenantes liées, sans opération explicite et traçable. |
 | **Écrasement silencieux** | Interdit de remplacer le contenu d'une `release_id` existante par un autre contenu sans nouvelle identité. |

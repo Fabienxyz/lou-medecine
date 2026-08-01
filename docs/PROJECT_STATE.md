@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-01 (Runtime Offline D2-E livré ; objectif actif : implémentation PDR-D2)
+**Dernière mise à jour :** 2026-08-01 (D2-H livré ; clarifications contractuelles purge/stale ; prochain : D2-I)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -24,7 +24,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Livrable visé** | Reader local installable, 7 vues alimentées sur le package de capitalisation de référence ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Chemin critique** | **Reader Acceptance V1** — goulet principal avant validation pédagogique Lou et industrialisation |
 | **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — **PDR-D2 complet ouvert** (offline intégral sur packages installés) ; patrimoine, reprise de session, recherche, CI, Amorçage ouverts |
-| **Dernier jalon produit** | **D2-G livré** — première certification produit `offline_ready` via Browser Offline Manager ; Reader branché sur Browser Package Access en mode produit |
+| **Dernier jalon produit** | **D2-H livré** — repair, purge, détection stale ; clarifications contractuelles purge (hors graphe §5.2) et stale (non automatique à l'ouverture Reader) |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -42,7 +42,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) · Acceptation Reader V1 | **D2-A…G livrés** — contrat + modèle + Offline Manager + Package Access Browser + Runtime Offline + préparation auto post-install + **certification produit D2-G** ; prochain : **D2-H** update/repair/archive ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) |
+| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) · Acceptation Reader V1 | **D2-A…H livrés** — contrat + modèle + Offline Manager + Package Access Browser + Runtime Offline + préparation auto post-install + certification produit D2-G + **repair/purge/stale D2-H** ; prochain : **D2-I** clôture gouvernance ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) |
 | **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **PDR-D1 clôturé** ; Amorçage, patrimoine, reprise, recherche ouverts |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Modèle de publication, version package, persistance — en retard sur la spec ; co-vérification prévue à l'acceptation Reader |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; première exécution sur GitHub après push ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
@@ -129,6 +129,8 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-01 | **D2-H — clarifications contractuelles** — purge administrative hors graphe §5.2 ; détection stale non automatique à l'ouverture Reader ; `offline_ready` = dernier état certifié ; commit `docs(contract): clarify offline lifecycle semantics` |
+| 2026-08-01 | **D2-H — Update / Repair / Archive** — `repair`, `purge`, `detectStale`, `invalidateIfStale` dans Browser Offline Manager ; archivage sans reset offline ; 8 tests unit D2-H PASS |
 | 2026-08-01 | **D2-G — Browser Integration & Offline Certification** — Reader mode produit (`?product=1`) via Browser Package Access ; Browser Offline Manager seul certifiant `offline_ready`/`failed` ; 9 tests Playwright OF-D2-* + 3 unit Browser Offline Manager PASS |
 | 2026-08-01 | **D2-F — Préparation automatique après installation (refactor)** — hook post-install → `OfflineManager.prepare` (Runtime Node interne) ; **sans certification** `offline_ready`/`failed` ; `offline_status` reste `not_prepared` jusqu'à D2-G ; 11 tests adaptés |
 | 2026-08-01 | **D2-F — Préparation automatique après installation** — hook post-install → `OfflineManager.prepare` ; Runtime Node (filesystem) ; ~~transitions via `transitionCatalogOfflineStatus`~~ (retiré — certification réservée D2-G) |

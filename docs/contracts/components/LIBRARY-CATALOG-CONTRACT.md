@@ -351,7 +351,7 @@ Ces interfaces sont **prévues** ; leur implémentation n'est **pas** définie i
 
 ### 11.1 PDR-D2 — Offline
 
-Les mécanismes hors ligne **DOIVENT** porter sur des packages **déjà installés** (présents au catalogue). L'événement d'installation est le point d'ancrage de la préparation offline. Le détail normatif relève du [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md). Chaque entrée catalogue **DOIT** porter un champ `offline_status` défini par ce contrat.
+Les mécanismes hors ligne **DOIVENT** porter sur des packages **déjà installés** (présents au catalogue). L'événement d'installation est le point d'ancrage de la préparation offline. Le détail normatif relève du [`OFFLINE-COMPONENT-CONTRACT.md`](OFFLINE-COMPONENT-CONTRACT.md) — notamment le graphe de certification §5.2, la purge administrative §9.3 et la détection stale §9.4. Chaque entrée catalogue **DOIT** porter un champ `offline_status` défini par ce contrat.
 
 ### 11.2 PDR-E5 — Sauvegarde et restauration
 

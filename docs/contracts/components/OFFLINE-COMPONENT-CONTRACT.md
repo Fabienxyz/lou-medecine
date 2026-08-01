@@ -154,7 +154,7 @@ Chaque entrée catalogue **DOIT** porter un champ `offline_status` avec **exacte
 |---|---|
 | **`not_prepared`** | Release installée ; préparation offline non démarrée ou non terminée avec succès |
 | **`preparing`** | Préparation offline en cours |
-| **`offline_ready`** | Offline garanti actif pour cette Release |
+| **`offline_ready`** | Dernier état **certifié** — offline garanti actif pour cette Release (§9.4) |
 | **`failed`** | Dernière préparation offline échouée ou invalidée |
 
 Aucun autre état offline catalogue **N'EST PAS** autorisé.
@@ -162,6 +162,8 @@ Aucun autre état offline catalogue **N'EST PAS** autorisé.
 L'archivage éditorial (`status: active` / `archived`) **RESTE** porté exclusivement par `library.json` conformément au [`LIBRARY-CATALOG-CONTRACT.md`](LIBRARY-CATALOG-CONTRACT.md). Il **NE DOIT PAS** être fusionné avec `offline_status`.
 
 ### 5.2 Transitions autorisées
+
+**Portée du graphe :** le tableau ci-dessous décrit **exclusivement** les transitions du **cycle de certification offline** orchestré par l'Offline Manager (`not_prepared` → `preparing` → `offline_ready` | `failed`, et invalidations associées). Il **NE COUVRE PAS** les opérations administratives distinctes du cycle de vie (§9.3 purge, §9.4 détection stale).
 
 | De | Vers | Condition |
 |---|---|---|
@@ -173,7 +175,7 @@ L'archivage éditorial (`status: active` / `archived`) **RESTE** porté exclusiv
 | `offline_ready` | `failed` | Invalidation par divergence d'intégrité |
 | `offline_ready` | `preparing` | Reprise explicite de préparation (repair) |
 
-Toute autre transition **DOIT** être rejetée ou normalisée vers l'un de ces états.
+Toute autre transition **du cycle de certification** **DOIT** être rejetée ou normalisée vers l'un de ces états. Les opérations administratives hors graphe (§9.3) **NE SONT PAS** des transitions de ce tableau ; elles **NE DOIVENT PAS** être interprétées comme un contournement de la machine d'états.
 
 ### 5.3 Source de vérité
 
@@ -260,7 +262,7 @@ Elle **NE DOIT PAS** être indexée par `chapter` seul.
 |---|---|
 | **Origine** | Le `content_digest` est une propriété de **publication** portée par le manifest ([`LIBRARY-CATALOG-CONTRACT.md`](LIBRARY-CATALOG-CONTRACT.md) §5.5). |
 | **Vérification** | La préparation offline **DOIT** vérifier la cohérence du contenu installé avec ce digest. |
-| **Invalidation** | Toute divergence **DOIT** empêcher `offline_ready` et **DOIT** conduire à `failed` si le statut était `offline_ready`. |
+| **Invalidation** | Toute divergence **DOIT** empêcher `offline_ready` et **DOIT** conduire à `failed` si le statut était `offline_ready`. L'invalidation par détection stale **DOIT** respecter le §9.4 (déclenchement explicite uniquement). |
 | **Non-substitution** | Le digest **NE DOIT PAS** remplacer `release_id` comme clé de la disponibilité locale certifiée. |
 
 ### 8.3 Données apprenantes
@@ -300,8 +302,22 @@ Deux `release_id` distinctes **DOIVENT** disposer de disponibilités locales cer
 | Règle | Énoncé |
 |---|---|
 | **Explicite** | La suppression de la disponibilité locale certifiée d'une `release_id` — y compris toute matérialisation locale optionnelle au-delà du package installé — **DOIT** être une opération **explicite** et traçable. |
+| **Hors graphe §5.2** | La purge **EST** une opération **administrative explicite**, distincte du graphe de certification §5.2. Elle **N'EST PAS** une transition normale de ce graphe et **NE DOIT PAS** être interprétée comme un contournement de la machine d'états. |
+| **Effet sur `offline_status`** | La purge **DOIT** remettre volontairement `offline_status` à `not_prepared` — sans produire `offline_ready` ni `failed`. |
+| **Invariants préservés** | La purge **NE DOIT JAMAIS** modifier le package publié installé, ni `release_id`, ni `publication_version`, ni `content_digest`. |
+| **Certification ultérieure** | Les invariants de certification (§7) **RESTENT** applicables à toute préparation ultérieure ; la purge **NE REMET PAS EN CAUSE** les règles de certification — elle **RÉINITIALISE** uniquement le statut catalogue et supprime la matérialisation locale runtime associée. |
 | **Interdit silencieux** | Aucune installation, archivage, mise à jour ou migration **NE DOIT** supprimer silencieusement la disponibilité locale d'une Release archivée. |
 | **Orphelins** | Si des données apprenantes subsistent pour une `release_id` dont la disponibilité locale a été supprimée, elles **DOIVENT** être signalées — jamais supprimées silencieusement. |
+
+### 9.4 Détection stale
+
+| Règle | Énoncé |
+|---|---|
+| **Non automatique à l'ouverture Reader** | La détection stale **NE DOIT PAS** s'exécuter automatiquement à chaque ouverture du Reader. |
+| **Déclenchement explicite** | Elle **DOIT** être déclenchée uniquement par des opérations **explicites** du cycle de vie offline (ex. `repair`, vérification ou maintenance orchestrée par l'Offline Manager). |
+| **Sémantique `offline_ready`** | `offline_ready` **REPRÉSENTE** le **dernier état certifié** par l'Offline Manager — pas une garantie de revalidation continue ou systématique. |
+| **Invalidation** | Lorsqu'une incohérence est constatée par une opération explicite, l'invalidation **DOIT** conduire à `failed` conformément au §5.2 et au §8.2 — jamais à un `offline_ready` incohérent. |
+| **Hors périmètre D2** | La revalidation continue ou systématique **N'APPARTIENT PAS** au périmètre PDR-D2 tel que défini par ce contrat. |
 
 ---
 

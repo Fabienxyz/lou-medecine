@@ -76,9 +76,12 @@ Les deux composants portent le nom « Offline Manager » dans le code, mais seul
 | Opération | Comportement |
 |---|---|
 | **`repair(release_id)`** | Supprime le namespace runtime ; conserve package + catalogue ; relance préparation + certification |
-| **`purge(release_id)`** | Supprime le namespace runtime ; remet `offline_status` à `not_prepared` ; ne touche pas au package |
-| **`detectStale` / `invalidateIfStale`** | Détecte incohérence d'une Release `offline_ready` ; invalide vers `failed` — jamais `offline_ready` incohérent |
+| **`purge(release_id)`** | Opération **administrative explicite**, **hors graphe §5.2** du contrat ; supprime le namespace runtime ; remet volontairement `offline_status` à `not_prepared` ; ne modifie jamais package, `release_id`, `publication_version`, `content_digest` |
+| **`detectStale` / `invalidateIfStale`** | Déclenchés **uniquement** par opérations explicites du cycle de vie (ex. `repair`) — **pas** à chaque ouverture Reader ; détecte incohérence d'une Release `offline_ready` ; invalide vers `failed` — jamais `offline_ready` incohérent |
+| **`offline_ready`** | Représente le **dernier état certifié** ; revalidation continue ou systématique **hors périmètre D2** |
 | **Archivage catalogue** | Nouvelle Release active archive l'ancienne sans purge runtime ni reset `offline_status` (install D1-C) |
+
+**Responsabilités inchangées :** Browser Offline Manager seul certifiant ; Runtime = matérialisation ; Package Access = lecture seule ; Reader indépendant de `offline_status` pour la Composition.
 
 **Hors lots D2 :** wiring UI bibliothèque riche, Tauri, purge auto quota, install depuis cloud.
 

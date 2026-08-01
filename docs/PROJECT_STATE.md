@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-01 (Package Access Browser D2-D livré ; objectif actif : implémentation PDR-D2)
+**Dernière mise à jour :** 2026-08-01 (Runtime Offline D2-E livré ; objectif actif : implémentation PDR-D2)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -42,7 +42,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) · Acceptation Reader V1 | **D2-A…D livrés** — contrat + modèle + Offline Manager + Package Access Browser ; prochain : **D2-E** Runtime Offline ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) |
+| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) · Acceptation Reader V1 | **D2-A…E livrés** — contrat + modèle + Offline Manager + Package Access Browser + Runtime Offline ; prochain : **D2-F** préparation auto ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) |
 | **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **PDR-D1 clôturé** ; Amorçage, patrimoine, reprise, recherche ouverts |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Modèle de publication, version package, persistance — en retard sur la spec ; co-vérification prévue à l'acceptation Reader |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; première exécution sur GitHub après push ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
@@ -105,7 +105,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **Reproductibilité du build en CI** | **Validée** — gate fixture 234 PASS sur GitHub Actions (`test:ci`, sans suite slice OAP) | Run [#30689638119](https://github.com/Fabienxyz/lou-medecine/actions/runs/30689638119) ; intégration slice hors gate via `npm run test:integration` (~3–5 min) |
 | **Décisions humaines / chapitre** | Non suivi en production | — |
 | lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS ; Release `complete` ; **1** package complet PDR-A3 |
-| Tests lou-build | **163/163** PASS | 142 JS + 21 TS (test:ci) ; 14 tests Offline Manager D2-C |
+| Tests lou-build | **170/170** PASS | 149 JS + 21 TS (test:ci) ; 17 tests Runtime Offline D2-E + 14 Browser PA + 19 Offline Manager |
 | Références FIL A opérationnelles | **0** | |
 
 ---
@@ -114,7 +114,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 Ordre hérité de [`MASTER_ROADMAP.md` § Dépendances](MASTER_ROADMAP.md#dépendances) — **pas une repriorisation locale**.
 
-1. **PDR-D2 — Offline complet** — lots D2-E…I ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) ; prochain : D2-E Runtime Offline.
+1. **PDR-D2 — Offline complet** — lots D2-F…I ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) ; prochain : D2-F préparation automatique après installation.
 2. **Reader Acceptance V1** — critères PDR-B1/B5/D/E sur package 234 complet (cadre global).
 3. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
 4. **CI** — fixture et non-régression sur package complet (parallèle).
@@ -129,7 +129,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-08-01 | **D2-D — Package Access Browser** — `demo/renderer/library/browser-package-access.js` : résolution URLs release-scoped via `library.json` ; symétrie D1-D ; 13 tests dédiés |
+| 2026-08-01 | **D2-E — Runtime Offline** — `offline-runtime.js` : precache shell, namespace `lou-offline-<release_id>-v1`, préparation transactionnelle, routage `/library/releases/…` ; bridge Offline Manager ; SW module ; 17 tests dédiés |
 | 2026-08-01 | **D2-C — Offline Manager** — `offline-manager.js` : énumération artefacts via Package Access, vérif digest, certification locale, transitions `offline_status` ; 14 tests dédiés |
 | 2026-08-01 | **Harmonisation lots PDR-D2** — séquence officielle D2-A…I ; [`OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) |
 | 2026-08-01 | **D2-B — Offline State Model** — `offline-state.js` : machine à états, validation transitions, persistance `offline_status` dans `library.json` ; migration legacy → `not_prepared` ; 13 tests dédiés |
@@ -178,4 +178,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-01 — Package Access Browser D2-D livré ; prochain D2-E (Runtime Offline).*
+*Révision 2026-08-01 — Runtime Offline D2-E livré ; prochain D2-F (préparation automatique).*

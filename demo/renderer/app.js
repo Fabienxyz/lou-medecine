@@ -201,7 +201,7 @@
         if (navigator.webdriver) {
             return;
         }
-        navigator.serviceWorker.register("/sw.js").catch(function (err) {
+        navigator.serviceWorker.register("/sw.js", { type: "module" }).catch(function (err) {
             console.warn("[LouApp] Service worker registration failed", err);
         });
     }

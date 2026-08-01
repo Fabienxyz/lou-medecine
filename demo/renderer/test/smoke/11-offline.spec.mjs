@@ -9,7 +9,7 @@ async function registerServiceWorkerForTest(page) {
     if (!("serviceWorker" in navigator)) {
       throw new Error("serviceWorker unavailable");
     }
-    await navigator.serviceWorker.register("/sw.js");
+    await navigator.serviceWorker.register("/sw.js", { type: "module" });
     await navigator.serviceWorker.ready;
   });
 }

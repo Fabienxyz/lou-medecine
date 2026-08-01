@@ -1,34 +1,23 @@
-/** Minimal offline layer — Reader Acceptance V1 (PDR-D2). No Renderer logic. */
-const SHELL_CACHE = "lou-reader-shell-v1";
-const RUNTIME_CACHE = "lou-reader-runtime-v1";
-const PACKAGE_PREFIX = "/01-learning/chapters/";
-const SHELL_PREFIX = "/demo/renderer/";
+/**
+ * Service Worker — release-scoped Offline Runtime (D2-E).
+ * Shell precache + library release routing. No Renderer logic.
+ */
+import {
+  SHELL_CACHE_NAME,
+  DEV_WARM_CACHE_NAME,
+} from "./demo/renderer/library/offline-runtime-shared.js";
+import {
+  createOfflineRuntime,
+  createBrowserCacheStorage,
+} from "./demo/renderer/library/offline-runtime.js";
 
-const SHELL_URLS = [
-  "/demo/renderer/index.html",
-  "/demo/renderer/styles.css",
-  "/demo/renderer/config.js",
-  "/demo/renderer/markdown.js",
-  "/demo/renderer/learner-store.js",
-  "/demo/renderer/text-highlights.js",
-  "/demo/renderer/caret-anchor.js",
-  "/demo/renderer/inline-notes.js",
-  "/demo/renderer/svg-loader.js",
-  "/demo/renderer/inline-formatting.js",
-  "/demo/renderer/blocks.js",
-  "/demo/renderer/renderer.js",
-  "/demo/renderer/app.js",
-  "/demo/renderer/lib/marked.min.js",
-  "/demo/renderer/lib/fonts/inter-latin.woff2",
-  "/demo/renderer/composition/bootstrap.mjs",
-  "/demo/renderer/composition/corpus-composition-v1.json",
-  "/demo/renderer/composition/composition-engine.js",
-  "/demo/renderer/composition/reading-view-model.js",
-  "/demo/renderer/composition/navigation.js",
-  "/demo/renderer/composition/composition-spec-schema.js",
-];
+const runtime = createOfflineRuntime({
+  storage: createBrowserCacheStorage(),
+  libraryBasePath: "/library",
+  allowDevPackageWarmCache: false,
+});
 
-function cacheFirst(request) {
+function cacheFirstDev(request) {
   return caches.match(request, { ignoreSearch: true }).then(function (cached) {
     if (cached) {
       return cached;
@@ -37,7 +26,7 @@ function cacheFirst(request) {
       .then(function (response) {
         if (response && response.status === 200) {
           const copy = response.clone();
-          caches.open(RUNTIME_CACHE).then(function (cache) {
+          caches.open(DEV_WARM_CACHE_NAME).then(function (cache) {
             cache.put(request, copy);
           });
         }
@@ -51,14 +40,9 @@ function cacheFirst(request) {
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
-    caches
-      .open(SHELL_CACHE)
-      .then(function (cache) {
-        return cache.addAll(SHELL_URLS);
-      })
-      .then(function () {
-        return self.skipWaiting();
-      })
+    runtime.prepareShell().then(function () {
+      return self.skipWaiting();
+    })
   );
 });
 
@@ -69,7 +53,13 @@ self.addEventListener("activate", function (event) {
         return Promise.all(
           keys
             .filter(function (key) {
-              return key !== SHELL_CACHE && key !== RUNTIME_CACHE;
+              if (key.startsWith("lou-offline-")) {
+                return false;
+              }
+              if (key === SHELL_CACHE_NAME || key === DEV_WARM_CACHE_NAME) {
+                return false;
+              }
+              return true;
             })
             .map(function (key) {
               return caches.delete(key);
@@ -91,25 +81,15 @@ self.addEventListener("fetch", function (event) {
     return;
   }
 
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      fetch(event.request).catch(function () {
-        return caches.match("/demo/renderer/index.html", { ignoreSearch: true });
-      })
-    );
-    return;
-  }
-
-  if (url.pathname.startsWith(SHELL_PREFIX)) {
-    event.respondWith(
-      caches.match(event.request, { ignoreSearch: true }).then(function (cached) {
-        return cached || fetch(event.request);
-      })
-    );
-    return;
-  }
-
-  if (url.pathname.startsWith(PACKAGE_PREFIX)) {
-    event.respondWith(cacheFirst(event.request));
-  }
+  event.respondWith(
+    runtime.resolveOrServe(event.request).then(function (response) {
+      if (response) {
+        return response;
+      }
+      if (url.pathname.startsWith("/01-learning/chapters/")) {
+        return cacheFirstDev(event.request);
+      }
+      return fetch(event.request);
+    })
+  );
 });

@@ -1,0 +1,70 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-48
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-072
+stem:
+  text: |
+    La cardiomyopathie hypertrophique (CMH) :
+  claim_facets:
+    - id: cf-q-234-48-stem
+      class: sourced
+      kp:
+        - KP-072
+options:
+  - id: a
+    label: hypertrophie souvent asymétrique du SIV, FE conservée, trouble du remplissage ; forme obstructive possible ; familiale sarcomérique ; 1re cause de mort subite chez le jeune athlète
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-48-opt-a
+        class: sourced
+        kp: &a1
+          - KP-072
+    explanation: Profil CMH et risque MS.
+    claim_facets_explanation:
+      - id: cf-q-234-48-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: FE systématiquement < 30 %
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-48-opt-b
+        class: sourced
+        kp: &a2
+          - KP-072
+    explanation: FE conservée typiquement.
+    claim_facets_explanation:
+      - id: cf-q-234-48-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: jamais familiale
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-48-opt-c
+        class: sourced
+        kp: &a3
+          - KP-072
+    explanation: Formes sarcomériques familiales.
+    claim_facets_explanation:
+      - id: cf-q-234-48-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: sans risque de mort subite
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-48-opt-d
+        class: sourced
+        kp: &a4
+          - KP-072
+    explanation: 1re cause MS chez jeune athlète.
+    claim_facets_explanation:
+      - id: cf-q-234-48-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: advanced
+  notes: CMH

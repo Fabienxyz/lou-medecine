@@ -1,0 +1,81 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-15
+status: published
+score_model: edn_v1
+
+kp_refs:
+  - KP-060
+  - KP-109
+
+element_refs:
+  - CR-acute
+
+stem:
+  text: |
+    Devant une IC aiguë associée à un syndrome coronarien aigu, quelle attitude est correcte ?
+  claim_facets:
+    - id: cf-q-234-15-stem
+      class: sourced
+      kp: [KP-109]
+
+options:
+  - id: a
+    label: |
+      prise en charge simultanée du SCA et de la poussée d'IC
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-15-opt-a
+        class: sourced
+        kp: [KP-109]
+    explanation: |
+      KP-109 : pas de séquençage « IC d'abord, coronaire après ».
+    claim_facets_explanation:
+      - id: cf-q-234-15-exp-a
+        class: sourced
+        kp: [KP-109]
+  - id: b
+    label: |
+      stabiliser l'IC pendant 72 h avant tout avis coronarien
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-15-opt-b
+        class: sourced
+        kp: [KP-109]
+    explanation: |
+      La prise en charge du SCA n'est pas différée.
+    claim_facets_explanation:
+      - id: cf-q-234-15-exp-b
+        class: sourced
+        kp: [KP-109]
+  - id: c
+    label: |
+      ignorer le SCA si la troponine n'est que modérément élevée en OAP
+    score_tier: 0.2
+    claim_facets_label:
+      - id: cf-q-234-15-opt-c
+        class: sourced
+        kp: [KP-060, KP-109]
+    explanation: |
+      Une troponine modérément ↑ est possible en OAP sans SCA, mais un SCA vrai impose une prise en charge dédiée simultanée.
+    claim_facets_explanation:
+      - id: cf-q-234-15-exp-c
+        class: sourced
+        kp: [KP-060, KP-109]
+  - id: d
+    label: |
+      contre-indication absolue à toute anticoagulation
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-15-opt-d
+        class: sourced
+        kp: [KP-109]
+    explanation: |
+      Non fondé comme règle générale ici ; hors propos de KP-109.
+    claim_facets_explanation:
+      - id: cf-q-234-15-exp-d
+        class: sourced
+        kp: [KP-109]
+
+editorial:
+  difficulty: advanced
+  notes: "IC aiguë + SCA"

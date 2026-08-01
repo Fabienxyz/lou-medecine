@@ -1,0 +1,70 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-33
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-027
+stem:
+  text: |
+    Quels signes cardiaques peuvent orienter vers une insuffisance cardiaque ?
+  claim_facets:
+    - id: cf-q-234-33-stem
+      class: sourced
+      kp:
+        - KP-027
+options:
+  - id: a
+    label: choc de pointe dévié, galop B3, éclat du B2, souffles d'IM/IT fonctionnels ou valvulopathie organique
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-33-opt-a
+        class: sourced
+        kp: &a1
+          - KP-027
+    explanation: Signes cardiaques classiques.
+    claim_facets_explanation:
+      - id: cf-q-234-33-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: un B3 exclut toute valvulopathie
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-33-opt-b
+        class: sourced
+        kp: &a2
+          - KP-027
+    explanation: Souffles valvulaires peuvent coexister.
+    claim_facets_explanation:
+      - id: cf-q-234-33-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: éclat du B2 au foyer aortique en HTAP
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-33-opt-c
+        class: sourced
+        kp: &a3
+          - KP-027
+    explanation: Éclat du B2 au foyer pulmonaire en HTAP.
+    claim_facets_explanation:
+      - id: cf-q-234-33-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: galop B3 = bruit systolique d'éjection
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-33-opt-d
+        class: sourced
+        kp: &a4
+          - KP-027
+    explanation: B3 = bruit protodiastolique (galop).
+    claim_facets_explanation:
+      - id: cf-q-234-33-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: intermediate
+  notes: Signes cardiaques

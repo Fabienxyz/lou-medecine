@@ -1,0 +1,73 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-69
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-097
+  - KP-098
+stem:
+  text: |
+    Parcours de soins et télésurveillance de l'IC :
+  claim_facets:
+    - id: cf-q-234-69-stem
+      class: sourced
+      kp:
+        - KP-097
+        - KP-098
+options:
+  - id: a
+    label: "post-hospitalisation : risque élevé de réhospitalisation, éducation pluridisciplinaire, IPA/protocole coopération, réadaptation SSR ; télésurveillance remboursée surveillant PA/FC/poids avec alertes"
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-69-opt-a
+        class: sourced
+        kp: &a1
+          - KP-097
+          - KP-098
+    explanation: Parcours et télésuivi.
+    claim_facets_explanation:
+      - id: cf-q-234-69-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: réhospitalisation rare après 1re hospitalisation
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-69-opt-b
+        class: sourced
+        kp: &a2
+          - KP-097
+    explanation: Risque important.
+    claim_facets_explanation:
+      - id: cf-q-234-69-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: télésurveillance non remboursée
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-69-opt-c
+        class: sourced
+        kp: &a3
+          - KP-098
+    explanation: Programmes remboursés.
+    claim_facets_explanation:
+      - id: cf-q-234-69-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: réadaptation inutile
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-69-opt-d
+        class: sourced
+        kp: &a4
+          - KP-097
+    explanation: Réadaptation SSR recommandée.
+    claim_facets_explanation:
+      - id: cf-q-234-69-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: intermediate
+  notes: Parcours télésurveillance

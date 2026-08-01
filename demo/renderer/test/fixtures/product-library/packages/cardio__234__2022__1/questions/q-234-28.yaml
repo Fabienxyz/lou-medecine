@@ -1,0 +1,70 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-28
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-021
+stem:
+  text: |
+    Quels signes respiratoires peuvent tromper dans l'IC ?
+  claim_facets:
+    - id: cf-q-234-28-stem
+      class: sourced
+      kp:
+        - KP-021
+options:
+  - id: a
+    label: asthme cardiaque (bradypnée expiratoire sifflante), toux d'effort ou de décubitus, hémoptysies d'hypertension veineuse pulmonaire
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-28-opt-a
+        class: sourced
+        kp: &a1
+          - KP-021
+    explanation: Manifestations respiratoires trompeuses.
+    claim_facets_explanation:
+      - id: cf-q-234-28-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: uniquement la dyspnée de repos
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-28-opt-b
+        class: sourced
+        kp: &a2
+          - KP-021
+    explanation: Plusieurs présentations atypiques existent.
+    claim_facets_explanation:
+      - id: cf-q-234-28-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: l'asthme cardiaque est une obstruction bronchique pure
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-28-opt-c
+        class: sourced
+        kp: &a3
+          - KP-021
+    explanation: C'est une bradypnée expiratoire d'origine cardiaque.
+    claim_facets_explanation:
+      - id: cf-q-234-28-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: la toux ne peut jamais révéler une IC
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-28-opt-d
+        class: sourced
+        kp: &a4
+          - KP-021
+    explanation: Toux à l'effort ou au décubitus possible.
+    claim_facets_explanation:
+      - id: cf-q-234-28-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: intermediate
+  notes: Signes respiratoires trompeurs

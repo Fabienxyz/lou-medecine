@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "library_id": "lou-local",
+  "updated_at": "2026-08-01T18:39:28.949Z",
+  "entries": [
+    {
+      "release_id": "cardio__234__2022__1",
+      "chapter": "cardio/234",
+      "edition": 2022,
+      "publication_version": 1,
+      "status": "active",
+      "installed_at": "2026-08-01T13:14:07.429Z",
+      "root": "packages/cardio__234__2022__1",
+      "manifest": "packages/cardio__234__2022__1/manifest.json",
+      "content_digest": "sha256:fbadd8232e9d0aa133364365d752603dcde38199f786e5eddd137fcfe2b534f5",
+      "offline_status": "offline_ready",
+      "slug": "234-insuffisance-cardiaque",
+      "title": "Insuffisance cardiaque — Chapter Package v1",
+      "specialty": "Cardiologie",
+      "editorial_completeness": "complete"
+    }
+  ],
+  "active_by_chapter": {
+    "cardio/234": "cardio__234__2022__1"
+  }
+}

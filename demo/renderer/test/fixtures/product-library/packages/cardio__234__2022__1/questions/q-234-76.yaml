@@ -1,0 +1,71 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-76
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-070
+stem:
+  text: |
+    Facteurs pronostiques défavorables dans l'IC (niveau maîtrise) :
+  claim_facets:
+    - id: cf-q-234-76-stem
+      class: sourced
+      kp:
+        - KP-070
+options:
+  - id: a
+    label: NYHA III–IV, réhospitalisations, étiologie ischémique, ↓ FE/débit, ↑ pressions, QRS > 120 ms, hyponatrémie, BNP ↑, ↓ pic VO2
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-76-opt-a
+        class: sourced
+        kp: &a1
+          - KP-070
+    explanation: Facteurs pronostiques majeurs.
+    claim_facets_explanation:
+      - id: cf-q-234-76-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: NYHA I toujours péjoratif
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-76-opt-b
+        class: sourced
+        kp: &a2
+          - KP-070
+    explanation: NYHA III–IV vs I–II.
+    claim_facets_explanation:
+      - id: cf-q-234-76-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: FE élevée toujours péjorative
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-76-opt-c
+        class: sourced
+        kp: &a3
+          - KP-070
+    explanation: ↓ FE péjoratif.
+    claim_facets_explanation:
+      - id: cf-q-234-76-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: pic VO2 élevé = mauvais pronostic
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-76-opt-d
+        class: sourced
+        kp: &a4
+          - KP-070
+    explanation: ↓ pic VO2 péjoratif.
+    claim_facets_explanation:
+      - id: cf-q-234-76-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: advanced
+  notes: Facteurs pronostiques (mastery)
+  kp_disposition: deferred-to-mastery

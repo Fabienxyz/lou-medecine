@@ -1,0 +1,73 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-66
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-084
+  - KP-085
+stem:
+  text: |
+    Diurétiques et IC à FE légèrement diminuée (41–49 %) :
+  claim_facets:
+    - id: cf-q-234-66-stem
+      class: sourced
+      kp:
+        - KP-084
+        - KP-085
+options:
+  - id: a
+    label: diurétiques de l'anse pour rétention hydrosodée ; thiazidiques associés si résistance aux fortes doses de furosémide ; FE 41–49 % peut bénéficier des mêmes traitements avec preuve moindre
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-66-opt-a
+        class: sourced
+        kp: &a1
+          - KP-084
+          - KP-085
+    explanation: Diurétiques et HFmrEF.
+    claim_facets_explanation:
+      - id: cf-q-234-66-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: diurétiques contre-indiqués en IC
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-66-opt-b
+        class: sourced
+        kp: &a2
+          - KP-084
+    explanation: Indispensables pour congestion.
+    claim_facets_explanation:
+      - id: cf-q-234-66-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: FE 41–49 % exclut tout traitement de l'HFrEF
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-66-opt-c
+        class: sourced
+        kp: &a3
+          - KP-085
+    explanation: Peut bénéficier des mêmes traitements.
+    claim_facets_explanation:
+      - id: cf-q-234-66-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: thiazidiques seuls en 1re intention systématique
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-66-opt-d
+        class: sourced
+        kp: &a4
+          - KP-084
+    explanation: Anses en 1re intention ; thiazidiques si résistance.
+    claim_facets_explanation:
+      - id: cf-q-234-66-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: intermediate
+  notes: Diurétiques HFmrEF

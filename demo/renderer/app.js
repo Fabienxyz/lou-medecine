@@ -26,6 +26,7 @@
     let offlineStatus = null;
     let commitController = null;
     let restorePlanBuilt = false;
+    let localSearchUI = null;
 
     function getChapterFromUrl() {
         return config.sanitizeChapter(
@@ -212,6 +213,13 @@
         await tabContentReady;
 
         if (
+            localSearchUI &&
+            !options.fromSearchNavigation
+        ) {
+            localSearchUI.onContextChange();
+        }
+
+        if (
             commitController &&
             !options.fromResumePlan &&
             !options.skipViewCommit &&
@@ -291,6 +299,53 @@
                 );
             },
         });
+    }
+
+    async function initLocalSearch() {
+        if (
+            !window.LouLocalSearchUI ||
+            !window.LouSearchNavigation ||
+            !releaseId ||
+            !manifest ||
+            !config.isProductMode() ||
+            !config.libraryBaseUrl
+        ) {
+            return;
+        }
+
+        const contentDigest = manifest.content_digest;
+        if (!contentDigest) {
+            return;
+        }
+
+        try {
+            const searchModule = await import("./library/browser-local-search-runtime.js");
+            const runtime = searchModule.createBrowserLocalSearchRuntime({
+                libraryBaseUrl: config.libraryBaseUrl,
+            });
+            runtime.setOpenRelease({
+                releaseId: releaseId,
+                contentDigest: contentDigest,
+                chapter: chapter,
+            });
+
+            localSearchUI = window.LouLocalSearchUI.create({
+                runtime: runtime,
+                releaseId: releaseId,
+                tabs: tabs,
+                showTab: showTab,
+                whenTabReady: function () {
+                    return tabContentReady;
+                },
+            });
+            localSearchUI.mount();
+            window.LouLocalSearch = {
+                runtime: runtime,
+                ui: localSearchUI,
+            };
+        } catch (err) {
+            console.warn("[LouApp] local search init failed", err);
+        }
     }
 
     window.LouApp = {
@@ -470,6 +525,11 @@
         commitController.bindLifecycleEvents();
 
         await runSessionRestore();
+
+        await initLocalSearch();
+        if (localSearchUI) {
+            localSearchUI.updateTabs(tabs);
+        }
 
         if (!config.productMode) {
             registerServiceWorker();

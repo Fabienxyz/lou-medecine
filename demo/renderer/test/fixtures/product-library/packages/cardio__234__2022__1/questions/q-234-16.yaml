@@ -1,0 +1,70 @@
+# Question d'évaluation (contrat 07)
+question_id: q-234-16
+status: published
+score_model: edn_v1
+kp_refs:
+  - KP-002
+stem:
+  text: |
+    Selon la définition ESC 2021 retenue par le Collège, l'insuffisance cardiaque correspond à :
+  claim_facets:
+    - id: cf-q-234-16-stem
+      class: sourced
+      kp:
+        - KP-002
+options:
+  - id: a
+    label: un syndrome associant symptômes et/ou signes cliniques, causés par une anomalie structurelle et/ou fonctionnelle du cœur entraînant un débit insuffisant et/ou des pressions intracardiaques élevées
+    score_tier: 1
+    claim_facets_label:
+      - id: cf-q-234-16-opt-a
+        class: sourced
+        kp: &a1
+          - KP-002
+    explanation: "Définition syndromique ESC 2021 : symptômes/signes + anomalie cardiaque structurelle/fonctionnelle."
+    claim_facets_explanation:
+      - id: cf-q-234-16-exp-a
+        class: sourced
+        kp: *a1
+  - id: b
+    label: uniquement une fraction d'éjection ≤ 40 %
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-16-opt-b
+        class: sourced
+        kp: &a2
+          - KP-002
+    explanation: La FE n'entre pas dans la définition syndromique ESC.
+    claim_facets_explanation:
+      - id: cf-q-234-16-exp-b
+        class: sourced
+        kp: *a2
+  - id: c
+    label: toute dyspnée d'effort chez le sujet âgé
+    score_tier: 0
+    claim_facets_label:
+      - id: cf-q-234-16-opt-c
+        class: sourced
+        kp: &a3
+          - KP-002
+    explanation: Symptôme non spécifique ; ne suffit pas à définir l'IC.
+    claim_facets_explanation:
+      - id: cf-q-234-16-exp-c
+        class: sourced
+        kp: *a3
+  - id: d
+    label: un défaut de remplissage isolé sans symptôme
+    score_tier: 0.2
+    claim_facets_label:
+      - id: cf-q-234-16-opt-d
+        class: sourced
+        kp: &a4
+          - KP-002
+    explanation: La dysfonction asymptomatique existe mais ne définit pas le syndrome clinique d'IC.
+    claim_facets_explanation:
+      - id: cf-q-234-16-exp-d
+        class: sourced
+        kp: *a4
+editorial:
+  difficulty: basic
+  notes: Définition ESC 2021

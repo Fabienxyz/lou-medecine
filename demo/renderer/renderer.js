@@ -629,6 +629,9 @@ window.LouRenderer = {
 
         const host = this.contentEl.querySelector(".college-official-body");
         if (host) {
+            if (window.LouSearchNavigation && typeof window.LouSearchNavigation.decorateCollegeSectionPaths === "function") {
+                window.LouSearchNavigation.decorateCollegeSectionPaths(host);
+            }
             const context = this.createViewRenderContext(view, manifest, chapter, config);
             if (renderOptions.deferLearnerLayers) {
                 this.deferLearnerLayers(host, context);
@@ -644,6 +647,9 @@ window.LouRenderer = {
         (view.scenarios || []).forEach(function (scenario) {
             const item = document.createElement("li");
             item.textContent = scenario.scenarioId + " (" + scenario.kind + ")";
+            if (scenario.scenarioId) {
+                item.setAttribute("data-scenario-id", scenario.scenarioId);
+            }
             list.appendChild(item);
         });
         const wrapper = document.createElement("section");

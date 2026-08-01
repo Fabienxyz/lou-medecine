@@ -216,7 +216,7 @@ Chaque segment parent est cliquable ; l'onglet courant ne l'est pas. Clic sur le
 
 ## Navigation autorisée en V1
 
-Breadcrumb · onglets · TOC (Notions uniquement) · scroll · clic schéma Modèle mental → Notions · **recherche textuelle locale** sur la Release ouverte ([PDR-D6](../governance/PRODUCT-DECISION-REGISTRY.md), [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](../contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md)).
+Breadcrumb · onglets · TOC (Notions uniquement) · scroll · clic schéma Modèle mental → Notions · **recherche textuelle locale** sur la Release ouverte ([PDR-D6](../governance/PRODUCT-DECISION-REGISTRY.md), [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](../contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md)) · **préférences d'affichage** globales ([PDR-D7](../governance/PRODUCT-DECISION-REGISTRY.md), [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](../contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md)).
 
 ## Navigation exclue en V1
 

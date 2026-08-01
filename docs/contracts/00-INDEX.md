@@ -1,7 +1,7 @@
 # Lou Médecine — Index des contrats
 
 **Type :** index documentaire — **non normatif**  
-**Dernière mise à jour :** 2026-08-01 (PDR-D6 clôturé — contrat composant Local Search)  
+**Dernière mise à jour :** 2026-08-01 (PDR-D7 clôturé — contrat composant Display Preferences)  
 **Audit source :** [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md)
 
 Ce document est la **porte d'entrée** du système contractuel. Il n'énonce aucune règle métier, ne remplace aucun ADR ni aucun contrat existant.
@@ -93,6 +93,7 @@ Statuts : **En vigueur** · **Gelé** (contrats composants Tool).
 | [`OFFLINE-COMPONENT-CONTRACT.md`](components/OFFLINE-COMPONENT-CONTRACT.md) | Mode hors ligne Reader — offline garanti, préparation, cache Release | En vigueur |
 | [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine des données apprenantes — persistance, export, import | En vigueur |
 | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) | Recherche textuelle locale Reader — Release ouverte, index, navigation | En vigueur |
+| [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) | Préférences d'affichage Reader — thème, taille police, largeur lecture | En vigueur |
 
 ---
 

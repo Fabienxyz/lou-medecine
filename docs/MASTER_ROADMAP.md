@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-01 — publication D6 (recherche locale / PDR-D6) ; lot actif **D7 — préférences d'affichage** ; phase active Reader Acceptance V1.
+**Dernière révision :** 2026-08-01 — publication D7 (préférences d'affichage / PDR-D7) ; chantier actif **Amorçage cognitif** + prononcé d'acceptation Reader ; phase active Reader Acceptance V1.
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -160,7 +160,7 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 
 **Hors périmètre V1 :** répétition espacée, recherche globale bibliothèque, export PDF, sync automatique, indicateur de progression élaboré ([PDR-D5](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G4](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-**Plan d'exécution détaillé :** [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md), [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md), [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) (PDR-D2 — lots D2-A…I **livrés** ; plan **clôturé**). **Lot actif :** [PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md) — préférences d'affichage de base. **Lots Reader Acceptance livrés :** D1 · D2 · D4 · D6 · patrimoine E-A…E-D.
+**Plan d'exécution détaillé :** [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md), [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md), [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) (PDR-D2 — lots D2-A…I **livrés** ; plan **clôturé**). **Chantier actif :** Amorçage cognitif (1 vue `planned`) + prononcé d'acceptation Reader. **Lots Reader Acceptance livrés :** D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D.
 
 ---
 
@@ -383,6 +383,7 @@ Objectifs clos — une ligne par acquis, renvoi vers la preuve de clôture. Le d
 | Mode hors ligne intégral — packages installés ([PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md)) | [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md), [`OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) — lots D2-A…I livrés ; tag `offline-certification-v1` |
 | Reprise de session Reader V1 ([PDR-D4](governance/PRODUCT-DECISION-REGISTRY.md)) | `session-service.js`, `session-resume.js`, store `session_resume` ; ResumePlan · RestoreContext · CE-01…CE-08 ; shell offline complet ; 396 unit + 71 smoke PASS ; clôture 2026-08-01 |
 | Recherche textuelle locale Reader V1 ([PDR-D6](governance/PRODUCT-DECISION-REGISTRY.md)) | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) — lots D6-A…G ; Service · Runtime · Reader · validation E2E ; tag `local-search-v1` ; clôture 2026-08-01 |
+| Préférences d'affichage Reader V1 ([PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md)) | [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) — lots D7-A…G ; Service · Runtime · Patrimoine · Reader · validation E2E ; clôture 2026-08-01 |
 
 > **Note terminologique.** Le **pipeline validateur** lou-build est un acquis. La **Fabrique productrice autonome** reste un objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)) — ne pas confondre « cutover lou-build » avec « production autonome de contenu ».
 
@@ -417,4 +418,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-08-01 — publication D6 (recherche locale / PDR-D6) ; lot actif D7 — préférences d'affichage ; phase active Reader Acceptance V1.*
+*Révision 2026-08-01 — publication D7 (préférences d'affichage / PDR-D7) ; chantier actif Amorçage + acceptation Reader ; phase active Reader Acceptance V1.*

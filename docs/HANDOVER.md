@@ -18,23 +18,12 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Branche** | `main` |
-| **HEAD** | `docs(governance): publish local search (PDR-D6)` — lot D6 publié sur `origin/main` |
-| **Remote** | `origin/main` — aligné avec HEAD (après push D6-G) |
-| **Tags de référence** | `local-search-v1` (D6) · `offline-certification-v1` (D2) · `reader-composition-v1` (Composition) |
+| **HEAD** | *(gouvernance D7 — voir commit `docs(governance): publish display preferences (PDR-D7)`)* |
+| **Implémentation D7** | `49dde7a` — `feat(renderer): implement display preferences (PDR-D7)` |
+| **Remote** | `origin/main` — publication D7 en cours |
+| **Tags de référence** | `display-preferences-v1` (D7) · `local-search-v1` (D6) · `offline-certification-v1` (D2) · `reader-composition-v1` (Composition) |
 
-**Commits Reader Acceptance récents :**
-
-| Commit | Message |
-|---|---|
-| *(HEAD D6-G)* | `docs(governance): publish local search (PDR-D6)` |
-| `47d7bb7` | `feat(renderer): implement session resume (PDR-D4)` (D4) |
-| `c6821dc` | `feat(renderer): implement learner patrimony snapshot import` (E-D) |
-
-**Working tree (hors commit D6-G) :** implémentation Reader D6 (code + tests + rapports `demo/renderer/docs/learner-local-search-d6-*`) **non commitée** — commit code distinct recommandé avant toute nouvelle évolution Reader.
-
-**Fichiers non suivis hors périmètre** (ne pas committer sans instruction) :
-
-- `_Roadmap Opus - 27 Juillet 2026.docx`
+**Exclusions volontaires :** `_Roadmap Opus - 27 Juillet 2026.docx` · `demo/renderer/docs/learner-session-d4-technical-design.md` (hors périmètre D7).
 
 ---
 
@@ -45,10 +34,10 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Phase** | Execution Mode V1 — livraison roadmap V1 en cours |
-| **Dernier jalon publié** | **D6** — recherche textuelle locale Reader (gouvernance + tag `local-search-v1`) |
+| **Dernier jalon publié** | **D7** — préférences d'affichage Reader (gouvernance D7-G) |
 | **Objectif actif** | **Reader Acceptance V1** — critères PDR-B1/B5/D/E sur package 234 complet |
-| **Lot actif** | **D7** — préférences d'affichage de base ([PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md)) |
-| **Instance courante** | Package 234 Release `complete` ; Composition V1 ; D1 ; D2 ; D4 ; D6 ; patrimoine E-A…E-D ; **acceptation Reader non prononcée** |
+| **Chantier actif** | **Amorçage cognitif** (1 vue `planned`) + prononcé d'acceptation Reader |
+| **Instance courante** | Package 234 Release `complete` ; Composition V1 ; D1 ; D2 ; D4 ; D6 ; D7 ; patrimoine E-A…E-D ; **acceptation Reader non prononcée** |
 
 **Acquis majeurs (publiés) :**
 
@@ -62,8 +51,9 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 - Patrimoine E-A…E-D — contrat, persistance, export, import
 - **PDR-D4** — reprise de session (ResumePlan, Session Service, store `session_resume`)
 - **PDR-D6** — recherche locale (contrat en vigueur, tag `local-search-v1`)
+- **PDR-D7** — préférences d'affichage (contrat en vigueur ; tag `display-preferences-v1` recommandé)
 
-**Validations D6 (locale, D6-F) :** 493/493 tests unitaires renderer PASS · 19/19 smoke Local Search PASS · 15/15 validation Node D6-F PASS.
+**Validations D7 (locale, D7-F) :** 589/589 tests unitaires renderer PASS · 18/18 smoke Display Preferences PASS · 19/19 validation Node D7-F PASS.
 
 ---
 
@@ -71,47 +61,47 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 **Prochain jalon :** **Reader Acceptance V1**
 
-**Étape immédiate :** **Lot D7** — préférences d'affichage ([PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md)).
+**Étape immédiate :** **Amorçage cognitif** — alimenter la vue `planned` sur package 234.
 
-**Critères restants hors D7 :** Amorçage (1 vue `planned`), prononcé d'acceptation Reader.
+**Critères restants :** Amorçage + prononcé d'acceptation Reader.
 
-**Action recommandée avant D7 :** committer l'implémentation D6 sur `main` (code + tests) pour aligner origin avec l'état livré D6-F.
+**Action recommandée :** committer l'implémentation D6 puis D7 sur `main` (code + tests) pour aligner origin avec l'état livré D6-F / D7-F.
 
-**Points d'entrée code Local Search (D6, working tree local) :**
+**Points d'entrée code Display Preferences (D7, working tree local) :**
 
-- `demo/renderer/local-search-service.js` — index, match, snippets (D6-C)
-- `demo/renderer/library/local-search-runtime.js` — Runtime, cache (D6-D)
-- `demo/renderer/local-search-ui.js` — panneau recherche (D6-E)
-- `demo/renderer/search-navigation.js` — SearchHit → DOM (D6-E)
-- `demo/renderer/app.js` — câblage mode produit
-- Rapports : [`demo/renderer/docs/learner-local-search-d6-f-validation-report.md`](../demo/renderer/docs/learner-local-search-d6-f-validation-report.md)
+- `demo/renderer/display-preferences-service.js` — Service pur (D7-C)
+- `demo/renderer/display-preferences-runtime.js` — Runtime + patrimoine (D7-D)
+- `demo/renderer/display-preferences-apply.js` — callback visuel `data-dp-*` (D7-E)
+- `demo/renderer/display-preferences-ui.js` — panneau Reader (D7-E)
+- `demo/renderer/app.js` — boot `loadAndApply` avant reprise session
+- Rapports : [`demo/renderer/docs/learner-display-preferences-d7-f-validation-report.md`](../demo/renderer/docs/learner-display-preferences-d7-f-validation-report.md)
 
 ---
 
 ## 4. Architecture stabilisée
 
-Chaîne recherche locale (D6) :
+Chaîne Display Preferences (D7) :
 
 ```
-Package Access (Release ouverte)
+Display Preferences Service (pur)
         ↓
-Local Search Service — index déterministe
+Display Preferences Runtime — store display_preferences (singleton global)
         ↓
-Local Search Runtime — cache IDB lou-local-search-v1
+LouLearnerStore / Learner Snapshot (export-import domaine)
         ↓
-LouLocalSearchUI — panneau, requête, résultats
+applyDisplayPreferences — attributs data-dp-* sur <html>
         ↓
-LouSearchNavigation — showTab + scroll + surbrillance éphémère
+Reader UI — 3 réglages + reset
 ```
 
-**Décisions figées D6 :**
+**Décisions figées D7 :**
 
-- Recherche limitée à la Release **ouverte** — pas de recherche globale bibliothèque
-- Index et cache = données dérivées — purge à changement Release / digest stale
-- Aucune persistance patrimoine ni session pour l'état recherche
-- Offline : index reconstruit si cache absent ; navigation SearchHit fonctionnelle
+- Trois préférences V1 : thème, taille police, largeur lecture
+- Singleton global — pas de scope Release / chapitre / vue
+- Premier boot sans écriture patrimoniale tant qu'aucune modification utilisateur
+- Orthogonalité Session (D4), Local Search (D6), Composition, Offline
 
-Contrat faisant autorité : [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md).
+Contrat faisant autorité : [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md).
 
 ---
 
@@ -119,11 +109,12 @@ Contrat faisant autorité : [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/com
 
 | Document | Rôle |
 |---|---|
+| [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) | Préférences d'affichage — singleton global, Snapshot, boot |
 | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) | Recherche locale — périmètre Release, index, navigation |
 | [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](contracts/components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) | Patrimoine — persistance §7, export §8, import §9 |
-| [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) | Offline — indépendance index recherche |
+| [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) | Offline — indépendance préférences |
 | [`LIBRARY-CATALOG-CONTRACT.md`](contracts/components/LIBRARY-CATALOG-CONTRACT.md) | Identité Release catalogue |
-| [PDR-D6](governance/PRODUCT-DECISION-REGISTRY.md) | Recherche locale — critère Acceptation Reader V1 |
+| [PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md) | Préférences d'affichage — critère Acceptation Reader V1 |
 
 ---
 
@@ -136,20 +127,19 @@ Contrat faisant autorité : [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/com
 | **Offline (D2)** | Publié |
 | **Patrimoine E-A…E-D** | Publié |
 | **Reprise session (D4)** | Publié |
-| **Recherche locale (D6)** | **Publié (gouvernance)** — implémentation validée localement ; **commit code en attente** |
-| **Préférences (D7)** | Non implémenté — **lot actif** |
+| **Recherche locale (D6)** | Publié |
+| **Préférences (D7)** | Publié |
+| **Amorçage cognitif** | Vue `planned` — **chantier actif** |
 | **Critères d'acceptation** | **Non prononcés** |
 
-**Tests renderer (D6-F, local) :** 493 PASS unit · 90 PASS smoke (71 + 19 LS-F) · 19 PASS Playwright Local Search.
+**Tests renderer (D7-F, local) :** 589 PASS unit · 108 PASS smoke (71 + 19 LS-F + 18 DP-F) · 19 PASS Node D7-F.
 
 ---
 
 ## 7. Chantiers recommandés
 
-1. **Commit code D6** — aligner `origin/main` avec implémentation livrée (hors périmètre D6-G)
-2. **D7 — Préférences d'affichage** (lot actif)
-3. **Amorçage** (vue `planned`)
-4. **Reader Acceptance V1** (cadre global)
+1. **Amorçage cognitif** — alimenter la vue `planned` (chantier actif)
+2. **Reader Acceptance V1** — prononcé d'acceptation (cadre global)
 
 ---
 
@@ -159,9 +149,9 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
 2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md).
-3. Lot actif : **D7 — préférences d'affichage**.
-4. Lots D4, D6 (gouvernance) et patrimoine E-A…E-D **clôturés**.
+3. Chantier actif : **Amorçage cognitif** + acceptation Reader.
+4. Lots D4, D6, D7 (gouvernance) et patrimoine E-A…E-D **clôturés**.
 
 ---
 
-*Handover — 2026-08-01 — D6 publié ; lot D7 ouvert. Non normatif.*
+*Handover — 2026-08-01 — D7 publié ; chantier actif Amorçage. Non normatif.*

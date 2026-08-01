@@ -146,6 +146,7 @@ Overlays apprenant conservés en vue agrandie (formatage figure).
 | TOC | Notions uniquement |
 | Ancres internes | Notions ; Modèle mental → Notions |
 | Recherche in-chapter | V1 — Release ouverte uniquement ([PDR-D6](../governance/PRODUCT-DECISION-REGISTRY.md)) ; panneau Ctrl/Cmd+K ; navigation vers ancre ; surbrillance éphémère ; état non persisté |
+| Préférences d'affichage | V1 — thème clair/sombre, taille police, largeur lecture ([PDR-D7](../governance/PRODUCT-DECISION-REGISTRY.md)) ; globales à l'application ; persistées patrimoniale ; export/import Snapshot ; sans impact contenu médical |
 | Historique navigateur | Natif |
 
 Règles UX structurelles : doc 14 § UX.

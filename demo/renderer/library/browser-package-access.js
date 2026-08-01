@@ -35,7 +35,7 @@ export class BrowserPackageAccess {
     if (typeof fetchFn !== "function") {
       throw new Error("browser package access: fetch is required");
     }
-    this._fetch = fetchFn;
+    this._fetch = (...args) => fetchFn(...args);
     /** @type {Promise<Record<string, unknown>> | null} */
     this._catalogPromise = null;
     /** @type {Map<string, Promise<Record<string, unknown>>>} */
@@ -127,6 +127,11 @@ export class BrowserPackageAccess {
       relativePath: normalized,
       url,
     };
+  }
+
+  /** Clear cached catalog after offline_status mutation (D2-G). */
+  invalidateCatalogCache() {
+    this._catalogPromise = null;
   }
 
   /**

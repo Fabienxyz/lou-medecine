@@ -24,7 +24,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Livrable visé** | Reader local installable, 7 vues alimentées sur le package de capitalisation de référence ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Chemin critique** | **Reader Acceptance V1** — goulet principal avant validation pédagogique Lou et industrialisation |
 | **Blocage structurant** | Critères d'**acceptation** Reader V1 non prononcés — **PDR-D2 complet ouvert** (offline intégral sur packages installés) ; patrimoine, reprise de session, recherche, CI, Amorçage ouverts |
-| **Dernier jalon produit** | **PDR-D1 clôturé** — bibliothèque installable (D1-A…D) : contrat Library Catalog, identité Release, installation atomique, Package Access |
+| **Dernier jalon produit** | **D2-G livré** — première certification produit `offline_ready` via Browser Offline Manager ; Reader branché sur Browser Package Access en mode produit |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -42,7 +42,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) · Acceptation Reader V1 | **D2-A…F livrés** — contrat + modèle + Offline Manager + Package Access Browser + Runtime Offline + préparation auto post-install ; prochain : **D2-G** acceptation offline ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) |
+| **PDR-D2 — Offline complet** | [PDR-D2](governance/PRODUCT-DECISION-REGISTRY.md) · Acceptation Reader V1 | **D2-A…G livrés** — contrat + modèle + Offline Manager + Package Access Browser + Runtime Offline + préparation auto post-install + **certification produit D2-G** ; prochain : **D2-H** update/repair/archive ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) |
 | **Reader Acceptance V1** | Acceptation Reader V1 | Phase **active** — critères PDR-B1/B5/D/E sur package 234 complet ; **PDR-D1 clôturé** ; Amorçage, patrimoine, reprise, recherche ouverts |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | Modèle de publication, version package, persistance — en retard sur la spec ; co-vérification prévue à l'acceptation Reader |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; première exécution sur GitHub après push ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
@@ -69,7 +69,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Pipeline sémantique non automatisé | Bloque industrialisation aval (pas le golden master capitalisé manuellement) | Industrialisation Fabrique productrice |
 | Build SVG non reproductible byte-identique | Bloque CI fiable | Maintenabilité et CI |
 | Patrimoine non implémenté (version package, export/restauration) | Bloque critères V1 patrimoine + acceptation Reader | Patrimoine · Acceptation Reader V1 |
-| PDR-D2 offline intégral non satisfait | Cache SW ≠ packages installés ; offline après warm cache seulement — prérequis PDR-D1 satisfait | PDR-D2 · Acceptation Reader V1 |
+| PDR-D2 offline intégral non satisfait | ~~Cache SW ≠ packages installés~~ — **certification produit D2-G livrée** ; update/repair/archive (D2-H) et clôture gouvernance (D2-I) ouverts | PDR-D2 · Acceptation Reader V1 |
 | F2 — ordre écriture sidecars G/H vs verdict I | Cohérence disque lou-build | Dette pipeline |
 | Scale-out prématuré (tentation multi-chapitres partiels) | Dispersion — contredit [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md) | — (risque de pilotage) |
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
@@ -97,7 +97,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | Indicateur | Mesuré | Notes |
 |---|---|---|
 | **Package de référence complet** | **Oui** — Release `complete` PDR-A3 | 81 QCM + 3 scénarios ; 91/91 KP understanding ; 9/16 deferred mastery |
-| **Reader Composition V1** | **Publiée** — tag `reader-composition-v1` ; Spec, Engine, ViewModel en production ; 249 unit + 61 smoke PASS | Audit indépendant ✅ Conforme |
+| **Reader Composition V1** | **Publiée** — tag `reader-composition-v1` ; Spec, Engine, ViewModel en production ; 249 unit + **70 smoke PASS** (9 OF-D2-*) | Audit indépendant ✅ Conforme |
 | **Reader V1 — critères d'acceptation** | **Non prononcés** — phase Reader Acceptance V1 active | 1 vue `planned` (Amorçage) ; Collège officiel alimenté ; **PDR-D1 clôturé** ; **PDR-D2 complet ouvert** ; patrimoine, reprise de session, recherche ouverts ; fixture CI branchée, validation GitHub Actions après push |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
@@ -105,7 +105,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **Reproductibilité du build en CI** | **Validée** — gate fixture 234 PASS sur GitHub Actions (`test:ci`, sans suite slice OAP) | Run [#30689638119](https://github.com/Fabienxyz/lou-medecine/actions/runs/30689638119) ; intégration slice hors gate via `npm run test:integration` (~3–5 min) |
 | **Décisions humaines / chapitre** | Non suivi en production | — |
 | lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS ; Release `complete` ; **1** package complet PDR-A3 |
-| Tests lou-build | **180/180** PASS | 159 JS + 21 TS (test:ci) ; 11 tests D2-F auto-prepare + 19 Offline Manager + 13 offline-state + intégration slice 18 |
+| Tests lou-build | **180/180** PASS | 159 JS + 21 TS (test:ci) ; intégration slice 18 (test:integration) ; 3 tests Browser Offline Manager (D2-G) |
 | Références FIL A opérationnelles | **0** | |
 
 ---
@@ -114,7 +114,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 Ordre hérité de [`MASTER_ROADMAP.md` § Dépendances](MASTER_ROADMAP.md#dépendances) — **pas une repriorisation locale**.
 
-1. **PDR-D2 — Offline complet** — lots D2-G…I ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) ; prochain : D2-G acceptation offline (wiring Reader).
+1. **PDR-D2 — Offline complet** — lots D2-H…I ([plan](governance/OFFLINE-IMPLEMENTATION-PLAN.md)) ; prochain : D2-H update/repair/archive.
 2. **Reader Acceptance V1** — critères PDR-B1/B5/D/E sur package 234 complet (cadre global).
 3. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
 4. **CI** — fixture et non-régression sur package complet (parallèle).
@@ -129,6 +129,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-01 | **D2-G — Browser Integration & Offline Certification** — Reader mode produit (`?product=1`) via Browser Package Access ; Browser Offline Manager seul certifiant `offline_ready`/`failed` ; 9 tests Playwright OF-D2-* + 3 unit Browser Offline Manager PASS |
 | 2026-08-01 | **D2-F — Préparation automatique après installation (refactor)** — hook post-install → `OfflineManager.prepare` (Runtime Node interne) ; **sans certification** `offline_ready`/`failed` ; `offline_status` reste `not_prepared` jusqu'à D2-G ; 11 tests adaptés |
 | 2026-08-01 | **D2-F — Préparation automatique après installation** — hook post-install → `OfflineManager.prepare` ; Runtime Node (filesystem) ; ~~transitions via `transitionCatalogOfflineStatus`~~ (retiré — certification réservée D2-G) |
 | 2026-08-01 | **D2-E — Runtime Offline** — `offline-runtime.js` : precache shell, namespace `lou-offline-<release_id>-v1`, préparation transactionnelle, routage `/library/releases/…` ; bridge Offline Manager ; SW module ; 17 tests dédiés |
@@ -180,4 +181,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-01 — D2-F refactoré : certification offline réservée D2-G ; prochain D2-G (acceptation offline / wiring Reader).*
+*Révision 2026-08-01 — D2-G livré : certification produit offline ; prochain D2-H (update/repair/archive).*

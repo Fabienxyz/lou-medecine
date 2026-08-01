@@ -84,6 +84,13 @@ export function chapterUrl(slug = CHAPTER_SLUG) {
   return `${RENDERER_PATH}?chapter=${encodeURIComponent(slug)}`;
 }
 
+/** Product mode — Browser Package Access + library catalog (D2-G). */
+export function productChapterUrl(slug = CHAPTER_SLUG) {
+  return `${RENDERER_PATH}?chapter=${encodeURIComponent(slug)}&product=1`;
+}
+
+export const RELEASE_ID_234 = "cardio__234__2022__1";
+
 export function projectionByTabIndex(index) {
   return Object.values(PROJECTIONS).find((p) => p.tabIndex === index);
 }

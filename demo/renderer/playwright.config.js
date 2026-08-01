@@ -11,12 +11,13 @@ export default {
     baseURL: "http://127.0.0.1:8765",
     headless: true,
     viewport: { width: 1280, height: 900 },
+    serviceWorkers: "allow",
   },
   webServer: {
-    command: "python3 -m http.server 8765",
-    cwd: "../..",
+    command: "node test/library-server.mjs",
+    cwd: ".",
     url: "http://127.0.0.1:8765/demo/renderer/index.html",
     reuseExistingServer: !process.env.CI,
-    timeout: 15_000,
+    timeout: 60_000,
   },
 };

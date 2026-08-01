@@ -83,6 +83,33 @@ window.LouConfig = {
     // renderer must not carry a list of which chapters have been built.
     contentRoot: null,
 
+    /** Product mode (D2-G): Browser Package Access instead of CHAPTERS_ROOT. */
+    productMode: false,
+    libraryBaseUrl: null,
+    _releaseId: null,
+    _packageAccess: null,
+    _buildReleaseScopedUrl: null,
+
+    /**
+     * @param {{
+     *   libraryBaseUrl: string,
+     *   releaseId: string,
+     *   packageAccess: object,
+     *   buildReleaseScopedUrl: (base: string, releaseId: string, path: string) => string,
+     * }} opts
+     */
+    enableProductMode(opts) {
+        this.productMode = true;
+        this.libraryBaseUrl = opts.libraryBaseUrl.replace(/\/+$/, "");
+        this._releaseId = opts.releaseId;
+        this._packageAccess = opts.packageAccess;
+        this._buildReleaseScopedUrl = opts.buildReleaseScopedUrl;
+    },
+
+    isProductMode() {
+        return this.productMode === true;
+    },
+
     resolveContentRoot(chapter) {
         return (this.contentRoot || this.CHAPTERS_ROOT) + "/" + chapter;
     },
@@ -107,6 +134,13 @@ window.LouConfig = {
     },
 
     resolveAssetPath(chapter, filename) {
+        if (this.productMode && this._releaseId && this._buildReleaseScopedUrl) {
+            return this._buildReleaseScopedUrl(
+                this.libraryBaseUrl,
+                this._releaseId,
+                filename.replace(/\\/g, "/")
+            );
+        }
         const parts = [this.resolveContentRoot(chapter), filename].join("/");
         return new URL(parts, window.location.href).href;
     },

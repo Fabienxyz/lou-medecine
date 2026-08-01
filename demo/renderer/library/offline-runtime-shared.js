@@ -49,6 +49,16 @@ export const SHELL_URLS = [
   "/demo/renderer/composition/reading-view-model.js",
   "/demo/renderer/composition/navigation.js",
   "/demo/renderer/composition/composition-spec-schema.js",
+  "/demo/renderer/product-bootstrap.mjs",
+  "/demo/renderer/library/browser-package-access.js",
+  "/demo/renderer/library/browser-offline-manager.js",
+  "/demo/renderer/library/browser-offline-verify.js",
+  "/demo/renderer/library/library-catalog-browser.js",
+  "/demo/renderer/library/offline-state.js",
+  "/demo/renderer/library/offline-runtime.js",
+  "/demo/renderer/library/offline-runtime-shared.js",
+  "/demo/renderer/library/offline-manager-runtime-bridge.js",
+  "/demo/renderer/library/package-access-shared.js",
 ];
 
 export const SHELL_PREFIX = "/demo/renderer/";

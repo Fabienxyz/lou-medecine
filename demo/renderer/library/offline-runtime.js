@@ -157,12 +157,19 @@ class OfflineRuntime {
         "offline runtime: fetch is required"
       );
     }
-    this._fetch = fetchFn;
+    this._fetch = (...args) => fetchFn(...args);
     this._libraryBasePath = options.libraryBasePath ?? "/library";
     this._shellUrls = options.shellUrls ?? SHELL_URLS;
     this._allowDevPackageWarmCache = options.allowDevPackageWarmCache ?? true;
     /** @type {Map<string, Promise<{ releaseId: string, contentDigest: string, resourceCount: number }>>} */
     this._inFlight = new Map();
+  }
+
+  /**
+   * @returns {OfflineRuntimeStorage}
+   */
+  getStorage() {
+    return this._storage;
   }
 
   /**
@@ -271,6 +278,10 @@ class OfflineRuntime {
 
     const url = new URL(req.url);
     const base = this._libraryBasePath.replace(/\/+$/, "");
+    const catalogPath = `${base}/library.json`;
+    if (url.pathname === catalogPath) {
+      return this._serveShellAsset(catalogPath);
+    }
     const releasePrefix = `${base}/releases/`;
 
     if (url.pathname.startsWith(releasePrefix)) {

@@ -3,9 +3,8 @@
  * Shell precache + library release routing. No Renderer logic.
  */
 import {
-  SHELL_CACHE_NAME,
-  SHELL_URLS,
   DEV_WARM_CACHE_NAME,
+  SHELL_CACHE_NAME,
 } from "./demo/renderer/library/offline-runtime-shared.js";
 import {
   createOfflineRuntime,
@@ -41,14 +40,9 @@ function cacheFirstDev(request) {
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
-    caches
-      .open(SHELL_CACHE_NAME)
-      .then(function (cache) {
-        return cache.addAll(SHELL_URLS);
-      })
-      .then(function () {
-        return self.skipWaiting();
-      })
+    runtime.prepareShell().then(function () {
+      return self.skipWaiting();
+    })
   );
 });
 

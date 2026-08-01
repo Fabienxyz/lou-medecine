@@ -215,7 +215,31 @@
             return;
         }
 
-        const loaded = await loadChapterMetadata(chapter);
+        /** @type {{ ok: boolean, manifest?: object, reason?: string, useLegacy?: boolean }} */
+        let loaded;
+        const productRequested =
+            new URLSearchParams(window.location.search).get("product") === "1" ||
+            new URLSearchParams(window.location.search).get("library") === "1";
+
+        if (productRequested) {
+            registerServiceWorker();
+            try {
+                const bootstrap = await import("./product-bootstrap.mjs");
+                window.LouProductBootstrap = {
+                    isProductMode: bootstrap.isProductMode,
+                    init: bootstrap.initProductMode,
+                    readOfflineStatus: bootstrap.readOfflineStatus,
+                    OFFLINE_STATUS: bootstrap.OFFLINE_STATUS,
+                };
+                const product = await bootstrap.initProductMode(chapter);
+                loaded = { ok: true, manifest: product.manifest };
+            } catch (err) {
+                console.error("[LouApp] product bootstrap failed", err);
+                loaded = { ok: false, reason: "network", useLegacy: false };
+            }
+        } else {
+            loaded = await loadChapterMetadata(chapter);
+        }
         if (loaded.ok) {
             manifest = loaded.manifest;
             traceIndexUrl = manifest.trace_index
@@ -254,7 +278,9 @@
 
         buildTabs();
         await showTab(0);
-        registerServiceWorker();
+        if (!config.productMode) {
+            registerServiceWorker();
+        }
     }
 
     boot();

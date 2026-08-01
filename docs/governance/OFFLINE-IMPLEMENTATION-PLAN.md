@@ -22,7 +22,7 @@ Ce document porte la **numérotation opérationnelle unique** des lots PDR-D2. L
 | **D2-D** | Package Access Browser | **Livré** |
 | **D2-E** | Runtime Offline (routage local) | **Livré** |
 | **D2-F** | Préparation automatique après installation | **Livré** |
-| **D2-G** | Acceptation Offline | À venir |
+| **D2-G** | Acceptation Offline | **Livré** |
 | **D2-H** | Update / Repair / Archive | À venir |
 | **D2-I** | Propagation documentaire / clôture | À venir |
 
@@ -43,6 +43,31 @@ Ce document porte la **numérotation opérationnelle unique** des lots PDR-D2. L
 | **D2-I — Propagation documentaire / clôture** | PROJECT_STATE ; critère roadmap ; clôture gouvernance PDR-D2 | D2-G | PDR-D2 clôturé gouvernance |
 
 **Clarification D2-F — préparation auxiliaire :** le lot D2-F introduit un mécanisme auxiliaire de préparation déclenché après installation. Cette matérialisation est informative : ni son succès ni son échec n'affectent `offline_status`. Toute Release nouvellement installée reste `not_prepared` jusqu'à la certification par le runtime de production (lot D2-G). Les transitions `not_prepared` → `preparing` → `offline_ready` ou `failed` sont réservées à ce runtime de production.
+
+**Clarification D2-G — nomenclature Offline Manager :**
+
+| Composant | Rôle | Certification |
+|---|---|---|
+| **Offline Manager auxiliaire** (Node, D2-C / D2-F) | Préparation et vérification post-install via Package Access Node + runtime Node | **Ne certifie pas** — ne modifie jamais `offline_status` vers `offline_ready` ou `failed` |
+| **Browser Offline Manager** (D2-G) | Orchestration de production dans le Reader : préparation runtime browser, vérification, écriture catalogue | **Seule autorité** de certification produit (`offline_ready` / `failed`) |
+
+Les deux composants portent le nom « Offline Manager » dans le code, mais seul le **Browser Offline Manager** est l'Offline Manager du **runtime de production** au sens du contrat D2-A §7.1.
+
+**Clarification D2-G — frontière Reader / Package Access :**
+
+| Étape | Frontière |
+|---|---|
+| **Découverte et validation** | Passe par **Browser Package Access** (`getActiveRelease`, `resolveManifest`, `resolveAssetUrl`) |
+| **Lectures courantes du Reader** | Utilisent les **URLs release-scoped** produites par les primitives Package Access (`buildReleaseScopedUrl` via `LouConfig.resolveAssetPath`) — pas d'appel BPA obligatoire à chaque `fetch` si le schéma d'URL est déjà validé et centralisé |
+| **Interdit** | Le Reader **ne construit jamais** de chemins dépôt (`CHAPTERS_ROOT`, `/01-learning/chapters/…`) ni de chemins arbitraires hors schéma catalogue en mode produit |
+
+**Clarification D2-G — shell Reader et `offline_ready` :**
+
+| Propriété | Périmètre |
+|---|---|
+| **`offline_ready`** | Certifie la **disponibilité locale de la Release** (artefacts déclarés + digest) — porté par `library.json` |
+| **Shell Reader** | Garantie **globale distincte** (§6.3 contrat D2-A) — ressources statiques nécessaires à l'exécution du Reader, indépendantes de toute Release |
+| **Acceptation D2** | Exige **simultanément** : Release `offline_ready` **et** shell offline opérationnel — le statut du shell **n'est pas** porté par `library.json` |
 
 **Ordre critique :** D2-A → D2-B → D2-C ∥ D2-D → D2-E → D2-F → D2-G ; D2-H après D2-F ; D2-I clôture.
 

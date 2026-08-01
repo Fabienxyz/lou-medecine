@@ -619,4 +619,24 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       "known_absent must not list Reader pseudo-view readiness"
     );
   });
+
+  test("build 234 publishes cognitive priming artefact and manifest path (A6)", async () => {
+    restoreAllBaselines();
+
+    const result = await runTypedBuild(CHAPTER);
+    assert.equal(result.ok, true, (result.errors || []).join("; "));
+
+    const manifest = JSON.parse(
+      fs.readFileSync(path.join(CHAPTER, "manifest.json"), "utf8")
+    );
+    assert.equal(manifest.cognitive_priming_path, "build/cognitive-priming.v1.json");
+
+    const artifactPath = path.join(CHAPTER, "build/cognitive-priming.v1.json");
+    assert.ok(fs.existsSync(artifactPath), "cognitive priming artefact must exist after build");
+
+    const record = JSON.parse(fs.readFileSync(artifactPath, "utf8"));
+    assert.equal(record.schema_version, 1);
+    assert.equal(record.chapter_id, "cardio/234");
+    assert.ok(Array.isArray(record.summary?.bullets) && record.summary.bullets.length > 0);
+  });
 });

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "chapter_id": "cardio/234",
+  "profile": {
+    "comprehension": 4,
+    "memorization": 4
+  },
+  "prerequisites": {
+    "edn_references": [
+      {
+        "reference_id": "edn-cardio-220",
+        "chapter_id": "cardio/220",
+        "label": "Item 220 — Hypertension artérielle",
+        "item_label": "HTA"
+      },
+      {
+        "reference_id": "edn-cardio-152",
+        "chapter_id": "cardio/152",
+        "label": "Item 152 — Fibrillation atriale",
+        "item_label": "FA"
+      },
+      {
+        "reference_id": "edn-cardio-177",
+        "chapter_id": "cardio/177",
+        "label": "Item 177 — Athérosclérose et maladie coronarienne",
+        "item_label": "Athérosclérose"
+      }
+    ],
+    "ai_complements": [
+      {
+        "complement_id": "ai-prereq-234-01",
+        "sentence": "La boucle « compensation utile à court terme puis délétère à long terme » structure l'ensemble du chapitre avant d'entrer dans les mécanismes détaillés.",
+        "badge": "Complément pédagogique (IA) — non issu du Collège"
+      }
+    ]
+  },
+  "summary": {
+    "bullets": [
+      "L'insuffisance cardiaque combine un débit insuffisant (ou une incapacité à l'augmenter à l'effort) et des pressions de remplissage élevées transmises en amont — deux conséquences qui expliquent le bas débit et la congestion.",
+      "Les compensations (Starling, sympathique, rétention hydrosodée, SRAA) maintiennent le débit un temps, puis favorisent remodelage et décompensation.",
+      "Les phénotypes HFrEF, HFmrEF et HFpEF se distinguent par la fraction d'éjection et orientent le raisonnement thérapeutique.",
+      "Le diagnostic repose sur la clinique, les peptides natriurétiques (valeur prédictive négative) puis l'échocardiographie ; l'ECG guide surtout le traitement.",
+      "Le traitement associe les diurétiques de congestion aux quatre classes modificatrices de la maladie en HFrEF ; en HFrEF aiguë, trier congestion et hypoperfusion avant de traiter la cause."
+    ]
+  }
+}

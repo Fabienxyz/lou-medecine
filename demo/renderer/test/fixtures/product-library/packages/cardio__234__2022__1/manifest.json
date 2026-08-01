@@ -84,6 +84,7 @@
     }
   ],
   "college_source_path": "source/official-college.md",
+  "cognitive_priming_path": "build/cognitive-priming.v1.json",
   "chapter_reconciliation_invariant": "pass",
   "chapter_reconciliation_scope": "Item 234 — Insuffisance cardiaque de l'adulte — full chapter (109 KPs)",
   "chapter_reconciliation_segments": [
@@ -642,5 +643,5 @@
   "editorial_completeness": "complete",
   "publication_version": 1,
   "release_id": "cardio__234__2022__1",
-  "content_digest": "sha256:fbadd8232e9d0aa133364365d752603dcde38199f786e5eddd137fcfe2b534f5"
+  "content_digest": "sha256:f9787f4f7ea3fc8cfd01a8806d11903f7f4d8ce2ad288403b0cc8ba7dfc25c54"
 }

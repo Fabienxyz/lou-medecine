@@ -78,6 +78,7 @@ export function collectDeclaredArtifactPaths(manifest) {
   };
 
   add(manifest.college_source_path);
+  add(manifest.cognitive_priming_path);
   add(manifest.trace_index);
 
   for (const p of manifest.projections || []) {

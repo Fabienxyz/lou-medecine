@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { publishCognitivePriming } from "../../lib/cognitive-priming.js";
 import {
   assembleManifest,
   invalidatePublishableState,
@@ -62,6 +63,13 @@ export function runPackaging(ctx: BuildContext): StageResult {
 
   publishCollegeSource(paths.chapterDir, sourceMeta);
 
+  const cognitivePrimingPath = publishCognitivePriming(
+    paths.chapterDir,
+    inventory as { chapter: string },
+    packageConfig,
+    evaluation,
+  );
+
   const manifest = assembleManifest({
     chapterDir: paths.chapterDir,
     inventory,
@@ -72,6 +80,7 @@ export function runPackaging(ctx: BuildContext): StageResult {
     visualBuild,
     evaluation,
     previousManifest,
+    cognitivePrimingPath,
   });
 
   fs.writeFileSync(paths.manifest, JSON.stringify(manifest, null, 2) + "\n");

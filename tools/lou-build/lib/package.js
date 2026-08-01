@@ -1,5 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
+import {
+  COGNITIVE_PRIMING_ARTIFACT_REL,
+  publishCognitivePriming,
+} from "./cognitive-priming.js";
 import { validateManifestReaderNeutral } from "./manifest-neutralization.js";
 import {
   attachReleaseIdentity,
@@ -53,6 +57,7 @@ function assembleManifest({
   visualBuild,
   evaluation,
   previousManifest = null,
+  cognitivePrimingPath = null,
 }) {
   const mode = packageConfig.mode || "slice";
   const manifest = {
@@ -76,6 +81,9 @@ function assembleManifest({
     const collegeSourcePath = collegeSourceManifestPath(chapterDir);
     if (collegeSourcePath) {
       manifest.college_source_path = collegeSourcePath;
+    }
+    if (cognitivePrimingPath) {
+      manifest.cognitive_priming_path = cognitivePrimingPath;
     }
   }
 
@@ -204,4 +212,9 @@ function assembleManifest({
   return manifest;
 }
 
-export { assembleManifest, invalidatePublishableState };
+export {
+  assembleManifest,
+  invalidatePublishableState,
+  publishCognitivePriming,
+  COGNITIVE_PRIMING_ARTIFACT_REL,
+};

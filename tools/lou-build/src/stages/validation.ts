@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { validateCognitivePrimingGate } from "../../lib/cognitive-priming.js";
 import { validateReleaseIdentity } from "../../lib/release-identity.js";
 import type { BuildContext } from "../pipeline/context.js";
 import type { Stage } from "../pipeline/stage.js";
@@ -13,7 +14,20 @@ import { fail, ok, requireWorkspace } from "../utils/stage-result.js";
 export function runValidation(ctx: BuildContext): StageResult {
   const errors: string[] = [];
 
-  const paths = requireWorkspace<{ manifest: string }>(ctx, "paths");
+  const paths = requireWorkspace<{ manifest: string; chapterDir: string }>(
+    ctx,
+    "paths",
+  );
+  const inventory = requireWorkspace<{ chapter: string }>(ctx, "inventory");
+  const packageConfig = requireWorkspace<Record<string, unknown>>(
+    ctx,
+    "packageConfig",
+  );
+  const evaluation = (ctx.workspace?.evaluation || {
+    evaluationConfig: null,
+  }) as {
+    evaluationConfig?: { completeness_level?: string } | null;
+  };
   const recon = requireWorkspace<{ ok: boolean; errors?: string[] }>(
     ctx,
     "reconciliation",
@@ -40,6 +54,17 @@ export function runValidation(ctx: BuildContext): StageResult {
   if (!claims.ok) errors.push(...(claims.errors || ["claims FAIL"]));
   if (!ground.ok) errors.push(...(ground.errors || ["grounding FAIL"]));
   if (!anchors.ok) errors.push(...(anchors.errors || ["anchors FAIL"]));
+
+  errors.push(
+    ...validateCognitivePrimingGate({
+      chapterDir: paths.chapterDir,
+      packageConfig,
+      evaluation,
+      inventory,
+      manifestPath: paths.manifest,
+      mutate: ctx.mutate,
+    }),
+  );
 
   // Release identity gate in validate mode only (LIBRARY-CATALOG-CONTRACT / ADR-006).
   // Build mode rewrites the manifest at packaging after this stage.

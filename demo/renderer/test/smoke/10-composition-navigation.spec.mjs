@@ -16,6 +16,23 @@ function chapterUrl() {
   return `${RENDERER_PATH}?chapter=${encodeURIComponent(CHAPTER_SLUG)}`;
 }
 
+const CHAPTER_MANIFEST_ROUTE =
+  "**/01-learning/chapters/cardio/234/manifest.json";
+
+/** @param {(manifest: Record<string, unknown>) => void} mutator */
+async function routeChapterManifest(page, mutator) {
+  await page.route(CHAPTER_MANIFEST_ROUTE, async (route) => {
+    const response = await route.fetch();
+    const manifest = await response.json();
+    mutator(manifest);
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify(manifest),
+    });
+  });
+}
+
 test.describe("Lot D — composition navigation", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(chapterUrl(), { waitUntil: "networkidle" });
@@ -101,9 +118,37 @@ test.describe("Lot D — composition navigation", () => {
 
   test("CN-07 planned views show explicit status", async ({ page }) => {
     await page.locator(".tab", { hasText: "Amorçage cognitif" }).click();
-    await expect(page.locator('.content-status[data-state="planned"]')).toBeVisible();
+    await expect(page.locator(".cognitive-priming-body")).toBeVisible();
+    await expect(
+      page.locator('.tab[data-view-id="cognitive-priming"]')
+    ).toHaveAttribute("data-availability", "published");
+    await expect(
+      page.locator('.content-status[data-state="planned"]')
+    ).toHaveCount(0);
 
     await page.locator(".tab", { hasText: "Collège officiel" }).click();
-    await expect(page.locator('.content-status[data-state="planned"]')).toBeVisible();
+    await expect(page.locator(".college-official-body")).toBeVisible();
+    await expect(
+      page.locator('.content-status[data-state="planned"]')
+    ).toHaveCount(0);
+
+    await routeChapterManifest(page, (manifest) => {
+      delete manifest.cognitive_priming_path;
+    });
+    await page.goto(chapterUrl(), { waitUntil: "networkidle" });
+    await page.locator(".tab", { hasText: "Amorçage cognitif" }).click();
+    await expect(
+      page.locator('.content-status[data-state="planned"]')
+    ).toBeVisible();
+
+    await page.unroute(CHAPTER_MANIFEST_ROUTE);
+    await routeChapterManifest(page, (manifest) => {
+      delete manifest.college_source_path;
+    });
+    await page.goto(chapterUrl(), { waitUntil: "networkidle" });
+    await page.locator(".tab", { hasText: "Collège officiel" }).click();
+    await expect(
+      page.locator('.content-status[data-state="planned"]')
+    ).toBeVisible();
   });
 });

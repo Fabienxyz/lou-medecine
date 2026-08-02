@@ -18,9 +18,9 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Branche** | `main` |
-| **HEAD** | `f2801de05501738b9075a482c73aec0b7b9341b0` — AP-F (Reader Acceptance technique) |
-| **Gouvernance RA V1** | Commit documentaire à publier — prononcé Reader Acceptance V1 |
-| **Remote** | `origin/main` — AP-F publié |
+| **HEAD** | `691dd6fa784cf75b90efa0c37b9f40692f2837bb` — CI-01 (alignement smoke post-RA V1) |
+| **Gouvernance RA V1** | `27aa870` — prononcé Reader Acceptance V1 ; tag `reader-acceptance-v1` |
+| **Remote** | `origin/main` — aligné sur HEAD |
 | **Tags de référence** | `reader-acceptance-v1` (RA V1) · `display-preferences-v1` (D7) · `local-search-v1` (D6) · `offline-certification-v1` (D2) · `reader-composition-v1` (Composition) |
 
 **Exclusions volontaires :** `_Roadmap Opus - 27 Juillet 2026.docx` · `demo/renderer/docs/learner-session-d4-technical-design.md`
@@ -55,7 +55,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 - **Amorçage cognitif** — AP-A…AP-F (contrat AP-A, implémentation AP-C…AP-F)
 - **Reader Acceptance V1** — prononcé (tag `reader-acceptance-v1`)
 
-**Validations de référence :** 632/632 tests unitaires renderer PASS · 14/14 smoke AP-F PASS.
+**Validations de référence :** 632/632 tests unitaires renderer PASS · 122/122 smoke PASS (CI — Fixture 234 run [#22](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037)) · 14/14 smoke AP-F PASS.
 
 ---
 
@@ -122,15 +122,14 @@ Rapport faisant autorité : [`releases/reader-acceptance-v1-publication.md`](rel
 | **Amorçage cognitif (AP-A…AP-F)** | Publié — package 234 |
 | **Critères d'acceptation** | **Prononcés** — 2026-08-02 |
 
-**Tests renderer (référence) :** 632 PASS unit · 14 PASS smoke AP-F.
+**Tests renderer (référence) :** 632 PASS unit · 122 PASS smoke (CI #22) · 14 PASS smoke AP-F.
 
 ---
 
 ## 7. Chantiers recommandés
 
 1. **Validation pédagogique Lou** — décision écrite sur la méthode (chantier actif)
-2. **Follow-up smoke CN-07** — Amorçage `published` en mode dev (mineur, non bloquant)
-3. **AP-G gouvernance** — promotion contrat Cognitive Priming « En vigueur » (optionnel, post-RA)
+2. **AP-G gouvernance** — promotion contrat Cognitive Priming « En vigueur » (optionnel, post-RA)
 
 ---
 
@@ -145,4 +144,4 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 ---
 
-*Handover — 2026-08-02 — Reader Acceptance V1 prononcé ; chantier actif Validation pédagogique Lou. Non normatif.*
+*Handover — 2026-08-02 — CI-01 clôturé ; main verte ; chantier actif Validation pédagogique Lou. Non normatif.*

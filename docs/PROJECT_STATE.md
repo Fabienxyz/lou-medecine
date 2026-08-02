@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-02 (Reader Acceptance V1 prononcé ; chantier actif : Validation pédagogique Lou)
+**Dernière mise à jour :** 2026-08-02 (CI-01 clôturé ; main verte ; chantier actif : Validation pédagogique Lou)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -44,7 +44,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 |---|---|---|
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | Phase **active** — étude package 234 via Reader accepté ; décision écrite Lou |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
-| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Fixture 234 branchée** — workflow GitHub Actions configuré ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) ; extension future (packages additionnels) |
+| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Main verte** — CI-01 clôturé (CN-07 realigné) ; workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) |
 
 ---
 
@@ -53,7 +53,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Rôle (roadmap) | Instance courante | État observé |
 |---|---|---|
 | **Package de capitalisation de référence** | Item **234** — Insuffisance cardiaque — édition Collège **2022** ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | Understanding + **évaluation complète** — 81 Questions + 3 Scénarios ; `editorial_completeness: complete` ; couverture understanding 91/91 ; validate/build PASS |
-| **Fixture de non-régression** | Item **234** — workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) | **Validée** — gate `test:ci` (hors `slice.test.ts`) ; run GitHub Actions [#30689638119](https://github.com/Fabienxyz/lou-medecine/actions/runs/30689638119) PASS (~3 min) ; intégration slice via `npm run test:integration` ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) |
+| **Fixture de non-régression** | Item **234** — workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) | **Validée** — run GitHub Actions [#22 / 30732680037](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037) PASS (~5 min) ; validate + `test:ci` + 632 unit + 122 smoke ; intégration slice via `npm run test:integration` |
 
 ---
 
@@ -71,7 +71,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
 | Portabilité hors cardio / hors PDF | Latent | Couverture EDN |
 
-**Risques clos récemment :** PDR-D2 offline intégral (lots D2-A…I livrés — certification produit, repair/purge/stale, clôture gouvernance D2-I) · incohérence manifest slice vs full-chapter (Étape 0) · SVG MM-pump orphelin dans `figures/` (relocated) · legacy lou-build · migration FIL A Item 234 · écart édition golden master (corrigé — **2022**, [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)).
+**Risques clos récemment :** smoke CN-07 obsolète post-AP-D (CI-01 — test realigné, main verte) · PDR-D2 offline intégral (lots D2-A…I livrés — certification produit, repair/purge/stale, clôture gouvernance D2-I) · incohérence manifest slice vs full-chapter (Étape 0) · SVG MM-pump orphelin dans `figures/` (relocated) · legacy lou-build · migration FIL A Item 234 · écart édition golden master (corrigé — **2022**, [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 ---
 
@@ -101,7 +101,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
-| **Reproductibilité du build en CI** | **Validée** — gate fixture 234 PASS sur GitHub Actions (`test:ci`, sans suite slice OAP) | Run [#30689638119](https://github.com/Fabienxyz/lou-medecine/actions/runs/30689638119) ; intégration slice hors gate via `npm run test:integration` (~3–5 min) |
+| **Reproductibilité du build en CI** | **Validée** — workflow CI — Fixture 234 PASS sur `main` | Run [#22 / 30732680037](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037) — validate + `test:ci` + 632 unit + 122 smoke ; slice hors gate via `npm run test:integration` |
 | **Décisions humaines / chapitre** | Non suivi en production | — |
 | lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS ; Release `complete` ; **1** package complet PDR-A3 |
 | Tests lou-build | **180/180** PASS | 159 JS + 21 TS (test:ci) ; intégration slice 18 (test:integration) ; 3 tests Browser Offline Manager (D2-G) |
@@ -127,7 +127,8 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-08-02 | **Reader Acceptance V1 prononcé** — Amorçage cognitif (AP-A…AP-F) ; commit `f2801de` ; **632 unit + 14 smoke AP-F PASS** ; tag `reader-acceptance-v1` ; chantier actif → Validation pédagogique Lou |
+| 2026-08-02 | **CI-01 clôturé** — realignement smoke CN-07 post-Reader Acceptance V1 ; commit `691dd6f` ; **122/122 smoke PASS** ; CI — Fixture 234 run [#22](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037) SUCCESS |
+| 2026-08-02 | **Reader Acceptance V1 prononcé** — gouvernance ; commit `27aa870` ; AP-A…AP-F ; tag `reader-acceptance-v1` ; chantier actif → Validation pédagogique Lou |
 | 2026-08-01 | **Publication AP-E** — Renderer Cognitive Priming + navigation EDN explicite (`a110a4e`) |
 | 2026-08-01 | **Publication AP-D** — Composition Cognitive Priming (`cf74751`) |
 | 2026-08-01 | **Publication AP-C** — Fabrique / package 234 Amorçage (`a8bd191`) |
@@ -196,4 +197,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-02 — Reader Acceptance V1 prononcé ; 7 vues alimentées sur package 234 ; chantier actif : Validation pédagogique Lou.*
+*Révision 2026-08-02 — CI-01 clôturé ; main verte ; chantier actif : Validation pédagogique Lou.*

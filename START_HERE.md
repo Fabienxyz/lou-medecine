@@ -53,10 +53,14 @@ These documents explain the current research and discoveries.
 
 Only after reading the documents above should new product or implementation work begin.
 
-**Objectif actif :** **Recertification du chapitre 234 comme Reference Product Chapter (RPC)** — voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
+**Objectif actif :** **Reference Product Chapter (234)** — **laboratoire produit** ; voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md), [`docs/rpc/00-RPC-METHODOLOGY.md`](docs/rpc/00-RPC-METHODOLOGY.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
 
-**Reader V1 :** accepté (tag `reader-acceptance-v1`) — **7 vues** ; modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md). **Validation Corpus V1 différée** jusqu'au Product Freeze 234.
+**Reader V1 :** accepté (tag `reader-acceptance-v1`) — **7 vues** ; modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md).
 
-**Principe pilotage :** *Observer d'abord. Généraliser ensuite.*
+**Reference Production Chapter (224) :** démarre **après Product Freeze 234** — reprend produit figé ; mesure coûts ; optimise **méthode**, pas produit.
 
-**Pour démarrer concrètement :** [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (chapitre existant — recertification RPC), [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md) (produit), [`demo/renderer/`](demo/renderer/) (Reader).
+**Validation Corpus V1 :** **après validation complète du 224** — le 230 n'est pas la prochaine étape officielle.
+
+**Principe pilotage :** *Observer d'abord. Généraliser ensuite.* — produit découvert sur **234** ; méthode industrielle découvrte sur **224**.
+
+**Pour démarrer concrètement :** [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (Reference Product Chapter), [`docs/rpc/00-RPC-METHODOLOGY.md`](docs/rpc/00-RPC-METHODOLOGY.md), [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md), [`demo/renderer/`](demo/renderer/) (Reader).

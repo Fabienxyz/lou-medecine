@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-02 — Reader Acceptance V1 clôturé ; nettoyage documentaire Reader publié ; **chantier actif : recertification du chapitre 234 comme Reference Product Chapter (RPC)** — concept de **pilotage interne** uniquement.
+**Dernière révision :** 2026-08-02 — Reference Product Chapter (234) = **laboratoire produit** ; Reference Production Chapter (224) = **industrialisation** après Product Freeze.
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -44,36 +44,42 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 | La Fabrique (pipeline validateur lou-build) | ✅ Clôturé — tag `lou-build-pipeline-v1` |
 | Reader Composition V1 (Lots A–F) | ✅ Clôturé — audit indépendant ✅ Conforme ; tag `reader-composition-v1` |
 | **Reader Acceptance V1** | ✅ **Clôturé** — prononcé 2026-08-02 ; tag `reader-acceptance-v1` |
-| **Recertification du chapitre 234 comme RPC** | 🔄 **Phase active** — pilotage interne |
-| **Product Review 234** | ⏳ En attente — après RPC |
+| **Reference Product Chapter (234)** | 🔄 **Phase active** — laboratoire produit |
+| **Product Review 234** | ⏳ En attente — chapitre utilisable ; **usage réel Lou** dans le Reader |
 | **Product Freeze 234** | ⏳ En attente — après Product Review |
-| **Capitalisation des enseignements (post-freeze 234)** | ⏳ En attente — après Product Freeze |
-| **Validation Corpus V1 (Fabrique)** | ⏳ **Volontairement différée** — après Product Freeze 234 ; ordre 224 → 230 |
+| **Reference Production Chapter (224)** | ⏳ En attente — **après Product Freeze 234** |
+| **Capitalisation industrielle (post-224)** | ⏳ En attente — après Reference Production Chapter 224 |
+| **Validation Corpus V1 (Fabrique)** | ⏳ En attente — **après validation complète du 224** |
+| **Choix chapitres suivants (230 ou autre)** | ⏳ En attente — après Validation Corpus V1 |
 | **Validation pédagogique Lou** | ⏳ En attente — conditionnée par Validation Corpus V1 |
-| **Décision d'industrialisation** | ⏳ En attente |
+| **Industrialisation EDN** | ⏳ En attente |
 
 **Distinction obligatoire :** la clôture **Reader Composition V1** ne signifiait **pas** que le Reader était terminé. L'objectif [Acceptation Reader V1](#acceptation-reader-v1) est **clôturé** depuis le 2026-08-02.
 
-**Principe de pilotage post-acceptation :** *Observer d'abord. Généraliser ensuite.* — le Item **234** (Chapter Package existant, Release `complete`) n'est plus traité comme simple chapitre pilote ni « Golden Package » : il est **recertifié** selon une nouvelle méthodologie produit pour devenir le **Reference Product Chapter (RPC)** — objectif de pilotage, **sans statut normatif** tant que le [Product Freeze 234](#product-freeze-234) n'est pas prononcé. Le travail déjà réalisé n'est ni validé définitivement ni remis en cause par principe : chaque artefact est réévalué (conservé, adapté ou remplacé ; décisions produit documentées). La gouvernance normative (PDR, ADR, contrats) reste inchangée jusqu'au Product Freeze.
+**Principe de pilotage post-acceptation :** *Observer d'abord. Généraliser ensuite.* — le Item **234** est le **laboratoire produit** : y est **découvert** le meilleur produit pédagogique pour Lou (7 vues, notions, figures utiles, walkthroughs complets). Une **légère surproduction est volontaire** — ne pas écarter une idée pédagogique pertinente par crainte du coût. Le **coût et la méthode industrielle** sont **découverts sur le 224**, après [Product Freeze 234](#product-freeze-234). Pilotage : [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md).
 
 ### Séquence produit cible (post-Reader Acceptance)
 
 ```
 Reader Acceptance V1 ✅
         ↓
-Recertification du chapitre 234 comme Reference Product Chapter (RPC)  ← actif
+Reference Product Chapter (234)  ← actif — laboratoire produit
         ↓
-Product Review (propriétaire)
+Product Review (usage réel Lou)
         ↓
 Product Freeze 234
         ↓
-Capitalisation des enseignements
+Reference Production Chapter (224)
         ↓
-Validation Corpus V1 (Fabrique) — 224 puis 230
+Capitalisation industrielle
+        ↓
+Validation Corpus V1 (Fabrique)
+        ↓
+Choix des chapitres suivants (230 ou autre)
         ↓
 Validation pédagogique Lou
         ↓
-Décision d'industrialisation
+Industrialisation EDN
 ```
 
 Le chemin critique effectif est constaté dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
@@ -127,20 +133,25 @@ Un livrable de référence n'est **pas** une phase du projet. C'est un **artefac
 
 L'**instance courante** de chaque rôle est enregistrée dans [`PROJECT_STATE.md`](PROJECT_STATE.md). La première instance du package de capitalisation est actée dans [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md).
 
-### Package de capitalisation de référence → Reference Product Chapter (RPC)
+### Package de capitalisation de référence → Reference Product Chapter (234)
 
 Premier **Chapter Package complet** publié et versionné (Item **234** — Insuffisance cardiaque, édition Collège 2022, Release `complete`), produit par capitalisation contrôlée.
 
-**Évolution de pilotage (2026-08-02) :** ce package reste l'instance technique de référence ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)), mais le projet le traite désormais comme **chantier produit prioritaire** en cours de **recertification** vers le statut **Reference Product Chapter (RPC)** — concept de pilotage interne, **non normatif** avant Product Freeze. Chapitre existant ; pas recréé depuis zéro. Il n'est plus présenté comme simple « Golden Package » ou pilote technique isolé.
+**Évolution de pilotage (2026-08-02) :** ce package reste l'instance technique de référence ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)). Le projet le traite comme **Reference Product Chapter** — **laboratoire produit** : produire toutes les vues, toutes les notions et toutes les figures pédagogiquement utiles ; viser le meilleur produit pour Lou. **L'optimisation de la production** (coûts, prompts, pipelines, standards) relève exclusivement du **Reference Production Chapter (224)**, après Product Freeze.
 
 **Consommateurs (inchangés sur le plan normatif) :**
 
 - acceptation Reader V1 ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md)) ;
-- Validation Corpus V1 — archétype A ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- référence produit figée post-freeze ;
 - validation pédagogique de la méthode ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)) ;
 - fixture de non-régression Fabrique et CI ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) ;
-- modèle de publication pour l'industrialisation ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md)) ;
 - base de la lignée éditoriale ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md), [PDR-C7](governance/PRODUCT-DECISION-REGISTRY.md)).
+
+### Reference Production Chapter (224)
+
+Item **224** — Hypertension artérielle — édition Collège 2022. **Premier chapitre produit entièrement par la méthode industrielle** — démarre **uniquement après** le Product Freeze du 234.
+
+**Mission :** reprendre le **produit figé** du 234 ; produire le chapitre 224 entièrement ; **mesurer** temps humain, appels LLM et coûts ; **optimiser la méthode de production** (prompts, pipelines, standards réutilisables) — **pas le produit**.
 
 ### Fixture de non-régression
 
@@ -198,25 +209,33 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 
 ---
 
-### Recertification du chapitre 234 comme Reference Product Chapter (RPC)
+### Reference Product Chapter (234)
 
 | | |
 |---|---|
-| **Nature** | Recertification produit — première instance (pilotage interne) |
-| **Question directrice** | Le chapitre **234 existant** satisfait-il la méthodologie produit RPC et l'expérience Reader V1 **dans son intégralité pédagogique** — contenu, figures, walkthroughs, 7 vues — au-delà de la seule acceptation technique du Reader ? |
-| **Statut normatif** | **Aucun** — objectif de pilotage uniquement ; pas de PDR, ADR ou contrat créé |
+| **Nature** | Finalisation produit — première instance |
+| **Question directrice** | Le chapitre **234 existant** offre-t-il la **meilleure expérience produit** possible — contenu pédagogique, figures, walkthroughs, 7 vues Reader, UX ? |
+| **Statut normatif** | **Aucun** avant Product Freeze — pilotage [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md) |
 
-**Méthodologie RPC (pilotage) :** réévaluation artefact par artefact du package existant — **conserver**, **adapter** ou **remplacer** ; décisions produit **explicitement documentées**. Ni présomption de validité définitive, ni remise en cause systématique du travail accompli. **Pas de recréation depuis zéro.**
+**Méthodologie :** recertification artefact par artefact — **conserver**, **adapter** ou **remplacer**. Le 234 est un **laboratoire produit** : le coût **ne pilote pas** les choix éditoriaux.
+
+**Principes de production (234) :**
+
+- produire **toutes les vues** Reader prévues ;
+- produire **toutes les notions** prévues, avec walkthroughs complets ;
+- produire **toutes les figures** jugées pédagogiquement utiles ;
+- accepter une **légère surproduction** pour observer ce qui apporte de la valeur ;
+- ne **pas** calibrer prompts ni pipeline sur le 234.
 
 **Critère de sortie (pilotage) :**
 
 - Item **234** recertifié selon la vision produit des **7 vues Reader** ([`00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md)) ;
 - écarts produit traités (contenu éditorial, figures, schémas, walkthroughs) avec traçabilité des décisions ;
-- package prêt pour **Product Review** propriétaire.
+- chapitre **réellement utilisable** par Lou dans le Reader — prêt pour **Product Review**.
 
-**Hors périmètre :** Validation Corpus V1 (224, 230) — **volontairement différée** jusqu'au Product Freeze 234 ; évolutions normatives de la gouvernance.
+**Hors périmètre :** mesure de coûts, optimisation prompts/pipelines, standards industriels — → Reference Production Chapter (224).
 
-**Plan d'exécution détaillé :** [`PROJECT_STATE.md`](PROJECT_STATE.md).
+**Plan d'exécution détaillé :** [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md) · [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 ---
 
@@ -224,13 +243,18 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 
 | | |
 |---|---|
-| **Nature** | Validation produit unique (propriétaire) |
-| **Question directrice** | Le Reference Product Chapter candidat est-il **satisfaisant** du point de vue produit et pédagogique Lou ? |
+| **Nature** | Validation produit — **utilisation réelle** par Lou |
+| **Question directrice** | Le Reference Product Chapter, utilisé **réellement** dans le Reader, apporte-t-il la **valeur pédagogique** attendue ? |
+
+**Déclencheur :** le chapitre est **réellement utilisable** dans le Reader (7 vues alimentées, parcours d'étude possible).
 
 **Critère de sortie :**
 
-- revue propriétaire conduite sur le chapitre 234 **recertifié** ;
-- décision explicite : *valider pour freeze* / *itérer* (avec périmètre nommé).
+- Lou a **étudié** le chapitre 234 recertifié via le Reader (session(s) réelle(s)) ;
+- retour explicite sur ce qui **apporte de la valeur** pédagogique — et ce qui ne justifie pas sa place ;
+- décision propriétaire : *valider pour Product Freeze* / *itérer* (périmètre nommé).
+
+**Rôle :** préparer le **Product Freeze** — pas mesurer le coût de production (réservé au 224).
 
 **Bloquant pour :** [Product Freeze 234](#product-freeze-234).
 
@@ -246,29 +270,65 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 **Critère de sortie :**
 
 - verdict **Product Freeze** prononcé par le propriétaire ;
-- enseignements capitalisés (voir objectif suivant) ;
-- **seulement alors** : ouverture formelle de la Validation Corpus V1 sur 224 et 230.
+- enseignements produit capitalisés ;
+- **seulement alors** : ouverture du **Reference Production Chapter (224)**.
 
-**Principe :** *Observer d'abord. Généraliser ensuite.* — la gouvernance normative pourra être adaptée **après** ce freeze, si nécessaire.
+**Principe :** *Observer d'abord. Généraliser ensuite.* — le produit se fige sur 234 ; l'industrialisation démarre sur 224.
 
-**Bloquant pour :** [Qualification corpus Fabrique V1 (Validation Corpus V1)](#qualification-corpus-fabrique-v1-validation-corpus-v1).
+**Bloquant pour :** [Reference Production Chapter (224)](#reference-production-chapter-224).
 
 ---
 
-### Capitalisation des enseignements (post-freeze 234)
+### Reference Production Chapter (224)
 
 | | |
 |---|---|
-| **Nature** | Capitalisation répétable (première instance) |
-| **Question directrice** | Quels enseignements produit, éditoriaux et Fabrique tirer du Reference Product Chapter figé ? |
+| **Nature** | Industrialisation production — première instance mesurée |
+| **Question directrice** | La méthode **reproduit-elle** le produit figé du 234 sur un chapitre entier, avec coûts et temps **mesurés**, et génère-t-elle des **standards de production** réutilisables ? |
+
+**Positionnement :** **uniquement après** [Product Freeze 234](#product-freeze-234). Item **224** — Hypertension artérielle — archétype de production industrielle.
 
 **Critère de sortie :**
 
-- synthèse documentée des décisions, écarts et patterns observés sur 234 ;
-- entrées actionnables pour Validation Corpus V1 et industrialisation ultérieure ;
-- **sans** créer de nouvelle norme avant généralisation.
+- chapitre 224 produit de bout en bout à partir du **produit figé** du 234 ;
+- coûts réels, temps humains et consommation LLM **documentés** ;
+- prompts, pipelines et stratégies de génération **optimisés** (méthode, pas contenu) ;
+- standards de **production** réutilisables identifiés pour les futurs chapitres.
 
-**Positionnement :** immédiatement après Product Freeze 234 ; avant production 224.
+**Bloquant pour :** [Capitalisation industrielle (post-224)](#capitalisation-industrielle-post-224).
+
+---
+
+### Capitalisation industrielle (post-224)
+
+| | |
+|---|---|
+| **Nature** | Capitalisation Fabrique — première instance |
+| **Question directrice** | Quels enseignements de **production** tirer du Reference Production Chapter 224 ? |
+
+**Critère de sortie :**
+
+- synthèse documentée des coûts, patterns et standards observés sur 224 ;
+- entrées actionnables pour Validation Corpus V1 ;
+- **sans** créer de nouvelle norme avant qualification Fabrique.
+
+**Positionnement :** immédiatement après validation complète du 224 ; avant Validation Corpus V1.
+
+---
+
+### Capitalisation produit (post-freeze 234)
+
+| | |
+|---|---|
+| **Nature** | Capitalisation produit — première instance |
+| **Question directrice** | Quels enseignements **produit** tirer du Reference Product Chapter figé ? |
+
+**Critère de sortie :**
+
+- synthèse documentée des décisions, écarts et patterns produit observés sur 234 ;
+- entrées pour le Reference Production Chapter 224.
+
+**Positionnement :** immédiatement après Product Freeze 234 ; en parallèle de l'ouverture du chantier 224.
 
 ---
 
@@ -277,20 +337,21 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 | | |
 |---|---|
 | **Nature** | Capitalisation répétable (par archétype — pilote cardiologie mécanistique) |
-| **Question directrice** | La Fabrique produit-elle de manière reproductible des chapitres archétypés représentatifs, au-delà du Reference Product Chapter figé ? |
+| **Question directrice** | La Fabrique produit-elle de manière reproductible des chapitres archétypés représentatifs, au-delà du Reference Product Chapter figé et du Reference Production Chapter validé ? |
 | **Décisions** | [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md) |
 
-**Positionnement :** **volontairement différée** jusqu'au [Product Freeze 234](#product-freeze-234). Le Item 234 sert de RPC — il n'est **pas** reproduit dans cette phase ; les archétypes **224** puis **230** valident la reproductibilité Fabrique.
+**Positionnement :** **uniquement après validation complète du Reference Production Chapter (224)**. Le Item 234 reste la référence **produit** figée ; le 224 valide la **méthode de production**. Les chapitres suivants (dont **230**) seront choisis **après** retour d'expérience — **aucune décision officielle sur 230 à ce stade**.
 
 **Critère de sortie :**
 
-- Item **234** demeure le Reference Product Chapter figé (archétype A — grande maladie intégratrice) ;
-- Items **224** (archétype C — reproductibilité) puis **230** (archétype B — robustesse) produits selon l'ordre officiel ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ;
-- qualification Fabrique prononcée pour la portée mécanistique ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)).
+- Item **234** demeure le Reference Product Chapter figé ;
+- Item **224** valide la reproductibilité de production ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- qualification Fabrique prononcée pour la portée mécanistique ;
+- choix explicite des chapitres suivants (230 ou autre).
 
-**Hors périmètre :** familles normative, interprétative et interventionnelle (Validation Corpus V2) ; validation pédagogique Lou (objectif distinct, ultérieur) ; runtime autonome (objectif [Industrialisation de la Fabrique productrice](#industrialisation-de-la-fabrique-productrice)).
+**Hors périmètre :** familles normative, interprétative et interventionnelle (Validation Corpus V2) ; validation pédagogique Lou (objectif distinct, ultérieur).
 
-**Plan d'exécution détaillé :** [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) § Phase A.0.
+**Plan d'exécution détaillé :** [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) § Phase A.0 — **séquence pilotage** : voir diagramme § Progression V1.
 
 ---
 
@@ -465,20 +526,20 @@ Deux natures de dépendance coexistent ([`DOCUMENT_ARCHITECTURE.md`](governance/
 
 | Élément | Bloqué au démarrage par | Bloqué à l'acceptation par | Débloque (à la clôture) |
 |---|---|---|---|
-| Capitalisation package de référence | — | — | acceptation Reader ; RPC 234 ; fixture CI ; modèle industrialisation ; diff éditorial |
+| Capitalisation package de référence | — | — | acceptation Reader ; RPC 234 ; fixture CI ; diff éditorial |
 | Reader Composition V1 | — | — | (architecture Composition en production — clôturée) |
-| Reader Acceptance V1 | package de référence publié | critères PDR-B1/B5/D/E | recertification RPC 234 |
-| Acceptation Reader V1 | — | package de référence publié + critères acceptance | recertification RPC 234 |
-| Recertification RPC 234 | — | Reader Acceptance V1 | Product Review 234 |
-| Product Review 234 | recertification RPC 234 | — | Product Freeze 234 |
-| Product Freeze 234 | Product Review 234 | — | capitalisation enseignements ; Validation Corpus V1 |
-| Capitalisation enseignements (post-freeze) | Product Freeze 234 | — | Validation Corpus V1 |
-| Validation Corpus V1 (Fabrique) | Product Freeze 234 | Reader Acceptance V1 | validation pédagogique Lou |
-| Validation pédagogique Lou | — | Validation Corpus V1 prononcée + Reader V1 accepté | décision d'industrialisation |
+| Reader Acceptance V1 | package de référence publié | critères PDR-B1/B5/D/E | Reference Product Chapter 234 |
+| Reference Product Chapter 234 | — | Reader Acceptance V1 | Product Review 234 |
+| Product Review 234 | Reference Product Chapter 234 | — | Product Freeze 234 |
+| Product Freeze 234 | Product Review 234 | — | capitalisation produit ; Reference Production Chapter 224 |
+| Reference Production Chapter 224 | Product Freeze 234 | — | capitalisation industrielle |
+| Capitalisation industrielle (post-224) | Reference Production Chapter 224 | — | Validation Corpus V1 |
+| Validation Corpus V1 (Fabrique) | validation complète 224 | Reader Acceptance V1 | choix chapitres suivants ; validation pédagogique Lou |
+| Choix chapitres suivants (230 ou autre) | Validation Corpus V1 | — | extension corpus |
+| Validation pédagogique Lou | — | Validation Corpus V1 prononcée + Reader V1 accepté | industrialisation EDN |
 | Patrimoine V1 | — | co-vérifié à l'acceptation Reader | confiance données long terme |
 | Premier diff éditorial | package de référence validé | — | régime éditorial |
-| Décision d'industrialisation | Validation Corpus V1 + validation Lou | — | industrialisation Fabrique ; scale cardio |
-| Industrialisation Fabrique | décision d'industrialisation | — | scale cardio |
+| Industrialisation EDN | Validation Corpus V1 + validation Lou | — | scale cardio |
 | Couverture Cardio | industrialisation opérationnelle | — | couverture EDN |
 | Couverture EDN | cardio stabilisé + second collège validé | — | régime permanent |
 | Interface Admin | package de référence | — | exploitabilité scale |
@@ -550,6 +611,7 @@ Si la réponse est non, la décision attend.
 | Où en est-on ? | [`PROJECT_STATE.md`](PROJECT_STATE.md) |
 | Pourquoi cette décision ? | [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |
 | Comment organiser le pilotage ? | [`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md) |
+| Reference Product Chapter — méthode produit | [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) |
 | Capitalisation gouvernance post-audit (ADR-006, registre produit) | [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md), [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |
 | Quelles obligations techniques ? | [`contracts/00-INDEX.md`](contracts/00-INDEX.md) |
 | Détail industrialisation | [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) |
@@ -558,4 +620,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-08-02 — Recertification du chapitre 234 comme Reference Product Chapter (RPC) : chantier actif ; Validation Corpus V1 différée jusqu'au Product Freeze 234 ; principe « Observer d'abord. Généraliser ensuite. »*
+*Révision 2026-08-02 — 234 = laboratoire produit (surproduction assumée) ; Product Review = usage réel Lou ; 224 = industrialisation post-Freeze ; coût étudié sur 224 uniquement.*

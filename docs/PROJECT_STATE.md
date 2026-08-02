@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-02 (pivot pilotage — recertification Item 234 comme RPC ; Validation Corpus V1 différée)
+**Dernière mise à jour :** 2026-08-02 (234 = laboratoire produit ; 224 = industrialisation post-Freeze)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -20,10 +20,10 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | | |
 |---|---|
-| **Objectif actif** | [Recertification du chapitre 234 comme Reference Product Chapter (RPC)](MASTER_ROADMAP.md#recertification-du-chapitre-234-comme-reference-product-chapter-rpc) — pilotage interne |
-| **Livrable visé** | Chapitre 234 existant recertifié selon méthodologie RPC ; prêt pour Product Review |
-| **Chemin critique** | **Recertification RPC 234** → Product Review → Product Freeze 234 → capitalisation enseignements |
-| **Blocage structurant** | Validation Corpus V1 **volontairement différée** jusqu'au Product Freeze 234 — Reader Acceptance V1 **clôturé** |
+| **Objectif actif** | [Reference Product Chapter (234)](MASTER_ROADMAP.md#reference-product-chapter-234) — **laboratoire produit** |
+| **Livrable visé** | Chapitre 234 recertifié — meilleur produit possible ; toutes vues, notions et figures utiles ; prêt pour Product Review (usage réel Lou) |
+| **Chemin critique** | **234** → Product Review → Product Freeze → **224** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
+| **Blocage structurant** | Reference Production Chapter 224 **non démarré** — conditionné par Product Freeze 234 ; Validation Corpus V1 **après** validation complète du 224 |
 | **Dernier jalon produit** | **Reader Acceptance V1 prononcé** — Amorçage cognitif (AP-A…AP-F) ; **632 unit + 14 smoke AP-F PASS** ; tag `reader-acceptance-v1` |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
@@ -42,8 +42,9 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Recertification RPC 234** | Reference Product Chapter (pilotage) | **Chantier actif** — réévaluation artefact par artefact du chapitre **234 existant** ([`00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md)) ; conserver / adapter / remplacer ; *Observer d'abord. Généraliser ensuite.* |
-| **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — après Product Freeze 234 ; ordre 224 → 230 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ; production 224 **non démarrée** |
+| **Reference Product Chapter (234)** | **Laboratoire produit** | **Chantier actif** — meilleur produit pour Lou ; toutes vues, notions, figures utiles, walkthroughs complets ; surproduction légère assumée ([`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md)) |
+| **Reference Production Chapter (224)** | Industrialisation production | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
+| **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Main verte** — CI-01 clôturé (CN-07 realigné) ; workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) |
@@ -54,7 +55,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Rôle (roadmap) | Instance courante | État observé |
 |---|---|---|
-| **Reference Product Chapter (RPC) — pilotage** | Item **234** — Insuffisance cardiaque — édition Collège **2022** | Release `complete` ; **recertification produit en cours** — chapitre existant, pas recréé depuis zéro |
+| **Reference Product Chapter (234)** | Item **234** — Insuffisance cardiaque — édition Collège **2022** | Release `complete` ; **laboratoire produit** — finalisation en cours ; coût **ne pilote pas** les choix éditoriaux |
+| **Reference Production Chapter (224)** | Item **224** — HTA — édition Collège **2022** | **Non démarré** — industrialisation complète **après** Product Freeze 234 |
 | **Package de capitalisation de référence (normatif)** | Item **234** ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | Understanding + **évaluation complète** — 81 Questions + 3 Scénarios ; `editorial_completeness: complete` ; couverture understanding 91/91 ; validate/build PASS |
 | **Fixture de non-régression** | Item **234** — workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) | **Validée** — run GitHub Actions [#22 / 30732680037](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037) PASS (~5 min) ; validate + `test:ci` + 632 unit + 122 smoke ; intégration slice via `npm run test:integration` |
 
@@ -70,7 +72,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Build SVG non reproductible byte-identique | Bloque CI fiable | Maintenabilité et CI |
 | Patrimoine apprenant — export / restauration | **E-D publié** — export (E-C) + import (E-D) ; LP-05 et LP-06 satisfaits ; **PDR-E5 livré** ; Reader Acceptance V1 **prononcé** | Patrimoine · Validation pédagogique Lou |
 | F2 — ordre écriture sidecars G/H vs verdict I | Cohérence disque lou-build | Dette pipeline |
-| Scale-out prématuré (tentation multi-chapitres partiels) | Dispersion — contredit la séquence RPC → Freeze → Corpus | — (risque de pilotage) |
+| Scale-out prématuré (tentation multi-chapitres partiels) | Dispersion — contredit la séquence RPC 234 → Freeze → RPC 224 → Corpus | — (risque de pilotage) |
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
 | Portabilité hors cardio / hors PDF | Latent | Couverture EDN |
 
@@ -100,7 +102,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **PDR-D2 — Offline intégral** | **Publié** — tag `offline-certification-v1` ; lots D2-A…I livrés ; Browser Offline Manager seul certifiant ; 9 tests Playwright OF-D2-* PASS | Contrat [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur |
 | **PDR-D6 — Recherche locale** | **Publié** — tag `local-search-v1` ; contrat [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; lots D6-A…G ; indexation Amorçage (C-CP-09, AP-F) | Implémentation Reader validée |
 | **PDR-D7 — Préférences d'affichage** | **Publié** — tag `display-preferences-v1` ; contrat [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) en vigueur ; lots D7-A…G |
-| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 ; lots AP-A…AP-F ; **632 unit + 14 smoke AP-F PASS** | Recertification RPC 234 — prochain jalon pilotage |
+| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 ; lots AP-A…AP-F ; **632 unit + 14 smoke AP-F PASS** | Reference Product Chapter 234 — prochain jalon pilotage |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
@@ -116,16 +118,17 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 Ordre hérité de [`MASTER_ROADMAP.md` § Dépendances](MASTER_ROADMAP.md#dépendances) — **pas une repriorisation locale**.
 
-1. **Recertification du chapitre 234 comme Reference Product Chapter (RPC)** — réévaluation selon méthodologie produit ; prêt pour Product Review.
-2. **Product Review 234** — revue propriétaire.
-3. **Product Freeze 234** — gel produit ; *Observer d'abord. Généraliser ensuite.*
-4. **Capitalisation des enseignements** — synthèse post-freeze.
-5. **Validation Corpus V1 (Fabrique)** — qualification archétypes **224 · 230** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) — **après** Product Freeze 234.
-6. **Validation pédagogique Lou** — après Validation Corpus V1 prononcée.
-7. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
-8. **CI** — fixture et non-régression sur package complet (parallèle).
-9. **Décision d'industrialisation** — après Validation Corpus V1 et validation Lou.
-10. **Extension optionnelle** — 7 KP mastery restants + scénarios variant/station si intérêt pédagogique.
+1. **Reference Product Chapter (234)** — laboratoire produit : toutes vues, notions, figures utiles, walkthroughs complets ; prêt pour Product Review.
+2. **Product Review 234** — utilisation **réelle** par Lou dans le Reader ; décision valeur pédagogique → Product Freeze.
+3. **Product Freeze 234** — gel produit.
+4. **Reference Production Chapter (224)** — reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode de production**.
+5. **Capitalisation industrielle** — enseignements post-224.
+6. **Validation Corpus V1 (Fabrique)** — **après validation complète du 224** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)).
+7. **Choix chapitres suivants** — 230 ou autre ; décision ultérieure.
+8. **Validation pédagogique Lou** — après Validation Corpus V1 prononcée.
+9. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
+10. **CI** — fixture et non-régression sur package complet (parallèle).
+11. **Industrialisation EDN** — après Validation Corpus V1 et validation Lou.
 
 ---
 
@@ -136,8 +139,9 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 | Date | Événement |
 |---|---|
 | 2026-08-02 | **Nettoyage documentaire Reader V1** publié (`e479e78`) — modèle 7 vues ; doc `00-READER-V1-PRODUCT-MODEL.md` |
-| 2026-08-02 | **Pivot pilotage RPC 234** — recertification du chapitre existant (méthodologie conserver / adapter / remplacer) ; Validation Corpus V1 différée jusqu'au Product Freeze 234 |
-| 2026-08-02 | **Vague A gouvernance** — propagation séquence Validation Corpus V1 → Validation Lou → Décision d'industrialisation ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ; **supplantée** par pivot RPC 234 |
+| 2026-08-02 | **234 = laboratoire produit** — surproduction légère assumée ; Product Review = usage réel Lou ; coût étudié sur 224 uniquement |
+| 2026-08-02 | **Séparation produit / production** — 234 = Reference Product Chapter ; 224 = Reference Production Chapter ; Validation Corpus V1 après validation complète du 224 ; 230 = candidat futur |
+| 2026-08-02 | **Pivot pilotage RPC 234** — finalisation produit ; *Observer d'abord. Généraliser ensuite.* |
 | 2026-08-02 | **CI-01 clôturé** — realignement smoke CN-07 post-Reader Acceptance V1 ; commit `691dd6f` ; **122/122 smoke PASS** ; CI — Fixture 234 run [#22](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037) SUCCESS |
 | 2026-08-02 | **Reader Acceptance V1 prononcé** — gouvernance ; commit `27aa870` ; AP-A…AP-F ; tag `reader-acceptance-v1` |
 | 2026-08-01 | **Publication AP-E** — Renderer Cognitive Priming + navigation EDN explicite (`a110a4e`) |
@@ -204,8 +208,9 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 | Détail Reader Composition | [`renderer/READER-COMPOSITION-V1-FREEZE.md`](renderer/READER-COMPOSITION-V1-FREEZE.md) |
 | Dette Composition (clôturée) | [`governance/COMPOSITION-IMPLEMENTATION-DEBT.md`](governance/COMPOSITION-IMPLEMENTATION-DEBT.md) |
 | Détail migration Reader | [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md) |
+| Détail Reference Product Chapter | [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) |
 | Détail industrialisation (ultérieur) | [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) |
 
 ---
 
-*Révision 2026-08-02 — recertification RPC 234 ; Validation Corpus V1 différée jusqu'au Product Freeze 234.*
+*Révision 2026-08-02 — 234 = laboratoire produit ; Product Review = usage réel Lou ; 224 = industrialisation post-Freeze ; coût sur 224.*

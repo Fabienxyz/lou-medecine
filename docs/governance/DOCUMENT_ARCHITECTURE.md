@@ -42,6 +42,8 @@ Mémoire de décision
 Pilotage                          ← ce document en définit l'organisation
   MASTER_ROADMAP (intention)
   PROJECT_STATE (observation)
+  docs/rpc/ (Reference Product Chapter — méthode produit)
+  docs/analysis/ (audits temporaires)
 
 Traçabilité historique
   Rapports de clôture, docs/releases/, tags Git, historique Git
@@ -187,18 +189,19 @@ Le projet est piloté par un **modèle hybride** : les **objectifs** forment la 
 
 Un livrable de référence n'est **pas** une phase du projet. C'est un **artefact structurant** vers lequel convergent plusieurs chantiers, et à partir duquel se débloquent plusieurs validations.
 
-Exemple actuel : le **Reference Product Chapter (RPC)** — Item **234** (Insuffisance cardiaque, édition Collège **2022**, Release `complete`). Concept de **pilotage interne** depuis 2026-08-02 — remplace la désignation informelle « Golden Master » / « Golden Package » pour le pilotage produit. **Sans statut normatif** avant Product Freeze. Le chapitre **existant** est **recertifié** (conserver / adapter / remplacer par artefact) — pas recréé depuis zéro.
+Exemple actuel : le **Reference Product Chapter** — Item **234** (Insuffisance cardiaque, édition Collège **2022**, Release `complete`). **Laboratoire produit** : y est découvert le meilleur produit pédagogique pour Lou — toutes vues, notions, figures utiles, walkthroughs complets ; surproduction légère assumée. Documentation : [`docs/rpc/`](../rpc/00-RPC-METHODOLOGY.md).
+
+Le **Reference Production Chapter** — Item **224** — démarre **uniquement après Product Freeze 234** : reprend le **produit figé** ; mesure temps humain, appels LLM et coûts ; optimise **méthode de production** (prompts, pipelines, standards réutilisables) — **pas le produit**.
 
 Il sert simultanément de :
 
 - référence d'acceptation du Reader (✅ clôturée) ;
-- **chantier produit prioritaire** (recertification RPC en cours) ;
+- **laboratoire produit** (234 — finalisation en cours) ;
 - support futur de la validation pédagogique ;
 - fixture de non-régression ;
-- modèle pour l'industrialisation (après Product Freeze et Validation Corpus V1) ;
 - base de la lignée éditoriale (ADR-006, PDR-C7).
 
-**Principe :** *Observer d'abord. Généraliser ensuite.* — Validation Corpus V1 (224, 230) différée jusqu'au Product Freeze 234.
+**Principe :** *Observer d'abord. Généraliser ensuite.* — le **produit** se découvre sur **234** ; la **méthode industrielle** se découvre sur **224** ; Validation Corpus V1 **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés**.
 
 ### 5.3 Dépendances — deux natures
 

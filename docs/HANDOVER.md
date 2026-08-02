@@ -18,8 +18,9 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Branche** | `main` |
-| **HEAD** | `691dd6fa784cf75b90efa0c37b9f40692f2837bb` — CI-01 (alignement smoke post-RA V1) |
+| **HEAD** | `923f638063dce40ff3d8256f34a29d08fea808df` — Vague A gouvernance (Validation Corpus V1) |
 | **Gouvernance RA V1** | `27aa870` — prononcé Reader Acceptance V1 ; tag `reader-acceptance-v1` |
+| **Gouvernance Corpus V1** | `923f638` — séquence Validation Corpus V1 propagée ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Remote** | `origin/main` — aligné sur HEAD |
 | **Tags de référence** | `reader-acceptance-v1` (RA V1) · `display-preferences-v1` (D7) · `local-search-v1` (D6) · `offline-certification-v1` (D2) · `reader-composition-v1` (Composition) |
 

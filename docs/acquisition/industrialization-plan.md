@@ -3,7 +3,9 @@
 **Statut :** feuille de route post-qualification GO  
 **Prérequis :** [`qualification-report-acquisition-final.md`](qualification-report-acquisition-final.md) · [ADR-004](../adr/ADR-004-acquisition-architecture-frozen.md)
 
-> **Cadre normatif.** L'architecture d'acquisition est gelée (ADR-004). Ce plan couvre l'**industrialisation des artefacts métier aval** — travaux **post-Fabrique** (Phase 3.5 close). Voir [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md).
+> **Cadre normatif.** L'architecture d'acquisition est gelée (ADR-004). Ce plan couvre l'**industrialisation des artefacts métier aval** — travaux **post-Fabrique** (Phase 3.5 close). Voir [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md). Séquence produit : Reader Acceptance → Validation Corpus V1 → Validation Lou → Décision d'industrialisation ([PDR-C8](../governance/PRODUCT-DECISION-REGISTRY.md#pdr-c8--validation-corpus-v1-fabrique)).
+
+> **Note terminologique.** Ne pas confondre **`corpus-v1.0.0`** (gel acquisition — corpus EDN source complet, 22 chapitres cardio) et **Validation Corpus V1 (Fabrique)** (qualification Fabrique sur 3 archétypes : 234 · 224 · 230 — [PDR-C8](../governance/PRODUCT-DECISION-REGISTRY.md#pdr-c8--validation-corpus-v1-fabrique)).
 
 ---
 
@@ -44,9 +46,27 @@ Passer de **2 vertical slices validés** (Items 234, 330) à une chaîne capable
 
 ## 4. Étapes d'industrialisation
 
+### Phase A.0 — Validation Corpus V1 (Fabrique)
+
+**Objectif :** qualifier la Fabrique sur un corpus archétypé avant validation pédagogique Lou et décision d'industrialisation ([PDR-C8](../governance/PRODUCT-DECISION-REGISTRY.md#pdr-c8--validation-corpus-v1-fabrique)).
+
+**Portée :** chapitres pathologiques à dominante mécanistique uniquement. Familles normative, interprétative et interventionnelle → Validation Corpus V2 (différé).
+
+| Archétype | Item | Rôle dans la qualification |
+|---|---|---|
+| A — Grande maladie intégratrice | **234** | Référence déjà capitalisée |
+| C — Prise en charge longitudinale | **224** | Validation de reproductibilité |
+| B — Symptôme → Diagnostic → Décision | **230** | Validation de robustesse |
+
+**Ordre officiel de production :** 234 (référence) → **224** → **230**.
+
+**Prérequis :** Reader Acceptance V1 clôturé. **Suite :** Validation pédagogique Lou, puis décision d'industrialisation.
+
+---
+
 ### Phase A — Collège cardio complet (22 chapitres)
 
-**Objectif :** tout chapitre FIL B consommable par le Lecteur (Phase 1).
+**Objectif :** tout chapitre FIL B consommable par le Lecteur (Phase 1). **Prérequis :** Validation Corpus V1 prononcée et décision d'industrialisation.
 
 | Étape | Action | Parallélisable | Validation ponctuelle |
 |---|---|:---:|---|
@@ -58,13 +78,17 @@ Passer de **2 vertical slices validés** (Items 234, 330) à une chaîne capable
 | A.6 | `library.json` + manifests par chapitre | — | Phase 1 critères |
 | A.7 | Suppression FIL A legacy | Après A.3 234 ✅ | Migration checklist |
 
-**Ordre recommandé (par archétype) :**
+**Ordre recommandé (par archétype) — hors Phase A.0 :**
 
-1. Textuel simple : 221, 222, 223, 230, 235
-2. Tableaux / posologies : 330 ✅, 224, 339
-3. Narratif clinique : 234 ✅, 232, 226, 203
+L'ordre officiel de la Phase A.0 ([PDR-C8](../governance/PRODUCT-DECISION-REGISTRY.md#pdr-c8--validation-corpus-v1-fabrique)) prime pour la qualification Fabrique (234 → 224 → 230). Pour le scale 22 chapitres **après** décision d'industrialisation :
+
+1. Textuel simple : 221, 222, 223, 235
+2. Tableaux / posologies : 330 ✅, 339
+3. Narratif clinique : 232, 226, 203
 4. Figures denses : 231, 233
 5. Restants : 152, 153, 236, 237, 238, 331, 342
+
+*(Items 224 et 230 traités en Phase A.0 ; Item 234 = référence.)*
 
 ### Phase B — Automatisation pipeline sémantique (Phase 2 roadmap)
 

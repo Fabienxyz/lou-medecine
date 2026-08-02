@@ -135,9 +135,9 @@ Ce registre consolide l'ensemble des arbitrages produit issus de l'audit systèm
 | **Source audit** | Q3b |
 | **Décision retenue** | Lou valide le **premier** Chapter Package complet pour confirmer la méthode pédagogique. Ce jalon n'est pas une étape permanente du pipeline. La production courante des chapitres suivants repose sur les gates automatiques. |
 | **Justification** | À l'échelle ~360 items, la relecture humaine systématique n'est pas viable. |
-| **Documents cibles** | `15-READER-FUNCTIONAL-SPECIFICATION.md` ; `MASTER_ROADMAP.md` |
+| **Documents cibles** | `15-READER-FUNCTIONAL-SPECIFICATION.md` ; `MASTER_ROADMAP.md` ; [PDR-C8](#pdr-c8--validation-corpus-v1-fabrique) |
 | **ADR associé** | — |
-| **Critère de propagation** | Distinction explicite jalon validation Lou vs pipeline gates. |
+| **Critère de propagation** | Distinction explicite jalon validation Lou vs pipeline gates ; précédée par Validation Corpus V1 ([PDR-C8](#pdr-c8--validation-corpus-v1-fabrique)) — voir [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md). |
 
 ---
 
@@ -179,10 +179,10 @@ Ce registre consolide l'ensemble des arbitrages produit issus de l'audit systèm
 |---|---|
 | **Statut** | Acceptée |
 | **Source audit** | Q3d, Q3c |
-| **Décision retenue** | **1.** Produire le premier Chapter Package complet de référence (capitalisation + gates). **2.** Valider méthode, modèle de publication, Reader V1, UX Lou. **3.** Automatiser progressivement la reproduction (réconciliation → inventory → blueprint → projections → grounding sémantique). Fabrique et Reader avancent **en parallèle** ; l'acceptation Reader exige le package complet réel. |
+| **Décision retenue** | **1.** Produire le premier Chapter Package complet de référence (capitalisation + gates). **2.** Qualifier la Fabrique sur un corpus archétypé ([PDR-C8](#pdr-c8--validation-corpus-v1-fabrique)). **3.** Valider méthode, modèle de publication, Reader V1, UX Lou. **4.** Automatiser progressivement la reproduction (réconciliation → inventory → blueprint → projections → grounding sémantique). Fabrique et Reader avancent **en parallèle** ; l'acceptation Reader exige le package complet réel. |
 | **Justification** | Le package complet de référence doit précéder l'industrialisation pour éviter les angles morts fonctionnels. |
 | **Décisions rejetées** | Conditionner le golden master à l'autonomie complète de Lou Build. |
-| **Documents cibles** | `MASTER_ROADMAP.md` ; `19-BUILD-PIPELINE.md` |
+| **Documents cibles** | `MASTER_ROADMAP.md` ; `19-BUILD-PIPELINE.md` ; [PDR-C8](#pdr-c8--validation-corpus-v1-fabrique) |
 | **ADR associé** | — |
 | **Critère de propagation** | Séquence capitalisation puis industrialisation explicite dans la roadmap. |
 
@@ -200,6 +200,23 @@ Ce registre consolide l'ensemble des arbitrages produit issus de l'audit systèm
 | **Documents cibles** | `19-BUILD-PIPELINE.md` |
 | **ADR associé** | — |
 | **Critère de propagation** | Règles d'intervention humaine documentées dans le pipeline. |
+
+---
+
+### PDR-C8 — Validation Corpus V1 (Fabrique)
+
+| | |
+|---|---|
+| **Statut** | Acceptée |
+| **Source** | Réflexion architecture post–Reader Acceptance V1 ; revues indépendantes Opus — 2026-08-02 |
+| **Décision retenue** | Avant la validation pédagogique Lou et toute décision d'industrialisation, la Fabrique est **qualifiée** par un **Validation Corpus V1** : démonstration de production reproductible sur des chapitres archétypés du Collège cardio 2022. **Archétypes et instances :** **A** — Grande maladie intégratrice → Item **234** (référence déjà capitalisée) ; **B** — Symptôme → Diagnostic → Décision → Item **230** ; **C** — Prise en charge longitudinale → Item **224**. **Ordre officiel de production :** 234 (référence) → **224** (reproductibilité) → **230** (robustesse). |
+| **Portée qualifiante** | Chapitres pathologiques à **dominante mécanistique** uniquement. |
+| **Exclusions** | Contenus **normatifs** ; contenus **interprétatifs** ; contenus **interventionnels** — non couverts par V1. |
+| **Différé à** | **Validation Corpus V2** — qualification multi-collèges pour les familles exclues. |
+| **Justification** | Prouver la reproductibilité Fabrique avant que Lou ne juge la méthode ; Item 224 comparable au package de référence 234 ; Item 230 stress test (profil de projections volontairement plus léger, renvois inter-chapitres, absence de Points-clés et de Notions indispensables source). |
+| **Documents cibles** | `MASTER_ROADMAP.md` ; `PROJECT_STATE.md` ; [`acquisition/industrialization-plan.md`](../acquisition/industrialization-plan.md) |
+| **ADR associé** | — |
+| **Critère de propagation** | Séquence officielle Reader Acceptance → Validation Corpus V1 → Validation Lou → Décision d'industrialisation ; archétypes, ordre et portée documentés. |
 
 ---
 
@@ -685,7 +702,7 @@ Ce registre consolide l'ensemble des arbitrages produit issus de l'audit systèm
 | **Vérité** | Une seule chaîne ; Fabrique productrice ; Reader consommateur pur |
 | **Jalon Reader V1** | Premier Chapter Package **complet** ; 7 vues alimentées à l'acceptation |
 | **Golden master** | Item 234 — Insuffisance cardiaque — **édition Collège 2023** |
-| **Fabrique** | Capitaliser 234 (gates OK) → validation Lou → runtime LLM progressif |
+| **Fabrique** | Capitaliser 234 (gates OK) → Validation Corpus V1 ([PDR-C8](#pdr-c8--validation-corpus-v1-fabrique)) → validation Lou → décision d'industrialisation |
 | **Patrimoine** | Sources / packages publiés / données d'apprentissage — zéro perte ([ADR-006](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) |
 | **Éditions** | Premier diff **2023 → 2026** après golden master |
 | **Reader cible** | App installable, offline, sync-ready, 3 appareils Apple d'abord |
@@ -718,8 +735,9 @@ Vue consolidée pour le suivi de propagation et l'audit de cohérence ([`PRODUCT
 | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](../contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) | D6 | En vigueur (D6-A…G) — 2026-08-01 |
 | [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](../contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) | D7 | En vigueur (D7-A…G) — 2026-08-01 |
 | [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](OFFLINE-IMPLEMENTATION-PLAN.md) | D2 | Clôturé — 2026-08-01 |
-| `MASTER_ROADMAP.md` | B1–B3, C1–C2, C4, C6–C7, D1, D2, F1, G2, G6 | Reader Acceptance prononcé — 2026-08-02 |
-| `PROJECT_STATE.md` | B1–B2, C1, D2, G6 | Reader Acceptance prononcé — 2026-08-02 |
+| `MASTER_ROADMAP.md` | B1–B3, C1–C2, C4, C6–C7, C8, D1, D2, F1, G2, G6 | Validation Corpus V1 — séquence propagée — 2026-08-02 |
+| `PROJECT_STATE.md` | B1–B2, C1, C8, D2, G6 | Validation Corpus V1 — chemin critique — 2026-08-02 |
+| [`acquisition/industrialization-plan.md`](../acquisition/industrialization-plan.md) | C8 | Phase A.0 — 2026-08-02 |
 | [`ADR-006`](../adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md) | E1–E4, G3, C7, A4 | Fait |
 
 ---

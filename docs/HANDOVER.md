@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-02 |
+| **Statut** | Document d'accueil — 2026-08-02 (Vague A gouvernance) |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -35,9 +35,9 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 |---|---|
 | **Phase** | Execution Mode V1 — Reader Acceptance V1 **clôturé** |
 | **Dernier jalon publié** | **Reader Acceptance V1** — prononcé 2026-08-02 |
-| **Objectif actif** | **Validation pédagogique Lou** — étude package 234 via Reader accepté |
-| **Chantier actif** | **Validation pédagogique Lou** ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)) |
-| **Instance courante** | Package 234 Release `complete` ; Reader V1 accepté ; 7 vues alimentées ; D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D · AP-A…AP-F |
+| **Objectif actif** | **Validation Corpus V1 (Fabrique)** — qualification archétypes 234 · 224 · 230 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
+| **Chantier actif** | **Validation Corpus V1 (Fabrique)** — production 224 **non démarrée** |
+| **Instance courante** | Package 234 Release `complete` (référence archétype A) ; Reader V1 accepté ; 7 vues alimentées ; D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D · AP-A…AP-F |
 
 **Acquis majeurs (publiés) :**
 
@@ -61,11 +61,23 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 ## 3. Chemin critique
 
-**Prochain jalon :** **Validation pédagogique Lou**
+**Séquence officielle** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) :
 
-**Étape immédiate :** Lou étudie le chapitre 234 via le Reader accepté et rend une **décision écrite datée** (*poursuivre* / *poursuivre avec modification nommée* / *modifier la méthode avant l'échelle*).
+```
+Reader Acceptance V1 ✅
+        ↓
+Validation Corpus V1 (Fabrique)  ← prochain jalon
+        ↓
+Validation pédagogique Lou
+        ↓
+Décision d'industrialisation
+```
 
-**Critères :** les sept vues utilisées ; QCM et cas expérimentés ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)).
+**Prochain jalon :** **Validation Corpus V1 (Fabrique)**
+
+**Étape immédiate :** qualification Fabrique — ordre officiel 234 (référence capitalisée) → 224 → 230. **Production Item 224 non démarrée.**
+
+**Références :** [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md) · [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) § Phase A.0
 
 ---
 
@@ -128,8 +140,9 @@ Rapport faisant autorité : [`releases/reader-acceptance-v1-publication.md`](rel
 
 ## 7. Chantiers recommandés
 
-1. **Validation pédagogique Lou** — décision écrite sur la méthode (chantier actif)
-2. **AP-G gouvernance** — promotion contrat Cognitive Priming « En vigueur » (optionnel, post-RA)
+1. **Validation Corpus V1 (Fabrique)** — qualification archétypes 234 · 224 · 230 (prochain jalon — production 224 non démarrée)
+2. **Validation pédagogique Lou** — en attente ; conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md))
+3. **AP-G gouvernance** — promotion contrat Cognitive Priming « En vigueur » (optionnel, post-RA)
 
 ---
 
@@ -139,9 +152,10 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
 2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md).
-3. Chantier actif : **Validation pédagogique Lou**.
+3. Prochain jalon : **Validation Corpus V1 (Fabrique)** — production 224 non démarrée.
 4. Reader Acceptance V1 et lots AP-A…AP-F **clôturés**.
+5. Validation pédagogique Lou **en attente** (après Corpus V1).
 
 ---
 
-*Handover — 2026-08-02 — CI-01 clôturé ; main verte ; chantier actif Validation pédagogique Lou. Non normatif.*
+*Handover — 2026-08-02 — Vague A gouvernance ; chemin critique Validation Corpus V1 ; production 224 non démarrée. Non normatif.*

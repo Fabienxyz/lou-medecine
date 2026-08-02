@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-02 — Reader Acceptance V1 prononcé ; chantier actif **Validation pédagogique Lou**.
+**Dernière révision :** 2026-08-02 — Reader Acceptance V1 clôturé ; prochain jalon **Validation Corpus V1 (Fabrique)**.
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -44,8 +44,9 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 | La Fabrique (pipeline validateur lou-build) | ✅ Clôturé — tag `lou-build-pipeline-v1` |
 | Reader Composition V1 (Lots A–F) | ✅ Clôturé — audit indépendant ✅ Conforme ; tag `reader-composition-v1` |
 | **Reader Acceptance V1** | ✅ **Clôturé** — prononcé 2026-08-02 ; tag `reader-acceptance-v1` |
-| **Validation pédagogique Lou** | 🔄 **Phase active** |
-| Industrialisation Fabrique productrice | ⏳ En attente |
+| **Validation Corpus V1 (Fabrique)** | 🔄 **Phase active** |
+| **Validation pédagogique Lou** | ⏳ En attente — conditionnée par Validation Corpus V1 |
+| **Décision d'industrialisation** | ⏳ En attente |
 
 **Distinction obligatoire :** la clôture **Reader Composition V1** ne signifiait **pas** que le Reader était terminé. L'objectif [Acceptation Reader V1](#acceptation-reader-v1) est **clôturé** depuis le 2026-08-02.
 
@@ -66,6 +67,8 @@ Lou Médecine ne cherche **pas** à :
 | Exporter en PDF en V1 | [PDR-D10](governance/PRODUCT-DECISION-REGISTRY.md) |
 
 **Inclus dans le périmètre Reader V1 et du package de référence :** QCM et cas cliniques au niveau chapitre ([PDR-A3](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) — distincts de la répétition espacée différée.
+
+**Qualification Fabrique V1 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) :** Validation Corpus V1 qualifie la Fabrique pour les chapitres pathologiques à **dominante mécanistique** uniquement. **Hors périmètre V1 :** contenus normatifs, interprétatifs et interventionnels — relèvent d'un futur Validation Corpus V2 multi-collèges.
 
 Toute proposition qui entre dans les exclusions ci-dessus est **hors roadmap**, même si elle paraît séduisante techniquement.
 
@@ -103,6 +106,7 @@ Premier **Chapter Package complet** publié et versionné, produit par capitalis
 **Consommateurs :**
 
 - acceptation Reader V1 ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- Validation Corpus V1 — archétype A ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ;
 - validation pédagogique de la méthode ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)) ;
 - fixture de non-régression Fabrique et CI ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) ;
 - modèle de publication pour l'industrialisation ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md)) ;
@@ -160,7 +164,27 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 
 **Hors périmètre V1 :** répétition espacée, recherche globale bibliothèque, export PDF, sync automatique, indicateur de progression élaboré ([PDR-D5](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-G4](governance/PRODUCT-DECISION-REGISTRY.md)).
 
-**Plan d'exécution détaillé :** [`renderer/13-ROADMAP.md`](renderer/13-ROADMAP.md), [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md), [`governance/OFFLINE-IMPLEMENTATION-PLAN.md`](governance/OFFLINE-IMPLEMENTATION-PLAN.md) (PDR-D2 — lots D2-A…I **livrés** ; plan **clôturé**). **Lots Reader Acceptance livrés :** D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D · **AP-A…AP-F** (Amorçage cognitif). **Prononcé :** 2026-08-02 — voir [`releases/reader-acceptance-v1-publication.md`](releases/reader-acceptance-v1-publication.md).
+**Plan d'exécution détaillé :** [`releases/reader-acceptance-v1-publication.md`](releases/reader-acceptance-v1-publication.md).
+
+---
+
+### Qualification corpus Fabrique V1 (Validation Corpus V1)
+
+| | |
+|---|---|
+| **Nature** | Capitalisation répétable (par archétype — pilote cardiologie mécanistique) |
+| **Question directrice** | La Fabrique produit-elle de manière reproductible des chapitres archétypés représentatifs, au-delà du package de référence unique ? |
+| **Décisions** | [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md) |
+
+**Critère de sortie :**
+
+- Item **234** demeure la référence capitalisée (archétype A — grande maladie intégratrice) ;
+- Items **224** (archétype C — reproductibilité) puis **230** (archétype B — robustesse) produits selon l'ordre officiel ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- qualification Fabrique prononcée pour la portée mécanistique ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)).
+
+**Hors périmètre :** familles normative, interprétative et interventionnelle (Validation Corpus V2) ; validation pédagogique Lou (objectif distinct, ultérieur) ; runtime autonome (objectif [Industrialisation de la Fabrique productrice](#industrialisation-de-la-fabrique-productrice)).
+
+**Plan d'exécution détaillé :** [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) § Phase A.0.
 
 ---
 
@@ -169,12 +193,13 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 | | |
 |---|---|
 | **Nature** | Fondation unique (validation produit unique — non rejouée par chapitre) |
-| **Question directrice** | La méthode enseigne-t-elle réellement mieux, sur le premier package complet ? |
-| **Décisions** | [PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md) |
+| **Question directrice** | La méthode enseigne-t-elle réellement mieux, sur un **corpus qualifié** par Validation Corpus V1 ? |
+| **Décisions** | [PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md) |
 
 **Critère de sortie :**
 
-- Lou confirme la compréhension du chapitre étudié via le Reader sur le package de capitalisation de référence ;
+- Validation Corpus V1 **prononcée** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ;
+- Lou confirme la compréhension via le Reader sur le corpus qualifié ;
 - décision écrite et datée : *poursuivre* / *poursuivre avec modification nommée* / *modifier la méthode avant l'échelle* ;
 - les sept vues ont été utilisées ; QCM et cas ont été expérimentés.
 
@@ -222,7 +247,9 @@ Cet objectif avance **en parallèle** de la capitalisation et du Reader ; ses cr
 |---|---|
 | **Nature** | Fondation unique puis extension répétable |
 | **Question directrice** | Comment produire des chapitres suivants via une chaîne largement autonome, sans capitalisation manuelle intégrale ? |
-| **Décisions** | [PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C3](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C5](governance/PRODUCT-DECISION-REGISTRY.md) |
+| **Décisions** | [PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C3](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C5](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md) |
+
+**Décision d'industrialisation :** verdict explicite du propriétaire du projet — **après** Validation Corpus V1 et validation pédagogique Lou — de passer ou non au runtime autonome et à la montée en charge.
 
 **Critère de sortie (première étape) :**
 
@@ -230,7 +257,7 @@ Cet objectif avance **en parallèle** de la capitalisation et du Reader ; ses cr
 - coût et effort humain par chapitre **mesurés** ;
 - le modèle de publication du package de capitalisation de référence est reproduit.
 
-**Hors périmètre immédiat :** scale-out massif avant clôture du package de référence et validation de la méthode.
+**Hors périmètre immédiat :** scale-out massif avant clôture Validation Corpus V1 et validation de la méthode ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 **Plan d'exécution détaillé :** [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md).
 
@@ -332,14 +359,16 @@ Deux natures de dépendance coexistent ([`DOCUMENT_ARCHITECTURE.md`](governance/
 
 | Élément | Bloqué au démarrage par | Bloqué à l'acceptation par | Débloque (à la clôture) |
 |---|---|---|---|
-| Capitalisation package de référence | — | — | acceptation Reader ; validation Lou ; fixture CI ; modèle industrialisation ; diff éditorial |
+| Capitalisation package de référence | — | — | acceptation Reader ; Validation Corpus V1 ; fixture CI ; modèle industrialisation ; diff éditorial |
 | Reader Composition V1 | — | — | (architecture Composition en production — clôturée) |
-| Reader Acceptance V1 | package de référence publié | critères PDR-B1/B5/D/E | acceptation Reader V1 |
-| Acceptation Reader V1 | — | package de référence publié + critères acceptance | validation Lou en conditions réelles |
-| Validation pédagogique Lou | — | package de référence + Reader V1 accepté | industrialisation ; scale cardio |
+| Reader Acceptance V1 | package de référence publié | critères PDR-B1/B5/D/E | Validation Corpus V1 |
+| Acceptation Reader V1 | — | package de référence publié + critères acceptance | Validation Corpus V1 |
+| Validation Corpus V1 (Fabrique) | — | Reader Acceptance V1 | validation pédagogique Lou |
+| Validation pédagogique Lou | — | Validation Corpus V1 prononcée + Reader V1 accepté | décision d'industrialisation |
 | Patrimoine V1 | — | co-vérifié à l'acceptation Reader | confiance données long terme |
 | Premier diff éditorial | package de référence validé | — | régime éditorial |
-| Industrialisation Fabrique | package de référence + validation méthode | — | scale cardio |
+| Décision d'industrialisation | Validation Corpus V1 + validation Lou | — | industrialisation Fabrique ; scale cardio |
+| Industrialisation Fabrique | décision d'industrialisation | — | scale cardio |
 | Couverture Cardio | industrialisation opérationnelle | — | couverture EDN |
 | Couverture EDN | cardio stabilisé + second collège validé | — | régime permanent |
 | Interface Admin | package de référence | — | exploitabilité scale |
@@ -419,4 +448,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-08-02 — Reader Acceptance V1 prononcé ; chantier actif Validation pédagogique Lou.*
+*Révision 2026-08-02 — Validation Corpus V1 (Fabrique) : prochain jalon officiel ; séquence propagée ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)).*

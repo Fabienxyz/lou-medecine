@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-02 (CI-01 clôturé ; main verte ; chantier actif : Validation pédagogique Lou)
+**Dernière mise à jour :** 2026-08-02 (Vague A gouvernance — séquence Validation Corpus V1 ; production 224 non démarrée)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -20,10 +20,10 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | | |
 |---|---|
-| **Objectif actif** | [Validation pédagogique Lou](MASTER_ROADMAP.md#validation-pédagogique-de-la-méthode) — Reader V1 accepté sur package 234 |
-| **Livrable visé** | Confirmation écrite de Lou sur la méthode d'étude via le Reader ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md)) |
-| **Chemin critique** | **Validation pédagogique Lou** — goulet principal avant industrialisation Fabrique productrice |
-| **Blocage structurant** | Validation pédagogique Lou **non prononcée** — Reader Acceptance V1 **clôturé** |
+| **Objectif actif** | [Qualification corpus Fabrique V1](MASTER_ROADMAP.md#qualification-corpus-fabrique-v1-validation-corpus-v1) — Validation Corpus V1 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
+| **Livrable visé** | Qualification Fabrique sur archétypes 234 (réf.) · 224 · 230 — portée mécanistique |
+| **Chemin critique** | **Validation Corpus V1 (Fabrique)** — prochain jalon officiel avant validation pédagogique Lou |
+| **Blocage structurant** | Validation Corpus V1 **non prononcée** — Reader Acceptance V1 **clôturé** |
 | **Dernier jalon produit** | **Reader Acceptance V1 prononcé** — Amorçage cognitif (AP-A…AP-F) ; **632 unit + 14 smoke AP-F PASS** ; tag `reader-acceptance-v1` |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
@@ -42,7 +42,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Validation pédagogique Lou** | Validation pédagogique de la méthode | Phase **active** — étude package 234 via Reader accepté ; décision écrite Lou |
+| **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | Prochain jalon officiel — ordre 234 (réf.) → 224 → 230 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ; **production 224 non démarrée** |
+| **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Main verte** — CI-01 clôturé (CN-07 realigné) ; workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) |
 
@@ -67,7 +68,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Build SVG non reproductible byte-identique | Bloque CI fiable | Maintenabilité et CI |
 | Patrimoine apprenant — export / restauration | **E-D publié** — export (E-C) + import (E-D) ; LP-05 et LP-06 satisfaits ; **PDR-E5 livré** ; Reader Acceptance V1 **prononcé** | Patrimoine · Validation pédagogique Lou |
 | F2 — ordre écriture sidecars G/H vs verdict I | Cohérence disque lou-build | Dette pipeline |
-| Scale-out prématuré (tentation multi-chapitres partiels) | Dispersion — contredit [PDR-C2](governance/PRODUCT-DECISION-REGISTRY.md) | — (risque de pilotage) |
+| Scale-out prématuré (tentation multi-chapitres partiels) | Dispersion — contredit [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md) hors corpus V1 | — (risque de pilotage) |
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
 | Portabilité hors cardio / hors PDF | Latent | Couverture EDN |
 
@@ -97,7 +98,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **PDR-D2 — Offline intégral** | **Publié** — tag `offline-certification-v1` ; lots D2-A…I livrés ; Browser Offline Manager seul certifiant ; 9 tests Playwright OF-D2-* PASS | Contrat [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur |
 | **PDR-D6 — Recherche locale** | **Publié** — tag `local-search-v1` ; contrat [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; lots D6-A…G ; indexation Amorçage (C-CP-09, AP-F) | Implémentation Reader validée |
 | **PDR-D7 — Préférences d'affichage** | **Publié** — tag `display-preferences-v1` ; contrat [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) en vigueur ; lots D7-A…G |
-| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 ; lots AP-A…AP-F ; **632 unit + 14 smoke AP-F PASS** | Validation pédagogique Lou ouverte |
+| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 ; lots AP-A…AP-F ; **632 unit + 14 smoke AP-F PASS** | Validation Corpus V1 — prochain jalon |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
@@ -113,11 +114,12 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 Ordre hérité de [`MASTER_ROADMAP.md` § Dépendances](MASTER_ROADMAP.md#dépendances) — **pas une repriorisation locale**.
 
-1. **Validation pédagogique Lou** — package 234 + Reader accepté (cadre global).
-2. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
-3. **CI** — fixture et non-régression sur package complet (parallèle).
-4. **Industrialisation Fabrique productrice** — après validation méthode.
-5. **Extension optionnelle** — 7 KP mastery restants + scénarios variant/station si intérêt pédagogique.
+1. **Validation Corpus V1 (Fabrique)** — qualification archétypes 234 · 224 · 230 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)).
+2. **Validation pédagogique Lou** — après Validation Corpus V1 prononcée.
+3. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
+4. **CI** — fixture et non-régression sur package complet (parallèle).
+5. **Décision d'industrialisation** — après Validation Corpus V1 et validation Lou.
+6. **Extension optionnelle** — 7 KP mastery restants + scénarios variant/station si intérêt pédagogique.
 
 ---
 
@@ -127,8 +129,9 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-02 | **Vague A gouvernance** — propagation séquence Validation Corpus V1 → Validation Lou → Décision d'industrialisation ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) ; chemin critique → Validation Corpus V1 ; production 224 non démarrée |
 | 2026-08-02 | **CI-01 clôturé** — realignement smoke CN-07 post-Reader Acceptance V1 ; commit `691dd6f` ; **122/122 smoke PASS** ; CI — Fixture 234 run [#22](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037) SUCCESS |
-| 2026-08-02 | **Reader Acceptance V1 prononcé** — gouvernance ; commit `27aa870` ; AP-A…AP-F ; tag `reader-acceptance-v1` ; chantier actif → Validation pédagogique Lou |
+| 2026-08-02 | **Reader Acceptance V1 prononcé** — gouvernance ; commit `27aa870` ; AP-A…AP-F ; tag `reader-acceptance-v1` |
 | 2026-08-01 | **Publication AP-E** — Renderer Cognitive Priming + navigation EDN explicite (`a110a4e`) |
 | 2026-08-01 | **Publication AP-D** — Composition Cognitive Priming (`cf74751`) |
 | 2026-08-01 | **Publication AP-C** — Fabrique / package 234 Amorçage (`a8bd191`) |
@@ -197,4 +200,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-02 — CI-01 clôturé ; main verte ; chantier actif : Validation pédagogique Lou.*
+*Révision 2026-08-02 — Vague A gouvernance ; chemin critique Validation Corpus V1 ; production 224 non démarrée.*

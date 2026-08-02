@@ -53,8 +53,10 @@ These documents explain the current research and discoveries.
 
 Only after reading the documents above should new product or implementation work begin.
 
-**Objectif actif :** **Validation Corpus V1 (Fabrique)** — voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
+**Objectif actif :** **Recertification du chapitre 234 comme Reference Product Chapter (RPC)** — voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
 
-**Reader V1 :** accepté (tag `reader-acceptance-v1`) — **7 vues** ; modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md). **Reader Composition V1 clôturée** (Lots A–F). Détail : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
+**Reader V1 :** accepté (tag `reader-acceptance-v1`) — **7 vues** ; modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md). **Validation Corpus V1 différée** jusqu'au Product Freeze 234.
 
-**Pour démarrer concrètement :** [`demo/renderer/`](demo/renderer/) (Reader), [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (package de référence), [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md) (produit), [`docs/renderer/READER-COMPOSITION-V1-FREEZE.md`](docs/renderer/READER-COMPOSITION-V1-FREEZE.md) (Composition gelée).
+**Principe pilotage :** *Observer d'abord. Généraliser ensuite.*
+
+**Pour démarrer concrètement :** [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (chapitre existant — recertification RPC), [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md) (produit), [`demo/renderer/`](demo/renderer/) (Reader).

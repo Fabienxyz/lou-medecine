@@ -37,6 +37,8 @@ Pour le *pourquoi* d'une décision ou une obligation technique précise, consult
 
 **Mission Reader ou package :** lire d'abord [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](../renderer/00-READER-V1-PRODUCT-MODEL.md) — sept vues produit ; les projections (`story`, `overview`, etc.) ne sont **pas** des onglets.
 
+**Chantier actif :** recertification du chapitre **234 existant** comme **Reference Product Chapter (RPC)** — pilotage interne ; réévaluation artefact par artefact (conserver / adapter / remplacer) ; Validation Corpus V1 **différée** jusqu'au Product Freeze 234. Principe : *Observer d'abord. Généraliser ensuite.*
+
 **Tenue à jour :** l'agent est responsable de maintenir `PROJECT_STATE.md` synchronisé avec l'état réel du projet (§2). Ce n'est **pas** une charge administrative du propriétaire.
 
 ---

@@ -187,13 +187,18 @@ Le projet est piloté par un **modèle hybride** : les **objectifs** forment la 
 
 Un livrable de référence n'est **pas** une phase du projet. C'est un **artefact structurant** vers lequel convergent plusieurs chantiers, et à partir duquel se débloquent plusieurs validations.
 
-Exemple actuel : le **Golden Master** — premier Chapter Package complet (Item 234, édition Collège 2023). Il sert simultanément de :
+Exemple actuel : le **Reference Product Chapter (RPC)** — Item **234** (Insuffisance cardiaque, édition Collège **2022**, Release `complete`). Concept de **pilotage interne** depuis 2026-08-02 — remplace la désignation informelle « Golden Master » / « Golden Package » pour le pilotage produit. **Sans statut normatif** avant Product Freeze. Le chapitre **existant** est **recertifié** (conserver / adapter / remplacer par artefact) — pas recréé depuis zéro.
 
-- référence d'acceptation du Reader ;
-- support de la validation pédagogique ;
+Il sert simultanément de :
+
+- référence d'acceptation du Reader (✅ clôturée) ;
+- **chantier produit prioritaire** (recertification RPC en cours) ;
+- support futur de la validation pédagogique ;
 - fixture de non-régression ;
-- modèle pour l'industrialisation ;
+- modèle pour l'industrialisation (après Product Freeze et Validation Corpus V1) ;
 - base de la lignée éditoriale (ADR-006, PDR-C7).
+
+**Principe :** *Observer d'abord. Généraliser ensuite.* — Validation Corpus V1 (224, 230) différée jusqu'au Product Freeze 234.
 
 ### 5.3 Dépendances — deux natures
 
@@ -202,7 +207,7 @@ Exemple actuel : le **Golden Master** — premier Chapter Package complet (Item 
 | **Blocage de démarrage** | le travail ne peut pas commencer | pas d'effort affecté |
 | **Blocage d'acceptation** | le travail peut avancer, mais son critère de sortie ne peut pas être prononcé | effort autorisé, clôture bloquée |
 
-Cette distinction permet de représenter le parallélisme réel du projet — par exemple le développement du Reader V1 pendant la production du Golden Master — sans relinéariser à tort le chemin critique.
+Cette distinction permet de représenter le parallélisme réel du projet — par exemple le développement du Reader V1 pendant la capitalisation du package 234 — sans relinéariser à tort le chemin critique.
 
 Le **chemin critique** est une **conséquence** des dépendances et de l'objectif actif. Il ne se maintient pas comme une ligne indépendante dans la roadmap.
 

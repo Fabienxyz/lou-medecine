@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-02 (Vague A gouvernance) |
+| **Statut** | Document d'accueil — 2026-08-02 (pivot pilotage — recertification RPC 234) |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -18,10 +18,9 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Branche** | `main` |
-| **HEAD** | `923f638063dce40ff3d8256f34a29d08fea808df` — Vague A gouvernance (Validation Corpus V1) |
+| **HEAD** | `e479e78` — nettoyage documentaire Reader V1 (7 vues) |
 | **Gouvernance RA V1** | `27aa870` — prononcé Reader Acceptance V1 ; tag `reader-acceptance-v1` |
-| **Gouvernance Corpus V1** | `923f638` — séquence Validation Corpus V1 propagée ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
-| **Remote** | `origin/main` — aligné sur HEAD |
+| **Remote** | `origin/main` — voir HEAD courant dans [`PROJECT_STATE.md`](PROJECT_STATE.md) |
 | **Tags de référence** | `reader-acceptance-v1` (RA V1) · `display-preferences-v1` (D7) · `local-search-v1` (D6) · `offline-certification-v1` (D2) · `reader-composition-v1` (Composition) |
 
 **Exclusions volontaires :** `_Roadmap Opus - 27 Juillet 2026.docx` · `demo/renderer/docs/learner-session-d4-technical-design.md`
@@ -36,9 +35,11 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 |---|---|
 | **Phase** | Execution Mode V1 — Reader Acceptance V1 **clôturé** |
 | **Dernier jalon publié** | **Reader Acceptance V1** — prononcé 2026-08-02 |
-| **Objectif actif** | **Validation Corpus V1 (Fabrique)** — qualification archétypes 234 · 224 · 230 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
-| **Chantier actif** | **Validation Corpus V1 (Fabrique)** — production 224 **non démarrée** |
-| **Instance courante** | Package 234 Release `complete` (référence archétype A) ; Reader V1 accepté ; 7 vues alimentées ; D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D · AP-A…AP-F |
+| **Objectif actif** | **Recertification du chapitre 234 comme Reference Product Chapter (RPC)** — pilotage interne |
+| **Chantier actif** | **Item 234 existant** — réévaluation artefact par artefact selon méthodologie RPC |
+| **Instance courante** | Package 234 Release `complete` ; Reader V1 accepté ; 7 vues alimentées ; D1 · D2 · D4 · D6 · D7 · patrimoine E-A…E-D · AP-A…AP-F |
+
+**Reference Product Chapter (RPC) :** concept de **pilotage interne** uniquement — le chapitre **234 existant** (Release `complete`) est **recertifié** selon une nouvelle méthodologie produit, pas recréé depuis zéro. Chaque artefact est réévalué : **conserver**, **adapter** ou **remplacer** ; décisions produit documentées. Ni validé définitivement par principe, ni remis en cause systématiquement. **Aucun statut normatif** tant que le Product Freeze 234 n'est pas prononcé. Principe : **« Observer d'abord. Généraliser ensuite. »**
 
 **Acquis majeurs (publiés) :**
 
@@ -55,6 +56,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 - PDR-D7 — préférences d'affichage (tag `display-preferences-v1`)
 - **Amorçage cognitif** — AP-A…AP-F (contrat AP-A, implémentation AP-C…AP-F)
 - **Reader Acceptance V1** — prononcé (tag `reader-acceptance-v1`)
+- **Modèle produit Reader** — [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md)
 
 **Validations de référence :** 632/632 tests unitaires renderer PASS · 122/122 smoke PASS (CI — Fixture 234 run [#22](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037)) · 14/14 smoke AP-F PASS.
 
@@ -62,23 +64,33 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 ## 3. Chemin critique
 
-**Séquence officielle** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) :
+**Séquence produit cible** ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md)) :
 
 ```
 Reader Acceptance V1 ✅
         ↓
-Validation Corpus V1 (Fabrique)  ← prochain jalon
+Recertification du chapitre 234 comme Reference Product Chapter (RPC)  ← actif
+        ↓
+Product Review (propriétaire)
+        ↓
+Product Freeze 234
+        ↓
+Capitalisation des enseignements
+        ↓
+Validation Corpus V1 (Fabrique) — 224 puis 230
         ↓
 Validation pédagogique Lou
         ↓
 Décision d'industrialisation
 ```
 
-**Prochain jalon :** **Validation Corpus V1 (Fabrique)**
+**Prochain jalon pilotage :** **Recertification RPC 234**
 
-**Étape immédiate :** qualification Fabrique — ordre officiel 234 (référence capitalisée) → 224 → 230. **Production Item 224 non démarrée.**
+**Validation Corpus V1 :** **volontairement différée** jusqu'au Product Freeze 234. Production Item 224 **non démarrée**.
 
-**Références :** [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md) · [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) § Phase A.0
+**Gouvernance normative :** inchangée jusqu'au Product Freeze — pas de nouveau PDR, ADR ou contrat.
+
+**Références :** [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) · [`00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) · [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md) (Corpus — différé)
 
 ---
 
@@ -141,9 +153,12 @@ Rapport faisant autorité : [`releases/reader-acceptance-v1-publication.md`](rel
 
 ## 7. Chantiers recommandés
 
-1. **Validation Corpus V1 (Fabrique)** — qualification archétypes 234 · 224 · 230 (prochain jalon — production 224 non démarrée)
-2. **Validation pédagogique Lou** — en attente ; conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md))
-3. **AP-G gouvernance** — promotion contrat Cognitive Priming « En vigueur » (optionnel, post-RA)
+1. **Recertification RPC 234** — réévaluation du chapitre existant (chantier actif)
+2. **Product Review 234** — après recertification RPC
+3. **Product Freeze 234** — gel produit ; puis capitalisation enseignements
+4. **Validation Corpus V1 (Fabrique)** — **après** Product Freeze ; 224 puis 230
+5. **Validation pédagogique Lou** — en attente ; conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md))
+6. **AP-G gouvernance** — promotion contrat Cognitive Priming « En vigueur » (optionnel, post-RA)
 
 ---
 
@@ -153,11 +168,12 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
 2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md).
-3. **Mission Reader ou package :** lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) **avant** d'explorer `projections/` ou le manifest.
-4. Prochain jalon : **Validation Corpus V1 (Fabrique)** — production 224 non démarrée.
-5. Reader Acceptance V1 et lots AP-A…AP-F **clôturés**.
-6. Validation pédagogique Lou **en attente** (après Corpus V1).
+3. Lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) — **7 vues produit** ; projections = production uniquement.
+4. **Chantier prioritaire : Item 234** — recertification comme Reference Product Chapter (RPC).
+5. **Ne pas démarrer** Validation Corpus V1 (224) — différée jusqu'au Product Freeze 234.
+6. Principe : **« Observer d'abord. Généraliser ensuite. »** — gouvernance normative inchangée jusqu'au Product Freeze.
+7. Reader Acceptance V1 et lots AP-A…AP-F **clôturés**.
 
 ---
 
-*Handover — 2026-08-02 — Vague A gouvernance ; chemin critique Validation Corpus V1 ; production 224 non démarrée. Non normatif.*
+*Handover — 2026-08-02 — recertification RPC 234 ; Validation Corpus V1 différée. Non normatif.*

@@ -47,15 +47,17 @@ Research, observations and experiments.
 
 ## Current Status
 
-**Objectif actif :** **Validation Corpus V1 (Fabrique)** — qualification archétypes 234 · 224 · 230 ([`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md)).
+**Objectif actif :** **Recertification du chapitre 234 comme Reference Product Chapter (RPC)** — pilotage interne ([`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md)).
 
 **Reader V1 :** **accepté** (Reader Acceptance V1 prononcé 2026-08-02) — **7 vues** produit ; tag `reader-acceptance-v1`. Modèle produit : [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md).
 
-**Reader Composition V1 :** clôturée (Lots A–F) — Spec → Engine → Reading View Model → Renderer ; audit indépendant ✅ Conforme. Tag `reader-composition-v1`.
+**Validation Corpus V1 :** **différée** jusqu'au Product Freeze 234 — principe *Observer d'abord. Généraliser ensuite.*
 
-**Pipeline validateur lou-build :** acquis — tag historique [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md) ; cutover : [`phase-3.5-completion-report.md`](docs/releases/phase-3.5-completion-report.md).
+**Reader Composition V1 :** clôturée (Lots A–F) — Spec → Engine → Reading View Model → Renderer ; tag `reader-composition-v1`.
 
-**Chantiers en cours :** Validation Corpus V1, validation pédagogique Lou (en attente), patrimoine pédagogique, CI.
+**Pipeline validateur lou-build :** acquis — tag historique [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md).
+
+**Chantiers en cours :** recertification RPC 234, validation pédagogique Lou (en attente), patrimoine pédagogique, CI.
 
 État opérationnel : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · intention et séquencement : [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md) · organisation du pilotage : [`docs/governance/DOCUMENT_ARCHITECTURE.md`](docs/governance/DOCUMENT_ARCHITECTURE.md).
 

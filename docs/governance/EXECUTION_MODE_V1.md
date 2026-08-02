@@ -35,6 +35,8 @@ Les ADR, contrats, PDR et specs ne sont **pas** lus systématiquement avant chaq
 
 Pour le *pourquoi* d'une décision ou une obligation technique précise, consulter [`PRODUCT-DECISION-REGISTRY.md`](PRODUCT-DECISION-REGISTRY.md) ou [`docs/contracts/00-INDEX.md`](../contracts/00-INDEX.md) **si nécessaire**.
 
+**Mission Reader ou package :** lire d'abord [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](../renderer/00-READER-V1-PRODUCT-MODEL.md) — sept vues produit ; les projections (`story`, `overview`, etc.) ne sont **pas** des onglets.
+
 **Tenue à jour :** l'agent est responsable de maintenir `PROJECT_STATE.md` synchronisé avec l'état réel du projet (§2). Ce n'est **pas** une charge administrative du propriétaire.
 
 ---

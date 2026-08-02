@@ -84,7 +84,7 @@ Décision d'industrialisation
 
 ## 4. Architecture stabilisée
 
-Chaîne Reader V1 (acceptée) :
+Chaîne Reader V1 (acceptée) — **modèle produit :** [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) (7 vues ; projections = production uniquement).
 
 ```
 Library Catalog (D1) → Package Access → Browser Offline Manager (D2)
@@ -153,9 +153,10 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
 2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md).
-3. Prochain jalon : **Validation Corpus V1 (Fabrique)** — production 224 non démarrée.
-4. Reader Acceptance V1 et lots AP-A…AP-F **clôturés**.
-5. Validation pédagogique Lou **en attente** (après Corpus V1).
+3. **Mission Reader ou package :** lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) **avant** d'explorer `projections/` ou le manifest.
+4. Prochain jalon : **Validation Corpus V1 (Fabrique)** — production 224 non démarrée.
+5. Reader Acceptance V1 et lots AP-A…AP-F **clôturés**.
+6. Validation pédagogique Lou **en attente** (après Corpus V1).
 
 ---
 

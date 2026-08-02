@@ -47,13 +47,15 @@ Research, observations and experiments.
 
 ## Current Status
 
-**Objectif actif :** **Reader Acceptance V1** — critères d'acceptation sur le package de capitalisation de référence (Item 234 — Insuffisance cardiaque — édition Collège 2022, Release `complete`).
+**Objectif actif :** **Validation Corpus V1 (Fabrique)** — qualification archétypes 234 · 224 · 230 ([`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md)).
 
-**Reader Composition V1 :** clôturée (Lots A–F) — Spec → Engine → Reading View Model → Renderer en production ; audit indépendant ✅ Conforme. Voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
+**Reader V1 :** **accepté** (Reader Acceptance V1 prononcé 2026-08-02) — **7 vues** produit ; tag `reader-acceptance-v1`. Modèle produit : [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md).
+
+**Reader Composition V1 :** clôturée (Lots A–F) — Spec → Engine → Reading View Model → Renderer ; audit indépendant ✅ Conforme. Tag `reader-composition-v1`.
 
 **Pipeline validateur lou-build :** acquis — tag historique [`lou-build-pipeline-v1`](docs/releases/phase-3.4-batch-migration-g-k.md) ; cutover : [`phase-3.5-completion-report.md`](docs/releases/phase-3.5-completion-report.md).
 
-**Chantiers en cours :** Reader Acceptance V1, patrimoine pédagogique, CI.
+**Chantiers en cours :** Validation Corpus V1, validation pédagogique Lou (en attente), patrimoine pédagogique, CI.
 
 État opérationnel : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · intention et séquencement : [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md) · organisation du pilotage : [`docs/governance/DOCUMENT_ARCHITECTURE.md`](docs/governance/DOCUMENT_ARCHITECTURE.md).
 
@@ -69,7 +71,8 @@ Read in this order:
 4. **[Master Roadmap](docs/MASTER_ROADMAP.md)** — intention : objectifs, séquencement, critères de sortie
 5. **[Project State](docs/PROJECT_STATE.md)** — observation : état courant et métriques (document vivant)
 6. **[Product Decision Registry](docs/governance/PRODUCT-DECISION-REGISTRY.md)** — mémoire des arbitrages produit
-7. **Architecture de référence (gelée v1)** — [`docs/renderer/README.md`](docs/renderer/README.md) · docs [14](docs/renderer/14-LOU-READER-ARCHITECTURE.md)–[19](docs/renderer/19-BUILD-PIPELINE.md)
-8. **Implémentation (lou-build)** — [`tools/lou-build/`](tools/lou-build/) · [`IMPLEMENTATION_CONTRACT.md`](IMPLEMENTATION_CONTRACT.md)
+7. **Modèle produit Reader V1** — [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md) — **7 vues** ; point d'entrée expérience utilisateur
+8. **Architecture de référence (gelée v1)** — [`docs/renderer/README.md`](docs/renderer/README.md) · docs [14](docs/renderer/14-LOU-READER-ARCHITECTURE.md)–[19](docs/renderer/19-BUILD-PIPELINE.md)
+9. **Implémentation (lou-build)** — [`tools/lou-build/`](tools/lou-build/) · [`IMPLEMENTATION_CONTRACT.md`](IMPLEMENTATION_CONTRACT.md)
 
 Entry point for new contributors: [START_HERE.md](START_HERE.md).

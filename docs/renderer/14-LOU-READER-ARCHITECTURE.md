@@ -318,22 +318,21 @@ Fonctionnalités **exclues** de la première version — détail comportemental 
 
 ---
 
-# Annexe — Correspondance vision / implémentation actuelle
+# Annexe — Correspondance vision / implémentation (post Reader Acceptance V1)
 
-*Informative — n'engage pas la baseline v1.0.*
+*Informative — n'engage pas la baseline v1.0. **Ne pas** interpréter les identifiants de projection comme des onglets produit.*
 
-| Onglet Reader (baseline) | Implémentation actuelle (Item 234) |
+| Vue Reader (baseline) | Item 234 — état post-RA V1 (2026-08-02) |
 |---|---|
-| Amorçage cognitif | Partiel (en-tête + objectifs) |
-| Modèle mental | Partiel (Histoire + Vue d'ensemble) |
-| Notions | Proche de « Pourquoi ? » |
-| Cas cliniques | Proche de « Raisonnement clinique » |
-| Collège officiel | Non implémenté |
-| QCM | Non implémenté |
-| Notes | Non implémenté |
-| Breadcrumb | Non implémenté |
+| Amorçage cognitif | **Alimenté** — artefact `cognitive-priming.v1.json` (AP-A…AP-F) |
+| Modèle mental | **Alimenté** — Composition agrège artefacts `story` + `overview` (production) |
+| Notions | **Alimenté** — Composition agrège artefact `mechanisms` (production) |
+| Cas cliniques | **Alimenté** — Composition agrège `clinical-reasoning` + scénarios |
+| Collège officiel | **Alimenté** — texte verbatim Collège |
+| QCM | **Alimenté** — banque QCM package |
+| Notes | **Alimenté** — couche apprenant |
 
-Convergence : plan de migration distinct — hors scope de ce document.
+Référence faisant autorité : [`releases/reader-acceptance-v1-publication.md`](../releases/reader-acceptance-v1-publication.md). Modèle produit : [`00-READER-V1-PRODUCT-MODEL.md`](./00-READER-V1-PRODUCT-MODEL.md).
 
 ---
 

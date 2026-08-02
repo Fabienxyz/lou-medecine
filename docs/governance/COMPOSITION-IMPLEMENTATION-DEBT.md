@@ -35,7 +35,9 @@ Composition Specification → Composition Engine → Reading View Model → Rend
 
 ## Inventaire baseline (pré-implémentation — 2026-07-28)
 
-Inventaire des éléments à migrer lors de la future phase d'implémentation. Chaque entrée indique l'emplacement actuel, la violation contractuelle et l'action cible.
+> **Archive historique uniquement.** Toutes les entrées ci-dessous ont été **résolues** par la migration Reader Composition V1 (Lots A–F, clôturée 2026-07-31). Ce corps de document **ne décrit pas** l'état actuel du code ni du produit. Pour le modèle produit : [`00-READER-V1-PRODUCT-MODEL.md`](../renderer/00-READER-V1-PRODUCT-MODEL.md). Pour la clôture : tableau « Clôture migration » ci-dessus.
+
+Inventaire des éléments à migrer lors de la phase d'implémentation (baseline figée avant migration). Chaque entrée indique l'emplacement actuel **à la date baseline**, la violation contractuelle et l'action cible **désormais réalisée**.
 
 ---
 

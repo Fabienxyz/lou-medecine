@@ -282,7 +282,7 @@ Overlays apprenant (scope chapitre + onglet).
 
 ### Origine des données
 
-Schéma : figure officielle ou avis d'absence ; walkthrough et blocs : projections groundées, éléments Blueprint.
+Schéma : figure officielle ou avis d'absence ; walkthrough et blocs : **artefacts publiés** (projections de production, assemblés via Composition), éléments Blueprint.
 
 ### Comportements particuliers
 
@@ -557,19 +557,21 @@ Progression · statistiques · gamification · navigation avancée · Inter-EDN 
 
 ---
 
-# Annexe — Correspondance onglets / implémentation
+# Annexe — État d'implémentation Item 234 (post Reader Acceptance V1)
 
-*Informative.*
+*Informative — 2026-08-02. Les identifiants `story`, `overview`, `mechanisms`, `clinical-reasoning` sont des **artefacts de production**, pas des vues produit.*
 
-| Onglet (baseline v1.0) | Item 234 aujourd'hui | Statut |
+| Vue Reader (baseline v1.0) | Item 234 — post-RA V1 | Statut |
 |---|---|---|
-| Amorçage cognitif | En-tête + objectifs | Partiel |
-| Modèle mental | Histoire + Vue d'ensemble | Partiel |
-| Notions | Pourquoi ? | Existant |
-| Cas cliniques | Raisonnement clinique | Existant |
-| Collège officiel | — | À créer |
-| QCM | — | À créer |
-| Notes | — | À créer |
+| Amorçage cognitif | `cognitive-priming.v1.json` | Alimenté |
+| Modèle mental | Composition — sources production `story` + `overview` | Alimenté |
+| Notions | Composition — source production `mechanisms` | Alimenté |
+| Cas cliniques | Composition — `clinical-reasoning` + scénarios | Alimenté |
+| Collège officiel | Texte verbatim | Alimenté |
+| QCM | Banque package | Alimenté |
+| Notes | Couche apprenant | Alimenté |
+
+Référence : [`releases/reader-acceptance-v1-publication.md`](../releases/reader-acceptance-v1-publication.md) · modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](./00-READER-V1-PRODUCT-MODEL.md).
 
 ---
 
@@ -579,6 +581,7 @@ Progression · statistiques · gamification · navigation avancée · Inter-EDN 
 |---|---|---|
 | 0.1 | 2026-07-28 | Spec initiale — parcours, écrans, QCM, Notes |
 | **1.0** | 2026-07-28 | **Baseline officielle** — alignement sept onglets avec doc 14 ; déduplication ; terminologie ; renvois ; gel documentaire |
+| **1.1** | 2026-08-02 | Annexe implémentation — post Reader Acceptance V1 ; terminologie projections = production |
 
 ---
 

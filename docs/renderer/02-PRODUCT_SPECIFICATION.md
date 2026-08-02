@@ -1,9 +1,11 @@
 # Renderer V2 — Product Specification
 
+> **Statut navigation (2026-08-02) :** la **navigation produit** (7 vues Reader) est définie par [`00-READER-V1-PRODUCT-MODEL.md`](./00-READER-V1-PRODUCT-MODEL.md). Les sections « Projection tabs » ci-dessous sont **historiques** (pré-Reader Composition V1) — conservées pour référence ; **ne pas** les appliquer au produit actuel.  
+> **Point d'entrée produit :** [`00-READER-V1-PRODUCT-MODEL.md`](./00-READER-V1-PRODUCT-MODEL.md) · [`15-READER-FUNCTIONAL-SPECIFICATION.md`](./15-READER-FUNCTIONAL-SPECIFICATION.md)  
 > Parent: [README.md](./README.md)  
 > Contractual obligations: [`IMPLEMENTATION_CONTRACT.md`](../../IMPLEMENTATION_CONTRACT.md) C.7–C.9
 
-This document describes the **complete learner experience** — what a student sees and does — without prescribing implementation.
+This document describes learner experience invariants and reading patterns. **Authoritative product navigation:** seven Reader views via Composition V1 — not projection tabs.
 
 ---
 
@@ -57,39 +59,58 @@ A student opens a chapter by URL:
 index.html?chapter=cardio/234
 ```
 
-The renderer:
+The nominal path (Reader Composition V1):
 
 1. Resolves the chapter path (canonical `chapters/` first; legacy alias if needed)
-2. Fetches `manifest.json`
-3. Builds navigation from `manifest.projections[]` sorted by `order`
-4. Displays chapter metadata: specialty, title, read time, objectives
+2. Loads the published `manifest.json` via Package Access
+3. Runs `compose(manifest, compositionSpec)` → **Reading View Model**
+4. Builds navigation from **`viewModel.views`** ordered by `displayOrder` — seven fixed Reader views (see [`00-READER-V1-PRODUCT-MODEL.md`](./00-READER-V1-PRODUCT-MODEL.md))
+5. Displays chapter metadata from the View Model / manifest
 
 If no manifest exists, the renderer shows an explicit notice that content predates the current architecture. It does not silently serve untraced material without warning.
 
 ---
 
-## Navigation model
+## Navigation model (Reader V1 — Composition)
 
-### Projection tabs
-
-Each projection in the manifest becomes a tab. Tab labels, order, and availability come from the manifest — never from hard-coded registries.
+**Product model:** seven cognitive views — not projection tabs. Full specification: [`00-READER-V1-PRODUCT-MODEL.md`](./00-READER-V1-PRODUCT-MODEL.md).
 
 ```mermaid
-flowchart LR
-  MAN["manifest.json"]
-  T1["Histoire"]
-  T2["Vue d'ensemble"]
-  T3["Mécanismes"]
-  T4["Raisonnement clinique"]
+flowchart TB
+  PKG["Chapter Package"]
+  COMP["Composition Specification"]
+  ENG["Composition Engine"]
+  VM["Reading View Model"]
+  REN["Renderer"]
 
-  MAN --> T1 & T2 & T3 & T4
+  PKG --> ENG
+  COMP --> ENG
+  ENG --> VM
+  VM --> REN
+
+  REN --> V1["Amorçage cognitif"]
+  REN --> V2["Modèle mental"]
+  REN --> V3["Notions"]
+  REN --> V4["Cas cliniques"]
+  REN --> V5["Collège officiel"]
+  REN --> V6["QCM"]
+  REN --> V7["Notes"]
 ```
 
-Future projection types (readiness, actors, mastery QCM) appear as new tabs when the manifest declares them. The renderer requires no code change per projection type — only a rendering capability for the projection's block structure.
+Production artefacts (`story`, `overview`, `mechanisms`, `clinical-reasoning`, etc.) are **internal Fabrique units**. They are aggregated into views only through the Composition Specification — see [`READER-COMPOSITION-V1-FREEZE.md`](./READER-COMPOSITION-V1-FREEZE.md).
 
-### Within a projection
+### Historical — projection tabs (pre-Composition, obsolete)
 
-Content is a **sequence of pedagogical blocks**, one per Blueprint element:
+<details>
+<summary>Archived navigation model — do not use for product or new agents</summary>
+
+Before Reader Composition V1 (closed 2026-07-31), each manifest projection was exposed as one browser tab (Histoire, Vue d'ensemble, Mécanismes, Raisonnement clinique). That model is **abolished**. See [`03-HISTORICAL_ARCHITECTURE.md`](./03-HISTORICAL_ARCHITECTURE.md).
+
+</details>
+
+### Within a view (pedagogical blocks)
+
+Content in views that use understanding artefacts is a **sequence of pedagogical blocks**, one per Blueprint element:
 
 ```
 ┌─────────────────────────────────────────────────────────┐

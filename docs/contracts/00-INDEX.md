@@ -133,10 +133,13 @@ Pour savoir *si c'est implémenté* : lire le **code** et les **tests**.
 
 Les documents **14–19** (`docs/renderer/`) constituent l'**architecture de référence officielle** du projet depuis le gel **Architecture v1** (2026-07-28). Ils complètent les contrats fondamentaux 01–09 ; ils ne les remplacent pas.
 
-**Chaîne documentaire recommandée :** contrats 01–09 → 14 → 15 → 17 → 18 → 19 → 16.
+**Modèle produit Reader V1 (7 vues — point d'entrée utilisateur) :** [`00-READER-V1-PRODUCT-MODEL.md`](../renderer/00-READER-V1-PRODUCT-MODEL.md). Les projections restent des artefacts de production ; elles ne sont **pas** des onglets Reader.
+
+**Chaîne documentaire recommandée :** contrats 01–09 → **00** → 14 → 15 → [`READER-COMPOSITION-V1-FREEZE.md`](../renderer/READER-COMPOSITION-V1-FREEZE.md) → 17 → 18 → 19 → 16.
 
 | Document | Rôle |
 |---|---|
+| [`00-READER-V1-PRODUCT-MODEL.md`](../renderer/00-READER-V1-PRODUCT-MODEL.md) | **Modèle produit** — sept vues Reader ; terminologie ; chaîne Package → Composition → View Model. |
 | [`14-LOU-READER-ARCHITECTURE.md`](../renderer/14-LOU-READER-ARCHITECTURE.md) | Vision pédagogique, principes et architecture conceptuelle du Reader v1.0. |
 | [`15-READER-FUNCTIONAL-SPECIFICATION.md`](../renderer/15-READER-FUNCTIONAL-SPECIFICATION.md) | Spécification fonctionnelle du Reader : écrans, parcours, interactions et comportements. |
 | [`17-PUBLICATION-MODEL.md`](../renderer/17-PUBLICATION-MODEL.md) | Modèle de publication — définit l'état « publié », ses garanties et le contrat aval de La Fabrique. |
@@ -163,5 +166,5 @@ Cette architecture est **gelée**. Toute évolution substantielle nécessite une
 | [`PHASE_0A_COMPLETION.md`](../governance/PHASE_0A_COMPLETION.md) | Clôture Phase 0A |
 | [`RENDERER_COMPLIANCE_COMPLETION.md`](../governance/RENDERER_COMPLIANCE_COMPLETION.md) | Clôture conformité Renderer |
 | [`PHASE_0A_CONTRACT_AUDIT.md`](../PHASE_0A_CONTRACT_AUDIT.md) | Inventaire et cartographie ayant motivé cette structure |
-| [`renderer/README.md`](../renderer/README.md) | Index de la documentation renderer — navigation vers l'architecture de référence 14–19 |
+| [`renderer/README.md`](../renderer/README.md) | Index renderer — modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](../renderer/00-READER-V1-PRODUCT-MODEL.md) puis architecture 14–19 |
 | [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md) · [`PROJECT_STATE.md`](../PROJECT_STATE.md) | Pilotage — intention et observation |

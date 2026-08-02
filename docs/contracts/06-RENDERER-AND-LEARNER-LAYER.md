@@ -50,7 +50,15 @@ Le **renderer** est le point de convergence **humain** des tiers aval : il trans
 
 ### 2.2 Entrées autorisées
 
-**Invariant fondamental :** le renderer consomme **exclusivement** le **manifest publié** comme point d'entrée, plus les **artefacts autoritaires** que le manifest **déclare** (projections, sidecars de traçabilité, **figures officielles**, etc.).
+**Invariant fondamental :** le renderer consomme le **Chapter Package publié** via **Package Access** — manifest, artefacts déclarés, Composition Specification — et produit l'expérience à partir du **Reading View Model** composé.
+
+| Entrée | Usage |
+|---|---|
+| **Manifest publié** | Index des artefacts publiés ; ordre pédagogique ; registre projections ; sidecars |
+| **Composition Specification** | Déclaration des **7 vues** Reader et agrégation des sources |
+| **Artefacts autoritaires** | Projections, figures, QCM, scénarios, amorçage — chemins déclarés par le manifest |
+
+**Navigation produit :** exclusivement depuis **`viewModel.views`** (ordre `displayOrder`) — voir [`00-READER-V1-PRODUCT-MODEL.md`](../renderer/00-READER-V1-PRODUCT-MODEL.md). Les identifiants de projection (`story`, `overview`, `mechanisms`, `clinical-reasoning`, …) ne sont **pas** des vues utilisateur.
 
 **Interdit :** lire directement l'inventaire, le Blueprint, la source acquisition, ou un **visualSpec** pour en **inférer** du sens médical — la sémantique visuelle est déjà matérialisée dans les artefacts publiés ([contrat 05](05-VISUAL-GRAMMAR.md) §2.1, [contrat 04](04-CHAPTER-PACKAGE.md)).
 
@@ -60,29 +68,30 @@ Le lecteur Lou Médecine est **remplaçable** : toute implémentation respectant
 
 ---
 
-## 3. Consommation du manifest
+## 3. Consommation du manifest et composition
 
-Le manifest expose ce dont le renderer a besoin — directement ou via sidecars référencés ([contrat 04](04-CHAPTER-PACKAGE.md) §10) :
+Le manifest expose ce dont la chaîne Reader a besoin — directement ou via sidecars référencés ([contrat 04](04-CHAPTER-PACKAGE.md) §10) :
 
-- **registre des projections** et ordre d'apprentissage ;
+- **registre des projections** (artefacts de **production**) et ordre pédagogique ;
 - **famille** de chaque projection ;
 - liens explication↔**visuel officiel** **par identifiant** ;
 - graphe de **traçabilité** ou référence authoritative ;
 - badges d'édition **dérivés** (affichés, jamais recalculés) ;
 - marqueurs d'**absence connue** ;
-- **états** de disponibilité des visuels officiels.
+- **états** de disponibilité des visuels officiels ;
+- références aux artefacts éditoriaux (QCM, scénarios, amorçage, Collège verbatim).
 
-Le renderer **découvre** les projections par le manifest — jamais par un catalogue fixe de types codés en dur. De nouvelles projections apparaissent lorsque le manifest les déclare.
+La **Composition Specification** traduit ces artefacts en **sept vues** (`viewId`, `displayOrder`, sources) — [`COMPOSITION-COMPONENT-CONTRACT.md`](components/COMPOSITION-COMPONENT-CONTRACT.md). Le renderer **ne découvre pas** la navigation en parcourant `manifest.projections` comme liste d'onglets.
 
-**Interdit :** lier un visuel à un bloc par position ordinale, index de fichier ou ordre de titre — uniquement par **identifiant** ([contrat 02](02-IDENTITY-AND-ANCHORS.md), [contrat 05](05-VISUAL-GRAMMAR.md)).
+**Interdit :** exposer une projection comme onglet produit ; lier un visuel à un bloc par position ordinale, index de fichier ou ordre de titre — uniquement par **identifiant** ([contrat 02](02-IDENTITY-AND-ANCHORS.md), [contrat 05](05-VISUAL-GRAMMAR.md)).
 
 ---
 
-## 4. Rendu des projections
+## 4. Rendu du contenu composé
 
-### 4.1 Structure
+### 4.1 Structure (artefacts de compréhension)
 
-Chaque projection de compréhension est une séquence de **blocs pédagogiques** — un par **élément pédagogique**, dans l'ordre déclaré ([contrat 04](04-CHAPTER-PACKAGE.md) §8) :
+Les vues qui agrègent des **projections de compréhension** (artefacts internes) présentent une séquence de **blocs pédagogiques** — un par **élément pédagogique**, dans l'ordre déclaré ([contrat 04](04-CHAPTER-PACKAGE.md) §8) :
 
 | Composant | Présentation |
 |---|---|

@@ -12,8 +12,9 @@ Read in this order:
 4. [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md) — intention : objectifs, séquencement, critères de sortie
 5. [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) — observation : état courant du projet (document vivant)
 6. [`docs/governance/PRODUCT-DECISION-REGISTRY.md`](docs/governance/PRODUCT-DECISION-REGISTRY.md) — mémoire des arbitrages produit (audit 2026-07-30)
-7. [`docs/renderer/README.md`](docs/renderer/README.md) — architecture de référence gelée v1 (docs 14–19)
-8. [`IMPLEMENTATION_CONTRACT.md`](IMPLEMENTATION_CONTRACT.md) — contrat d'implémentation
+7. [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md) — **modèle produit Reader V1** (7 vues — avant toute mission Reader)
+8. [`docs/renderer/README.md`](docs/renderer/README.md) — architecture de référence gelée v1 (docs 14–19)
+9. [`IMPLEMENTATION_CONTRACT.md`](IMPLEMENTATION_CONTRACT.md) — contrat d'implémentation
 
 For LLM usage (evolving strategy), see [`docs/LLM_STRATEGY.md`](docs/LLM_STRATEGY.md).
 
@@ -52,8 +53,8 @@ These documents explain the current research and discoveries.
 
 Only after reading the documents above should new product or implementation work begin.
 
-**Objectif actif :** **Reader Acceptance V1** sur le package de capitalisation de référence (Item 234 — édition Collège 2022, Release `complete`) — voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
+**Objectif actif :** **Validation Corpus V1 (Fabrique)** — voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
 
-**Chantiers parallèles :** Reader Acceptance V1 (phase active), patrimoine pédagogique, CI. **Reader Composition V1 clôturée** (Lots A–F) — le Reader n'est pas terminé. Détail : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
+**Reader V1 :** accepté (tag `reader-acceptance-v1`) — **7 vues** ; modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md). **Reader Composition V1 clôturée** (Lots A–F). Détail : [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
 
-**Pour démarrer concrètement :** [`demo/renderer/`](demo/renderer/) (Reader), [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (package de référence), [`docs/renderer/READER-COMPOSITION-V1-FREEZE.md`](docs/renderer/READER-COMPOSITION-V1-FREEZE.md) (architecture Composition gelée).
+**Pour démarrer concrètement :** [`demo/renderer/`](demo/renderer/) (Reader), [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (package de référence), [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md) (produit), [`docs/renderer/READER-COMPOSITION-V1-FREEZE.md`](docs/renderer/READER-COMPOSITION-V1-FREEZE.md) (Composition gelée).

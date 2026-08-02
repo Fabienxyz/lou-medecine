@@ -12,7 +12,9 @@ This document set is the official reference for the Lou Médecine renderer, in t
 
 Les documents **14–19** constituent l'architecture officielle gelée du projet (2026-07-28). Index parent : [`contracts/00-INDEX.md`](../contracts/00-INDEX.md) § 6.
 
-**Chaîne documentaire :** [contrats 01–09](../contracts/00-INDEX.md) → [14](./14-LOU-READER-ARCHITECTURE.md) → [15](./15-READER-FUNCTIONAL-SPECIFICATION.md) → [17](./17-PUBLICATION-MODEL.md) → [18](./18-BUILD-ARCHITECTURE.md) → [19](./19-BUILD-PIPELINE.md) → [16](./16-CONTENT-TO-READER-ARCHITECTURE.md).
+**Modèle produit Reader V1 (point d'entrée utilisateur) :** [`00-READER-V1-PRODUCT-MODEL.md`](./00-READER-V1-PRODUCT-MODEL.md) — **7 vues** ; les projections (`story`, `overview`, etc.) sont des artefacts de production, **pas** des onglets.
+
+**Chaîne documentaire :** [contrats 01–09](../contracts/00-INDEX.md) → [**00**](./00-READER-V1-PRODUCT-MODEL.md) → [14](./14-LOU-READER-ARCHITECTURE.md) → [15](./15-READER-FUNCTIONAL-SPECIFICATION.md) → [17](./17-PUBLICATION-MODEL.md) → [18](./18-BUILD-ARCHITECTURE.md) → [19](./19-BUILD-PIPELINE.md) → [16](./16-CONTENT-TO-READER-ARCHITECTURE.md).
 
 **État courant du projet :** voir [`PROJECT_STATE.md`](../PROJECT_STATE.md). Outil de build : [`tools/lou-build/`](../../tools/lou-build/) — CLI typée unique, conforme au [doc 19](./19-BUILD-PIPELINE.md).
 
@@ -22,8 +24,9 @@ Les documents **14–19** constituent l'architecture officielle gelée du projet
 
 | Document | Purpose |
 |---|---|
+| [**00-READER-V1-PRODUCT-MODEL.md**](./00-READER-V1-PRODUCT-MODEL.md) | **Point d'entrée produit** — 7 vues Reader ; chaîne Package → Composition → View Model ; terminologie |
 | [01-VISION.md](./01-VISION.md) | Product philosophy — what the renderer is and is not |
-| [02-PRODUCT_SPECIFICATION.md](./02-PRODUCT_SPECIFICATION.md) | Complete learner experience, immutability invariant, navigation |
+| [02-PRODUCT_SPECIFICATION.md](./02-PRODUCT_SPECIFICATION.md) | Learner experience invariants ; navigation historique archivée — voir **00** pour le produit |
 | [03-HISTORICAL_ARCHITECTURE.md](./03-HISTORICAL_ARCHITECTURE.md) | Current and legacy implementations — how they work and why |
 | [04-TARGET_ARCHITECTURE.md](./04-TARGET_ARCHITECTURE.md) | Reference technical architecture — components, data flow, diagrams |
 | [05-SVG_EXPERIENCE.md](./05-SVG_EXPERIENCE.md) | Generated vs manual SVGs, responsive behaviour, zoom |
@@ -88,7 +91,7 @@ flowchart LR
   LEG -.->|design origin| BR
 ```
 
-**The browser renderer in `demo/renderer/` is authoritative.** It is manifest-driven, chapter-agnostic, contract-tested, and serves Item 234 understanding v1 (four published projections). It is **Renderer V1 implemented**, not a throwaway prototype.
+**The browser renderer in `demo/renderer/` is authoritative.** It is chapter-agnostic, contract-tested, and serves Item 234 via **Reader Composition V1** — seven fixed views composed from published package artefacts (projections are **production units**, not product tabs). It is **Reader V1 implemented**, not a throwaway prototype.
 
 **Renderer V2** is not a second codebase. It is the **evolution** of this application toward the full product specification documented here: rich text annotations, SVG overlay annotations, improved reading experience, and retirement of legacy fallbacks — while preserving the architectural invariants already ratified in `IMPLEMENTATION_CONTRACT.md`.
 
@@ -109,7 +112,7 @@ Two parallel SVG pipelines coexist:
 |---|---|
 | `demo/legacy/221/` vs `demo/renderer/` | Legacy is visual design origin only; renderer superseded it |
 | `generated-assets/` vs `chapters/` | Generated-assets is fallback corpus; chapters/ is authoritative |
-| `config.js` `TABS` vs manifest tabs | TABS is legacy fallback; manifest is authoritative |
+| `config.js` `TABS` vs manifest tabs | TABS is legacy fallback (manifest 404 only) ; navigation from Reading View Model |
 | `svg.js` vs `visual-render.js` | V1 transitional; V2 target; merge when build integrates V2 |
 | Root docs (`ARCHITECTURE_AUDIT.md`, `README.md`) vs current state | Obsolete status claims; superseded by this document set |
 

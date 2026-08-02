@@ -60,6 +60,8 @@ Exécution
 
 **Corollaire :** la roadmap **ordonne** ; elle **n'oblige pas**. Elle ne crée ni invariant, ni interdiction technique. Lorsqu'une règle est nécessaire au pilotage, elle est soit **référencée** depuis la couche normative, soit **promue** en ADR ou contrat avant d'être citée.
 
+**Modèle produit Reader (hors pilotage, couche normative produit) :** [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](../renderer/00-READER-V1-PRODUCT-MODEL.md) — sept vues ; les projections sont des artefacts de production, pas des onglets.
+
 ---
 
 ## 3. Principes directeurs

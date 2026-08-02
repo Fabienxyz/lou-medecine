@@ -536,10 +536,13 @@ Minimum realistic Item 234 example (abridged to the OAP thread) — deliberately
 
 ## 12. Renderer Target Contract
 
-Based only on the manifest, the renderer must:
+> **Mise à jour documentaire (2026-08-02) :** la navigation produit est fixée à **7 vues Reader** via Composition V1 — voir [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md) et [`docs/renderer/READER-COMPOSITION-V1-FREEZE.md`](docs/renderer/READER-COMPOSITION-V1-FREEZE.md). Les paragraphes ci-dessous sur la découverte dynamique par `manifest.projections` décrivent la **consommation des artefacts publiés**, pas des onglets produit. Le modèle « 1 projection = 1 onglet » est **abrogé**.
 
-- **Discover content dynamically** from `manifest.projections` (ordered by each entry's `order`) — no hard-coded tab list. (Today's `demo/renderer/config.js` hard-codes a five-tab set with a legacy `pourquoi` tab and only `histoire` implemented; that model is replaced by manifest-driven discovery.)
-- **Render projection types by capability.** It maps a `type` (e.g. `understanding.mechanisms`) to a render capability; an unknown type renders as a generic Markdown projection rather than breaking.
+Based on the published chapter package (manifest + declared artefacts) and the **Composition Specification**, the renderer must:
+
+- **Compose learner-visible views** via `compose(manifest, spec)` → **Reading View Model** — navigation from `viewModel.views` ordered by `displayOrder` (seven fixed Reader views). **Not** one tab per manifest projection.
+- **Resolve production artefacts** declared in `manifest.projections` (ordered by pedagogical `order`) as **inputs to composition**, not as product navigation labels.
+- **Render projection types by capability** when a view aggregates understanding artefacts. It maps a `type` (e.g. `understanding.mechanisms`) to a render capability; an unknown type renders as a generic Markdown projection rather than breaking.
 - **Render pedagogical blocks, and present generated content as non-editable.** One block per projected element (§8.0): question, optional Official Visual, Guided Walkthrough. No editing affordance exists over any of the three.
 - **Inject the Official Visual by explicit ID relationship.** For each projection, read `visuals: { ELEMENT: path }` and place the asset at the element's anchor — never by matching `mechanism-01.svg` to the first `##`.
 - **Report an unavailable Official Visual; never hide it.** The three states are distinct and must not be collapsed: **none planned** renders a visual-less block with no implication of a gap (a correct outcome, `VISUAL_GRAMMAR_CONTRACT.md` I8); **planned, not built** renders as known-absent; **built but withheld** states explicitly that visual support is *temporarily unavailable*, tied to the pipeline result.
@@ -547,7 +550,7 @@ Based only on the manifest, the renderer must:
 - **Expose source traceability on request.** Using the **trust index** (`build/traceability.json`, referenced by `manifest.trace_index` and loaded on demand — *not* the manifest body), a "where does this come from?" affordance resolves a claim block → Blueprint element → KP → the `2024-SFC` quote.
 - **Distinguish understanding vs future mastery** via `family`, and show `known_absent: ["mastery"]` as an explicit "not built yet" state.
 - **Surface edition badges** from `edition_status` ("updated in 2027", "unchanged") where useful.
-- **Own no medical content** and assume **no fixed number of tabs**.
+- **Own no medical content** and assume **seven fixed Reader views** at the product layer (Composition), while remaining extensible at the **production** projection registry.
 
 **What the renderer does NOT need to understand:** the College source, the Inventory, the Blueprint, claim classes, grounding verdicts, reconciliation, provenance semantics, or how IDs are minted. It consumes IDs and paths; it never interprets the medical model. In particular it **never composes learner-visible medical text**: it may not assemble, paraphrase or summarise a Guided Walkthrough, and it may not author a visual's text alternative (`VISUAL_GRAMMAR_CONTRACT.md` I1; the alt text comes from the manifest, which derives it from the specification). **No frontend framework is selected here**; the existing static shell (`demo/renderer/`, clean separation, chapter-agnostic, path-sanitized, offline `marked`) is sufficient to grow into this contract, and the choice stays reversible.
 

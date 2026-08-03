@@ -52,7 +52,7 @@ describe("Lot B — compose()", () => {
     assert.deepEqual(orders, [1, 2, 3, 4, 5, 6, 7]);
   });
 
-  test("mental-model aggregates story then overview blocks", () => {
+  test("mental-model binds story projection only", () => {
     const manifest = loadJson(FIXTURE_MANIFEST_PATH);
     const spec = loadCorpusSpec();
     const { readingViewModel } = compose(manifest, spec);
@@ -67,7 +67,6 @@ describe("Lot B — compose()", () => {
       [
         { elementId: "ANA-ville-pompe", sourceProjectionId: "story" },
         { elementId: "MM-pump-decompensation", sourceProjectionId: "story" },
-        { elementId: "MM-pump-decompensation", sourceProjectionId: "overview" },
       ]
     );
   });

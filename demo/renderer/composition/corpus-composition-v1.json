@@ -13,10 +13,7 @@
       "label": "Modèle mental",
       "displayOrder": 2,
       "availabilityPolicy": "default",
-      "sources": [
-        { "kind": "projection", "ref": "story", "mergeOrder": 1 },
-        { "kind": "projection", "ref": "overview", "mergeOrder": 2 }
-      ]
+      "sources": [{ "kind": "projection", "ref": "story" }]
     },
     {
       "viewId": "notions",

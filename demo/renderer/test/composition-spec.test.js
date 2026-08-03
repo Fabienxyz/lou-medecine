@@ -83,19 +83,13 @@ describe("Lot A — corpus-composition-v1.json", () => {
     }
   });
 
-  test("mental-model aggregates story and overview with mergeOrder", () => {
+  test("mental-model binds story as sole projection source", () => {
     const spec = loadCorpusSpec();
     const mental = spec.views.find((v) => v.viewId === "mental-model");
     assert.ok(mental);
     const projections = mental.sources.filter((s) => s.kind === "projection");
-    assert.equal(projections.length, 2);
-    assert.deepEqual(
-      projections.map((s) => ({ ref: s.ref, mergeOrder: s.mergeOrder })),
-      [
-        { ref: "story", mergeOrder: 1 },
-        { ref: "overview", mergeOrder: 2 },
-      ]
-    );
+    assert.equal(projections.length, 1);
+    assert.deepEqual(projections.map((s) => s.ref), ["story"]);
   });
 
   test("cognitive-priming uses cognitive-priming source and default policy", () => {

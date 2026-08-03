@@ -20,10 +20,6 @@ const STORY_PATH = path.resolve(
   ROOT,
   "../../01-learning/chapters/cardio/234/projections/understanding/story.md"
 );
-const OVERVIEW_PATH = path.resolve(
-  ROOT,
-  "../../01-learning/chapters/cardio/234/projections/understanding/overview.md"
-);
 const SVG_PATH = path.resolve(
   ROOT,
   "../../01-learning/chapters/cardio/234/figures/mm-pump-decompensation.svg"
@@ -61,11 +57,11 @@ describe("MM Cleanup — normalizeMentalModelBlocks()", () => {
     manifest = loadJson(MANIFEST_PATH);
   });
 
-  test("drops overview duplicate and non-visual story blocks", () => {
+  test("drops non-visual story blocks for MM display", () => {
     const spec = loadJson(SPEC_PATH);
     const { readingViewModel } = compose(manifest, spec);
     const mental = readingViewModel.views.find((v) => v.viewId === "mental-model");
-    assert.equal(mental.blocks.length, 3);
+    assert.equal(mental.blocks.length, 2);
 
     const normalized = renderer.normalizeMentalModelBlocks(mental.blocks, manifest);
     assert.equal(normalized.length, 1);
@@ -114,7 +110,6 @@ describe("MM Cleanup — renderComposedView(mental-model)", () => {
 
     fetchedUrls = [];
     const storyText = fs.readFileSync(STORY_PATH, "utf8");
-    const overviewText = fs.readFileSync(OVERVIEW_PATH, "utf8");
     const svgText = fs.readFileSync(SVG_PATH, "utf8");
 
     window.fetch = async function (url) {
@@ -122,9 +117,6 @@ describe("MM Cleanup — renderComposedView(mental-model)", () => {
       const href = String(url);
       if (href.includes("story.md")) {
         return { ok: true, text: async () => storyText };
-      }
-      if (href.includes("overview.md")) {
-        return { ok: true, text: async () => overviewText };
       }
       if (href.includes("mm-pump-decompensation.svg")) {
         return { ok: true, text: async () => svgText };

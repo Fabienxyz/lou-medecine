@@ -59,13 +59,6 @@ function manifestFixture() {
         elements: [ELEMENT],
       },
       {
-        id: "overview",
-        type: "understanding.overview",
-        path: "projections/understanding/overview.md",
-        status: "published",
-        elements: [ELEMENT],
-      },
-      {
         id: "clinical-reasoning",
         type: "understanding.clinical-reasoning",
         path: "projections/understanding/clinical-reasoning.md",
@@ -189,32 +182,15 @@ describe("Lot D.1 — Composition runtime identity", () => {
     );
   });
 
-  test("projectionIdForElement resolves with sourceProjectionId on duplicate elementId", () => {
+  test("projectionIdForElement resolves with sourceProjectionId", () => {
     assert.equal(
       compositionContext.projectionIdForElement(ELEMENT, "story"),
       "story"
     );
-    assert.equal(
-      compositionContext.projectionIdForElement(ELEMENT, "overview"),
-      "overview"
-    );
   });
 
-  test("projectionIdForElement is ambiguous without sourceProjectionId", () => {
-    const warnings = [];
-    const original = console.warn;
-    console.warn = function (message) {
-      warnings.push(String(message));
-    };
-    try {
-      assert.equal(compositionContext.projectionIdForElement(ELEMENT), null);
-      assert.ok(
-        warnings.some((w) => w.includes("ambiguous")),
-        "expected ambiguous lookup diagnostic"
-      );
-    } finally {
-      console.warn = original;
-    }
+  test("projectionIdForElement resolves unambiguously when single projection owns element", () => {
+    assert.equal(compositionContext.projectionIdForElement(ELEMENT), "story");
   });
 
   test("projectionIdForElement fails explicitly for unknown pair", () => {

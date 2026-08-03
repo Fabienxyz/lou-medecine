@@ -249,9 +249,9 @@ Les AAI **ne créent pas** une nouvelle famille de tests. Ils **réorganisent l'
 
 | | |
 |---|---|
-| **Responsabilité** | Vue « Modèle mental » — agrégation story + overview, contenu publié, figure MM |
+| **Responsabilité** | Vue « Modèle mental » — projection `story`, contenu publié, figure MM |
 | **Phases roadmap** | 1 *(clôturée éditorialement)* |
-| **Critères d'acceptation** | Onglet Modèle mental ; contenu story + overview agrégé ; walkthrough figure-first ; navigable offline |
+| **Critères d'acceptation** | Onglet Modèle mental ; contenu `story.md` ; walkthrough figure-first ; un seul SVG MM ; navigable offline |
 | **Invariants AAI** | [AAI-MM-01](#62-registre-aai--pas--invariants--validations) vue entièrement alimentée par le ReadingViewModel ; [AAI-MM-02](#62-registre-aai--pas--invariants--validations) MM n'utilise jamais `cognitive_priming_path` ; [AAI-MM-03](#62-registre-aai--pas--invariants--validations) un seul SVG principal ; [AAI-MM-04](#62-registre-aai--pas--invariants--validations) un seul parcours narratif ; [AAI-MM-05](#62-registre-aai--pas--invariants--validations) aucun legacy en mode produit |
 | **Implémentation actuelle** | Product Smoke `17` CN-P-02 ; `12` OF-D2-04 (navigation partielle) ; Engineering `10` CN-02, `03` PR-05/06 *(non-régression)* |
 | **Product Review** | Phase 7 — usage réel Lou sur la vue Modèle mental |
@@ -434,8 +434,8 @@ Registre autoritaire des **Architectural Acceptance Invariants**. Une PAS dont u
 | **AAI-SHL-01** | PAS-SHELL | Le Shell **ne connaît jamais** le contenu pédagogique | **Couvert** | `shell-s1-chrome.test.js` (chrome statique sans blocs pédagogiques) ; `composition-engine.test.js` (`notes is published shell without blocks`) ; `17` CN-P-06 (shell notes sans contenu officiel) |
 | **AAI-SHL-02** | PAS-SHELL | Composition **ne connaît jamais** le Shell | **Non couvert** | Aucun test d'import interdit (`composition/` n'importe pas `shell/` — vérifié manuellement). **Lacune :** absence de garde automatisée (lint ou test statique) |
 | **AAI-SHL-03** | PAS-SHELL | Le **ReadingViewModel** est l'interface unique entre Composition et Renderer | **Partiel** | `composition-navigation.test.js` ; `compliance-nc.test.js` (`buildNavigationFromViewModel`) ; `composition-nominal-path.test.js` (`buildReadingViewModel` dans `app.js`) ; `17` CN-P-01 / `10` CN-01 (7 onglets depuis RVM) ; `14` DP-F-13 (RVM inchangé après prefs). **Lacune :** pas de fichier dédié `reading-view-model.test.js` |
-| **AAI-MM-01** | PAS-MM | La vue est **entièrement alimentée** par le ReadingViewModel | **Couvert** | `composition-engine.test.js` (agrégation story + overview) ; `composition-navigation.test.js` ; `17` CN-P-02 |
-| **AAI-MM-02** | PAS-MM | Modèle mental **ne consomme jamais** `cognitive_priming_path` | **Couvert** | Spec Composition (projections `story`+`overview` seules) ; `composition-engine.test.js`. **Lacune freeze :** garde runtime explicite |
+| **AAI-MM-01** | PAS-MM | La vue est **entièrement alimentée** par le ReadingViewModel | **Couvert** | `composition-engine.test.js` (binding story seul) ; `composition-navigation.test.js` ; `17` CN-P-02 |
+| **AAI-MM-02** | PAS-MM | Modèle mental **ne consomme jamais** `cognitive_priming_path` | **Couvert** | Spec Composition (projection `story` seule) ; `composition-engine.test.js` |
 | **AAI-MM-03** | PAS-MM | La vue ne rend qu'**un seul SVG principal** | **Couvert** | `mental-model-consumption.test.js` ; `10` CN-02 ; `17` CN-P-02 |
 | **AAI-MM-04** | PAS-MM | Le Renderer n'affiche qu'**un seul parcours narratif MM** | **Couvert** | `mental-model-consumption.test.js` (dedup overview, drop ANA) ; `10` CN-02 ; `17` CN-P-02 |
 | **AAI-MM-05** | PAS-MM | **Aucun artefact legacy** consommé en mode produit (MM) | **Couvert** | `mental-model-consumption.test.js` (no overview/generated-assets fetch) |
@@ -456,7 +456,8 @@ Registre autoritaire des **Architectural Acceptance Invariants**. Une PAS dont u
 | **AAI-LEARNER-01** | PAS-CONSUME | Couche apprenant ne monte que sur hôtes walkthrough officiel | **Non couvert** | `text-highlights.js:69-80` (requiert `.pedagogical-block`) ; mount mort Collège (`renderer.js:703-708`) — audit freeze §4 H-05 |
 | **AAI-PATRIMONY-01** | PAS-NOTES | Mode produit : patrimoine **scopé** `release_id` catalogue — jamais `__legacy__*` | **Partiel** | `learner-patrimony.js` ; `learner-patrimony-store.test.js`. **Lacune :** dev mode legacy namespace toléré |
 | **AAI-SEARCH-DISPLAY-01** | PAS-CONSUME | Index recherche locale ⊆ refs affichables (ou écart documenté) | **Non couvert** | Écart QCM/scénarios : `local-search-runtime-shared.js` vs `renderer.js:547-569, 712-729` |
-| **AAI-COMPOSITION-01** | PAS-CONSUME | Toute projection publiée consommée par **exactement une** vue | **Partiel** | `composition-engine.js:533-547` (warn `published-projection-unconsumed`) ; `composition-engine.test.js`. **Lacune :** sévérité warn, pas error |
+| **AAI-COMPOSITION-01** | PAS-CONSUME | Toute projection publiée consommée par **exactement une** vue | **Couvert** | `composition-engine.test.js` (`published-projection-unconsumed` sur fixture orphan) ; manifest 234 sans overview |
+| **AAI-COMP-V1-01** | PAS-CONSUME | Chaque vue Reader possède **un seul artefact éditorial principal** | **Couvert** | `corpus-composition-v1.json` ; `composition-spec.test.js` ; `composition-engine.test.js` (mental-model story seul) |
 
 **Lecture opérationnelle :** avant de prononcer une PAS **Couverture forte**, vérifier que tous ses AAI sont **Couvert** ou que les **Partiel** / **Non couvert** figurent en backlog [§6.3](#63-backlog-aai--invariants-non-couverts) avec priorité acceptée.
 

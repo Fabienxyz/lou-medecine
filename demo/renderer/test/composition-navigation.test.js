@@ -49,15 +49,12 @@ describe("Lot D — navigation from compose()", () => {
     );
   });
 
-  test("mental-model aggregates story + overview blocks", () => {
+  test("mental-model binds story projection only", () => {
     const view = readingViewModel.views.find((v) => v.viewId === "mental-model");
     assert.equal(view.availability, "published");
     const sources = view.blocks.map((b) => b.sourceProjectionId);
+    assert.ok(sources.every((id) => id === "story"));
     assert.ok(sources.includes("story"));
-    assert.ok(sources.includes("overview"));
-    const storyIdx = sources.indexOf("story");
-    const overviewIdx = sources.lastIndexOf("overview");
-    assert.ok(storyIdx < overviewIdx);
   });
 
   test("notions displays mechanisms projection only", () => {

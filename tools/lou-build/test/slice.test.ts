@@ -597,10 +597,10 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     const manifest = JSON.parse(
       fs.readFileSync(path.join(CHAPTER, "manifest.json"), "utf8")
     );
-    assert.equal(manifest.projections.length, 4);
+    assert.equal(manifest.projections.length, 3);
     assert.deepEqual(
       manifest.projections.map((p: { id: string }) => p.id),
-      ["story", "overview", "mechanisms", "clinical-reasoning"]
+      ["story", "mechanisms", "clinical-reasoning"]
     );
     assert.equal(manifest.visuals.length, 2);
     const visualElements = manifest.visuals.map(

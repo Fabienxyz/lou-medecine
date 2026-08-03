@@ -9,23 +9,10 @@ projections:
     elements: [ANA-ville-pompe, MM-pump-decompensation]
     visual_elements: [MM-pump-decompensation]
 
-  - id: overview
-    type: understanding.overview
-    family: understanding
-    order: 2
-    path: projections/understanding/overview.md
-    status: published
-    # The Chapter Overview is a single pedagogical block acting as the chapter map: it projects the
-    # mental model, and its walkthrough traverses the whole causal chain once. The elements it
-    # traverses keep their own blocks in "Pourquoi ?" and "Raisonnement clinique", where the
-    # canonical explanation of each one lives.
-    elements:
-      - MM-pump-decompensation
-
   - id: mechanisms
     type: understanding.mechanisms
     family: understanding
-    order: 3
+    order: 2
     path: projections/understanding/mechanisms.md
     status: published
     elements:
@@ -45,7 +32,7 @@ projections:
   - id: clinical-reasoning
     type: understanding.clinical-reasoning
     family: understanding
-    order: 4
+    order: 3
     path: projections/understanding/clinical-reasoning.md
     status: published
     elements:

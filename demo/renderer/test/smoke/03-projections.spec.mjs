@@ -52,7 +52,6 @@ test.describe("V2.1 smoke — projections", () => {
       phrase: PROJECTIONS.story.samplePhrase,
     });
     await goToProjection(page, PROJECTIONS.mechanisms);
-    await goToProjection(page, PROJECTIONS.overview);
     await goToProjection(page, PROJECTIONS.clinicalReasoning);
     await goToProjection(page, PROJECTIONS.story);
     const report = await inspectMarks(
@@ -70,10 +69,6 @@ test.describe("V2.1 smoke — projections", () => {
       {
         tab: PROJECTIONS.story,
         phrase: PROJECTIONS.story.samplePhrase,
-      },
-      {
-        tab: PROJECTIONS.overview,
-        phrase: PROJECTIONS.overview.samplePhrase,
       },
       {
         tab: PROJECTIONS.mechanisms,
@@ -98,7 +93,7 @@ test.describe("V2.1 smoke — projections", () => {
       }
     }
     const totalStored = await countStoredHighlightsAllProjections(page);
-    expect(totalStored).toBe(4);
+    expect(totalStored).toBe(specs.length);
 
     for (const tab of Object.values(PROJECTIONS)) {
       await goToProjection(page, tab);
@@ -167,18 +162,6 @@ test.describe("V2.1 smoke — projections", () => {
     await expect(official).toBeVisible();
   });
 
-  test("PR-06 overview projection walkthrough renders official container", async ({
-    page,
-  }) => {
-    await goToProjection(page, PROJECTIONS.overview);
-    await expect(
-      page.locator(
-        blockSelectorFor(PROJECTIONS.overview.id, PROJECTIONS.overview.element) +
-          ' .block-walkthrough[data-official="true"]'
-      )
-    ).toBeVisible();
-  });
-
   test("PR-07 mechanisms projection walkthrough renders official container", async ({
     page,
   }) => {
@@ -199,110 +182,5 @@ test.describe("V2.1 smoke — projections", () => {
         `[data-element="${PROJECTIONS.clinicalReasoning.element}"] .block-walkthrough[data-official="true"]`
       )
     ).toBeVisible();
-  });
-
-  test("PR-M01 manual repro — three Story highlights, one Overview, reload, return to Overview", async ({
-    page,
-  }) => {
-    const story = PROJECTIONS.story;
-    const overview = PROJECTIONS.overview;
-
-    // 1. Open Modèle mental (story block)
-    await goToProjection(page, story);
-
-    // 2. Create three highlights in Story (three different paragraphs)
-    for (const phrase of story.threeParagraphPhrases) {
-      await createHighlight(page, {
-        projection: story.id,
-        element: story.element,
-        phrase,
-      });
-    }
-    const storyBeforeReload = await inspectMarks(
-      page,
-      blockSelectorFor(story.id, story.element)
-    );
-    expect(storyBeforeReload.markCount).toBe(3);
-
-    // 3. Switch to Overview
-    await goToProjection(page, overview);
-
-    // 4. Create one highlight in Overview
-    await createHighlight(page, {
-      projection: overview.id,
-      element: overview.element,
-      phrase: overview.samplePhrase,
-    });
-    const overviewBeforeReload = await inspectMarks(
-      page,
-      blockSelectorFor(overview.id, overview.element)
-    );
-    expect(overviewBeforeReload.markCount).toBe(1);
-
-    // 5. Reload — 6. renderer opens Story (default tab, no click)
-    await reloadToDefaultStoryTab(page, story.contentMarker);
-
-    const storyAfterReload = await inspectMarks(
-      page,
-      blockSelectorFor(story.id, story.element)
-    );
-    expect(storyAfterReload.markCount).toBe(3);
-
-    // 7. Switch back to Overview only
-    await goToProjection(page, overview);
-
-    const overviewAfterReload = await inspectMarks(
-      page,
-      blockSelectorFor(overview.id, overview.element)
-    );
-    const overviewStored = await listStoredHighlights(page, overview.id);
-
-    expect(
-      overviewStored.length,
-      "Overview highlight row must remain in IndexedDB"
-    ).toBe(1);
-    expect(
-      overviewAfterReload.markCount,
-      "Overview highlight must restore after reload when returning from Story"
-    ).toBe(1);
-    assertHealthyMarks(overviewAfterReload, expect);
-    expect(overviewAfterReload.marks[0].text).toContain("Anomalie");
-  });
-
-  test("PR-M01-UI same sequence via selection toolbar (manual workflow)", async ({
-    page,
-  }) => {
-    const story = PROJECTIONS.story;
-    const overview = PROJECTIONS.overview;
-
-    await goToProjection(page, story);
-
-    for (const phrase of story.threeParagraphPhrases) {
-      await createHighlightViaToolbar(page, {
-        element: story.element,
-        phrase,
-        projectionId: story.id,
-      });
-    }
-
-    await goToProjection(page, overview);
-    await createHighlightViaToolbar(page, {
-      element: overview.element,
-      phrase: overview.samplePhrase,
-      projectionId: overview.id,
-    });
-
-    await reloadToDefaultStoryTab(page, story.contentMarker);
-    await goToProjection(page, overview);
-
-    const overviewAfterReload = await inspectMarks(
-      page,
-      blockSelectorFor(overview.id, overview.element)
-    );
-    const overviewStored = await listStoredHighlights(page, overview.id);
-
-    expect(overviewStored.length).toBe(1);
-    expect(overviewAfterReload.markCount).toBe(1);
-    assertHealthyMarks(overviewAfterReload, expect);
   });
 });

@@ -67,15 +67,6 @@ export const VIEWS = {
 /** Backward-compatible aliases for highlight scope (projection id in learner store). */
 export const PROJECTIONS = {
   story: VIEWS.mentalModel,
-  overview: {
-    tabIndex: 1,
-    projection: "overview",
-    id: "overview",
-    element: "MM-pump-decompensation",
-    contentMarker: "Lis le schéma de gauche à droite",
-    samplePhrase: "Anomalie cardiaque",
-    alternatePhrase: "Boucle",
-  },
   mechanisms: VIEWS.notions,
   clinicalReasoning: VIEWS.clinicalCases,
 };

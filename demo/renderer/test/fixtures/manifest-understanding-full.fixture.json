@@ -17,17 +17,9 @@
       "elements": ["ANA-ville-pompe", "MM-pump-decompensation"]
     },
     {
-      "id": "overview",
-      "type": "understanding.overview",
-      "order": 2,
-      "path": "projections/understanding/overview.md",
-      "status": "published",
-      "elements": ["MM-pump-decompensation"]
-    },
-    {
       "id": "mechanisms",
       "type": "understanding.mechanisms",
-      "order": 3,
+      "order": 2,
       "path": "projections/understanding/mechanisms.md",
       "status": "published",
       "elements": ["MEC-output-basics", "MEC-oap"]
@@ -35,7 +27,7 @@
     {
       "id": "clinical-reasoning",
       "type": "understanding.clinical-reasoning",
-      "order": 4,
+      "order": 3,
       "path": "projections/understanding/clinical-reasoning.md",
       "status": "published",
       "elements": ["CR-recognize"]
@@ -43,7 +35,7 @@
     {
       "id": "orphan-projection",
       "type": "understanding.story",
-      "order": 5,
+      "order": 4,
       "path": "projections/understanding/orphan.md",
       "status": "published",
       "elements": ["ORPHAN-1"]

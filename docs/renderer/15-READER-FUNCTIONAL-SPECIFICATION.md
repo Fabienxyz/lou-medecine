@@ -564,7 +564,7 @@ Progression · statistiques · gamification · navigation avancée · Inter-EDN 
 | Vue Reader (baseline v1.0) | Item 234 — post-RA V1 | Statut |
 |---|---|---|
 | Amorçage cognitif | `cognitive-priming.v1.json` | Alimenté |
-| Modèle mental | Composition — sources production `story` + `overview` | Alimenté |
+| Modèle mental | Composition — source production `story` | Alimenté |
 | Notions | Composition — source production `mechanisms` | Alimenté |
 | Cas cliniques | Composition — `clinical-reasoning` + scénarios | Alimenté |
 | Collège officiel | Texte verbatim | Alimenté |

@@ -6,7 +6,7 @@
 |---|---|
 | **Type** | Gel d'implémentation — périmètre V1 |
 | **Date** | 2026-07-31 |
-| **Statut** | **Implémenté et clôturé** — Lots A–F (2026-07-31) ; audit indépendant ✅ Conforme |
+| **Statut** | **Implémenté et clôturé** — Lots A–F (2026-07-31) ; simplification artefact unique par vue (2026-08-03) |
 | **Autorité** | Complète les documents normatifs ; ne les remplace pas |
 | **Portée** | Reader Composition V1 — chapitre de référence `cardio/234` |
 | **Point d'entrée** | Gel d'architecture — référence obligatoire ; tag `reader-composition-v1` en attente |
@@ -33,7 +33,7 @@ Les invariants suivants sont **définitifs** pour Reader Composition V1 :
 
 - Inventory est indépendant du Reader.
 - Blueprint est indépendant du Reader.
-- Les projections (`story`, `overview`, `mechanisms`, `clinical-reasoning`, etc.) restent les unités de production de La Fabrique.
+- Les projections (`story`, `mechanisms`, `clinical-reasoning`, etc.) restent les unités de production de La Fabrique. *(La projection `overview` n'est plus publiée ni consommée en V1 — voir §2.)*
 - Les ids techniques des projections ne sont pas renommés.
 - Le Chapter Package publie des identités et des artefacts de production — **jamais** de vues Reader.
 - Le manifest ne porte jamais de libellés, emojis, ordre d'affichage ni nomenclature produit Reader.
@@ -81,17 +81,25 @@ Learner Layer
 | 6 | `qcm` | QCM |
 | 7 | `notes` | Notes |
 
-### Mapping Item 234 — figé
+### Mapping Item 234 — figé (2026-08-03 : un artefact principal par vue)
 
-| Vue | Sources V1 |
+| Vue | Artefact éditorial principal | Source Composition |
+|---|---|---|
+| Amorçage cognitif | `build/cognitive-priming.v1.json` | `cognitive-priming` / manifest |
+| Modèle mental | `projections/understanding/story.md` | `projection: story` |
+| Notions | `projections/understanding/mechanisms.md` | `projection: mechanisms` |
+| Cas cliniques | `projections/understanding/clinical-reasoning.md` + scénarios | `clinical-reasoning` + `scenarios: registry` |
+| Collège officiel | `source/official-college.md` | `college-source` |
+| QCM | `questions/*.yaml` | `questions: registry` |
+| Notes | patrimoine apprenant | `kind: none` |
+
+**Suppression 2026-08-03 :** la projection `overview` et `overview.md` sont retirées — le walkthrough MM est porté exclusivement par `story.md` (voir [`overview-consumer-audit.md`](../analysis/overview-consumer-audit.md)).
+
+### Mapping Item 234 — historique (2026-07-31 → 2026-08-02)
+
+| Vue | Sources V1 (abrogé) |
 |---|---|
-| Amorçage cognitif | aucune — `planned` |
-| Modèle mental | `projection: story` (mergeOrder 1) + `projection: overview` (mergeOrder 2) |
-| Notions | `projection: mechanisms` |
-| Cas cliniques | `projection: clinical-reasoning` + `scenarios: registry` |
-| Collège officiel | `college-source: ref` |
-| QCM | `questions: registry` |
-| Notes | `kind: none` |
+| Modèle mental | ~~`projection: story` + `projection: overview`~~ |
 
 ---
 

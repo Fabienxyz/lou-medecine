@@ -24,21 +24,10 @@
       }
     },
     {
-      "id": "overview",
-      "type": "understanding.overview",
-      "family": "understanding",
-      "order": 2,
-      "path": "projections/understanding/overview.md",
-      "status": "published",
-      "elements": [
-        "MM-pump-decompensation"
-      ]
-    },
-    {
       "id": "mechanisms",
       "type": "understanding.mechanisms",
       "family": "understanding",
-      "order": 3,
+      "order": 2,
       "path": "projections/understanding/mechanisms.md",
       "status": "published",
       "elements": [
@@ -62,7 +51,7 @@
       "id": "clinical-reasoning",
       "type": "understanding.clinical-reasoning",
       "family": "understanding",
-      "order": 4,
+      "order": 3,
       "path": "projections/understanding/clinical-reasoning.md",
       "status": "published",
       "elements": [
@@ -651,5 +640,5 @@
   "editorial_completeness": "complete",
   "publication_version": 1,
   "release_id": "cardio__234__2022__1",
-  "content_digest": "sha256:c0680fd97d638b9bae18b2899a47f5afac418b4f9bd160ce83951a1b59217932"
+  "content_digest": "sha256:7cdbc3514444fedc4c34b359349ddec2d13a01cdd9138b60af397a95a33a36c9"
 }

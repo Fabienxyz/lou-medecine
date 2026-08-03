@@ -325,7 +325,7 @@ Fonctionnalités **exclues** de la première version — détail comportemental 
 | Vue Reader (baseline) | Item 234 — état post-RA V1 (2026-08-02) |
 |---|---|
 | Amorçage cognitif | **Alimenté** — artefact `cognitive-priming.v1.json` (AP-A…AP-F) |
-| Modèle mental | **Alimenté** — Composition agrège artefacts `story` + `overview` (production) |
+| Modèle mental | **Alimenté** — Composition source artefact `story` (production) |
 | Notions | **Alimenté** — Composition agrège artefact `mechanisms` (production) |
 | Cas cliniques | **Alimenté** — Composition agrège `clinical-reasoning` + scénarios |
 | Collège officiel | **Alimenté** — texte verbatim Collège |

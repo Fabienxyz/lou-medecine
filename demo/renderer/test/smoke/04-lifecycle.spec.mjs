@@ -101,7 +101,7 @@ test.describe("V2.1 smoke — renderer lifecycle", () => {
       element: M.element,
       phrase: M.threeParagraphPhrases[0],
     });
-    await goToProjection(page, PROJECTIONS.overview);
+    await goToProjection(page, PROJECTIONS.clinicalReasoning);
     await goToProjection(page, M);
     const report = await inspectMarks(
       page,

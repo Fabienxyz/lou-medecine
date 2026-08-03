@@ -86,9 +86,9 @@ Pour chaque vue : responsabilité pédagogique, artefacts autorisés/interdits, 
 | Dimension | Règle |
 |---|---|
 | **Responsabilité pédagogique** | Schéma général du chapitre, walkthrough court, blocs structurants (une ligne par notion), navigation vers Notions. |
-| **Artefact principal autorisé** | Projections `story` (mergeOrder 1) + `overview` (mergeOrder 2) |
-| **Artefacts secondaires autorisés** | `manifest.visuals[]` pour alt text ; SVG via `projection.visuals` |
-| **Projections autorisées** | `story`, `overview` uniquement |
+| **Artefact principal autorisé** | Projection `story` → `projections/understanding/story.md` |
+| **Artefacts secondaires autorisés** | `manifest.visuals[]` ; SVG via `projection.visuals` |
+| **Projections autorisées** | `story` uniquement |
 | **SVG autorisés** | Uniquement via `manifest.projections[].visuals` ou `manifest.visuals[]` — ex. `figures/mm-pump-decompensation.svg` |
 | **Modules Renderer** | `renderer.js` (`renderComposedBlocks`), `blocks.js`, `markdown.js`, `svg-loader.js`, `figure-zoom.js`, couche apprenant |
 | **Couche apprenant** | Walkthrough notes, surlignages, diagrammes personnels sur blocs `[data-official="true"]` |
@@ -101,7 +101,7 @@ Pour chaque vue : responsabilité pédagogique, artefacts autorisés/interdits, 
 - Onglets prototype (« Vue d'ensemble », « Histoire »)
 - Deuxième modèle mental concurrent (un seul schéma central par chapitre)
 
-**Binding Composition (figé) :** `story` + `overview` — `corpus-composition-v1.json:12-19`
+**Binding Composition (figé) :** `{ kind: "projection", ref: "story" }` — `corpus-composition-v1.json:12-16`
 
 ---
 
@@ -230,7 +230,7 @@ Matrice observée au **2026-08-03** sur le chemin nominal (`manifest.json` prés
 | Vue | Artefacts réellement lus | Origine | Version / identité | Legacy ? | Conforme ? |
 |---|---|---|---|---|---|
 | **Amorçage cognitif** | `build/cognitive-priming.v1.json` | Package Lou Build stage J | schema `cognitive-priming.v1` | Non | ✅ Oui |
-| **Modèle mental** | `projections/understanding/story.md`, `overview.md` ; `figures/mm-pump-decompensation.svg` | Package projections + figures | Build 234 2022 | Non | ✅ Oui |
+| **Modèle mental** | `projections/understanding/story.md` ; `figures/mm-pump-decompensation.svg` | Package story + figures | Build 234 2022 | Non | ✅ Oui |
 | **Notions** | `projections/understanding/mechanisms.md` ; `figures/mec-oap.svg` ; notices planned-not-built (3 éléments) | Package | Build 234 2022 | Non | ✅ Oui |
 | **Cas cliniques** | `clinical-reasoning.md` (rendu complet) ; 3 scénarios YAML (**IDs shell seulement**) | Package | Build 234 2022 | Non | ⚠️ Partiel — scénarios non rendus |
 | **Collège officiel** | `source/official-college.md` (verbatim) | Package source copy | Édition 2022 | Non | ✅ Oui *(couche apprenant morte — voir §4)* |
@@ -245,7 +245,7 @@ Matrice observée au **2026-08-03** sur le chemin nominal (`manifest.json` prés
 |---|---|---|---|
 | `build/cognitive-priming.v1.json` | Amorçage | `renderer.js:586-588` → `cognitive-priming-render.js` | Oui |
 | `story.md` | Modèle mental | `renderer.js:487-491` → `blocks.js` | Oui |
-| `overview.md` | Modèle mental | idem | Oui |
+| `overview.md` | — | **Supprimé 2026-08-03** | — |
 | `mechanisms.md` | Notions | idem | Oui |
 | `clinical-reasoning.md` | Cas cliniques | idem | Oui |
 | `figures/mm-pump-decompensation.svg` | Modèle mental | `svg-loader.js:63-95` | Oui (inline ou img fallback) |

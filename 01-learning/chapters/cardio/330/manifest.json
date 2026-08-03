@@ -23,21 +23,10 @@
       ]
     },
     {
-      "id": "overview",
-      "type": "understanding.overview",
-      "family": "understanding",
-      "order": 2,
-      "path": "projections/understanding/overview.md",
-      "status": "published",
-      "elements": [
-        "MM-antithrombotic-pipeline"
-      ]
-    },
-    {
       "id": "mechanisms",
       "type": "understanding.mechanisms",
       "family": "understanding",
-      "order": 3,
+      "order": 2,
       "path": "projections/understanding/mechanisms.md",
       "status": "published",
       "elements": [
@@ -57,7 +46,7 @@
       "id": "clinical-reasoning",
       "type": "understanding.clinical-reasoning",
       "family": "understanding",
-      "order": 4,
+      "order": 3,
       "path": "projections/understanding/clinical-reasoning.md",
       "status": "published",
       "elements": [

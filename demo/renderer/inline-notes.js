@@ -45,11 +45,26 @@ window.LouInlineNotes = {
             this._committing = false;
         }
         try {
-            await this.restore(host, context);
+            await this.restoreAll(host, context);
         } catch (err) {
             console.warn("[LouInlineNotes] Note restore failed.", err);
         } finally {
             this.bind(host, context);
+        }
+    },
+
+    async restoreAll(host, context) {
+        const ids =
+            context.projectionIdsToRestore && context.projectionIdsToRestore.length
+                ? context.projectionIdsToRestore
+                : context.projection && context.projection.id
+                  ? [context.projection.id]
+                  : [];
+        for (let i = 0; i < ids.length; i += 1) {
+            await this.restore(
+                host,
+                Object.assign({}, context, { projection: { id: ids[i] } })
+            );
         }
     },
 
@@ -124,6 +139,29 @@ window.LouInlineNotes = {
         }
     },
 
+    _isNoteRecordSatisfiedInWalkthrough(walkthrough, record) {
+        if (!walkthrough || !record) {
+            return false;
+        }
+        if (
+            record.id != null &&
+            walkthrough.querySelector('[data-note-id="' + record.id + '"]')
+        ) {
+            return true;
+        }
+        const text = record.text && String(record.text).trim();
+        if (!text) {
+            return false;
+        }
+        const notes = walkthrough.querySelectorAll("." + this.NOTE_CLASS);
+        for (let i = 0; i < notes.length; i += 1) {
+            if (this._normalizeNoteText(notes[i].textContent) === text) {
+                return true;
+            }
+        }
+        return false;
+    },
+
     _findBlock(host, element, projectionId, composition) {
         if (projectionId) {
             const scoped = host.querySelector(
@@ -175,6 +213,9 @@ window.LouInlineNotes = {
             record.anchor
         );
         if (!range) {
+            if (this._isNoteRecordSatisfiedInWalkthrough(walkthrough, record)) {
+                return "skipped";
+            }
             return "orphan";
         }
 

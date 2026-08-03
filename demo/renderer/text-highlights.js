@@ -15,7 +15,7 @@ window.LouTextHighlights = {
 
     async mount(host, context) {
         try {
-            await this.restore(host, context);
+            await this.restoreAll(host, context);
         } catch (err) {
             console.warn(
                 "[LouTextHighlights] Highlight restore failed; selection binding continues.",
@@ -23,6 +23,21 @@ window.LouTextHighlights = {
             );
         } finally {
             this.bindSelection(host, context);
+        }
+    },
+
+    async restoreAll(host, context) {
+        const ids =
+            context.projectionIdsToRestore && context.projectionIdsToRestore.length
+                ? context.projectionIdsToRestore
+                : context.projection && context.projection.id
+                  ? [context.projection.id]
+                  : [];
+        for (let i = 0; i < ids.length; i += 1) {
+            await this.restore(
+                host,
+                Object.assign({}, context, { projection: { id: ids[i] } })
+            );
         }
     },
 
@@ -207,6 +222,20 @@ window.LouTextHighlights = {
             });
     },
 
+    _isSelectorSatisfiedInWalkthrough(walkthrough, selector) {
+        if (!walkthrough || !selector || !selector.exact) {
+            return false;
+        }
+        const exact = String(selector.exact);
+        const marks = walkthrough.querySelectorAll("." + this.HIGHLIGHT_CLASS);
+        for (let i = 0; i < marks.length; i += 1) {
+            if (marks[i].textContent.includes(exact)) {
+                return true;
+            }
+        }
+        return false;
+    },
+
     _findBlock(host, element, projectionId, composition) {
         if (projectionId) {
             const scoped = host.querySelector(
@@ -263,6 +292,14 @@ window.LouTextHighlights = {
                 return;
             }
             if (!range) {
+                if (
+                    self._isSelectorSatisfiedInWalkthrough(
+                        walkthrough,
+                        record.selector
+                    )
+                ) {
+                    return;
+                }
                 orphans.push({ kind: "highlight", record: record });
             }
         });

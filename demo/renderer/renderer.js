@@ -452,25 +452,6 @@ window.LouRenderer = {
     },
 
     async mountLearnerLayers(host, context) {
-        const ids =
-            context.projectionIdsToRestore && context.projectionIdsToRestore.length
-                ? context.projectionIdsToRestore
-                : context.projection && context.projection.id
-                  ? [context.projection.id]
-                  : [];
-
-        for (let i = 0; i < ids.length; i += 1) {
-            const subContext = Object.assign({}, context, {
-                projection: { id: ids[i] },
-            });
-            if (window.LouTextHighlights) {
-                await window.LouTextHighlights.restore(host, subContext);
-            }
-            if (window.LouInlineNotes) {
-                await window.LouInlineNotes.restore(host, subContext);
-            }
-        }
-
         if (window.LouTextHighlights) {
             await window.LouTextHighlights.mount(host, context);
         }

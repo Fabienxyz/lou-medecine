@@ -394,6 +394,16 @@ window.LouBlocks = {
 
         orphans.forEach(function (item) {
             const record = item.record || {};
+            if (record.id != null) {
+                const existing = panel.querySelector(
+                    '.learner-orphan-annotation[data-orphan-id="' +
+                        String(record.id) +
+                        '"]'
+                );
+                if (existing) {
+                    return;
+                }
+            }
             const row = document.createElement("div");
             row.className = "learner-orphan-annotation";
             row.dataset.learner = "true";

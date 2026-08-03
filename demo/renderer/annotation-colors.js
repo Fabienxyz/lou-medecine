@@ -126,6 +126,13 @@ window.LouAnnotationColors = {
         noteEl.style.color = color.text;
     },
 
+    // Sidecar stores three booleans (backward compatible). Exactly one may be true.
+    // Legacy entries with multiple flags are coerced on read: bold > underline > strikethrough.
+    STYLE_NORMAL: "normal",
+    STYLE_BOLD: "bold",
+    STYLE_UNDERLINE: "underline",
+    STYLE_STRIKETHROUGH: "strikethrough",
+
     emptyFormatState() {
         return { bold: false, underline: false, strikethrough: false };
     },
@@ -135,24 +142,65 @@ window.LouAnnotationColors = {
         if (!raw || typeof raw !== "object") {
             return base;
         }
-        base.bold = !!raw.bold;
-        base.underline = !!raw.underline;
-        base.strikethrough = !!raw.strikethrough;
+        if (raw.bold) {
+            base.bold = true;
+            return base;
+        }
+        if (raw.underline) {
+            base.underline = true;
+            return base;
+        }
+        if (raw.strikethrough) {
+            base.strikethrough = true;
+            return base;
+        }
         return base;
     },
 
-    _formatDecorations(state) {
-        const parts = [];
+    formatStateToStyleId(state) {
+        const normalized = this.normalizeFormatState(state);
+        if (normalized.bold) {
+            return this.STYLE_BOLD;
+        }
+        if (normalized.underline) {
+            return this.STYLE_UNDERLINE;
+        }
+        if (normalized.strikethrough) {
+            return this.STYLE_STRIKETHROUGH;
+        }
+        return this.STYLE_NORMAL;
+    },
+
+    formatStateFromStyleId(styleId) {
+        const base = this.emptyFormatState();
+        if (styleId === this.STYLE_BOLD) {
+            base.bold = true;
+        } else if (styleId === this.STYLE_UNDERLINE) {
+            base.underline = true;
+        } else if (styleId === this.STYLE_STRIKETHROUGH) {
+            base.strikethrough = true;
+        }
+        return base;
+    },
+
+    _applyExclusiveTypography(el, state) {
         if (state.bold) {
-            parts.push("bold");
+            el.style.fontWeight = "700";
+            el.style.textDecoration = "";
+            return;
         }
         if (state.underline) {
-            parts.push("underline");
+            el.style.fontWeight = "";
+            el.style.textDecoration = "underline";
+            return;
         }
         if (state.strikethrough) {
-            parts.push("line-through");
+            el.style.fontWeight = "";
+            el.style.textDecoration = "line-through";
+            return;
         }
-        return parts.length ? parts.join(" ") : "none";
+        el.style.fontWeight = "";
+        el.style.textDecoration = "";
     },
 
     applyHighlightStyle(mark, formatState) {
@@ -160,8 +208,7 @@ window.LouAnnotationColors = {
             return;
         }
         const state = this.normalizeFormatState(formatState);
-        mark.style.fontWeight = state.bold ? "700" : "";
-        mark.style.textDecoration = this._formatDecorations(state);
+        this._applyExclusiveTypography(mark, state);
     },
 
     applyNoteStyle(noteEl, formatState) {
@@ -172,8 +219,7 @@ window.LouAnnotationColors = {
         noteEl.dataset.noteBold = state.bold ? "true" : "false";
         noteEl.dataset.noteUnderline = state.underline ? "true" : "false";
         noteEl.dataset.noteStrikethrough = state.strikethrough ? "true" : "false";
-        noteEl.style.fontWeight = state.bold ? "700" : "";
-        noteEl.style.textDecoration = this._formatDecorations(state);
+        this._applyExclusiveTypography(noteEl, state);
     },
 
     readNoteStyleFromElement(noteEl) {

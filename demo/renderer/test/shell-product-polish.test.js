@@ -139,20 +139,20 @@ describe("Product Polish V1.1 — AnnotationToolbar", () => {
         toolbar.destroy();
     });
 
-    test("format buttons allow independent toggles", () => {
+    test("format buttons are mutually exclusive", () => {
         const toolbar = dom.window.LouAnnotationToolbar.create({
             onStateChange: function () {},
         });
         toolbar.element.querySelector(".annotation-toolbar-format-bold").click();
         toolbar.element.querySelector(".annotation-toolbar-format-underline").click();
         const state = toolbar.getState();
-        assert.equal(state.bold, true);
+        assert.equal(state.bold, false);
         assert.equal(state.underline, true);
         assert.equal(state.strikethrough, false);
         toolbar.destroy();
     });
 
-    test("note style memory persists in localStorage sidecar", () => {
+    test("note style memory enforces exclusive format in localStorage sidecar", () => {
         dom.window.LouAnnotationColors.setLastNotePreferences({
             colorId: "blue",
             bold: true,
@@ -162,7 +162,7 @@ describe("Product Polish V1.1 — AnnotationToolbar", () => {
         const prefs = dom.window.LouAnnotationColors.getLastNotePreferences();
         assert.equal(prefs.colorId, "blue");
         assert.equal(prefs.bold, true);
-        assert.equal(prefs.underline, true);
+        assert.equal(prefs.underline, false);
         assert.equal(prefs.strikethrough, false);
     });
 

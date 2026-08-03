@@ -125,7 +125,7 @@ describe("Inline note edit focus", () => {
         assert.equal(window.getSelection().rangeCount, 1);
     });
 
-    test("format toggles during edit apply styles without exiting edit mode", () => {
+    test("format toggles during edit apply exclusive styles without exiting edit mode", () => {
         const noteEl = createEditingNote();
         const toolbar = window.LouAnnotationController.getToolbar();
         toolbar.element.querySelector(".annotation-toolbar-format-bold").click();
@@ -136,8 +136,9 @@ describe("Inline note edit focus", () => {
         assert.equal(window.LouInlineNotes.isNoteEditProtected(), true);
         noteEl.textContent = "Styled";
         assert.equal(noteEl.textContent, "Styled");
-        assert.equal(noteEl.dataset.pendingNoteBold, "true");
-        assert.equal(noteEl.dataset.pendingNoteUnderline, "true");
+        assert.equal(noteEl.dataset.pendingNoteBold, "false");
+        assert.equal(noteEl.dataset.pendingNoteUnderline, "false");
         assert.equal(noteEl.dataset.pendingNoteStrikethrough, "true");
+        assert.equal(noteEl.style.textDecoration, "line-through");
     });
 });

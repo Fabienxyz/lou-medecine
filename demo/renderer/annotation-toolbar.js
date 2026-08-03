@@ -39,8 +39,8 @@ window.LouAnnotationToolbar = {
 
         const formatRow = document.createElement("div");
         formatRow.className = "annotation-toolbar-formats";
-        formatRow.setAttribute("role", "group");
-        formatRow.setAttribute("aria-label", "Mise en forme");
+        formatRow.setAttribute("role", "radiogroup");
+        formatRow.setAttribute("aria-label", "Style typographique");
 
         const swatchButtons = [];
         const formatButtons = {};
@@ -123,6 +123,26 @@ window.LouAnnotationToolbar = {
             swatchButtons.push(button);
         }
 
+        function normalizeFormatFlags() {
+            if (!colors || typeof colors.normalizeFormatState !== "function") {
+                return;
+            }
+            const normalized = colors.normalizeFormatState(state);
+            state.bold = normalized.bold;
+            state.underline = normalized.underline;
+            state.strikethrough = normalized.strikethrough;
+        }
+
+        function setExclusiveFormat(key) {
+            const wasActive = state[key];
+            state.bold = false;
+            state.underline = false;
+            state.strikethrough = false;
+            if (!wasActive) {
+                state[key] = true;
+            }
+        }
+
         function makeFormatButton(key, label, text) {
             const button = document.createElement("button");
             button.type = "button";
@@ -135,7 +155,7 @@ window.LouAnnotationToolbar = {
             button.addEventListener("click", function (event) {
                 event.preventDefault();
                 event.stopPropagation();
-                state[key] = !state[key];
+                setExclusiveFormat(key);
                 syncFormats();
                 emitChange({ kind: "format", format: key, active: state[key] });
             });
@@ -242,14 +262,21 @@ window.LouAnnotationToolbar = {
                             ? String(next.colorId)
                             : null;
                 }
-                if ("bold" in next) {
-                    state.bold = !!next.bold;
-                }
-                if ("underline" in next) {
-                    state.underline = !!next.underline;
-                }
-                if ("strikethrough" in next) {
-                    state.strikethrough = !!next.strikethrough;
+                if (
+                    "bold" in next ||
+                    "underline" in next ||
+                    "strikethrough" in next
+                ) {
+                    if ("bold" in next) {
+                        state.bold = !!next.bold;
+                    }
+                    if ("underline" in next) {
+                        state.underline = !!next.underline;
+                    }
+                    if ("strikethrough" in next) {
+                        state.strikethrough = !!next.strikethrough;
+                    }
+                    normalizeFormatFlags();
                 }
                 syncAll();
             },

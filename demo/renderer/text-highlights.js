@@ -57,6 +57,13 @@ window.LouTextHighlights = {
             if (ctrl && ctrl.isToolbarTarget(event.target)) {
                 return;
             }
+            if (
+                window.LouInlineNotes &&
+                typeof window.LouInlineNotes.isNoteEditProtected === "function" &&
+                window.LouInlineNotes.isNoteEditProtected()
+            ) {
+                return;
+            }
             window.requestAnimationFrame(function () {
                 self._onSelectionChange(host, self._bindContext);
             });
@@ -89,7 +96,8 @@ window.LouTextHighlights = {
     _onSelectionChange(host, context) {
         if (
             window.LouInlineNotes &&
-            window.LouInlineNotes._activeEditNote
+            typeof window.LouInlineNotes.isNoteEditProtected === "function" &&
+            window.LouInlineNotes.isNoteEditProtected()
         ) {
             return;
         }

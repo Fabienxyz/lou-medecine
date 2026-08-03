@@ -62,7 +62,8 @@ window.LouAnnotationController = {
     isNoteEditBlockingSelectionClear() {
         return !!(
             window.LouInlineNotes &&
-            window.LouInlineNotes._activeEditNote
+            typeof window.LouInlineNotes.isNoteEditProtected === "function" &&
+            window.LouInlineNotes.isNoteEditProtected()
         );
     },
 

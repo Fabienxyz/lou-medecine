@@ -12,6 +12,7 @@ window.LouInlineNotes = {
     _contextMenuEl: null,
     _pendingMenuContext: null,
     _activeEditNote: null,
+    _noteEditGestureActive: false,
     _committing: false,
     _commitInFlight: null,
     _pendingAnchors: new WeakMap(),
@@ -22,6 +23,10 @@ window.LouInlineNotes = {
 
     _normalizeNoteText(raw) {
         return String(raw).trim();
+    },
+
+    isNoteEditProtected() {
+        return !!(this._activeEditNote || this._noteEditGestureActive);
     },
 
     _noteStoreId(noteEl) {
@@ -380,37 +385,44 @@ window.LouInlineNotes = {
     },
 
     async _onNoteDblClick(event, host) {
-        const noteEl = this._noteFromElement(event.target);
-        if (noteEl) {
-            if (!host.contains(noteEl)) {
+        this._noteEditGestureActive = true;
+        try {
+            const noteEl = this._noteFromElement(event.target);
+            if (noteEl) {
+                if (!host.contains(noteEl)) {
+                    return;
+                }
+                event.stopPropagation();
+                await this._waitForCommitIdle();
+                if (this._activeEditNote && this._activeEditNote !== noteEl) {
+                    await this._commitOnBlur(this._activeEditNote);
+                }
+                await this._waitForCommitIdle();
+                if (this._activeEditNote === noteEl) {
+                    return;
+                }
+                this._editSnapshots.set(noteEl, {
+                    text: this._normalizeNoteText(noteEl.textContent),
+                    prefs: this._prefsSnapshot(noteEl),
+                });
+                this._enterEditMode(noteEl);
+                this._showAnnotationToolbarForNote(noteEl);
                 return;
             }
+
+            const officialRoot = this._officialRootFromTarget(event.target, host);
+            if (!officialRoot) {
+                return;
+            }
+
+            event.preventDefault();
             event.stopPropagation();
-            await this._waitForCommitIdle();
-            if (this._activeEditNote && this._activeEditNote !== noteEl) {
-                await this._commitOnBlur(this._activeEditNote);
+            await this._startNoteAtPoint(event.clientX, event.clientY, officialRoot);
+        } finally {
+            if (!this._activeEditNote) {
+                this._noteEditGestureActive = false;
             }
-            await this._waitForCommitIdle();
-            if (this._activeEditNote === noteEl) {
-                return;
-            }
-            this._editSnapshots.set(noteEl, {
-                text: this._normalizeNoteText(noteEl.textContent),
-                prefs: this._prefsSnapshot(noteEl),
-            });
-            this._enterEditMode(noteEl);
-            this._showAnnotationToolbarForNote(noteEl);
-            return;
         }
-
-        const officialRoot = this._officialRootFromTarget(event.target, host);
-        if (!officialRoot) {
-            return;
-        }
-
-        event.preventDefault();
-        event.stopPropagation();
-        await this._startNoteAtPoint(event.clientX, event.clientY, officialRoot);
     },
 
     async _startNoteAtPoint(clientX, clientY, officialRoot) {
@@ -864,8 +876,10 @@ window.LouInlineNotes = {
             noteEl._inlineNotesKeydown = null;
         }
         if (this._activeEditNote === noteEl) {
-            this._dismissNoteToolbar(false);
+            this._activeEditNote = null;
         }
+        this._noteEditGestureActive = false;
+        this._dismissNoteToolbar(false);
     },
 
     async _waitForCommitIdle() {

@@ -38,6 +38,13 @@ window.LouInlineFormatting = {
             if (event.target.closest("." + self.TOOLBAR_CLASS)) {
                 return;
             }
+            if (
+                window.LouInlineNotes &&
+                typeof window.LouInlineNotes.isNoteEditProtected === "function" &&
+                window.LouInlineNotes.isNoteEditProtected()
+            ) {
+                return;
+            }
             window.requestAnimationFrame(function () {
                 self._onSelectionChange(host, self._bindContext);
             });
@@ -55,6 +62,13 @@ window.LouInlineFormatting = {
         if (!this._onDocumentMouseDown) {
             this._onDocumentMouseDown = function (event) {
                 if (!self._toolbar || self._toolbar.contains(event.target)) {
+                    return;
+                }
+                if (
+                    window.LouInlineNotes &&
+                    typeof window.LouInlineNotes.isNoteEditProtected === "function" &&
+                    window.LouInlineNotes.isNoteEditProtected()
+                ) {
                     return;
                 }
                 self.dismissToolbar();
@@ -423,6 +437,14 @@ window.LouInlineFormatting = {
     },
 
     _onSelectionChange(host, context) {
+        if (
+            window.LouInlineNotes &&
+            typeof window.LouInlineNotes.isNoteEditProtected === "function" &&
+            window.LouInlineNotes.isNoteEditProtected()
+        ) {
+            return;
+        }
+
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
             this.dismissToolbar();
@@ -572,6 +594,18 @@ window.LouInlineFormatting = {
     },
 
     dismissToolbar(clearSelection) {
+        if (
+            window.LouInlineNotes &&
+            typeof window.LouInlineNotes.isNoteEditProtected === "function" &&
+            window.LouInlineNotes.isNoteEditProtected()
+        ) {
+            if (this._toolbar) {
+                this._toolbar.hidden = true;
+            }
+            this._selectionContext = null;
+            this._setToolbarDisabled(false);
+            return;
+        }
         if (clearSelection !== false) {
             const selection = window.getSelection();
             if (selection) {

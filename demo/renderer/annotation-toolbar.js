@@ -168,8 +168,23 @@ window.LouAnnotationToolbar = {
         makeFormatButton("underline", "Souligné", "S");
         makeFormatButton("strikethrough", "Barré", "ab\u0336");
 
+        const eraserRow = document.createElement("div");
+        eraserRow.className = "annotation-toolbar-actions";
+        const eraserButton = document.createElement("button");
+        eraserButton.type = "button";
+        eraserButton.className = "annotation-toolbar-erase";
+        eraserButton.setAttribute("aria-label", "Effacer");
+        eraserButton.textContent = "\u232B";
+        eraserButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            emitChange({ kind: "erase" });
+        });
+        eraserRow.appendChild(eraserButton);
+
         root.appendChild(swatchRow);
         root.appendChild(formatRow);
+        root.appendChild(eraserRow);
         document.body.appendChild(root);
 
         function positionNearRect(rect, preferAbove) {

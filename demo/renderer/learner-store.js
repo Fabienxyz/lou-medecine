@@ -836,6 +836,12 @@ window.LouLearnerStore = {
         });
     },
 
+    deleteTextHighlight(id) {
+        return this._run(this.HIGHLIGHTS, "readwrite", function (store) {
+            return store.delete(id);
+        });
+    },
+
     // V2.2 — walkthrough notes; CaretAnchor in official text stream (renderer-v2.2-walkthrough-notes.md).
     addWalkthroughNote(chapter, projection, element, anchor, text) {
         if (!text || !String(text).trim()) {

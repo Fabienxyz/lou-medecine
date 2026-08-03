@@ -213,6 +213,11 @@ window.LouAnnotationColors = {
             return;
         }
         const state = this.normalizeFormatState(formatState);
+        mark.dataset.highlightBold = state.bold ? "true" : "false";
+        mark.dataset.highlightUnderline = state.underline ? "true" : "false";
+        mark.dataset.highlightStrikethrough = state.strikethrough
+            ? "true"
+            : "false";
         this._applyExclusiveTypography(mark, state);
     },
 
@@ -241,6 +246,13 @@ window.LouAnnotationColors = {
     readHighlightStyleFromElement(mark) {
         if (!mark) {
             return this.emptyFormatState();
+        }
+        if (mark.dataset.highlightBold !== undefined) {
+            return this.normalizeFormatState({
+                bold: mark.dataset.highlightBold === "true",
+                underline: mark.dataset.highlightUnderline === "true",
+                strikethrough: mark.dataset.highlightStrikethrough === "true",
+            });
         }
         const weight = mark.style.fontWeight || "";
         const deco = mark.style.textDecoration || "";

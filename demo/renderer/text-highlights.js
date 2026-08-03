@@ -244,10 +244,47 @@ window.LouTextHighlights = {
         if (!mark || !state) {
             return;
         }
+        if (detail && detail.kind === "erase") {
+            void this._deleteHighlightMark(mark);
+            return;
+        }
         if (detail && detail.kind === "color" && !detail.colorId) {
             return;
         }
         this._applyLiveHighlightUpdate(mark, state);
+    },
+
+    _unwrapMark(mark) {
+        const parent = mark && mark.parentNode;
+        if (!parent) {
+            return;
+        }
+        while (mark.firstChild) {
+            parent.insertBefore(mark.firstChild, mark);
+        }
+        mark.remove();
+        parent.normalize();
+    },
+
+    async _deleteHighlightMark(mark) {
+        if (!mark) {
+            return;
+        }
+        const id = mark.dataset.highlightId;
+        this._unwrapMark(mark);
+        this.dismissToolbar();
+        if (id == null) {
+            return;
+        }
+        window.LouAnnotationColors.removeRecordColor("highlight", id);
+        const store = this._bindContext && this._bindContext.store;
+        if (store && typeof store.deleteTextHighlight === "function") {
+            try {
+                await store.deleteTextHighlight(Number(id));
+            } catch (err) {
+                console.warn("[LouTextHighlights] Highlight delete failed.", err);
+            }
+        }
     },
 
     _setHighlightEditingMark(mark) {

@@ -393,20 +393,25 @@ window.LouInlineNotes = {
                     return;
                 }
                 event.stopPropagation();
+                event.preventDefault();
                 await this._waitForCommitIdle();
                 if (this._activeEditNote && this._activeEditNote !== noteEl) {
                     await this._commitOnBlur(this._activeEditNote);
                 }
                 await this._waitForCommitIdle();
-                if (this._activeEditNote === noteEl) {
-                    return;
+                if (!this._activeEditNote) {
+                    this._editSnapshots.set(noteEl, {
+                        text: this._normalizeNoteText(noteEl.textContent),
+                        prefs: this._prefsSnapshot(noteEl),
+                    });
+                    this._enterEditMode(noteEl);
                 }
-                this._editSnapshots.set(noteEl, {
-                    text: this._normalizeNoteText(noteEl.textContent),
-                    prefs: this._prefsSnapshot(noteEl),
-                });
-                this._enterEditMode(noteEl);
-                this._showAnnotationToolbarForNote(noteEl);
+                this._placeCaretInNote(noteEl, event.clientX, event.clientY);
+                this._showAnnotationToolbarForNote(
+                    noteEl,
+                    event.clientX,
+                    event.clientY
+                );
                 return;
             }
 
@@ -523,7 +528,14 @@ window.LouInlineNotes = {
         const spec = {
             ariaLabel: "Note et mise en forme",
             state: this._notePreferencesFromElement(noteEl),
-            onIntent: function (state) {
+            onIntent: function (state, detail) {
+                if (detail && detail.kind === "erase") {
+                    void self._eraseNoteFromToolbar(noteEl);
+                    return;
+                }
+                if (detail && detail.kind === "color" && !detail.colorId) {
+                    return;
+                }
                 self._applyToolbarStateToNote(noteEl, state);
             },
         };
@@ -542,6 +554,49 @@ window.LouInlineNotes = {
             spec.preferAbove = true;
         }
         window.LouAnnotationController.openForNote(spec);
+    },
+
+    _placeCaretInNote(noteEl, clientX, clientY) {
+        if (!noteEl) {
+            return;
+        }
+        const selection = window.getSelection();
+        if (!selection) {
+            return;
+        }
+        let range = null;
+        if (document.caretRangeFromPoint) {
+            range = document.caretRangeFromPoint(clientX, clientY);
+        } else if (document.caretPositionFromPoint) {
+            const pos = document.caretPositionFromPoint(clientX, clientY);
+            if (pos) {
+                range = document.createRange();
+                range.setStart(pos.offsetNode, pos.offset);
+                range.collapse(true);
+            }
+        }
+        selection.removeAllRanges();
+        if (range && noteEl.contains(range.startContainer)) {
+            selection.addRange(range);
+            return;
+        }
+        range = document.createRange();
+        range.selectNodeContents(noteEl);
+        range.collapse(false);
+        selection.addRange(range);
+    },
+
+    async _eraseNoteFromToolbar(noteEl) {
+        if (!noteEl) {
+            return;
+        }
+        await this._waitForCommitIdle();
+        if (!noteEl.hasAttribute("data-note-id")) {
+            this._cancelPendingNote(noteEl);
+            this._dismissNoteToolbar(false);
+            return;
+        }
+        await this._onDeleteNote({ noteEl: noteEl });
     },
 
     _dismissNoteToolbar(cancelPending) {

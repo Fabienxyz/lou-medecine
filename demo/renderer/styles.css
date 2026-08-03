@@ -648,10 +648,60 @@ body.figure-zoom-open{
     text-decoration:line-through;
 }
 
+.annotation-toolbar-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    width:100%;
+    padding-top:2px;
+    border-top:1px solid rgba(0,0,0,.06);
+}
+
+.annotation-toolbar-erase{
+    min-width:36px;
+    height:32px;
+    padding:0 10px;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:8px;
+    background:#fff;
+    color:#6b7280;
+    font-size:16px;
+    line-height:1;
+    cursor:pointer;
+    transition:background .12s ease,border-color .12s ease,color .12s ease;
+}
+
+.annotation-toolbar-erase:hover{
+    background:#fef2f2;
+    border-color:#fecaca;
+    color:#b91c1c;
+}
+
+.annotation-toolbar-erase:focus-visible{
+    outline:2px solid #2563eb;
+    outline-offset:2px;
+}
+
 mark.learner-highlight{
     color:inherit;
     border-radius:2px;
     padding:0 1px;
+    font-weight:inherit;
+    text-decoration:none;
+}
+
+mark.learner-highlight[data-highlight-bold="true"]{
+    font-weight:700;
+}
+
+mark.learner-highlight[data-highlight-underline="true"]{
+    font-weight:inherit;
+    text-decoration:underline;
+}
+
+mark.learner-highlight[data-highlight-strikethrough="true"]{
+    font-weight:inherit;
+    text-decoration:line-through;
 }
 
 mark.learner-highlight.is-editing{
@@ -733,6 +783,7 @@ mark.learner-highlight.is-editing{
     vertical-align:baseline;
     box-decoration-break:clone;
     -webkit-box-decoration-break:clone;
+    cursor:text;
 }
 
 .walkthrough-note[contenteditable="true"]{

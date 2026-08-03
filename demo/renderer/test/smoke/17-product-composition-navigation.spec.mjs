@@ -46,7 +46,7 @@ test.describe("CN-P — composition navigation (product mode)", () => {
     await expect(page.locator("#display-preferences-root")).toBeVisible();
   });
 
-  test("CN-P-02 mental-model aggregates story and overview content", async ({
+  test("CN-P-02 mental-model renders single official figure and story walkthrough", async ({
     page,
   }) => {
     await page.locator(".tab", { hasText: "Modèle mental" }).click();
@@ -57,8 +57,12 @@ test.describe("CN-P — composition navigation (product mode)", () => {
       return wt && wt.textContent.includes("Reprenons la même trajectoire");
     });
     await page.waitForFunction(() => {
-      return document.querySelectorAll(".pedagogical-block").length >= 2;
+      return document.querySelectorAll(".pedagogical-block").length === 1;
     });
+    await expect(
+      page.locator('[data-source-projection="overview"]')
+    ).toHaveCount(0);
+    await expect(page.locator("figure.official-visual")).toHaveCount(1);
   });
 
   test("CN-P-03 notions renders mechanisms content", async ({ page }) => {

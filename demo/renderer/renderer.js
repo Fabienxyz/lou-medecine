@@ -336,6 +336,41 @@ window.LouRenderer = {
         return this.projectionAvailabilityMessage(availability, config);
     },
 
+    /**
+     * Mental-model cleanup (Content Consumption Freeze): one official figure block per element,
+     * story wins over overview for duplicate elementIds, preamble and non-visual blocks dropped.
+     * ReadingViewModel is unchanged — normalization applies at render time only.
+     */
+    normalizeMentalModelBlocks(blocks, manifest) {
+        const seen = new Set();
+        /** @type {Array<Record<string, unknown>>} */
+        const deduped = [];
+        for (const block of blocks || []) {
+            if (!block || !block.elementId || seen.has(block.elementId)) {
+                continue;
+            }
+            seen.add(block.elementId);
+            deduped.push(block);
+        }
+        return deduped.filter(function (block) {
+            const projection = (manifest.projections || []).find(function (p) {
+                return p.id === block.sourceProjectionId;
+            });
+            if (!projection) {
+                return false;
+            }
+            const visualPath = (projection.visuals || {})[block.elementId];
+            return typeof visualPath === "string" && visualPath.length > 0;
+        });
+    },
+
+    mentalModelRenderBlocks(view, manifest) {
+        if (!view || view.viewId !== "mental-model") {
+            return view.blocks || [];
+        }
+        return this.normalizeMentalModelBlocks(view.blocks, manifest);
+    },
+
     createViewRenderContext(view, manifest, chapter, config) {
         const projectionIdsToRestore = [];
         const seen = new Set();
@@ -469,12 +504,18 @@ window.LouRenderer = {
         const host = this.contentEl;
         const pathCache = new Map();
         const combined = document.createDocumentFragment();
+        const renderBlocks = this.mentalModelRenderBlocks(view, manifest);
+        const renderView =
+            view.viewId === "mental-model"
+                ? Object.assign({}, view, { blocks: renderBlocks })
+                : view;
+        const isMentalModel = view.viewId === "mental-model";
 
         this.replayAnimation(host);
         window.LouBlocks.releaseObjectUrls();
 
-        for (let i = 0; i < (view.blocks || []).length; i += 1) {
-            const block = view.blocks[i];
+        for (let i = 0; i < renderBlocks.length; i += 1) {
+            const block = renderBlocks[i];
             const projection = (manifest.projections || []).find(function (p) {
                 return p.id === block.sourceProjectionId;
             });
@@ -491,11 +532,19 @@ window.LouRenderer = {
                 pathCache.set(block.artifactRef, html);
             }
 
-            const blockContext = this.createViewRenderContext(view, manifest, chapter, config);
+            const blockContext = this.createViewRenderContext(
+                renderView,
+                manifest,
+                chapter,
+                config
+            );
             blockContext.projection = Object.assign({}, projection, {
                 elements: [block.elementId],
             });
             blockContext.sourceProjectionId = block.sourceProjectionId;
+            if (isMentalModel) {
+                blockContext.skipPreamble = true;
+            }
 
             combined.appendChild(window.LouBlocks.assemble(html, blockContext));
         }
@@ -503,7 +552,7 @@ window.LouRenderer = {
         host.innerHTML = "";
         host.appendChild(combined);
 
-        const context = this.createViewRenderContext(view, manifest, chapter, config);
+        const context = this.createViewRenderContext(renderView, manifest, chapter, config);
         try {
             await window.LouBlocks.hydrate(host, context);
         } catch (err) {

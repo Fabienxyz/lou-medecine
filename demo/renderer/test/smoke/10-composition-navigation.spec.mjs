@@ -53,7 +53,7 @@ test.describe("Lot D — composition navigation", () => {
     expect(labels).toEqual(VIEW_LABELS);
   });
 
-  test("CN-02 mental-model aggregates story and overview content", async ({
+  test("CN-02 mental-model renders single official figure and story walkthrough", async ({
     page,
   }) => {
     await page.locator(".tab", { hasText: "Modèle mental" }).click();
@@ -64,9 +64,12 @@ test.describe("Lot D — composition navigation", () => {
       return wt && wt.textContent.includes("Reprenons la même trajectoire");
     });
     await page.waitForFunction(() => {
-      const blocks = document.querySelectorAll(".pedagogical-block");
-      return blocks.length >= 2;
+      return document.querySelectorAll(".pedagogical-block").length === 1;
     });
+    await expect(
+      page.locator('[data-source-projection="overview"]')
+    ).toHaveCount(0);
+    await expect(page.locator("figure.official-visual")).toHaveCount(1);
   });
 
   test("CN-03 notions renders mechanisms content", async ({ page }) => {

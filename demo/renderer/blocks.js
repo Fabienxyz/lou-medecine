@@ -64,6 +64,7 @@ window.LouBlocks = {
         const known = new Set(context.projection.elements || []);
         const out = document.createDocumentFragment();
         let walkthrough = null;
+        let skipUntilBoundary = context.skipPreamble === true;
 
         while (source.firstChild) {
             const node = source.firstChild;
@@ -72,7 +73,12 @@ window.LouBlocks = {
                 const isBoundary =
                     node.tagName === "H2" && node.id && known.has(node.id);
                 if (isBoundary) {
+                    skipUntilBoundary = false;
                     walkthrough = this._openBlock(out, node, context);
+                    continue;
+                }
+                if (skipUntilBoundary) {
+                    node.remove();
                     continue;
                 }
                 // Legacy `---` rules separated sections; blocks provide their own separation and

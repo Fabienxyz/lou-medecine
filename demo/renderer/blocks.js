@@ -386,13 +386,27 @@ window.LouBlocks = {
             return null;
         }
         const self = this;
+        const TH = window.LouTextHighlights;
+        const IN = window.LouInlineNotes;
+        const decide = window.LouLearnerOrphanDecision;
+        const filtered =
+            decide && typeof decide.filterOrphans === "function"
+                ? decide.filterOrphans(root, orphans, TH, IN)
+                : orphans;
+        if (!filtered.length) {
+            if (decide && typeof decide.clearAnnotationOrphanRows === "function") {
+                decide.clearAnnotationOrphanRows(root);
+            }
+            return null;
+        }
+
         const panel = this.ensureOrphanPanel(
             root,
             this.LABELS.orphanAnnotationsTitle,
             this.LABELS.orphanAnnotationsHint
         );
 
-        orphans.forEach(function (item) {
+        filtered.forEach(function (item) {
             const record = item.record || {};
             if (record.id != null) {
                 const existing = panel.querySelector(
@@ -468,6 +482,9 @@ window.LouBlocks = {
                 err
             );
         } finally {
+            if (window.LouLearnerOrphanDecision) {
+                window.LouLearnerOrphanDecision.beginRestoreCycle(host);
+            }
             if (window.LouTextHighlights) {
                 await window.LouTextHighlights.mount(host, context);
             }

@@ -112,6 +112,7 @@ describe("Learner annotation lifecycle — composition path", () => {
       "markdown.js",
       "learner-patrimony.js",
       "learner-store.js",
+      "learner-orphan-decision.js",
       "text-highlights.js",
       "caret-anchor.js",
       "inline-notes.js",

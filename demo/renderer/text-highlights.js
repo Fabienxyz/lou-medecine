@@ -270,11 +270,27 @@ window.LouTextHighlights = {
             projection
         );
         const orphans = [];
+        const decide = window.LouLearnerOrphanDecision;
+
         rows.forEach(function (record) {
+            if (decide && typeof decide.evaluateHighlight === "function") {
+                const outcome = decide.evaluateHighlight(
+                    host,
+                    record,
+                    projection,
+                    composition,
+                    self
+                );
+                if (outcome.decision === "orphan") {
+                    orphans.push({ kind: "highlight", record: record });
+                }
+                return;
+            }
+
             const block = self._findBlock(
                 host,
                 record.element,
-                projection,
+                record.projection || projection,
                 composition
             );
             if (!block) {
@@ -303,8 +319,20 @@ window.LouTextHighlights = {
                 orphans.push({ kind: "highlight", record: record });
             }
         });
+
         if (orphans.length && window.LouBlocks) {
-            window.LouBlocks.appendAnnotationOrphans(host, orphans);
+            const filtered =
+                decide && typeof decide.filterOrphans === "function"
+                    ? decide.filterOrphans(
+                          host,
+                          orphans,
+                          self,
+                          window.LouInlineNotes
+                      )
+                    : orphans;
+            if (filtered.length) {
+                window.LouBlocks.appendAnnotationOrphans(host, filtered);
+            }
         }
     },
 

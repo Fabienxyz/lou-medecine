@@ -128,14 +128,42 @@ window.LouInlineNotes = {
         );
         const orphans = [];
         const self = this;
+        const decide = window.LouLearnerOrphanDecision;
+
         rows.forEach(function (record) {
+            if (decide && typeof decide.evaluateNote === "function") {
+                const outcome = decide.evaluateNote(
+                    host,
+                    record,
+                    composition,
+                    self,
+                    window.LouCaretAnchor
+                );
+                if (outcome.decision === "orphan") {
+                    orphans.push({ kind: "note", record: record });
+                }
+                return;
+            }
+
             const result = self._restoreRecord(host, record, composition);
             if (result === "orphan") {
                 orphans.push({ kind: "note", record: record });
             }
         });
+
         if (orphans.length && window.LouBlocks) {
-            window.LouBlocks.appendAnnotationOrphans(host, orphans);
+            const filtered =
+                decide && typeof decide.filterOrphans === "function"
+                    ? decide.filterOrphans(
+                          host,
+                          orphans,
+                          window.LouTextHighlights,
+                          self
+                      )
+                    : orphans;
+            if (filtered.length) {
+                window.LouBlocks.appendAnnotationOrphans(host, filtered);
+            }
         }
     },
 

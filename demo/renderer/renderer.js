@@ -452,6 +452,9 @@ window.LouRenderer = {
     },
 
     async mountLearnerLayers(host, context) {
+        if (window.LouLearnerOrphanDecision) {
+            window.LouLearnerOrphanDecision.beginRestoreCycle(host);
+        }
         if (window.LouTextHighlights) {
             await window.LouTextHighlights.mount(host, context);
         }

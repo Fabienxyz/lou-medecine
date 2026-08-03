@@ -168,6 +168,8 @@ window.LouInlineNotes = {
                 );
                 if (outcome.decision === "orphan") {
                     orphans.push({ kind: "note", record: record });
+                } else {
+                    self._syncRestoredNotePresentation(host, record, composition);
                 }
                 return;
             }
@@ -244,6 +246,37 @@ window.LouInlineNotes = {
         return host.querySelector('.pedagogical-block[data-element="' + element + '"]');
     },
 
+    _applyRestoredNotePresentation(noteEl, recordId) {
+        if (!noteEl || recordId == null || !window.LouAnnotationColors) {
+            return;
+        }
+        const colorId =
+            window.LouAnnotationColors.getRecordColor("note", recordId) ||
+            window.LouAnnotationColors.DEFAULT_NOTE_ID;
+        const formatState =
+            window.LouAnnotationColors.getRecordStyle("note", recordId) ||
+            window.LouAnnotationColors.emptyFormatState();
+        window.LouAnnotationColors.applyNoteColor(noteEl, colorId);
+        window.LouAnnotationColors.applyNoteStyle(noteEl, formatState);
+    },
+
+    _syncRestoredNotePresentation(host, record, composition) {
+        if (!record || record.id == null) {
+            return;
+        }
+        const block = this._findBlock(
+            host,
+            record.element,
+            record.projection,
+            composition
+        );
+        if (!block) {
+            return;
+        }
+        const noteEl = block.querySelector('[data-note-id="' + record.id + '"]');
+        this._applyRestoredNotePresentation(noteEl, record.id);
+    },
+
     // Returns "restored" | "orphan" | "skipped". Never deletes persisted records.
     _restoreRecord(host, record, composition) {
         if (!record || !record.text || !String(record.text).trim()) {
@@ -295,14 +328,7 @@ window.LouInlineNotes = {
         noteEl.dataset.learner = "true";
         noteEl.setAttribute("data-note-id", String(record.id));
         noteEl.textContent = record.text;
-        const colorId =
-            window.LouAnnotationColors.getRecordColor("note", record.id) ||
-            window.LouAnnotationColors.DEFAULT_NOTE_ID;
-        const formatState =
-            window.LouAnnotationColors.getRecordStyle("note", record.id) ||
-            window.LouAnnotationColors.emptyFormatState();
-        window.LouAnnotationColors.applyNoteColor(noteEl, colorId);
-        window.LouAnnotationColors.applyNoteStyle(noteEl, formatState);
+        this._applyRestoredNotePresentation(noteEl, record.id);
 
         range.insertNode(noteEl);
         return "restored";

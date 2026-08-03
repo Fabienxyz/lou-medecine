@@ -118,6 +118,7 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
       "annotation-toolbar.js",
       "annotation-controller.js",
       "text-highlights.js",
+      "learner-orphan-decision.js",
       "inline-notes.js",
       "svg-loader.js",
       "inline-formatting.js",
@@ -128,6 +129,7 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
 
   beforeEach(() => {
     window.indexedDB = new IDBFactory();
+    window.localStorage.clear();
     window.LouLearnerStore.db = null;
     window.LouTextHighlights._boundHost = null;
     const manifest = manifestFixture();
@@ -416,6 +418,27 @@ describe("Walkthrough Notes — restore (commit 4)", () => {
         .textContent,
       "Coexist"
     );
+  });
+
+  test("WT-17 inline note color and style survive reload (orphan decision path)", async () => {
+    const seeded = await seedNote("MEC-oap", "Persist style check", 12);
+    window.LouAnnotationColors.setRecordColor("note", seeded.id, "yellow");
+    window.LouAnnotationColors.setRecordStyle("note", seeded.id, {
+      bold: false,
+      underline: true,
+      strikethrough: false,
+    });
+
+    const content = await renderMechanisms();
+    const note = content.querySelector(
+      '[data-element="MEC-oap"] .walkthrough-note[data-note-id="' + seeded.id + '"]'
+    );
+    assert.ok(note, "note must restore after reload");
+    assert.equal(note.textContent, "Persist style check");
+    assert.equal(note.dataset.noteColor, "yellow");
+    assert.equal(note.style.color, "rgb(146, 64, 14)");
+    assert.equal(note.dataset.noteUnderline, "true");
+    assert.equal(note.style.textDecoration, "underline");
   });
 
   test("mount warns once on global restore failure without throwing", async () => {

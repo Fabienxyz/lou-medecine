@@ -5,7 +5,7 @@
 ## Principe
 
 La Product Review n'est **pas** le mode développement (`?chapter=…` sans `product=1`).  
-Elle consomme la **bibliothèque installée** — même chemin que la CI smoke en mode produit — avec :
+Elle consomme la **bibliothèque installée** — même chemin que le **Product Smoke** (niveau autoritaire automatisé de la pyramide T0) — avec :
 
 - `release_id` stable pendant la construction éditoriale ;
 - `content_digest` comme vérité matérielle du contenu ;
@@ -31,9 +31,9 @@ La bibliothèque d'exécution est `.local/product-review-library/` (gitignored) 
 
 | Mode | URL | Usage |
 |---|---|---|
-| **Product Review** (officiel) | `…&product=1` via script ci-dessus | Vérifier le produit publié après build |
+| **Product Review** (officiel) | `…&product=1` via script ci-dessus | Jalon Product Review (humain) — après gate automatisé vert |
 | Développement Reader | `?chapter=cardio/234` (sans `product=1`) | Ingénierie Reader / CHAPTERS_ROOT direct |
-| Fixture CI | `npm run test:smoke:product` | Non-régression automatisée mode produit (authoritative) |
+| Product Smoke (CI) | `npm run test:smoke:product` | Non-régression automatisée — batterie autoritaire produit |
 
 ## Republication (même `release_id`, nouveau digest)
 
@@ -49,7 +49,7 @@ En cas d'échec bootstrap, le message affiche un code explicite (`DIGEST_DIVERGE
 
 ## Références
 
-- Architecture validation : [`docs/testing/TEST_ARCHITECTURE_V1.md`](../testing/TEST_ARCHITECTURE_V1.md)
+- Architecture validation (pyramide, jalons) : [`docs/testing/TEST_ARCHITECTURE_V1.md`](../testing/TEST_ARCHITECTURE_V1.md)
 - Pré-vol automatisé : [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh)
 - [`demo/renderer/product-bootstrap.mjs`](../../demo/renderer/product-bootstrap.mjs)
 - [`demo/renderer/library/browser-offline-manager.js`](../../demo/renderer/library/browser-offline-manager.js) — `ensureReleaseReady()`

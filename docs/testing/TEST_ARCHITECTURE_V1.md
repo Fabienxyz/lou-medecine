@@ -1,337 +1,288 @@
-# Architecture de validation — Reader V1 (Phase T0)
+# Architecture de validation — Reader V1
 
 | | |
 |---|---|
-| **Type** | Document de référence — **informatif** |
-| **Statut** | En vigueur — 2026-08-03 |
-| **Périmètre** | Toute validation du produit Reader V1 (moteur + consommation + expérience) |
-| **Autorité** | Définit la hiérarchie des batteries ; ne remplace ni les contrats ni les ADR |
-| **Fixture de référence** | Item **234** — Insuffisance cardiaque — édition Collège 2022 |
+| **Type** | Document de référence — **pilotage produit** |
+| **Statut** | En vigueur — 2026-08-03 (Phase T0) |
+| **Périmètre** | Reader V1 = produit complet (Fabrique → consommation → expérience) |
+| **Autorité** | Hiérarchie des validations et critères de jalons ; ne remplace ni contrats, ni ADR |
+| **Chapitre de référence** | Item **234** — Insuffisance cardiaque — édition Collège 2022 |
 
-Ce document réaligne la chaîne de validation sur le **Reader V1 produit complet** — pas uniquement le moteur Composition. Il constitue la source unique pour :
-
-- identifier quelle batterie valide quelle exigence ;
-- prononcer un jalon Reader ;
-- distinguer tests techniques, tests produit et Product Review.
+**À lire en cinq minutes :** ce document répond à trois questions — *qu'est-ce qui valide quoi ?*, *qu'est-ce qui fait foi pour prononcer un jalon ?*, *qu'est-ce qui reste volontairement humain ?*
 
 **Documents connexes :**
 
-- Product Review manuelle : [`docs/renderer/PRODUCT-REVIEW.md`](../renderer/PRODUCT-REVIEW.md)
-- CI gate : [`.github/workflows/ci-234.yml`](../../.github/workflows/ci-234.yml)
-- Script local : [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh)
+- Product Review : [`docs/renderer/PRODUCT-REVIEW.md`](../renderer/PRODUCT-REVIEW.md)
+- État opérationnel : [`docs/PROJECT_STATE.md`](../PROJECT_STATE.md)
+- Shell Reader V1 : [`docs/renderer/20-READER-V1-SHELL-ARCHITECTURE.md`](../renderer/20-READER-V1-SHELL-ARCHITECTURE.md)
+- Gate local : [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh)
 
 ---
 
-## 1. Résumé exécutif
+## 1. Pyramide de validation
 
-### Problème résolu (Phase T0)
-
-Avant T0, plusieurs centaines de tests passaient alors que la Product Review réelle pouvait échouer. Causes identifiées :
-
-1. **Deux chemins d'exécution** — mode développement (`?chapter=…`) vs mode produit (`&product=1`) — seul le second représente le produit livré.
-2. **Service Worker désactivé sous Playwright** pour la majorité des smokes historiques (V2.1 annotations).
-3. **Doublons** entre smokes dev et smokes produit (offline, navigation).
-4. **Absence de hiérarchie** entre tests techniques, tests produit et Product Review.
-
-### Architecture cible — six familles officielles
-
-| Famille | Autorité | Bloquant CI | Prononcé jalon |
-|---|---|---|---|
-| **Validation Fabrique** | Package publié conforme | Oui | Oui |
-| **Validation Contrats** | Obligations composants | Oui | Oui |
-| **Validation Reader technique** | Moteur, modules, dev bootstrap | Oui (unit) / Informatif (smoke dev) | Non seul |
-| **Validation Reader Produit** | Chemin Fabrique → bibliothèque → Reader | Oui | **Oui** |
-| **Product Review** | Observation humaine produit | Non (manuelle) | **Oui** (Phases 7–8) |
-| **Validation CI** | Orchestration gate 234 | — | Agrège les familles bloquantes |
-
-**Règle d'or :** un jalon Reader **ne peut pas** être prononcé sur la seule base des tests mode développement ou des tests unitaires isolés. Le gate produit (`test:smoke:product`) doit être vert.
-
----
-
-## 2. Familles officielles
-
-### 2.1 Validation Fabrique
-
-**Responsabilité unique :** le package publié est valide, reproductible et installable.
-
-| Élément | Emplacement | Fréquence |
-|---|---|---|
-| `lou-build validate` | `tools/lou-build` — stages B→I | CI, pre-commit éditorial, Product Review |
-| `lou-build build` | stages B→K | Publication, Product Review |
-| Tests pipeline JS | `tools/lou-build/test/*.test.js` (176 tests) | `npm run test:ci` |
-| Tests pipeline TS | `pipeline-runner`, `pipeline-config`, `visuals-stage` (22 tests) | `npm run test:ci` |
-| Test intégration slice | `tools/lou-build/test/slice.test.ts` (18 tests) | `npm run test:integration` — **hors gate CI** |
-| Sync fixture Reader | `scripts/sync-reader-fixture.mjs` | CI, Product Review |
-| Outils acquisition | `01-learning/tools/*/test/` | Maintenance acquisition — **hors gate CI** |
-
-**Critères de réussite :** `validate` PASS sur le chapitre cible ; `test:ci` PASS ; fixture Reader synchronisée avec le digest du package source.
-
-**Niveau d'autorité :** **bloquant** pour tout jalon impliquant un package.
-
----
-
-### 2.2 Validation Contrats
-
-**Responsabilité unique :** les composants respectent leurs contrats normatifs (`docs/contracts/components/`).
-
-| Élément | Emplacement | Contrat couvert |
-|---|---|---|
-| `compliance-nc.test.js` | `demo/renderer/test/` | Renderer Component Contract (NC-1…3) |
-| `composition-spec.test.js` | idem | Composition Component Contract |
-| `composition-nominal-path.test.js` | idem | Pas de repli projection-tab sur chemin nominal |
-| `browser-package-access.test.js` | idem | Package Access (D1-D) |
-| `browser-offline-manager.test.js` | idem | Offline (D2) |
-| `browser-offline-stale.test.js` | idem | Offline stale (D2-H) |
-| `local-search-*-validation.test.js` | idem | Local Search (D6-F) |
-| `display-preferences-*-validation.test.js` | idem | Display Preferences (D7-F) |
-| `cognitive-priming-*.test.js` | idem | Cognitive Priming (AP) |
-| `learner-*.test.js`, `session-*.test.js` | idem | Patrimoine, Session (D4, E) |
-| `product-consumption.test.js` | idem | Chemin consommation Phase 0.1 (unit) |
-| `product-bootstrap-errors.test.js` | idem | Diagnostics bootstrap produit |
-| Tests lou-build lib | `library-install`, `package-access`, `offline-*`, `release-identity` | D1, D2, identité release |
-
-**Critères de réussite :** tous les tests contrat PASS dans `npm test` (renderer) et `npm run test:ci` (lou-build).
-
-**Niveau d'autorité :** **bloquant** CI.
-
----
-
-### 2.3 Validation Reader technique
-
-**Responsabilité unique :** le moteur Reader (Composition, rendu, annotations, modules) fonctionne en isolation ou en mode développement.
-
-| Sous-famille | Emplacement | Mode | Autorité jalon |
-|---|---|---|---|
-| **Unit tests renderer** | `demo/renderer/test/*.test.js` (~651 tests) | Node + jsdom/fake-idb | Nécessaire, non suffisant |
-| **Smoke engineering** | `demo/renderer/test/smoke/0[1-9]-*.spec.mjs`, `10-*`, `11-offline-dev` | Browser, `?chapter=` dev | **Informatif** |
-| **Storage unit** | `demo/renderer/test/smoke/07-storage.unit.test.js` | Node | Bloquant CI (via `npm test`) |
-
-**Smokes engineering — périmètre conservé :**
-
-| Fichier | Scénarios | Raison de conservation |
-|---|---|---|
-| `01-creation` … `09-svg-formatting` | Annotations, sélection, DOM | Régression moteur annotations — chemin dev plus rapide |
-| `10-composition-navigation` | CN-01…07 | Régression Composition en dev bootstrap |
-| `11-offline-dev` | OF-DEV-01 | Dégradation college source en dev |
-
-**Smokes engineering — supprimés (T0) :**
-
-| Ancien test | Raison |
-|---|---|
-| `11-offline` OF-01…03 | Doublons de `12-offline-d2g` OF-D2-03/04 sur chemin produit |
-| `11-offline` OF-05 | Déplacé vers `16-product-consumption` PC-04 |
-
-**Critères de réussite :** `npm test` PASS ; `npm run test:smoke:engineering` PASS (informatif pour jalon, bloquant CI merge).
-
----
-
-### 2.4 Validation Reader Produit
-
-**Responsabilité unique :** le produit tel que consommé après publication — bibliothèque installée, mode `product=1`, offline, auto-repair.
-
-| Fichier smoke | ID | Scénarios critiques |
-|---|---|---|
-| `12-offline-d2g.spec.mjs` | OF-D2 | Certification offline, SW, 7 vues offline, Package Access URLs |
-| `13-local-search-d6f.spec.mjs` | LS-F | Recherche locale produit, offline, cache |
-| `14-display-preferences-d7f.spec.mjs` | DP-F | Préférences affichage, persistance, offline |
-| `15-cognitive-priming-apf.spec.mjs` | AP-F | Amorçage, session resume, recherche, offline |
-| `16-product-consumption.spec.mjs` | PC | **Ouverture package publié**, republication même `release_id`, parcours complet |
-| `17-product-composition-navigation.spec.mjs` | CN-P | **Navigation 7 vues** en mode produit (CN-07 planned → dev `10-composition-navigation`) |
-
-**Commande autoritaire :**
-
-```bash
-cd demo/renderer && npm run test:smoke:product
-```
-
-**Critères de réussite :** 100 % PASS ; aucune requête vers `/01-learning/chapters/` en mode produit ; `offline_status` → `offline_ready` après bootstrap.
-
-**Niveau d'autorité :** **bloquant CI** ; **suffisant** pour jalon technique Reader (hors Product Review éditoriale Phases 7–8).
-
----
-
-### 2.5 Product Review
-
-**Responsabilité unique :** observation humaine du produit publié dans les conditions réelles d'usage.
-
-| Élément | Rôle |
-|---|---|
-| [`scripts/product-review-234.sh`](../../scripts/product-review-234.sh) | Procédure canonique : validate → build → install → serveur |
-| URL officielle | `…/index.html?chapter=cardio/234-insuffisance-cardiaque&product=1` |
-| Bibliothèque | `.local/product-review-library/` (gitignored) |
-| Pré-vol automatisé | `scripts/validate-reader-v1.sh` (sans étape manuelle) |
-
-**Relation avec les tests automatisés :**
+Du socle industriel au jugement humain — chaque niveau a un **rôle distinct**. Monter la pyramide ne remplace pas les niveaux inférieurs ; prononcer un jalon produit exige d'atteindre le niveau adapté.
 
 ```
-Validation Fabrique + Contrats + Reader Produit (automatisé)
-        ↓ gate vert
-Product Review (humain, navigateur réel, pas webdriver)
-        ↓ observation OK
-Jalon éditorial (Phases 7–8)
+                    ┌─────────────────────────────┐
+                    │  Validation pédagogique     │  ← Future phase
+                    │  (Lou — qualité d'apprentissage) │
+                    └─────────────────────────────┘
+                              ▲
+                    ┌─────────────────────────────┐
+                    │      Product Review         │  ← Humain, navigateur réel
+                    │  (observation produit publié) │
+                    └─────────────────────────────┘
+                              ▲
+                    ┌─────────────────────────────┐
+                    │    Product Smoke Tests        │  ← Chemin produit autoritaire
+                    │  (bibliothèque + product=1)   │
+                    └─────────────────────────────┘
+                              ▲
+         ┌────────────────────┴────────────────────┐
+         │   Development / Engineering Tests       │  ← Non-régression moteur
+         │   (mode dev, annotations, bootstrap)    │
+         └────────────────────┬────────────────────┘
+                              ▲
+         ┌────────────────────┴────────────────────┐
+         │         Contract Tests                  │  ← Obligations composants
+         └────────────────────┬────────────────────┘
+                              ▲
+         ┌────────────────────┴────────────────────┐
+         │           Unit Tests                    │  ← Modules isolés
+         └────────────────────┬────────────────────┘
+                              ▲
+         ┌────────────────────┴────────────────────┐
+         │       Lou Build Validation              │  ← Package publié conforme
+         └─────────────────────────────────────────┘
 ```
 
-**Critères de réussite :** URL officielle charge 7 vues ; republication sans changement de `release_id` réparée automatiquement ; diagnostics explicites en cas d'échec (`DIGEST_DIVERGENT`, etc.).
+| Niveau | Question posée | Mode d'exécution |
+|---|---|---|
+| **Lou Build Validation** | Le package est-il valide, installable, cohérent ? | CLI `validate` / `build`, tests pipeline |
+| **Unit Tests** | Chaque module fonctionne-t-il isolément ? | Node (`npm test`, `test:ci`) |
+| **Contract Tests** | Les composants respectent-ils leurs contrats ? | Unit tests ciblés contrats |
+| **Development / Engineering Tests** | Le moteur régresse-t-il en mode ingénierie ? | Browser smoke dev (`test:smoke:engineering`) |
+| **Product Smoke Tests** | Le produit publié est-il consommable de bout en bout ? | Browser smoke produit (`test:smoke:product`) |
+| **Product Review** | Le produit est-il acceptable pour Lou ? | Humain via `product-review-234.sh` |
+| **Validation pédagogique** *(réservé)* | La méthode Lou produit-elle un apprentissage efficace ? | Future phase — voir §6 |
 
-**Niveau d'autorité :** **suprême** pour les jalons éditoriaux (Phase 7 Product Review avec Lou, Phase 8 Product Freeze) ; **non automatisée** en CI.
+**Décision T0 conservée :** Product Smoke et Engineering Smoke sont **séparés**. Seul le chemin produit (`&product=1`, bibliothèque installée) représente le produit livré.
 
 ---
 
-### 2.6 Validation CI
+## 2. Philosophie de validation
 
-**Responsabilité unique :** orchestrer les batteries bloquantes sur chaque push/PR `main`.
+### 2.1 Deux chemins, deux vérités
 
-| Step CI | Famille | Bloquant |
+Le Reader s'exécute selon deux bootstraps :
+
+| Chemin | Entrée | Valide |
 |---|---|---|
-| `lou-build validate — package 234` | Fabrique | Oui |
-| `sync-reader-fixture.mjs` | Fabrique | Oui |
-| `npm run test:ci` (lou-build) | Fabrique + Contrats | Oui |
-| `npm test` (renderer) | Contrats + Reader technique | Oui |
-| `npm run test:smoke:product` | Reader Produit | Oui |
-| `npm run test:smoke:engineering` | Reader technique | Oui (merge) / Informatif (jalon) |
+| **Produit** | `?chapter=…&product=1` — bibliothèque installée | Ce que Lou consomme après publication |
+| **Ingénierie** | `?chapter=…` — accès direct au dépôt | Le moteur, plus rapidement, hors cycle publication |
 
-**Script local miroir :** [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh)  
-**Script CI historique :** [`scripts/ci-234.sh`](../../scripts/ci-234.sh) — aligné sur le workflow.
+**Une CI verte en mode ingénierie ne prouve pas un produit fonctionnel.** C'est la leçon centrale de la Phase T0.
 
-**Hors gate CI :** `npm run test:integration` (lou-build slice), outils acquisition, Product Review manuelle.
+### 2.2 Rôle de chaque niveau
+
+**Lou Build Validation** — Socle de confiance matérielle. Sans package valide, aucune validation aval n'a de sens. Couvre le pipeline éditorial (stages B→K), l'identité de release (`release_id`, `content_digest`) et l'installabilité en bibliothèque.
+
+**Unit Tests** — Preuve locale de comportement. Rapides, déterministes, indispensables au développement quotidien. **Ne suffisent pas** à prononcer le produit : ils n'exercient ni le Service Worker réel, ni le cycle publication → consommation.
+
+**Contract Tests** — Pont entre gouvernance normative (`docs/contracts/components/`) et code. Chaque lot Reader (D1, D2, D4, D6, D7, AP…) possède des tests de conformité contractuelle. Autoritaires pour *l'obligation technique* du composant, pas pour l'expérience produit globale.
+
+**Development / Engineering Tests** — Filet de non-régression du moteur. Annotations, sélection, intégrité DOM, navigation Composition en bootstrap dev. **Informatifs pour le prononcé d'un jalon produit** ; bloquants pour le merge `main` (non-régression continue).
+
+**Product Smoke Tests** — **Batterie autoritaire du produit automatisé.** Simule le parcours Fabrique → bibliothèque → bootstrap → 7 vues → offline → modules transverses (recherche, préférences, amorçage, session). C'est le gate de confiance avant toute Product Review.
+
+**Product Review** — Jugement humain dans un navigateur réel (hors webdriver). Seule entrée valide : [`scripts/product-review-234.sh`](../../scripts/product-review-234.sh). Autoritaire pour les jalons éditoriaux (Phases 7–8 RPC 234).
+
+**Validation pédagogique** *(future)* — Au-delà du « ça marche » : « est-ce que Lou apprend mieux ? ». Conditionnée par Validation Corpus V1 et Reference Production Chapter 224 ([PDR-C8](../governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B4](../governance/PRODUCT-DECISION-REGISTRY.md)). Emplacement réservé — aucun test créé en T0.
+
+### 2.3 Règle d'autorité
+
+> **Une exigence fonctionnelle possède une seule batterie autoritaire.  
+> Les autres tests qui la couvrent sont des non-régressions.**
+
+| Type | Rôle | Exemple |
+|---|---|---|
+| **Autoritaire** | Seule preuve recevable pour prononcer le jalon sur cette exigence | Offline intégral → Product Smoke `12-offline-d2g` |
+| **Non-régression** | Détecte une régression plus tôt ou plus finement, sans faire foi seul | Offline → unit `browser-offline-manager.test.js` |
+| **Hors chemin nominal** | Documente un comportement legacy ou de repli — ne pas confondre avec le produit | Fallback prototype 5 onglets → `compliance-nc` NC-3 |
+
+En cas de conflit entre batteries (l'une passe, l'autre échoue), **c'est la batterie autoritaire qui tranche**.
+
+### 2.4 Relation Product Review ↔ automatisé
+
+```
+Lou Build + Unit + Contrats + Product Smoke  →  gate automatisé vert
+                        ↓
+              Product Review (humain)
+                        ↓
+           Jalon éditorial / Product Freeze
+```
+
+Le pré-vol automatisé (`validate-reader-v1.sh`) exécute le gate. La Product Review **ne remplace pas** ce gate — elle le **complète**.
 
 ---
 
-## 3. Cartographie des responsabilités
+## 3. Batteries autoritaires par domaine
 
-### 3.1 Exigences → batterie autoritaire
+Cartographie conceptuelle — une exigence, une autorité. Les tests unitaires et engineering listés implicitement sont des non-régressions.
 
-| Exigence | Batterie autoritaire | Doublons acceptés |
+| Domaine / exigence | Batterie autoritaire | Niveau pyramide |
 |---|---|---|
-| Package 234 valide (PDR-B2) | `lou-build validate` | — |
-| Pipeline build reproductible | `lou-build test:ci` | `test:integration` (slice, hors gate) |
-| Identité release (`release_id`, digest) | `release-identity.test.js`, `composition-runtime-identity.test.js` | — |
-| Installation bibliothèque atomique | `library-install.test.js`, `sync-reader-fixture.test.js` | — |
-| Composition 7 vues | `17-product-composition-navigation` (produit), `composition-engine.test.js` (unit) | `10-composition-navigation` (dev, informatif) |
-| Certification offline | `12-offline-d2g` (produit) | `browser-offline-manager.test.js` (unit) |
-| Auto-repair digest / republication | `product-consumption.test.js` (unit, digest drift) ; `16-product-consumption` PC-02 (resync browser) | — |
-| Service Worker bootstrap | `12-offline-d2g` OF-D2-10, `16-product-consumption` PC-01 | — |
-| Recherche locale | `13-local-search-d6f` | `local-search-*.test.js` (unit) |
-| Préférences affichage | `14-display-preferences-d7f` | `display-preferences-*.test.js` (unit) |
-| Amorçage cognitif | `15-cognitive-priming-apf` | `cognitive-priming-*.test.js` (unit) |
-| Reprise session | `15-cognitive-priming-apf` AP-F-08 | `session-*.test.js` (unit) |
-| Annotations / surlignage | `01-creation` … `08-robustness` (engineering) | tests unit `walkthrough-notes-*`, `text-highlights` |
-| Patrimoine export/import | `learner-snapshot*.test.js` | — |
-| Diagnostics bootstrap produit | `product-bootstrap-errors.test.js` | — |
-| Fallback legacy prototype | `compliance-nc.test.js` NC-3, `renderer.test.js` | **Hors chemin nominal** — ne pas confondre avec produit |
-| Product Review réelle | `product-review-234.sh` | Pré-vol : `validate-reader-v1.sh` |
+| Package publié conforme (PDR-B2) | `lou-build validate` | Lou Build |
+| Pipeline build reproductible | `lou-build test:ci` | Lou Build |
+| Identité release (`release_id`, digest) | Tests release-identity + composition-runtime-identity | Contrats |
+| Installation bibliothèque atomique | Tests library-install + sync fixture | Contrats |
+| Obligation composant (D1, D2, D4, D6, D7, AP…) | Tests *-validation du lot concerné | Contrats |
+| Composition 7 vues (navigation) | Product Smoke `17-product-composition-navigation` | Product Smoke |
+| Certification offline intégrale | Product Smoke `12-offline-d2g` | Product Smoke |
+| Ouverture package publié / consommation | Product Smoke `16-product-consumption` | Product Smoke |
+| Auto-repair digest (republication) | Unit `product-consumption.test.js` | Contrats |
+| Recherche locale | Product Smoke `13-local-search-d6f` | Product Smoke |
+| Préférences d'affichage | Product Smoke `14-display-preferences-d7f` | Product Smoke |
+| Amorçage cognitif | Product Smoke `15-cognitive-priming-apf` | Product Smoke |
+| Reprise de session (vue Amorçage) | Product Smoke AP-F-08 | Product Smoke |
+| Annotations / surlignage | Engineering Smoke `01`…`08` | Engineering *(non-régression)* |
+| Patrimoine export / import | Unit learner-snapshot* | Contrats |
+| Diagnostics bootstrap produit | Unit `product-bootstrap-errors` | Contrats |
+| Acceptabilité produit pour Lou | Product Review (`product-review-234.sh`) | Product Review |
+| Qualité pédagogique Lou | *(réservé — §6)* | Validation pédagogique |
 
-### 3.2 Zones sans couverture automatisée (acceptées)
+**Cas particulier — vue « planned » sans artefact :** autoritaire en mode ingénierie (`10-composition-navigation` CN-07), car le cache offline produit empêche la mutation de manifest en smoke produit.
 
-| Scénario | Statut | Mitigation |
-|---|---|---|
-| Product Review visuelle / UX Lou | Manuel — Phase 7 | Script canonique |
-| Multi-chapitres bibliothèque | N/A — un seul chapitre complet | Extension post-224 |
-| Second chapitre smoke | N/A | Fixture 234 suffisante V1 |
-| Build SVG byte-identique CI | Dette ouverte (PROJECT_STATE) | Hors périmètre T0 |
+**Shell Reader V1 :** les Product Smokes valident le chemin produit incluant le chrome actuel. Les critères d'acceptation Shell formalisés ([`20-READER-V1-SHELL-ARCHITECTURE.md` §9](../renderer/20-READER-V1-SHELL-ARCHITECTURE.md)) seront prononcés lors de l'implémentation Shell — hors périmètre T0.
 
 ---
 
-## 4. Scénarios critiques — couverture T0
+## 4. Ce qui n'est volontairement pas automatisé
 
-| Scénario | Avant T0 | Après T0 |
+| Élément | Raison | Mitigation |
 |---|---|---|
-| Product Review réelle (mode produit) | Script existant, non aligné CI | Gate produit + script + doc |
-| Republication même `release_id` | Unit (`product-consumption.test.js`) + resync browser (`PC-02`) | **PC-02** resync + unit auto-repair |
-| Bootstrap Service Worker | Partiel (OF-D2-10) | **PC-01**, OF-D2-10 |
-| Parcours utilisateur complet | Fragmenté dev/produit | **PC-03** |
-| Reprise session | AP-F-08 (Amorçage) | Inchangé — autoritaire |
-| Recherche | LS-F-* | Inchangé — autoritaire |
-| Préférences | DP-F-* | Inchangé — autoritaire |
-| Navigation Reader 7 vues | CN-* dev seulement | **CN-P-*** produit |
-| Transitions entre vues | CN-P, LS-F, AP-F | Couvert |
-| Ouverture package publié | Non gate CI | **PC-01** |
+| **Product Review visuelle / UX Lou** | Le jugement d'usage réel ne se délègue pas à Playwright | Script canonique + Phases 7–8 |
+| **Validation pédagogique Lou** | Métrique d'apprentissage, pas de conformité technique | Future phase — §6 |
+| **Multi-chapitres en bibliothèque** | Un seul chapitre complet (234) en V1 | Extension post-224 |
+| **Build SVG byte-identique** | Dette reproductibilité — hors périmètre produit Reader | Suivi PROJECT_STATE |
+| **Slice pipeline complet** | Coût ; couverture partielle suffisante pour le gate | `test:integration` hors gate CI |
+| **Outils acquisition PDF** | Maintenance parallèle, hors chemin Reader | Tests locaux outils |
+| **Sélection souris réelle (toolbar)** | Fragile en CI ; couverture partielle par API interne | Vérification manuelle si besoin |
+| **Service Worker sous webdriver historique** | Limitation connue corrigée T0 pour Product Smoke ; Engineering Smoke reste sans SW | Product Smoke = autorité offline |
 
 ---
 
-## 5. Inventaire complet des suites
+## 5. Validation pédagogique — Future phase
 
-### 5.1 Synthèse quantitative (fixture 234)
+**Statut :** emplacement réservé. Aucun test créé en T0.
 
-| Suite | Commande | Tests | Gate CI |
-|---|---|---:|---|
-| lou-build JS | `npm run test:ci` (partie 1) | 176 | Oui |
-| lou-build TS | `npm run test:ci` (partie 2) | 22 | Oui |
-| lou-build integration | `npm run test:integration` | 18 | Non |
-| Renderer unit | `npm test` | ~651 | Oui |
-| Smoke product | `npm run test:smoke:product` | ~72 | Oui |
-| Smoke engineering | `npm run test:smoke:engineering` | ~57 | Oui (informatif jalon) |
-| **Total gate CI** | | **~978** | |
+**Intention :** mesurer si la méthode Lou produit un apprentissage efficace — au-delà de « le Reader affiche correctement le contenu ».
 
-### 5.2 Scripts de validation
+**Séquencement projet :**
+
+1. Reference Product Chapter 234 — Phases 2–8 (produit)
+2. Reference Production Chapter 224 — Phase 9 (industrialisation)
+3. Validation Corpus V1 ([PDR-C8](../governance/PRODUCT-DECISION-REGISTRY.md))
+4. **Validation pédagogique Lou** ([PDR-B4](../governance/PRODUCT-DECISION-REGISTRY.md))
+
+**Relation avec cette architecture :** la validation pédagogique **s'ajoutera au sommet de la pyramide**. Elle ne remplacera ni Product Smoke ni Product Review — elle portera sur une question différente : *est-ce que Lou apprend mieux avec ce contenu et cette méthode ?*
+
+**Prérequis identifiés :** corpus qualifié, chapitres de référence validés en production (224), critères pédagogiques Lou formalisés.
+
+---
+
+## 6. Prononcé des jalons
+
+Trois types de jalons — trois niveaux de preuve.
+
+### 6.1 Jalon technique
+
+**Question :** *le moteur et le chemin produit automatisé sont-ils sains ?*
+
+**Conditions (toutes requises) :**
+
+1. Lou Build Validation — `validate` PASS sur le chapitre concerné
+2. Unit Tests + Contract Tests — gate CI vert
+3. Product Smoke Tests — `test:smoke:product` PASS
+
+**Exemples :** clôture d'un lot Reader (Dn), merge `main`, livraison d'une capacité transverse.
+
+**Non suffisant pour :** Product Freeze, validation éditoriale avec Lou.
+
+### 6.2 Publication
+
+**Question :** *le package est-il publiable et consommable ?*
+
+**Conditions (toutes requises) :**
+
+1. Jalon technique (§6.1)
+2. `lou-build build` PASS — package matérialisé
+3. Installation bibliothèque vérifiée (sync fixture ou `library:install`)
+4. Product Smoke PASS sur le digest publié
+
+**Exemples :** publication intermédiaire 234, republication même `release_id` avec nouveau `content_digest`.
+
+### 6.3 Product Review
+
+**Question :** *le produit est-il acceptable pour Lou dans un usage réel ?*
+
+**Conditions (toutes requises) :**
+
+1. Publication (§6.2)
+2. Gate automatisé complet (`validate-reader-v1.sh`) vert
+3. Product Review manuelle via [`product-review-234.sh`](../../scripts/product-review-234.sh) — observation OK dans navigateur réel
+4. Sept vues utilisables ; republication sans intervention manuelle cache
+
+**Exemples :** Phase 7 RPC 234 (Product Review avec Lou), Phase 8 (Product Freeze).
+
+**Autorité :** suprême pour les décisions éditoriales et le gel produit.
+
+---
+
+## 7. Orchestration CI et scripts
+
+La CI ([`.github/workflows/ci-234.yml`](../../.github/workflows/ci-234.yml)) exécute la pyramide du bas vers le Product Smoke. Engineering Smoke est inclus pour non-régression merge, pas pour le prononcé jalon produit.
 
 | Script | Usage |
 |---|---|
-| `scripts/validate-reader-v1.sh` | Gate locale complet — batteries autoritaires |
-| `scripts/ci-234.sh` | Parité CI GitHub Actions |
-| `scripts/product-review-234.sh` | Product Review manuelle |
-| `scripts/sync-reader-fixture.mjs` | Sync package → fixture bibliothèque |
+| [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh) | Gate local — parcours complet automatisé |
+| [`scripts/ci-234.sh`](../../scripts/ci-234.sh) | Parité locale ↔ CI |
+| [`scripts/product-review-234.sh`](../../scripts/product-review-234.sh) | Product Review manuelle |
+| [`scripts/sync-reader-fixture.mjs`](../../scripts/sync-reader-fixture.mjs) | Sync package → fixture bibliothèque |
+
+**Commandes clés :**
+
+```bash
+./scripts/validate-reader-v1.sh              # gate automatisé complet
+cd demo/renderer && npm run test:smoke:product   # Product Smoke seul (authoritative)
+./scripts/product-review-234.sh              # Product Review (humain)
+```
 
 ---
 
-## 6. Critères de prononcé des jalons
+## 8. Maintenance et évolution
 
-### Jalon technique Reader (ex. clôture lot Dn)
-
-1. `lou-build validate` PASS sur package concerné
-2. `npm run test:ci` PASS
-3. `npm test` PASS
-4. `npm run test:smoke:product` PASS
-
-### Jalon éditorial RPC 234 (Phases 7–8)
-
-1. Critères techniques ci-dessus
-2. Product Review via `./scripts/product-review-234.sh` — observation humaine OK
-3. Pas de régression sur les 7 vues produit
-
-### Merge `main` (CI)
-
-Identique au jalon technique — engineering smokes inclus pour non-régression dev.
+1. **Nouvelle exigence fonctionnelle** → identifier ou créer **une** batterie autoritaire ; documenter ici.
+2. **Nouveau test** → classer : autoritaire ou non-régression. En cas de doute, favoriser Product Smoke pour les exigences produit.
+3. **Nouvelle suite dev** → justifier pourquoi elle n'est pas en Product Smoke.
+4. **Second chapitre complet** → étendre les Product Smokes ; conserver la règle d'autorité unique.
+5. **Compteurs de tests** → ne pas figer dans ce document ni dans PROJECT_STATE ; la pyramide et les commandes gate suffisent.
 
 ---
 
-## 7. Changelog Phase T0
+## 9. Acquis Phase T0 (historique)
 
-### Ajouté
+La Phase T0 a réaligné la validation sur le produit complet :
 
-| Élément | Description |
-|---|---|
-| `docs/testing/TEST_ARCHITECTURE_V1.md` | Ce document |
-| `demo/renderer/test/smoke/16-product-consumption.spec.mjs` | PC-01…04 — chemin consommation produit |
-| `demo/renderer/test/smoke/17-product-composition-navigation.spec.mjs` | CN-P-01…07 — navigation mode produit |
-| `demo/renderer/test/smoke/product-helpers.mjs` | Helpers partagés mode produit |
-| `demo/renderer/test/smoke/11-offline-dev.spec.mjs` | Remplace `11-offline` — scénario dev unique |
-| `scripts/validate-reader-v1.sh` | Gate locale autoritaire |
-| Playwright projects `product` / `engineering` | Séparation autorité |
-| `npm run test:smoke:product` / `:engineering` | Commandes ciblées |
+- Séparation **Product Smoke** / **Engineering Smoke** (Playwright projects)
+- Smokes produit autoritaires : consommation (`16`), navigation (`17`), lots D2/D6/D7/AP-F
+- Suppression des doublons offline dev (`11-offline` → `11-offline-dev`)
+- Script gate unifié `validate-reader-v1.sh`
+- Product Review documentée comme niveau distinct et supérieur
 
-### Supprimé
-
-| Élément | Raison |
-|---|---|
-| `11-offline.spec.mjs` OF-01…03 | Doublons `12-offline-d2g` |
-| `11-offline.spec.mjs` OF-05 | Déplacé PC-04 |
-
-### Modifié
-
-| Élément | Changement |
-|---|---|
-| `10-composition-navigation.spec.mjs` | Marqué engineering ; CN-04 sans footer-nav legacy |
-| `composition-runtime-identity.test.js` | Aligné — pas de footer-nav sur scénarios |
-| `.github/workflows/ci-234.yml` | Steps nommés par famille ; gate produit explicite |
-| `scripts/ci-234.sh` | Aligné validate-reader-v1 |
-| `docs/PROJECT_STATE.md`, `docs/HANDOVER.md` | Référence architecture validation |
+Détail des fichiers touchés : commits `e4f733c`, `69310e8`.
 
 ---
 
-## 8. Maintenance
-
-- Toute nouvelle exigence Reader doit être rattachée à **une** batterie autoritaire dans ce document.
-- Toute suite smoke mode dev doit être justifiée dans §2.3 — sinon migrer vers mode produit.
-- Les compteurs de tests dans `PROJECT_STATE.md` doivent refléter les commandes gate CI, pas les totaux spéculatifs.
-- En cas de second chapitre complet : dupliquer la fixture, étendre les smokes produit — ne pas coder en dur 234 dans le Reader (déjà générique).
+*Architecture de validation Reader V1 — Phase T0 — document de pilotage. Non normatif sur le plan technique ; autoritaire sur la hiérarchie des validations.*

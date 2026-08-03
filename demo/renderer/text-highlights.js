@@ -1,14 +1,12 @@
 // Text selection highlights (Renderer V2.1).
 //
 // Learner-owned overlays on official walkthrough prose. Stored separately from generated content;
-// applied after block assembly. Scoped to [data-official="true"] walkthrough containers.
+// applied after block assembly. Scoped to [data-official="true"] pedagogical containers.
 window.LouTextHighlights = {
-    LABEL: "Surligner",
     HIGHLIGHT_CLASS: "learner-highlight",
     CONTEXT_CHARS: 32,
 
-    _toolbar: null,
-    _toolbarRoot: null,
+    _palette: null,
     _boundHost: null,
     _bindContext: null,
     _selectionContext: null,
@@ -51,7 +49,7 @@ window.LouTextHighlights = {
         this.dismissToolbar();
 
         host.addEventListener("mouseup", function (event) {
-            if (event.target.closest(".highlight-toolbar")) {
+            if (event.target.closest("." + window.LouAnnotationColorPalette.CLASS)) {
                 return;
             }
             window.requestAnimationFrame(function () {
@@ -59,18 +57,27 @@ window.LouTextHighlights = {
             });
         });
 
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape") {
-                self.dismissToolbar();
-            }
-        });
+        if (!this._onDocumentKeydown) {
+            this._onDocumentKeydown = function (event) {
+                if (event.key === "Escape") {
+                    self.dismissToolbar();
+                }
+            };
+            document.addEventListener("keydown", this._onDocumentKeydown);
+        }
 
-        document.addEventListener("mousedown", function (event) {
-            if (!self._toolbar || self._toolbar.contains(event.target)) {
-                return;
-            }
-            self.dismissToolbar();
-        });
+        if (!this._onDocumentMousedown) {
+            this._onDocumentMousedown = function (event) {
+                if (
+                    self._palette &&
+                    self._palette.element.contains(event.target)
+                ) {
+                    return;
+                }
+                self.dismissToolbar();
+            };
+            document.addEventListener("mousedown", this._onDocumentMousedown);
+        }
     },
 
     _onSelectionChange(host, context) {
@@ -81,8 +88,11 @@ window.LouTextHighlights = {
         }
 
         const range = selection.getRangeAt(0);
-        const walkthrough = this._officialWalkthrough(range.commonAncestorContainer, host);
-        if (!walkthrough || !walkthrough.contains(range.commonAncestorContainer)) {
+        const officialRoot = window.LouAnnotationColors.annotatableRoot(
+            range.commonAncestorContainer,
+            host
+        );
+        if (!officialRoot || !officialRoot.contains(range.commonAncestorContainer)) {
             this.dismissToolbar();
             return;
         }
@@ -91,7 +101,7 @@ window.LouTextHighlights = {
             return;
         }
 
-        const block = walkthrough.closest(".pedagogical-block");
+        const block = officialRoot.closest(".pedagogical-block");
         if (!block) {
             this.dismissToolbar();
             return;
@@ -100,27 +110,12 @@ window.LouTextHighlights = {
         this._selectionContext = {
             host: host,
             context: context,
-            walkthrough: walkthrough,
+            officialRoot: officialRoot,
             element: block.dataset.element,
             sourceProjection: block.dataset.sourceProjection || null,
             range: range.cloneRange(),
         };
-        this._showToolbar(range);
-    },
-
-    _officialWalkthrough(node, host) {
-        if (!node) {
-            return null;
-        }
-        const el = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
-        if (!el) {
-            return null;
-        }
-        const walkthrough = el.closest("[data-official='true']");
-        if (!walkthrough || !host.contains(walkthrough)) {
-            return null;
-        }
-        return walkthrough;
+        this._showPalette(range);
     },
 
     _selectionInsideHighlight(range) {
@@ -129,39 +124,42 @@ window.LouTextHighlights = {
         return !!(el && el.closest("." + this.HIGHLIGHT_CLASS));
     },
 
-    _showToolbar(range) {
+    _ensurePalette() {
+        if (this._palette) {
+            return this._palette;
+        }
+        const self = this;
+        this._palette = window.LouAnnotationColorPalette.create({
+            ariaLabel: "Couleurs de surlignage",
+            colorLabelPrefix: "Surlignage ",
+            selectedColorId: window.LouAnnotationColors.getLastHighlightColorId(),
+            onSelect: function (colorId) {
+                self._applyCurrentSelection(colorId);
+            },
+        });
+        return this._palette;
+    },
+
+    _showPalette(range) {
         const rect = range.getBoundingClientRect();
-        if (!rect.width && !rect.height) {
-            return;
-        }
-
-        if (!this._toolbar) {
-            const toolbar = document.createElement("div");
-            toolbar.className = "highlight-toolbar";
-            toolbar.setAttribute("role", "toolbar");
-            toolbar.setAttribute("aria-label", "Surlignage");
-
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "highlight-toolbar-btn";
-            button.textContent = this.LABEL;
-            button.addEventListener("click", function () {
-                LouTextHighlights._applyCurrentSelection();
-            });
-            toolbar.appendChild(button);
-            this._toolbar = toolbar;
-            document.body.appendChild(toolbar);
-        }
-
-        this._toolbar.style.left = Math.max(8, rect.left + window.scrollX) + "px";
-        this._toolbar.style.top =
-            Math.max(8, rect.top + window.scrollY - this._toolbar.offsetHeight - 8) + "px";
-        this._toolbar.hidden = false;
+        const palette = this._ensurePalette();
+        palette.setSelectedColorId(window.LouAnnotationColors.getLastHighlightColorId());
+        palette.showNearRect(
+            {
+                left: rect.left,
+                top: rect.top,
+                width: Math.max(rect.width, 1),
+                height: Math.max(rect.height, 1),
+                right: rect.right,
+                bottom: rect.bottom,
+            },
+            true
+        );
     },
 
     dismissToolbar() {
-        if (this._toolbar) {
-            this._toolbar.hidden = true;
+        if (this._palette) {
+            this._palette.hide();
         }
         this._selectionContext = null;
         const selection = window.getSelection();
@@ -170,20 +168,20 @@ window.LouTextHighlights = {
         }
     },
 
-    _applyCurrentSelection() {
+    _applyCurrentSelection(colorId) {
         const ctx = this._selectionContext;
         if (!ctx) {
             return;
         }
 
         const range = ctx.range;
-        const selector = this.selectorFromRange(ctx.walkthrough, range);
+        const selector = this.selectorFromRange(ctx.officialRoot, range);
         if (!selector || !selector.exact) {
             this.dismissToolbar();
             return;
         }
 
-        const wrapped = this.wrapRangeInMark(range);
+        const wrapped = this.wrapRangeInMark(range, colorId);
         if (!wrapped) {
             this.dismissToolbar();
             return;
@@ -210,10 +208,23 @@ window.LouTextHighlights = {
             this.dismissToolbar();
             return;
         }
+        const chosenColor = window.LouAnnotationColors.normalizeColorId(
+            colorId,
+            window.LouAnnotationColors.getLastHighlightColorId()
+        );
+        window.LouAnnotationColors.setLastHighlightColorId(chosenColor);
         const self = this;
         store
             .addTextHighlight(ctx.context.chapter, projection, ctx.element, selector)
-            .then(function () {
+            .then(function (id) {
+                if (id != null) {
+                    window.LouAnnotationColors.setRecordColor(
+                        "highlight",
+                        id,
+                        chosenColor
+                    );
+                    wrapped.dataset.highlightId = String(id);
+                }
                 self.dismissToolbar();
             })
             .catch(function () {
@@ -222,18 +233,22 @@ window.LouTextHighlights = {
             });
     },
 
-    _isSelectorSatisfiedInWalkthrough(walkthrough, selector) {
-        if (!walkthrough || !selector || !selector.exact) {
+    _isSelectorSatisfiedInOfficialRoot(officialRoot, selector) {
+        if (!officialRoot || !selector || !selector.exact) {
             return false;
         }
         const exact = String(selector.exact);
-        const marks = walkthrough.querySelectorAll("." + this.HIGHLIGHT_CLASS);
+        const marks = officialRoot.querySelectorAll("." + this.HIGHLIGHT_CLASS);
         for (let i = 0; i < marks.length; i += 1) {
             if (marks[i].textContent.includes(exact)) {
                 return true;
             }
         }
         return false;
+    },
+
+    _isSelectorSatisfiedInWalkthrough(walkthrough, selector) {
+        return this._isSelectorSatisfiedInOfficialRoot(walkthrough, selector);
     },
 
     _findBlock(host, element, projectionId, composition) {
@@ -253,6 +268,17 @@ window.LouTextHighlights = {
             return null;
         }
         return host.querySelector('.pedagogical-block[data-element="' + element + '"]');
+    },
+
+    _findRangeInBlock(block, selector) {
+        const roots = window.LouAnnotationColors.officialRootsInBlock(block);
+        for (let i = 0; i < roots.length; i += 1) {
+            const range = this.findRangeForSelector(roots[i], selector);
+            if (range) {
+                return range;
+            }
+        }
+        return null;
     },
 
     async restore(host, context) {
@@ -297,23 +323,34 @@ window.LouTextHighlights = {
                 orphans.push({ kind: "highlight", record: record });
                 return;
             }
-            const walkthrough = block.querySelector(".block-walkthrough");
-            if (!walkthrough) {
-                orphans.push({ kind: "highlight", record: record });
-                return;
-            }
-            const range = self.findRangeForSelector(walkthrough, record.selector);
+            const range = self._findRangeInBlock(block, record.selector);
             if (range && !self._rangeAlreadyHighlighted(range)) {
-                self.wrapRangeInMark(range);
+                const colorId =
+                    window.LouAnnotationColors.getRecordColor(
+                        "highlight",
+                        record.id
+                    ) || window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID;
+                const mark = self.wrapRangeInMark(range, colorId);
+                if (mark && record.id != null) {
+                    mark.dataset.highlightId = String(record.id);
+                }
                 return;
             }
             if (!range) {
-                if (
-                    self._isSelectorSatisfiedInWalkthrough(
-                        walkthrough,
-                        record.selector
-                    )
-                ) {
+                const roots = window.LouAnnotationColors.officialRootsInBlock(block);
+                let satisfied = false;
+                for (let i = 0; i < roots.length; i += 1) {
+                    if (
+                        self._isSelectorSatisfiedInOfficialRoot(
+                            roots[i],
+                            record.selector
+                        )
+                    ) {
+                        satisfied = true;
+                        break;
+                    }
+                }
+                if (satisfied) {
                     return;
                 }
                 orphans.push({ kind: "highlight", record: record });
@@ -380,10 +417,11 @@ window.LouTextHighlights = {
         return null;
     },
 
-    wrapRangeInMark(range) {
+    wrapRangeInMark(range, colorId) {
         const mark = document.createElement("mark");
         mark.className = this.HIGHLIGHT_CLASS;
         mark.dataset.learner = "true";
+        window.LouAnnotationColors.applyHighlightColor(mark, colorId);
 
         try {
             range.surroundContents(mark);
@@ -434,9 +472,6 @@ window.LouTextHighlights = {
         let startSet = false;
         let endSet = false;
 
-        // Global offsets are half-open [start, end). Using strict comparisons at node
-        // boundaries avoids overwriting setEnd when end === nodeStart of a later node
-        // (e.g. after prior marks split the walkthrough text nodes).
         this._forEachTextNode(root, function (node, nodeStart, nodeLen) {
             const nodeEnd = nodeStart + nodeLen;
             if (!startSet && start < nodeEnd) {

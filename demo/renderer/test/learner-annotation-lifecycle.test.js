@@ -113,6 +113,8 @@ describe("Learner annotation lifecycle — composition path", () => {
       "learner-patrimony.js",
       "learner-store.js",
       "learner-orphan-decision.js",
+      "annotation-colors.js",
+      "annotation-color-palette.js",
       "text-highlights.js",
       "caret-anchor.js",
       "inline-notes.js",

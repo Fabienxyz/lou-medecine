@@ -14,19 +14,21 @@
 
 <div class="container">
 
-<header class="shell-header">
+<header class="shell-chrome">
 
 <div class="shell-header-row">
 <nav id="shell-breadcrumb" class="shell-breadcrumb" aria-label="Fil d'Ariane"></nav>
 <div class="shell-actions">
-    <button type="button" id="local-search-trigger" class="local-search-trigger" hidden aria-label="Rechercher dans cette Release" aria-expanded="false" aria-controls="local-search-root">Rechercher</button>
+    <button type="button" id="local-search-trigger" class="local-search-trigger shell-icon-btn" hidden aria-label="Rechercher dans cette Release" aria-expanded="false" aria-controls="local-search-root">
+        <span class="shell-icon-btn-glyph" aria-hidden="true">⌕</span>
+    </button>
     <div id="display-preferences-root" class="display-preferences-root" hidden aria-label="Préférences d'affichage"></div>
 </div>
 </div>
 
-</header>
-
 <div class="tabs" id="tabs"></div>
+
+</header>
 
 <div class="content" id="content"></div>
 
@@ -50,6 +52,8 @@
 <script src="learner-orphan-decision.js"></script>
 <script src="session-service.js"></script>
 <script src="session-resume.js"></script>
+<script src="annotation-colors.js"></script>
+<script src="annotation-color-palette.js"></script>
 <script src="text-highlights.js"></script>
 <script src="caret-anchor.js"></script>
 <script src="inline-notes.js"></script>

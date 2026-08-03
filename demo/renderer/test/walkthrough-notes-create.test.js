@@ -119,6 +119,8 @@ describe("Walkthrough Notes — create (commit 5)", () => {
       "learner-patrimony.js",
       "learner-store.js",
       "caret-anchor.js",
+      "annotation-colors.js",
+      "annotation-color-palette.js",
       "text-highlights.js",
       "inline-notes.js",
       "svg-loader.js",
@@ -136,6 +138,15 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     window.LouInlineNotes._activeEditNote = null;
     window.LouInlineNotes._committing = false;
     window.LouInlineNotes._hideContextMenu();
+    if (window.LouInlineNotes._noteColorPalette) {
+      window.LouInlineNotes._noteColorPalette.destroy();
+      window.LouInlineNotes._noteColorPalette = null;
+    }
+    window.LouInlineNotes._pendingColorNote = null;
+    if (window.LouTextHighlights._palette) {
+      window.LouTextHighlights._palette.destroy();
+      window.LouTextHighlights._palette = null;
+    }
 
     const manifest = manifestFixture();
     window.LouRenderer.init(window.document.getElementById("content"), null);
@@ -197,9 +208,23 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     return { walkthrough, menu, button, range };
   }
 
+  async function waitForNotePalette() {
+    for (let i = 0; i < 30; i += 1) {
+      await flushPromises();
+      const palette = window.document.querySelector(".annotation-color-palette");
+      if (palette && palette.hidden === false) {
+        return palette;
+      }
+    }
+    return null;
+  }
+
   async function createPendingNote(content, elementId = "MEC-oap", offset = 12) {
     const { button } = await openCreateMenu(content, elementId, offset);
     button.click();
+    const palette = await waitForNotePalette();
+    assert.ok(palette, "note color palette visible");
+    palette.querySelector(".annotation-color-palette-swatch").click();
     await flushPromises();
     const note = content.querySelector(
       '[data-element="' + elementId + '"] .walkthrough-note:not([data-note-id])'
@@ -423,6 +448,13 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     await openCreateMenu(content, "MEC-oap", 30);
     const menu = window.document.querySelector(".inline-notes-context-menu");
     menu.querySelector("button").click();
+    await flushPromises();
+    await window.LouInlineNotes._waitForCommitIdle();
+    const palette = await waitForNotePalette();
+    assert.ok(palette, "second note palette visible");
+    palette.querySelector(".annotation-color-palette-swatch").click();
+    await flushPromises();
+    await window.LouInlineNotes._waitForCommitIdle();
     for (let attempt = 0; attempt < 50; attempt++) {
       await flushPromises();
       await window.LouInlineNotes._waitForCommitIdle();

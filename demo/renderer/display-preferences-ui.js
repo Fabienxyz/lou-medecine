@@ -47,7 +47,12 @@
         let readingWidthSelect = null;
         /** @type {HTMLButtonElement | null} */
         let resetButton = null;
+        /** @type {HTMLButtonElement | null} */
+        let triggerButton = null;
+        /** @type {HTMLElement | null} */
+        let popover = null;
         let mounted = false;
+        let open = false;
         let applyingUiSync = false;
         let patchChain = Promise.resolve();
 
@@ -144,16 +149,57 @@
             applyingUiSync = false;
         }
 
-        function mount() {
-            if (mounted) {
-                syncFromRuntime();
+        function positionPopover() {
+            if (!popover || !triggerButton) {
                 return;
             }
-            root.innerHTML = "";
+            const rect = triggerButton.getBoundingClientRect();
+            popover.style.top = rect.bottom + window.scrollY + 8 + "px";
+            popover.style.left =
+                Math.max(8, rect.right + window.scrollX - popover.offsetWidth) + "px";
+        }
 
+        function closePopover() {
+            if (!popover || !open) {
+                return;
+            }
+            open = false;
+            popover.hidden = true;
+            popover.classList.remove("is-open");
+            if (triggerButton) {
+                triggerButton.setAttribute("aria-expanded", "false");
+            }
+        }
+
+        function openPopover() {
+            if (!popover || !triggerButton) {
+                return;
+            }
+            open = true;
+            syncFromRuntime();
+            popover.hidden = false;
+            popover.classList.add("is-open");
+            triggerButton.setAttribute("aria-expanded", "true");
+            positionPopover();
+            if (themeSelect) {
+                themeSelect.focus();
+            }
+        }
+
+        function togglePopover() {
+            if (open) {
+                closePopover();
+            } else {
+                openPopover();
+            }
+        }
+
+        function buildPopoverPanel() {
             const panel = document.createElement("section");
-            panel.className = "display-preferences-panel";
+            panel.className = "display-preferences-panel display-preferences-popover";
+            panel.setAttribute("role", "dialog");
             panel.setAttribute("aria-label", "Préférences d'affichage");
+            panel.hidden = true;
 
             const title = document.createElement("h2");
             title.className = "display-preferences-title";
@@ -205,8 +251,57 @@
             });
             panel.appendChild(resetButton);
 
-            root.appendChild(panel);
+            document.body.appendChild(panel);
+            return panel;
+        }
+
+        function mount() {
+            if (mounted) {
+                syncFromRuntime();
+                return;
+            }
+            root.innerHTML = "";
             root.hidden = false;
+            root.className = "display-preferences-root";
+
+            triggerButton = document.createElement("button");
+            triggerButton.type = "button";
+            triggerButton.className = "display-preferences-trigger shell-icon-btn";
+            triggerButton.setAttribute("aria-label", "Affichage");
+            triggerButton.setAttribute("aria-expanded", "false");
+            triggerButton.setAttribute("aria-controls", "display-preferences-popover");
+            triggerButton.textContent = "Aa";
+            triggerButton.addEventListener("click", function (event) {
+                event.stopPropagation();
+                togglePopover();
+            });
+            root.appendChild(triggerButton);
+
+            popover = buildPopoverPanel();
+            popover.id = "display-preferences-popover";
+
+            document.addEventListener("mousedown", function (event) {
+                if (!open) {
+                    return;
+                }
+                if (
+                    popover.contains(event.target) ||
+                    root.contains(event.target)
+                ) {
+                    return;
+                }
+                closePopover();
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") {
+                    closePopover();
+                }
+            });
+
+            window.addEventListener("resize", positionPopover);
+            window.addEventListener("scroll", positionPopover, true);
+
             mounted = true;
             syncFromRuntime();
         }
@@ -219,6 +314,17 @@
             },
             getRoot: function () {
                 return root;
+            },
+            openPopover: openPopover,
+            closePopover: closePopover,
+            isOpen: function () {
+                return open;
+            },
+            getTrigger: function () {
+                return triggerButton;
+            },
+            getPopover: function () {
+                return popover;
             },
         };
     }

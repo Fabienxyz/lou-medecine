@@ -19,6 +19,8 @@ export const DP_SELECTORS = {
   readingWidth: "#display-preferences-reading-width",
   reset: ".display-preferences-reset",
   root: "#display-preferences-root",
+  trigger: ".display-preferences-trigger",
+  popover: "#display-preferences-popover",
 };
 
 export const DP_DEFAULTS = {
@@ -72,7 +74,19 @@ export async function clearDisplayPreferencesRecords(page) {
   });
 }
 
+export async function openDisplayPreferencesPopover(page) {
+  const popover = page.locator(DP_SELECTORS.popover);
+  const isOpen = await popover.isVisible().catch(() => false);
+  if (!isOpen) {
+    await page.locator(DP_SELECTORS.trigger).click();
+    await page.waitForSelector(`${DP_SELECTORS.popover}:not([hidden])`, {
+      timeout: 10_000,
+    });
+  }
+}
+
 export async function setDisplayPreference(page, field, value) {
+  await openDisplayPreferencesPopover(page);
   const selector =
     DP_SELECTORS[
       field === "fontSize"
@@ -97,6 +111,7 @@ export async function setDisplayPreference(page, field, value) {
 }
 
 export async function resetDisplayPreferences(page) {
+  await openDisplayPreferencesPopover(page);
   await page.locator(DP_SELECTORS.reset).click();
   await page.waitForFunction(
     () =>

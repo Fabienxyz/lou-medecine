@@ -111,6 +111,7 @@ window.LouBlocks = {
         // Generated content is immutable to the learner: it is marked as generated and no editing
         // affordance is ever attached to it.
         heading.dataset.generated = "true";
+        heading.dataset.official = "true";
         block.appendChild(heading);
 
         const visual = this._officialVisual(elementId, context);

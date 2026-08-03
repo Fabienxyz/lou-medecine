@@ -28,22 +28,26 @@ test.describe("V2.1 smoke — selection", () => {
     expect(ui.toolbarVisible).toBe(true);
   });
 
-  test("SE-02 block question title cannot be highlighted", async ({ page }) => {
+  test("SE-02 block question title can be highlighted", async ({ page }) => {
     const ui = await runSelectionChange(page, {
       element: M.element,
       projectionId: M.id,
       selectInQuestion: true,
     });
     expect(ui.ok).toBe(true);
-    expect(ui.toolbarVisible).toBe(false);
+    expect(ui.toolbarVisible).toBe(true);
   });
 
-  test("SE-03 preamble h1 cannot be highlighted", async ({ page }) => {
+  test("SE-03 non-official preamble h1 cannot be highlighted", async ({ page }) => {
     const ui = await runSelectionChange(page, {
       element: M.element,
       projectionId: M.id,
       selectInQuestion: "preamble",
     });
+    if (!ui.ok && ui.reason === "non-official h1 missing") {
+      test.skip();
+      return;
+    }
     expect(ui.ok).toBe(true);
     expect(ui.toolbarVisible).toBe(false);
   });

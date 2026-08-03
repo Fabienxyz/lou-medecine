@@ -525,6 +525,8 @@ describe("SVG formatting pipeline mount order", () => {
       "markdown.js",
       "learner-patrimony.js",
   "learner-store.js",
+      "annotation-colors.js",
+      "annotation-color-palette.js",
       "text-highlights.js",
       "caret-anchor.js",
       "inline-notes.js",

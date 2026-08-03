@@ -152,6 +152,8 @@ describe("Lot D.1 — Composition runtime identity", () => {
       "learner-patrimony.js",
       "learner-store.js",
       "caret-anchor.js",
+      "annotation-colors.js",
+      "annotation-color-palette.js",
       "text-highlights.js",
       "inline-notes.js",
       "svg-loader.js",

@@ -20,6 +20,8 @@ window.LouInlineNotes = {
     _mountGeneration: 0,
     _onDocumentMouseDown: null,
     _onWindowScroll: null,
+    _noteColorPalette: null,
+    _pendingColorNote: null,
 
     _normalizeNoteText(raw) {
         return String(raw).trim();
@@ -92,7 +94,14 @@ window.LouInlineNotes = {
                 ) {
                     return;
                 }
+                if (
+                    self._noteColorPalette &&
+                    self._noteColorPalette.element.contains(event.target)
+                ) {
+                    return;
+                }
                 self._hideContextMenu();
+                self._hideNoteColorPalette(true);
             };
             document.addEventListener("mousedown", this._onDocumentMouseDown);
         }
@@ -100,8 +109,18 @@ window.LouInlineNotes = {
         if (!this._onWindowScroll) {
             this._onWindowScroll = function () {
                 self._hideContextMenu();
+                self._hideNoteColorPalette(true);
             };
             window.addEventListener("scroll", this._onWindowScroll, true);
+        }
+
+        if (!this._onDocumentKeydown) {
+            this._onDocumentKeydown = function (event) {
+                if (event.key === "Escape") {
+                    self._hideNoteColorPalette(true);
+                }
+            };
+            document.addEventListener("keydown", this._onDocumentKeydown);
         }
     },
 
@@ -167,13 +186,13 @@ window.LouInlineNotes = {
         }
     },
 
-    _isNoteRecordSatisfiedInWalkthrough(walkthrough, record) {
-        if (!walkthrough || !record) {
+    _isNoteRecordSatisfiedInBlock(block, record) {
+        if (!block || !record) {
             return false;
         }
         if (
             record.id != null &&
-            walkthrough.querySelector('[data-note-id="' + record.id + '"]')
+            block.querySelector('[data-note-id="' + record.id + '"]')
         ) {
             return true;
         }
@@ -181,13 +200,21 @@ window.LouInlineNotes = {
         if (!text) {
             return false;
         }
-        const notes = walkthrough.querySelectorAll("." + this.NOTE_CLASS);
+        const notes = block.querySelectorAll("." + this.NOTE_CLASS);
         for (let i = 0; i < notes.length; i += 1) {
             if (this._normalizeNoteText(notes[i].textContent) === text) {
                 return true;
             }
         }
         return false;
+    },
+
+    _isNoteRecordSatisfiedInWalkthrough(walkthrough, record) {
+        const block =
+            walkthrough && walkthrough.closest
+                ? walkthrough.closest(".pedagogical-block")
+                : null;
+        return this._isNoteRecordSatisfiedInBlock(block || walkthrough, record);
     },
 
     _findBlock(host, element, projectionId, composition) {
@@ -226,22 +253,30 @@ window.LouInlineNotes = {
         }
 
         const walkthrough = block.querySelector(".block-walkthrough");
-        if (!walkthrough) {
+        if (!walkthrough && !block.querySelector('.block-question[data-official="true"]')) {
             return "orphan";
         }
 
-        if (
-            walkthrough.querySelector('[data-note-id="' + record.id + '"]')
-        ) {
+        if (block.querySelector('[data-note-id="' + record.id + '"]')) {
             return "skipped";
         }
 
-        const range = window.LouCaretAnchor.restoreCaretAnchor(
-            walkthrough,
-            record.anchor
-        );
+        const roots = window.LouAnnotationColors.officialRootsInBlock(block);
+        let range = null;
+        let officialRoot = null;
+        for (let i = 0; i < roots.length; i += 1) {
+            const candidate = window.LouCaretAnchor.restoreCaretAnchor(
+                roots[i],
+                record.anchor
+            );
+            if (candidate) {
+                range = candidate;
+                officialRoot = roots[i];
+                break;
+            }
+        }
         if (!range) {
-            if (this._isNoteRecordSatisfiedInWalkthrough(walkthrough, record)) {
+            if (this._isNoteRecordSatisfiedInBlock(block, record)) {
                 return "skipped";
             }
             return "orphan";
@@ -252,25 +287,17 @@ window.LouInlineNotes = {
         noteEl.dataset.learner = "true";
         noteEl.setAttribute("data-note-id", String(record.id));
         noteEl.textContent = record.text;
+        const colorId =
+            window.LouAnnotationColors.getRecordColor("note", record.id) ||
+            window.LouAnnotationColors.DEFAULT_NOTE_ID;
+        window.LouAnnotationColors.applyNoteColor(noteEl, colorId);
 
         range.insertNode(noteEl);
         return "restored";
     },
 
-    _walkthroughFromTarget(target, host) {
-        if (!target || !host) {
-            return null;
-        }
-        const el =
-            target.nodeType === Node.ELEMENT_NODE ? target : target.parentElement;
-        if (!el) {
-            return null;
-        }
-        const walkthrough = el.closest("[data-official='true']");
-        if (!walkthrough || !host.contains(walkthrough)) {
-            return null;
-        }
-        return walkthrough;
+    _officialRootFromTarget(target, host) {
+        return window.LouAnnotationColors.annotatableRoot(target, host);
     },
 
     _noteFromElement(target) {
@@ -296,8 +323,8 @@ window.LouInlineNotes = {
             return;
         }
 
-        const walkthrough = this._walkthroughFromTarget(event.target, host);
-        if (!walkthrough) {
+        const officialRoot = this._officialRootFromTarget(event.target, host);
+        if (!officialRoot) {
             return;
         }
         if (noteEl) {
@@ -307,7 +334,7 @@ window.LouInlineNotes = {
         event.preventDefault();
         this._hideContextMenu();
         this._showContextMenu(event.clientX, event.clientY, {
-            walkthrough: walkthrough,
+            officialRoot: officialRoot,
             clientX: event.clientX,
             clientY: event.clientY,
         });
@@ -391,7 +418,7 @@ window.LouInlineNotes = {
 
     async _onCreateNote(menuContext) {
         this._hideContextMenu();
-        if (!menuContext || !menuContext.walkthrough) {
+        if (!menuContext || !menuContext.officialRoot) {
             return;
         }
 
@@ -401,7 +428,7 @@ window.LouInlineNotes = {
         }
         await this._waitForCommitIdle();
 
-        const walkthrough = menuContext.walkthrough;
+        const officialRoot = menuContext.officialRoot;
         const range = this._caretRangeFromClick(
             menuContext.clientX,
             menuContext.clientY
@@ -418,7 +445,7 @@ window.LouInlineNotes = {
         }
 
         const anchor = window.LouCaretAnchor.createCaretAnchor(
-            walkthrough,
+            officialRoot,
             range.startContainer,
             range.startOffset
         );
@@ -426,7 +453,7 @@ window.LouInlineNotes = {
             return;
         }
 
-        const block = walkthrough.closest(".pedagogical-block");
+        const block = officialRoot.closest(".pedagogical-block");
         if (!block || !block.dataset.element) {
             return;
         }
@@ -452,7 +479,7 @@ window.LouInlineNotes = {
             projectionContext = ctx.projectionForElement(block.dataset.element);
         }
         this._pendingAnchors.set(noteEl, {
-            walkthrough: walkthrough,
+            officialRoot: officialRoot,
             element: block.dataset.element,
             sourceProjection: sourceProjection,
             anchor: anchor,
@@ -462,6 +489,74 @@ window.LouInlineNotes = {
                 store: ctx.store,
             },
         });
+        this._showNoteColorPalette(noteEl, menuContext.clientX, menuContext.clientY);
+    },
+
+    _ensureNoteColorPalette() {
+        if (this._noteColorPalette) {
+            return this._noteColorPalette;
+        }
+        const self = this;
+        this._noteColorPalette = window.LouAnnotationColorPalette.create({
+            ariaLabel: "Couleur de la note",
+            colorLabelPrefix: "Note ",
+            selectedColorId: window.LouAnnotationColors.getLastNoteColorId(),
+            onSelect: function (colorId) {
+                self._onNoteColorSelected(colorId);
+            },
+        });
+        return this._noteColorPalette;
+    },
+
+    _showNoteColorPalette(noteEl, clientX, clientY) {
+        const palette = this._ensureNoteColorPalette();
+        this._pendingColorNote = noteEl;
+        palette.setSelectedColorId(window.LouAnnotationColors.getLastNoteColorId());
+        if (clientX != null && clientY != null) {
+            palette.showNearRect(
+                {
+                    left: clientX,
+                    top: clientY,
+                    width: 0,
+                    height: 0,
+                    right: clientX,
+                    bottom: clientY,
+                },
+                true
+            );
+        } else {
+            palette.showNearElement(noteEl, true);
+        }
+    },
+
+    _hideNoteColorPalette(cancelPending) {
+        if (this._noteColorPalette) {
+            this._noteColorPalette.hide();
+        }
+        if (cancelPending && this._pendingColorNote) {
+            const noteEl = this._pendingColorNote;
+            if (!noteEl.hasAttribute("data-note-id")) {
+                this._pendingAnchors.delete(noteEl);
+                noteEl.remove();
+            }
+        }
+        this._pendingColorNote = null;
+    },
+
+    _onNoteColorSelected(colorId) {
+        const noteEl = this._pendingColorNote;
+        if (!noteEl) {
+            this._hideNoteColorPalette(false);
+            return;
+        }
+        const chosen = window.LouAnnotationColors.normalizeColorId(
+            colorId,
+            window.LouAnnotationColors.getLastNoteColorId()
+        );
+        window.LouAnnotationColors.setLastNoteColorId(chosen);
+        window.LouAnnotationColors.applyNoteColor(noteEl, chosen);
+        noteEl.dataset.pendingNoteColor = chosen;
+        this._hideNoteColorPalette(false);
         this._enterEditMode(noteEl);
     },
 
@@ -624,6 +719,7 @@ window.LouInlineNotes = {
             },
             onSuccessConnected: function () {
                 self._exitEditMode(noteEl);
+                window.LouAnnotationColors.removeRecordColor("note", id);
                 noteEl.remove();
             },
             onFailureConnected: function () {},
@@ -777,6 +873,15 @@ window.LouInlineNotes = {
                 },
                 onSuccessConnected: function (id) {
                     noteEl.setAttribute("data-note-id", String(id));
+                    const pendingColor =
+                        noteEl.dataset.pendingNoteColor ||
+                        window.LouAnnotationColors.getLastNoteColorId();
+                    window.LouAnnotationColors.setRecordColor(
+                        "note",
+                        id,
+                        pendingColor
+                    );
+                    delete noteEl.dataset.pendingNoteColor;
                     self._pendingAnchors.delete(noteEl);
                     self._exitEditMode(noteEl);
                     if (self._activeEditNote === noteEl) {

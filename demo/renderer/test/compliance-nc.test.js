@@ -240,6 +240,8 @@ describe("NC-2 — unrestorable learner annotations are signaled and kept", () =
       "markdown.js",
       "learner-patrimony.js",
       "learner-store.js",
+      "annotation-colors.js",
+      "annotation-color-palette.js",
       "text-highlights.js",
       "caret-anchor.js",
       "inline-notes.js",

@@ -39,6 +39,8 @@ export const SHELL_URLS = [
   "/demo/renderer/learner-snapshot.js",
   "/demo/renderer/session-service.js",
   "/demo/renderer/session-resume.js",
+  "/demo/renderer/annotation-colors.js",
+  "/demo/renderer/annotation-color-palette.js",
   "/demo/renderer/text-highlights.js",
   "/demo/renderer/caret-anchor.js",
   "/demo/renderer/inline-notes.js",

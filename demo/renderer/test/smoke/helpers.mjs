@@ -239,11 +239,11 @@ export async function createHighlightViaToolbar(page, opts) {
       `toolbar not shown for ${phrase}: ${ui.reason || "no selection context"}`
     );
   }
-  await page.locator(".highlight-toolbar-btn").click();
+  await page.locator(".annotation-color-palette-swatch").first().click();
   await page.waitForFunction(
     () =>
       !window.LouTextHighlights._selectionContext &&
-      document.querySelector(".highlight-toolbar")?.hidden !== false
+      (document.querySelector(".annotation-color-palette")?.hidden !== false)
   );
   await page.waitForFunction(
     ({ blockSelector }) => {
@@ -269,14 +269,12 @@ export async function runSelectionChange(page, opts) {
       if (!block) return { ok: false, reason: "block missing" };
 
       let range;
-      if (selectInQuestion) {
-        const question = block.querySelector(".block-question");
-        if (!question) return { ok: false, reason: "question missing" };
-        range = document.createRange();
-        range.selectNodeContents(question);
-      } else if (selectInQuestion === "preamble") {
-        const h1 = document.querySelector("#content h1");
-        if (!h1) return { ok: false, reason: "h1 missing" };
+      if (selectInQuestion === "preamble") {
+        const h1Candidates = [...document.querySelectorAll("#content h1")].filter(
+          (heading) => !heading.closest('[data-official="true"]')
+        );
+        const h1 = h1Candidates[0] || null;
+        if (!h1) return { ok: false, reason: "non-official h1 missing" };
         range = document.createRange();
         range.selectNodeContents(h1);
       } else if (selectInQuestion === "affordance") {
@@ -284,6 +282,11 @@ export async function runSelectionChange(page, opts) {
         if (!btn) return { ok: false, reason: "affordance missing" };
         range = document.createRange();
         range.selectNodeContents(btn);
+      } else if (selectInQuestion) {
+        const question = block.querySelector(".block-question");
+        if (!question) return { ok: false, reason: "question missing" };
+        range = document.createRange();
+        range.selectNodeContents(question);
       } else {
         const wt = block.querySelector(".block-walkthrough");
         const pos = wt.textContent.indexOf(phrase);
@@ -328,7 +331,7 @@ export async function runSelectionChange(page, opts) {
       };
       window.LouTextHighlights._onSelectionChange(host, context);
 
-      const toolbar = document.querySelector(".highlight-toolbar");
+      const toolbar = document.querySelector(".annotation-color-palette");
       return {
         ok: true,
         toolbarVisible: !!(toolbar && !toolbar.hidden),
@@ -343,7 +346,7 @@ export async function runSelectionChange(page, opts) {
 export async function getLifecycleState(page) {
   return page.evaluate(() => ({
     boundHost: window.LouTextHighlights._boundHost?.id || null,
-    toolbarCount: document.querySelectorAll(".highlight-toolbar").length,
+    toolbarCount: document.querySelectorAll(".annotation-color-palette").length,
     markCount: document.querySelectorAll("mark.learner-highlight").length,
   }));
 }

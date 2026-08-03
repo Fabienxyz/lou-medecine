@@ -118,6 +118,8 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
       "learner-patrimony.js",
       "learner-store.js",
       "caret-anchor.js",
+      "annotation-colors.js",
+      "annotation-color-palette.js",
       "text-highlights.js",
       "inline-notes.js",
       "svg-loader.js",
@@ -136,6 +138,15 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     window.LouInlineNotes._committing = false;
     window.LouInlineNotes._mountGeneration = 0;
     window.LouInlineNotes._hideContextMenu();
+    if (window.LouInlineNotes._noteColorPalette) {
+      window.LouInlineNotes._noteColorPalette.destroy();
+      window.LouInlineNotes._noteColorPalette = null;
+    }
+    window.LouInlineNotes._pendingColorNote = null;
+    if (window.LouTextHighlights._palette) {
+      window.LouTextHighlights._palette.destroy();
+      window.LouTextHighlights._palette = null;
+    }
 
     const manifest = manifestFixture();
     window.LouRenderer.init(window.document.getElementById("content"), null);
@@ -277,9 +288,23 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     return menu;
   }
 
+  async function waitForNotePalette() {
+    for (let i = 0; i < 30; i += 1) {
+      await flushPromises();
+      const palette = window.document.querySelector(".annotation-color-palette");
+      if (palette && palette.hidden === false) {
+        return palette;
+      }
+    }
+    return null;
+  }
+
   async function createPendingNote(content, elementId = "MEC-oap", offset = 12) {
     const menu = await openCreateMenu(content, elementId, offset);
     menu.querySelector("button").click();
+    const palette = await waitForNotePalette();
+    assert.ok(palette, "note color palette visible");
+    palette.querySelector(".annotation-color-palette-swatch").click();
     await flushPromises();
     await window.LouInlineNotes._waitForCommitIdle();
     return content.querySelector(

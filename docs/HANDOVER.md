@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-03 (Phase T0 validation consolidée ; Phase 2 en attente) |
+| **Statut** | Document d'accueil — 2026-08-03 (Phase T0 + PAS ; Phase 2 en attente) |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -52,7 +52,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 **Checklist implémentation :** [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md).
 
-**Validations de référence :** pyramide [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) · gate [`scripts/validate-reader-v1.sh`](../scripts/validate-reader-v1.sh) · Product Smoke autoritaire · Product Review manuelle
+**Validations de référence :** Product Acceptance Suites [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) · gate [`scripts/validate-reader-v1.sh`](../scripts/validate-reader-v1.sh) · Product Review manuelle
 
 ---
 
@@ -140,7 +140,7 @@ Learner Patrimony (E-A…E-D)
 | **Amorçage cognitif (AP-A…AP-F)** | Publié — package 234 |
 | **Critères d'acceptation** | **Prononcés** — 2026-08-02 |
 
-**Tests renderer :** voir pyramide T0 — Product Smoke = autorité produit ; Engineering Smoke = non-régression moteur. Pas de compteur figé.
+**Tests renderer :** pilotage par **PAS** (Product Acceptance Suites) — Product Smokes = implémentation ; Engineering = non-régression. Voir [`TEST_ARCHITECTURE_V1.md` §6](testing/TEST_ARCHITECTURE_V1.md).
 
 ---
 
@@ -173,7 +173,7 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 3. Lire [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) — Phases 0–9, produit vs production.
 4. Lire [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) — checklist Phase 2.
 5. Lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md).
-6. **Validation :** [`docs/testing/TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) — pyramide, batteries autoritaires, critères de jalons.
+6. **Validation :** [`docs/testing/TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) — Product Acceptance Suites, pyramide, jalons.
 7. **Product Review officielle :** [`docs/renderer/PRODUCT-REVIEW.md`](renderer/PRODUCT-REVIEW.md) — `./scripts/product-review-234.sh` (seule entrée valide).
 8. **Chantier prioritaire : Phase 2** — Amorçage cognitif (package + vue Reader).
 9. **Ne pas démarrer** Phase 9 (224) — conditionnée par Product Freeze (Phase 8).

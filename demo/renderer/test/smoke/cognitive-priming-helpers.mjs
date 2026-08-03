@@ -244,11 +244,16 @@ export async function waitForPersistedSessionView(page, viewId, timeoutMs = 10_0
 }
 
 export async function persistSessionOnAmorçage(page) {
-  await page.locator(".tab", { hasText: "Notions" }).click();
-  await waitForSessionView(page, "notions");
-  await page.locator("#chapter-line.chapter-line-nav").click();
+  await page.locator(".tab", { hasText: CP_LABEL }).click();
   await waitForSessionView(page, CP_VIEW_ID);
   await waitForAmorçageContent(page);
+  // CE-04 breadcrumb UI is deferred in Shell S1 — same commit event as D4 CE-04.
+  await page.evaluate(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    if (window.LouSessionResume?.persistCommitEvent) {
+      await window.LouSessionResume.persistCommitEvent("INTERNAL_NAV_VALIDATED", {});
+    }
+  });
   await waitForPersistedSessionView(page, CP_VIEW_ID);
 }
 

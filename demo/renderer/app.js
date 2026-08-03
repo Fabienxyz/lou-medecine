@@ -9,11 +9,8 @@
     const contentEl = document.getElementById("content");
 
     const headerEls = {
-        specialty: document.getElementById("specialty"),
         chapterLine: document.getElementById("chapter-line"),
         chapterTitle: document.getElementById("chapter-title"),
-        objectivesList: document.getElementById("objectives-list"),
-        readTime: document.getElementById("read-time"),
     };
 
     let currentTab = 0;
@@ -508,30 +505,6 @@
         buildChapterNavigationHref: buildChapterNavigationHref,
     };
 
-    function bindBreadcrumbAmorçage() {
-        const chapterLine = headerEls.chapterLine;
-        if (!chapterLine) {
-            return;
-        }
-        chapterLine.classList.add("chapter-line-nav");
-        chapterLine.setAttribute("role", "button");
-        chapterLine.tabIndex = 0;
-        chapterLine.addEventListener("click", async function () {
-            const amorIndex = tabs.findIndex(function (tab) {
-                return tab.viewId === sessionService.AMORCAGE_VIEW_ID;
-            });
-            if (amorIndex < 0) {
-                return;
-            }
-            await showTab(amorIndex, { skipViewCommit: true });
-            if (commitController) {
-                commitController.onInternalNavValidated().catch(function (err) {
-                    console.warn("[LouApp] CE-04 commit failed", err);
-                });
-            }
-        });
-    }
-
     contentEl.addEventListener("click", function (e) {
         const traceBtn = e.target.closest(".claim-trace-link");
         if (traceBtn && traceIndexUrl) {
@@ -562,12 +535,6 @@
                 }
             }
         }
-
-        const btn = e.target.closest("[data-nav]");
-        if (!btn) {
-            return;
-        }
-        showTab(btn.dataset.nav === "next" ? currentTab + 1 : currentTab - 1);
     });
 
     function registerServiceWorker() {
@@ -645,7 +612,6 @@
                 ? config.resolveAssetPath(chapter, manifest.trace_index)
                 : null;
             renderer.applyHeaderMetadata({
-                specialty: manifest.specialty || "Cardiologie",
                 chapterLine: manifest.chapterLine || manifest.chapter,
                 chapterTitle: manifest.title || manifest.chapter,
             });
@@ -682,7 +648,6 @@
         }
 
         buildTabs();
-        bindBreadcrumbAmorçage();
 
         await initDisplayPreferences();
 

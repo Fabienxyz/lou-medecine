@@ -164,25 +164,14 @@ window.LouRenderer = {
 
         const els = this.headerEls;
 
-        if (data.specialty && els.specialty) {
-            els.specialty.textContent = data.specialty;
-        }
         if (data.chapterLine && els.chapterLine) {
             els.chapterLine.textContent = data.chapterLine;
         }
         if (data.chapterTitle && els.chapterTitle) {
             els.chapterTitle.textContent = data.chapterTitle;
         }
-        if (data.readTime && els.readTime) {
-            els.readTime.textContent = data.readTime;
-        }
-        if (Array.isArray(data.objectives) && els.objectivesList) {
-            els.objectivesList.innerHTML = data.objectives
-                .map(function (item) {
-                    return "<li>" + LouRenderer.escapeHtml(String(item)) + "</li>";
-                })
-                .join("");
-        }
+
+        // Objectives and read-time remain on manifest for Amorçage / Couche 1 — not Shell chrome.
     },
 
     prepareLearnerMarkdown(raw) {
@@ -254,26 +243,6 @@ window.LouRenderer = {
     async renderProjection(html, context) {
         this.replayAnimation(this.contentEl);
         await LouBlocks.render(this.contentEl, html, context);
-        this.contentEl.appendChild(this.footerNavNode());
-    },
-
-    footerNavNode() {
-        const nav = document.createElement("div");
-        nav.className = "footer-nav";
-        nav.innerHTML =
-            '<button type="button" class="nav-btn" data-nav="prev">← Concept précédent</button>' +
-            '<button type="button" class="nav-btn primary" data-nav="next">Concept suivant →</button>';
-        return nav;
-    },
-
-    wrapWithFooterNav(bodyHtml) {
-        return (
-            bodyHtml +
-            '<div class="footer-nav">' +
-            '<button type="button" class="nav-btn" data-nav="prev">← Concept précédent</button>' +
-            '<button type="button" class="nav-btn primary" data-nav="next">Concept suivant →</button>' +
-            "</div>"
-        );
     },
 
     replayAnimation(el) {
@@ -293,8 +262,7 @@ window.LouRenderer = {
             stateAttr +
             ">" +
             this.escapeHtml(message) +
-            "</p>" +
-            this.wrapWithFooterNav("");
+            "</p>";
     },
 
     injectHtml(html) {
@@ -573,7 +541,6 @@ window.LouRenderer = {
         if (view.scenarios && view.scenarios.length) {
             host.appendChild(this.createScenariosSection(view));
         }
-        host.appendChild(this.footerNavNode());
     },
 
     showViewNotesShell(config) {
@@ -581,8 +548,7 @@ window.LouRenderer = {
         this.contentEl.innerHTML =
             '<section class="view-notes-shell" role="status"><p>' +
             this.escapeHtml(config.ERROR_MESSAGES.notesShell) +
-            "</p></section>" +
-            this.wrapWithFooterNav("");
+            "</p></section>";
     },
 
     showViewQcmList(view, config) {
@@ -607,8 +573,7 @@ window.LouRenderer = {
             "</p>" +
             '<ul class="view-qcm-list">' +
             items +
-            "</ul></section>" +
-            this.wrapWithFooterNav("");
+            "</ul></section>";
     },
 
     async renderCognitivePrimingView(view, manifest, chapter, config, renderOptions) {
@@ -671,8 +636,7 @@ window.LouRenderer = {
         this.replayAnimation(this.contentEl);
         this.contentEl.innerHTML =
             '<section class="cognitive-priming-view lou-official-content">' +
-            '<div class="cognitive-priming-body"></div></section>' +
-            this.wrapWithFooterNav("");
+            '<div class="cognitive-priming-body"></div></section>';
 
         const host = this.contentEl.querySelector(".cognitive-priming-body");
         if (!host) {
@@ -736,8 +700,7 @@ window.LouRenderer = {
             header +
             '<article class="college-official-body">' +
             body +
-            "</article></section>" +
-            this.wrapWithFooterNav("");
+            "</article></section>";
 
         const host = this.contentEl.querySelector(".college-official-body");
         if (host) {
@@ -824,7 +787,7 @@ window.LouRenderer = {
 
         if (view.scenarios && view.scenarios.length) {
             this.replayAnimation(this.contentEl);
-            this.contentEl.innerHTML = this.wrapWithFooterNav("");
+            this.contentEl.innerHTML = "";
             this.appendScenariosList(view);
             return;
         }

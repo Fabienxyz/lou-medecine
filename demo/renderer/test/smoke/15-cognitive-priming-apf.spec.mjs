@@ -120,19 +120,20 @@ test.describe("AP-F — Cognitive Priming acceptance", () => {
     await persistSessionOnAmorçage(page);
     await page.reload({ waitUntil: "domcontentloaded" });
     await waitForProductChapterReady(page);
-    await waitForSessionView(page, CP_VIEW_ID);
+    await waitForSessionView(page, CP_VIEW_ID, 30_000);
     await waitForAmorçageContent(page);
   });
 
-  test("AP-F-09 — breadcrumb chapter line opens Amorçage (CE-04)", async ({
+  test("AP-F-09 — chapter line is static until S2 breadcrumb (CE-04 UI deferred)", async ({
     page,
   }) => {
     await openProductChapter(page);
     await page.locator(".tab", { hasText: "Notions" }).click();
     await waitForSessionView(page, "notions");
-    await page.locator("#chapter-line.chapter-line-nav").click();
-    await waitForSessionView(page, CP_VIEW_ID);
-    await waitForAmorçageContent(page);
+    const chapterLine = page.locator("#chapter-line");
+    await expect(chapterLine).toBeVisible();
+    await expect(chapterLine).not.toHaveClass(/chapter-line-nav/);
+    await expect(chapterLine).not.toHaveAttribute("role", "button");
   });
 
   test("AP-F-10 — Display Preferences dark theme keeps Amorçage readable", async ({

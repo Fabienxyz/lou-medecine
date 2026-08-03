@@ -520,6 +520,42 @@ class OfflineRuntime {
 
   /**
    * @param {string} releaseId
+   * @returns {Promise<{ cache: OfflineRuntimeCache, meta: Record<string, unknown> } | null>}
+   */
+  async _getAuthoritativeReleaseCache(releaseId) {
+    const namespace = buildReleaseNamespace(releaseId);
+    if (!(await this._storage.has(namespace))) {
+      return null;
+    }
+
+    let cache;
+    try {
+      cache = await this._storage.open(namespace);
+    } catch {
+      return null;
+    }
+
+    let meta;
+    try {
+      meta = await this.readReleaseMetadata(cache);
+    } catch {
+      return null;
+    }
+
+    const contentDigest =
+      meta && typeof meta.content_digest === "string" ? meta.content_digest : "";
+    if (
+      !contentDigest ||
+      !(await this.hasRelease(releaseId, contentDigest))
+    ) {
+      return null;
+    }
+
+    return { cache, meta: /** @type {Record<string, unknown>} */ (meta) };
+  }
+
+  /**
+   * @param {string} releaseId
    * @param {string} relativePath
    */
   async _serveReleaseResource(releaseId, relativePath) {
@@ -530,39 +566,12 @@ class OfflineRuntime {
       return errorResponse(err);
     }
 
-    const namespace = buildReleaseNamespace(releaseId);
-    if (!(await this._storage.has(namespace))) {
-      return errorResponse(
-        new OfflineRuntimeError(
-          "PREPARATION_INCOMPLETE",
-          `offline runtime: release not prepared: ${releaseId}`
-        )
-      );
-    }
-    let cache;
-    try {
-      cache = await this._storage.open(namespace);
-    } catch (err) {
-      return errorResponse(
-        new OfflineRuntimeError(
-          "UNKNOWN_RELEASE_NAMESPACE",
-          `offline runtime: namespace unavailable for ${releaseId}`,
-          { cause: err }
-        )
-      );
+    const prepared = await this._getAuthoritativeReleaseCache(releaseId);
+    if (!prepared) {
+      return null;
     }
 
-    const meta = await this.readReleaseMetadata(cache);
-    if (!meta || meta.release_id !== releaseId) {
-      return errorResponse(
-        new OfflineRuntimeError(
-          "PREPARATION_INCOMPLETE",
-          `offline runtime: release not prepared: ${releaseId}`
-        )
-      );
-    }
-
-    const stored = await cache.get(normalized);
+    const stored = await prepared.cache.get(normalized);
     if (!stored) {
       return errorResponse(
         new OfflineRuntimeError(

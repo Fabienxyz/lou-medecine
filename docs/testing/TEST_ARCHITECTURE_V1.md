@@ -11,6 +11,8 @@
 
 **À lire en cinq minutes :** ce document répond à trois questions — *quelle fonctionnalité produit est-elle terminée ?*, *quelle preuve automatique le prouve ?*, *qu'est-ce qui reste humain ?*
 
+**Registre officiel des PAS :** le [§4](#4-catalogue-des-product-acceptance-suites) est la **source unique** de définition des Product Acceptance Suites (responsabilité, critères d'acceptation, lien roadmap). Il ne existe pas de catalogu séparé — vision et séquence dans [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md), état d'avancement dans [`PROJECT_STATE.md`](../PROJECT_STATE.md), preuves automatisées au [§6](#6-cartographie-pas--validations).
+
 **Documents connexes :**
 
 - Product Review : [`docs/renderer/PRODUCT-REVIEW.md`](../renderer/PRODUCT-REVIEW.md)
@@ -188,7 +190,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Fabrique → bibliothèque → bootstrap produit → offline → republication même `release_id` |
 | **Phases roadmap** | 0, 0.1 *(clôturées)* |
 | **Critères d'acceptation** | Package s'ouvre en mode produit ; 7 vues accessibles ; certification `offline_ready` ; pas de requêtes dev ; resync/republication consommable ; auto-repair digest (contrat) |
-| **Implémentation actuelle** | Product Smokes `16-product-consumption` (PC-*), `12-offline-d2g` (OF-D2-*) ; Contract Test `product-consumption.test.js` |
+| **Implémentation actuelle** | Product Smokes `16-product-consumption` (PC-*), `12-offline-d2g` (OF-D2-*) ; Contract Test `product-consumption.test.js` ; passthrough SW `browser-offline-sw-passthrough.test.js` (PC-05) |
 | **Product Review** | Vérifiée implicitement à chaque Product Review ; pas de review dédiée |
 | **Statut** | **Couverture forte** |
 
@@ -344,7 +346,7 @@ Matrice autoritaire : **quelle preuve prononce quelle PAS**. Piloter par cette t
 
 | PAS | Statut | Gate PAS (commande ciblée) | Product Smokes | Fondations (unit / contrats) | Engineering *(DEV)* |
 |---|---|---|---|---|---|
-| **PAS-OFFLINE** | Couverture forte | `lou-build validate` + `playwright test 12 16` | `12-offline-d2g`, `16-product-consumption` | `product-consumption.test.js`, `browser-offline-*`, `offline-runtime.test.js`, lou-build `test:ci` | `11-offline-dev` |
+| **PAS-OFFLINE** | Couverture forte | `lou-build validate` + `playwright test 12 16` | `12-offline-d2g`, `16-product-consumption` *(PC-05 SW actif)* | `product-consumption.test.js`, `browser-offline-sw-passthrough.test.js`, `browser-offline-*`, `offline-runtime.test.js`, lou-build `test:ci` | `11-offline-dev` |
 | **PAS-SHELL** | Couverture partielle *(S1)* | `npm test` *(shell-s1)* + smokes `17` `16` `13` `14` | `17` CN-P-01, `16` PC-01, `13`, `14` *(header)* | `shell-s1-chrome.test.js` | — |
 | **PAS-MM** | Couverture partielle | smoke `17` CN-P-02 | `17` CN-P-02 ; partiel `12` OF-D2-04 | `composition-*`, `10` CN-02 *(dev)* | `10` CN-02, `03` PR-05/06 |
 | **PAS-AP** | Couverture forte *(Reader)* | smoke `15` | `15-cognitive-priming-apf` | `cognitive-priming-*`, `session-*` | — |

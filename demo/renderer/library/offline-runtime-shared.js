@@ -46,6 +46,7 @@ export const SHELL_URLS = [
   "/demo/renderer/cognitive-priming-render.js",
   "/demo/renderer/renderer.js",
   "/demo/renderer/app.js",
+  "/demo/renderer/shell/breadcrumb.mjs",
   "/demo/renderer/lib/marked.min.js",
   "/demo/renderer/lib/fonts/inter-latin.woff2",
   "/demo/renderer/composition/bootstrap.mjs",

@@ -521,16 +521,41 @@ describe("offline runtime (D2-E)", () => {
     assert.match(await assetResponse.text(), /college body/);
   });
 
-  test("unprepared resource returns explicit error", async () => {
+  test("unprepared release passthrough returns null for network fallback", async () => {
     const response = await runtime.resolveOrServe(
       resourceUrl(RELEASE_A, "manifest.json")
     );
-    assert.ok(response);
-    assert.equal(response.status, 404);
-    assert.equal(
-      response.headers.get("x-lou-offline-error"),
-      "PREPARATION_INCOMPLETE"
+    assert.equal(response, null);
+  });
+
+  test("sw fetch passthrough reaches network when namespace absent", async () => {
+    const swFetch = async (url, init) => {
+      const response = await runtime.resolveOrServe(url);
+      if (response) {
+        return response;
+      }
+      return fetchImpl(url, init);
+    };
+
+    const response = await swFetch(resourceUrl(RELEASE_A, "manifest.json"));
+    assert.equal(response.status, 200);
+    const manifest = JSON.parse(await response.text());
+    assert.equal(manifest.release_id, RELEASE_A);
+  });
+
+  test("sw fetch passthrough propagates real network 404", async () => {
+    const swFetch = async (url, init) => {
+      const response = await runtime.resolveOrServe(url);
+      if (response) {
+        return response;
+      }
+      return fetchImpl(url, init);
+    };
+
+    const response = await swFetch(
+      resourceUrl(RELEASE_A, "missing-on-server.json")
     );
+    assert.equal(response.status, 404);
   });
 
   test("product mode does not fallback to monorepo dev paths", async () => {
@@ -689,17 +714,12 @@ describe("offline runtime (D2-E)", () => {
     const manifestResponse = await failingRuntime.resolveOrServe(
       resourceUrl(RELEASE_A, "manifest.json")
     );
-    assert.ok(manifestResponse);
-    assert.equal(manifestResponse.status, 200);
+    assert.equal(manifestResponse, null);
 
     const missingAsset = await failingRuntime.resolveOrServe(
       resourceUrl(RELEASE_A, "source/official-college.md")
     );
-    assert.ok(missingAsset);
-    assert.equal(
-      missingAsset.headers.get("x-lou-offline-error"),
-      "RESOURCE_MISSING"
-    );
+    assert.equal(missingAsset, null);
 
     const keys = await storage.keys();
     assert.equal(keys.includes(finalNamespace), true);

@@ -10,6 +10,8 @@ import {
   waitForProductBootstrap,
   productChapterUrl,
   RELEASE_ID_234,
+  ensureServiceWorkerOnPage,
+  waitForServiceWorker,
 } from "./product-helpers.mjs";
 
 const REPO_ROOT = path.resolve(
@@ -122,6 +124,33 @@ test.describe("PC — Product consumption (Phase T0)", () => {
 
     await openProductChapter(page);
     expect(fontRequests).toEqual([]);
+  });
+
+  test("PC-05 product bootstrap succeeds with service worker already controlling", async ({
+    page,
+  }) => {
+    resetCatalogOfflineStatus("failed");
+
+    await page.goto("/demo/renderer/index.html", {
+      waitUntil: "domcontentloaded",
+    });
+    await ensureServiceWorkerOnPage(page);
+    await waitForServiceWorker(page);
+
+    await page.goto(productChapterUrl(), {
+      waitUntil: "domcontentloaded",
+      timeout: 120_000,
+    });
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), {
+      timeout: 15_000,
+    });
+    await waitForProductBootstrap(page);
+
+    await expect(page.locator(".tab")).toHaveCount(7);
+    await expect(page.locator("#shell-breadcrumb .shell-breadcrumb-link")).not.toHaveText(
+      "…",
+      { timeout: 15_000 }
+    );
   });
 });
 

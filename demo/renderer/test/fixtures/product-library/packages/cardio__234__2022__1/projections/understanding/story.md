@@ -25,32 +25,34 @@ Garde de cette image une seule conclusion : le traitement ne peut pas être « u
 
 ## Comment une cardiopathie devient-elle une insuffisance cardiaque qui se décompense ? {#MM-pump-decompensation}
 
-Reprenons la même trajectoire, cette fois avec les termes du Collège. La pompe, c'est le cœur, et l'insuffisance cardiaque est son incapacité à assurer un débit adapté aux besoins et/ou à ne le faire qu'au prix de pressions de remplissage anormalement élevées. {#cb-story-def}
+Reprenons la même trajectoire, cette fois avec les termes du Collège. **Commence par le schéma** : c'est la carte du chapitre. Le texte ci-dessous t'indique comment le lire, nœud par nœud.
 
-Ce « et/ou » est la première chose à comprendre, parce qu'il produit les deux conséquences que tu retrouveras partout : un débit insuffisant — ou qui n'augmente plus à l'effort — et des pressions de remplissage élevées, transmises en amont du ventricule. {#cb-story-consequences}
+**Anomalie cardiaque → pompe défaillante.** Toute atteinte de structure ou de fonction peut faire défaillir la pompe. L'insuffisance cardiaque, c'est l'incapacité à délivrer un débit adapté aux besoins et/ou à le faire qu'au prix de pressions de remplissage anormalement élevées. {#cb-mm-read-def}
 
-Face à cela, le corps compense avant de céder : loi de Starling, tachycardie, rétention hydrosodée, activation neurohormonale. Ces réponses sont utiles à court terme et délétères à long terme — exactement la ville qui force sa pompe. {#cb-story-compensation}
+**Deux conséquences en parallèle.** D'un côté un débit insuffisant ; de l'autre des pressions de remplissage qui montent — le couple « manque en aval / trop de pression en amont » de l'analogie. {#cb-mm-read-dual}
 
-Et quand la pression monte du côté gauche, elle ne reste pas dans le ventricule : elle se transmet à l'oreillette, puis aux veines et aux capillaires pulmonaires. C'est là que naît la congestion pulmonaire, et parfois l'œdème aigu du poumon. {#cb-story-congestion}
+**Compensations neurohormonales.** Face au bas débit, le corps active sympathique et SRAA : utile à court terme pour maintenir la perfusion. {#cb-mm-read-comp}
 
-Tu as maintenant le fil rouge du chapitre : pompe → compensation → congestion et décompensation → raisonnement clinique et traitement ciblés. Chaque bloc des pages suivantes reprend un maillon de cette chaîne.
+**Surcharge, puis boucle.** Ces réponses augmentent le travail cardiaque et deviennent délétères à long terme. {#cb-mm-read-overload} Sur le schéma, l'arête en pointillés qui revient vers la pompe montre comment cette surcharge rétroagit — le cercle « l'aide devient la maladie ».
+
+**Congestion et décompensation.** Les pressions élevées se transmettent en amont (congestion pulmonaire et systémique). Une altération aiguë de la pompe peut déclencher la décompensation. Les tableaux cliniques et le traitement viennent dans **Cas cliniques** ; chaque maillon mécanistique est développé dans **Notions**.
 
 <!-- claim-trace
 claims:
-  - id: cb-story-def
+  - id: cb-mm-read-def
     class: sourced
     element: MM-pump-decompensation
     kp: [KP-001, KP-002]
-  - id: cb-story-consequences
+  - id: cb-mm-read-dual
     class: sourced
     element: MM-pump-decompensation
     kp: [KP-006]
-  - id: cb-story-compensation
+  - id: cb-mm-read-comp
     class: sourced
     element: MM-pump-decompensation
-    kp: [KP-008]
-  - id: cb-story-congestion
+    kp: [KP-008, KP-011, KP-012]
+  - id: cb-mm-read-overload
     class: sourced
     element: MM-pump-decompensation
-    kp: [KP-040]
+    kp: [KP-008, KP-009]
 -->

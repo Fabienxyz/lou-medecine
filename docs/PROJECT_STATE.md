@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-03 (Phase 0 clôturée — Phase 1 active)
+**Dernière mise à jour :** 2026-08-03 (Phase 1 clôturée — Phase 2 en attente)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -21,11 +21,11 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | | |
 |---|---|
 | **Objectif actif** | [Reference Product Chapter (234)](MASTER_ROADMAP.md#reference-product-chapter-234) — **laboratoire produit** |
-| **Phase opérationnelle active** | **Phase 1** — Modèle mental ([roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) |
-| **Livrable visé** | Figure MM publiée ; walkthrough MM ; UX minimale — voir Phase 1 |
-| **Chemin critique** | **Phases 1→8 (234)** → **Phase 9 (224)** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
-| **Blocage structurant** | Phase 1 non démarrée (contenu + déclaratif MM) ; Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
-| **Dernier jalon produit** | **Reader Acceptance V1 prononcé** — 2026-08-02 ; tag `reader-acceptance-v1` ; acquis D1–D7, AP-A…AP-F **clôturés** — ne pilotent plus la roadmap opérationnelle |
+| **Phase opérationnelle active** | **Phase 2** — Amorçage cognitif ([roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) — en attente de démarrage |
+| **Livrable visé** | Amorçage cognitif exploitable dans le Reader — voir Phase 2 |
+| **Chemin critique** | **Phases 2→8 (234)** → **Phase 9 (224)** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
+| **Blocage structurant** | Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
+| **Dernier jalon produit** | **Phase 1 — Modèle mental** — figure MM publiée, walkthrough figure-first, zoom Reader ; 2026-08-03 |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -43,7 +43,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 0–8 | **Phase 1 active** — Modèle mental ([`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md), [`MASTER_ROADMAP.md` § Roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) |
+| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 2–8 | **Phase 1 clôturée** — figure `MM-pump-decompensation` publiée ; walkthrough figure-first ; zoom Reader ; **Phase 2** (Amorçage) prête à démarrer ([`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md)) |
 | **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
 | **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
@@ -124,8 +124,8 @@ Ordre hérité de [`MASTER_ROADMAP.md` § Roadmap opérationnelle](MASTER_ROADMA
 | Phase | Intitulé | Statut |
 |---|---|---|
 | **0** | Compléter la chaîne Fabrique → Reader | **Clôturée** |
-| **1** | Modèle mental | **Active** |
-| **2** | Amorçage cognitif | En attente |
+| **1** | Modèle mental | **Clôturée** |
+| **2** | Amorçage cognitif | **Prochaine** |
 | **3** | Notions (11 notions, figures, walkthroughs, développements, points d'attention) | En attente |
 | **4** | Cas cliniques | En attente |
 | **5** | Collège officiel + Notes | En attente |
@@ -146,6 +146,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-03 | **Phase 1 clôturée** — figure `MM-pump-decompensation` publiée via Stage G (`visual-spec` causal-graph) ; walkthrough `story`/`overview` figure-first ; zoom figure Reader ; validate/build + CI 234 PASS |
 | 2026-08-03 | **Phase 0 clôturée** — sync fixture Reader ; Stage G `mental_model`/`confusion` + branchement `visual-spec` ; assainissement moteur SVG V1 ; build/regenerate automatiques |
 | 2026-08-03 | **Roadmap opérationnelle Phases 0–9** — pilotage par les 7 vues Reader ; lots D/AP = acquis ; audit 234 = checklist implémentation ; Phase 0 active |
 | 2026-08-02 | **Nettoyage documentaire Reader V1** publié (`e479e78`) — modèle 7 vues ; doc `00-READER-V1-PRODUCT-MODEL.md` |

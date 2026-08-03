@@ -18,7 +18,10 @@
       "elements": [
         "ANA-ville-pompe",
         "MM-pump-decompensation"
-      ]
+      ],
+      "visuals": {
+        "MM-pump-decompensation": "figures/mm-pump-decompensation.svg"
+      }
     },
     {
       "id": "overview",
@@ -76,6 +79,12 @@
     }
   ],
   "visuals": [
+    {
+      "id": "mm-pump-decompensation",
+      "element": "MM-pump-decompensation",
+      "path": "figures/mm-pump-decompensation.svg",
+      "alt": "Cardiopathie → pompe défaillante → compensations → surcharge → décompensation aiguë"
+    },
     {
       "id": "mec-oap",
       "element": "MEC-oap",
@@ -169,13 +178,12 @@
   ],
   "official_visuals": [
     {
-      "element": "MEC-oap",
+      "element": "MM-pump-decompensation",
       "state": "published"
     },
     {
-      "element": "MM-pump-decompensation",
-      "state": "planned-not-built",
-      "intent": "process-flow"
+      "element": "MEC-oap",
+      "state": "published"
     },
     {
       "element": "MEC-compensation",
@@ -643,5 +651,5 @@
   "editorial_completeness": "complete",
   "publication_version": 1,
   "release_id": "cardio__234__2022__1",
-  "content_digest": "sha256:a55a280bae5ba4e60c44686e7d278137b7d0b3ceebd2b5567f5d90361ca73e09"
+  "content_digest": "sha256:c0680fd97d638b9bae18b2899a47f5afac418b4f9bd160ce83951a1b59217932"
 }

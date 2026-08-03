@@ -580,13 +580,13 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
     }
   });
 
-  test("overview claim trace includes KP-042 for lesional/exudate contrast", () => {
+  test("story MM claim trace includes KP-008 for compensation overload", () => {
     const inventory = loadYamlFile(path.join(CHAPTER, "inventory.yaml"));
     const result = loadAllProjectionClaimsSync(CHAPTER, inventory);
     assert.equal(result.ok, true);
-    const overviewClaim = result.allClaims.find((c) => c.id === "cb-overview-oap");
-    assert.ok(overviewClaim);
-    assert.ok(overviewClaim.kp.includes("KP-042"));
+    const overloadClaim = result.allClaims.find((c) => c.id === "cb-mm-read-overload");
+    assert.ok(overloadClaim);
+    assert.ok(overloadClaim.kp.includes("KP-008"));
   });
 
   test("manifest assembly uses projections.yaml registry", async () => {
@@ -602,8 +602,12 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       manifest.projections.map((p: { id: string }) => p.id),
       ["story", "overview", "mechanisms", "clinical-reasoning"]
     );
-    assert.equal(manifest.visuals.length, 1);
-    assert.equal(manifest.visuals[0].element, "MEC-oap");
+    assert.equal(manifest.visuals.length, 2);
+    const visualElements = manifest.visuals.map(
+      (v: { element: string }) => v.element
+    );
+    assert.ok(visualElements.includes("MEC-oap"));
+    assert.ok(visualElements.includes("MM-pump-decompensation"));
     for (const projection of manifest.projections) {
       assert.ok(
         !Object.prototype.hasOwnProperty.call(projection, "label"),

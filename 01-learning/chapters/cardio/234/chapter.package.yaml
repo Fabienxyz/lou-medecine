@@ -28,4 +28,5 @@ semantic_grounding_bootstrap:
       note: bootstrap-verified entailment
 
 visual_alts:
+  MM-pump-decompensation: Cardiopathie → pompe défaillante → compensations → surcharge → décompensation aiguë
   MEC-oap: Congestion pulmonaire → seuil PPC → transsudat → OAP cardiogénique

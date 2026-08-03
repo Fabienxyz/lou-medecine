@@ -9,6 +9,7 @@ inventory_revision: phase-3c-corrected
 mental_model:
   id: MM-pump-decompensation
   question: "Comment une cardiopathie devient-elle une insuffisance cardiaque qui se décompense ?"
+  visual_intent: causal-graph
 # Cognitive sequence — intuition → model → physiology → consequences → recognition → diagnosis → etiology → acute → chronic treatment → follow-up.
 # Confusion boundaries are sequenced immediately after the concepts they disambiguate.
 sequence:
@@ -41,7 +42,7 @@ sequence:
 # Every visual is optional support: a block whose visual is absent or withheld remains complete,
 # because the Guided Walkthrough is the canonical explanation.
 visual_plan:
-  - { element: MM-pump-decompensation, intent: process-flow, rationale: "whole-chapter causal cascade" }
+  - { element: MM-pump-decompensation, intent: causal-graph, rationale: "whole-chapter causal cascade", active: true }
   - { element: MEC-compensation, intent: feedback-loop, rationale: "short-term help → long-term harm loop" }
   - { element: MEC-ef-phenotypes, intent: comparison, rationale: "HFrEF vs HFpEF vs HFmrEF" }
   - { element: MEC-oap, intent: process-flow, rationale: "PPC threshold → transudate → OAP", active: true }

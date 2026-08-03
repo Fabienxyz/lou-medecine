@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-03 (Phase 0 clôturée ; Phase 1 active) |
+| **Statut** | Document d'accueil — 2026-08-03 (Phase 1 clôturée ; Phase 2 en attente) |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -34,11 +34,11 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Phase** | Execution Mode V1 — Reader Acceptance V1 **clôturé** |
-| **Phase opérationnelle active** | **Phase 1** — Modèle mental |
-| **Dernier jalon publié** | **Phase 0** — chaîne Fabrique → Reader (2026-08-03) |
-| **Objectif actif** | **Reference Product Chapter (234)** — **laboratoire produit** (Phases 0–8) |
-| **Chantier actif** | **Phase 1** — figure MM, walkthrough MM, déclaratif blueprint/package |
-| **Chantier suivant (bloqué)** | **Phase 2 — Amorçage cognitif** — après Phase 1 |
+| **Phase opérationnelle active** | **Phase 2** — Amorçage cognitif (en attente) |
+| **Dernier jalon publié** | **Phase 1** — Modèle mental (2026-08-03) |
+| **Objectif actif** | **Reference Product Chapter (234)** — **laboratoire produit** (Phases 2–8) |
+| **Chantier actif** | **Phase 2** — Amorçage cognitif (package + vue Reader) |
+| **Chantier suivant (bloqué)** | **Phase 3 — Notions** — après Phase 2 |
 | **Instance courante** | Package 234 Release `complete` ; Reader V1 accepté ; 7 vues alimentées |
 
 **Deux références distinctes :**
@@ -61,9 +61,9 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 **Roadmap opérationnelle** ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) · [`PROJECT_STATE.md`](PROJECT_STATE.md)) — pilotée par les **7 vues Reader**, pas par les lots D/AP.
 
 ```
-Phase 1 — Modèle mental                         ← ACTIVE
+Phase 1 — Modèle mental                         ← CLÔTURÉE
         ↓
-Phase 2 — Amorçage cognitif
+Phase 2 — Amorçage cognitif                     ← PROCHAINE
         ↓
 Phase 3 — Notions
         ↓
@@ -82,9 +82,9 @@ Phase 9 — Reference Production Chapter (224)
 Capitalisation industrielle → Validation Corpus V1 → …
 ```
 
-**Prochain jalon opérationnel :** **Phase 1** — Modèle mental (figure MM + walkthrough).
+**Prochain jalon opérationnel :** **Phase 2** — Amorçage cognitif.
 
-**Phase 0 clôturée :** sync fixture Reader ; Stage G générique ; moteur SVG V1 assaini.
+**Phase 1 clôturée :** figure `MM-pump-decompensation` publiée automatiquement ; walkthrough figure-first ; zoom figure Reader.
 
 **234** = découvrir le **meilleur produit**. **224** (Phase 9) = découvrir la **meilleure méthode industrielle**.
 

@@ -1,5 +1,5 @@
 {
-  "cb-story-def": {
+  "cb-mm-read-def": {
     "class": "sourced",
     "kp": [
       "KP-001",
@@ -21,7 +21,7 @@
       }
     ]
   },
-  "cb-story-consequences": {
+  "cb-mm-read-dual": {
     "class": "sourced",
     "kp": [
       "KP-006"
@@ -33,95 +33,42 @@
       "quote": "Un dysfonctionnement de la pompe cardiaque peut avoir deux conséquences principales"
     }
   },
-  "cb-story-compensation": {
+  "cb-mm-read-comp": {
     "class": "sourced",
     "kp": [
-      "KP-008"
+      "KP-008",
+      "KP-011",
+      "KP-012"
     ],
     "element": "MM-pump-decompensation",
-    "anchor": {
-      "edition": 2022,
-      "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
-      "quote": "bénéfiques à court terme car maintenant le débit cardiaque"
-    }
-  },
-  "cb-story-congestion": {
-    "class": "sourced",
-    "kp": [
-      "KP-040"
-    ],
-    "element": "MM-pump-decompensation",
-    "anchor": {
-      "edition": 2022,
-      "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
-      "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
-    }
-  },
-  "cb-ov-def-physio": {
-    "class": "sourced",
-    "kp": [
-      "KP-001"
-    ],
-    "element": "MEC-output-basics",
-    "anchor": {
-      "edition": 2022,
-      "section_path": "I. Généralités > A Définition",
-      "quote": "incapacité du cœur à délivrer un débit adapté aux besoins de l’organisme et/ou à fonctionner avec des pressions de remplissage normales"
-    }
-  },
-  "cb-ov-def-clinic": {
-    "class": "sourced",
-    "kp": [
-      "KP-002"
-    ],
-    "element": "MEC-output-basics",
-    "anchor": {
-      "edition": 2022,
-      "section_path": "I. Généralités > A Définition",
-      "quote": "l’IC est un syndrome défini par l’association de symptômes, de signes cliniques"
-    }
-  },
-  "cb-ov-formulas": {
-    "class": "sourced",
-    "kp": [
-      "KP-005",
-      "KP-006"
-    ],
-    "element": "MEC-output-basics",
     "anchors": [
       {
-        "kp": "KP-005",
+        "kp": "KP-008",
         "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
-        "quote": "Le débit cardiaque (DC) dépend du volume d’éjection systolique ventriculaire (VES) et de la fréquence cardiaque (FC) : DC = VES × FC"
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "bénéfiques à court terme car maintenant le débit cardiaque"
       },
       {
-        "kp": "KP-006",
+        "kp": "KP-011",
         "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
-        "quote": "Un dysfonctionnement de la pompe cardiaque peut avoir deux conséquences principales"
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "La tachycardie, sous la dépendance de l’activation du système sympathique, contribue également à maintenir le débit cardiaque"
+      },
+      {
+        "kp": "KP-012",
+        "edition": 2022,
+        "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
+        "quote": "La vasoconstriction, en réponse à l’activation du système sympathique et du système rénine"
       }
     ]
   },
-  "cb-ov-compensation": {
-    "class": "sourced",
-    "kp": [
-      "KP-008"
-    ],
-    "element": "MEC-compensation",
-    "anchor": {
-      "edition": 2022,
-      "section_path": "I. Généralités > C Physiopathologie > 2 En cas de dysfonctionnement cardiaque",
-      "quote": "bénéfiques à court terme car maintenant le débit cardiaque"
-    }
-  },
-  "cb-ov-maladaptive": {
+  "cb-mm-read-overload": {
     "class": "sourced",
     "kp": [
       "KP-008",
       "KP-009"
     ],
-    "element": "MEC-compensation",
+    "element": "MM-pump-decompensation",
     "anchors": [
       {
         "kp": "KP-008",
@@ -136,190 +83,6 @@
         "quote": "Le remodelage cardiaque est défini comme les changements de la géométrie des cavités"
       }
     ]
-  },
-  "cb-ov-congestion-sides": {
-    "class": "sourced",
-    "kp": [
-      "KP-040",
-      "KP-007"
-    ],
-    "element": "MEC-congestion",
-    "anchors": [
-      {
-        "kp": "KP-040",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
-        "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
-      },
-      {
-        "kp": "KP-007",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
-        "quote": "Au niveau du VD, l’augmentation des pressions diastoliques se transmet à l’oreillette droite"
-      }
-    ]
-  },
-  "cb-overview-oap": {
-    "class": "bridging",
-    "kp": [
-      "KP-040",
-      "KP-041",
-      "KP-042"
-    ],
-    "element": "MEC-oap",
-    "anchors": [
-      {
-        "kp": "KP-040",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
-        "quote": "augmentation des pressions de remplissage (diastolique) intraventriculaires qui se transmettent en amont"
-      },
-      {
-        "kp": "KP-041",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
-        "quote": "pression capillaire pulmonaire au-delà d’un certain seuil (en général au moins > 25 mmHg)"
-      },
-      {
-        "kp": "KP-042",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 1 Quelques rappels simples",
-        "quote": "l’œdème pulmonaire lésionnel non cardiogénique est secondaire à des lésions de la membrane alvéolo-capillaire"
-      }
-    ]
-  },
-  "cb-ov-arrhythmia": {
-    "class": "sourced",
-    "kp": [
-      "KP-017",
-      "KP-018"
-    ],
-    "element": "MEC-arrhythmia",
-    "anchors": [
-      {
-        "kp": "KP-017",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 5 Arythmies",
-        "quote": "La fibrillation atriale est favorisée par la dilatation de l’atrium secondaire à l’augmentation des pressions intracavitaires"
-      },
-      {
-        "kp": "KP-018",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 5 Arythmies",
-        "quote": "Les troubles du rythme ventriculaire graves (TV, FV) sont à l’origine de la plupart des morts subites"
-      }
-    ]
-  },
-  "cb-ov-recognize": {
-    "class": "sourced",
-    "kp": [
-      "KP-003",
-      "KP-019",
-      "KP-020"
-    ],
-    "element": "CR-recognize",
-    "anchors": [
-      {
-        "kp": "KP-003",
-        "edition": 2022,
-        "section_path": "I. Généralités > A Définition",
-        "quote": "les symptômes ne sont pas spécifiques et les signes ne sont pas sensibles"
-      },
-      {
-        "kp": "KP-019",
-        "edition": 2022,
-        "section_path": "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires",
-        "quote": "La dyspnée d’effort, fréquente mais peu spécifique, est souvent révélatrice"
-      },
-      {
-        "kp": "KP-020",
-        "edition": 2022,
-        "section_path": "II. Diagnostic > A Signes fonctionnels > 1 Symptômes respiratoires",
-        "quote": "L’orthopnée est plus spécifique"
-      }
-    ]
-  },
-  "cb-ov-ef": {
-    "class": "sourced",
-    "kp": [
-      "KP-014",
-      "KP-015",
-      "KP-016"
-    ],
-    "element": "MEC-ef-phenotypes",
-    "anchors": [
-      {
-        "kp": "KP-014",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
-        "quote": "Elle est définie par une fraction d’éjection ≤ 40 %"
-      },
-      {
-        "kp": "KP-015",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
-        "quote": "Cette IC est définie par une FE ≥ 50 %"
-      },
-      {
-        "kp": "KP-016",
-        "edition": 2022,
-        "section_path": "I. Généralités > C Physiopathologie > 4 Insuffisance cardiaque à fraction d’éjection diminuée ou préservée",
-        "quote": "Lorsque la fraction d’éjection est entre 41 et 49 %, on parle d’IC à FE légèrement diminuée"
-      }
-    ]
-  },
-  "cb-ov-diagnose": {
-    "class": "sourced",
-    "kp": [
-      "KP-032",
-      "KP-035",
-      "KP-039"
-    ],
-    "element": "CR-diagnose",
-    "anchors": [
-      {
-        "kp": "KP-032",
-        "edition": 2022,
-        "section_path": "II. Diagnostic > C Électrocardiogramme",
-        "quote": "L’ECG est peu contributif pour le diagnostic d’IC"
-      },
-      {
-        "kp": "KP-035",
-        "edition": 2022,
-        "section_path": "II. Diagnostic > E Dosage des peptides natriurétiques (BNP ou NT-proBNP)",
-        "quote": "Le BNP ou le NT-proBNP sont aujourd’hui recommandés pour le diagnostic de l’IC, avec une bonne valeur prédictive négative"
-      },
-      {
-        "kp": "KP-039",
-        "edition": 2022,
-        "section_path": "II. Diagnostic > F Échocardiographie transthoracique",
-        "quote": "l’ETT est l’examen clé indispensable en cas d’IC ou de suspicion d’IC"
-      }
-    ]
-  },
-  "cb-ov-hfref": {
-    "class": "sourced",
-    "kp": [
-      "KP-077"
-    ],
-    "element": "CR-treat-hfref",
-    "anchor": {
-      "edition": 2022,
-      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > C Traitements médicamenteux de l’insuffisance cardiaque à fraction d’éjection diminuée (FE ≤ 40 %)",
-      "quote": "Quatre classes médicamenteuses sont associées à une baisse de la mortalité et des décompensations aiguës"
-    }
-  },
-  "cb-ov-hfpef": {
-    "class": "sourced",
-    "kp": [
-      "KP-096"
-    ],
-    "element": "CR-treat-hfpef",
-    "anchor": {
-      "edition": 2022,
-      "section_path": "VI. Traitement de l’insuffisance cardiaque chronique > F Traitement médicamenteux de l’insuffisance cardiaque à fraction d’éjection conservée",
-      "quote": "aucun médicament n’a pour le moment démontré d’efficacité en dehors très récemment de la classe des gliflozines"
-    }
   },
   "cb-mec-out-physio": {
     "class": "sourced",

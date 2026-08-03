@@ -8,10 +8,6 @@ verdicts:
     kp: "KP-041"
     expected_mmHg: 25
     found_mmHg: 25
-  cb-overview-oap:
-    mode: "semantic-bootstrap"
-    status: "pass"
-    note: "bootstrap-verified entailment"
   cb-oap-bridge:
     mode: "semantic-bootstrap"
     status: "pass"

@@ -266,7 +266,7 @@ test.describe("V2.1 smoke — projections", () => {
       "Overview highlight must restore after reload when returning from Story"
     ).toBe(1);
     assertHealthyMarks(overviewAfterReload, expect);
-    expect(overviewAfterReload.marks[0].text).toContain("physiopathologique");
+    expect(overviewAfterReload.marks[0].text).toContain("Anomalie");
   });
 
   test("PR-M01-UI same sequence via selection toolbar (manual workflow)", async ({

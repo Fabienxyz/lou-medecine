@@ -533,6 +533,9 @@ window.LouRenderer = {
             if (window.LouSvgLoader) {
                 await window.LouSvgLoader.loadAllFigures(host, context);
             }
+            if (window.LouFigureZoom) {
+                window.LouFigureZoom.bind(host);
+            }
         } catch (err) {
             console.warn(
                 "[LouRenderer] Official SVG loading failed; learner layers continue.",

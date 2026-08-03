@@ -172,9 +172,22 @@
         );
         trace.rangeFound = !!range;
         if (range && !highlights._rangeAlreadyHighlighted(range)) {
-            const mark = highlights.wrapRangeInMark(range);
+            const colorId =
+                window.LouAnnotationColors.getRecordColor(
+                    "highlight",
+                    record.id
+                ) || window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID;
+            const formatState =
+                window.LouAnnotationColors.getRecordStyle(
+                    "highlight",
+                    record.id
+                ) || window.LouAnnotationColors.emptyFormatState();
+            const mark = highlights.wrapRangeInMark(range, colorId, formatState);
             trace.domCreated = !!mark;
             if (mark) {
+                if (record.id != null) {
+                    mark.dataset.highlightId = String(record.id);
+                }
                 trace.decision = "restored";
                 trace.reason = "wrapped_from_selector";
                 emitTrace(trace);

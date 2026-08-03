@@ -625,7 +625,12 @@ describe("D4 audit — IA-10 overlay order (M1)", () => {
     assert.equal(result.ok, true);
     assert.deepEqual(order, ["view:1", "overlays"]);
     const banner = window.document.getElementById("session-resume-warnings");
-    assert.ok(banner.textContent.includes("orphan_anchor"));
+    assert.ok(
+      banner.textContent.includes(
+        "le repère de lecture exact n'a pas pu être restauré"
+      )
+    );
+    assert.equal(banner.textContent.includes("orphan_anchor"), false);
   });
 });
 

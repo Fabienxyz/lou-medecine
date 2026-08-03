@@ -100,7 +100,7 @@ describe("Product Polish V1 — shell content-first", () => {
     });
 });
 
-describe("Product Polish V1 — AnnotationColorPalette", () => {
+describe("Product Polish V1.1 — AnnotationToolbar", () => {
     /** @type {JSDOM} */
     let dom;
 
@@ -109,42 +109,61 @@ describe("Product Polish V1 — AnnotationColorPalette", () => {
             url: "http://localhost/",
             runScripts: "outside-only",
         });
-        loadScripts(dom, ["annotation-colors.js", "annotation-color-palette.js"]);
+        loadScripts(dom, ["annotation-colors.js", "annotation-toolbar.js"]);
         dom.window.localStorage.clear();
     });
 
-    test("palette exposes exactly five swatches without plus control", () => {
-        const palette = dom.window.LouAnnotationColorPalette.create({
-            onSelect: function () {},
+    test("toolbar exposes two rows with five swatches and three format toggles", () => {
+        const toolbar = dom.window.LouAnnotationToolbar.create({
+            onStateChange: function () {},
         });
-        assert.equal(palette.getSwatchCount(), 5);
+        assert.equal(toolbar.getSwatchCount(), 5);
+        assert.equal(toolbar.getFormatButtonCount(), 3);
+        assert.ok(toolbar.element.querySelector(".annotation-toolbar-colors"));
+        assert.ok(toolbar.element.querySelector(".annotation-toolbar-formats"));
         assert.equal(
-            palette.element.querySelectorAll(".annotation-color-palette-swatch").length,
+            toolbar.element.querySelectorAll(".annotation-toolbar-swatch").length,
             5
         );
-        assert.equal(palette.element.textContent.includes("+"), false);
-        palette.destroy();
+        toolbar.destroy();
     });
 
-    test("selecting a swatch invokes callback and closes on consumer action", () => {
-        let chosen = null;
-        const palette = dom.window.LouAnnotationColorPalette.create({
-            selectedColorId: "green",
-            onSelect: function (colorId) {
-                chosen = colorId;
-                palette.hide();
-            },
+    test("color swatch toggles off when clicking active color", () => {
+        const toolbar = dom.window.LouAnnotationToolbar.create({
+            onStateChange: function () {},
         });
-        palette.showNearRect({ left: 40, top: 40, width: 80, height: 20, right: 120, bottom: 60 });
-        const swatch = palette.element.querySelector('[data-color-id="pink"]');
-        swatch.click();
-        assert.equal(chosen, "pink");
-        palette.destroy();
+        toolbar.setState({ colorId: "green" });
+        const green = toolbar.element.querySelector('[data-color-id="green"]');
+        green.click();
+        assert.equal(toolbar.getState().colorId, null);
+        toolbar.destroy();
     });
 
-    test("last highlight color persists in localStorage", () => {
-        dom.window.LouAnnotationColors.setLastHighlightColorId("violet");
-        assert.equal(dom.window.LouAnnotationColors.getLastHighlightColorId(), "violet");
+    test("format buttons allow independent toggles", () => {
+        const toolbar = dom.window.LouAnnotationToolbar.create({
+            onStateChange: function () {},
+        });
+        toolbar.element.querySelector(".annotation-toolbar-format-bold").click();
+        toolbar.element.querySelector(".annotation-toolbar-format-underline").click();
+        const state = toolbar.getState();
+        assert.equal(state.bold, true);
+        assert.equal(state.underline, true);
+        assert.equal(state.strikethrough, false);
+        toolbar.destroy();
+    });
+
+    test("note style memory persists in localStorage sidecar", () => {
+        dom.window.LouAnnotationColors.setLastNotePreferences({
+            colorId: "blue",
+            bold: true,
+            underline: true,
+            strikethrough: false,
+        });
+        const prefs = dom.window.LouAnnotationColors.getLastNotePreferences();
+        assert.equal(prefs.colorId, "blue");
+        assert.equal(prefs.bold, true);
+        assert.equal(prefs.underline, true);
+        assert.equal(prefs.strikethrough, false);
     });
 
     test("record color sidecar restores highlight color without patrimony change", () => {

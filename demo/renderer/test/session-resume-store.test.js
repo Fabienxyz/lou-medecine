@@ -282,7 +282,12 @@ describe("Lot D4 — applyResumePlan mechanical degradation", () => {
     assert.equal(result.ok, true);
     assert.equal(shown, 1);
     const banner = window.document.getElementById("session-resume-warnings");
-    assert.ok(banner.textContent.includes("orphan_anchor"));
+    assert.ok(
+      banner.textContent.includes(
+        "le repère de lecture exact n'a pas pu être restauré"
+      )
+    );
+    assert.equal(banner.textContent.includes("orphan_anchor"), false);
   });
 
   test("L26 — second applyResumePlan throws", async () => {

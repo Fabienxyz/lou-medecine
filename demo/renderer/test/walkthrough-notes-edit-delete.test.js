@@ -119,7 +119,8 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
       "learner-store.js",
       "caret-anchor.js",
       "annotation-colors.js",
-      "annotation-color-palette.js",
+      "annotation-toolbar.js",
+      "annotation-controller.js",
       "text-highlights.js",
       "inline-notes.js",
       "svg-loader.js",
@@ -129,24 +130,34 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     ]);
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    if (window.LouInlineNotes && window.LouInlineNotes._commitInFlight) {
+      await window.LouInlineNotes._commitInFlight;
+    }
     window.indexedDB = new IDBFactory();
     window.LouLearnerStore.db = null;
+    const contentEl = window.document.getElementById("content");
+    if (contentEl) {
+      const fresh = window.document.createElement("div");
+      fresh.id = "content";
+      contentEl.replaceWith(fresh);
+    }
     window.LouTextHighlights._boundHost = null;
+    window.LouTextHighlights._selectionContext = null;
     window.LouInlineNotes._boundHost = null;
     window.LouInlineNotes._activeEditNote = null;
     window.LouInlineNotes._committing = false;
     window.LouInlineNotes._mountGeneration = 0;
     window.LouInlineNotes._hideContextMenu();
-    if (window.LouInlineNotes._noteColorPalette) {
-      window.LouInlineNotes._noteColorPalette.destroy();
-      window.LouInlineNotes._noteColorPalette = null;
+    window.LouInlineNotes._dismissNoteToolbar(false);
+    if (window.LouAnnotationController && window.LouAnnotationController._toolbar) {
+      window.LouAnnotationController._toolbar.destroy();
+      window.LouAnnotationController._toolbar = null;
+      window.LouAnnotationController._context = null;
+      window.LouAnnotationController._highlightIntent = null;
+      window.LouAnnotationController._noteIntent = null;
     }
-    window.LouInlineNotes._pendingColorNote = null;
-    if (window.LouTextHighlights._palette) {
-      window.LouTextHighlights._palette.destroy();
-      window.LouTextHighlights._palette = null;
-    }
+    window.LouInlineNotes._commitInFlight = null;
 
     const manifest = manifestFixture();
     window.LouRenderer.init(window.document.getElementById("content"), null);
@@ -208,6 +219,20 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     await window.LouInlineNotes._waitForCommitIdle();
   }
 
+  async function blurNoteUntilStoreGate(note) {
+    await window.LouInlineNotes._waitForCommitIdle();
+    window.LouInlineNotes._committing = false;
+    const commitPromise = window.LouInlineNotes._commitOnBlur(note);
+    for (let i = 0; i < 50; i += 1) {
+      await flushPromises();
+      if (window.LouInlineNotes._commitInFlight) {
+        return window.LouInlineNotes._commitInFlight;
+      }
+    }
+    await commitPromise;
+    throw new Error("Expected inline note store commit to reach in-flight gate");
+  }
+
   async function blurNote(note) {
     note.dispatchEvent(new window.FocusEvent("blur", { bubbles: false }));
     await flushPromises();
@@ -264,7 +289,7 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     window.document.caretRangeFromPoint = () => range;
   }
 
-  async function openCreateMenu(content, elementId, globalOffset) {
+  async function dblclickCreateNote(content, elementId, globalOffset) {
     const walkthrough = content.querySelector(
       '[data-element="' + elementId + '"] .block-walkthrough'
     );
@@ -276,40 +301,36 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     const point = textNodeAt(window, walkthrough, globalOffset);
     const target = point.node.parentElement || point.node;
     target.dispatchEvent(
-      new window.MouseEvent("contextmenu", {
+      new window.MouseEvent("dblclick", {
         bubbles: true,
         cancelable: true,
         clientX: 120,
         clientY: 80,
       })
     );
-    const menu = window.document.querySelector(".inline-notes-context-menu");
-    assert.ok(menu && !menu.hidden);
-    return menu;
+    await flushPromises();
+    return content.querySelector(
+      '[data-element="' + elementId + '"] .walkthrough-note:not([data-note-id])'
+    );
   }
 
-  async function waitForNotePalette() {
+  async function waitForNoteToolbar() {
     for (let i = 0; i < 30; i += 1) {
       await flushPromises();
-      const palette = window.document.querySelector(".annotation-color-palette");
-      if (palette && palette.hidden === false) {
-        return palette;
+      const toolbar = window.document.querySelector(".annotation-toolbar");
+      if (toolbar && toolbar.hidden === false) {
+        return toolbar;
       }
     }
     return null;
   }
 
   async function createPendingNote(content, elementId = "MEC-oap", offset = 12) {
-    const menu = await openCreateMenu(content, elementId, offset);
-    menu.querySelector("button").click();
-    const palette = await waitForNotePalette();
-    assert.ok(palette, "note color palette visible");
-    palette.querySelector(".annotation-color-palette-swatch").click();
-    await flushPromises();
+    const note = await dblclickCreateNote(content, elementId, offset);
+    assert.ok(note, "note created on double-click");
+    await waitForNoteToolbar();
     await window.LouInlineNotes._waitForCommitIdle();
-    return content.querySelector(
-      '[data-element="' + elementId + '"] .walkthrough-note:not([data-note-id])'
-    );
+    return note;
   }
 
   async function openDeleteMenu(note) {
@@ -672,6 +693,7 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
       );
       assert.equal(rows[0].text, "Stable text");
       assert.equal(rows[0].id, id);
+      await renderMechanisms();
     } finally {
       window.LouInlineNotes._runStoreCommit = origRun;
       counter.restore();
@@ -685,8 +707,7 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
 
     const gate = gateStoreMethod("updateWalkthroughNote");
     try {
-      const commitPromise = blurNote(note);
-      await flushPromises();
+      const commitPromise = blurNoteUntilStoreGate(note);
       const content = await renderMechanisms();
       const restored = content.querySelector('[data-note-id="' + id + '"]');
       assert.equal(restored.textContent, "Before mount");
@@ -716,8 +737,7 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
 
     const gate = gateStoreMethod("deleteWalkthroughNote");
     try {
-      const commitPromise = blurNote(note);
-      await flushPromises();
+      const commitPromise = blurNoteUntilStoreGate(note);
       const content = await renderMechanisms();
       assert.ok(content.querySelector('[data-note-id="' + id + '"]'));
 
@@ -743,8 +763,7 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
 
     const gate = gateStoreMethod("addWalkthroughNote");
     try {
-      const commitPromise = blurNote(pending);
-      await flushPromises();
+      const commitPromise = blurNoteUntilStoreGate(pending);
       const remounted = await renderMechanisms();
       assert.equal(
         remounted.querySelector(
@@ -847,7 +866,7 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     };
 
     try {
-      const commitA = blurNote(note);
+      const commitA = blurNoteUntilStoreGate(note);
       await flushPromises();
       assert.equal(updateTexts.length, 1);
       assert.equal(updateTexts[0], "Version A");
@@ -977,8 +996,7 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
 
     const gate = gateStoreMethod("updateWalkthroughNote");
     try {
-      const commitPromise = blurNote(note);
-      await flushPromises();
+      const commitPromise = blurNoteUntilStoreGate(note);
       await renderMechanisms();
       const content = await renderMechanisms();
       assert.ok(window.LouInlineNotes._commitInFlight);
@@ -1148,17 +1166,21 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     const gate = gateStoreMethod("deleteWalkthroughNote");
     try {
       const menu = await openDeleteMenu(note);
-      const clickPromise = (async () => {
-        menu.querySelector("button").click();
+      menu.querySelector("button").click();
+      let inFlight = null;
+      for (let i = 0; i < 50; i += 1) {
         await flushPromises();
-        await window.LouInlineNotes._waitForCommitIdle();
-      })();
-      await flushPromises();
+        if (window.LouInlineNotes._commitInFlight) {
+          inFlight = window.LouInlineNotes._commitInFlight;
+          break;
+        }
+      }
+      assert.ok(inFlight, "Expected delete commit to reach in-flight gate");
       const content = await renderMechanisms();
       assert.ok(content.querySelector('[data-note-id="' + id + '"]'));
 
       gate.release();
-      await clickPromise;
+      await inFlight;
       await flushPromises();
 
       assert.equal(content.querySelector('[data-note-id="' + id + '"]'), null);
@@ -1257,13 +1279,25 @@ describe("Walkthrough Notes — edit/delete (commit 6)", () => {
     assert.deepEqual(labels, ["Supprimer la note"]);
   });
 
-  test("WT-ED-07 contextmenu off note has no delete entry", async () => {
+  test("WT-ED-07 contextmenu on official text shows no create menu", async () => {
     const content = await renderMechanisms();
-    const menu = await openCreateMenu(content, "MEC-oap", 10);
-    const labels = Array.from(menu.querySelectorAll("button")).map(
-      (b) => b.textContent
+    const walkthrough = content.querySelector(
+      '[data-element="MEC-oap"] .block-walkthrough'
     );
-    assert.deepEqual(labels, ["Add note"]);
+    const range = window.LouCaretAnchor._caretRangeFromOffset(walkthrough, 10);
+    mockCaretRangeFromPoint(range);
+    const point = textNodeAt(window, walkthrough, 10);
+    const target = point.node.parentElement || point.node;
+    target.dispatchEvent(
+      new window.MouseEvent("contextmenu", {
+        bubbles: true,
+        cancelable: true,
+        clientX: 120,
+        clientY: 80,
+      })
+    );
+    const menu = window.document.querySelector(".inline-notes-context-menu");
+    assert.ok(!menu || menu.hidden);
   });
 
   test("WT-ED-08 create flow still works after edit bind", async () => {

@@ -47,7 +47,7 @@ window.LouAnnotationColors = {
     CHROME_SELECTORS:
         ".learner-affordance, .diagram-affordance, .note-affordance, .shell-breadcrumb, .tabs, .tab, " +
         ".shell-actions, .shell-chrome, .local-search-root, .display-preferences-popover, " +
-        ".annotation-color-palette, .highlight-toolbar, .inline-notes-context-menu",
+        ".annotation-toolbar, .highlight-toolbar, .inline-notes-context-menu, .figure-zoom-trigger",
 
     getById(colorId) {
         const id = String(colorId || "");
@@ -126,16 +126,85 @@ window.LouAnnotationColors = {
         noteEl.style.color = color.text;
     },
 
+    emptyFormatState() {
+        return { bold: false, underline: false, strikethrough: false };
+    },
+
+    normalizeFormatState(raw) {
+        const base = this.emptyFormatState();
+        if (!raw || typeof raw !== "object") {
+            return base;
+        }
+        base.bold = !!raw.bold;
+        base.underline = !!raw.underline;
+        base.strikethrough = !!raw.strikethrough;
+        return base;
+    },
+
+    _formatDecorations(state) {
+        const parts = [];
+        if (state.bold) {
+            parts.push("bold");
+        }
+        if (state.underline) {
+            parts.push("underline");
+        }
+        if (state.strikethrough) {
+            parts.push("line-through");
+        }
+        return parts.length ? parts.join(" ") : "none";
+    },
+
+    applyHighlightStyle(mark, formatState) {
+        if (!mark) {
+            return;
+        }
+        const state = this.normalizeFormatState(formatState);
+        mark.style.fontWeight = state.bold ? "700" : "";
+        mark.style.textDecoration = this._formatDecorations(state);
+    },
+
+    applyNoteStyle(noteEl, formatState) {
+        if (!noteEl) {
+            return;
+        }
+        const state = this.normalizeFormatState(formatState);
+        noteEl.dataset.noteBold = state.bold ? "true" : "false";
+        noteEl.dataset.noteUnderline = state.underline ? "true" : "false";
+        noteEl.dataset.noteStrikethrough = state.strikethrough ? "true" : "false";
+        noteEl.style.fontWeight = state.bold ? "700" : "";
+        noteEl.style.textDecoration = this._formatDecorations(state);
+    },
+
+    readNoteStyleFromElement(noteEl) {
+        if (!noteEl) {
+            return this.emptyFormatState();
+        }
+        return this.normalizeFormatState({
+            bold: noteEl.dataset.noteBold === "true",
+            underline: noteEl.dataset.noteUnderline === "true",
+            strikethrough: noteEl.dataset.noteStrikethrough === "true",
+        });
+    },
+
+    readHighlightStyleFromElement(mark) {
+        if (!mark) {
+            return this.emptyFormatState();
+        }
+        const weight = mark.style.fontWeight || "";
+        const deco = mark.style.textDecoration || "";
+        return this.normalizeFormatState({
+            bold: weight === "700" || weight === "bold",
+            underline: deco.includes("underline"),
+            strikethrough: deco.includes("line-through"),
+        });
+    },
+
     _readStore() {
         try {
             const raw = window.localStorage.getItem(this.STORAGE_KEY);
             if (!raw) {
-                return {
-                    lastHighlight: this.DEFAULT_HIGHLIGHT_ID,
-                    lastNote: this.DEFAULT_NOTE_ID,
-                    highlights: {},
-                    notes: {},
-                };
+                return this._emptyStore();
             }
             const parsed = JSON.parse(raw);
             return {
@@ -147,6 +216,7 @@ window.LouAnnotationColors = {
                     parsed.lastNote,
                     this.DEFAULT_NOTE_ID
                 ),
+                lastNoteStyle: this.normalizeFormatState(parsed.lastNoteStyle),
                 highlights:
                     parsed.highlights && typeof parsed.highlights === "object"
                         ? parsed.highlights
@@ -155,15 +225,31 @@ window.LouAnnotationColors = {
                     parsed.notes && typeof parsed.notes === "object"
                         ? parsed.notes
                         : {},
+                highlightStyles:
+                    parsed.highlightStyles &&
+                    typeof parsed.highlightStyles === "object"
+                        ? parsed.highlightStyles
+                        : {},
+                noteStyles:
+                    parsed.noteStyles && typeof parsed.noteStyles === "object"
+                        ? parsed.noteStyles
+                        : {},
             };
         } catch (err) {
-            return {
-                lastHighlight: this.DEFAULT_HIGHLIGHT_ID,
-                lastNote: this.DEFAULT_NOTE_ID,
-                highlights: {},
-                notes: {},
-            };
+            return this._emptyStore();
         }
+    },
+
+    _emptyStore() {
+        return {
+            lastHighlight: this.DEFAULT_HIGHLIGHT_ID,
+            lastNote: this.DEFAULT_NOTE_ID,
+            lastNoteStyle: this.emptyFormatState(),
+            highlights: {},
+            notes: {},
+            highlightStyles: {},
+            noteStyles: {},
+        };
     },
 
     _writeStore(store) {
@@ -237,9 +323,81 @@ window.LouAnnotationColors = {
         const key = String(recordId);
         if (kind === "note") {
             delete store.notes[key];
+            delete store.noteStyles[key];
         } else {
             delete store.highlights[key];
+            delete store.highlightStyles[key];
         }
         this._writeStore(store);
+    },
+
+    getLastNoteStyle() {
+        return this.normalizeFormatState(this._readStore().lastNoteStyle);
+    },
+
+    setLastNoteStyle(formatState) {
+        const store = this._readStore();
+        store.lastNoteStyle = this.normalizeFormatState(formatState);
+        this._writeStore(store);
+    },
+
+    getLastNotePreferences() {
+        const store = this._readStore();
+        return {
+            colorId: store.lastNote,
+            bold: store.lastNoteStyle.bold,
+            underline: store.lastNoteStyle.underline,
+            strikethrough: store.lastNoteStyle.strikethrough,
+        };
+    },
+
+    setLastNotePreferences(prefs) {
+        if (!prefs || typeof prefs !== "object") {
+            return;
+        }
+        if (prefs.colorId != null) {
+            this.setLastNoteColorId(prefs.colorId);
+        }
+        this.setLastNoteStyle({
+            bold: prefs.bold,
+            underline: prefs.underline,
+            strikethrough: prefs.strikethrough,
+        });
+    },
+
+    getRecordStyle(kind, recordId) {
+        if (recordId == null) {
+            return null;
+        }
+        const store = this._readStore();
+        const key = String(recordId);
+        const bucket =
+            kind === "note" ? store.noteStyles : store.highlightStyles;
+        const raw = bucket[key];
+        return raw ? this.normalizeFormatState(raw) : null;
+    },
+
+    setRecordStyle(kind, recordId, formatState) {
+        if (recordId == null) {
+            return;
+        }
+        const store = this._readStore();
+        const key = String(recordId);
+        const normalized = this.normalizeFormatState(formatState);
+        if (kind === "note") {
+            store.noteStyles[key] = normalized;
+            store.lastNoteStyle = normalized;
+        } else {
+            store.highlightStyles[key] = normalized;
+        }
+        this._writeStore(store);
+    },
+
+    applyNotePreferences(noteEl, prefs) {
+        if (!noteEl || !prefs) {
+            return;
+        }
+        this.applyNoteColor(noteEl, prefs.colorId);
+        this.applyNoteStyle(noteEl, prefs);
     },
 };

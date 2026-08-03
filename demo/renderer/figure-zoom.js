@@ -21,26 +21,20 @@ window.LouFigureZoom = {
             }
             figure.dataset.zoomBound = "true";
             figure.classList.add("official-visual-zoomable");
-            figure.setAttribute("tabindex", "0");
-            const label =
-                svg.getAttribute("aria-label") ||
-                figure.dataset.element ||
-                "Figure officielle";
-            figure.setAttribute("role", "button");
-            figure.setAttribute("aria-label", "Agrandir — " + label);
 
-            figure.addEventListener("click", function (event) {
-                if (event.target.closest(".learner-diagrams, .diagram-affordance")) {
-                    return;
-                }
-                self.open(figure);
-            });
-            figure.addEventListener("keydown", function (event) {
-                if (event.key === "Enter" || event.key === " ") {
+            if (!figure.querySelector(".figure-zoom-trigger")) {
+                const trigger = document.createElement("button");
+                trigger.type = "button";
+                trigger.className = "figure-zoom-trigger";
+                trigger.setAttribute("aria-label", "Agrandir la figure");
+                trigger.textContent = "\u2922";
+                trigger.addEventListener("click", function (event) {
                     event.preventDefault();
+                    event.stopPropagation();
                     self.open(figure);
-                }
-            });
+                });
+                figure.appendChild(trigger);
+            }
         });
     },
 

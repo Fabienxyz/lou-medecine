@@ -379,12 +379,47 @@ body{
 }
 
 .official-visual-zoomable{
-    cursor:zoom-in;
+    position:relative;
 }
 
 .official-visual-zoomable svg{
     max-width:100%;
     height:auto;
+}
+
+.figure-zoom-trigger{
+    position:absolute;
+    top:8px;
+    right:8px;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    padding:0;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:8px;
+    background:rgba(255,255,255,.92);
+    color:#6b7280;
+    font-size:14px;
+    line-height:1;
+    cursor:pointer;
+    box-shadow:0 2px 8px rgba(15,23,42,.08);
+    opacity:.72;
+    transition:opacity .12s ease,transform .12s ease,box-shadow .12s ease;
+}
+
+.figure-zoom-trigger:hover{
+    opacity:1;
+    transform:scale(1.04);
+    color:#374151;
+}
+
+.figure-zoom-trigger:focus-visible{
+    outline:2px solid #2563eb;
+    outline-offset:2px;
+    opacity:1;
 }
 
 .figure-zoom-overlay{
@@ -502,12 +537,16 @@ body.figure-zoom-open{
     font-size:12px;
 }
 
-.annotation-color-palette{
+.annotation-toolbar{
     position:absolute;
     z-index:1002;
-    padding:8px 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px 14px;
     border:1px solid rgba(0,0,0,.06);
-    border-radius:999px;
+    border-radius:20px;
     background:#ffffff;
     box-shadow:0 8px 24px rgba(15,23,42,.12),0 2px 6px rgba(15,23,42,.06);
     opacity:0;
@@ -515,25 +554,26 @@ body.figure-zoom-open{
     transition:opacity .12s ease,transform .12s ease;
 }
 
-.annotation-color-palette.is-open{
+.annotation-toolbar.is-open{
     opacity:1;
     transform:scale(1);
 }
 
-.annotation-color-palette.is-closing{
+.annotation-toolbar.is-closing{
     opacity:0;
     transform:scale(.96);
 }
 
-.annotation-color-palette-swatches{
+.annotation-toolbar-colors{
     display:flex;
     align-items:center;
-    gap:8px;
+    justify-content:flex-start;
+    gap:10px;
 }
 
-.annotation-color-palette-swatch{
-    width:28px;
-    height:28px;
+.annotation-toolbar-swatch{
+    width:32px;
+    height:32px;
     padding:0;
     border:2px solid transparent;
     border-radius:50%;
@@ -542,21 +582,70 @@ body.figure-zoom-open{
     transition:transform .12s ease,box-shadow .12s ease;
 }
 
-.annotation-color-palette-swatch:hover{
+.annotation-toolbar-swatch:hover{
     transform:scale(1.06);
 }
 
-.annotation-color-palette-swatch:focus-visible{
+.annotation-toolbar-swatch:focus-visible{
     outline:2px solid #2563eb;
     outline-offset:2px;
 }
 
-.annotation-color-palette-swatch.is-active{
+.annotation-toolbar-swatch.is-active{
     border-color:#ffffff;
     box-shadow:
         inset 0 0 0 1px rgba(0,0,0,.08),
         0 0 0 2px #ffffff,
         0 0 0 3.5px currentColor;
+}
+
+.annotation-toolbar-formats{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:6px;
+}
+
+.annotation-toolbar-format{
+    min-width:36px;
+    height:32px;
+    padding:0 8px;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:8px;
+    background:#f9fafb;
+    color:#374151;
+    font-size:13px;
+    font-weight:500;
+    line-height:1;
+    cursor:pointer;
+    transition:background .12s ease,border-color .12s ease,color .12s ease;
+}
+
+.annotation-toolbar-format:hover{
+    background:#f3f4f6;
+}
+
+.annotation-toolbar-format:focus-visible{
+    outline:2px solid #2563eb;
+    outline-offset:2px;
+}
+
+.annotation-toolbar-format.is-active{
+    background:#eef2ff;
+    border-color:#c7d2fe;
+    color:#1e40af;
+}
+
+.annotation-toolbar-format-bold{
+    font-weight:700;
+}
+
+.annotation-toolbar-format-underline{
+    text-decoration:underline;
+}
+
+.annotation-toolbar-format-strikethrough{
+    text-decoration:line-through;
 }
 
 mark.learner-highlight{
@@ -1005,10 +1094,22 @@ html[data-dp-theme="dark"] .shell-icon-btn:hover{
     color:#f9fafb;
 }
 
-html[data-dp-theme="dark"] .annotation-color-palette{
+html[data-dp-theme="dark"] .annotation-toolbar{
     background:#1f2937;
     border-color:#374151;
     box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+
+html[data-dp-theme="dark"] .annotation-toolbar-format{
+    background:#374151;
+    border-color:#4b5563;
+    color:#e5e7eb;
+}
+
+html[data-dp-theme="dark"] .annotation-toolbar-format.is-active{
+    background:#312e81;
+    border-color:#4338ca;
+    color:#e0e7ff;
 }
 
 html[data-dp-theme="dark"] .walkthrough-note{

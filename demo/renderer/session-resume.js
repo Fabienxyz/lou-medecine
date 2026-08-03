@@ -162,6 +162,15 @@
         return banner;
     }
 
+    const WARNING_LABELS = {
+        orphan_anchor:
+            "le repère de lecture exact n'a pas pu être restauré",
+    };
+
+    function formatWarning(code) {
+        return WARNING_LABELS[code] || null;
+    }
+
     function displayWarnings(warnings) {
         activeWarnings = warnings ? warnings.slice() : [];
         const banner = ensureWarningBanner();
@@ -170,9 +179,26 @@
             banner.textContent = "";
             return;
         }
+        const labels = [];
+        for (let i = 0; i < activeWarnings.length; i += 1) {
+            const label = formatWarning(activeWarnings[i]);
+            if (label) {
+                labels.push(label);
+            } else {
+                console.warn(
+                    "[LouSessionResume] Unknown resume warning:",
+                    activeWarnings[i]
+                );
+            }
+        }
         banner.classList.remove("hidden");
         banner.textContent =
-            "Reprise de session : " + activeWarnings.join(", ");
+            labels.length > 0
+                ? "Reprise de session : " + labels.join(" · ")
+                : "";
+        if (labels.length === 0) {
+            banner.classList.add("hidden");
+        }
     }
 
     function addApplicationWarning(code) {

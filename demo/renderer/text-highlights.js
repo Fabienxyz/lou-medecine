@@ -2,11 +2,12 @@
 //
 // Learner-owned overlays on official walkthrough prose. Stored separately from generated content;
 // applied after block assembly. Scoped to [data-official="true"] pedagogical containers.
+//
+// Highlight edit (recolor / reformat existing marks) has never been implemented — create-only.
 window.LouTextHighlights = {
     HIGHLIGHT_CLASS: "learner-highlight",
     CONTEXT_CHARS: 32,
 
-    _palette: null,
     _boundHost: null,
     _bindContext: null,
     _selectionContext: null,
@@ -42,14 +43,18 @@ window.LouTextHighlights = {
     bindSelection(host, context) {
         const self = this;
         this._bindContext = context;
-        if (this._boundHost === host) {
+        if (host && host.dataset.louTextHighlightsBound === "true") {
             return;
+        }
+        if (host) {
+            host.dataset.louTextHighlightsBound = "true";
         }
         this._boundHost = host;
         this.dismissToolbar();
 
         host.addEventListener("mouseup", function (event) {
-            if (event.target.closest("." + window.LouAnnotationColorPalette.CLASS)) {
+            const ctrl = window.LouAnnotationController;
+            if (ctrl && ctrl.isToolbarTarget(event.target)) {
                 return;
             }
             window.requestAnimationFrame(function () {
@@ -68,10 +73,11 @@ window.LouTextHighlights = {
 
         if (!this._onDocumentMousedown) {
             this._onDocumentMousedown = function (event) {
-                if (
-                    self._palette &&
-                    self._palette.element.contains(event.target)
-                ) {
+                const ctrl = window.LouAnnotationController;
+                if (ctrl && ctrl.isToolbarTarget(event.target)) {
+                    return;
+                }
+                if (ctrl && ctrl.isNoteEditBlockingSelectionClear()) {
                     return;
                 }
                 self.dismissToolbar();
@@ -81,6 +87,13 @@ window.LouTextHighlights = {
     },
 
     _onSelectionChange(host, context) {
+        if (
+            window.LouInlineNotes &&
+            window.LouInlineNotes._activeEditNote
+        ) {
+            return;
+        }
+
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
             this.dismissToolbar();
@@ -100,6 +113,10 @@ window.LouTextHighlights = {
             this.dismissToolbar();
             return;
         }
+        if (this._selectionInsideWalkthroughNote(range)) {
+            this.dismissToolbar();
+            return;
+        }
 
         const block = officialRoot.closest(".pedagogical-block");
         if (!block) {
@@ -115,7 +132,7 @@ window.LouTextHighlights = {
             sourceProjection: block.dataset.sourceProjection || null,
             range: range.cloneRange(),
         };
-        this._showPalette(range);
+        this._showToolbar(range);
     },
 
     _selectionInsideHighlight(range) {
@@ -124,28 +141,22 @@ window.LouTextHighlights = {
         return !!(el && el.closest("." + this.HIGHLIGHT_CLASS));
     },
 
-    _ensurePalette() {
-        if (this._palette) {
-            return this._palette;
-        }
-        const self = this;
-        this._palette = window.LouAnnotationColorPalette.create({
-            ariaLabel: "Couleurs de surlignage",
-            colorLabelPrefix: "Surlignage ",
-            selectedColorId: window.LouAnnotationColors.getLastHighlightColorId(),
-            onSelect: function (colorId) {
-                self._applyCurrentSelection(colorId);
-            },
-        });
-        return this._palette;
+    _selectionInsideWalkthroughNote(range) {
+        const noteClass =
+            window.LouInlineNotes && window.LouInlineNotes.NOTE_CLASS
+                ? window.LouInlineNotes.NOTE_CLASS
+                : "walkthrough-note";
+        const node = range.commonAncestorContainer;
+        const el = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+        return !!(el && el.closest("." + noteClass));
     },
 
-    _showPalette(range) {
+    _showToolbar(range) {
+        const self = this;
         const rect = range.getBoundingClientRect();
-        const palette = this._ensurePalette();
-        palette.setSelectedColorId(window.LouAnnotationColors.getLastHighlightColorId());
-        palette.showNearRect(
-            {
+        window.LouAnnotationController.openForHighlight({
+            ariaLabel: "Surlignage et mise en forme",
+            rect: {
                 left: rect.left,
                 top: rect.top,
                 width: Math.max(rect.width, 1),
@@ -153,27 +164,31 @@ window.LouTextHighlights = {
                 right: rect.right,
                 bottom: rect.bottom,
             },
-            true
-        );
+            preferAbove: true,
+            onIntent: function (state, detail) {
+                if (detail && detail.kind === "color" && detail.colorId) {
+                    self._applyCurrentSelection(state);
+                }
+            },
+        });
     },
 
     dismissToolbar() {
-        if (this._palette) {
-            this._palette.hide();
+        if (window.LouAnnotationController) {
+            window.LouAnnotationController.dismissHighlight({
+                clearSelection: !window.LouAnnotationController.isNoteEditBlockingSelectionClear(),
+            });
         }
         this._selectionContext = null;
-        const selection = window.getSelection();
-        if (selection) {
-            selection.removeAllRanges();
-        }
     },
 
-    _applyCurrentSelection(colorId) {
+    _applyCurrentSelection(toolbarState) {
         const ctx = this._selectionContext;
-        if (!ctx) {
+        if (!ctx || !toolbarState || !toolbarState.colorId) {
             return;
         }
 
+        const colorId = toolbarState.colorId;
         const range = ctx.range;
         const selector = this.selectorFromRange(ctx.officialRoot, range);
         if (!selector || !selector.exact) {
@@ -181,7 +196,7 @@ window.LouTextHighlights = {
             return;
         }
 
-        const wrapped = this.wrapRangeInMark(range, colorId);
+        const wrapped = this.wrapRangeInMark(range, colorId, toolbarState);
         if (!wrapped) {
             this.dismissToolbar();
             return;
@@ -210,9 +225,11 @@ window.LouTextHighlights = {
         }
         const chosenColor = window.LouAnnotationColors.normalizeColorId(
             colorId,
-            window.LouAnnotationColors.getLastHighlightColorId()
+            window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID
         );
-        window.LouAnnotationColors.setLastHighlightColorId(chosenColor);
+        const formatState = window.LouAnnotationColors.normalizeFormatState(
+            toolbarState
+        );
         const self = this;
         store
             .addTextHighlight(ctx.context.chapter, projection, ctx.element, selector)
@@ -222,6 +239,11 @@ window.LouTextHighlights = {
                         "highlight",
                         id,
                         chosenColor
+                    );
+                    window.LouAnnotationColors.setRecordStyle(
+                        "highlight",
+                        id,
+                        formatState
                     );
                     wrapped.dataset.highlightId = String(id);
                 }
@@ -330,7 +352,12 @@ window.LouTextHighlights = {
                         "highlight",
                         record.id
                     ) || window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID;
-                const mark = self.wrapRangeInMark(range, colorId);
+                const formatState =
+                    window.LouAnnotationColors.getRecordStyle(
+                        "highlight",
+                        record.id
+                    ) || window.LouAnnotationColors.emptyFormatState();
+                const mark = self.wrapRangeInMark(range, colorId, formatState);
                 if (mark && record.id != null) {
                     mark.dataset.highlightId = String(record.id);
                 }
@@ -417,11 +444,15 @@ window.LouTextHighlights = {
         return null;
     },
 
-    wrapRangeInMark(range, colorId) {
+    wrapRangeInMark(range, colorId, formatState) {
         const mark = document.createElement("mark");
         mark.className = this.HIGHLIGHT_CLASS;
         mark.dataset.learner = "true";
         window.LouAnnotationColors.applyHighlightColor(mark, colorId);
+        window.LouAnnotationColors.applyHighlightStyle(
+            mark,
+            formatState || window.LouAnnotationColors.emptyFormatState()
+        );
 
         try {
             range.surroundContents(mark);

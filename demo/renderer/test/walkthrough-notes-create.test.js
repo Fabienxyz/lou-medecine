@@ -120,7 +120,8 @@ describe("Walkthrough Notes — create (commit 5)", () => {
       "learner-store.js",
       "caret-anchor.js",
       "annotation-colors.js",
-      "annotation-color-palette.js",
+      "annotation-toolbar.js",
+      "annotation-controller.js",
       "text-highlights.js",
       "inline-notes.js",
       "svg-loader.js",
@@ -130,23 +131,35 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     ]);
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    if (window.LouInlineNotes && window.LouInlineNotes._commitInFlight) {
+      await window.LouInlineNotes._commitInFlight;
+    }
     window.indexedDB = new IDBFactory();
     window.LouLearnerStore.db = null;
+    const contentEl = window.document.getElementById("content");
+    if (contentEl) {
+      const fresh = window.document.createElement("div");
+      fresh.id = "content";
+      contentEl.replaceWith(fresh);
+    }
     window.LouTextHighlights._boundHost = null;
+    window.LouTextHighlights._selectionContext = null;
     window.LouInlineNotes._boundHost = null;
     window.LouInlineNotes._activeEditNote = null;
     window.LouInlineNotes._committing = false;
+    window.LouInlineNotes._mountGeneration = 0;
     window.LouInlineNotes._hideContextMenu();
-    if (window.LouInlineNotes._noteColorPalette) {
-      window.LouInlineNotes._noteColorPalette.destroy();
-      window.LouInlineNotes._noteColorPalette = null;
+    window.LouInlineNotes._dismissNoteToolbar(false);
+    if (window.LouAnnotationController && window.LouAnnotationController._toolbar) {
+      window.LouAnnotationController._toolbar.destroy();
+      window.LouAnnotationController._toolbar = null;
+      window.LouAnnotationController._context = null;
+      window.LouAnnotationController._highlightIntent = null;
+      window.LouAnnotationController._noteIntent = null;
     }
-    window.LouInlineNotes._pendingColorNote = null;
-    if (window.LouTextHighlights._palette) {
-      window.LouTextHighlights._palette.destroy();
-      window.LouTextHighlights._palette = null;
-    }
+    window.LouInlineNotes._commitInFlight = null;
+    delete window.document.caretRangeFromPoint;
 
     const manifest = manifestFixture();
     window.LouRenderer.init(window.document.getElementById("content"), null);
@@ -175,7 +188,7 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     window.document.caretRangeFromPoint = () => range;
   }
 
-  async function openCreateMenu(content, elementId, globalOffset) {
+  async function dblclickCreateNote(content, elementId, globalOffset) {
     const walkthrough = content.querySelector(
       '[data-element="' + elementId + '"] .block-walkthrough'
     );
@@ -191,49 +204,43 @@ describe("Walkthrough Notes — create (commit 5)", () => {
 
     const target = point.node.parentElement || point.node;
     target.dispatchEvent(
-      new window.MouseEvent("contextmenu", {
+      new window.MouseEvent("dblclick", {
         bubbles: true,
         cancelable: true,
         clientX: 120,
         clientY: 80,
       })
     );
-
-    const menu = window.document.querySelector(".inline-notes-context-menu");
-    assert.ok(menu, "context menu visible");
-    assert.equal(menu.hidden, false);
-    const button = menu.querySelector("button");
-    assert.ok(button);
-    assert.equal(button.textContent, "Add note");
-    return { walkthrough, menu, button, range };
+    await flushPromises();
+    return content.querySelector(
+      '[data-element="' + elementId + '"] .walkthrough-note:not([data-note-id])'
+    );
   }
 
-  async function waitForNotePalette() {
+  async function waitForNoteToolbar() {
     for (let i = 0; i < 30; i += 1) {
       await flushPromises();
-      const palette = window.document.querySelector(".annotation-color-palette");
-      if (palette && palette.hidden === false) {
-        return palette;
+      const toolbar = window.document.querySelector(".annotation-toolbar");
+      if (toolbar && toolbar.hidden === false) {
+        return toolbar;
       }
     }
     return null;
   }
 
   async function createPendingNote(content, elementId = "MEC-oap", offset = 12) {
-    const { button } = await openCreateMenu(content, elementId, offset);
-    button.click();
-    const palette = await waitForNotePalette();
-    assert.ok(palette, "note color palette visible");
-    palette.querySelector(".annotation-color-palette-swatch").click();
-    await flushPromises();
-    const note = content.querySelector(
-      '[data-element="' + elementId + '"] .walkthrough-note:not([data-note-id])'
-    );
+    const note = await dblclickCreateNote(content, elementId, offset);
+    assert.ok(note, "note created on double-click");
+    assert.equal(note.contentEditable, "true");
+    const toolbar = await waitForNoteToolbar();
+    assert.ok(toolbar, "annotation toolbar visible during note edit");
     return note;
   }
 
   async function blurNote(note) {
     await window.LouInlineNotes._commitOnBlur(note);
+    await flushPromises();
+    await window.LouInlineNotes._waitForCommitIdle();
   }
 
   test("WT-10 create → blur without text removes span and leaves store empty", async () => {
@@ -314,9 +321,11 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     assert.equal(mechRows[0].text, "Mechanisms scoped");
   });
 
-  test("WT-CR-01 contextmenu on official text shows Add note menu", async () => {
+  test("WT-CR-01 double-click on official text opens note with toolbar", async () => {
     const content = await renderMechanisms();
-    await openCreateMenu(content, "MEC-oap", 10);
+    const note = await createPendingNote(content, "MEC-oap", 10);
+    assert.ok(note);
+    assert.equal(window.document.querySelector(".inline-notes-context-menu")?.hidden ?? true, true);
   });
 
   test("WT-CR-02 contextmenu inside existing note shows no menu", async () => {
@@ -352,7 +361,7 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     assert.ok(!menu || menu.hidden);
   });
 
-  test("WT-CR-04 Add note enters contenteditable with focus", async () => {
+  test("WT-CR-04 double-click enters contenteditable with focus", async () => {
     const content = await renderMechanisms();
     const note = await createPendingNote(content);
     assert.equal(note.contentEditable, "true");
@@ -398,16 +407,13 @@ describe("Walkthrough Notes — create (commit 5)", () => {
       window.LouCaretAnchor._caretRangeFromOffset(wt, anchor.offset)
     );
     mark.dispatchEvent(
-      new window.MouseEvent("contextmenu", {
+      new window.MouseEvent("dblclick", {
         bubbles: true,
         cancelable: true,
         clientX: 100,
         clientY: 100,
       })
     );
-    const menu = window.document.querySelector(".inline-notes-context-menu");
-    assert.ok(menu && !menu.hidden);
-    menu.querySelector("button").click();
     await flushPromises();
 
     const note = wt.querySelector(".walkthrough-note:not([data-note-id])");
@@ -445,14 +451,7 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     const content = await renderMechanisms();
     const first = await createPendingNote(content, "MEC-oap", 8);
     first.textContent = "First note";
-    await openCreateMenu(content, "MEC-oap", 30);
-    const menu = window.document.querySelector(".inline-notes-context-menu");
-    menu.querySelector("button").click();
-    await flushPromises();
-    await window.LouInlineNotes._waitForCommitIdle();
-    const palette = await waitForNotePalette();
-    assert.ok(palette, "second note palette visible");
-    palette.querySelector(".annotation-color-palette-swatch").click();
+    await dblclickCreateNote(content, "MEC-oap", 30);
     await flushPromises();
     await window.LouInlineNotes._waitForCommitIdle();
     for (let attempt = 0; attempt < 50; attempt++) {
@@ -511,7 +510,7 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     try {
       await window.LouInlineNotes.mount(content, context);
       assert.equal(warned, true);
-      await openCreateMenu(content, "MEC-oap", 14);
+      await dblclickCreateNote(content, "MEC-oap", 14);
     } finally {
       window.LouLearnerStore.listWalkthroughNotes = original;
       console.warn = originalWarn;
@@ -562,7 +561,7 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     assert.equal(rows.length, 0);
   });
 
-  test("WT-CR-14 Add note waits for in-flight IndexedDB commit before second pending", async () => {
+  test("WT-CR-14 double-click waits for in-flight IndexedDB commit before second pending", async () => {
     const content = await renderMechanisms();
     const first = await createPendingNote(content, "MEC-oap", 8);
     first.textContent = "First note";
@@ -582,9 +581,7 @@ describe("Walkthrough Notes — create (commit 5)", () => {
       assert.equal(window.LouInlineNotes._committing, true);
 
       const createPromise = (async () => {
-        await openCreateMenu(content, "MEC-oap", 30);
-        const menu = window.document.querySelector(".inline-notes-context-menu");
-        menu.querySelector("button").click();
+        await dblclickCreateNote(content, "MEC-oap", 30);
         await flushPromises();
       })();
 
@@ -624,9 +621,23 @@ describe("Walkthrough Notes — create (commit 5)", () => {
     }
   });
 
-  test("WT-CR-15 mount hides context menu and clears pending menu context", async () => {
+  test("WT-CR-15 mount hides delete menu and clears pending menu context", async () => {
     const content = await renderMechanisms();
-    await openCreateMenu(content, "MEC-oap", 10);
+    const note = await createPendingNote(content, "MEC-oap", 10);
+    note.textContent = "Persist me";
+    await blurNote(note);
+    const persisted = content.querySelector(
+      '[data-element="MEC-oap"] .walkthrough-note[data-note-id]'
+    );
+    assert.ok(persisted);
+    persisted.dispatchEvent(
+      new window.MouseEvent("contextmenu", {
+        bubbles: true,
+        cancelable: true,
+        clientX: 50,
+        clientY: 50,
+      })
+    );
     assert.notEqual(window.LouInlineNotes._pendingMenuContext, null);
 
     await renderMechanisms();

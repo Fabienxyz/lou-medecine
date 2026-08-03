@@ -239,11 +239,11 @@ export async function createHighlightViaToolbar(page, opts) {
       `toolbar not shown for ${phrase}: ${ui.reason || "no selection context"}`
     );
   }
-  await page.locator(".annotation-color-palette-swatch").first().click();
+  await page.locator(".annotation-toolbar-swatch").first().click();
   await page.waitForFunction(
     () =>
       !window.LouTextHighlights._selectionContext &&
-      (document.querySelector(".annotation-color-palette")?.hidden !== false)
+      (document.querySelector(".annotation-toolbar")?.hidden !== false)
   );
   await page.waitForFunction(
     ({ blockSelector }) => {
@@ -331,7 +331,7 @@ export async function runSelectionChange(page, opts) {
       };
       window.LouTextHighlights._onSelectionChange(host, context);
 
-      const toolbar = document.querySelector(".annotation-color-palette");
+      const toolbar = document.querySelector(".annotation-toolbar");
       return {
         ok: true,
         toolbarVisible: !!(toolbar && !toolbar.hidden),
@@ -346,7 +346,7 @@ export async function runSelectionChange(page, opts) {
 export async function getLifecycleState(page) {
   return page.evaluate(() => ({
     boundHost: window.LouTextHighlights._boundHost?.id || null,
-    toolbarCount: document.querySelectorAll(".annotation-color-palette").length,
+    toolbarCount: document.querySelectorAll(".annotation-toolbar").length,
     markCount: document.querySelectorAll("mark.learner-highlight").length,
   }));
 }

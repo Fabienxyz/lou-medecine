@@ -5,6 +5,7 @@
 import {
   DEV_WARM_CACHE_NAME,
   SHELL_CACHE_NAME,
+  SHELL_NETWORK_BYPASS_HEADER,
 } from "./demo/renderer/library/offline-runtime-shared.js";
 import {
   createOfflineRuntime,
@@ -49,6 +50,9 @@ self.addEventListener("install", function (event) {
 self.addEventListener("activate", function (event) {
   event.waitUntil(
     Promise.all([
+      runtime.prepareShell().catch(function (err) {
+        console.warn("[LouSW] shell refresh on activate failed", err);
+      }),
       caches.keys().then(function (keys) {
         return Promise.all(
           keys
@@ -73,6 +77,10 @@ self.addEventListener("activate", function (event) {
 
 self.addEventListener("fetch", function (event) {
   if (event.request.method !== "GET") {
+    return;
+  }
+
+  if (event.request.headers.get(SHELL_NETWORK_BYPASS_HEADER) === "1") {
     return;
   }
 

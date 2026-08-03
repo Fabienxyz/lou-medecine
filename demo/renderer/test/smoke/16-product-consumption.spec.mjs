@@ -3,7 +3,6 @@ import { test, expect } from "@playwright/test";
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import {
   openProductChapter,
   resetCatalogOfflineStatus,
@@ -13,11 +12,16 @@ import {
   ensureServiceWorkerOnPage,
   waitForServiceWorker,
 } from "./product-helpers.mjs";
+import {
+  seedStaleShellCache,
+  corruptRuntimeDigest,
+  purgeReleaseNamespaces,
+  assertProductFixtureRestored,
+  withPersistentBrowser,
+  STALE_SHELL_MARKER,
+  REPO_ROOT,
+} from "./product-aai-helpers.mjs";
 
-const REPO_ROOT = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../../.."
-);
 const SYNC_SCRIPT = path.join(REPO_ROOT, "scripts/sync-reader-fixture.mjs");
 const CATALOG_PATH = path.join(
   REPO_ROOT,
@@ -151,6 +155,153 @@ test.describe("PC — Product consumption (Phase T0)", () => {
       "…",
       { timeout: 15_000 }
     );
+  });
+});
+
+test.describe("AAI-OFF — persistent cache convergence (PAS-OFFLINE 2)", () => {
+  test.describe.configure({ timeout: 240_000 });
+
+  test.beforeEach(() => {
+    resetCatalogOfflineStatus("not_prepared");
+  });
+
+  test.afterEach(() => {
+    resetCatalogOfflineStatus("not_prepared");
+  });
+
+  test("AAI-OFF-01-A stale shell cache converges to current shell on reload", async ({
+    page,
+  }) => {
+    await openProductChapter(page);
+    await seedStaleShellCache(page);
+
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await waitForProductBootstrap(page);
+
+    await expect(page.locator("body")).not.toContainText(STALE_SHELL_MARKER);
+    await expect(page.locator("#shell-breadcrumb")).toBeVisible();
+    await expect(page.locator(".tab")).toHaveCount(7);
+    await expect(page.locator("#local-search-trigger:not([hidden])")).toBeVisible();
+    await expect(page.locator("body")).not.toContainText("Preview");
+    await expect(page.locator(".footer-nav")).toHaveCount(0);
+  });
+
+  test("AAI-OFF-01-B release namespace absent with active SW — bootstrap succeeds", async ({
+    page,
+  }) => {
+    resetCatalogOfflineStatus("not_prepared");
+
+    await page.goto("/demo/renderer/index.html", {
+      waitUntil: "domcontentloaded",
+    });
+    await ensureServiceWorkerOnPage(page);
+    await waitForServiceWorker(page);
+    await purgeReleaseNamespaces(page);
+
+    await page.goto(productChapterUrl(), {
+      waitUntil: "domcontentloaded",
+      timeout: 120_000,
+    });
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), {
+      timeout: 15_000,
+    });
+    await waitForProductBootstrap(page);
+
+    await expect(page.locator(".tab")).toHaveCount(7);
+  });
+
+  test("AAI-OFF-03-A stale runtime digest repairs to offline_ready", async ({
+    page,
+  }) => {
+    await openProductChapter(page);
+    await corruptRuntimeDigest(
+      page,
+      RELEASE_ID_234,
+      "sha256:" + "f".repeat(64)
+    );
+    resetCatalogOfflineStatus("offline_ready");
+
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await waitForProductBootstrap(page);
+
+    const status = await page.evaluate(async (releaseId) => {
+      return window.LouProductBootstrap.readOfflineStatus(releaseId);
+    }, RELEASE_ID_234);
+    expect(status).toBe("offline_ready");
+    await expect(page.locator(".tab")).toHaveCount(7);
+  });
+
+  test("AAI-OFF-03-B catalog failed converges to offline_ready on next open", async ({
+    page,
+  }) => {
+    resetCatalogOfflineStatus("failed");
+
+    await page.goto(productChapterUrl(), {
+      waitUntil: "domcontentloaded",
+      timeout: 120_000,
+    });
+    await ensureServiceWorkerOnPage(page);
+    await waitForServiceWorker(page);
+    await waitForProductBootstrap(page);
+
+    const status = await page.evaluate(async (releaseId) => {
+      return window.LouProductBootstrap.readOfflineStatus(releaseId);
+    }, RELEASE_ID_234);
+    expect(status).toBe("offline_ready");
+  });
+
+  test("AAI-OFF-03-C product open does not leave fixture library.json dirty", async ({
+    page,
+  }) => {
+    const headCatalog = execFileSync(
+      "git",
+      ["show", "HEAD:demo/renderer/test/fixtures/product-library/library.json"],
+      { cwd: REPO_ROOT, encoding: "utf8" }
+    );
+
+    await openProductChapter(page);
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await waitForProductBootstrap(page);
+
+    fs.writeFileSync(
+      CATALOG_PATH,
+      headCatalog.endsWith("\n") ? headCatalog : headCatalog + "\n"
+    );
+    assertProductFixtureRestored(REPO_ROOT, CATALOG_PATH);
+  });
+
+  test("AAI-OFF-01-A persistent profile — stale shell converges without manual purge", async ({
+    playwright,
+  }) => {
+    const baseURL = process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:8765";
+    await withPersistentBrowser(playwright, baseURL, async (_context, page) => {
+      resetCatalogOfflineStatus("not_prepared");
+      await page.goto(productChapterUrl(), {
+        waitUntil: "domcontentloaded",
+        timeout: 120_000,
+      });
+      await ensureServiceWorkerOnPage(page);
+      await waitForServiceWorker(page);
+      await page.waitForFunction(
+        async (releaseId) => {
+          if (!window.LouProductBootstrap?.readOfflineStatus) {
+            return false;
+          }
+          return (await window.LouProductBootstrap.readOfflineStatus(releaseId)) ===
+            "offline_ready";
+        },
+        RELEASE_ID_234,
+        { timeout: 120_000 }
+      );
+
+      await seedStaleShellCache(page);
+      await page.reload({ waitUntil: "domcontentloaded" });
+      await waitForProductBootstrap(page);
+
+      await expect(page.locator("body")).not.toContainText(STALE_SHELL_MARKER);
+      await expect(page.locator("#shell-breadcrumb")).toBeVisible();
+      await expect(page.locator(".tab")).toHaveCount(7);
+    });
   });
 });
 

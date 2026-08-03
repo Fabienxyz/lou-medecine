@@ -6,6 +6,8 @@
 export const RUNTIME_SCHEMA_VERSION = 1;
 export const SHELL_CACHE_NAME = "lou-reader-shell-v1";
 export const DEV_WARM_CACHE_NAME = "lou-reader-runtime-v1";
+/** Request header — SW fetch handler must not intercept (avoids recursion on network-first shell refresh). */
+export const SHELL_NETWORK_BYPASS_HEADER = "X-Lou-SW-Bypass";
 
 /** @typedef {'UNKNOWN_RELEASE_NAMESPACE' | 'INVALID_RESOURCE_LIST' | 'FORBIDDEN_PATH' | 'RESOURCE_FETCH_FAILED' | 'RESOURCE_MISSING' | 'DIGEST_MISMATCH' | 'PREPARATION_INCOMPLETE' | 'STORAGE_QUOTA_EXCEEDED' | 'RUNTIME_UNAVAILABLE'} OfflineRuntimeErrorCode */
 

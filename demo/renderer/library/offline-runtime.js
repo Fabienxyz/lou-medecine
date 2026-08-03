@@ -6,6 +6,7 @@ import {
   OfflineRuntimeError,
   SHELL_CACHE_NAME,
   SHELL_URLS,
+  SHELL_NETWORK_BYPASS_HEADER,
   DEV_WARM_CACHE_NAME,
   META_ENTRY_PATH,
   buildReleaseNamespace,
@@ -179,7 +180,7 @@ class OfflineRuntime {
     const cache = await this._storage.open(SHELL_CACHE_NAME);
     let cached = 0;
     for (const url of this._shellUrls) {
-      const response = await this._fetch(url);
+      const response = await this._fetchShellNetwork(url);
       if (!response.ok) {
         throw new OfflineRuntimeError(
           "RESOURCE_FETCH_FAILED",
@@ -289,7 +290,7 @@ class OfflineRuntime {
     const base = this._libraryBasePath.replace(/\/+$/, "");
     const catalogPath = `${base}/library.json`;
     if (url.pathname === catalogPath) {
-      return this._serveShellAsset(catalogPath);
+      return this._serveCatalogAsset(catalogPath);
     }
     const releasePrefix = `${base}/releases/`;
 
@@ -585,10 +586,61 @@ class OfflineRuntime {
   }
 
   /**
+   * Catalog: network-first without read-through caching (mutations stay authoritative online).
+   * Offline: serve the last certified snapshot written by BrowserOfflineManager.
+   * @param {string} pathname
+   */
+  async _serveCatalogAsset(pathname) {
+    try {
+      const response = await this._fetchShellNetwork(pathname);
+      if (response.ok) {
+        const body = new Uint8Array(await response.arrayBuffer());
+        const contentType =
+          response.headers.get("content-type") || guessContentType(pathname);
+        return storedToResponse({ body, contentType, status: response.status });
+      }
+    } catch {
+      // Offline — fall back to certified catalog snapshot.
+    }
+
+    const cache = await this._storage.open(SHELL_CACHE_NAME);
+    const stored = await cache.get(pathname);
+    if (stored) {
+      return storedToResponse(stored);
+    }
+    return null;
+  }
+
+  /**
+   * Network fetch for shell assets — bypasses SW interception to avoid recursion.
+   * @param {string} url
+   */
+  _fetchShellNetwork(url) {
+    const headers = new Headers();
+    headers.set(SHELL_NETWORK_BYPASS_HEADER, "1");
+    return this._fetch(url, { headers, cache: "no-store" });
+  }
+
+  /**
+   * Online: network-first (refresh cache). Offline: cache fallback.
    * @param {string} pathname
    */
   async _serveShellAsset(pathname) {
     const cache = await this._storage.open(SHELL_CACHE_NAME);
+
+    try {
+      const response = await this._fetchShellNetwork(pathname);
+      if (response.ok) {
+        const body = new Uint8Array(await response.arrayBuffer());
+        const contentType =
+          response.headers.get("content-type") || guessContentType(pathname);
+        await cache.put(pathname, { body, contentType, status: response.status });
+        return storedToResponse({ body, contentType, status: response.status });
+      }
+    } catch {
+      // Offline or unreachable — serve last certified shell from cache.
+    }
+
     const stored = await cache.get(pathname);
     if (stored) {
       return storedToResponse(stored);

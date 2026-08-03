@@ -3,15 +3,15 @@
 | | |
 |---|---|
 | **Type** | Document de référence — **pilotage produit** |
-| **Statut** | **Framework consolidé — stable** (2026-08-03) |
+| **Statut** | **Framework consolidé — stable + AAI** (2026-08-03) |
 | **Périmètre** | Reader V1 = produit complet (Fabrique → consommation → expérience) |
 | **Autorité** | Hiérarchie des validations, PAS et critères de jalons ; ne remplace ni contrats, ni ADR |
 | **Chapitre de référence** | Item **234** — Insuffisance cardiaque — édition Collège 2022 |
 | **Unité de progression** | **Product Acceptance Suite (PAS)** |
 
-**À lire en cinq minutes :** ce document répond à trois questions — *quelle fonctionnalité produit est-elle terminée ?*, *quelle preuve automatique le prouve ?*, *qu'est-ce qui reste humain ?*
+**À lire en cinq minutes :** ce document répond à quatre questions — *quelle fonctionnalité produit est-elle terminée ?*, *quels invariants d'architecture sont garantis ?*, *quelle preuve automatique le prouve ?*, *qu'est-ce qui reste humain ?*
 
-**Registre officiel des PAS :** le [§4](#4-catalogue-des-product-acceptance-suites) est la **source unique** de définition des Product Acceptance Suites (responsabilité, critères d'acceptation, lien roadmap). Il ne existe pas de catalogu séparé — vision et séquence dans [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md), état d'avancement dans [`PROJECT_STATE.md`](../PROJECT_STATE.md), preuves automatisées au [§6](#6-cartographie-pas--validations).
+**Registre officiel des PAS :** le [§4](#4-catalogue-des-product-acceptance-suites) est la **source unique** de définition des Product Acceptance Suites (responsabilité, critères d'acceptation, lien roadmap). Les **invariants d'architecture (AAI)** y sont déclarés et cartographiés au [§6.2](#62-registre-aai--pas--invariants--validations). Il n'existe pas de catalogue séparé — vision et séquence dans [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md), état d'avancement dans [`PROJECT_STATE.md`](../PROJECT_STATE.md), preuves automatisées au [§6](#6-cartographie-pas--validations).
 
 **Documents connexes :**
 
@@ -86,7 +86,7 @@ Du socle industriel au jugement humain. **Les Product Acceptance Suites (PAS)** 
 
 ### 2.1 Principes fondateurs
 
-1. **Une fonctionnalité produit est terminée lorsqu'une Product Acceptance Suite est verte** — sur le chemin produit (`&product=1`, bibliothèque installée), avec les prérequis Lou Build en amont.
+1. **Une fonctionnalité produit est terminée lorsqu'une Product Acceptance Suite est verte** — sur le chemin produit (`&product=1`, bibliothèque installée), avec les prérequis Lou Build en amont. Une PAS **n'est pas verte** si l'un de ses **Architectural Acceptance Invariants (AAI)** est rouge ([§3.4](#34-architectural-acceptance-invariants-aai)).
 
 2. **Une PAS peut s'appuyer sur plusieurs suites de tests** — Product Smokes, Contract Tests, Unit Tests. Seule la PAS fait foi pour le prononcé produit ; les autres niveaux sont des non-régressions ou des fondations.
 
@@ -179,6 +179,38 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | Annotations / surlignage | Couche apprenante | Engineering `01`…`08` *(non-régression)* |
 | Patrimoine export/import | Transverse — données apprenant | Contract Tests `learner-snapshot*` |
 
+### 3.4 Architectural Acceptance Invariants (AAI)
+
+Les **Architectural Acceptance Invariants (AAI)** sont la **première couche de validation** de chaque PAS. Ils protègent les frontières structurelles du Reader — indépendamment du rendu nominal ou du comportement fonctionnel observé en smoke.
+
+**Définition :**
+
+- Chaque PAS possède **un ou plusieurs invariants d'architecture** — propriétés qui doivent rester vraies quelle que soit l'évolution du contenu éditorial ou des capacités produit.
+- Chaque invariant **doit** être protégé par **au moins un test autoritaire** (Product Smoke, Contract Test ou Unit Test de fondation — jamais un Engineering Smoke seul).
+- Une PAS **ne peut pas être déclarée verte** si un AAI associé est rouge — même lorsque les critères fonctionnels d'acceptation passent.
+
+**Relation avec la pyramide existante :**
+
+```
+AAI (invariant architectural)
+        ↓ protégé par
+Fondations (unit / contrats) + Product Smokes (comportement produit)
+        ↓ composent
+PAS (prononcé produit)
+```
+
+Les AAI **ne créent pas** une nouvelle famille de tests. Ils **réorganisent l'autorité** : une PAS devient simultanément le registre de la fonctionnalité produit **et** le registre des invariants d'architecture qu'elle garantit.
+
+**Incident fondateur (2026-08-03) :** le conflit Service Worker ↔ préparation offline a été détecté en Product Review, non par les batteries existantes, car les tests validaient le **comportement** (consommation, republication, passthrough unitaire) mais pas l'**invariant** « le Service Worker ne doit jamais empêcher la préparation d'une release » sur le chemin d'exécution réel du navigateur. Voir [§6.3](#63-backlog-aai--invariants-non-couverts).
+
+**Statuts AAI :**
+
+| Statut | Signification |
+|---|---|
+| **Couvert** | Au moins un test autoritaire vérifie explicitement l'invariant |
+| **Partiel** | Des fondations existent ; le chemin d'exécution critique (browser réel, SW actif, cycle republier→reconsulter) n'est pas entièrement protégé |
+| **Non couvert** | Aucune validation autoritaire n'asserte l'invariant |
+
 ---
 
 ## 4. Catalogue des Product Acceptance Suites
@@ -190,6 +222,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Fabrique → bibliothèque → bootstrap produit → offline → republication même `release_id` |
 | **Phases roadmap** | 0, 0.1 *(clôturées)* |
 | **Critères d'acceptation** | Package s'ouvre en mode produit ; 7 vues accessibles ; certification `offline_ready` ; pas de requêtes dev ; resync/republication consommable ; auto-repair digest (contrat) |
+| **Invariants AAI** | [AAI-OFF-01](#62-registre-aai--pas--invariants--validations) SW n'empêche jamais la préparation ; [AAI-OFF-02](#62-registre-aai--pas--invariants--validations) `release_id` stable ; [AAI-OFF-03](#62-registre-aai--pas--invariants--validations) digest = vérité matérielle |
 | **Implémentation actuelle** | Product Smokes `16-product-consumption` (PC-*), `12-offline-d2g` (OF-D2-*) ; Contract Test `product-consumption.test.js` ; passthrough SW `browser-offline-sw-passthrough.test.js` (PC-05) |
 | **Product Review** | Vérifiée implicitement à chaque Product Review ; pas de review dédiée |
 | **Statut** | **Couverture forte** |
@@ -203,6 +236,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Chrome applicatif, navigation Couche 1, barre 7 vues, actions globales, identité Lou Médecine |
 | **Phases roadmap** | Parallèle Shell V1 *(spec [`20-READER-V1-SHELL-ARCHITECTURE.md`](../renderer/20-READER-V1-SHELL-ARCHITECTURE.md) §9)* |
 | **Critères d'acceptation** | Critères §9 Shell V1 — chrome minimal, pas de legacy prototype, breadcrumb, panneaux transverses |
+| **Invariants AAI** | [AAI-SHL-01](#62-registre-aai--pas--invariants--validations) Shell ignore le contenu pédagogique ; [AAI-SHL-02](#62-registre-aai--pas--invariants--validations) Composition ignore le Shell ; [AAI-SHL-03](#62-registre-aai--pas--invariants--validations) ReadingViewModel = interface unique |
 | **Implémentation actuelle** | **S1 livré (partiel)** — `shell-s1-chrome.test.js` (chrome legacy) ; indirect : `17` CN-P-01, `16` PC-01, `13`/`14` (header) ; S2+ (breadcrumb, Couche 1) en attente |
 | **Gate PAS ciblé** | `npm test` (shell-s1) + smokes `17`, `16`, `13`, `14` — voir §6 |
 | **Product Review** | Observation chrome lors de toute Product Review |
@@ -217,6 +251,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Vue « Modèle mental » — agrégation story + overview, contenu publié, figure MM |
 | **Phases roadmap** | 1 *(clôturée éditorialement)* |
 | **Critères d'acceptation** | Onglet Modèle mental ; contenu story + overview agrégé ; walkthrough figure-first ; navigable offline |
+| **Invariants AAI** | [AAI-MM-01](#62-registre-aai--pas--invariants--validations) vue entièrement alimentée par le ReadingViewModel |
 | **Implémentation actuelle** | Product Smoke `17` CN-P-02 ; `12` OF-D2-04 (navigation partielle) ; Engineering `10` CN-02, `03` PR-05/06 *(non-régression)* |
 | **Product Review** | Phase 7 — usage réel Lou sur la vue Modèle mental |
 | **Statut** | **Couverture partielle** — moteur et rendu produit OK ; validation éditoriale Phase 1 clôturée ; Product Review Lou en attente |
@@ -230,6 +265,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Vue « Amorçage cognitif » — artefact publié, profils, EDN, recherche, session, offline |
 | **Phases roadmap** | 2 *(prochaine)* |
 | **Critères d'acceptation** | Onglet publié ; contenu amorçage rendu ; profils Compréhension/Mémorisation ; liens EDN ; recherche vers Amorçage ; reprise session |
+| **Invariants AAI** | [AAI-AP-01](#62-registre-aai--pas--invariants--validations) amorçage provient uniquement du package publié |
 | **Implémentation actuelle** | Product Smoke `15-cognitive-priming-apf` (AP-F-01…12, EDN-SAME/CROSS) ; Contract Tests `cognitive-priming-*` |
 | **Product Review** | Phase 7 — Lou valide l'amorçage comme produit |
 | **Statut** | **Couverture forte** (capacité Reader) — Phase 2 éditoriale **prochaine** ; contenu 234 peut encore évoluer |
@@ -243,6 +279,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Vue « Notions » — 11 notions, figures, walkthroughs, développements, points d'attention |
 | **Phases roadmap** | 3 *(réservée)* |
 | **Critères d'acceptation** | Contenu notions complet éditorialement ; rendu TOC ; figures ; walkthroughs |
+| **Invariants AAI** | [AAI-NOT-01](#62-registre-aai--pas--invariants--validations) la vue ne dépend jamais du chrome |
 | **Implémentation actuelle** | Product Smoke `17` CN-P-03 *(rendu nominal mechanisms)* ; Engineering `10` CN-03 ; `12` OF-D2-04 *(navigation)* |
 | **Product Review** | Phase 7 |
 | **Statut** | **Couverture partielle** — smoke rendu seulement ; phase éditoriale non démarrée |
@@ -256,6 +293,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Vue « Cas cliniques » — raisonnement clinique, registre scénarios |
 | **Phases roadmap** | 4 *(réservée)* |
 | **Critères d'acceptation** | Walkthrough reasoning ; liste scénarios ; contenu éditorial complet |
+| **Invariants AAI** | [AAI-CLIN-01](#62-registre-aai--pas--invariants--validations) les cas proviennent uniquement du package |
 | **Implémentation actuelle** | Product Smoke `17` CN-P-04 ; Engineering `10` CN-04 |
 | **Product Review** | Phase 7 |
 | **Statut** | **Couverture partielle** — smoke rendu seulement |
@@ -269,6 +307,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Vue « Collège officiel » — source officielle intégrée, rendu offline |
 | **Phases roadmap** | 5 *(réservée)* |
 | **Critères d'acceptation** | Corps Collège visible ; offline ; dégradation gracieuse si source absente |
+| **Invariants AAI** | [AAI-COL-01](#62-registre-aai--pas--invariants--validations) le texte officiel reste inchangé |
 | **Implémentation actuelle** | Product Smoke `12` OF-D2-05 ; Engineering `10` CN-07 (planned, dev), `11-offline-dev` OF-DEV-01 |
 | **Product Review** | Phase 7 |
 | **Statut** | **Couverture partielle** — existence et offline ; phase éditoriale non démarrée |
@@ -282,6 +321,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Vue « QCM » — liste questions depuis registre, interaction apprenant |
 | **Phases roadmap** | 5–6 *(réservée)* |
 | **Critères d'acceptation** | Registre QCM complet ; liste et accès aux questions |
+| **Invariants AAI** | [AAI-QCM-01](#62-registre-aai--pas--invariants--validations) les QCM affichés proviennent uniquement du package |
 | **Implémentation actuelle** | Product Smoke `17` CN-P-05 ; Engineering `10` CN-05 |
 | **Product Review** | Phase 7 |
 | **Statut** | **Couverture partielle** — liste rendue ; interaction complète non couverte par PAS dédiée |
@@ -295,6 +335,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Vue « Notes » — shell apprenant, agrégation annotations |
 | **Phases roadmap** | 5 *(réservée)* |
 | **Critères d'acceptation** | Shell notes visible ; pas de contenu officiel ; agrégation patrimoine |
+| **Invariants AAI** | [AAI-NTE-01](#62-registre-aai--pas--invariants--validations) les notes utilisateur ne modifient jamais le package |
 | **Implémentation actuelle** | Product Smoke `17` CN-P-06 ; Engineering `10` CN-06 |
 | **Product Review** | Phase 7 |
 | **Statut** | **Couverture partielle** — shell seulement |
@@ -308,6 +349,7 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Écran bibliothèque — catalogue chapitres, installation, accès Couche 1 |
 | **Phases roadmap** | Shell V1 / Couche 1 *(réservée)* |
 | **Critères d'acceptation** | Navigation bibliothèque → chapitre ; catalogue cohérent ; hors bootstrap `product=1` direct |
+| **Invariants AAI** | [AAI-LIB-01](#62-registre-aai--pas--invariants--validations) le Reader ne dépend jamais d'un chapitre codé en dur |
 | **Implémentation actuelle** | Contract Tests D1 (`library-install`, `browser-package-access`) ; **aucun Product Smoke Couche 1** |
 | **Product Review** | Product Review future — parcours complet depuis bibliothèque |
 | **Statut** | **Non couverte** — fondations contrats seulement |
@@ -379,6 +421,57 @@ Matrice autoritaire : **quelle preuve prononce quelle PAS**. Piloter par cette t
 
 Aucun doublon supprimé : chaque paire sert un **niveau d'autorité différent** (§2.4).
 
+### 6.2 Registre AAI — PAS → invariants → validations
+
+Registre autoritaire des **Architectural Acceptance Invariants**. Une PAS dont un AAI est **Non couvert** ou **Partiel** sur un invariant critique ne peut pas être prononcée **Couverture forte** sans backlog explicite ([§6.3](#63-backlog-aai--invariants-non-couverts)).
+
+| ID | PAS | Invariant | Statut | Validations autoritaires existantes |
+|---|---|---|---|---|
+| **AAI-OFF-01** | PAS-OFFLINE | Le Service Worker **ne doit jamais empêcher** la préparation d'une release | **Couvert** | `browser-offline-sw-passthrough.test.js` ; `offline-runtime.test.js` (network-first shell, cache fallback offline) ; `16` PC-05, **AAI-OFF-01-A/B** ; `12` OF-D2-10, **OF-D2-11** ; `sw.js` bypass header + activate shell refresh ; `app.js` `controllerchange` reload |
+| **AAI-OFF-02** | PAS-OFFLINE | Le `release_id` **reste stable** pendant la construction d'une release | **Couvert** | `tools/lou-build/test/release-identity.test.js` ; `library-install.test.js` (rejet `release_id` incohérent) ; `16` PC-02 (republication même `release_id`) ; `sync-reader-fixture.test.js` |
+| **AAI-OFF-03** | PAS-OFFLINE | Le `content_digest` est la **vérité matérielle** — divergence = rejet ou réparation | **Couvert** | `offline-runtime.test.js` ; `product-consumption.test.js` ; `browser-offline-stale.test.js` ; `library-install.test.js` ; **`16` AAI-OFF-03-A/B/C** ; `ensureReleaseReady` auto-repair (`browser-offline-manager.js`) |
+| **AAI-SHL-01** | PAS-SHELL | Le Shell **ne connaît jamais** le contenu pédagogique | **Couvert** | `shell-s1-chrome.test.js` (chrome statique sans blocs pédagogiques) ; `composition-engine.test.js` (`notes is published shell without blocks`) ; `17` CN-P-06 (shell notes sans contenu officiel) |
+| **AAI-SHL-02** | PAS-SHELL | Composition **ne connaît jamais** le Shell | **Non couvert** | Aucun test d'import interdit (`composition/` n'importe pas `shell/` — vérifié manuellement). **Lacune :** absence de garde automatisée (lint ou test statique) |
+| **AAI-SHL-03** | PAS-SHELL | Le **ReadingViewModel** est l'interface unique entre Composition et Renderer | **Partiel** | `composition-navigation.test.js` ; `compliance-nc.test.js` (`buildNavigationFromViewModel`) ; `composition-nominal-path.test.js` (`buildReadingViewModel` dans `app.js`) ; `17` CN-P-01 / `10` CN-01 (7 onglets depuis RVM) ; `14` DP-F-13 (RVM inchangé après prefs). **Lacune :** pas de fichier dédié `reading-view-model.test.js` |
+| **AAI-MM-01** | PAS-MM | La vue est **entièrement alimentée** par le ReadingViewModel | **Couvert** | `composition-engine.test.js` (agrégation story + overview) ; `composition-navigation.test.js` ; `17` CN-P-02 |
+| **AAI-AP-01** | PAS-AP | L'amorçage provient **uniquement** du package publié | **Couvert** | `15` AP-F-01…12 ; `cognitive-priming-renderer.test.js` ; `cognitive-priming-render.test.js` ; `compliance-nc.test.js` ; `tools/lou-build/test/cognitive-priming.test.js` |
+| **AAI-NOT-01** | PAS-NOTIONS | La vue **ne dépend jamais** du chrome (Shell, prefs, breadcrumb) | **Partiel** | `14` DP-F-13 (RVM transverse inchangé) ; `display-preferences-d7-f-validation.test.js` DP-F-N17. **Lacune :** pas de test spécifique Notions isolé du chrome ; rendu nominal seulement (`17` CN-P-03) |
+| **AAI-CLIN-01** | PAS-CLINICAL | Les cas proviennent **uniquement** du package | **Couvert** | `17` CN-P-04 (registre scénarios depuis manifest) ; `composition-engine.test.js` ; `composition-runtime-identity.test.js` |
+| **AAI-COL-01** | PAS-COLLEGE | Le texte officiel **reste inchangé** (copie verbatim Fabrique → package → rendu) | **Partiel** | `college-source-publish.test.js` (copie verbatim à la publication) ; `college-official.test.js` (rendu FIL B verbatim) ; `12` OF-D2-05 (offline). **Lacune :** pas de hash d'intégrité bout-en-bout source éditoriale → package installé |
+| **AAI-QCM-01** | PAS-QCM | Les QCM affichés proviennent **uniquement** du package | **Couvert** | `17` CN-P-05 ; `composition-engine.test.js` (`qcm lists published questions from manifest registry`) |
+| **AAI-NTE-01** | PAS-NOTES | Les notes utilisateur **ne modifient jamais** le package publié | **Partiel** | `offline-manager.test.js` (`does not modify installed package tree during prepare`) ; `learner-patrimony-store.test.js` (scoping `release_id`, pas de fuite) ; `walkthrough-notes-restore.test.js` WT-INV-1 (flux officiel inchangé après restore). **Lacune :** pas de test explicite « annotation → package tree inchangé » |
+| **AAI-LIB-01** | PAS-LIBRARY | Le Reader **ne dépend jamais** d'un chapitre codé en dur | **Partiel** | `renderer.test.js` (résolution générique `pneumo/999`) ; `shell-s2-breadcrumb.test.js` (pas de chapitre hardcodé). **Lacune :** outillage review/CI câblé sur 234 (`library-server.mjs`, `sync-reader-fixture.mjs`, `product-review-234.sh`) ; aucun Product Smoke Couche 1 |
+
+**Lecture opérationnelle :** avant de prononcer une PAS **Couverture forte**, vérifier que tous ses AAI sont **Couvert** ou que les **Partiel** / **Non couvert** figurent en backlog [§6.3](#63-backlog-aai--invariants-non-couverts) avec priorité acceptée.
+
+### 6.3 Backlog AAI — invariants non couverts
+
+Backlog priorisée des AAI **Partiel** ou **Non couvert**. **Hors périmètre immédiat** — ne pas implémenter sans décision produit explicite.
+
+| Priorité | ID | Invariant | Lacune | Validation recommandée *(future)* |
+|---|---|---|---|---|
+| ~~**P0**~~ | ~~AAI-OFF-01~~ | ~~SW n'empêche jamais la préparation~~ | **Clôturé PAS-OFFLINE 2** (2026-08-03) | — |
+| ~~**P0**~~ | ~~AAI-OFF-03~~ | ~~Digest = vérité matérielle~~ | **Clôturé PAS-OFFLINE 2** (2026-08-03) | — |
+| **P1** | AAI-SHL-02 | Composition ignore Shell | Aucune garde automatisée | Test statique ou lint : `composition/` ne doit pas importer `shell/` |
+| **P1** | AAI-SHL-03 | ReadingViewModel = interface unique | Couverture indirecte dispersée | Unit test dédié `reading-view-model.test.js` : contrat RVM, un seul point d'entrée Renderer |
+| **P1** | AAI-NOT-01 | Notions indépendante du chrome | DP-F-13 transverse, pas spécifique | Smoke ou unit : rendu Notions identique avec chrome modifié (breadcrumb masqué, prefs extrêmes) |
+| **P2** | AAI-COL-01 | Texte officiel inchangé | Pas de hash intégrité source→package | Contract Test lou-build : hash source éditoriale = hash `source/official-college.md` publié |
+| **P2** | AAI-NTE-01 | Notes n'altèrent pas le package | Scoping patrimoine OK ; immutabilité package non assertée | Contract Test : après création annotation, arbre `packages/<release_id>/` byte-identique |
+| **P2** | AAI-LIB-01 | Pas de chapitre hardcodé | Code Reader générique ; outillage 234-only | Product Smoke Couche 1 (PAS-LIBRARY) + dé-hardcodage scripts review/fixture |
+
+**Note méthodologique :** PAS-OFFLINE 2 (2026-08-03) a clôturé le backlog P0 (AAI-OFF-01, AAI-OFF-03). Validation manuelle Product Review sur profil navigateur persistant reste recommandée après merge.
+
+### 6.4 Recommandations pour les prochaines PAS
+
+| PAS / incrément | Action AAI recommandée |
+|---|---|
+| **PAS-OFFLINE** *(correctif prioritaire)* | **Clôturé PAS-OFFLINE 2** — valider Product Review visuelle profil persistant |
+| **PAS-SHELL S2** | Livrer breadcrumb **et** AAI-SHL-02 (lint import) + renforcement AAI-SHL-03 lors de la clôture S2 |
+| **PAS-AP** *(Phase 2 — prochaine)* | AAI-AP-01 déjà couvert ; prioriser contenu éditorial ; vérifier qu'aucun fallback dev ne contourne le package en mode produit |
+| **PAS-LIBRARY** *(S3+)* | Créer le premier Product Smoke Couche 1 ; AAI-LIB-01 doit devenir **Couvert** avant prononcé PAS-LIBRARY |
+| **PAS-NOTIONS / CLINICAL / COLLEGE** *(Phases 3–5)* | Enrichir les smokes existants (`17`, `12`) pour combler AAI-NOT-01 et AAI-COL-01 lors de l'ouverture éditoriale de chaque phase |
+| **Maintenance framework** | Toute nouvelle PAS ou extension PAS → déclarer ses AAI dans [§6.2](#62-registre-aai--pas--invariants--validations) **avant** d'ajouter des tests ; ne jamais créer de smoke orphelin ([§12](#12-maintenance-et-évolution)) |
+
 ---
 
 ## 7. Inventaire des batteries
@@ -432,6 +525,7 @@ Audit consolidé — objectif, autorité et PAS couvertes.
 |---|---|---|
 | **Product Review visuelle / UX Lou** | Jugement d'usage réel | Product Review (Phase 7–8) |
 | **Validation pédagogique Lou** | Métrique d'apprentissage | Future phase (§9) |
+| **PAS-OFFLINE — AAI P0** | Invariants SW/digest partiellement couverts — incident Product Review 2026-08-03 | Backlog [§6.3](#63-backlog-aai--invariants-non-couverts) — correctif avant Review |
 | **PAS-SHELL complète (S2–S5)** | Breadcrumb, Couche 1, routing non livrés | PAS-SHELL — S1 seulement |
 | **PAS-LIBRARY** | Couche 1 non couverte en smoke produit | PAS-LIBRARY réservée |
 | **Multi-chapitres bibliothèque** | Un seul chapitre complet (234) | Extension post-224 |
@@ -459,6 +553,7 @@ Aucune PAS pédagogique n'est créée en T0.
 1. Lou Build Validation PASS
 2. Unit + Contract Tests PASS
 3. Toutes les **PAS exigées pour le lot** vertes via Product Smokes
+4. Tous les **AAI associés** à ces PAS au statut **Couvert** — ou backlog P0/P1 explicitement accepté ([§6.2](#62-registre-aai--pas--invariants--validations), [§6.3](#63-backlog-aai--invariants-non-couverts))
 
 ### 10.2 Publication
 
@@ -518,12 +613,12 @@ Aucune PAS pédagogique n'est créée en T0.
 
 ## 12. Maintenance et évolution
 
-1. **Nouvelle fonctionnalité produit** → définir ou étendre une **PAS** ; identifier les Product Smokes qui l'implémentent.
-2. **Nouveau Product Smoke** → rattacher à une PAS existante — ne pas créer de smoke orphelin.
-3. **Nouveau test unit/contrat/engineering** → classer comme fondation ou non-régression d'une PAS.
-4. **Clôture phase roadmap** → PAS verte + Product Review si applicable.
-5. **Ne pas figer de compteurs** — piloter par PAS et statuts (§3.2, §6).
-6. **Framework stable** — les prochaines PAS (SHELL S2, MM, AP…) s'appuient sur ce cadre **sans refonte** de la stratégie.
+1. **Nouvelle fonctionnalité produit** → définir ou étendre une **PAS** ; déclarer ses **AAI** ([§6.2](#62-registre-aai--pas--invariants--validations)) ; identifier les Product Smokes qui les implémentent.
+2. **Nouveau Product Smoke** → rattacher à une PAS existante — ne pas créer de smoke orphelin ; couvrir au moins un AAI ou critère d'acceptation explicite.
+3. **Nouveau test unit/contrat/engineering** → classer comme fondation ou non-régression d'une PAS **et** rattacher à un AAI si applicable.
+4. **Clôture phase roadmap** → PAS verte + AAI couverts + Product Review si applicable.
+5. **Ne pas figer de compteurs** — piloter par PAS, AAI et statuts (§3.2, §3.4, §6).
+6. **Framework stable** — les prochaines PAS (SHELL S2, MM, AP…) s'appuient sur ce cadre **sans refonte** de la stratégie ni nouvelle famille de tests.
 
 ---
 
@@ -535,6 +630,7 @@ Aucune PAS pédagogique n'est créée en T0.
 | **T0 consolidé** | Pilotage produit, critères de jalons simplifiés |
 | **T0 + PAS** | Product Acceptance Suites = unité de progression roadmap |
 | **Framework consolidé** | Niveaux DEV/PAS/RELEASE ; cartographie §6 ; inventaire batteries §7 ; gate DEV ; framework **stable** |
+| **Framework + AAI** | Architectural Acceptance Invariants = première couche PAS ; registre §6.2 ; backlog §6.3 ; PAS = registre officiel des invariants d'architecture |
 
 Commits : `e4f733c`, `69310e8`, `ac98720`, consolidation 2026-08-03.
 

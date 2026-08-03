@@ -10,6 +10,13 @@ import {
   VIEWS,
 } from "./fixtures.mjs";
 import { createHighlight, goToProjection } from "./helpers.mjs";
+import {
+  openProductChapter,
+  waitForOfflineReady,
+  waitForServiceWorker,
+  ensureServiceWorkerOnPage,
+  resetCatalogOfflineStatus,
+} from "./local-search-helpers.mjs";
 
 const REPO_ROOT = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -21,71 +28,10 @@ const LIBRARY_ROOT = path.join(
 );
 const CATALOG_PATH = path.join(LIBRARY_ROOT, "library.json");
 
-async function ensureServiceWorkerOnPage(page) {
-  const ok = await page.evaluate(async () => {
-    if (!("serviceWorker" in navigator)) {
-      return false;
-    }
-    await navigator.serviceWorker.register("/sw.js", { type: "module" });
-    await navigator.serviceWorker.ready;
-    return true;
-  });
-  if (!ok) {
-    throw new Error("serviceWorker unavailable in test browser");
-  }
-}
-
-async function openProductChapter(page) {
-  await page.goto(productChapterUrl(), {
-    waitUntil: "domcontentloaded",
-    timeout: 120_000,
-  });
-  await waitForOfflineReady(page);
-  await ensureServiceWorkerOnPage(page);
-  await waitForServiceWorker(page);
-  await page.reload({ waitUntil: "domcontentloaded" });
-  await waitForServiceWorker(page);
-  await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), {
-    timeout: 15_000,
-  });
-}
-
-async function waitForServiceWorker(page) {
-  await page.waitForFunction(async () => {
-    const reg = await navigator.serviceWorker.getRegistration("/");
-    return Boolean(reg && reg.active);
-  });
-}
-
 function readCatalogOfflineStatus() {
   const catalog = JSON.parse(fs.readFileSync(CATALOG_PATH, "utf8"));
   const entry = catalog.entries.find((e) => e.release_id === RELEASE_ID_234);
   return entry?.offline_status ?? null;
-}
-
-function resetCatalogOfflineStatus(status = "not_prepared") {
-  const catalog = JSON.parse(fs.readFileSync(CATALOG_PATH, "utf8"));
-  const entry = catalog.entries.find((e) => e.release_id === RELEASE_ID_234);
-  if (entry) {
-    entry.offline_status = status;
-  }
-  catalog.updated_at = new Date().toISOString();
-  fs.writeFileSync(CATALOG_PATH, JSON.stringify(catalog, null, 2) + "\n");
-}
-
-async function waitForOfflineReady(page, timeoutMs = 120_000) {
-  await page.waitForFunction(
-    async (releaseId) => {
-      if (!window.LouProductBootstrap?.readOfflineStatus) {
-        return false;
-      }
-      const status = await window.LouProductBootstrap.readOfflineStatus(releaseId);
-      return status === "offline_ready";
-    },
-    RELEASE_ID_234,
-    { timeout: timeoutMs }
-  );
-  await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
 }
 
 test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
@@ -113,7 +59,11 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
 
     await openProductChapter(page);
 
-    expect(readCatalogOfflineStatus()).toBe("offline_ready");
+    const browserStatus = await page.evaluate(
+      (releaseId) => window.LouProductBootstrap.readOfflineStatus(releaseId),
+      RELEASE_ID_234
+    );
+    expect(browserStatus).toBe("offline_ready");
     expect(devPaths).toEqual([]);
     await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
     await expect(page.locator("#shell-breadcrumb .shell-breadcrumb-link")).not.toHaveText("…", {
@@ -228,13 +178,21 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
 
     await page.goto(productChapterUrl(), { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(3000);
-    expect(readCatalogOfflineStatus()).toBe("failed");
+    const failedStatus = await page.evaluate(
+      (releaseId) => window.LouProductBootstrap.readOfflineStatus(releaseId),
+      RELEASE_ID_234
+    );
+    expect(failedStatus).toBe("failed");
 
     blockAssets = false;
     resetCatalogOfflineStatus("failed");
     await page.goto(productChapterUrl(), { waitUntil: "domcontentloaded", timeout: 120_000 });
     await waitForOfflineReady(page);
-    expect(readCatalogOfflineStatus()).toBe("offline_ready");
+    const readyStatus = await page.evaluate(
+      (releaseId) => window.LouProductBootstrap.readOfflineStatus(releaseId),
+      RELEASE_ID_234
+    );
+    expect(readyStatus).toBe("offline_ready");
   });
 
   test("OF-D2-09 product mode uses Browser Package Access URLs", async ({
@@ -309,5 +267,27 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
       timeout: 15_000,
     });
     expect(pageErrors).toEqual([]);
+  });
+
+  test("OF-D2-11 shell network refresh preserves offline after certification", async ({
+    page,
+    context,
+  }) => {
+    const { seedStaleShellCache, STALE_SHELL_MARKER } = await import(
+      "./product-aai-helpers.mjs"
+    );
+
+    await openProductChapter(page);
+    await seedStaleShellCache(page);
+
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await waitForOfflineReady(page);
+    await expect(page.locator("body")).not.toContainText(STALE_SHELL_MARKER);
+    await expect(page.locator("#shell-breadcrumb")).toBeVisible();
+
+    await context.setOffline(true);
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
+    await expect(page.locator("#shell-breadcrumb")).toBeVisible();
   });
 });

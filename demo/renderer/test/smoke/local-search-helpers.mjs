@@ -84,7 +84,27 @@ export async function waitForOfflineReady(page, timeoutMs = 120_000) {
   });
 }
 
+export async function purgeServiceWorkerCaches(page) {
+  await page.goto("/demo/renderer/index.html", {
+    waitUntil: "domcontentloaded",
+  });
+  await page.evaluate(async () => {
+    if (!("caches" in window)) {
+      return;
+    }
+    const keys = await caches.keys();
+    await Promise.all(keys.map((key) => caches.delete(key)));
+    if ("serviceWorker" in navigator) {
+      const reg = await navigator.serviceWorker.getRegistration("/");
+      if (reg) {
+        await reg.unregister();
+      }
+    }
+  });
+}
+
 export async function openProductChapter(page) {
+  await purgeServiceWorkerCaches(page);
   await page.goto(productChapterUrl(), {
     waitUntil: "domcontentloaded",
     timeout: 120_000,

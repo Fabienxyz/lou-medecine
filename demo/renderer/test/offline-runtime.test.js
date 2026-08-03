@@ -254,6 +254,45 @@ describe("offline runtime (D2-E)", () => {
     assert.ok(keys.includes(SHELL_CACHE_NAME));
   });
 
+  test("shell serving is network-first — stale cache converges to network body", async () => {
+    await runtime.prepareShell();
+    const shellPath = "/demo/renderer/app.js";
+    const cache = await storage.open(SHELL_CACHE_NAME);
+    await cache.put(shellPath, {
+      body: new TextEncoder().encode("stale-shell-body"),
+      contentType: "text/javascript",
+      status: 200,
+    });
+
+    const response = await runtime.resolveOrServe(`${ORIGIN}${shellPath}`);
+    assert.ok(response);
+    const body = await response.text();
+    assert.match(body, /^shell:/);
+    assert.doesNotMatch(body, /stale-shell-body/);
+  });
+
+  test("shell serving falls back to cache when network is unavailable", async () => {
+    const offlineRuntime = createOfflineRuntime({
+      storage,
+      fetch: async () => {
+        throw new Error("network offline");
+      },
+      libraryBasePath: LIBRARY_BASE,
+      allowDevPackageWarmCache: false,
+    });
+    const shellPath = "/demo/renderer/app.js";
+    const cache = await storage.open(SHELL_CACHE_NAME);
+    await cache.put(shellPath, {
+      body: new TextEncoder().encode("certified-offline-shell"),
+      contentType: "text/javascript",
+      status: 200,
+    });
+
+    const response = await offlineRuntime.resolveOrServe(`${ORIGIN}${shellPath}`);
+    assert.ok(response);
+    assert.equal(await response.text(), "certified-offline-shell");
+  });
+
   test("D4 — product-bootstrap static imports are precached in SHELL_URLS", () => {
     const required = productBootstrapStaticImportShellUrls();
     assert.ok(

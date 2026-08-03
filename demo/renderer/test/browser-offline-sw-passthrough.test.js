@@ -116,13 +116,19 @@ function mockResponse(status, body, contentType) {
  * @param {typeof fetch} networkFetch
  */
 function createServiceWorkerFetch(runtime, networkFetch) {
-  return async (url, init) => {
-    const href = typeof url === "string" ? url : url.url || String(url);
-    const response = await runtime.resolveOrServe(href);
+  return async (url, init = {}) => {
+    const request =
+      typeof url === "string" || url instanceof URL
+        ? new Request(url, init)
+        : url;
+    const response = await runtime.resolveOrServe(request);
     if (response) {
       return response;
     }
-    return networkFetch(href, init);
+    return networkFetch(
+      typeof url === "string" || url instanceof URL ? url : request.url,
+      init
+    );
   };
 }
 

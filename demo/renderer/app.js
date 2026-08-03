@@ -585,9 +585,22 @@
         if (navigator.webdriver) {
             return;
         }
-        navigator.serviceWorker.register("/sw.js", { type: "module" }).catch(function (err) {
-            console.warn("[LouApp] Service worker registration failed", err);
+        var refreshing = false;
+        navigator.serviceWorker.addEventListener("controllerchange", function () {
+            if (refreshing) {
+                return;
+            }
+            refreshing = true;
+            window.location.reload();
         });
+        navigator.serviceWorker
+            .register("/sw.js", { type: "module" })
+            .then(function (registration) {
+                registration.update();
+            })
+            .catch(function (err) {
+                console.warn("[LouApp] Service worker registration failed", err);
+            });
     }
 
     async function boot() {

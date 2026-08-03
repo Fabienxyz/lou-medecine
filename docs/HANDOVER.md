@@ -140,7 +140,7 @@ Learner Patrimony (E-A…E-D)
 | **Amorçage cognitif (AP-A…AP-F)** | Publié — package 234 |
 | **Critères d'acceptation** | **Prononcés** — 2026-08-02 |
 
-**Tests renderer :** pilotage par **PAS** (Product Acceptance Suites) — Product Smokes = implémentation ; Engineering = non-régression. Voir [`TEST_ARCHITECTURE_V1.md` §6](testing/TEST_ARCHITECTURE_V1.md).
+**Tests renderer :** pilotage par **PAS** — gates **DEV** (`validate-dev.sh`) / **PAS** (§6) / **RELEASE** (`validate-reader-v1.sh`). Voir [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md).
 
 ---
 
@@ -173,7 +173,7 @@ Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 3. Lire [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) — Phases 0–9, produit vs production.
 4. Lire [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) — checklist Phase 2.
 5. Lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md).
-6. **Validation :** [`docs/testing/TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) — Product Acceptance Suites, pyramide, jalons.
+6. **Validation :** [`docs/testing/TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) — DEV / PAS / RELEASE ; cartographie §6.
 7. **Product Review officielle :** [`docs/renderer/PRODUCT-REVIEW.md`](renderer/PRODUCT-REVIEW.md) — `./scripts/product-review-234.sh` (seule entrée valide).
 8. **Chantier prioritaire : Phase 2** — Amorçage cognitif (package + vue Reader).
 9. **Ne pas démarrer** Phase 9 (224) — conditionnée par Product Freeze (Phase 8).

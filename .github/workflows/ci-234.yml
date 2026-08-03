@@ -1,5 +1,5 @@
 # Non-regression gate — golden master Item 234 (PDR-G6, PDR-B2).
-# Architecture : docs/testing/TEST_ARCHITECTURE_V1.md
+# Architecture : docs/testing/TEST_ARCHITECTURE_V1.md — RELEASE gate
 
 name: CI — Fixture 234
 
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   fixture-234:
-    name: Package 234 + Reader V1 validation
+    name: RELEASE gate — package 234
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -32,41 +32,7 @@ jobs:
             demo/renderer/package-lock.json
             tools/lou-build/package-lock.json
 
-      - name: Install lou-build
-        working-directory: tools/lou-build
-        run: npm ci
-
-      - name: Install renderer
-        working-directory: demo/renderer
-        run: npm ci
-
-      - name: Install Playwright Chromium
-        working-directory: demo/renderer
-        run: npx playwright install chromium --with-deps
-
-      - name: "[Fabrique] lou-build validate — package 234"
-        working-directory: tools/lou-build
-        run: npm run validate -- --chapter 01-learning/chapters/cardio/234
-
-      - name: "[Fabrique] Sync Reader fixture from package"
-        run: node scripts/sync-reader-fixture.mjs
-
-      - name: "[Fabrique + Contrats] lou-build tests (gate)"
-        working-directory: tools/lou-build
-        run: npm run test:ci
-
-      - name: "[Contrats + Reader technique] Renderer unit tests"
-        working-directory: demo/renderer
-        run: npm test
-
-      - name: "[Reader Produit] smoke tests — product mode (authoritative)"
-        working-directory: demo/renderer
-        run: npm run test:smoke:product
-        env:
-          CI: "true"
-
-      - name: "[Reader technique] smoke tests — engineering mode"
-        working-directory: demo/renderer
-        run: npm run test:smoke:engineering
+      - name: RELEASE gate (validate-reader-v1)
+        run: ./scripts/validate-reader-v1.sh
         env:
           CI: "true"

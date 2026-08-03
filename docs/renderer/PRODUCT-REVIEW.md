@@ -27,12 +27,15 @@ http://127.0.0.1:8765/demo/renderer/index.html?chapter=cardio/234-insuffisance-c
 
 La bibliothèque d'exécution est `.local/product-review-library/` (gitignored) — le navigateur peut y écrire (`offline_status`) sans salir la fixture de non-régression.
 
-## Modes — hiérarchie
+## Modes — hiérarchie DEV / PAS / RELEASE
 
-| Mode | URL | Usage |
+| Niveau | Commande | Usage |
 |---|---|---|
-| **Product Review** (officiel) | `…&product=1` via script ci-dessus | Validation humaine finale — après PAS vertes |
-| Développement Reader | `?chapter=cardio/234` (sans `product=1`) | Ingénierie Reader / CHAPTERS_ROOT direct |
+| **DEV** | `./scripts/validate-dev.sh` | Développement courant — unit + engineering smokes |
+| **PAS** | Gate ciblé §6 [`TEST_ARCHITECTURE_V1.md`](../testing/TEST_ARCHITECTURE_V1.md) | Clôture d'une PAS |
+| **RELEASE** | `./scripts/validate-reader-v1.sh` | Gate CI, merge `main`, pré-Review |
+| **Product Review** (officiel) | `./scripts/product-review-234.sh` | Validation humaine — **après RELEASE vert** |
+| Développement Reader | `?chapter=cardio/234` (sans `product=1`) | Ingénierie Reader / CHAPTERS_ROOT — **DEV seulement** |
 | Product Smokes (CI) | `npm run test:smoke:product` | Implémentation automatisée des PAS |
 
 ## Republication (même `release_id`, nouveau digest)

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Document de référence — **pilotage produit** |
-| **Statut** | En vigueur — 2026-08-03 (Phase T0 + Product Acceptance Suites) |
+| **Statut** | **Framework consolidé — stable** (2026-08-03) |
 | **Périmètre** | Reader V1 = produit complet (Fabrique → consommation → expérience) |
 | **Autorité** | Hiérarchie des validations, PAS et critères de jalons ; ne remplace ni contrats, ni ADR |
 | **Chapitre de référence** | Item **234** — Insuffisance cardiaque — édition Collège 2022 |
@@ -17,7 +17,8 @@
 - État opérationnel : [`docs/PROJECT_STATE.md`](../PROJECT_STATE.md)
 - Roadmap : [`docs/MASTER_ROADMAP.md`](../MASTER_ROADMAP.md)
 - Shell Reader V1 : [`docs/renderer/20-READER-V1-SHELL-ARCHITECTURE.md`](../renderer/20-READER-V1-SHELL-ARCHITECTURE.md)
-- Gate local : [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh)
+- Gate local DEV : [`scripts/validate-dev.sh`](../../scripts/validate-dev.sh)
+- Gate local RELEASE : [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh)
 
 ---
 
@@ -114,7 +115,31 @@ Lou Build → Unit + Contrats → PAS vertes (via Product Smokes)
         Jalon éditorial / Product Freeze
 ```
 
-Le gate automatisé (`validate-reader-v1.sh`) exécute l'ensemble des PAS implémentées via `test:smoke:product`, plus les fondations techniques.
+Le gate **RELEASE** (`validate-reader-v1.sh`) exécute l'ensemble des PAS implémentées via `test:smoke:product`, plus les fondations techniques.
+
+### 2.4 Niveaux DEV, PAS et RELEASE
+
+Trois gates opérationnels — **sans ambiguïté** sur quoi lancer, quand et pourquoi.
+
+| Niveau | Question | Autorité | Quand lancer |
+|---|---|---|---|
+| **DEV** | Le moteur Reader tient-il après ma modification ? | Non-régression technique | À chaque modification Reader / Renderer |
+| **PAS** | La PAS visée est-elle terminée ? | **Prononcé produit** pour la PAS concernée | Clôture d'un incrément PAS (ex. PAS-SHELL S2) |
+| **RELEASE** | Le package 234 est-il publiable et non-régressif ? | Gate CI + pré-Product Review | Avant merge `main`, publication, Product Review |
+
+| Niveau | Commande | Contenu |
+|---|---|---|
+| **DEV** | [`scripts/validate-dev.sh`](../../scripts/validate-dev.sh) | Unit tests Renderer + Engineering Smokes |
+| **PAS** | Voir §6 — gate ciblé par PAS | Lou Build validate + Product Smokes de la PAS + fondations associées |
+| **RELEASE** | [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh) | Fabrique + contrats + unit + **toutes** Product Smokes + Engineering Smokes |
+| **Humain** | [`scripts/product-review-234.sh`](../../scripts/product-review-234.sh) | Observation produit publié — **après** RELEASE vert |
+
+**Règles :**
+
+1. **DEV ne prononce jamais une PAS** — il accélère le développement courant.
+2. **PAS ne remplace pas RELEASE** — une PAS verte locale n'autorise pas la publication sans gate RELEASE complet.
+3. **RELEASE ne remplace pas Product Review** — jugement humain final pour les jalons éditoriaux.
+4. Le mode ingénierie (`?chapter=` sans `product=1`) n'entre que dans **DEV** — jamais dans PAS ni RELEASE.
 
 ---
 
@@ -176,9 +201,10 @@ Certaines capacités Reader **supportent** plusieurs PAS sans constituer une PAS
 | **Responsabilité** | Chrome applicatif, navigation Couche 1, barre 7 vues, actions globales, identité Lou Médecine |
 | **Phases roadmap** | Parallèle Shell V1 *(spec [`20-READER-V1-SHELL-ARCHITECTURE.md`](../renderer/20-READER-V1-SHELL-ARCHITECTURE.md) §9)* |
 | **Critères d'acceptation** | Critères §9 Shell V1 — chrome minimal, pas de legacy prototype, breadcrumb, panneaux transverses |
-| **Implémentation actuelle** | **Indirecte seulement** — `17` CN-P-01 (7 onglets), `16` PC-01, `12` OF-D2-10 (shell cache offline), `13`/`14` (contrôles header) |
+| **Implémentation actuelle** | **S1 livré (partiel)** — `shell-s1-chrome.test.js` (chrome legacy) ; indirect : `17` CN-P-01, `16` PC-01, `13`/`14` (header) ; S2+ (breadcrumb, Couche 1) en attente |
+| **Gate PAS ciblé** | `npm test` (shell-s1) + smokes `17`, `16`, `13`, `14` — voir §6 |
 | **Product Review** | Observation chrome lors de toute Product Review |
-| **Statut** | **Non couverte** — pas de PAS dédiée ; critères Shell §9 non prononcés |
+| **Statut** | **Couverture partielle** — S1 chrome minimal OK ; critères §9 complets non prononcés |
 
 ---
 
@@ -303,7 +329,7 @@ Chaque phase RPC 234 se clôt par la **PAS associée verte** (+ Product Review q
 | **7** | Product Review avec Lou | *Toutes PAS + Product Review* | — | Réservée |
 | **8** | Product Freeze | *Ensemble PAS vertes + Review OK* | — | Réservée |
 | **9** | RPC 224 (production) | *Hors périmètre 234* | — | Réservée |
-| *(parallèle)* | Shell Reader V1 | PAS-SHELL | Non couverte | En attente |
+| *(parallèle)* | Shell Reader V1 | PAS-SHELL | Couverture partielle *(S1)* | En cours |
 | *(parallèle)* | Bibliothèque EDN | PAS-LIBRARY | Non couverte | Réservée |
 
 **Phase 6** ne crée pas de nouvelle PAS : elle exige l'ensemble des PAS vues vertes simultanément.
@@ -312,32 +338,99 @@ Chaque phase RPC 234 se clôt par la **PAS associée verte** (+ Product Review q
 
 ---
 
-## 6. Synthèse couverture PAS
+## 6. Cartographie PAS ↔ validations
 
-| PAS | Statut | Product Smokes implémentants |
-|---|---|---|
-| **PAS-OFFLINE** | Couverture forte | `16-product-consumption`, `12-offline-d2g` |
-| **PAS-SHELL** | Non couverte | *(indirect : `17`, `16`, `12`, `13`, `14`)* |
-| **PAS-MM** | Couverture partielle | `17` CN-P-02, partiel `12` |
-| **PAS-AP** | Couverture forte *(Reader)* | `15-cognitive-priming-apf` |
-| **PAS-NOTIONS** | Couverture partielle | `17` CN-P-03 |
-| **PAS-CLINICAL** | Couverture partielle | `17` CN-P-04 |
-| **PAS-COLLEGE** | Couverture partielle | `12` OF-D2-05 |
-| **PAS-QCM** | Couverture partielle | `17` CN-P-05 |
-| **PAS-NOTES** | Couverture partielle | `17` CN-P-06 |
-| **PAS-LIBRARY** | Non couverte | — |
+Matrice autoritaire : **quelle preuve prononce quelle PAS**. Piloter par cette table — pas par fichiers de test isolés.
 
-**PAS transverses implicites dans le gate :** `17-product-composition-navigation` valide la **navigation inter-PAS** (7 onglets, cohérence ViewModel).
+| PAS | Statut | Gate PAS (commande ciblée) | Product Smokes | Fondations (unit / contrats) | Engineering *(DEV)* |
+|---|---|---|---|---|---|
+| **PAS-OFFLINE** | Couverture forte | `lou-build validate` + `playwright test 12 16` | `12-offline-d2g`, `16-product-consumption` | `product-consumption.test.js`, `browser-offline-*`, `offline-runtime.test.js`, lou-build `test:ci` | `11-offline-dev` |
+| **PAS-SHELL** | Couverture partielle *(S1)* | `npm test` *(shell-s1)* + smokes `17` `16` `13` `14` | `17` CN-P-01, `16` PC-01, `13`, `14` *(header)* | `shell-s1-chrome.test.js` | — |
+| **PAS-MM** | Couverture partielle | smoke `17` CN-P-02 | `17` CN-P-02 ; partiel `12` OF-D2-04 | `composition-*`, `10` CN-02 *(dev)* | `10` CN-02, `03` PR-05/06 |
+| **PAS-AP** | Couverture forte *(Reader)* | smoke `15` | `15-cognitive-priming-apf` | `cognitive-priming-*`, `session-*` | — |
+| **PAS-NOTIONS** | Couverture partielle | smoke `17` CN-P-03 | `17` CN-P-03 | `composition-*` | `10` CN-03 |
+| **PAS-CLINICAL** | Couverture partielle | smoke `17` CN-P-04 | `17` CN-P-04 | `composition-*` | `10` CN-04 |
+| **PAS-COLLEGE** | Couverture partielle | smoke `12` OF-D2-05 | `12` OF-D2-05 | `college-official.test.js` | `10` CN-07, `11-offline-dev` |
+| **PAS-QCM** | Couverture partielle | smoke `17` CN-P-05 | `17` CN-P-05 | `composition-*` | `10` CN-05 |
+| **PAS-NOTES** | Couverture partielle | smoke `17` CN-P-06 | `17` CN-P-06 | `composition-*`, patrimoine | `10` CN-06 |
+| **PAS-LIBRARY** | Non couverte | — *(réservée S3+)* | — | `browser-package-access`, `library-install` (lou-build) | — |
+
+**Capacités transverses** (supportent plusieurs PAS, ne sont pas des PAS vue) :
+
+| Capacité | Product Smoke | Fondations | PAS supportées |
+|---|---|---|---|
+| Recherche locale (D6) | `13-local-search-d6f` | `local-search-*` | Toutes vues |
+| Préférences affichage (D7) | `14-display-preferences-d7f` | `display-preferences-*` | Toutes vues |
+| Reprise session (D4) | `15` AP-F-08 | `session-*` | PAS-AP, navigation |
+| Annotations / surlignage | — | Engineering `01`…`08` | Couche apprenante *(DEV)* |
+| Patrimoine export/import | — | `learner-snapshot*` | PAS-NOTES, transverse |
+
+**Gate PAS complet** (toutes PAS implémentées) = `npm run test:smoke:product` après `lou-build validate` + sync fixture.
+
+### 6.1 Doublons intentionnels — non supprimés
+
+| Paire | Raison de coexistence |
+|---|---|
+| `10-composition-navigation` (engineering) vs `17-product-composition-navigation` (product) | **Deux chemins distincts** : dev bootstrap (`CHAPTERS_ROOT`) vs chemin produit (`product=1`). Seul `17` prononce les PAS vue ; `10` protège le DEV. |
+| Unit tests + Product Smokes (même domaine) | Units = fondation isolée ; Smokes = intégration browser chemin produit. |
+| `*-validation.test.js` (Node) + `*-d*f.spec.mjs` (Playwright) | Node = logique service ; Playwright = UX browser produit. |
+
+Aucun doublon supprimé : chaque paire sert un **niveau d'autorité différent** (§2.4).
 
 ---
 
-## 7. Ce qui n'est volontairement pas automatisé
+## 7. Inventaire des batteries
+
+Audit consolidé — objectif, autorité et PAS couvertes.
+
+| Batterie | Objectif | Niveau | Autorité | PAS / rôle |
+|---|---|---|---|---|
+| **Lou Build validate** | Package 234 conforme, installable | Fondation | Prérequis RELEASE | Toutes PAS |
+| **Lou Build test:ci** | Pipeline Fabrique, contrats package | Contrats | RELEASE | PAS-OFFLINE |
+| **Renderer npm test** | Composants isolés (651 tests) | Unit | DEV + fondation RELEASE | Toutes *(fondation)* |
+| **Engineering Smokes** (`01`…`11`, `10`) | Non-régression mode dev | DEV | **Informatif** — ne prononce pas PAS | Protection moteur |
+| **Product Smokes** (`12`…`17`) | Capacités produit `product=1` | PAS | **Autoritaire** pour PAS | Implémentent PAS §6 |
+| **Product Review** | Acceptabilité humaine Lou | Humain | Suprême (Phase 7–8) | Au-delà PAS |
+| **CI `ci-234.yml`** | Parité RELEASE sur `main` | RELEASE | Gate merge | Toutes PAS implémentées |
+| **validate-dev.sh** | Feedback rapide développeur | DEV | Développement courant | — |
+| **validate-reader-v1.sh** | Gate publication 234 | RELEASE | CI + pré-Review | Toutes PAS |
+| **product-review-234.sh** | Observation produit publié | Humain | Product Freeze | Validation finale |
+
+### 7.1 Engineering Smokes — détail
+
+| Fichier | Objectif | PAS *(informatif)* |
+|---|---|---|
+| `01-creation` | Création surlignage | Couche apprenante |
+| `02-persistence` | Persistance IndexedDB | Couche apprenante |
+| `03-projections` | Projections legacy / walkthrough | PAS-MM *(dev)* |
+| `04-lifecycle` | Cycle de vie annotations | Couche apprenante |
+| `05-dom-integrity` | Intégrité DOM surlignage | Couche apprenante |
+| `06-selection` | Sélection texte | Couche apprenante |
+| `08-robustness` | Robustesse session longue | Couche apprenante |
+| `09-svg-formatting` | Formatage SVG inline | Couche apprenante |
+| `10-composition-navigation` | 7 vues mode dev | PAS-MM…NOTES *(dev)* |
+| `11-offline-dev` | Dégradation Collège absent | PAS-COLLEGE *(dev)* |
+
+### 7.2 Product Smokes — détail
+
+| Fichier | Objectif | PAS |
+|---|---|---|
+| `12-offline-d2g` | Offline certification, 7 vues froid | PAS-OFFLINE, PAS-COLLEGE |
+| `13-local-search-d6f` | Recherche locale transverse | Transverse |
+| `14-display-preferences-d7f` | Préférences affichage | Transverse |
+| `15-cognitive-priming-apf` | Amorçage cognitif complet | PAS-AP |
+| `16-product-consumption` | Consommation produit, resync | PAS-OFFLINE |
+| `17-product-composition-navigation` | 7 vues mode produit | PAS-MM, NOTIONS, CLINICAL, QCM, NOTES |
+
+---
+
+## 8. Ce qui n'est volontairement pas automatisé
 
 | Élément | Raison | Niveau de validation |
 |---|---|---|
 | **Product Review visuelle / UX Lou** | Jugement d'usage réel | Product Review (Phase 7–8) |
-| **Validation pédagogique Lou** | Métrique d'apprentissage | Future phase (§8) |
-| **PAS-SHELL complète** | Shell V1 non implémenté / non prononcé | PAS-SHELL réservée |
+| **Validation pédagogique Lou** | Métrique d'apprentissage | Future phase (§9) |
+| **PAS-SHELL complète (S2–S5)** | Breadcrumb, Couche 1, routing non livrés | PAS-SHELL — S1 seulement |
 | **PAS-LIBRARY** | Couche 1 non couverte en smoke produit | PAS-LIBRARY réservée |
 | **Multi-chapitres bibliothèque** | Un seul chapitre complet (234) | Extension post-224 |
 | **Contenu éditorial complet par vue** | Phases 3–5 non démarrées | PAS partielles + Product Review |
@@ -345,7 +438,7 @@ Chaque phase RPC 234 se clôt par la **PAS associée verte** (+ Product Review q
 
 ---
 
-## 8. Validation pédagogique — Future phase
+## 9. Validation pédagogique — Future phase
 
 **Statut :** emplacement réservé au sommet de la pyramide — **au-delà des PAS**.
 
@@ -355,9 +448,9 @@ Aucune PAS pédagogique n'est créée en T0.
 
 ---
 
-## 9. Prononcé des jalons
+## 10. Prononcé des jalons
 
-### 9.1 Jalon technique
+### 10.1 Jalon technique
 
 **Question :** *les fondations et les PAS implémentées sont-elles vertes ?*
 
@@ -365,15 +458,15 @@ Aucune PAS pédagogique n'est créée en T0.
 2. Unit + Contract Tests PASS
 3. Toutes les **PAS exigées pour le lot** vertes via Product Smokes
 
-### 9.2 Publication
+### 10.2 Publication
 
 **Question :** *le package publié est-il consommable ?*
 
-1. Jalon technique (§9.1)
+1. Jalon technique (§10.1)
 2. `lou-build build` PASS
 3. **PAS-OFFLINE** verte sur le digest publié
 
-### 9.3 Product Review
+### 10.3 Product Review
 
 **Question :** *Lou accepte-t-il le produit ?*
 
@@ -384,49 +477,64 @@ Aucune PAS pédagogique n'est créée en T0.
 
 **Autorité :** suprême pour Product Freeze (Phase 8).
 
-### 9.4 Clôture d'une phase produit
+### 10.4 Clôture d'une phase produit
 
 **Règle :** une phase RPC se considère **techniquement clôturée** lorsque sa PAS associée (§5) est **verte** sur le package 234 en mode produit. La clôture **éditoriale** complète inclut Product Review quand la phase le requiert (Phase 7+).
 
 ---
 
-## 10. Orchestration CI et scripts
+## 11. Orchestration — quoi lancer, quand, pourquoi
 
-La CI exécute les Product Smokes qui **implémentent** les PAS. Aucun changement de commande : `test:smoke:product` reste le véhicule d'exécution.
+| Besoin | Niveau | Commande |
+|---|---|---|
+| Je modifie le Reader | **DEV** | `./scripts/validate-dev.sh` |
+| Je clôture une PAS (ex. PAS-SHELL S2) | **PAS** | Gate ciblé §6 + Product Review si requis |
+| Je merge sur `main` / publie | **RELEASE** | `./scripts/validate-reader-v1.sh` ou `./scripts/ci-234.sh` |
+| Lou valide le produit | **Humain** | `./scripts/product-review-234.sh` *(après RELEASE vert)* |
 
-| Script | Rôle |
-|---|---|
-| [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh) | Gate — fondations + PAS via Product Smokes |
-| [`scripts/ci-234.sh`](../../scripts/ci-234.sh) | Parité CI |
-| [`scripts/product-review-234.sh`](../../scripts/product-review-234.sh) | Product Review humaine |
+| Script | Niveau | Rôle |
+|---|---|---|
+| [`scripts/validate-dev.sh`](../../scripts/validate-dev.sh) | DEV | Unit + Engineering Smokes — feedback rapide |
+| [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh) | RELEASE | Gate complet — fondations + toutes PAS |
+| [`scripts/ci-234.sh`](../../scripts/ci-234.sh) | RELEASE | Parité locale avec CI GitHub |
+| [`scripts/product-review-234.sh`](../../scripts/product-review-234.sh) | Humain | Observation produit publié |
 
 ```bash
-./scripts/validate-reader-v1.sh              # gate automatisé (PAS via smokes)
-cd demo/renderer && npm run test:smoke:product   # exécution PAS
-./scripts/product-review-234.sh              # validation humaine finale
+# Développement courant
+./scripts/validate-dev.sh
+
+# Gate publication (CI, merge main)
+./scripts/validate-reader-v1.sh
+
+# Validation humaine finale
+./scripts/product-review-234.sh
 ```
+
+**Rapport RELEASE :** le script `validate-reader-v1.sh` conclut par un résumé **PAS** — pas par un compteur de fichiers.
 
 ---
 
-## 11. Maintenance et évolution
+## 12. Maintenance et évolution
 
 1. **Nouvelle fonctionnalité produit** → définir ou étendre une **PAS** ; identifier les Product Smokes qui l'implémentent.
 2. **Nouveau Product Smoke** → rattacher à une PAS existante — ne pas créer de smoke orphelin.
 3. **Nouveau test unit/contrat/engineering** → classer comme fondation ou non-régression d'une PAS.
 4. **Clôture phase roadmap** → PAS verte + Product Review si applicable.
 5. **Ne pas figer de compteurs** — piloter par PAS et statuts (§3.2, §6).
+6. **Framework stable** — les prochaines PAS (SHELL S2, MM, AP…) s'appuient sur ce cadre **sans refonte** de la stratégie.
 
 ---
 
-## 12. Historique
+## 13. Historique
 
 | Version | Apport |
 |---|---|
 | **T0 initial** | Pyramide, séparation Product/Engineering, Product Smokes autoritaires |
 | **T0 consolidé** | Pilotage produit, critères de jalons simplifiés |
-| **T0 + PAS** | Product Acceptance Suites = unité de progression roadmap ; smokes = implémentation |
+| **T0 + PAS** | Product Acceptance Suites = unité de progression roadmap |
+| **Framework consolidé** | Niveaux DEV/PAS/RELEASE ; cartographie §6 ; inventaire batteries §7 ; gate DEV ; framework **stable** |
 
-Commits : `e4f733c`, `69310e8`, `ac98720`.
+Commits : `e4f733c`, `69310e8`, `ac98720`, consolidation 2026-08-03.
 
 ---
 

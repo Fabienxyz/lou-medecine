@@ -33,16 +33,17 @@ window.LouAnnotationColors = {
             text: "#9d174d",
         },
         {
-            id: "violet",
-            label: "Violet",
-            highlight: "#ede9fe",
-            swatch: "#c4b5fd",
-            text: "#5b21b6",
+            id: "black",
+            label: "Noir",
+            highlight: "#f3f4f6",
+            swatch: "#374151",
+            text: "#111827",
         },
     ],
 
     DEFAULT_HIGHLIGHT_ID: "yellow",
     DEFAULT_NOTE_ID: "blue",
+    LEGACY_COLOR_ALIASES: { violet: "black" },
 
     CHROME_SELECTORS:
         ".learner-affordance, .diagram-affordance, .note-affordance, .shell-breadcrumb, .tabs, .tab, " +
@@ -60,7 +61,11 @@ window.LouAnnotationColors = {
     },
 
     normalizeColorId(colorId, fallbackId) {
-        return this.getById(colorId) ? String(colorId) : fallbackId;
+        let id = String(colorId || "");
+        if (this.LEGACY_COLOR_ALIASES[id]) {
+            id = this.LEGACY_COLOR_ALIASES[id];
+        }
+        return this.getById(id) ? id : fallbackId;
     },
 
     officialRootsInBlock(block) {
@@ -263,6 +268,9 @@ window.LouAnnotationColors = {
                     this.DEFAULT_NOTE_ID
                 ),
                 lastNoteStyle: this.normalizeFormatState(parsed.lastNoteStyle),
+                lastHighlightStyle: this.normalizeFormatState(
+                    parsed.lastHighlightStyle
+                ),
                 highlights:
                     parsed.highlights && typeof parsed.highlights === "object"
                         ? parsed.highlights
@@ -291,6 +299,7 @@ window.LouAnnotationColors = {
             lastHighlight: this.DEFAULT_HIGHLIGHT_ID,
             lastNote: this.DEFAULT_NOTE_ID,
             lastNoteStyle: this.emptyFormatState(),
+            lastHighlightStyle: this.emptyFormatState(),
             highlights: {},
             notes: {},
             highlightStyles: {},
@@ -317,6 +326,41 @@ window.LouAnnotationColors = {
             this.DEFAULT_HIGHLIGHT_ID
         );
         this._writeStore(store);
+    },
+
+    getLastHighlightStyle() {
+        return this.normalizeFormatState(this._readStore().lastHighlightStyle);
+    },
+
+    setLastHighlightStyle(formatState) {
+        const store = this._readStore();
+        store.lastHighlightStyle = this.normalizeFormatState(formatState);
+        this._writeStore(store);
+    },
+
+    getLastHighlightPreferences() {
+        const store = this._readStore();
+        const style = this.normalizeFormatState(store.lastHighlightStyle);
+        return {
+            colorId: store.lastHighlight,
+            bold: style.bold,
+            underline: style.underline,
+            strikethrough: style.strikethrough,
+        };
+    },
+
+    setLastHighlightPreferences(prefs) {
+        if (!prefs || typeof prefs !== "object") {
+            return;
+        }
+        if (prefs.colorId != null) {
+            this.setLastHighlightColorId(prefs.colorId);
+        }
+        this.setLastHighlightStyle({
+            bold: prefs.bold,
+            underline: prefs.underline,
+            strikethrough: prefs.strikethrough,
+        });
     },
 
     getLastNoteColorId() {
@@ -435,6 +479,7 @@ window.LouAnnotationColors = {
             store.lastNoteStyle = normalized;
         } else {
             store.highlightStyles[key] = normalized;
+            store.lastHighlightStyle = normalized;
         }
         this._writeStore(store);
     },

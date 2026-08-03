@@ -81,7 +81,13 @@ window.LouAnnotationController = {
         if (options.colorLabelPrefix) {
             toolbar.element.dataset.colorLabelPrefix = options.colorLabelPrefix;
         }
-        toolbar.setState(options.state || this._neutralState());
+        const defaultState =
+            window.LouAnnotationColors &&
+            typeof window.LouAnnotationColors.getLastHighlightPreferences ===
+                "function"
+                ? window.LouAnnotationColors.getLastHighlightPreferences()
+                : this._neutralState();
+        toolbar.setState(options.state || defaultState);
         toolbar.showNearRect(options.rect, options.preferAbove !== false);
     },
 

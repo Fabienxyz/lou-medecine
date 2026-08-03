@@ -35,16 +35,21 @@ describe("Product Polish V1.1 — overlay toolbar neutrality", () => {
             "text-highlights.js",
         ]);
         dom.window.localStorage.clear();
-        dom.window.LouAnnotationColors.setLastHighlightColorId("violet");
+        dom.window.LouAnnotationColors.setLastHighlightPreferences({
+            colorId: "black",
+            bold: true,
+            underline: false,
+            strikethrough: false,
+        });
         dom.window.LouAnnotationColors.setLastNotePreferences({
             colorId: "pink",
-            bold: true,
+            bold: false,
             underline: false,
             strikethrough: false,
         });
     });
 
-    test("new text selection opens toolbar with no active color or format", () => {
+    test("new text selection opens toolbar with last highlight preferences", () => {
         const host = dom.window.document.getElementById("content");
         const walkthrough = host.querySelector(".block-walkthrough");
         const textNode = walkthrough.firstChild;
@@ -83,8 +88,8 @@ describe("Product Polish V1.1 — overlay toolbar neutrality", () => {
         );
         assert.equal(toolbar.isVisible(), true);
         const state = toolbar.getState();
-        assert.equal(state.colorId, null);
-        assert.equal(state.bold, false);
+        assert.equal(state.colorId, "black");
+        assert.equal(state.bold, true);
         assert.equal(state.underline, false);
         assert.equal(state.strikethrough, false);
     });

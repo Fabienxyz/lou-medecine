@@ -253,6 +253,12 @@ window.LouTextHighlights = {
                         id,
                         formatState
                     );
+                    window.LouAnnotationColors.setLastHighlightPreferences({
+                        colorId: chosenColor,
+                        bold: formatState.bold,
+                        underline: formatState.underline,
+                        strikethrough: formatState.strikethrough,
+                    });
                     wrapped.dataset.highlightId = String(id);
                 }
                 self.dismissToolbar();

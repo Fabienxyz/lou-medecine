@@ -1,16 +1,17 @@
-// Text selection highlights (Renderer V2.1).
+// Text selection highlights (Renderer V2.1 + Highlight Interaction V2).
 //
 // Learner-owned overlays on official walkthrough prose. Stored separately from generated content;
 // applied after block assembly. Scoped to [data-official="true"] pedagogical containers.
 //
-// Highlight edit (recolor / reformat existing marks) has never been implemented — create-only.
+// Highlight Interaction V2: immediate creation on mouseup; toolbar edits the active mark live.
 window.LouTextHighlights = {
     HIGHLIGHT_CLASS: "learner-highlight",
+    EDITING_CLASS: "is-editing",
     CONTEXT_CHARS: 32,
 
     _boundHost: null,
     _bindContext: null,
-    _selectionContext: null,
+    _editContext: null,
 
     async mount(host, context) {
         try {
@@ -117,10 +118,6 @@ window.LouTextHighlights = {
             this.dismissToolbar();
             return;
         }
-        if (this._selectionInsideHighlight(range)) {
-            this.dismissToolbar();
-            return;
-        }
         if (this._selectionInsideWalkthroughNote(range)) {
             this.dismissToolbar();
             return;
@@ -132,21 +129,23 @@ window.LouTextHighlights = {
             return;
         }
 
-        this._selectionContext = {
-            host: host,
-            context: context,
-            officialRoot: officialRoot,
-            element: block.dataset.element,
-            sourceProjection: block.dataset.sourceProjection || null,
-            range: range.cloneRange(),
-        };
-        this._showToolbar(range);
-    },
+        const intersecting = this._marksIntersectingRange(range, officialRoot);
+        if (intersecting.length > 1) {
+            this.dismissToolbar();
+            return;
+        }
+        if (intersecting.length === 1) {
+            this._beginHighlightEdit(intersecting[0], host, context);
+            return;
+        }
 
-    _selectionInsideHighlight(range) {
-        const node = range.commonAncestorContainer;
-        const el = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
-        return !!(el && el.closest("." + this.HIGHLIGHT_CLASS));
+        void this._createHighlightFromSelection(
+            host,
+            context,
+            range,
+            officialRoot,
+            block
+        );
     },
 
     _selectionInsideWalkthroughNote(range) {
@@ -159,11 +158,118 @@ window.LouTextHighlights = {
         return !!(el && el.closest("." + noteClass));
     },
 
-    _showToolbar(range) {
+    _marksIntersectingRange(range, officialRoot) {
+        const marks = officialRoot.querySelectorAll("." + this.HIGHLIGHT_CLASS);
+        const hits = [];
+        for (let i = 0; i < marks.length; i += 1) {
+            if (this._rangeIntersectsNode(range, marks[i])) {
+                hits.push(marks[i]);
+            }
+        }
+        return hits;
+    },
+
+    _rangeIntersectsNode(range, node) {
+        if (!range || !node) {
+            return false;
+        }
+        if (typeof range.intersectsNode === "function") {
+            try {
+                return range.intersectsNode(node);
+            } catch (err) {
+                return false;
+            }
+        }
+        const nodeRange = document.createRange();
+        nodeRange.selectNodeContents(node);
+        return (
+            range.compareBoundaryPoints(Range.END_TO_START, nodeRange) > 0 &&
+            range.compareBoundaryPoints(Range.START_TO_END, nodeRange) < 0
+        );
+    },
+
+    _highlightPreferencesFromMark(mark) {
+        if (!mark) {
+            return window.LouAnnotationColors.getLastHighlightPreferences();
+        }
+        const style = window.LouAnnotationColors.readHighlightStyleFromElement(mark);
+        return {
+            colorId:
+                mark.dataset.highlightColor ||
+                window.LouAnnotationColors.getLastHighlightColorId(),
+            bold: style.bold,
+            underline: style.underline,
+            strikethrough: style.strikethrough,
+        };
+    },
+
+    _syncHighlightSidecar(mark) {
+        if (!mark) {
+            return;
+        }
+        const prefs = this._highlightPreferencesFromMark(mark);
+        const id = mark.dataset.highlightId;
+        window.LouAnnotationColors.setLastHighlightPreferences(prefs);
+        if (id == null) {
+            return;
+        }
+        window.LouAnnotationColors.setRecordColor("highlight", id, prefs.colorId);
+        window.LouAnnotationColors.setRecordStyle("highlight", id, prefs);
+    },
+
+    _applyLiveHighlightUpdate(mark, toolbarState) {
+        if (!mark || !toolbarState) {
+            return;
+        }
+        const colorId =
+            toolbarState.colorId ||
+            mark.dataset.highlightColor ||
+            window.LouAnnotationColors.getLastHighlightColorId();
+        const formatState = window.LouAnnotationColors.normalizeFormatState(
+            toolbarState
+        );
+        window.LouAnnotationColors.applyHighlightColor(
+            mark,
+            window.LouAnnotationColors.normalizeColorId(
+                colorId,
+                window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID
+            )
+        );
+        window.LouAnnotationColors.applyHighlightStyle(mark, formatState);
+        this._syncHighlightSidecar(mark);
+    },
+
+    _onHighlightToolbarIntent(state, detail) {
+        const mark = this._editContext && this._editContext.mark;
+        if (!mark || !state) {
+            return;
+        }
+        if (detail && detail.kind === "color" && !detail.colorId) {
+            return;
+        }
+        this._applyLiveHighlightUpdate(mark, state);
+    },
+
+    _setHighlightEditingMark(mark) {
+        this._clearHighlightEditVisual();
+        this._editContext = mark ? { mark: mark } : null;
+        if (mark) {
+            mark.classList.add(this.EDITING_CLASS);
+        }
+    },
+
+    _clearHighlightEditVisual() {
+        if (this._editContext && this._editContext.mark) {
+            this._editContext.mark.classList.remove(this.EDITING_CLASS);
+        }
+    },
+
+    _openHighlightToolbar(mark) {
         const self = this;
-        const rect = range.getBoundingClientRect();
+        const rect = mark.getBoundingClientRect();
         window.LouAnnotationController.openForHighlight({
             ariaLabel: "Surlignage et mise en forme",
+            state: this._highlightPreferencesFromMark(mark),
             rect: {
                 left: rect.left,
                 top: rect.top,
@@ -174,99 +280,103 @@ window.LouTextHighlights = {
             },
             preferAbove: true,
             onIntent: function (state, detail) {
-                if (detail && detail.kind === "color" && detail.colorId) {
-                    self._applyCurrentSelection(state);
-                }
+                self._onHighlightToolbarIntent(state, detail);
             },
         });
     },
 
-    dismissToolbar() {
-        if (window.LouAnnotationController) {
-            window.LouAnnotationController.dismissHighlight({
-                clearSelection: !window.LouAnnotationController.isNoteEditBlockingSelectionClear(),
-            });
-        }
-        this._selectionContext = null;
+    _beginHighlightEdit(mark, host, context) {
+        this._setHighlightEditingMark(mark);
+        this._openHighlightToolbar(mark);
     },
 
-    _applyCurrentSelection(toolbarState) {
-        const ctx = this._selectionContext;
-        if (!ctx || !toolbarState || !toolbarState.colorId) {
-            return;
+    _resolveProjection(ctx) {
+        if (ctx.sourceProjection) {
+            return ctx.sourceProjection;
         }
+        if (
+            window.LouRenderer &&
+            window.LouRenderer.isCompositionContext(ctx.context)
+        ) {
+            return null;
+        }
+        return window.LouRenderer.resolveProjectionId(ctx.context, ctx.element);
+    },
 
-        const colorId = toolbarState.colorId;
-        const range = ctx.range;
-        const selector = this.selectorFromRange(ctx.officialRoot, range);
+    async _createHighlightFromSelection(host, context, range, officialRoot, block) {
+        const selector = this.selectorFromRange(officialRoot, range);
         if (!selector || !selector.exact) {
             this.dismissToolbar();
             return;
         }
 
-        const wrapped = this.wrapRangeInMark(range, colorId, toolbarState);
-        if (!wrapped) {
+        const prefs = window.LouAnnotationColors.getLastHighlightPreferences();
+        const colorId = window.LouAnnotationColors.normalizeColorId(
+            prefs.colorId,
+            window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID
+        );
+        const formatState = window.LouAnnotationColors.normalizeFormatState(prefs);
+        const mark = this.wrapRangeInMark(range, colorId, formatState);
+        if (!mark) {
             this.dismissToolbar();
             return;
         }
 
-        const store = ctx.context.store;
-        let projection = ctx.sourceProjection;
-        if (!projection) {
-            if (window.LouRenderer.isCompositionContext(ctx.context)) {
+        const store = context && context.store;
+        const projection = this._resolveProjection({
+            context: context,
+            element: block.dataset.element,
+            sourceProjection: block.dataset.sourceProjection || null,
+        });
+        if (!store || !context.chapter || !projection) {
+            if (
+                window.LouRenderer &&
+                window.LouRenderer.isCompositionContext(context) &&
+                !block.dataset.sourceProjection
+            ) {
                 console.warn(
                     "[LouTextHighlights] Composition highlight blocked: missing data-source-projection on block"
                 );
-                wrapped.remove();
-                this.dismissToolbar();
-                return;
             }
-            projection = window.LouRenderer.resolveProjectionId(
-                ctx.context,
-                ctx.element
-            );
-        }
-        if (!projection) {
-            wrapped.remove();
+            mark.remove();
             this.dismissToolbar();
             return;
         }
-        const chosenColor = window.LouAnnotationColors.normalizeColorId(
-            colorId,
-            window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID
-        );
-        const formatState = window.LouAnnotationColors.normalizeFormatState(
-            toolbarState
-        );
-        const self = this;
-        store
-            .addTextHighlight(ctx.context.chapter, projection, ctx.element, selector)
-            .then(function (id) {
-                if (id != null) {
-                    window.LouAnnotationColors.setRecordColor(
-                        "highlight",
-                        id,
-                        chosenColor
-                    );
-                    window.LouAnnotationColors.setRecordStyle(
-                        "highlight",
-                        id,
-                        formatState
-                    );
-                    window.LouAnnotationColors.setLastHighlightPreferences({
-                        colorId: chosenColor,
-                        bold: formatState.bold,
-                        underline: formatState.underline,
-                        strikethrough: formatState.strikethrough,
-                    });
-                    wrapped.dataset.highlightId = String(id);
-                }
-                self.dismissToolbar();
-            })
-            .catch(function () {
-                wrapped.remove();
-                self.dismissToolbar();
+
+        this._setHighlightEditingMark(mark);
+        this._openHighlightToolbar(mark);
+
+        try {
+            const id = await store.addTextHighlight(
+                context.chapter,
+                projection,
+                block.dataset.element,
+                selector
+            );
+            if (!mark.isConnected) {
+                return;
+            }
+            if (id != null) {
+                mark.dataset.highlightId = String(id);
+                this._syncHighlightSidecar(mark);
+            }
+        } catch (err) {
+            if (mark.isConnected) {
+                mark.remove();
+            }
+            this.dismissToolbar();
+        }
+    },
+
+    dismissToolbar() {
+        this._clearHighlightEditVisual();
+        this._editContext = null;
+        if (window.LouAnnotationController) {
+            window.LouAnnotationController.dismissHighlight({
+                clearSelection:
+                    !window.LouAnnotationController.isNoteEditBlockingSelectionClear(),
             });
+        }
     },
 
     _isSelectorSatisfiedInOfficialRoot(officialRoot, selector) {
@@ -415,8 +525,20 @@ window.LouTextHighlights = {
     },
 
     selectorFromRange(root, range) {
-        const start = this._textOffset(root, range.startContainer, range.startOffset);
-        const end = this._textOffset(root, range.endContainer, range.endOffset);
+        const normalized = this._normalizeRangeEndpoints(root, range);
+        if (!normalized) {
+            return null;
+        }
+        const start = this._textOffset(
+            root,
+            normalized.startContainer,
+            normalized.startOffset
+        );
+        const end = this._textOffset(
+            root,
+            normalized.endContainer,
+            normalized.endOffset
+        );
         if (start < 0 || end < 0 || start >= end) {
             return null;
         }
@@ -428,6 +550,67 @@ window.LouTextHighlights = {
             prefix: full.slice(Math.max(0, start - this.CONTEXT_CHARS), start),
             suffix: full.slice(end, Math.min(full.length, end + this.CONTEXT_CHARS)),
         };
+    },
+
+    _firstTextNodeInSubtree(node) {
+        if (!node) {
+            return null;
+        }
+        if (node.nodeType === Node.TEXT_NODE) {
+            return node;
+        }
+        const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+        return walker.nextNode();
+    },
+
+    _lastTextNodeInSubtree(node) {
+        if (!node) {
+            return null;
+        }
+        if (node.nodeType === Node.TEXT_NODE) {
+            return node;
+        }
+        const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+        let last = null;
+        let current;
+        while ((current = walker.nextNode())) {
+            last = current;
+        }
+        return last;
+    },
+
+    _normalizeRangeEndpoints(root, range) {
+        if (!root || !range) {
+            return null;
+        }
+        const normalized = range.cloneRange();
+        try {
+            if (normalized.startContainer.nodeType === Node.ELEMENT_NODE) {
+                const child = normalized.startContainer.childNodes[normalized.startOffset];
+                const textNode = this._firstTextNodeInSubtree(child);
+                if (!textNode || !root.contains(textNode)) {
+                    return null;
+                }
+                normalized.setStart(textNode, 0);
+            }
+            if (normalized.endContainer.nodeType === Node.ELEMENT_NODE) {
+                const child =
+                    normalized.endOffset > 0
+                        ? normalized.endContainer.childNodes[normalized.endOffset - 1]
+                        : null;
+                const textNode = this._lastTextNodeInSubtree(child);
+                if (!textNode || !root.contains(textNode)) {
+                    return null;
+                }
+                normalized.setEnd(textNode, textNode.textContent.length);
+            }
+            if (normalized.collapsed || !root.contains(normalized.commonAncestorContainer)) {
+                return null;
+            }
+            return normalized;
+        } catch (err) {
+            return null;
+        }
     },
 
     findRangeForSelector(root, selector) {
@@ -459,14 +642,19 @@ window.LouTextHighlights = {
     },
 
     wrapRangeInMark(range, colorId, formatState) {
+        const colors = window.LouAnnotationColors;
+        const resolvedColor = colors.normalizeColorId(
+            colorId || colors.getLastHighlightColorId(),
+            colors.DEFAULT_HIGHLIGHT_ID
+        );
+        const resolvedFormat = colors.normalizeFormatState(
+            formatState || colors.emptyFormatState()
+        );
         const mark = document.createElement("mark");
         mark.className = this.HIGHLIGHT_CLASS;
         mark.dataset.learner = "true";
-        window.LouAnnotationColors.applyHighlightColor(mark, colorId);
-        window.LouAnnotationColors.applyHighlightStyle(
-            mark,
-            formatState || window.LouAnnotationColors.emptyFormatState()
-        );
+        window.LouAnnotationColors.applyHighlightColor(mark, resolvedColor);
+        window.LouAnnotationColors.applyHighlightStyle(mark, resolvedFormat);
 
         try {
             range.surroundContents(mark);

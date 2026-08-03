@@ -23,7 +23,7 @@ describe("Annotation preferences — independent profiles", () => {
 
     beforeEach(() => {
         dom = new JSDOM(
-            `<!DOCTYPE html><body><div id="content"><div class="pedagogical-block" data-element="X"><div class="block-walkthrough" data-official="true">Alpha beta gamma delta.</div></div></div></body>`,
+            `<!DOCTYPE html><body><div id="content"><div class="pedagogical-block" data-element="X" data-source-projection="mechanisms"><div class="block-walkthrough" data-official="true">Alpha beta gamma delta.</div></div></div></body>`,
             { url: "http://localhost/", runScripts: "outside-only" }
         );
         window = dom.window;
@@ -48,26 +48,17 @@ describe("Annotation preferences — independent profiles", () => {
         const range = window.document.createRange();
         range.setStart(textNode, 0);
         range.setEnd(textNode, 5);
-        range.getBoundingClientRect = () => ({
-            left: 10,
-            top: 20,
-            width: 80,
-            height: 16,
-            right: 90,
-            bottom: 36,
-        });
-        window.LouTextHighlights._selectionContext = {
-            host: host,
-            context: {
-                chapter: "cardio/234",
-                store: { addTextHighlight: () => Promise.resolve(1) },
-            },
-            officialRoot: walkthrough,
-            element: "X",
-            sourceProjection: null,
-            range: range.cloneRange(),
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        window.LouTextHighlights._bindContext = {
+            chapter: "cardio/234",
+            projection: { id: "mechanisms" },
+            store: { addTextHighlight: () => Promise.resolve(1) },
         };
-        window.LouTextHighlights._showToolbar(range);
+        window.LouTextHighlights._onSelectionChange(
+            host,
+            window.LouTextHighlights._bindContext
+        );
         return window.LouAnnotationController.getToolbar().getState();
     }
 
@@ -135,7 +126,7 @@ describe("Annotation preferences — independent profiles", () => {
         assert.equal(state.strikethrough, false);
     });
 
-    test("highlight validation updates last highlight preferences only", async () => {
+    test("highlight live edit updates last highlight preferences only", async () => {
         window.LouAnnotationColors.setLastNotePreferences({
             colorId: "blue",
             bold: true,
@@ -148,29 +139,31 @@ describe("Annotation preferences — independent profiles", () => {
         const range = window.document.createRange();
         range.setStart(textNode, 0);
         range.setEnd(textNode, 8);
-        window.LouTextHighlights._selectionContext = {
-            host: host,
-            context: {
-                chapter: "cardio/234",
-                element: "X",
-                store: {
-                    addTextHighlight: () => Promise.resolve(42),
-                },
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        window.LouTextHighlights._bindContext = {
+            chapter: "cardio/234",
+            projection: { id: "mechanisms" },
+            store: {
+                addTextHighlight: () => Promise.resolve(42),
             },
-            officialRoot: walkthrough,
-            element: "X",
-            sourceProjection: "mechanisms",
-            range: range.cloneRange(),
         };
-        window.LouTextHighlights._applyCurrentSelection({
-            colorId: "black",
-            bold: true,
-            underline: false,
-            strikethrough: false,
-        });
+        window.LouTextHighlights._onSelectionChange(
+            host,
+            window.LouTextHighlights._bindContext
+        );
         await new Promise(function (resolve) {
             window.setTimeout(resolve, 20);
         });
+        window.LouTextHighlights._onHighlightToolbarIntent(
+            {
+                colorId: "black",
+                bold: true,
+                underline: false,
+                strikethrough: false,
+            },
+            { kind: "color", colorId: "black" }
+        );
         const hl = window.LouAnnotationColors.getLastHighlightPreferences();
         assert.equal(hl.colorId, "black");
         assert.equal(hl.bold, true);

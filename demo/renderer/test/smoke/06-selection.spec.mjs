@@ -52,7 +52,7 @@ test.describe("V2.1 smoke — selection", () => {
     expect(ui.toolbarVisible).toBe(false);
   });
 
-  test("SE-04 selection inside existing highlight is rejected", async ({
+  test("SE-04 partial selection inside existing highlight opens edit toolbar", async ({
     page,
   }) => {
     await createHighlight(page, {
@@ -66,7 +66,16 @@ test.describe("V2.1 smoke — selection", () => {
       projectionId: M.id,
     });
     expect(ui.ok).toBe(true);
-    expect(ui.toolbarVisible).toBe(false);
+    expect(ui.toolbarVisible).toBe(true);
+    const editing = await page.evaluate(() => {
+      const mark = document.querySelector("mark.learner-highlight.is-editing");
+      return {
+        hasEditingMark: !!mark,
+        markCount: document.querySelectorAll("mark.learner-highlight").length,
+      };
+    });
+    expect(editing.markCount).toBe(1);
+    expect(editing.hasEditingMark).toBe(true);
   });
 
   test("SE-05 selection works after reload", async ({ page }) => {

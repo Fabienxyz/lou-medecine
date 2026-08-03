@@ -21,7 +21,7 @@ describe("Product Polish V1.1 — overlay toolbar neutrality", () => {
 
     beforeEach(() => {
         dom = new JSDOM(
-            `<!DOCTYPE html><body><div id="content"><div class="pedagogical-block" data-element="X"><div class="block-walkthrough" data-official="true">Alpha beta gamma delta.</div></div></div></body>`,
+            `<!DOCTYPE html><body><div id="content"><div class="pedagogical-block" data-element="X" data-source-projection="mechanisms"><div class="block-walkthrough" data-official="true">Alpha beta gamma delta.</div></div></div></body>`,
             { url: "http://localhost/", runScripts: "outside-only" }
         );
         dom.window.requestAnimationFrame = (cb) => {
@@ -49,36 +49,26 @@ describe("Product Polish V1.1 — overlay toolbar neutrality", () => {
         });
     });
 
-    test("new text selection opens toolbar with last highlight preferences", () => {
+    test("new text selection creates highlight and opens toolbar with last preferences", async () => {
         const host = dom.window.document.getElementById("content");
         const walkthrough = host.querySelector(".block-walkthrough");
         const textNode = walkthrough.firstChild;
         const range = dom.window.document.createRange();
         range.setStart(textNode, 0);
         range.setEnd(textNode, 5);
-        range.getBoundingClientRect = () => ({
-            left: 10,
-            top: 20,
-            width: 80,
-            height: 16,
-            right: 90,
-            bottom: 36,
-        });
         dom.window.getSelection().removeAllRanges();
         dom.window.getSelection().addRange(range);
 
-        dom.window.LouTextHighlights._selectionContext = {
-            host: host,
-            context: {
-                chapter: "cardio/234",
-                store: { addTextHighlight: () => Promise.resolve(1) },
-            },
-            officialRoot: walkthrough,
-            element: "X",
-            sourceProjection: null,
-            range: range,
+        dom.window.LouTextHighlights._bindContext = {
+            chapter: "cardio/234",
+            projection: { id: "mechanisms" },
+            store: { addTextHighlight: () => Promise.resolve(1) },
         };
-        dom.window.LouTextHighlights._showToolbar(range);
+        dom.window.LouTextHighlights._onSelectionChange(
+            host,
+            dom.window.LouTextHighlights._bindContext
+        );
+        await new Promise((resolve) => dom.window.setTimeout(resolve, 20));
 
         const toolbar = dom.window.LouAnnotationController.getToolbar();
         assert.ok(toolbar);
@@ -87,6 +77,7 @@ describe("Product Polish V1.1 — overlay toolbar neutrality", () => {
             1
         );
         assert.equal(toolbar.isVisible(), true);
+        assert.ok(host.querySelector("mark.learner-highlight"));
         const state = toolbar.getState();
         assert.equal(state.colorId, "black");
         assert.equal(state.bold, true);

@@ -104,7 +104,7 @@ describe("Annotation Toolbar Integration", () => {
             contentEl.replaceWith(fresh);
         }
         window.LouTextHighlights._boundHost = null;
-        window.LouTextHighlights._selectionContext = null;
+        window.LouTextHighlights._editContext = null;
         window.LouInlineNotes._boundHost = null;
         window.LouInlineNotes._activeEditNote = null;
         window.LouInlineNotes._committing = false;
@@ -131,29 +131,26 @@ describe("Annotation Toolbar Integration", () => {
     test("only one annotation-toolbar element exists after highlight and note contexts", async () => {
         const content = await renderMechanisms();
         const walkthrough = content.querySelector(".block-walkthrough");
-        const range = window.LouCaretAnchor._caretRangeFromOffset(walkthrough, 3);
-        range.getBoundingClientRect = () => ({
-            left: 10,
-            top: 20,
-            width: 40,
-            height: 16,
-            right: 50,
-            bottom: 36,
-        });
+        const pos = walkthrough.textContent.indexOf("pression");
+        assert.ok(pos >= 0);
+        const range = window.LouTextHighlights._rangeFromTextOffsets(
+            walkthrough,
+            pos,
+            pos + 8
+        );
+        assert.ok(range);
         window.getSelection().removeAllRanges();
         window.getSelection().addRange(range);
-        window.LouTextHighlights._selectionContext = {
-            host: content,
-            context: {
-                chapter: CHAPTER,
-                store: { addTextHighlight: () => Promise.resolve(1) },
-            },
-            officialRoot: walkthrough,
-            element: "MEC-congestion",
-            sourceProjection: null,
-            range: range.cloneRange(),
+        window.LouTextHighlights._bindContext = {
+            chapter: CHAPTER,
+            projection: { id: "mechanisms" },
+            store: { addTextHighlight: () => Promise.resolve(1) },
         };
-        window.LouTextHighlights._showToolbar(range);
+        window.LouTextHighlights._onSelectionChange(
+            content,
+            window.LouTextHighlights._bindContext
+        );
+        await new Promise((resolve) => window.setTimeout(resolve, 20));
         assert.equal(window.document.querySelectorAll(".annotation-toolbar").length, 1);
 
         const noteEl = window.document.createElement("span");
@@ -265,6 +262,6 @@ describe("Annotation Toolbar Integration", () => {
             chapter: CHAPTER,
             store: window.LouLearnerStore,
         });
-        assert.notEqual(window.LouAnnotationController.getContext(), "highlight-create");
+        assert.notEqual(window.LouAnnotationController.getContext(), "highlight-edit");
     });
 });

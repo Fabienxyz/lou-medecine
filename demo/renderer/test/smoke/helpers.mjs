@@ -239,12 +239,6 @@ export async function createHighlightViaToolbar(page, opts) {
       `toolbar not shown for ${phrase}: ${ui.reason || "no selection context"}`
     );
   }
-  await page.locator(".annotation-toolbar-swatch").first().click();
-  await page.waitForFunction(
-    () =>
-      !window.LouTextHighlights._selectionContext &&
-      (document.querySelector(".annotation-toolbar")?.hidden !== false)
-  );
   await page.waitForFunction(
     ({ blockSelector }) => {
       const block = document.querySelector("#content " + blockSelector);
@@ -335,7 +329,7 @@ export async function runSelectionChange(page, opts) {
       return {
         ok: true,
         toolbarVisible: !!(toolbar && !toolbar.hidden),
-        hasSelectionContext: !!window.LouTextHighlights._selectionContext,
+        hasEditContext: !!window.LouTextHighlights._editContext,
         selectedText: range.toString().slice(0, 60),
       };
     },

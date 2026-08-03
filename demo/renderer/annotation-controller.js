@@ -3,7 +3,7 @@
 // Owns the sole LouAnnotationToolbar instance. Routes toolbar intents to Learner modules.
 // Never touches store, patrimony, or CaretAnchor — presentation intents only.
 window.LouAnnotationController = {
-    CONTEXT_HIGHLIGHT: "highlight-create",
+    CONTEXT_HIGHLIGHT: "highlight-edit",
     CONTEXT_NOTE: "note-edit",
 
     _toolbar: null,
@@ -55,8 +55,13 @@ window.LouAnnotationController = {
         return this._context === this.CONTEXT_NOTE;
     },
 
-    isHighlightCreateActive() {
+    isHighlightEditActive() {
         return this._context === this.CONTEXT_HIGHLIGHT;
+    },
+
+    /** @deprecated use isHighlightEditActive */
+    isHighlightCreateActive() {
+        return this.isHighlightEditActive();
     },
 
     isNoteEditBlockingSelectionClear() {

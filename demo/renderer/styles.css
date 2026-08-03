@@ -654,6 +654,11 @@ mark.learner-highlight{
     padding:0 1px;
 }
 
+mark.learner-highlight.is-editing{
+    outline:2px solid rgba(37,99,235,.42);
+    outline-offset:1px;
+}
+
 .svg-format-toolbar{
     position:absolute;
     z-index:1001;

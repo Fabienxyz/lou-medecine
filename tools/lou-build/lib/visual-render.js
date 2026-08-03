@@ -157,7 +157,8 @@ export function renderCausalGraphSvg(spec, layout) {
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${layout.width} ${layout.height}" ` +
       `width="${layout.width}" height="${layout.height}" role="img" ` +
       `aria-labelledby="vg-title vg-desc" data-primitive="${escapeXml(spec.primitive)}" ` +
-      `data-element="${escapeXml(spec.element)}" data-spec-version="${escapeXml(spec.spec_version)}">`
+      `data-element="${escapeXml(spec.element)}" data-blueprint-element="${escapeXml(spec.element)}" ` +
+      `data-spec-version="${escapeXml(spec.spec_version)}">`
   );
   parts.push(`  <title id="vg-title">${escapeXml(title)}</title>`);
   parts.push(`  <desc id="vg-desc">${escapeXml(desc)}</desc>`);

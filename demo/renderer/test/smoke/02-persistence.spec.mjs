@@ -66,7 +66,7 @@ test.describe("V2.1 smoke — persistence", () => {
       headless: true,
     });
     const page1 = browser1.pages()[0] || (await browser1.newPage());
-    await page1.goto(chapterUrl());
+    await page1.goto(chapterUrl(), { waitUntil: "networkidle" });
     await goToProjection(page1, M.tabIndex);
     await createHighlights(
       page1,
@@ -82,7 +82,7 @@ test.describe("V2.1 smoke — persistence", () => {
       headless: true,
     });
     const page2 = browser2.pages()[0] || (await browser2.newPage());
-    await page2.goto(chapterUrl());
+    await page2.goto(chapterUrl(), { waitUntil: "networkidle" });
     await goToProjection(page2, M.tabIndex);
     const report = await inspectMarks(
       page2,

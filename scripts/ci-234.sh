@@ -9,6 +9,9 @@ export CI="${CI:-true}"
 echo "==> lou-build validate — package 234"
 (cd "$ROOT/tools/lou-build" && npm ci && npm run validate -- --chapter 01-learning/chapters/cardio/234)
 
+echo "==> sync Reader fixture from package"
+node "$ROOT/scripts/sync-reader-fixture.mjs"
+
 echo "==> lou-build tests (gate — excludes test:integration)"
 (cd "$ROOT/tools/lou-build" && npm run test:ci)
 

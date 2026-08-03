@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 638" role="img" aria-labelledby="svg-title svg-desc" data-blueprint-element="MEC-oap">
   <title id="svg-title">Comment la congestion pulmonaire mène-t-elle à l’OAP ?</title>
-  <desc id="svg-desc">Process flow for MEC-oap.</desc>
+  <desc id="svg-desc">Comment la congestion pulmonaire mène-t-elle à l’OAP ?</desc>
   <defs>
     <filter id="card-shadow" x="-6%" y="-6%" width="112%" height="118%">
       <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#000000" flood-opacity="0.05"/>
@@ -11,17 +11,12 @@
     </marker>
     <style>
       .title-main { font-family: Inter, system-ui, sans-serif; font-size: 32px; font-weight: 700; fill: #111827; }
-      .title-sub { font-family: Inter, system-ui, sans-serif; font-size: 20px; font-weight: 600; fill: #111827; }
       .card-title { font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 600; fill: #111827; }
-      .body { font-family: Inter, system-ui, sans-serif; font-size: 13px; fill: #6B7280; }
       .step-num { font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 600; fill: #6B7280; }
-      .summary-title { font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 600; fill: #111827; }
-      .summary-body { font-family: Inter, system-ui, sans-serif; font-size: 13px; fill: #374151; }
     </style>
   </defs>
   <rect width="1200" height="638" fill="#FFFFFF"/>
-  <text x="600" y="64" text-anchor="middle" class="title-main">MEC-oap</text>
-  <text x="600" y="98" text-anchor="middle" class="title-sub">Comment la congestion pulmonaire mène-t-elle à l’OAP ?</text>
+  <text x="600" y="64" text-anchor="middle" class="title-main">Comment la congestion pulmonaire mène-t-elle à l’OAP ?</text>
   <line x1="520" y1="120" x2="680" y2="120" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
   
   <g filter="url(#card-shadow)">
@@ -29,7 +24,7 @@
   </g>
   <circle cx="458" cy="190" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="194" text-anchor="middle" class="step-num">1</text>
-  <text x="600" y="190" text-anchor="middle" class="card-title">pression capillaire pulmonaire ↑ (suite de ME…</text>
+  <text x="600" y="190" text-anchor="middle" class="card-title">pression capillaire pulmonaire ↑ (suite de MEC-congestion)</text>
   <line x1="600" y1="216" x2="600" y2="248" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
     <rect x="390" y="248" width="420" height="96" rx="16" fill="#FDE7C7" stroke="#E5E7EB" stroke-width="1"/>
@@ -37,7 +32,6 @@
   <circle cx="458" cy="278" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="282" text-anchor="middle" class="step-num">2</text>
   <text x="600" y="278" text-anchor="middle" class="card-title">franchissement du seuil PPC &gt; 25 mmHg</text>
-  <text x="600" y="296" text-anchor="middle" class="body">Seuil PPC &gt; 25 mmHg</text>
   <line x1="600" y1="344" x2="600" y2="376" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
     <rect x="390" y="376" width="420" height="96" rx="16" fill="#FEE2E2" stroke="#E5E7EB" stroke-width="1"/>
@@ -45,7 +39,6 @@
   <circle cx="458" cy="406" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="410" text-anchor="middle" class="step-num">3</text>
   <text x="600" y="406" text-anchor="middle" class="card-title">passage transsudat → alvéoles</text>
-  <text x="600" y="424" text-anchor="middle" class="body">OAP cardiogénique</text>
   <line x1="600" y1="472" x2="600" y2="504" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>
   <g filter="url(#card-shadow)">
     <rect x="390" y="504" width="420" height="94" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
@@ -53,9 +46,4 @@
   <circle cx="458" cy="534" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
   <text x="458" y="538" text-anchor="middle" class="step-num">4</text>
   <text x="600" y="534" text-anchor="middle" class="card-title">œdème aigu pulmonaire cardiogénique</text>
-  <g filter="url(#card-shadow)">
-    <rect x="180" y="560" width="840" height="60" rx="16" fill="#F5F7FA" stroke="#E5E7EB" stroke-width="1"/>
-  </g>
-  <text x="600" y="586" text-anchor="middle" class="summary-title">À retenir</text>
-  <text x="600" y="608" text-anchor="middle" class="summary-body">Process flow derived from Blueprint steps.</text>
 </svg>

@@ -40,9 +40,18 @@ export function collectBlueprintElementIds(data) {
 
 export function collectElementsWithVisualIntent(data) {
   const elements = [];
+  const mm = mentalModel(data);
+  if (mm?.visual_intent) {
+    elements.push({ ...mm, kind: "mental_model" });
+  }
   for (const mec of data.mechanisms || []) {
     if (mec.visual_intent) {
       elements.push({ ...mec, kind: "mechanism" });
+    }
+  }
+  for (const conf of data.confusion || []) {
+    if (conf.visual_intent) {
+      elements.push({ ...conf, kind: "confusion" });
     }
   }
   for (const cr of data.clinical_reasoning || []) {
@@ -51,6 +60,24 @@ export function collectElementsWithVisualIntent(data) {
     }
   }
   return elements;
+}
+
+export function findBlueprintElementById(data, elementId) {
+  const mm = mentalModel(data);
+  if (mm?.id === elementId) return mm;
+  for (const conf of data.confusion || []) {
+    if (conf.id === elementId) return conf;
+  }
+  for (const mec of data.mechanisms || []) {
+    if (mec.id === elementId) return mec;
+  }
+  for (const cr of data.clinical_reasoning || []) {
+    if (cr.id === elementId) return cr;
+  }
+  for (const ana of data.analogies || []) {
+    if (ana.id === elementId) return ana;
+  }
+  return null;
 }
 
 function validateUsesKp(elementId, usesKp, inventoryIds, errors) {

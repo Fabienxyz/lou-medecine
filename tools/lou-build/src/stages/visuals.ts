@@ -1,39 +1,92 @@
 import fs from "node:fs";
+import path from "node:path";
 import { figureRelPathForElement } from "../../lib/claims.js";
+import { findBlueprintElementById } from "../../lib/blueprint.js";
 import {
   buildVisualSpec,
   renderSvg,
   validateSvgStructure,
   figureAbsPath,
 } from "../../lib/svg.js";
+import {
+  loadVisualSpec,
+  visualSpecFilePath,
+} from "../../lib/visual-spec.js";
+import { renderVisualSpec } from "../../lib/visual-render.js";
+import { loadVisualGroundingReview } from "../../lib/visual-ground.js";
 import type { BuildContext } from "../pipeline/context.js";
 import type { Stage } from "../pipeline/stage.js";
 import type { StageResult } from "../pipeline/stage.js";
 import { ok, requireWorkspace, setWorkspace } from "../utils/stage-result.js";
 
-function findBlueprintElement(
-  blueprintData: {
-    mechanisms?: { id: string }[];
-    clinical_reasoning?: { id: string }[];
+type RenderEngine = "v1-process-flow" | "v2-visual-spec";
+
+type ElementVisualResult =
+  | { ok: true; svg: string; engine: RenderEngine }
+  | { ok: false; errors: string[]; engine: RenderEngine | null };
+
+function renderElementVisual(
+  element: Record<string, unknown>,
+  opts: {
+    buildDir: string;
+    inventory: Record<string, unknown>;
+    sourceMeta: Record<string, unknown>;
+    review: ReturnType<typeof loadVisualGroundingReview>;
   },
-  elementId: string,
-) {
-  for (const mec of blueprintData.mechanisms || []) {
-    if (mec.id === elementId) return mec;
+): ElementVisualResult {
+  const elementId = String(element.id);
+  const specPath = visualSpecFilePath(opts.buildDir, elementId);
+
+  if (fs.existsSync(specPath)) {
+    const spec = loadVisualSpec(specPath);
+    const result = renderVisualSpec({
+      spec,
+      inventory: opts.inventory,
+      sourceMeta: opts.sourceMeta,
+      review: opts.review,
+    });
+    if (!result.ok) {
+      return {
+        ok: false,
+        errors: result.errors || ["visual-spec render failed"],
+        engine: "v2-visual-spec",
+      };
+    }
+    return {
+      ok: true,
+      svg: result.svg!,
+      engine: "v2-visual-spec",
+    };
   }
-  for (const cr of blueprintData.clinical_reasoning || []) {
-    if (cr.id === elementId) return cr;
+
+  const spec = buildVisualSpec(element, opts.inventory, opts.sourceMeta);
+  const result = renderSvg(spec) as {
+    ok: boolean;
+    errors?: string[];
+    svg?: string;
+  };
+  if (!result.ok) {
+    return {
+      ok: false,
+      errors: result.errors || ["render failed"],
+      engine: "v1-process-flow",
+    };
   }
-  return null;
+  return {
+    ok: true,
+    svg: result.svg!,
+    engine: "v1-process-flow",
+  };
 }
 
 /**
  * Stage G — Visuels officiels — doc 19 §2, contrat 05.
- *
- * Migrated from lib/visuals.js — behavior must remain identical.
  */
 export function runVisuals(ctx: BuildContext): StageResult {
-  const paths = requireWorkspace<{ figuresDir: string }>(ctx, "paths");
+  const paths = requireWorkspace<{ figuresDir: string; buildDir: string }>(
+    ctx,
+    "paths",
+  );
   const blueprint = requireWorkspace<{ data: Record<string, unknown> }>(
     ctx,
     "blueprint",
@@ -53,12 +106,21 @@ export function runVisuals(ctx: BuildContext): StageResult {
     required_visual_elements?: string[];
   }>(ctx, "packageConfig");
 
+  const review = loadVisualGroundingReview(
+    path.join(paths.buildDir, "visual-grounding-review.yaml"),
+  );
+  const renderOpts = {
+    buildDir: paths.buildDir,
+    inventory,
+    sourceMeta,
+    review,
+  };
+
   const rendered: unknown[] = [];
   const withheld: {
     elementId: string;
     state: string;
     reasons: string[];
-    stale_asset_removed?: string;
   }[] = [];
   const elements = bpVal.visualElements || [];
   const activated = new Set(elements.map((e) => e.id));
@@ -85,18 +147,19 @@ export function runVisuals(ctx: BuildContext): StageResult {
   }
 
   for (const element of elements) {
-    const spec = buildVisualSpec(element, inventory, sourceMeta);
     const absPath = figureAbsPath(paths.figuresDir, element.id);
     let svgText: string | null = null;
+    let engine: RenderEngine | null = null;
 
-    if (fs.existsSync(absPath)) {
+    if (!ctx.mutate && fs.existsSync(absPath)) {
       svgText = fs.readFileSync(absPath, "utf8");
     } else {
-      const renderedResult = renderSvg(spec) as {
-        ok: boolean;
-        errors?: string[];
-        svg?: string;
-      };
+      const blueprintElement =
+        findBlueprintElementById(blueprint.data, element.id) || element;
+      const renderedResult = renderElementVisual(
+        blueprintElement as Record<string, unknown>,
+        renderOpts,
+      );
       if (!renderedResult.ok) {
         withheld.push({
           elementId: element.id,
@@ -105,7 +168,8 @@ export function runVisuals(ctx: BuildContext): StageResult {
         });
         continue;
       }
-      svgText = renderedResult.svg!;
+      svgText = renderedResult.svg;
+      engine = renderedResult.engine;
     }
 
     const svgVal = validateSvgStructure(svgText, element.id) as {
@@ -127,7 +191,7 @@ export function runVisuals(ctx: BuildContext): StageResult {
       absPath,
       relPath: figureRelPathForElement(element.id),
       svgText,
-      spec,
+      engine,
     });
   }
 
@@ -145,37 +209,43 @@ export function runVisuals(ctx: BuildContext): StageResult {
   if (ctx.mutate) {
     fs.mkdirSync(paths.figuresDir, { recursive: true });
     const withheldIds = new Set(withheld.map((w) => w.elementId));
-    const blueprintData = blueprint.data as {
-      mechanisms?: { id: string }[];
-      clinical_reasoning?: { id: string }[];
-    };
 
     for (const vis of rendered as {
       elementId: string;
       absPath: string;
+      engine?: RenderEngine | null;
     }[]) {
       if (withheldIds.has(vis.elementId)) continue;
-      const element = findBlueprintElement(blueprintData, vis.elementId);
-      const renderedResult = renderSvg(
-        buildVisualSpec(element, inventory, sourceMeta),
-      ) as { ok: boolean; errors?: string[]; svg?: string };
+
+      const blueprintElement = findBlueprintElementById(
+        blueprint.data,
+        vis.elementId,
+      );
+      if (!blueprintElement) {
+        withheld.push({
+          elementId: vis.elementId,
+          state: "withheld",
+          reasons: [`blueprint element not found: ${vis.elementId}`],
+        });
+        withheldIds.add(vis.elementId);
+        continue;
+      }
+
+      const renderedResult = renderElementVisual(
+        blueprintElement as Record<string, unknown>,
+        renderOpts,
+      );
       if (!renderedResult.ok) {
         withheld.push({
           elementId: vis.elementId,
           state: "withheld",
           reasons: renderedResult.errors || ["render failed"],
         });
+        withheldIds.add(vis.elementId);
         continue;
       }
-      fs.writeFileSync(vis.absPath, renderedResult.svg!);
-    }
 
-    for (const w of withheld) {
-      const absPath = figureAbsPath(paths.figuresDir, w.elementId);
-      if (fs.existsSync(absPath)) {
-        fs.rmSync(absPath);
-        w.stale_asset_removed = figureRelPathForElement(w.elementId);
-      }
+      fs.writeFileSync(vis.absPath, renderedResult.svg);
     }
 
     visualBuild.rendered = (rendered as { elementId: string }[]).filter(

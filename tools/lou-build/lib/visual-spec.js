@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import path from "node:path";
 import crypto from "node:crypto";
 import YAML from "yaml";
 import { inventoryById } from "./inventory.js";
@@ -96,6 +97,19 @@ export function loadVisualSpec(filePath) {
     throw new Error(`visualSpec not found: ${filePath}`);
   }
   return parseVisualSpec(fs.readFileSync(filePath, "utf8"));
+}
+
+/**
+ * Canonical on-disk path for a chapter visualSpec file.
+ * @param {string} buildDir
+ * @param {string} elementId
+ */
+export function visualSpecFilePath(buildDir, elementId) {
+  return path.join(
+    buildDir,
+    "visual-specs",
+    `${String(elementId).toLowerCase()}.yaml`,
+  );
 }
 
 // ---------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-03 (roadmap opérationnelle Phases 0–9 ; Phase 0 active) |
+| **Statut** | Document d'accueil — 2026-08-03 (Phase 0 clôturée ; Phase 1 active) |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -34,11 +34,11 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Phase** | Execution Mode V1 — Reader Acceptance V1 **clôturé** |
-| **Phase opérationnelle active** | **Phase 0** — Compléter la chaîne Fabrique → Reader |
-| **Dernier jalon publié** | **Reader Acceptance V1** — prononcé 2026-08-02 |
+| **Phase opérationnelle active** | **Phase 1** — Modèle mental |
+| **Dernier jalon publié** | **Phase 0** — chaîne Fabrique → Reader (2026-08-03) |
 | **Objectif actif** | **Reference Product Chapter (234)** — **laboratoire produit** (Phases 0–8) |
-| **Chantier actif** | **Phase 0** — build automatique, fixture synchronisée, Stage G `mental_model` / `visual-spec` |
-| **Chantier suivant (bloqué)** | **Phase 9 — Reference Production Chapter (224)** — **après Product Freeze** (Phase 8) |
+| **Chantier actif** | **Phase 1** — figure MM, walkthrough MM, déclaratif blueprint/package |
+| **Chantier suivant (bloqué)** | **Phase 2 — Amorçage cognitif** — après Phase 1 |
 | **Instance courante** | Package 234 Release `complete` ; Reader V1 accepté ; 7 vues alimentées |
 
 **Deux références distinctes :**
@@ -61,9 +61,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 **Roadmap opérationnelle** ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) · [`PROJECT_STATE.md`](PROJECT_STATE.md)) — pilotée par les **7 vues Reader**, pas par les lots D/AP.
 
 ```
-Phase 0 — Fabrique → Reader                    ← ACTIVE
-        ↓
-Phase 1 — Modèle mental
+Phase 1 — Modèle mental                         ← ACTIVE
         ↓
 Phase 2 — Amorçage cognitif
         ↓
@@ -84,7 +82,9 @@ Phase 9 — Reference Production Chapter (224)
 Capitalisation industrielle → Validation Corpus V1 → …
 ```
 
-**Prochain jalon opérationnel :** **Phase 0** — compléter la chaîne Fabrique → Reader.
+**Prochain jalon opérationnel :** **Phase 1** — Modèle mental (figure MM + walkthrough).
+
+**Phase 0 clôturée :** sync fixture Reader ; Stage G générique ; moteur SVG V1 assaini.
 
 **234** = découvrir le **meilleur produit**. **224** (Phase 9) = découvrir la **meilleure méthode industrielle**.
 
@@ -145,8 +145,8 @@ Ordre = [`PROJECT_STATE.md` § Prochaines étapes](PROJECT_STATE.md#prochaines-�
 
 | Phase | Intitulé | Statut |
 |---|---|---|
-| **0** | Compléter la chaîne Fabrique → Reader | **Active** |
-| **1** | Modèle mental | En attente |
+| **0** | Compléter la chaîne Fabrique → Reader | **Clôturée** |
+| **1** | Modèle mental | **Active** |
 | **2** | Amorçage cognitif | En attente |
 | **3** | Notions | En attente |
 | **4** | Cas cliniques | En attente |
@@ -163,15 +163,15 @@ Ordre = [`PROJECT_STATE.md` § Prochaines étapes](PROJECT_STATE.md#prochaines-�
 Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
-2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md) — **Phase 0 active**.
+2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md) — **Phase 1 active**.
 3. Lire [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) — Phases 0–9, produit vs production.
-4. Lire [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) — **checklist d'implémentation** Phase 0.
+4. Lire [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) — lots L3+ (Phase 1 = publication figure MM).
 5. Lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md).
-6. **Chantier prioritaire : Phase 0** — chaîne Fabrique → Reader automatique (**extensions partagées**, pas de traitement spécifique au 234).
+6. **Chantier prioritaire : Phase 1** — publier la figure Modèle mental (`visual_intent`, walkthrough MM court).
 7. **Ne pas démarrer** Phase 9 (224) — conditionnée par Product Freeze (Phase 8).
 8. **Ne pas présenter** le 230 comme prochaine étape — candidat futur non tranché.
 9. **Product Review** (Phase 7) — uniquement quand les 7 vues sont utilisables ; Lou étudie via le Reader.
 
 ---
 
-*Handover — 2026-08-03 — roadmap opérationnelle Phases 0–9 ; Phase 0 active ; lots D/AP = acquis. Non normatif.*
+*Handover — 2026-08-03 — Phase 0 clôturée ; Phase 1 active ; lots D/AP = acquis. Non normatif.*

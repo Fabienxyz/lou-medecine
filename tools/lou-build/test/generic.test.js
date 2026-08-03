@@ -14,12 +14,18 @@ import {
 } from "../lib/claims.js";
 import {
   collectElementsWithVisualIntent,
+  mentalModel,
 } from "../lib/blueprint.js";
 import {
   groundDeterministic,
   mergeSemanticGrounding,
 } from "../lib/ground.js";
-import { renderSvg, SUPPORTED_VISUAL_INTENTS } from "../lib/svg.js";
+import {
+  renderSvg,
+  renderProcessFlowSvg,
+  SUPPORTED_VISUAL_INTENTS,
+  MAX_PROCESS_FLOW_LABEL_CHARS,
+} from "../lib/svg.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 function writeFile(dir, rel, content) {
@@ -231,16 +237,60 @@ claims:
 
 test("multiple visual-capable blueprint elements are discoverable", () => {
   const data = {
+    mental_model: {
+      id: "MM-sample",
+      question: "Mental model question?",
+      visual_intent: "process-flow",
+      steps: ["a"],
+      uses_kp: [],
+    },
     mechanisms: [
       { id: "MEC-a", visual_intent: "process-flow", steps: ["a"], uses_kp: [] },
       { id: "MEC-b", visual_intent: "comparison", steps: ["b"], uses_kp: [] },
+    ],
+    confusion: [
+      {
+        id: "CONF-a",
+        visual_intent: "comparison",
+        question: "Confusion?",
+        uses_kp: [],
+      },
     ],
     clinical_reasoning: [
       { id: "CR-a", visual_intent: "algorithm", question: "q", uses_kp: [] },
     ],
   };
   const elements = collectElementsWithVisualIntent(data);
-  assert.equal(elements.length, 3);
+  assert.equal(elements.length, 5);
+  assert.ok(elements.some((e) => e.kind === "mental_model"));
+  assert.ok(elements.some((e) => e.kind === "confusion"));
+  assert.equal(mentalModel(data).id, "MM-sample");
+});
+
+test("process-flow render uses question as title and rejects long labels", () => {
+  const okResult = renderProcessFlowSvg({
+    element: "MEC-sample",
+    intent: "process-flow",
+    question: "Sample learner question?",
+    steps: [
+      { n: 1, label: "Step one", highlight: null },
+      { n: 2, label: "Step two", highlight: null },
+    ],
+  });
+  assert.equal(okResult.ok, true);
+  assert.match(okResult.svg, /<title id="svg-title">Sample learner question\?<\/title>/);
+  assert.doesNotMatch(okResult.svg, /class="title-main">MEC-sample</);
+  assert.doesNotMatch(okResult.svg, /Process flow derived/);
+  assert.doesNotMatch(okResult.svg, /À retenir/);
+
+  const longLabel = "x".repeat(MAX_PROCESS_FLOW_LABEL_CHARS + 1);
+  const failResult = renderProcessFlowSvg({
+    element: "MEC-long",
+    intent: "process-flow",
+    question: "Q?",
+    steps: [{ n: 1, label: longLabel, highlight: null }],
+  });
+  assert.equal(failResult.ok, false);
 });
 
 test("unsupported visual intent fails honestly", () => {

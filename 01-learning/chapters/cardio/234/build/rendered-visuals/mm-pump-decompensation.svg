@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 838 687" width="838" height="687" role="img" aria-labelledby="vg-title vg-desc" data-primitive="causal-graph" data-element="MM-pump-decompensation" data-spec-version="0.1">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 838 687" width="838" height="687" role="img" aria-labelledby="vg-title vg-desc" data-primitive="causal-graph" data-element="MM-pump-decompensation" data-blueprint-element="MM-pump-decompensation" data-spec-version="0.1">
   <title id="vg-title">Que devient un cœur dont la pompe défaille ?</title>
   <desc id="vg-desc">Graphe causal : 8 entités, 8 relations, dont 1 boucle de rétroaction. Anomalie cardiaque (structure/fonction) entraîne Pompe cardiaque défaillante ; Pompe cardiaque défaillante entraîne Débit insuffisant ; Pompe cardiaque défaillante entraîne Pressions de remplissage ↑ ; Débit insuffisant entraîne Compensations neurohormonales (sympathique, SRAA) ; Compensations neurohormonales (sympathique, SRAA) entraîne Surcharge de travail, effets délétères ; Surcharge de travail, effets délétères rétroagit sur Pompe cardiaque défaillante ; Pressions de remplissage ↑ se transmet à Congestion pulmonaire et systémique ; Pompe cardiaque défaillante entraîne Décompensation aiguë.</desc>
   <defs>

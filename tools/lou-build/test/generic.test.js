@@ -279,6 +279,8 @@ test("process-flow render uses question as title and rejects long labels", () =>
   });
   assert.equal(okResult.ok, true);
   assert.match(okResult.svg, /<title id="svg-title">Sample learner question\?<\/title>/);
+  assert.match(okResult.svg, /data-official-text-id="mec-sample-title"/);
+  assert.match(okResult.svg, /data-official-text-id="mec-sample-step-1-label"/);
   assert.doesNotMatch(okResult.svg, /class="title-main">MEC-sample</);
   assert.doesNotMatch(okResult.svg, /Process flow derived/);
   assert.doesNotMatch(okResult.svg, /À retenir/);

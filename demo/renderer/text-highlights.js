@@ -45,6 +45,8 @@ window.LouTextHighlights = {
         const self = this;
         this._bindContext = context;
         if (host && host.dataset.louTextHighlightsBound === "true") {
+            this._bindContext = context;
+            this._boundHost = host;
             return;
         }
         if (host) {
@@ -110,26 +112,95 @@ window.LouTextHighlights = {
         }
 
         const range = selection.getRangeAt(0);
+        if (typeof window.louSvgDebugStep === "function") {
+            window.louSvgDebugStep("mouseup.selection", {
+                collapsed: range.collapsed,
+                text: range.toString(),
+            });
+        }
+        const backend = this._resolveHighlightBackend(range, host);
+        if (typeof window.louSvgDebugStep === "function") {
+            window.louSvgDebugStep("mouseup.backend", {
+                kind: backend && backend.kind,
+                element: backend && backend.element,
+            });
+        }
+        if (!backend) {
+            this.dismissToolbar();
+            return;
+        }
+
+        if (backend.kind === "html") {
+            this._runHighlightInteractionV2(host, context, range, backend);
+            return;
+        }
+
+        void this._runHighlightInteractionV2Svg(host, context, range, backend);
+    },
+
+    _resolveHighlightBackend(range, host) {
         const officialRoot = window.LouAnnotationColors.annotatableRoot(
             range.commonAncestorContainer,
             host
         );
-        if (!officialRoot || !officialRoot.contains(range.commonAncestorContainer)) {
-            this.dismissToolbar();
-            return;
+        if (
+            officialRoot &&
+            officialRoot.contains(range.commonAncestorContainer)
+        ) {
+            return {
+                kind: "html",
+                officialRoot: officialRoot,
+                block: officialRoot.closest(".pedagogical-block"),
+            };
         }
+
+        const formatting = window.LouInlineFormatting;
+        if (
+            !formatting ||
+            typeof formatting.officialInlineSvg !== "function" ||
+            typeof formatting.rangeToStreamRange !== "function"
+        ) {
+            return null;
+        }
+
+        const svgRoot = formatting.officialInlineSvg(
+            range.commonAncestorContainer,
+            host
+        );
+        if (!svgRoot) {
+            return null;
+        }
+
+        const streamRange = formatting.rangeToStreamRange(range, svgRoot);
+        if (!streamRange) {
+            return null;
+        }
+
+        return {
+            kind: "svg",
+            svgRoot: svgRoot,
+            streamRange: streamRange,
+            element: streamRange.element,
+            block:
+                streamRange.figure &&
+                streamRange.figure.closest(".pedagogical-block"),
+        };
+    },
+
+    _runHighlightInteractionV2(host, context, range, backend) {
         if (this._selectionInsideWalkthroughNote(range)) {
             this.dismissToolbar();
             return;
         }
-
-        const block = officialRoot.closest(".pedagogical-block");
-        if (!block) {
+        if (!backend.block) {
             this.dismissToolbar();
             return;
         }
 
-        const intersecting = this._marksIntersectingRange(range, officialRoot);
+        const intersecting = this._marksIntersectingRange(
+            range,
+            backend.officialRoot
+        );
         if (intersecting.length > 1) {
             this.dismissToolbar();
             return;
@@ -143,9 +214,520 @@ window.LouTextHighlights = {
             host,
             context,
             range,
-            officialRoot,
-            block
+            backend.officialRoot,
+            backend.block
         );
+    },
+
+    async _runHighlightInteractionV2Svg(host, context, range, backend) {
+        if (this._selectionInsideWalkthroughNote(range)) {
+            this.dismissToolbar();
+            return;
+        }
+        if (!backend.block) {
+            this.dismissToolbar();
+            return;
+        }
+
+        const formatting = window.LouInlineFormatting;
+        const intersecting = await formatting.findIntersectingBackgroundRecords(
+            context,
+            backend.element,
+            backend.streamRange.start.position,
+            backend.streamRange.end.position
+        );
+        if (typeof window.louSvgDebugStep === "function") {
+            window.louSvgDebugStep("svg.intersecting", {
+                count: intersecting.length,
+                ids: intersecting.map(function (r) {
+                    return r.id;
+                }),
+            });
+        }
+        if (intersecting.length > 1) {
+            this.dismissToolbar();
+            return;
+        }
+        if (intersecting.length === 1) {
+            const visible = await this._ensureSvgHighlightOverlayVisible(
+                host,
+                context,
+                intersecting[0],
+                backend
+            );
+            if (typeof window.louSvgDebugStep === "function") {
+                window.louSvgDebugStep("svg.editOverlayVisible", {
+                    visible: visible,
+                    recordId: intersecting[0].id,
+                });
+            }
+            if (visible) {
+                this._beginSvgHighlightEdit(
+                    intersecting[0],
+                    host,
+                    context,
+                    range,
+                    backend
+                );
+                return;
+            }
+            if (typeof window.louSvgDebugStep === "function") {
+                window.louSvgDebugStep("svg.orphanRecordFallbackCreate", {
+                    recordId: intersecting[0].id,
+                });
+            }
+            if (
+                context.store &&
+                typeof context.store.deleteSvgTextFormat === "function" &&
+                intersecting[0].id != null
+            ) {
+                try {
+                    await context.store.deleteSvgTextFormat(intersecting[0].id);
+                } catch (err) {
+                    console.warn(
+                        "[LouTextHighlights] Orphan SVG format cleanup failed.",
+                        err
+                    );
+                }
+            }
+        }
+
+        await this._createSvgHighlightFromSelection(
+            host,
+            context,
+            range,
+            backend
+        );
+    },
+
+    _stableSvgEditState(host, backend, record) {
+        const startPos =
+            record && record.anchor
+                ? record.anchor.start.position
+                : backend.streamRange.start.position;
+        const endPos =
+            record && record.anchor
+                ? record.anchor.end.position
+                : backend.streamRange.end.position;
+        const sourceProjection =
+            backend.block && backend.block.dataset
+                ? backend.block.dataset.sourceProjection || null
+                : null;
+        return {
+            host: host,
+            element: backend.element,
+            sourceProjection: sourceProjection,
+            start: { position: startPos },
+            end: { position: endPos },
+            anchor: Object.assign(
+                {},
+                record ? record.anchor : backend.streamRange.anchor,
+                {
+                    start: { position: startPos },
+                    end: { position: endPos },
+                }
+            ),
+            recordId: record && record.id != null ? record.id : null,
+        };
+    },
+
+    _svgEditContextFromStable(stable) {
+        return Object.assign({ kind: "svg" }, stable);
+    },
+
+    async _ensureSvgHighlightOverlayVisible(host, context, record, backend) {
+        const formatting = window.LouInlineFormatting;
+        if (!formatting || typeof formatting.restore !== "function") {
+            return false;
+        }
+        const stable = this._stableSvgEditState(host, backend, record);
+        const targets = this._resolveSvgFormatTargets(stable);
+        if (!targets) {
+            return false;
+        }
+        const svgRoot = targets.selectionRange.svgRoot;
+        const recordSelector =
+            record.id != null
+                ? '[data-format-id="' + String(record.id) + '"]'
+                : null;
+
+        function hasVisibleOverlay() {
+            if (recordSelector) {
+                return !!svgRoot.querySelector(recordSelector);
+            }
+            return formatting._countBackgroundOverlayRects(svgRoot) > 0;
+        }
+
+        if (hasVisibleOverlay()) {
+            return true;
+        }
+
+        await formatting.restore(host, targets.projectionContext);
+        return hasVisibleOverlay();
+    },
+
+    _resolveSvgFigure(host, element, sourceProjection) {
+        if (!host || !element) {
+            return null;
+        }
+        let block = null;
+        if (sourceProjection) {
+            block = host.querySelector(
+                '.pedagogical-block[data-element="' +
+                    element +
+                    '"][data-source-projection="' +
+                    sourceProjection +
+                    '"]'
+            );
+        }
+        if (!block) {
+            block = host.querySelector(
+                '.pedagogical-block[data-element="' + element + '"]'
+            );
+        }
+        if (block) {
+            const scoped = block.querySelector(
+                '.official-visual[data-element="' + element + '"]'
+            );
+            if (scoped) {
+                return scoped;
+            }
+            const generic = block.querySelector(".official-visual");
+            if (generic) {
+                return generic;
+            }
+        }
+        return host.querySelector(
+            '.official-visual[data-element="' + element + '"]'
+        );
+    },
+
+    _resolveLiveSvgRoot(host, element, sourceProjection) {
+        const figure = this._resolveSvgFigure(host, element, sourceProjection);
+        if (!figure) {
+            return null;
+        }
+        const svgRoot = figure.querySelector(
+            'svg[data-inline="true"][data-inline-ready="true"]'
+        );
+        if (!svgRoot || !svgRoot.isConnected) {
+            return null;
+        }
+        return svgRoot;
+    },
+
+    _resolveSvgProjectionContext(bindContext, element, sourceProjection) {
+        const projection = this._resolveProjection({
+            context: bindContext,
+            element: element,
+            sourceProjection: sourceProjection,
+        });
+        if (
+            !bindContext ||
+            !bindContext.store ||
+            !bindContext.chapter ||
+            !projection
+        ) {
+            return null;
+        }
+        const projectionContext = Object.assign({}, bindContext, {
+            projection: Object.assign(
+                {},
+                bindContext.projection || {},
+                { id: projection }
+            ),
+        });
+        const assetPath = (projectionContext.projection.visuals || {})[element];
+        if (!assetPath) {
+            return null;
+        }
+        return projectionContext;
+    },
+
+    _rebaseSvgSelectionRange(stable) {
+        if (!stable || !stable.host || !stable.element) {
+            return null;
+        }
+        const formatting = window.LouInlineFormatting;
+        if (
+            !formatting ||
+            typeof formatting.buildSvgTextStream !== "function"
+        ) {
+            return null;
+        }
+        const figure = this._resolveSvgFigure(
+            stable.host,
+            stable.element,
+            stable.sourceProjection
+        );
+        const svgRoot = this._resolveLiveSvgRoot(
+            stable.host,
+            stable.element,
+            stable.sourceProjection
+        );
+        if (!figure || !svgRoot) {
+            return null;
+        }
+        const streamData = formatting.buildSvgTextStream(svgRoot);
+        if (!streamData) {
+            return null;
+        }
+        const start = stable.start.position;
+        const end = stable.end.position;
+        if (start < 0 || end <= start || end > streamData.length) {
+            return null;
+        }
+        const exact = stable.anchor && stable.anchor.exact;
+        if (exact) {
+            const sub = streamData.stream.slice(start, end);
+            if (
+                formatting.normalizeStreamText(sub) !==
+                formatting.normalizeStreamText(exact)
+            ) {
+                return null;
+            }
+        }
+        return {
+            element: stable.element,
+            figure: figure,
+            svgRoot: svgRoot,
+            start: { position: start },
+            end: { position: end },
+            anchor: Object.assign({}, stable.anchor, {
+                start: { position: start },
+                end: { position: end },
+            }),
+        };
+    },
+
+    _resolveSvgFormatTargets(stable) {
+        if (!stable) {
+            return null;
+        }
+        const bindContext = this._bindContext;
+        const selectionRange = this._rebaseSvgSelectionRange(stable);
+        const projectionContext = this._resolveSvgProjectionContext(
+            bindContext,
+            stable.element,
+            stable.sourceProjection
+        );
+        if (!selectionRange || !projectionContext) {
+            return null;
+        }
+        return {
+            host: stable.host,
+            projectionContext: projectionContext,
+            selectionRange: selectionRange,
+        };
+    },
+
+    _syncSvgRecordIdFromResult(stable, result) {
+        if (
+            !stable ||
+            !result ||
+            !result.records ||
+            !result.records.length
+        ) {
+            return;
+        }
+        const start = stable.start.position;
+        const end = stable.end.position;
+        for (let i = 0; i < result.records.length; i += 1) {
+            const record = result.records[i];
+            if (
+                record.format === "backgroundColor" &&
+                record.anchor.start.position === start &&
+                record.anchor.end.position === end &&
+                record.id != null
+            ) {
+                stable.recordId = record.id;
+                if (this._editContext && this._editContext.kind === "svg") {
+                    this._editContext.recordId = record.id;
+                }
+                return;
+            }
+        }
+    },
+
+    async _applySvgHighlightFormat(stable, formatIntent) {
+        const targets = this._resolveSvgFormatTargets(stable);
+        const formatting = window.LouInlineFormatting;
+        if (
+            !targets ||
+            !formatting ||
+            typeof formatting.applyFormat !== "function"
+        ) {
+            return null;
+        }
+        try {
+            const result = await formatting.applyFormat(
+                targets.host,
+                targets.projectionContext,
+                targets.selectionRange,
+                formatIntent
+            );
+            if (result == null) {
+                return null;
+            }
+            this._syncSvgRecordIdFromResult(stable, result);
+            return result;
+        } catch (err) {
+            console.warn("[LouTextHighlights] SVG highlight format failed.", err);
+            return null;
+        }
+    },
+
+    async _removeSvgHighlightFormat(stable) {
+        const targets = this._resolveSvgFormatTargets(stable);
+        const formatting = window.LouInlineFormatting;
+        if (
+            !targets ||
+            !formatting ||
+            typeof formatting.removeFormat !== "function"
+        ) {
+            return null;
+        }
+        try {
+            const result = await formatting.removeFormat(
+                targets.host,
+                targets.projectionContext,
+                targets.selectionRange
+            );
+            if (result == null) {
+                return null;
+            }
+            return result;
+        } catch (err) {
+            console.warn("[LouTextHighlights] SVG highlight remove failed.", err);
+            return null;
+        }
+    },
+
+    _beginSvgHighlightEdit(record, host, context, range, backend) {
+        const stable = this._stableSvgEditState(host, backend, record);
+        const colorId = window.LouAnnotationColors.svgHighlightColorIdFromBackground(
+            record.style && record.style.backgroundColor
+        );
+        const prefs = {
+            colorId: colorId,
+            bold: false,
+            underline: false,
+            strikethrough: false,
+        };
+        this._clearHighlightEditVisual();
+        this._editContext = this._svgEditContextFromStable(stable);
+        this._openHighlightToolbarForState(
+            prefs,
+            this._rangeClientRect(range)
+        );
+    },
+
+    async _createSvgHighlightFromSelection(host, context, range, backend) {
+        const prefs = window.LouAnnotationColors.getLastHighlightPreferences();
+        const colorId = window.LouAnnotationColors.normalizeColorId(
+            prefs.colorId,
+            window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID
+        );
+        const stable = this._stableSvgEditState(host, backend, null);
+        if (
+            !context.store ||
+            !context.chapter ||
+            !this._resolveProjection({
+                context: context,
+                element: stable.element,
+                sourceProjection: stable.sourceProjection,
+            })
+        ) {
+            if (
+                window.LouRenderer &&
+                window.LouRenderer.isCompositionContext(context) &&
+                !stable.sourceProjection
+            ) {
+                console.warn(
+                    "[LouTextHighlights] Composition SVG highlight blocked: missing data-source-projection on block"
+                );
+            }
+            this.dismissToolbar();
+            return;
+        }
+
+        const result = await this._applySvgHighlightFormat(stable, {
+            format: "backgroundColor",
+            style: {
+                backgroundColor:
+                    window.LouAnnotationColors.svgBackgroundForHighlightColorId(
+                        colorId
+                    ),
+            },
+        });
+        if (typeof window.louSvgDebugStep === "function") {
+            window.louSvgDebugStep("svg.createResult", {
+                ok: result != null,
+                recordCount:
+                    result && result.records ? result.records.length : 0,
+            });
+        }
+        if (result == null) {
+            this.dismissToolbar();
+            return;
+        }
+
+        this._clearHighlightEditVisual();
+        this._editContext = this._svgEditContextFromStable(stable);
+        window.LouAnnotationColors.setLastHighlightPreferences(
+            Object.assign({}, prefs, { colorId: colorId })
+        );
+        this._openHighlightToolbarForState(
+            prefs,
+            this._rangeClientRect(range)
+        );
+    },
+
+    async _onSvgHighlightToolbarIntent(state, detail) {
+        const edit = this._editContext;
+        if (!edit || edit.kind !== "svg" || !state) {
+            return;
+        }
+        if (detail && detail.kind === "erase") {
+            await this._deleteSvgHighlight(edit);
+            return;
+        }
+        if (detail && detail.kind === "color" && !detail.colorId) {
+            return;
+        }
+
+        const colorId = window.LouAnnotationColors.normalizeColorId(
+            state.colorId || window.LouAnnotationColors.getLastHighlightColorId(),
+            window.LouAnnotationColors.DEFAULT_HIGHLIGHT_ID
+        );
+
+        const result = await this._applySvgHighlightFormat(edit, {
+            format: "backgroundColor",
+            style: {
+                backgroundColor:
+                    window.LouAnnotationColors.svgBackgroundForHighlightColorId(
+                        colorId
+                    ),
+            },
+        });
+        if (result == null) {
+            this.dismissToolbar();
+            return;
+        }
+
+        window.LouAnnotationColors.setLastHighlightPreferences(
+            Object.assign({}, state, { colorId: colorId })
+        );
+    },
+
+    async _deleteSvgHighlight(edit) {
+        const result = await this._removeSvgHighlightFormat(edit);
+        if (result == null) {
+            console.warn(
+                "[LouTextHighlights] SVG highlight delete could not resolve live figure."
+            );
+        }
+        this.dismissToolbar();
     },
 
     _selectionInsideWalkthroughNote(range) {
@@ -240,8 +822,15 @@ window.LouTextHighlights = {
     },
 
     _onHighlightToolbarIntent(state, detail) {
-        const mark = this._editContext && this._editContext.mark;
-        if (!mark || !state) {
+        if (!this._editContext || !state) {
+            return;
+        }
+        if (this._editContext.kind === "svg") {
+            void this._onSvgHighlightToolbarIntent(state, detail);
+            return;
+        }
+        const mark = this._editContext.mark;
+        if (!mark) {
             return;
         }
         if (detail && detail.kind === "erase") {
@@ -289,37 +878,80 @@ window.LouTextHighlights = {
 
     _setHighlightEditingMark(mark) {
         this._clearHighlightEditVisual();
-        this._editContext = mark ? { mark: mark } : null;
+        this._editContext = mark ? { kind: "html", mark: mark } : null;
         if (mark) {
             mark.classList.add(this.EDITING_CLASS);
         }
     },
 
     _clearHighlightEditVisual() {
-        if (this._editContext && this._editContext.mark) {
+        if (
+            this._editContext &&
+            this._editContext.kind === "html" &&
+            this._editContext.mark
+        ) {
             this._editContext.mark.classList.remove(this.EDITING_CLASS);
         }
     },
 
     _openHighlightToolbar(mark) {
+        this._openHighlightToolbarForState(
+            this._highlightPreferencesFromMark(mark),
+            mark.getBoundingClientRect()
+        );
+    },
+
+    _openHighlightToolbarForState(state, domRect) {
         const self = this;
-        const rect = mark.getBoundingClientRect();
+        const rect = this._normalizeToolbarRect(domRect);
+        const selectionKind =
+            this._editContext && this._editContext.kind === "svg" ? "svg" : "html";
         window.LouAnnotationController.openForHighlight({
             ariaLabel: "Surlignage et mise en forme",
-            state: this._highlightPreferencesFromMark(mark),
-            rect: {
-                left: rect.left,
-                top: rect.top,
-                width: Math.max(rect.width, 1),
-                height: Math.max(rect.height, 1),
-                right: rect.right,
-                bottom: rect.bottom,
-            },
+            state: state,
+            rect: rect,
             preferAbove: true,
+            selectionKind: selectionKind,
             onIntent: function (state, detail) {
                 self._onHighlightToolbarIntent(state, detail);
             },
         });
+    },
+
+    _normalizeToolbarRect(domRect) {
+        const rect = domRect || {
+            left: 0,
+            top: 0,
+            width: 1,
+            height: 1,
+            right: 1,
+            bottom: 1,
+        };
+        return {
+            left: rect.left,
+            top: rect.top,
+            width: Math.max(rect.width, 1),
+            height: Math.max(rect.height, 1),
+            right: rect.right != null ? rect.right : rect.left + Math.max(rect.width, 1),
+            bottom: rect.bottom != null ? rect.bottom : rect.top + Math.max(rect.height, 1),
+        };
+    },
+
+    _rangeClientRect(range) {
+        if (range && typeof range.getBoundingClientRect === "function") {
+            const rect = range.getBoundingClientRect();
+            if (rect && (rect.width || rect.height)) {
+                return rect;
+            }
+        }
+        return {
+            left: 100,
+            top: 100,
+            width: 1,
+            height: 1,
+            right: 101,
+            bottom: 101,
+        };
     },
 
     _beginHighlightEdit(mark, host, context) {

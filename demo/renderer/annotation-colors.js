@@ -509,4 +509,35 @@ window.LouAnnotationColors = {
         this.applyNoteColor(noteEl, prefs.colorId);
         this.applyNoteStyle(noteEl, prefs);
     },
+
+    // Maps frozen highlight color ids to svg_text_formats background palette (closed contract).
+    SVG_HIGHLIGHT_BACKGROUND_BY_ID: {
+        yellow: "#fff3bf",
+        green: "#d3f9d8",
+        blue: "#cfe8ff",
+        pink: "#ffe0ef",
+        black: "#ffe8cc",
+    },
+
+    svgBackgroundForHighlightColorId(colorId) {
+        const id = this.normalizeColorId(
+            colorId,
+            this.DEFAULT_HIGHLIGHT_ID
+        );
+        return (
+            this.SVG_HIGHLIGHT_BACKGROUND_BY_ID[id] ||
+            this.SVG_HIGHLIGHT_BACKGROUND_BY_ID[this.DEFAULT_HIGHLIGHT_ID]
+        );
+    },
+
+    svgHighlightColorIdFromBackground(backgroundColor) {
+        const hex = String(backgroundColor || "");
+        const ids = Object.keys(this.SVG_HIGHLIGHT_BACKGROUND_BY_ID);
+        for (let i = 0; i < ids.length; i += 1) {
+            if (this.SVG_HIGHLIGHT_BACKGROUND_BY_ID[ids[i]] === hex) {
+                return ids[i];
+            }
+        }
+        return this.DEFAULT_HIGHLIGHT_ID;
+    },
 };

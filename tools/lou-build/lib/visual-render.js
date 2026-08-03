@@ -1,6 +1,7 @@
 import { validateVisualSpec } from "./visual-spec.js";
 import { groundVisualSpec, renderEligibility } from "./visual-ground.js";
 import { layoutCausalGraph } from "./visual-layout.js";
+import { officialTextId } from "./svg.js";
 
 /**
  * Deterministic renderer for the causal-graph primitive.
@@ -184,7 +185,9 @@ export function renderCausalGraphSvg(spec, layout) {
   parts.push(`  <text x="${centreX}" y="40" text-anchor="middle" class="vg-title">`);
   layout.titleLines.forEach((line, i) => {
     parts.push(
-      `    <tspan x="${centreX}" dy="${i === 0 ? 0 : cfg.titleLineHeight}">${escapeXml(line)}</tspan>`
+      `    <tspan x="${centreX}" dy="${i === 0 ? 0 : cfg.titleLineHeight}" ` +
+        `data-official-text-id="${escapeXml(officialTextId(spec.element, `title-${i + 1}`))}">` +
+        `${escapeXml(line)}</tspan>`
     );
   });
   parts.push("  </text>");
@@ -251,7 +254,9 @@ export function renderCausalGraphSvg(spec, layout) {
     box.lines.forEach((line, i) => {
       const dy = i === 0 ? 0 : cfg.lineHeight;
       parts.push(
-        `        <tspan x="${textX}" dy="${dy}">${escapeXml(line)}</tspan>`
+        `        <tspan x="${textX}" dy="${dy}" ` +
+          `data-official-text-id="${escapeXml(officialTextId(spec.element, `node-${node.id}-${i + 1}`))}">` +
+          `${escapeXml(line)}</tspan>`
       );
     });
     parts.push("      </text>");

@@ -89,6 +89,10 @@ window.LouAnnotationToolbar = {
             syncFormats();
         }
 
+        function setFormatControlsVisible(visible) {
+            formatRow.hidden = !visible;
+        }
+
         for (let i = 0; i < palette.length; i += 1) {
             const color = palette[i];
             const button = document.createElement("button");
@@ -311,6 +315,10 @@ window.LouAnnotationToolbar = {
             },
             getFormatButtonCount: function () {
                 return Object.keys(formatButtons).length;
+            },
+            setFormatControlsVisible: setFormatControlsVisible,
+            areFormatControlsVisible: function () {
+                return !formatRow.hidden;
             },
         };
     },

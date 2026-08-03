@@ -72,6 +72,21 @@ window.LouAnnotationController = {
         );
     },
 
+    _applyFormatControlsVisibility(toolbar, visible) {
+        toolbar.setFormatControlsVisible(visible);
+        const row =
+            toolbar.element &&
+            toolbar.element.querySelector(".annotation-toolbar-formats");
+        if (!row) {
+            return;
+        }
+        if (visible) {
+            row.style.removeProperty("display");
+        } else {
+            row.style.display = "none";
+        }
+    },
+
     openForHighlight(options) {
         if (!options || typeof options.onIntent !== "function") {
             return;
@@ -93,6 +108,10 @@ window.LouAnnotationController = {
                 ? window.LouAnnotationColors.getLastHighlightPreferences()
                 : this._neutralState();
         toolbar.setState(options.state || defaultState);
+        this._applyFormatControlsVisibility(
+            toolbar,
+            options.selectionKind !== "svg"
+        );
         toolbar.showNearRect(options.rect, options.preferAbove !== false);
     },
 
@@ -108,6 +127,7 @@ window.LouAnnotationController = {
             toolbar.element.setAttribute("aria-label", options.ariaLabel);
         }
         toolbar.setState(options.state || this._neutralState());
+        this._applyFormatControlsVisibility(toolbar, true);
         if (options.rect) {
             toolbar.showNearRect(options.rect, options.preferAbove !== false);
         } else if (options.noteEl) {

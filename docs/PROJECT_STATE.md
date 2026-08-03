@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-03 (Annotation UI Freeze V1 ; Graphical Learning Layer V1 ouvert — conception)
+**Dernière mise à jour :** 2026-08-03 (SVG Highlight Bridge V1 clôturé ; Phase 2 prochaine)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -20,14 +20,16 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | | |
 |---|---|
-| **Objectif actif** | [Graphical Learning Layer V1](MASTER_ROADMAP.md#graphical-learning-layer-v1) — **conception et architecture** (SVG contenu pédagogique de première classe) |
-| **Phase opérationnelle active** | **Phase 2** — Amorçage cognitif ([roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) — en attente de démarrage |
+| **Objectif actif** | **Phase 2** — Amorçage cognitif ([roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) — prochain jalon RPC 234 |
+| **Phase opérationnelle active** | **Phase 2** — Amorçage cognitif — prête à démarrer |
 | **Livrable visé** | Amorçage cognitif exploitable dans le Reader — voir Phase 2 |
 | **Chemin critique** | **Phases 2→8 (234)** → **Phase 9 (224)** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
 | **Blocage structurant** | Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
-| **Dernier jalon produit** | **Annotation UI Freeze V1** — Product Polish V1 clôturé ; Product Review finale annotation **GO** ; tag `reader-ui-freeze-v1` ; 2026-08-03 |
+| **Dernier jalon produit** | **SVG Highlight Bridge V1** — highlights SVG opérationnels sur RPC 234 ; UI annotation stabilisée HTML + SVG ; tag `svg-highlight-bridge-v1` ; 2026-08-03 |
 
-**UI Reader V1 stabilisée — Annotation UI Freeze V1 prononcé (2026-08-03).** La couche annotation Learner (highlights, inline notes, toolbar) est **gelée**. Aucun chantier UI ouvert, hors bug bloquant. Product Review finale annotation **GO**. Prochain travail transversal Reader : **Graphical Learning Layer V1** (conception — SVG comme contenu pédagogique de première classe).
+**SVG Highlight Bridge V1 clôturé (2026-08-03).** Les **highlights sur texte SVG** sont disponibles sur le chapitre de référence **234** (création, changement de couleur, effacement, restauration) via le moteur **Highlight V2** unique et le backend **LouInlineFormatting**. L'UI annotation est **stabilisée** : toolbar unique — couleurs + gomme sur SVG ; G/S/B masqués en contexte SVG ; walkthrough HTML inchangé.
+
+**UI Reader V1 — Annotation UI Freeze V1 (2026-08-03).** La couche annotation Learner HTML (highlights, inline notes, toolbar) reste **gelée** hors bug bloquant. Prochain jalon opérationnel : **Phase 2 — Amorçage cognitif**.
 
 **Chaîne de consommation Fabrique → Reader (Phase 0.1 clôturée).** La Phase 0.1 a fiabilisé le chemin entre publication du package et observation dans le Reader, sans modifier les contrats Fabrique ni Composition V1. La chaîne de consommation est désormais **considérée comme stabilisée** pour poursuivre les phases éditoriales (Phase 2 et suivantes).
 
@@ -54,15 +56,14 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Graphical Learning Layer V1** | Reader V1 — figures pédagogiques | **Conception et architecture uniquement** — SVG contenu de première classe ; **aucun lot d'implémentation ouvert** |
-| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 2–8 | **Phase 0.1 clôturée** ; **Phase 2** (Amorçage) prête à démarrer |
+| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 2–8 | **Phases 0–1 clôturées** ; **Phase 2** (Amorçage) **prochaine** |
 | **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
 | **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Framework validation consolidé — stable** — DEV / PAS / RELEASE [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) §2.4 |
 
-**Chantiers UI Reader — aucun ouvert.** Annotation UI Freeze V1 : corrections UI annotation réservées aux **bugs bloquants** uniquement.
+**Chantiers UI Reader — aucun ouvert.** Annotation UI Freeze V1 : corrections UI annotation réservées aux **bugs bloquants** uniquement. **SVG Highlight Bridge V1 clôturé** — pas de lot d'implémentation SVG highlight ouvert.
 
 ### Acquis annotation Learner (Product Polish V1 — clôturé)
 
@@ -78,6 +79,22 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Workflow édition (sélection partielle → objet entier) | Stabilisé |
 | Restauration complète (couleur, style, reload) | Stabilisée |
 | Gras highlight — rendu robuste | Stabilisé — Highlight Bold Visibility Hardening |
+
+### Acquis SVG Highlight Bridge V1 (clôturé — 2026-08-03)
+
+| Capacité | État |
+|---|---|
+| Bridge Highlight V2 HTML ↔ SVG (moteur unique) | Livré — chapitre 234 |
+| Backend SVG — LouInlineFormatting (backgroundColor) | Livré |
+| Émission `data-official-text-id` (Fabrique Stage G) | Livré — package 234 régénéré |
+| Highlights SVG — création mouseup | Livré |
+| Highlights SVG — changement de couleur live | Livré |
+| Highlights SVG — effacement (gomme) | Livré |
+| Highlights SVG — restauration après reload | Livré |
+| Résolution SVG live (remplacement DOM figure) | Livré |
+| Paint order overlays SVG | Livré |
+| UI toolbar contextuelle — G/S/B masqués sur SVG | Livré |
+| Non-régression HTML (walkthrough) | Validée |
 
 ---
 
@@ -134,6 +151,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **PDR-D7 — Préférences d'affichage** | **Publié** — tag `display-preferences-v1` ; contrat [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) en vigueur ; lots D7-A…G |
 | **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 | Acquis clôturé — **Phase 2** = prochain jalon opérationnel |
 | **Reader V1 — UI annotation** | **Gelée** — Annotation UI Freeze V1 ; tag `reader-ui-freeze-v1` ; Product Polish V1 clôturé ; Product Review finale annotation **GO** | Aucun chantier UI ouvert |
+| **Reader V1 — highlights SVG (GLL annotations MVP)** | **Publié** — SVG Highlight Bridge V1 ; tag `svg-highlight-bridge-v1` ; RPC 234 ; Highlight V2 + LouInlineFormatting | Non-régression HTML validée |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
@@ -178,7 +196,8 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-08-03 | **Annotation UI Freeze V1 prononcé** — Product Polish V1 clôturé ; Product Review finale annotation **GO** ; UI Reader V1 stabilisée ; tag `reader-ui-freeze-v1` ; prochain chantier transversal → Graphical Learning Layer V1 (conception) |
+| 2026-08-03 | **SVG Highlight Bridge V1 clôturé** — highlights SVG opérationnels sur RPC 234 ; bridge Highlight V2 + LouInlineFormatting ; Fabrique `data-official-text-id` ; package 234 régénéré ; UI toolbar contextuelle (G/S/B masqués SVG) ; tag `svg-highlight-bridge-v1` ; prochain jalon → Phase 2 Amorçage cognitif |
+| 2026-08-03 | **Annotation UI Freeze V1 prononcé** — Product Polish V1 clôturé ; Product Review finale annotation **GO** ; UI Reader V1 stabilisée ; tag `reader-ui-freeze-v1` |
 | 2026-08-03 | **Phase 0.1 clôturée** — Product Review canonique (`scripts/product-review-234.sh`) ; bibliothèque `.local/` gitignored ; `ensureReleaseReady()` auto-repair digest ; diagnostics bootstrap explicites ; tests consommation |
 | 2026-08-03 | **Phase 1 clôturée** — figure `MM-pump-decompensation` publiée via Stage G ; walkthrough figure-first ; zoom Reader |
 | 2026-08-03 | **Phase 0 clôturée** — sync fixture Reader ; Stage G `mental_model`/`confusion` + branchement `visual-spec` ; assainissement moteur SVG V1 ; build/regenerate automatiques |
@@ -258,4 +277,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-03 — Annotation UI Freeze V1 ; Product Polish V1 clôturé ; Graphical Learning Layer V1 ouvert (conception) ; Phase 2 prochaine.*
+*Révision 2026-08-03 — SVG Highlight Bridge V1 clôturé ; highlights SVG RPC 234 ; Phase 2 Amorçage cognitif prochaine.*

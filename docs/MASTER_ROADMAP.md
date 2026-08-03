@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-03 — Annotation UI Freeze V1 ; Graphical Learning Layer V1 ouvert (conception) ; roadmap opérationnelle pilotée par les **7 vues Reader** ; 234 = laboratoire produit ; 224 = industrialisation (Phase 9).
+**Dernière révision :** 2026-08-03 — SVG Highlight Bridge V1 clôturé ; Graphical Learning Layer V1 (annotations SVG MVP) livré ; Phase 2 Amorçage cognitif prochaine ; roadmap opérationnelle pilotée par les **7 vues Reader** ; 234 = laboratoire produit ; 224 = industrialisation (Phase 9).
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -45,7 +45,9 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 | Reader Composition V1 (Lots A–F) | ✅ Clôturé — audit indépendant ✅ Conforme ; tag `reader-composition-v1` |
 | **Reader Acceptance V1** | ✅ **Clôturé** — prononcé 2026-08-02 ; tag `reader-acceptance-v1` |
 | **Product Polish V1 / Annotation UI Freeze V1** | ✅ **Clôturé** — prononcé 2026-08-03 ; tag `reader-ui-freeze-v1` ; UI annotation gelée |
-| **Graphical Learning Layer V1** | 🔄 **Conception active** — architecture SVG pédagogique ; **aucun lot d'implémentation** |
+| **SVG Highlight Bridge V1** | ✅ **Clôturé** — prononcé 2026-08-03 ; tag `svg-highlight-bridge-v1` ; highlights SVG RPC 234 |
+| **Graphical Learning Layer V1 (annotations SVG — MVP)** | ✅ **Livré** — highlights SVG via Highlight V2 + LouInlineFormatting ; UI toolbar contextuelle |
+| **Graphical Learning Layer V1 (conception élargie)** | ⏸ **En attente** — figures SVG contenu de première classe (hors annotations MVP) |
 | **Reference Product Chapter (234)** — Phases 0–8 | 🔄 **Phase 2 prochaine** — Amorçage cognitif |
 | **Product Review 234** (Phase 7) | ⏳ En attente — chapitre utilisable ; **usage réel Lou** dans le Reader |
 | **Product Freeze 234** (Phase 8) | ⏳ En attente — après Product Review |
@@ -67,7 +69,7 @@ Reader Acceptance V1 ✅
         ↓
 Product Polish V1 / Annotation UI Freeze V1 ✅
         ↓
-Graphical Learning Layer V1 (conception) ← actif transversal Reader
+SVG Highlight Bridge V1 ✅
         ↓
 Reference Product Chapter (234) — Phases 0–8  ← Phase 2 prochaine
         ↓
@@ -152,12 +154,19 @@ Capitalisation industrielle → Validation Corpus V1 → …
 
 | | |
 |---|---|
-| **Nature** | Conception et architecture — transversal Reader V1 |
+| **Nature** | Couche transversale Reader V1 — figures pédagogiques SVG |
 | **Question directrice** | Comment traiter les **SVG comme contenu pédagogique de première classe** — production, consommation, zoom, intégration walkthrough — sans dégrader la chaîne Fabrique → Reader ? |
-| **Statut** | **Chantier actif** — **conception uniquement** |
-| **Positionnement** | Ouvert après [Annotation UI Freeze V1](#acquis) ; **avant** toute implémentation runtime |
+| **Statut** | **Annotations SVG MVP livré** (SVG Highlight Bridge V1) ; **conception élargie en attente** |
+| **Positionnement** | Bridge annotations clôturé après [Annotation UI Freeze V1](#acquis) ; le périmètre figures/zoom/walkthrough reste à concevoir avant tout lot d'implémentation supplémentaire |
 
-**Périmètre V1 (conception) :**
+**Livré (MVP annotations — SVG Highlight Bridge V1) :**
+
+- highlights sur texte SVG via moteur Highlight V2 unique ;
+- backend LouInlineFormatting (`backgroundColor`) ;
+- toolbar contextuelle (couleurs + gomme ; G/S/B masqués sur SVG) ;
+- validation RPC 234 — création, couleur, effacement, restauration ; non-régression HTML.
+
+**Périmètre V1 restant (conception — non ouvert) :**
 
 - modèle conceptuel des figures pédagogiques dans le Reader ;
 - relation figures ↔ walkthroughs ↔ projections ;
@@ -167,12 +176,12 @@ Capitalisation industrielle → Validation Corpus V1 → …
 
 **Hors périmètre immédiat :**
 
-- implémentation runtime Reader ;
-- refonte toolbar ou annotation ;
+- refonte toolbar ou annotation HTML (gelée) ;
 - nouvelles vues Reader ;
-- migration patrimoine apprenant.
+- migration patrimoine apprenant ;
+- formats SVG typographiques G/S/B (non implémentés — masqués dans l'UI).
 
-**Critère de sortie (conception) :**
+**Critère de sortie (conception élargie) :**
 
 - architecture documentée et validée par le propriétaire ;
 - décisions de conception traçables ;
@@ -682,6 +691,7 @@ Objectifs clos — une ligne par acquis, renvoi vers la preuve de clôture. Le d
 | Préférences d'affichage Reader V1 ([PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md)) | [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) — lots D7-A…G ; Service · Runtime · Patrimoine · Reader · validation E2E ; clôture 2026-08-01 |
 | Acceptation Reader V1 ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) | [`releases/reader-acceptance-v1-publication.md`](releases/reader-acceptance-v1-publication.md) — 7 vues alimentées package 234 ; lots AP-A…AP-F ; tag `reader-acceptance-v1` ; clôture 2026-08-02 |
 | Product Polish V1 / Annotation UI Freeze V1 | Product Review finale annotation **GO** ; micro-lots PRODUCT POLISH V1 · Toolbar V1.1 · Highlight Interaction V2 · Formatting Simplification · Preferences · UX Finalization · Notes restore · Bold Visibility Hardening ; tag `reader-ui-freeze-v1` ; clôture 2026-08-03 |
+| SVG Highlight Bridge V1 | Bridge Highlight V2 HTML ↔ SVG ; LouInlineFormatting backend ; Fabrique `data-official-text-id` ; package 234 régénéré ; paint order + résolution SVG live ; UI toolbar contextuelle ; tag `svg-highlight-bridge-v1` ; clôture 2026-08-03 |
 
 > **Note terminologique.** Le **pipeline validateur** lou-build est un acquis. La **Fabrique productrice autonome** reste un objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)) — ne pas confondre « cutover lou-build » avec « production autonome de contenu ».
 
@@ -717,4 +727,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-08-03 — Annotation UI Freeze V1 ; Graphical Learning Layer V1 ouvert (conception) ; Product Polish V1 aux acquis ; Phase 2 prochaine.*
+*Révision 2026-08-03 — SVG Highlight Bridge V1 clôturé ; GLL annotations SVG MVP livré ; Phase 2 prochaine.*

@@ -497,10 +497,11 @@ describe("SVG formatting toolbar", () => {
     );
   });
 
-  test("mount is idempotent on same host", async () => {
-    const first = window.LouInlineFormatting._boundHost;
+  test("mount restore is idempotent on same host", async () => {
     await window.LouInlineFormatting.mount(host, context);
-    assert.equal(window.LouInlineFormatting._boundHost, first);
+    const first = host.querySelectorAll("g.learner-svg-formats").length;
+    await window.LouInlineFormatting.mount(host, context);
+    assert.equal(host.querySelectorAll("g.learner-svg-formats").length, first);
   });
 });
 

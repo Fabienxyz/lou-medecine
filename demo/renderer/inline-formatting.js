@@ -20,9 +20,44 @@ window.LouInlineFormatting = {
             await this.restore(host, context);
         } catch (err) {
             console.warn("[LouInlineFormatting] Format restore failed.", err);
-        } finally {
-            this.bindSelection(host, context);
         }
+    },
+
+    officialInlineSvg(node, host) {
+        return this._officialInlineSvg(node, host);
+    },
+
+    rangesOverlap(aStart, aEnd, bStart, bEnd) {
+        return this._rangesOverlap(aStart, aEnd, bStart, bEnd);
+    },
+
+    async findIntersectingBackgroundRecords(context, element, start, end) {
+        const store = context && context.store;
+        const chapter = context && context.chapter;
+        const projection =
+            context && context.projection && context.projection.id;
+        if (
+            !store ||
+            !chapter ||
+            !projection ||
+            typeof store.listSvgTextFormats !== "function"
+        ) {
+            return [];
+        }
+        const records = await store.listSvgTextFormats(
+            chapter,
+            projection,
+            element
+        );
+        const self = this;
+        return (records || []).filter(function (record) {
+            if (record.format !== "backgroundColor") {
+                return false;
+            }
+            const rs = record.anchor.start.position;
+            const re = record.anchor.end.position;
+            return self._rangesOverlap(rs, re, start, end);
+        });
     },
 
     bindSelection(host, context) {
@@ -932,12 +967,65 @@ window.LouInlineFormatting = {
     },
 
     _clearOverlayGroup(svgRoot) {
-        const existing = svgRoot.querySelector(
-            "g." + this.OVERLAY_GROUP_CLASS
-        );
-        if (existing) {
-            existing.remove();
+        svgRoot.querySelectorAll("g." + this.OVERLAY_GROUP_CLASS).forEach(function (group) {
+            group.remove();
+        });
+        svgRoot
+            .querySelectorAll(
+                'rect[data-learner="true"][data-overlay-layer="background"]'
+            )
+            .forEach(function (rect) {
+                rect.remove();
+            });
+    },
+
+    _officialTextElement(node) {
+        let el = node;
+        while (el && el.nodeType === Node.ELEMENT_NODE) {
+            if (el.localName === "text") {
+                return el;
+            }
+            el = el.parentElement;
         }
+        return node && node.parentElement ? node.parentElement : null;
+    },
+
+    /** Place highlight rect above node fills, directly under official text (Stabilo order). */
+    _insertBackgroundHighlightRect(svgRoot, segmentParent, rect) {
+        const textElement = this._officialTextElement(segmentParent);
+        if (!textElement || !textElement.parentElement) {
+            return false;
+        }
+        rect.setAttribute("data-overlay-layer", "background");
+        rect.setAttribute("pointer-events", "none");
+        textElement.parentElement.insertBefore(rect, textElement);
+        return true;
+    },
+
+    _subtreeHasOfficialText(element) {
+        if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+            return false;
+        }
+        const tag = element.localName.toLowerCase();
+        if (
+            (tag === "text" || tag === "tspan") &&
+            element.hasAttribute("data-official-text-id")
+        ) {
+            return true;
+        }
+        return !!element.querySelector("[data-official-text-id]");
+    },
+
+    /** Insert highlight rects beneath official text (Stabilo paint order). */
+    _insertOverlayBackgroundLayer(svgRoot, group) {
+        const children = Array.from(svgRoot.children);
+        for (let i = 0; i < children.length; i += 1) {
+            if (this._subtreeHasOfficialText(children[i])) {
+                svgRoot.insertBefore(group, children[i]);
+                return;
+            }
+        }
+        svgRoot.appendChild(group);
     },
 
     _iterStreamSegments(streamData, start, end) {
@@ -1026,7 +1114,7 @@ window.LouInlineFormatting = {
                         : "#fff3bf"
                 );
                 const box = window.LouInlineFormatting._measureTextSegment(
-                    parent,
+                    segment.node,
                     segment.startOffset,
                     segment.endOffset
                 );
@@ -1035,8 +1123,21 @@ window.LouInlineFormatting = {
                     rect.setAttribute("y", String(box.y));
                     rect.setAttribute("width", String(box.width));
                     rect.setAttribute("height", String(box.height));
-                    fragment.appendChild(rect);
+                    const inserted =
+                        window.LouInlineFormatting._insertBackgroundHighlightRect(
+                            svgRoot,
+                            parent,
+                            rect
+                        );
+                    if (!inserted) {
+                        if (group) {
+                            fragment.appendChild(rect);
+                        } else {
+                            svgRoot.appendChild(rect);
+                        }
+                    }
                 }
+                return;
             }
 
             const overlayText = document.createElementNS(
@@ -1073,16 +1174,19 @@ window.LouInlineFormatting = {
             fragment.appendChild(overlayText);
         });
 
-        group.appendChild(fragment);
+        if (group && fragment.childNodes.length) {
+            group.appendChild(fragment);
+        }
         return group;
     },
 
-    _measureTextSegment(textElement, startOffset, endOffset) {
+    _measureTextSegmentViaSvgApi(textElement, startOffset, endOffset) {
         if (
+            !textElement ||
             typeof textElement.getStartPositionOfChar !== "function" ||
             typeof textElement.getSubStringLength !== "function"
         ) {
-            return { x: 0, y: 0, width: Math.max(1, endOffset - startOffset) * 8, height: 14 };
+            return null;
         }
         try {
             const startPoint = textElement.getStartPositionOfChar(startOffset);
@@ -1090,6 +1194,9 @@ window.LouInlineFormatting = {
                 startOffset,
                 endOffset - startOffset
             );
+            if (!Number.isFinite(width) || width <= 0) {
+                return null;
+            }
             return {
                 x: startPoint.x,
                 y: startPoint.y - 12,
@@ -1099,6 +1206,163 @@ window.LouInlineFormatting = {
         } catch (err) {
             return null;
         }
+    },
+
+    _measureTextSegmentViaRange(textNode, startOffset, endOffset) {
+        if (!textNode || textNode.nodeType !== Node.TEXT_NODE) {
+            return null;
+        }
+        const range = document.createRange();
+        try {
+            range.setStart(textNode, startOffset);
+            range.setEnd(textNode, endOffset);
+        } catch (err) {
+            return null;
+        }
+        let clientRect = null;
+        try {
+            if (typeof range.getBoundingClientRect !== "function") {
+                return null;
+            }
+            clientRect = range.getBoundingClientRect();
+        } catch (err) {
+            return null;
+        }
+        if (!clientRect || (!clientRect.width && !clientRect.height)) {
+            return null;
+        }
+        const textElement = textNode.parentElement;
+        const svg =
+            textElement &&
+            (textElement.ownerSVGElement ||
+                textElement.closest("svg"));
+        if (
+            !svg ||
+            typeof svg.createSVGPoint !== "function" ||
+            typeof svg.getScreenCTM !== "function"
+        ) {
+            return null;
+        }
+        let ctm = null;
+        try {
+            ctm = svg.getScreenCTM();
+        } catch (err) {
+            return null;
+        }
+        if (!ctm) {
+            return null;
+        }
+        const inv = ctm.inverse();
+        const pt = svg.createSVGPoint();
+        const toSvg = function (x, y) {
+            pt.x = x;
+            pt.y = y;
+            return pt.matrixTransform(inv);
+        };
+        const tl = toSvg(clientRect.left, clientRect.top);
+        const br = toSvg(clientRect.right, clientRect.bottom);
+        return {
+            x: Math.min(tl.x, br.x),
+            y: Math.min(tl.y, br.y) - 1,
+            width: Math.max(Math.abs(br.x - tl.x), 1),
+            height: Math.max(Math.abs(br.y - tl.y), 10),
+        };
+    },
+
+    _measureTextSegment(textNodeOrElement, startOffset, endOffset) {
+        let textNode = null;
+        let textElement = null;
+        if (textNodeOrElement && textNodeOrElement.nodeType === Node.TEXT_NODE) {
+            textNode = textNodeOrElement;
+            textElement = textNode.parentElement;
+        } else {
+            textElement = textNodeOrElement;
+            if (
+                textElement &&
+                textElement.firstChild &&
+                textElement.firstChild.nodeType === Node.TEXT_NODE
+            ) {
+                textNode = textElement.firstChild;
+            }
+        }
+
+        let box = null;
+        if (textElement) {
+            box = this._measureTextSegmentViaSvgApi(
+                textElement,
+                startOffset,
+                endOffset
+            );
+            if (
+                !box &&
+                textElement.parentElement &&
+                textElement.parentElement !== textElement.ownerSVGElement &&
+                textElement.localName === "tspan"
+            ) {
+                box = this._measureTextSegmentViaSvgApi(
+                    textElement.parentElement,
+                    startOffset,
+                    endOffset
+                );
+            }
+        }
+
+        if (!box && textNode) {
+            box = this._measureTextSegmentViaRange(
+                textNode,
+                startOffset,
+                endOffset
+            );
+        }
+
+        if (box) {
+            if (typeof window.louSvgDebugStep === "function") {
+                window.louSvgDebugStep("measure.ok", {
+                    startOffset: startOffset,
+                    endOffset: endOffset,
+                    box: box,
+                });
+            }
+            return box;
+        }
+
+        if (
+            !textElement ||
+            typeof textElement.getStartPositionOfChar !== "function" ||
+            typeof textElement.getSubStringLength !== "function"
+        ) {
+            return this._estimateTextSegmentBox(startOffset, endOffset);
+        }
+
+        if (typeof window.louSvgDebugStep === "function") {
+            window.louSvgDebugStep("measure.failed", {
+                startOffset: startOffset,
+                endOffset: endOffset,
+                tag: textElement && textElement.localName,
+            });
+            if (typeof window.louSvgDebugPause === "function") {
+                window.louSvgDebugPause("measure.failed", {});
+            }
+        }
+        return null;
+    },
+
+    _estimateTextSegmentBox(startOffset, endOffset) {
+        return {
+            x: 0,
+            y: 0,
+            width: Math.max(1, endOffset - startOffset) * 8,
+            height: 14,
+        };
+    },
+
+    _countBackgroundOverlayRects(svgRoot) {
+        if (!svgRoot) {
+            return 0;
+        }
+        return svgRoot.querySelectorAll(
+            'rect[data-learner="true"][data-overlay-layer="background"]'
+        ).length;
     },
 
     _renderOverlaysForFigure(svgRoot, records) {
@@ -1116,36 +1380,39 @@ window.LouInlineFormatting = {
                 (a.id || 0) - (b.id || 0)
             );
         });
-        const group = document.createElementNS(this.SVG_NS, "g");
-        group.setAttribute("class", this.OVERLAY_GROUP_CLASS);
-        group.setAttribute("data-learner", "true");
-        group.setAttribute("pointer-events", "none");
-        svgRoot.appendChild(group);
+        const bgRecords = sorted.filter(function (record) {
+            return record.format === "backgroundColor";
+        });
+        const fgRecords = sorted.filter(function (record) {
+            return record.format !== "backgroundColor";
+        });
 
-        sorted
-            .filter(function (record) {
-                return record.format === "backgroundColor";
-            })
-            .forEach(function (record) {
-                window.LouInlineFormatting._renderFormatOverlay(
-                    group,
-                    svgRoot,
-                    streamData,
-                    record
-                );
-            });
-        sorted
-            .filter(function (record) {
-                return record.format !== "backgroundColor";
-            })
-            .forEach(function (record) {
-                window.LouInlineFormatting._renderFormatOverlay(
-                    group,
-                    svgRoot,
-                    streamData,
-                    record
-                );
-            });
+        bgRecords.forEach(function (record) {
+            window.LouInlineFormatting._renderFormatOverlay(
+                null,
+                svgRoot,
+                streamData,
+                record
+            );
+        });
+        let fgGroup = null;
+        if (fgRecords.length) {
+            fgGroup = document.createElementNS(this.SVG_NS, "g");
+            fgGroup.setAttribute("class", this.OVERLAY_GROUP_CLASS);
+            fgGroup.setAttribute("data-learner", "true");
+            fgGroup.setAttribute("data-overlay-layer", "foreground");
+            fgGroup.setAttribute("pointer-events", "none");
+            svgRoot.appendChild(fgGroup);
+        }
+
+        fgRecords.forEach(function (record) {
+            window.LouInlineFormatting._renderFormatOverlay(
+                fgGroup,
+                svgRoot,
+                streamData,
+                record
+            );
+        });
     },
 
     async restore(host, context) {
@@ -1219,6 +1486,28 @@ window.LouInlineFormatting = {
         }
 
         this._renderOverlaysForFigure(svgRoot, plan.records);
+
+        if (formatIntent.format === "backgroundColor") {
+            const bgCount = this._countBackgroundOverlayRects(svgRoot);
+            if (typeof window.louSvgDebugStep === "function") {
+                window.louSvgDebugStep("applyFormat.overlay", {
+                    bgCount: bgCount,
+                    recordCount: plan.records.length,
+                    svgConnected: svgRoot.isConnected,
+                });
+            }
+            if (bgCount === 0) {
+                if (typeof window.louSvgDebugPause === "function") {
+                    window.louSvgDebugPause("applyFormat.noVisibleRects", {
+                        element: element,
+                        start: start,
+                        end: end,
+                    });
+                }
+                this._renderOverlaysForFigure(svgRoot, existing);
+                return null;
+            }
+        }
 
         try {
             const result = await this._replaceElementRecords(

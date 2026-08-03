@@ -475,7 +475,11 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       assert.equal(withheld[0].elementId, "MEC-oap");
       assert.equal(withheld[0].state, "planned-not-built");
       assert.ok(withheld[0].reasons.length > 0);
-      assert.equal(result.steps.visuals.rendered.length, 0);
+      assert.equal(result.steps.visuals.rendered.length, 1);
+      assert.equal(
+        (result.steps.visuals.rendered[0] as { elementId?: string }).elementId,
+        "MM-pump-decompensation"
+      );
     } finally {
       restoreBaseline("blueprint");
     }
@@ -509,7 +513,8 @@ describe("cardio/234 OAP slice regression", { concurrency: false }, () => {
       );
       assert.equal(availability!.state, "withheld");
       assert.ok(availability!.reasons!.length > 0);
-      assert.equal(result.manifest!.visuals!.length, 0);
+      assert.equal(result.manifest!.visuals!.length, 1);
+      assert.equal(result.manifest!.visuals![0].element, "MM-pump-decompensation");
 
       // Traceability and grounding results survive the withheld visual.
       const chapterPaths = pathsModule.chapterPaths(CHAPTER);

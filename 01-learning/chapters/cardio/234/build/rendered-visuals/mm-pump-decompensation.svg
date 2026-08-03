@@ -19,8 +19,8 @@
   </defs>
   <rect width="838" height="713" fill="#ffffff"/>
   <text x="419" y="40" text-anchor="middle" class="vg-title">
-    <tspan x="419" dy="0">Comment une cardiopathie devient-elle une insuffisance cardiaque qui se</tspan>
-    <tspan x="419" dy="26">décompense ?</tspan>
+    <tspan x="419" dy="0" data-official-text-id="mm-pump-decompensation-title-1">Comment une cardiopathie devient-elle une insuffisance cardiaque qui se</tspan>
+    <tspan x="419" dy="26" data-official-text-id="mm-pump-decompensation-title-2">décompense ?</tspan>
   </text>
   <line x1="379" y1="82" x2="459" y2="82" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
   <g data-layer="relations">
@@ -53,54 +53,54 @@
     <g data-claim="cb-vis-mm-pump-decompensation-n-cardiac-abnormality" data-node-id="cardiac-abnormality" data-node-kind="state" data-claim-class="sourced" data-kp="KP-002">
       <rect x="253" y="100" width="264" height="74" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
       <text x="385" y="131.75" text-anchor="middle" class="vg-label">
-        <tspan x="385" dy="0">Anomalie cardiaque</tspan>
-        <tspan x="385" dy="21">(structure/fonction)</tspan>
+        <tspan x="385" dy="0" data-official-text-id="mm-pump-decompensation-node-cardiac-abnormality-1">Anomalie cardiaque</tspan>
+        <tspan x="385" dy="21" data-official-text-id="mm-pump-decompensation-node-cardiac-abnormality-2">(structure/fonction)</tspan>
       </text>
     </g>
     <g data-claim="cb-vis-mm-pump-decompensation-n-pump-failure" data-node-id="pump-failure" data-node-kind="state" data-claim-class="sourced" data-kp="KP-001 KP-006">
       <rect x="257.5" y="230" width="255" height="53" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
       <text x="385" y="261.75" text-anchor="middle" class="vg-label">
-        <tspan x="385" dy="0">Pompe cardiaque défaillante</tspan>
+        <tspan x="385" dy="0" data-official-text-id="mm-pump-decompensation-node-pump-failure-1">Pompe cardiaque défaillante</tspan>
       </text>
     </g>
     <g data-claim="cb-vis-mm-pump-decompensation-n-low-output" data-node-id="low-output" data-node-kind="state" data-claim-class="sourced" data-kp="KP-001 KP-006">
       <rect x="40" y="339" width="163" height="53" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
       <text x="122" y="370.75" text-anchor="middle" class="vg-label">
-        <tspan x="122" dy="0">Débit insuffisant</tspan>
+        <tspan x="122" dy="0" data-official-text-id="mm-pump-decompensation-node-low-output-1">Débit insuffisant</tspan>
       </text>
     </g>
     <g data-claim="cb-vis-mm-pump-decompensation-n-filling-pressure" data-node-id="filling-pressure" data-node-kind="state" data-claim-class="sourced" data-kp="KP-001 KP-006 KP-040">
       <rect x="237" y="339" width="247" height="53" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
       <text x="361" y="370.75" text-anchor="middle" class="vg-label">
-        <tspan x="361" dy="0">Pressions de remplissage ↑</tspan>
+        <tspan x="361" dy="0" data-official-text-id="mm-pump-decompensation-node-filling-pressure-1">Pressions de remplissage ↑</tspan>
       </text>
     </g>
     <g data-claim="cb-vis-mm-pump-decompensation-n-compensation" data-node-id="compensation" data-node-kind="response" data-claim-class="sourced" data-kp="KP-008 KP-011 KP-012">
       <rect x="104" y="448" width="264" height="95" rx="14" fill="#f0f6ff" stroke="#c7dbfb" stroke-width="1"/>
       <text x="236" y="479.75" text-anchor="middle" class="vg-label">
-        <tspan x="236" dy="0">Compensations</tspan>
-        <tspan x="236" dy="21">neurohormonales</tspan>
-        <tspan x="236" dy="21">(sympathique, SRAA)</tspan>
+        <tspan x="236" dy="0" data-official-text-id="mm-pump-decompensation-node-compensation-1">Compensations</tspan>
+        <tspan x="236" dy="21" data-official-text-id="mm-pump-decompensation-node-compensation-2">neurohormonales</tspan>
+        <tspan x="236" dy="21" data-official-text-id="mm-pump-decompensation-node-compensation-3">(sympathique, SRAA)</tspan>
       </text>
     </g>
     <g data-claim="cb-vis-mm-pump-decompensation-n-overload" data-node-id="overload" data-node-kind="state" data-claim-class="sourced" data-kp="KP-008 KP-011 KP-012">
       <rect x="253" y="599" width="264" height="74" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
       <text x="385" y="630.75" text-anchor="middle" class="vg-label">
-        <tspan x="385" dy="0">Surcharge de travail, effets</tspan>
-        <tspan x="385" dy="21">délétères</tspan>
+        <tspan x="385" dy="0" data-official-text-id="mm-pump-decompensation-node-overload-1">Surcharge de travail, effets</tspan>
+        <tspan x="385" dy="21" data-official-text-id="mm-pump-decompensation-node-overload-2">délétères</tspan>
       </text>
     </g>
     <g data-claim="cb-vis-mm-pump-decompensation-n-congestion" data-node-id="congestion" data-node-kind="state" data-claim-class="sourced" data-kp="KP-040 KP-007">
       <rect x="402" y="458.5" width="264" height="74" rx="14" fill="#f5f7fa" stroke="#e5e7eb" stroke-width="1"/>
       <text x="534" y="490.25" text-anchor="middle" class="vg-label">
-        <tspan x="534" dy="0">Congestion pulmonaire et</tspan>
-        <tspan x="534" dy="21">systémique</tspan>
+        <tspan x="534" dy="0" data-official-text-id="mm-pump-decompensation-node-congestion-1">Congestion pulmonaire et</tspan>
+        <tspan x="534" dy="21" data-official-text-id="mm-pump-decompensation-node-congestion-2">systémique</tspan>
       </text>
     </g>
     <g data-claim="cb-vis-mm-pump-decompensation-n-acute-decompensation" data-node-id="acute-decompensation" data-node-kind="event" data-claim-class="sourced" data-kp="KP-059 KP-068">
       <rect x="518" y="339" width="212" height="53" rx="14" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
       <text x="624" y="370.75" text-anchor="middle" class="vg-label">
-        <tspan x="624" dy="0">Décompensation aiguë</tspan>
+        <tspan x="624" dy="0" data-official-text-id="mm-pump-decompensation-node-acute-decompensation-1">Décompensation aiguë</tspan>
       </text>
     </g>
   </g>

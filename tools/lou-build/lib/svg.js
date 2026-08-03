@@ -8,6 +8,16 @@ export const SUPPORTED_VISUAL_INTENTS = new Set(["process-flow"]);
 /** Maximum characters per step label in process-flow cards (no silent truncation). */
 export const MAX_PROCESS_FLOW_LABEL_CHARS = 80;
 
+/** Lowercase blueprint element id — prefix for official SVG text node ids. */
+export function officialTextIdPrefix(elementId) {
+  return String(elementId).toLowerCase();
+}
+
+/** Deterministic `data-official-text-id` unique within a figure. */
+export function officialTextId(elementId, suffix) {
+  return `${officialTextIdPrefix(elementId)}-${suffix}`;
+}
+
 /**
  * Blueprint element + visual_intent → in-memory visualSpec.
  */
@@ -54,6 +64,7 @@ export function renderProcessFlowSvg(spec) {
   const title = spec.question;
   const steps = spec.steps;
   const labels = steps.map((s) => s.label);
+  const elementId = spec.element;
 
   for (const label of labels) {
     if (label.length > MAX_PROCESS_FLOW_LABEL_CHARS) {
@@ -79,8 +90,8 @@ export function renderProcessFlowSvg(spec) {
     <rect x="390" y="${y}" width="420" height="${h}" rx="16" fill="${cardFill[i]}" stroke="#E5E7EB" stroke-width="1"/>
   </g>
   <circle cx="458" cy="${y + 30}" r="11" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="458" y="${y + 34}" text-anchor="middle" class="step-num">${i + 1}</text>
-  <text x="600" y="${y + 30}" text-anchor="middle" class="card-title">${escapeXml(labels[i])}</text>`;
+  <text x="458" y="${y + 34}" text-anchor="middle" class="step-num" data-official-text-id="${escapeXml(officialTextId(elementId, `step-${i + 1}-num`))}">${i + 1}</text>
+  <text x="600" y="${y + 30}" text-anchor="middle" class="card-title" data-official-text-id="${escapeXml(officialTextId(elementId, `step-${i + 1}-label`))}">${escapeXml(labels[i])}</text>`;
     if (i < 3) {
       cards += `\n  <line x1="600" y1="${y + h}" x2="600" y2="${y + h + 32}" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowhead)"/>`;
     }
@@ -106,7 +117,7 @@ export function renderProcessFlowSvg(spec) {
     </style>
   </defs>
   <rect width="1200" height="638" fill="#FFFFFF"/>
-  <text x="600" y="64" text-anchor="middle" class="title-main">${escapeXml(title)}</text>
+  <text x="600" y="64" text-anchor="middle" class="title-main" data-official-text-id="${escapeXml(officialTextId(elementId, "title"))}">${escapeXml(title)}</text>
   <line x1="520" y1="120" x2="680" y2="120" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
   ${cards}
 </svg>
@@ -121,6 +132,39 @@ export function figureAbsPath(figuresDir, elementId) {
   return path.join(figuresDir, `${String(elementId).toLowerCase()}.svg`);
 }
 
+export function validateOfficialTextIds(svgText) {
+  const errors = [];
+  const seen = new Set();
+  const tagRe = /<(text|tspan)\b([^>]*)>/gi;
+  let match;
+  while ((match = tagRe.exec(svgText)) !== null) {
+    const kind = match[1];
+    const attrs = match[2];
+    const tagStart = match.index;
+
+    if (kind === "text") {
+      const afterTag = svgText.slice(tagStart);
+      const closeIdx = afterTag.indexOf("</text>");
+      const inner = closeIdx >= 0 ? afterTag.slice(0, closeIdx) : "";
+      if (/<tspan\b/i.test(inner)) {
+        continue;
+      }
+    }
+
+    const idMatch = attrs.match(/data-official-text-id="([^"]+)"/);
+    if (!idMatch) {
+      errors.push(`svg: ${kind} missing data-official-text-id`);
+      continue;
+    }
+    const id = idMatch[1];
+    if (seen.has(id)) {
+      errors.push(`svg: duplicate data-official-text-id "${id}"`);
+    }
+    seen.add(id);
+  }
+  return { ok: errors.length === 0, errors };
+}
+
 export function validateSvgStructure(svgText, elementId) {
   const errors = [];
   if (!svgText.includes('role="img"')) errors.push("svg: missing role=img");
@@ -128,6 +172,10 @@ export function validateSvgStructure(svgText, elementId) {
   if (!svgText.includes("<desc")) errors.push("svg: missing desc");
   if (!svgText.includes(`data-blueprint-element="${elementId}"`)) {
     errors.push("svg: missing data-blueprint-element");
+  }
+  const officialIds = validateOfficialTextIds(svgText);
+  if (!officialIds.ok) {
+    errors.push(...officialIds.errors);
   }
   return { ok: errors.length === 0, errors };
 }

@@ -19,6 +19,7 @@
 - État opérationnel : [`docs/PROJECT_STATE.md`](../PROJECT_STATE.md)
 - Roadmap : [`docs/MASTER_ROADMAP.md`](../MASTER_ROADMAP.md)
 - Shell Reader V1 : [`docs/renderer/20-READER-V1-SHELL-ARCHITECTURE.md`](../renderer/20-READER-V1-SHELL-ARCHITECTURE.md)
+- **Gel consommation contenu (7 vues)** : [`docs/renderer/21-CONTENT-CONSUMPTION-FREEZE.md`](../renderer/21-CONTENT-CONSUMPTION-FREEZE.md)
 - Gate local DEV : [`scripts/validate-dev.sh`](../../scripts/validate-dev.sh)
 - Gate local RELEASE : [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh)
 
@@ -441,6 +442,18 @@ Registre autoritaire des **Architectural Acceptance Invariants**. Une PAS dont u
 | **AAI-QCM-01** | PAS-QCM | Les QCM affichés proviennent **uniquement** du package | **Couvert** | `17` CN-P-05 ; `composition-engine.test.js` (`qcm lists published questions from manifest registry`) |
 | **AAI-NTE-01** | PAS-NOTES | Les notes utilisateur **ne modifient jamais** le package publié | **Partiel** | `offline-manager.test.js` (`does not modify installed package tree during prepare`) ; `learner-patrimony-store.test.js` (scoping `release_id`, pas de fuite) ; `walkthrough-notes-restore.test.js` WT-INV-1 (flux officiel inchangé après restore). **Lacune :** pas de test explicite « annotation → package tree inchangé » |
 | **AAI-LIB-01** | PAS-LIBRARY | Le Reader **ne dépend jamais** d'un chapitre codé en dur | **Partiel** | `renderer.test.js` (résolution générique `pneumo/999`) ; `shell-s2-breadcrumb.test.js` (pas de chapitre hardcodé). **Lacune :** outillage review/CI câblé sur 234 (`library-server.mjs`, `sync-reader-fixture.mjs`, `product-review-234.sh`) ; aucun Product Smoke Couche 1 |
+| **AAI-CONSUME-01** | PAS-CONSUME | Entrée de registre (`questions`, `scenarios`) dans le ReadingViewModel **rendue ou shell-only documentée** | **Non couvert** | Écart documenté [`21-CONTENT-CONSUMPTION-FREEZE.md`](../renderer/21-CONTENT-CONSUMPTION-FREEZE.md) §3.2, §7 E-P0-03. **Lacune :** QCM/scénarios shell vs recherche locale |
+| **AAI-CONSUME-02** | PAS-CONSUME | Mode produit **n'active jamais** le chemin legacy (`generated-assets/`) | **Partiel** | `16` PC-01 (pas de requêtes `/01-learning/chapters/` en dev root) ; `app.js:646` `useLegacy: false`. **Lacune :** pas de garde explicite anti-`generated-assets/` |
+| **AAI-AP-02** | PAS-AP | Amorçage **ne consomme jamais** de projection | **Couvert** | `corpus-composition-v1.json` (kind `cognitive-priming` seul) ; `composition-engine.test.js` ; `15` AP-F-*. **Lacune freeze :** garde runtime explicite anti-projection |
+| **AAI-MM-02** | PAS-MM | Modèle mental **ne consomme jamais** `cognitive_priming_path` | **Couvert** | Spec Composition (projections `story`+`overview` seules) ; `composition-engine.test.js`. **Lacune freeze :** garde runtime explicite |
+| **AAI-NOT-02** | PAS-NOTIONS | Notions **n'affiche jamais** de contenu Modèle mental | **Couvert** | Spec Composition (projection `mechanisms` seule) ; `17` CN-P-03. **Lacune freeze :** assertion contenu MM absent |
+| **AAI-QCM-02** | PAS-QCM | QCM **ne dépend jamais** d'un contenu narratif | **Couvert** | Spec Composition (kind `questions` seul) ; `composition-engine.test.js`. **Lacune freeze :** garde runtime |
+| **AAI-LEGACY-01** | PAS-CONSUME | Legacy 5 onglets **ne coexiste jamais** avec ReadingViewModel | **Non couvert** | Branches mutuellement exclusives `app.js:279-284, 682-685` — vérifié audit. **Lacune :** smoke product explicite |
+| **AAI-SVG-01** | PAS-CONSUME | SVG runtime **uniquement** via manifest (`projections[].visuals`, `visuals[]`) | **Partiel** | `svg-loader.js` ; `17` CN-P-02/P-03. **Lacune :** pas de garde anti-legacy asset tree |
+| **AAI-LEARNER-01** | PAS-CONSUME | Couche apprenant ne monte que sur hôtes walkthrough officiel | **Non couvert** | `text-highlights.js:69-80` (requiert `.pedagogical-block`) ; mount mort Collège (`renderer.js:703-708`) — audit freeze §4 H-05 |
+| **AAI-PATRIMONY-01** | PAS-NOTES | Mode produit : patrimoine **scopé** `release_id` catalogue — jamais `__legacy__*` | **Partiel** | `learner-patrimony.js` ; `learner-patrimony-store.test.js`. **Lacune :** dev mode legacy namespace toléré |
+| **AAI-SEARCH-DISPLAY-01** | PAS-CONSUME | Index recherche locale ⊆ refs affichables (ou écart documenté) | **Non couvert** | Écart QCM/scénarios : `local-search-runtime-shared.js` vs `renderer.js:547-569, 712-729` |
+| **AAI-COMPOSITION-01** | PAS-CONSUME | Toute projection publiée consommée par **exactement une** vue | **Partiel** | `composition-engine.js:533-547` (warn `published-projection-unconsumed`) ; `composition-engine.test.js`. **Lacune :** sévérité warn, pas error |
 
 **Lecture opérationnelle :** avant de prononcer une PAS **Couverture forte**, vérifier que tous ses AAI sont **Couvert** ou que les **Partiel** / **Non couvert** figurent en backlog [§6.3](#63-backlog-aai--invariants-non-couverts) avec priorité acceptée.
 
@@ -458,6 +471,14 @@ Backlog priorisée des AAI **Partiel** ou **Non couvert**. **Hors périmètre im
 | **P2** | AAI-COL-01 | Texte officiel inchangé | Pas de hash intégrité source→package | Contract Test lou-build : hash source éditoriale = hash `source/official-college.md` publié |
 | **P2** | AAI-NTE-01 | Notes n'altèrent pas le package | Scoping patrimoine OK ; immutabilité package non assertée | Contract Test : après création annotation, arbre `packages/<release_id>/` byte-identique |
 | **P2** | AAI-LIB-01 | Pas de chapitre hardcodé | Code Reader générique ; outillage 234-only | Product Smoke Couche 1 (PAS-LIBRARY) + dé-hardcodage scripts review/fixture |
+| **P0** | AAI-CONSUME-01 | Registre rendu ou shell-only | QCM/scénarios shell ; recherche indexe YAML non affiché | Smoke PAS-CONSUME : aligner display ou recherche ; voir [`21-CONTENT-CONSUMPTION-FREEZE.md`](../renderer/21-CONTENT-CONSUMPTION-FREEZE.md) §8 |
+| **P0** | AAI-LEGACY-01 | Legacy ≠ ReadingViewModel | Deux univers coexistent dans le code | Smoke product : jamais `generated-assets/` avec manifest ; confiner legacy dev |
+| **P0** | AAI-SEARCH-DISPLAY-01 | Recherche ⊆ affichage | QCM/scénarios indexés, non rendus | Même PAS-CONSUME que CONSUME-01 |
+| **P1** | AAI-CONSUME-02 | Product jamais legacy | PC-01 partiel | Smoke : zéro fetch `generated-assets/` en `product=1` |
+| **P1** | AAI-LEARNER-01 | Learner sur walkthrough seulement | Mount mort Collège | Retirer mount ou implémenter blocs Collège |
+| **P1** | AAI-SVG-01 | SVG manifest-only | Pas de garde anti-legacy | Test : SVG paths résolus via manifest uniquement |
+| **P2** | AAI-COMPOSITION-01 | Projection → exactement 1 vue | Warn seulement | Promouvoir diagnostic en error post-freeze |
+| **P2** | AAI-PATRIMONY-01 | Product sans `__legacy__*` | Dev tolère namespace legacy | Smoke product patrimoine scoping |
 
 **Note méthodologique :** PAS-OFFLINE 2 (2026-08-03) a clôturé le backlog P0 (AAI-OFF-01, AAI-OFF-03). Validation manuelle Product Review sur profil navigateur persistant reste recommandée après merge.
 
@@ -470,6 +491,7 @@ Backlog priorisée des AAI **Partiel** ou **Non couvert**. **Hors périmètre im
 | **PAS-AP** *(Phase 2 — prochaine)* | AAI-AP-01 déjà couvert ; prioriser contenu éditorial ; vérifier qu'aucun fallback dev ne contourne le package en mode produit |
 | **PAS-LIBRARY** *(S3+)* | Créer le premier Product Smoke Couche 1 ; AAI-LIB-01 doit devenir **Couvert** avant prononcé PAS-LIBRARY |
 | **PAS-NOTIONS / CLINICAL / COLLEGE** *(Phases 3–5)* | Enrichir les smokes existants (`17`, `12`) pour combler AAI-NOT-01 et AAI-COL-01 lors de l'ouverture éditoriale de chaque phase |
+| **PAS-CONSUME** *(gel 2026-08-03 — **avant PAS-SHELL S3**)* | Ouvrir PAS dédiée nettoyage consommation ; référence [`21-CONTENT-CONSUMPTION-FREEZE.md`](../renderer/21-CONTENT-CONSUMPTION-FREEZE.md) §8 ; clôturer P0 (CONSUME-01, LEGACY-01, SEARCH-DISPLAY-01) avant S3 |
 | **Maintenance framework** | Toute nouvelle PAS ou extension PAS → déclarer ses AAI dans [§6.2](#62-registre-aai--pas--invariants--validations) **avant** d'ajouter des tests ; ne jamais créer de smoke orphelin ([§12](#12-maintenance-et-évolution)) |
 
 ---

@@ -125,7 +125,7 @@ Pas de numérotation. Changement d'onglet : rechargement contenu + restauration 
 
 ## Navigation par clic sur le schéma général
 
-Onglet **Modèle mental** : clic sur un bloc du schéma → onglet **Notions**, ancrage sur la notion. Breadcrumb mis à jour.
+Onglet **Modèle mental** : clic sur une zone du schéma **associée à une notion déclarée** → onglet **Notions**, ancrage sur la notion ; breadcrumb mis à jour. Si aucune notion n'est associée au nœud cliqué, **pas de navigation** (zoom ou lecture seule selon implémentation).
 
 ## Figures et images repliables
 
@@ -133,7 +133,7 @@ Onglet **Modèle mental** : clic sur un bloc du schéma → onglet **Notions**, 
 |---|---|---|
 | Figure officielle (Notions, Cas cliniques) | Taille lecture dans le flux | Clic → vue agrandie ; fermeture : bouton, Échap, clic extérieur |
 | Image (onglet Notes) | Vignette compacte | Clic → agrandie ; second clic → repliée |
-| Schéma général (Modèle mental) | Taille intégrée | Clic bloc → navigation Notions ; zone zoom éventuelle → agrandissement sans navigation |
+| Schéma général (Modèle mental) | Taille intégrée | Clic zone **avec lien notion** → navigation Notions ; sinon zoom éventuel sans navigation |
 
 Overlays apprenant conservés en vue agrandie (formatage figure).
 
@@ -144,7 +144,7 @@ Overlays apprenant conservés en vue agrandie (formatage figure).
 | Scroll | Tous onglets longs |
 | Breadcrumb, barre d'onglets | Permanent dans le chapitre |
 | TOC | Notions uniquement |
-| Ancres internes | Notions ; Modèle mental → Notions |
+| Ancres internes | Notions ; Modèle mental → Notions *(liens déclarés uniquement)* |
 | Recherche in-chapter | V1 — Release ouverte uniquement ([PDR-D6](../governance/PRODUCT-DECISION-REGISTRY.md)) ; panneau Ctrl/Cmd+K ; navigation vers ancre ; surbrillance éphémère ; état non persisté |
 | Préférences d'affichage | V1 — thème clair/sombre, taille police, largeur lecture ([PDR-D7](../governance/PRODUCT-DECISION-REGISTRY.md)) ; globales à l'application ; persistées patrimoniale ; export/import Snapshot ; sans impact contenu médical |
 | Historique navigateur | Natif |
@@ -268,13 +268,13 @@ Inter-EDN actif ; QCM ; Notes ; progression.
 
 ### Contenu
 
-1. **Schéma général** — vue d'ensemble des notions structurantes.
+1. **Schéma général** — carte cognitive minimale du chapitre.
 2. **Walkthrough** court — comment lire le schéma.
-3. **Blocs structurants** — intitulé + rôle (une ligne) par notion.
+3. **Blocs structurants MM** *(optionnels)* — synthèse par nœud du schéma ; **n'impliquent pas** qu'une notion dédiée existe pour chaque bloc.
 
 ### Interactions
 
-Clic bloc schéma → Notions (ancre) ; clic zone zoom → agrandissement ; scroll walkthrough. Overlays sur walkthrough.
+Clic zone schéma **avec lien notion déclaré** → Notions (ancre) ; clic sans lien → pas de navigation vers Notions ; clic zone zoom → agrandissement ; scroll walkthrough. Overlays sur walkthrough.
 
 ### Données persistantes
 

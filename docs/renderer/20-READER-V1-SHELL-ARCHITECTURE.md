@@ -442,7 +442,7 @@ Bibliothèque EDN
 | Mécanisme | Scope | Owner |
 |---|---|---|
 | TOC Notions | Vue Notions | Renderer |
-| Clic schéma → Notion | Modèle mental → Notions | Renderer + Shell (`showTab`) |
+| Clic schéma → Notion | Modèle mental → Notions *(lien déclaré uniquement)* | Renderer + Shell (`showTab`) |
 | Pré-requis EDN (Amorçage) | Chapitre lié si installé | Shell (`navigateToChapterById`) |
 | Recherche locale → résultat | Release ouverte | Shell recherche + Renderer ancre |
 | Historique navigateur | Tous écrans | Natif |

@@ -70,15 +70,17 @@ Ordre d'affichage figé (`displayOrder` 1–7). Identifiants techniques stables 
 
 ### 2.2 Modèle mental
 
-- **Schéma général** du chapitre (figure centrale ou avis d'absence).
+- **Schéma général** du chapitre (figure centrale ou avis d'absence) — carte cognitive **minimale**.
 - Walkthrough **court** expliquant comment lire le schéma.
-- Blocs structurants (une ligne par notion) et navigation vers Notions.
+- Blocs structurants MM **optionnels** (synthèse par nœud du schéma) — **sans** obligation qu'un bloc MM produise une notion.
+- Liens vers Notions **uniquement** lorsqu'une notion associée a été déclarée en production (passe 1).
 - Le schéma est le **cœur** de la vue ; le walkthrough l'accompagne.
 
 ### 2.3 Notions
 
 - TOC des notions en tête de vue.
 - Par notion : question, figure officielle (si publiée), walkthrough, développement traçable, points d'attention.
+- **Certaines notions n'ont pas de lien entrant depuis le Modèle mental** (passe 2 éditoriale — légitime).
 - Le walkthrough **explique** la figure lorsqu'elle existe.
 
 ### 2.4 Cas cliniques

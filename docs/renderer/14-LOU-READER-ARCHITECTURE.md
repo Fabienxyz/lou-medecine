@@ -216,7 +216,7 @@ Chaque segment parent est cliquable ; l'onglet courant ne l'est pas. Clic sur le
 
 ## Navigation autorisée en V1
 
-Breadcrumb · onglets · TOC (Notions uniquement) · scroll · clic schéma Modèle mental → Notions · **recherche textuelle locale** sur la Release ouverte ([PDR-D6](../governance/PRODUCT-DECISION-REGISTRY.md), [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](../contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md)) · **préférences d'affichage** globales ([PDR-D7](../governance/PRODUCT-DECISION-REGISTRY.md), [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](../contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md)).
+Breadcrumb · onglets · TOC (Notions uniquement) · scroll · clic schéma Modèle mental → Notions *(liens déclarés uniquement)* · **recherche textuelle locale** sur la Release ouverte ([PDR-D6](../governance/PRODUCT-DECISION-REGISTRY.md), [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](../contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md)) · **préférences d'affichage** globales ([PDR-D7](../governance/PRODUCT-DECISION-REGISTRY.md), [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](../contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md)).
 
 ## Navigation exclue en V1
 
@@ -267,7 +267,8 @@ Termes utilisés dans les documents Reader (14 et 15). Un concept = un seul term
 | **Bibliothèque EDN** | Couche 1 — navigation EDN → spécialité → chapitre |
 | **Couche apprenante** | Couche 3 — contributions personnelles locales, jamais fusionnées au package officiel |
 | **Overlay** | Marque visuelle superposée au contenu officiel (surlignage, formatage figure…) sans le modifier en persistance |
-| **Notion** | Unité pédagogique Blueprint ; bloc structurant du chapitre |
+| **Notion** | Unité pédagogique Blueprint ; **peut exister sans lien entrant** depuis le Modèle mental |
+| **Bloc structurant MM** | Synthèse courte d'un nœud du schéma Modèle mental ; **n'implique pas** automatiquement une notion dédiée |
 | **Walkthrough** | Guide de lecture canonique d'une notion — prose explicative officielle générée |
 | **Figure officielle** | Visuel officiel lié à une notion par identifiant d'élément |
 | **Schéma général** | Figure de vue d'ensemble du chapitre (Onglet Modèle mental) |

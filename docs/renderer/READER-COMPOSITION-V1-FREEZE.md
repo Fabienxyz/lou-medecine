@@ -95,6 +95,8 @@ Learner Layer
 
 **Suppression 2026-08-03 :** la projection `overview` et `overview.md` sont retirées — le walkthrough MM est porté exclusivement par `story.md` (voir [`overview-consumer-audit.md`](../analysis/overview-consumer-audit.md)).
 
+**Découplage MM ↔ Notions (2026-08-03) :** Composition assemble `story` et `mechanisms` comme **vues indépendantes** — aucune correspondance 1:1 bloc MM / notion n'est encodée au runtime. Les liens MM → Notion relèvent de la **production éditoriale** (optionnels). Voir [`mm-notions-editorial-relationship-audit.md`](../analysis/mm-notions-editorial-relationship-audit.md).
+
 ### Mapping Item 234 — historique (2026-07-31 → 2026-08-02)
 
 | Vue | Sources V1 (abrogé) |

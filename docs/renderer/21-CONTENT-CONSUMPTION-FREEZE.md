@@ -85,7 +85,7 @@ Pour chaque vue : responsabilité pédagogique, artefacts autorisés/interdits, 
 
 | Dimension | Règle |
 |---|---|
-| **Responsabilité pédagogique** | Schéma général du chapitre, walkthrough court, blocs structurants (une ligne par notion), navigation vers Notions. |
+| **Responsabilité pédagogique** | Carte cognitive **minimale** du chapitre : schéma général, walkthrough court, blocs structurants MM **optionnels** (synthèse par nœud du schéma — **sans** obligation de notion dédiée). Liens vers Notions **uniquement** lorsqu'une notion associée existe (décision éditoriale Fabrique). |
 | **Artefact principal autorisé** | Projection `story` → `projections/understanding/story.md` |
 | **Artefacts secondaires autorisés** | `manifest.visuals[]` ; SVG via `projection.visuals` |
 | **Projections autorisées** | `story` uniquement |
@@ -109,7 +109,7 @@ Pour chaque vue : responsabilité pédagogique, artefacts autorisés/interdits, 
 
 | Dimension | Règle |
 |---|---|
-| **Responsabilité pédagogique** | TOC des notions ; par notion : question, figure officielle, walkthrough, développement traçable, points d'attention. |
+| **Responsabilité pédagogique** | TOC des notions ; par notion : question, figure officielle, walkthrough, développement traçable, points d'attention. **Certaines notions n'ont pas de lien entrant depuis le Modèle mental** (passe 2 éditoriale — légitime). |
 | **Artefact principal autorisé** | Projection `mechanisms` → `projections/understanding/mechanisms.md` |
 | **Artefacts secondaires autorisés** | `manifest.visuals[]` ; statuts `known_absent` / planned-not-built pour éléments sans figure |
 | **Projections autorisées** | `mechanisms` uniquement |
@@ -220,6 +220,21 @@ Pour chaque vue : responsabilité pédagogique, artefacts autorisés/interdits, 
 - Shell prototype « Suis-je prêt ? »
 
 **Binding Composition (figé) :** `{ kind: "none" }`, policy `always-published-for-shell` — `corpus-composition-v1.json:53-57`
+
+---
+
+### 2.8 Frontière éditoriale Modèle mental ↔ Notions *(2026-08-03)*
+
+**Hors Composition runtime** — règle éditoriale Fabrique, sans impact consommation Reader V1 :
+
+| Passe | Règle |
+|---|---|
+| **Passe 1** | Pour chaque bloc / nœud du schéma MM : décision Fabrique → notion dédiée **optionnelle** ; lien MM → Notion **uniquement si** la notion est créée |
+| **Passe 2** | Notions complémentaires **sans lien entrant MM** — légitimes, présentes dans la TOC Notions |
+
+**Invariants :** le MM ne couvre pas toutes les notions ; l'absence de notion pour un bloc MM est normale ; Composition et Renderer **n'infèrent jamais** de correspondance 1:1 entre blocs MM et notions.
+
+Référence : [`mm-notions-editorial-relationship-audit.md`](../analysis/mm-notions-editorial-relationship-audit.md).
 
 ---
 
@@ -404,6 +419,7 @@ Invariants **nouveaux** introduits par ce gel :
 
 | Version | Date | Changement |
 |---|---|---|
+| **1.1** | 2026-08-03 | §2.8 — découplage éditorial MM ↔ Notions (passe 1 optionnelle + passe 2) |
 | **1.0** | 2026-08-03 | Gel initial — audit runtime 7 vues, cartographie 234, AAI consommation, écarts P0/P1/P2 |
 
 ---

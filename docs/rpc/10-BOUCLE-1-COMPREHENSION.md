@@ -21,7 +21,7 @@ Les choix marqués « Product Review : Oui » sont **provisoires** jusqu'à vali
 | Vue Reader | Question apprenant | Livrable principal |
 |---|---|---|
 | **Amorçage cognitif** | Où suis-je ? De quoi parle ce chapitre ? | `cognitive-priming.v1.json` publié |
-| **Modèle mental** | Comment le chapitre s'organise-t-il ? | Figure centrale + walkthrough court + blocs structurants |
+| **Modèle mental** | Comment le chapitre s'organise-t-il ? | Figure centrale + walkthrough court + blocs structurants MM *(optionnels)* |
 | **Notions** | Comment fonctionne cette notion ? | TOC + blocs (question, figure si utile, walkthrough, développement, points d'attention) |
 
 **Hors périmètre :** Cas cliniques, Collège, QCM, Scénarios — Boucles 2 et 3.
@@ -37,16 +37,25 @@ Les choix marqués « Product Review : Oui » sont **provisoires** jusqu'à vali
 ```
 Blueprint + Inventory (amont chapitre)
         ↓
-Figure Modèle mental → Walkthrough MM → Blocs structurants
+Passe 1 — Modèle mental (carte cognitive minimale)
+Figure MM → Walkthrough MM → Blocs structurants MM (optionnels)
+        ↓
+Pour chaque bloc / nœud MM : décision éditoriale
+  → si notion dédiée : créer notion + lien MM → Notion
+  → sinon : aucune notion, aucun lien (normal)
+        ↓
+Passe 2 — Notions complémentaires (sans lien entrant MM — légitimes)
+        ↓
+Par notion (ordre Blueprint, passes 1+2) : figure si utile → walkthrough → grounding
         ↓
 Amorçage cognitif (parallélisable avec la figure MM)
-        ↓
-Par notion (ordre Blueprint) : figure si utile → walkthrough → grounding
         ↓
 Manifest + validate/build
 ```
 
 **Règle figure-first :** aucun walkthrough (MM ou Notion) n'est finalisé tant que la décision figure est tranchée pour ce bloc.
+
+**Règle MM ↔ Notions :** un bloc MM **ne produit pas obligatoirement** une notion ; une notion **ne provient pas obligatoirement** d'un bloc MM. Voir [`mm-notions-editorial-relationship-audit.md`](../analysis/mm-notions-editorial-relationship-audit.md).
 
 ---
 
@@ -116,8 +125,9 @@ Méthode fixe — pas de Product Review dédiée :
 | Livrable | Méthode | Source |
 |---|---|---|
 | Questions des notions | Déterministe | Blueprint `question` |
-| TOC Notions | Déterministe | Séquence Blueprint |
-| Blocs structurants MM | Déterministe | Séquence Blueprint (notions Boucle 1) |
+| TOC Notions | Déterministe | Séquence Blueprint (ensemble des notions, passes 1+2) |
+| Blocs structurants MM | Éditorial *(optionnels)* | Nœuds du schéma MM — **sans** obligation 1:1 avec les notions |
+| Liens MM → Notion | Éditorial *(optionnels)* | Uniquement si notion dédiée créée en passe 1 |
 | Claims / grounding | Pipeline lou-build | Grounding déterministe + bridging LLM |
 | Manifest / validate | Déterministe | Stages build documentés |
 

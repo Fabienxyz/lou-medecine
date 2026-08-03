@@ -131,6 +131,9 @@ window.LouAnnotationColors = {
         noteEl.style.color = color.text;
     },
 
+    // Inter variable font (see styles.css @font-face) exposes wght 400–700 only.
+    HIGHLIGHT_BOLD_WEIGHT: "700",
+
     // Sidecar stores three booleans (backward compatible). Exactly one may be true.
     // Legacy entries with multiple flags are coerced on read: bold > underline > strikethrough.
     STYLE_NORMAL: "normal",
@@ -188,9 +191,9 @@ window.LouAnnotationColors = {
         return base;
     },
 
-    _applyExclusiveTypography(el, state) {
+    _applyExclusiveTypography(el, state, boldWeight = "700") {
         if (state.bold) {
-            el.style.fontWeight = "700";
+            el.style.fontWeight = boldWeight;
             el.style.textDecoration = "";
             return;
         }
@@ -218,7 +221,7 @@ window.LouAnnotationColors = {
         mark.dataset.highlightStrikethrough = state.strikethrough
             ? "true"
             : "false";
-        this._applyExclusiveTypography(mark, state);
+        this._applyExclusiveTypography(mark, state, this.HIGHLIGHT_BOLD_WEIGHT);
     },
 
     applyNoteStyle(noteEl, formatState) {
@@ -257,7 +260,10 @@ window.LouAnnotationColors = {
         const weight = mark.style.fontWeight || "";
         const deco = mark.style.textDecoration || "";
         return this.normalizeFormatState({
-            bold: weight === "700" || weight === "bold",
+            bold:
+                weight === this.HIGHLIGHT_BOLD_WEIGHT ||
+                weight === "700" ||
+                weight === "bold",
             underline: deco.includes("underline"),
             strikethrough: deco.includes("line-through"),
         });

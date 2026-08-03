@@ -692,15 +692,15 @@ mark.learner-highlight{
 
 mark.learner-highlight[data-highlight-bold="true"]{
     font-weight:700;
+    font-variation-settings:"wght" 700;
+    -webkit-font-smoothing:auto;
 }
 
 mark.learner-highlight[data-highlight-underline="true"]{
-    font-weight:inherit;
     text-decoration:underline;
 }
 
 mark.learner-highlight[data-highlight-strikethrough="true"]{
-    font-weight:inherit;
     text-decoration:line-through;
 }
 

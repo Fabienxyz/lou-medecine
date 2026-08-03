@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-03 — roadmap opérationnelle pilotée par les **7 vues Reader** ; Phase 0 active ; 234 = laboratoire produit ; 224 = industrialisation (Phase 9).
+**Dernière révision :** 2026-08-03 — Annotation UI Freeze V1 ; Graphical Learning Layer V1 ouvert (conception) ; roadmap opérationnelle pilotée par les **7 vues Reader** ; 234 = laboratoire produit ; 224 = industrialisation (Phase 9).
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -44,7 +44,9 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 | La Fabrique (pipeline validateur lou-build) | ✅ Clôturé — tag `lou-build-pipeline-v1` |
 | Reader Composition V1 (Lots A–F) | ✅ Clôturé — audit indépendant ✅ Conforme ; tag `reader-composition-v1` |
 | **Reader Acceptance V1** | ✅ **Clôturé** — prononcé 2026-08-02 ; tag `reader-acceptance-v1` |
-| **Reference Product Chapter (234)** — Phases 0–8 | 🔄 **Phase 0 active** — compléter la chaîne Fabrique → Reader |
+| **Product Polish V1 / Annotation UI Freeze V1** | ✅ **Clôturé** — prononcé 2026-08-03 ; tag `reader-ui-freeze-v1` ; UI annotation gelée |
+| **Graphical Learning Layer V1** | 🔄 **Conception active** — architecture SVG pédagogique ; **aucun lot d'implémentation** |
+| **Reference Product Chapter (234)** — Phases 0–8 | 🔄 **Phase 2 prochaine** — Amorçage cognitif |
 | **Product Review 234** (Phase 7) | ⏳ En attente — chapitre utilisable ; **usage réel Lou** dans le Reader |
 | **Product Freeze 234** (Phase 8) | ⏳ En attente — après Product Review |
 | **Reference Production Chapter (224)** (Phase 9) | ⏳ En attente — **après Product Freeze 234** |
@@ -63,7 +65,11 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 ```
 Reader Acceptance V1 ✅
         ↓
-Reference Product Chapter (234) — Phases 0–8  ← Phase 0 active
+Product Polish V1 / Annotation UI Freeze V1 ✅
+        ↓
+Graphical Learning Layer V1 (conception) ← actif transversal Reader
+        ↓
+Reference Product Chapter (234) — Phases 0–8  ← Phase 2 prochaine
         ↓
 Product Review (Phase 7) → Product Freeze (Phase 8)
         ↓
@@ -139,6 +145,40 @@ Capitalisation industrielle → Validation Corpus V1 → …
 ```
 
 **Modèle produit de référence :** [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) · **Choix éditoriaux Boucle 1 :** [`docs/rpc/10-BOUCLE-1-COMPREHENSION.md`](rpc/10-BOUCLE-1-COMPREHENSION.md).
+
+---
+
+## Graphical Learning Layer V1
+
+| | |
+|---|---|
+| **Nature** | Conception et architecture — transversal Reader V1 |
+| **Question directrice** | Comment traiter les **SVG comme contenu pédagogique de première classe** — production, consommation, zoom, intégration walkthrough — sans dégrader la chaîne Fabrique → Reader ? |
+| **Statut** | **Chantier actif** — **conception uniquement** |
+| **Positionnement** | Ouvert après [Annotation UI Freeze V1](#acquis) ; **avant** toute implémentation runtime |
+
+**Périmètre V1 (conception) :**
+
+- modèle conceptuel des figures pédagogiques dans le Reader ;
+- relation figures ↔ walkthroughs ↔ projections ;
+- contraintes de production (Stage G, grammaire SVG) ;
+- critères de qualité et de non-régression visuelle ;
+- frontières avec l'UI annotation (gelée) et Composition V1.
+
+**Hors périmètre immédiat :**
+
+- implémentation runtime Reader ;
+- refonte toolbar ou annotation ;
+- nouvelles vues Reader ;
+- migration patrimoine apprenant.
+
+**Critère de sortie (conception) :**
+
+- architecture documentée et validée par le propriétaire ;
+- décisions de conception traçables ;
+- lots d'implémentation **non ouverts** tant que la conception n'est pas clôturée.
+
+**Plan d'exécution :** voir [`PROJECT_STATE.md`](PROJECT_STATE.md) § Chantiers en cours.
 
 ---
 
@@ -641,6 +681,7 @@ Objectifs clos — une ligne par acquis, renvoi vers la preuve de clôture. Le d
 | Recherche textuelle locale Reader V1 ([PDR-D6](governance/PRODUCT-DECISION-REGISTRY.md)) | [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) — lots D6-A…G ; Service · Runtime · Reader · validation E2E ; tag `local-search-v1` ; clôture 2026-08-01 |
 | Préférences d'affichage Reader V1 ([PDR-D7](governance/PRODUCT-DECISION-REGISTRY.md)) | [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) — lots D7-A…G ; Service · Runtime · Patrimoine · Reader · validation E2E ; clôture 2026-08-01 |
 | Acceptation Reader V1 ([PDR-B1](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-B5](governance/PRODUCT-DECISION-REGISTRY.md)) | [`releases/reader-acceptance-v1-publication.md`](releases/reader-acceptance-v1-publication.md) — 7 vues alimentées package 234 ; lots AP-A…AP-F ; tag `reader-acceptance-v1` ; clôture 2026-08-02 |
+| Product Polish V1 / Annotation UI Freeze V1 | Product Review finale annotation **GO** ; micro-lots PRODUCT POLISH V1 · Toolbar V1.1 · Highlight Interaction V2 · Formatting Simplification · Preferences · UX Finalization · Notes restore · Bold Visibility Hardening ; tag `reader-ui-freeze-v1` ; clôture 2026-08-03 |
 
 > **Note terminologique.** Le **pipeline validateur** lou-build est un acquis. La **Fabrique productrice autonome** reste un objectif forward ([PDR-C1](governance/PRODUCT-DECISION-REGISTRY.md)) — ne pas confondre « cutover lou-build » avec « production autonome de contenu ».
 
@@ -676,4 +717,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-08-03 — roadmap opérationnelle Phases 0–9 pilotée par les 7 vues Reader ; lots D/AP = acquis, plus chemin critique ; audit 234 = checklist implémentation.*
+*Révision 2026-08-03 — Annotation UI Freeze V1 ; Graphical Learning Layer V1 ouvert (conception) ; Product Polish V1 aux acquis ; Phase 2 prochaine.*

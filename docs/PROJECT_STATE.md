@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-03 (Framework validation consolidé — stable ; PAS-SHELL S1 ; Phase 0.1 clôturée)
+**Dernière mise à jour :** 2026-08-03 (Annotation UI Freeze V1 ; Graphical Learning Layer V1 ouvert — conception)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -20,12 +20,14 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | | |
 |---|---|
-| **Objectif actif** | [Reference Product Chapter (234)](MASTER_ROADMAP.md#reference-product-chapter-234) — **laboratoire produit** |
+| **Objectif actif** | [Graphical Learning Layer V1](MASTER_ROADMAP.md#graphical-learning-layer-v1) — **conception et architecture** (SVG contenu pédagogique de première classe) |
 | **Phase opérationnelle active** | **Phase 2** — Amorçage cognitif ([roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) — en attente de démarrage |
 | **Livrable visé** | Amorçage cognitif exploitable dans le Reader — voir Phase 2 |
 | **Chemin critique** | **Phases 2→8 (234)** → **Phase 9 (224)** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
 | **Blocage structurant** | Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
-| **Dernier jalon produit** | **Phase 0.1** — chemin de consommation Fabrique → Reader stabilisé (Product Review canonique, auto-repair digest) ; 2026-08-03 |
+| **Dernier jalon produit** | **Annotation UI Freeze V1** — Product Polish V1 clôturé ; Product Review finale annotation **GO** ; tag `reader-ui-freeze-v1` ; 2026-08-03 |
+
+**UI Reader V1 stabilisée — Annotation UI Freeze V1 prononcé (2026-08-03).** La couche annotation Learner (highlights, inline notes, toolbar) est **gelée**. Aucun chantier UI ouvert, hors bug bloquant. Product Review finale annotation **GO**. Prochain travail transversal Reader : **Graphical Learning Layer V1** (conception — SVG comme contenu pédagogique de première classe).
 
 **Chaîne de consommation Fabrique → Reader (Phase 0.1 clôturée).** La Phase 0.1 a fiabilisé le chemin entre publication du package et observation dans le Reader, sans modifier les contrats Fabrique ni Composition V1. La chaîne de consommation est désormais **considérée comme stabilisée** pour poursuivre les phases éditoriales (Phase 2 et suivantes).
 
@@ -52,12 +54,30 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 2–8 | **Phase 0.1 clôturée** — Product Review canonique ; auto-repair `content_digest` au bootstrap ; **Phase 2** (Amorçage) prête à démarrer |
+| **Graphical Learning Layer V1** | Reader V1 — figures pédagogiques | **Conception et architecture uniquement** — SVG contenu de première classe ; **aucun lot d'implémentation ouvert** |
+| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 2–8 | **Phase 0.1 clôturée** ; **Phase 2** (Amorçage) prête à démarrer |
 | **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
 | **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
 | **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Framework validation consolidé — stable** — DEV / PAS / RELEASE [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) §2.4 |
+
+**Chantiers UI Reader — aucun ouvert.** Annotation UI Freeze V1 : corrections UI annotation réservées aux **bugs bloquants** uniquement.
+
+### Acquis annotation Learner (Product Polish V1 — clôturé)
+
+| Capacité | État |
+|---|---|
+| Shell content-first | Stabilisé |
+| Toolbar annotation unique | Stabilisé |
+| Highlights Interaction V2 | Stabilisé — création mouseup, édition live, pas d'imbrication |
+| Inline Notes | Stabilisées — création, édition, restauration après reload |
+| Préférences indépendantes highlight / note | Stabilisées |
+| Modèle **1 couleur + 1 style exclusif** (Normal · Gras · Souligné · Barré) | Stabilisé |
+| Gomme highlight / note | Stabilisée |
+| Workflow édition (sélection partielle → objet entier) | Stabilisé |
+| Restauration complète (couleur, style, reload) | Stabilisée |
+| Gras highlight — rendu robuste | Stabilisé — Highlight Bold Visibility Hardening |
 
 ---
 
@@ -113,6 +133,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **PDR-D6 — Recherche locale** | **Publié** — tag `local-search-v1` ; contrat [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; lots D6-A…G ; indexation Amorçage (C-CP-09, AP-F) | Implémentation Reader validée |
 | **PDR-D7 — Préférences d'affichage** | **Publié** — tag `display-preferences-v1` ; contrat [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) en vigueur ; lots D7-A…G |
 | **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 | Acquis clôturé — **Phase 2** = prochain jalon opérationnel |
+| **Reader V1 — UI annotation** | **Gelée** — Annotation UI Freeze V1 ; tag `reader-ui-freeze-v1` ; Product Polish V1 clôturé ; Product Review finale annotation **GO** | Aucun chantier UI ouvert |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
@@ -157,6 +178,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-03 | **Annotation UI Freeze V1 prononcé** — Product Polish V1 clôturé ; Product Review finale annotation **GO** ; UI Reader V1 stabilisée ; tag `reader-ui-freeze-v1` ; prochain chantier transversal → Graphical Learning Layer V1 (conception) |
 | 2026-08-03 | **Phase 0.1 clôturée** — Product Review canonique (`scripts/product-review-234.sh`) ; bibliothèque `.local/` gitignored ; `ensureReleaseReady()` auto-repair digest ; diagnostics bootstrap explicites ; tests consommation |
 | 2026-08-03 | **Phase 1 clôturée** — figure `MM-pump-decompensation` publiée via Stage G ; walkthrough figure-first ; zoom Reader |
 | 2026-08-03 | **Phase 0 clôturée** — sync fixture Reader ; Stage G `mental_model`/`confusion` + branchement `visual-spec` ; assainissement moteur SVG V1 ; build/regenerate automatiques |
@@ -236,4 +258,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-03 — Phase 0.1 clôturée ; chaîne de consommation stabilisée ; Phase 2 prochaine ; lots D/AP clôturés.*
+*Révision 2026-08-03 — Annotation UI Freeze V1 ; Product Polish V1 clôturé ; Graphical Learning Layer V1 ouvert (conception) ; Phase 2 prochaine.*

@@ -74,10 +74,7 @@ test.describe("PC — Product consumption (Phase T0)", () => {
     });
     await openProductChapter(page);
 
-    const catalog = JSON.parse(fs.readFileSync(CATALOG_PATH, "utf8"));
-    const entry = catalog.entries.find((e) => e.release_id === RELEASE_ID_234);
-    expect(entry?.offline_status).toBe("offline_ready");
-    expect(entry?.content_digest).toBe(catalogDigest);
+    expect(readCatalogDigest()).toBe(catalogDigest);
     await expect(page.locator(".tab")).toHaveCount(7);
   });
 

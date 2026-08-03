@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-02 — Reference Product Chapter (234) = **laboratoire produit** ; Reference Production Chapter (224) = **industrialisation** après Product Freeze.
+**Dernière révision :** 2026-08-03 — roadmap opérationnelle pilotée par les **7 vues Reader** ; Phase 0 active ; 234 = laboratoire produit ; 224 = industrialisation (Phase 9).
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -44,10 +44,10 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 | La Fabrique (pipeline validateur lou-build) | ✅ Clôturé — tag `lou-build-pipeline-v1` |
 | Reader Composition V1 (Lots A–F) | ✅ Clôturé — audit indépendant ✅ Conforme ; tag `reader-composition-v1` |
 | **Reader Acceptance V1** | ✅ **Clôturé** — prononcé 2026-08-02 ; tag `reader-acceptance-v1` |
-| **Reference Product Chapter (234)** | 🔄 **Phase active** — laboratoire produit |
-| **Product Review 234** | ⏳ En attente — chapitre utilisable ; **usage réel Lou** dans le Reader |
-| **Product Freeze 234** | ⏳ En attente — après Product Review |
-| **Reference Production Chapter (224)** | ⏳ En attente — **après Product Freeze 234** |
+| **Reference Product Chapter (234)** — Phases 0–8 | 🔄 **Phase 0 active** — compléter la chaîne Fabrique → Reader |
+| **Product Review 234** (Phase 7) | ⏳ En attente — chapitre utilisable ; **usage réel Lou** dans le Reader |
+| **Product Freeze 234** (Phase 8) | ⏳ En attente — après Product Review |
+| **Reference Production Chapter (224)** (Phase 9) | ⏳ En attente — **après Product Freeze 234** |
 | **Capitalisation industrielle (post-224)** | ⏳ En attente — après Reference Production Chapter 224 |
 | **Validation Corpus V1 (Fabrique)** | ⏳ En attente — **après validation complète du 224** |
 | **Choix chapitres suivants (230 ou autre)** | ⏳ En attente — après Validation Corpus V1 |
@@ -56,20 +56,18 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 
 **Distinction obligatoire :** la clôture **Reader Composition V1** ne signifiait **pas** que le Reader était terminé. L'objectif [Acceptation Reader V1](#acceptation-reader-v1) est **clôturé** depuis le 2026-08-02.
 
-**Principe de pilotage post-acceptation :** *Observer d'abord. Généraliser ensuite.* — le Item **234** est le **laboratoire produit** : y est **découvert** le meilleur produit pédagogique pour Lou (7 vues, notions, figures utiles, walkthroughs complets). Une **légère surproduction est volontaire** — ne pas écarter une idée pédagogique pertinente par crainte du coût. Le **coût et la méthode industrielle** sont **découverts sur le 224**, après [Product Freeze 234](#product-freeze-234). Pilotage : [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md).
+**Principe de pilotage post-acceptation :** *Observer d'abord. Généraliser ensuite.* — le Item **234** est le **laboratoire produit** : y est **découvert** le meilleur produit pédagogique pour Lou (7 vues, notions, figures utiles, walkthroughs complets). Une **légère surproduction est volontaire** — ne pas écarter une idée pédagogique pertinente par crainte du coût. Le **coût et la méthode industrielle** sont **découverts sur le 224** (Phase 9), après [Product Freeze 234](#product-freeze-234). Pilotage détaillé : [Roadmap opérationnelle RPC 234](#roadmap-opérationnelle--reference-product-chapter-234) · [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md).
 
 ### Séquence produit cible (post-Reader Acceptance)
 
 ```
 Reader Acceptance V1 ✅
         ↓
-Reference Product Chapter (234)  ← actif — laboratoire produit
+Reference Product Chapter (234) — Phases 0–8  ← Phase 0 active
         ↓
-Product Review (usage réel Lou)
+Product Review (Phase 7) → Product Freeze (Phase 8)
         ↓
-Product Freeze 234
-        ↓
-Reference Production Chapter (224)
+Reference Production Chapter (224) — Phase 9
         ↓
 Capitalisation industrielle
         ↓
@@ -82,7 +80,65 @@ Validation pédagogique Lou
 Industrialisation EDN
 ```
 
-Le chemin critique effectif est constaté dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
+Le chemin critique effectif et la **phase courante** sont constatés dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
+
+---
+
+## Roadmap opérationnelle — Reference Product Chapter (234)
+
+**Document de référence unique** pour l'exécution du RPC 234. Une seule roadmap opérationnelle existe dans la documentation ; les prochaines étapes de [`PROJECT_STATE.md`](PROJECT_STATE.md) en héritent sans décalage.
+
+### Principes de pilotage
+
+| Principe | Application |
+|---|---|
+| **Produit avant technique** | Le projet est piloté par le **produit** et les **7 vues Reader**, pas par les anciens lots Reader Acceptance (D1, D2, D4, D6, AP-A…AP-F). Ces lots sont **clôturés** — acquis historiques, **plus le chemin critique opérationnel**. |
+| **234 = laboratoire produit** | Découvrir le **meilleur produit** pour Lou ; le coût **ne pilote pas** les choix éditoriaux. |
+| **224 = laboratoire industriel** | Découvrir la **meilleure méthode industrielle** — Phase 9 uniquement, après Product Freeze. |
+| **Audit = checklist** | Les constats de [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) servent de **checklist d'implémentation**, pas de roadmap. |
+
+### Phases 0–9
+
+| Phase | Intitulé | Focus | Vues Reader concernées |
+|---|---|---|---|
+| **0** | Compléter la chaîne Fabrique → Reader | Build entièrement automatique ; aucun manifest manuel ; aucun copier/coller ; aucun traitement spécifique au 234 ; fixture synchronisée ; Stage G compatible `mental_model` / `visual-spec` | Transversal — prérequis toutes vues |
+| **1** | Modèle mental | Figure ; walkthrough ; UX minimale ; navigation | Modèle mental |
+| **2** | Amorçage cognitif | Contenu et expérience Amorçage | Amorçage cognitif |
+| **3** | Notions | 11 notions ; figures ; walkthroughs ; développements ; points d'attention | Notions |
+| **4** | Cas cliniques | Scénarios cliniques jouables | Cas cliniques |
+| **5** | Collège officiel + Notes | Texte source officiel ; notes apprenant | Collège officiel · Notes |
+| **6** | Validation intégrée | validate/build ; parcours complet 7 vues ; fixture CI | Les 7 vues |
+| **7** | Product Review avec Lou | Usage **réel** dans le Reader ; retour valeur pédagogique | Les 7 vues |
+| **8** | Corrections + Product Freeze | Itérations ciblées ; gel produit 234 | — |
+| **9** | Reference Production Chapter (224) | Reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit | — |
+
+**Séquence officielle :**
+
+```
+Phase 0 — Fabrique → Reader
+        ↓
+Phase 1 — Modèle mental
+        ↓
+Phase 2 — Amorçage cognitif
+        ↓
+Phase 3 — Notions
+        ↓
+Phase 4 — Cas cliniques
+        ↓
+Phase 5 — Collège officiel + Notes
+        ↓
+Phase 6 — Validation intégrée
+        ↓
+Phase 7 — Product Review avec Lou
+        ↓
+Phase 8 — Corrections + Product Freeze
+        ↓
+Phase 9 — Reference Production Chapter (224)
+        ↓
+Capitalisation industrielle → Validation Corpus V1 → …
+```
+
+**Modèle produit de référence :** [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) · **Choix éditoriaux Boucle 1 :** [`docs/rpc/10-BOUCLE-1-COMPREHENSION.md`](rpc/10-BOUCLE-1-COMPREHENSION.md).
 
 ---
 
@@ -235,7 +291,7 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 
 **Hors périmètre :** mesure de coûts, optimisation prompts/pipelines, standards industriels — → Reference Production Chapter (224).
 
-**Plan d'exécution détaillé :** [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md) · [`PROJECT_STATE.md`](PROJECT_STATE.md).
+**Plan d'exécution détaillé :** [Roadmap opérationnelle RPC 234](#roadmap-opérationnelle--reference-product-chapter-234) · [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) · [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 ---
 
@@ -620,4 +676,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-08-02 — 234 = laboratoire produit (surproduction assumée) ; Product Review = usage réel Lou ; 224 = industrialisation post-Freeze ; coût étudié sur 224 uniquement.*
+*Révision 2026-08-03 — roadmap opérationnelle Phases 0–9 pilotée par les 7 vues Reader ; lots D/AP = acquis, plus chemin critique ; audit 234 = checklist implémentation.*

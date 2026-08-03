@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-02 (234 = laboratoire produit ; 224 = industrialisation post-Freeze) |
+| **Statut** | Document d'accueil — 2026-08-03 (roadmap opérationnelle Phases 0–9 ; Phase 0 active) |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -34,10 +34,11 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | | |
 |---|---|
 | **Phase** | Execution Mode V1 — Reader Acceptance V1 **clôturé** |
+| **Phase opérationnelle active** | **Phase 0** — Compléter la chaîne Fabrique → Reader |
 | **Dernier jalon publié** | **Reader Acceptance V1** — prononcé 2026-08-02 |
-| **Objectif actif** | **Reference Product Chapter (234)** — **laboratoire produit** |
-| **Chantier actif** | Item **234** — toutes vues, notions, figures utiles, walkthroughs complets ; surproduction légère assumée |
-| **Chantier suivant (bloqué)** | **Reference Production Chapter (224)** — **après Product Freeze 234** ; mesure coûts, optimise **méthode** |
+| **Objectif actif** | **Reference Product Chapter (234)** — **laboratoire produit** (Phases 0–8) |
+| **Chantier actif** | **Phase 0** — build automatique, fixture synchronisée, Stage G `mental_model` / `visual-spec` |
+| **Chantier suivant (bloqué)** | **Phase 9 — Reference Production Chapter (224)** — **après Product Freeze** (Phase 8) |
 | **Instance courante** | Package 234 Release `complete` ; Reader V1 accepté ; 7 vues alimentées |
 
 **Deux références distinctes :**
@@ -47,7 +48,9 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 | **Reference Product Chapter** | **234** | **Laboratoire produit** — meilleur produit pour Lou ; coût **ne pilote pas** les choix |
 | **Reference Production Chapter** | **224** | Reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode de production** |
 
-**Acquis majeurs (publiés) :** gouvernance, pipeline lou-build, Composition V1, package 234, D1–D7, patrimoine E-A…E-D, Amorçage AP-A…AP-F, Reader Acceptance V1, modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md).
+**Acquis majeurs (publiés) :** gouvernance, pipeline lou-build, Composition V1, package 234, D1–D7, patrimoine E-A…E-D, Amorçage AP-A…AP-F, Reader Acceptance V1, modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md). **Lots D/AP clôturés** — ne pilotent plus la roadmap opérationnelle.
+
+**Checklist implémentation :** [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md).
 
 **Validations de référence :** 632/632 tests unitaires renderer PASS · 122/122 smoke PASS · 14/14 smoke AP-F PASS.
 
@@ -55,35 +58,37 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 ## 3. Chemin critique
 
-**Séquence produit cible** ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md)) :
+**Roadmap opérationnelle** ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) · [`PROJECT_STATE.md`](PROJECT_STATE.md)) — pilotée par les **7 vues Reader**, pas par les lots D/AP.
 
 ```
-Reader Acceptance V1 ✅
+Phase 0 — Fabrique → Reader                    ← ACTIVE
         ↓
-Reference Product Chapter (234)  ← actif — laboratoire produit
+Phase 1 — Modèle mental
         ↓
-Product Review (usage réel Lou) → Product Freeze
+Phase 2 — Amorçage cognitif
         ↓
-Reference Production Chapter (224) — industrialisation
+Phase 3 — Notions
         ↓
-Capitalisation industrielle
+Phase 4 — Cas cliniques
         ↓
-Validation Corpus V1
+Phase 5 — Collège officiel + Notes
         ↓
-Choix chapitres suivants (230 ou autre)
+Phase 6 — Validation intégrée
         ↓
-Validation pédagogique Lou
+Phase 7 — Product Review avec Lou
         ↓
-Industrialisation EDN
+Phase 8 — Corrections + Product Freeze
+        ↓
+Phase 9 — Reference Production Chapter (224)
+        ↓
+Capitalisation industrielle → Validation Corpus V1 → …
 ```
 
-**Prochain jalon pilotage :** **Reference Product Chapter (234)**
+**Prochain jalon opérationnel :** **Phase 0** — compléter la chaîne Fabrique → Reader.
 
-**Reference Production Chapter 224 :** **non démarré** — après Product Freeze 234.
+**234** = découvrir le **meilleur produit**. **224** (Phase 9) = découvrir la **meilleure méthode industrielle**.
 
-**Validation Corpus V1 :** **après validation complète du 224** — le 230 n'est **pas** la prochaine étape officielle.
-
-**Références :** [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) · [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md)
+**Références :** [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) · [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) (checklist, pas roadmap)
 
 ---
 
@@ -136,12 +141,20 @@ Learner Patrimony (E-A…E-D)
 
 ## 7. Chantiers recommandés
 
-1. **Reference Product Chapter (234)** — laboratoire produit (chantier actif)
-2. **Product Review 234** — Lou utilise le chapitre **réellement** dans le Reader
-3. **Product Freeze 234** — gel produit
-4. **Reference Production Chapter (224)** — **après** Product Freeze ; reprend produit figé ; mesure et optimise **méthode**
-5. **Validation Corpus V1** — **après** validation complète du 224
-6. **Validation pédagogique Lou** — en attente
+Ordre = [`PROJECT_STATE.md` § Prochaines étapes](PROJECT_STATE.md#prochaines-étapes) = [`MASTER_ROADMAP.md` § Roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234).
+
+| Phase | Intitulé | Statut |
+|---|---|---|
+| **0** | Compléter la chaîne Fabrique → Reader | **Active** |
+| **1** | Modèle mental | En attente |
+| **2** | Amorçage cognitif | En attente |
+| **3** | Notions | En attente |
+| **4** | Cas cliniques | En attente |
+| **5** | Collège officiel + Notes | En attente |
+| **6** | Validation intégrée | En attente |
+| **7** | Product Review avec Lou | En attente |
+| **8** | Corrections + Product Freeze | En attente |
+| **9** | Reference Production Chapter (224) | En attente — après Phase 8 |
 
 ---
 
@@ -150,14 +163,15 @@ Learner Patrimony (E-A…E-D)
 Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
-2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md).
-3. Lire [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) — produit vs production.
-4. Lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md).
-5. **Chantier prioritaire : Item 234** — Reference Product Chapter (**laboratoire produit** — ne pas réduire le périmètre par crainte du coût).
-6. **Ne pas démarrer** le 224 — conditionné par Product Freeze 234.
-7. **Ne pas présenter** le 230 comme prochaine étape — candidat futur non tranché.
-8. **Product Review** — uniquement quand le chapitre est utilisable ; Lou étudie via le Reader.
+2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md) — **Phase 0 active**.
+3. Lire [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) — Phases 0–9, produit vs production.
+4. Lire [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) — **checklist d'implémentation** Phase 0.
+5. Lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md).
+6. **Chantier prioritaire : Phase 0** — chaîne Fabrique → Reader automatique (**extensions partagées**, pas de traitement spécifique au 234).
+7. **Ne pas démarrer** Phase 9 (224) — conditionnée par Product Freeze (Phase 8).
+8. **Ne pas présenter** le 230 comme prochaine étape — candidat futur non tranché.
+9. **Product Review** (Phase 7) — uniquement quand les 7 vues sont utilisables ; Lou étudie via le Reader.
 
 ---
 
-*Handover — 2026-08-02 — 234 = laboratoire produit ; Product Review = usage réel Lou ; 224 = industrialisation post-Freeze. Non normatif.*
+*Handover — 2026-08-03 — roadmap opérationnelle Phases 0–9 ; Phase 0 active ; lots D/AP = acquis. Non normatif.*

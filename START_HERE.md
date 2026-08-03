@@ -53,14 +53,16 @@ These documents explain the current research and discoveries.
 
 Only after reading the documents above should new product or implementation work begin.
 
-**Objectif actif :** **Reference Product Chapter (234)** — **laboratoire produit** ; voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md), [`docs/rpc/00-RPC-METHODOLOGY.md`](docs/rpc/00-RPC-METHODOLOGY.md) et [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md).
+**Objectif actif :** **Reference Product Chapter (234)** — **Phase 0 active** (compléter la chaîne Fabrique → Reader) ; voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md), [`docs/rpc/00-RPC-METHODOLOGY.md`](docs/rpc/00-RPC-METHODOLOGY.md) et [`docs/MASTER_ROADMAP.md` § Roadmap opérationnelle](docs/MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234).
 
-**Reader V1 :** accepté (tag `reader-acceptance-v1`) — **7 vues** ; modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md).
+**Reader V1 :** accepté (tag `reader-acceptance-v1`) — **7 vues** ; modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md). Lots D/AP **clôturés** — ne pilotent plus la roadmap opérationnelle.
 
-**Reference Production Chapter (224) :** démarre **après Product Freeze 234** — reprend produit figé ; mesure coûts ; optimise **méthode**, pas produit.
+**Roadmap opérationnelle :** Phases 0–9 — pilotage par les **7 vues Reader** ; audit [`rpc-234-execution-audit.md`](docs/analysis/rpc-234-execution-audit.md) = checklist d'implémentation.
 
-**Validation Corpus V1 :** **après validation complète du 224** — le 230 n'est pas la prochaine étape officielle.
+**Reference Production Chapter (224) :** **Phase 9** — démarre **après Product Freeze** (Phase 8) ; reprend produit figé ; mesure coûts ; optimise **méthode**, pas produit.
 
-**Principe pilotage :** *Observer d'abord. Généraliser ensuite.* — produit découvert sur **234** ; méthode industrielle découvrte sur **224**.
+**Validation Corpus V1 :** **après Phase 9 (224)** — le 230 n'est pas la prochaine étape officielle.
 
-**Pour démarrer concrètement :** [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/) (Reference Product Chapter), [`docs/rpc/00-RPC-METHODOLOGY.md`](docs/rpc/00-RPC-METHODOLOGY.md), [`docs/renderer/00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md), [`demo/renderer/`](demo/renderer/) (Reader).
+**Principe pilotage :** *Observer d'abord. Généraliser ensuite.* — produit découvert sur **234** (Phases 0–8) ; méthode industrielle découvrte sur **224** (Phase 9).
+
+**Pour démarrer concrètement :** [`docs/analysis/rpc-234-execution-audit.md`](docs/analysis/rpc-234-execution-audit.md) (Phase 0), [`01-learning/chapters/cardio/234/`](01-learning/chapters/cardio/234/), [`docs/rpc/00-RPC-METHODOLOGY.md`](docs/rpc/00-RPC-METHODOLOGY.md), [`demo/renderer/`](demo/renderer/) (Reader).

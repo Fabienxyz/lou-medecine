@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-02 (234 = laboratoire produit ; 224 = industrialisation post-Freeze)
+**Dernière mise à jour :** 2026-08-03 (roadmap opérationnelle Phases 0–9 ; Phase 0 active)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -21,10 +21,11 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | | |
 |---|---|
 | **Objectif actif** | [Reference Product Chapter (234)](MASTER_ROADMAP.md#reference-product-chapter-234) — **laboratoire produit** |
-| **Livrable visé** | Chapitre 234 recertifié — meilleur produit possible ; toutes vues, notions et figures utiles ; prêt pour Product Review (usage réel Lou) |
-| **Chemin critique** | **234** → Product Review → Product Freeze → **224** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
-| **Blocage structurant** | Reference Production Chapter 224 **non démarré** — conditionné par Product Freeze 234 ; Validation Corpus V1 **après** validation complète du 224 |
-| **Dernier jalon produit** | **Reader Acceptance V1 prononcé** — Amorçage cognitif (AP-A…AP-F) ; **632 unit + 14 smoke AP-F PASS** ; tag `reader-acceptance-v1` |
+| **Phase opérationnelle active** | **Phase 0** — Compléter la chaîne Fabrique → Reader ([roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) |
+| **Livrable visé** | Chaîne Fabrique → Reader entièrement automatique — prérequis Phases 1–8 |
+| **Chemin critique** | **Phases 0→8 (234)** → **Phase 9 (224)** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
+| **Blocage structurant** | Phase 0 incomplète (build manuel, fixture non synchronisée, Stage G incompatible `mental_model` / `visual-spec`) ; Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
+| **Dernier jalon produit** | **Reader Acceptance V1 prononcé** — 2026-08-02 ; tag `reader-acceptance-v1` ; acquis D1–D7, AP-A…AP-F **clôturés** — ne pilotent plus la roadmap opérationnelle |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -42,8 +43,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reference Product Chapter (234)** | **Laboratoire produit** | **Chantier actif** — meilleur produit pour Lou ; toutes vues, notions, figures utiles, walkthroughs complets ; surproduction légère assumée ([`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md)) |
-| **Reference Production Chapter (224)** | Industrialisation production | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
+| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 0–8 | **Phase 0 active** — chaîne Fabrique → Reader automatique ([`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md), [`MASTER_ROADMAP.md` § Roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) |
+| **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
 | **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
@@ -102,7 +103,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **PDR-D2 — Offline intégral** | **Publié** — tag `offline-certification-v1` ; lots D2-A…I livrés ; Browser Offline Manager seul certifiant ; 9 tests Playwright OF-D2-* PASS | Contrat [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur |
 | **PDR-D6 — Recherche locale** | **Publié** — tag `local-search-v1` ; contrat [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; lots D6-A…G ; indexation Amorçage (C-CP-09, AP-F) | Implémentation Reader validée |
 | **PDR-D7 — Préférences d'affichage** | **Publié** — tag `display-preferences-v1` ; contrat [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) en vigueur ; lots D7-A…G |
-| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 ; lots AP-A…AP-F ; **632 unit + 14 smoke AP-F PASS** | Reference Product Chapter 234 — prochain jalon pilotage |
+| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 | Acquis clôturé — **Phase 0** = prochain jalon opérationnel |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
@@ -116,19 +117,26 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 ## Prochaines étapes
 
-Ordre hérité de [`MASTER_ROADMAP.md` § Dépendances](MASTER_ROADMAP.md#dépendances) — **pas une repriorisation locale**.
+Ordre hérité de [`MASTER_ROADMAP.md` § Roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234) — **pas une repriorisation locale**.
 
-1. **Reference Product Chapter (234)** — laboratoire produit : toutes vues, notions, figures utiles, walkthroughs complets ; prêt pour Product Review.
-2. **Product Review 234** — utilisation **réelle** par Lou dans le Reader ; décision valeur pédagogique → Product Freeze.
-3. **Product Freeze 234** — gel produit.
-4. **Reference Production Chapter (224)** — reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode de production**.
-5. **Capitalisation industrielle** — enseignements post-224.
-6. **Validation Corpus V1 (Fabrique)** — **après validation complète du 224** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)).
-7. **Choix chapitres suivants** — 230 ou autre ; décision ultérieure.
-8. **Validation pédagogique Lou** — après Validation Corpus V1 prononcée.
-9. **Patrimoine & publication** — avancement implémentation V1 (parallèle).
-10. **CI** — fixture et non-régression sur package complet (parallèle).
-11. **Industrialisation EDN** — après Validation Corpus V1 et validation Lou.
+**Pilotage :** produit et **7 vues Reader**. Les lots Reader Acceptance (D1, D2, D4, D6, AP-A…AP-F) sont **clôturés** — acquis, pas chemin critique. L'audit [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) = **checklist d'implémentation**.
+
+| Phase | Intitulé | Statut |
+|---|---|---|
+| **0** | Compléter la chaîne Fabrique → Reader | **Active** |
+| **1** | Modèle mental | En attente |
+| **2** | Amorçage cognitif | En attente |
+| **3** | Notions (11 notions, figures, walkthroughs, développements, points d'attention) | En attente |
+| **4** | Cas cliniques | En attente |
+| **5** | Collège officiel + Notes | En attente |
+| **6** | Validation intégrée | En attente |
+| **7** | Product Review avec Lou | En attente |
+| **8** | Corrections + Product Freeze | En attente |
+| **9** | Reference Production Chapter (224) | En attente — après Phase 8 |
+
+**Après Phase 9 :** capitalisation industrielle → Validation Corpus V1 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) → choix chapitres suivants (230 ou autre) → validation pédagogique Lou → industrialisation EDN.
+
+**Parallèle (non bloquant Phases 0–8) :** patrimoine & publication · CI & fixture 234.
 
 ---
 
@@ -138,6 +146,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-03 | **Roadmap opérationnelle Phases 0–9** — pilotage par les 7 vues Reader ; lots D/AP = acquis ; audit 234 = checklist implémentation ; Phase 0 active |
 | 2026-08-02 | **Nettoyage documentaire Reader V1** publié (`e479e78`) — modèle 7 vues ; doc `00-READER-V1-PRODUCT-MODEL.md` |
 | 2026-08-02 | **234 = laboratoire produit** — surproduction légère assumée ; Product Review = usage réel Lou ; coût étudié sur 224 uniquement |
 | 2026-08-02 | **Séparation produit / production** — 234 = Reference Product Chapter ; 224 = Reference Production Chapter ; Validation Corpus V1 après validation complète du 224 ; 230 = candidat futur |
@@ -213,4 +222,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-02 — 234 = laboratoire produit ; Product Review = usage réel Lou ; 224 = industrialisation post-Freeze ; coût sur 224.*
+*Révision 2026-08-03 — roadmap opérationnelle Phases 0–9 ; Phase 0 active ; lots D/AP clôturés.*

@@ -32,8 +32,7 @@ describe("Shell V1 S1 — index.html chrome", () => {
   test("static shell exposes Lou Médecine identity and minimal reader chrome", () => {
     assert.match(html, /Lou Médecine/);
     assert.match(html, /shell-header/);
-    assert.match(html, /shell-brand/);
-    assert.match(html, /id="chapter-title"/);
+    assert.match(html, /id="shell-breadcrumb"/);
     assert.match(html, /id="tabs"/);
     assert.match(html, /id="content"/);
     assert.match(html, /id="local-search-trigger"/);

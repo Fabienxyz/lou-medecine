@@ -11,6 +11,7 @@ import { JSDOM } from "jsdom";
 import { IDBFactory } from "fake-indexeddb";
 import { createBrowserPackageAccess } from "../library/browser-package-access.js";
 import { buildRestoreCatalogFacts } from "../library/restore-catalog-facts.js";
+import * as LouShellBreadcrumb from "../shell/breadcrumb.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
@@ -51,11 +52,10 @@ const CE02_ELEMENT_ID = "MEC-oap";
 
 function buildAppDomHtml() {
   return `<!DOCTYPE html><html><body>
+    <nav id="shell-breadcrumb"></nav>
     <div id="tabs"></div>
     <div id="content"></div>
     <h1 id="specialty"></h1>
-    <p id="chapter-line"></p>
-    <p id="chapter-title"></p>
     <ul id="objectives-list"></ul>
     <span id="read-time"></span>
   </body></html>`;
@@ -194,6 +194,8 @@ async function setupCe02DomHarness() {
       return [];
     },
   };
+
+  window.LouShellBreadcrumb = LouShellBreadcrumb;
 
   window.eval(fs.readFileSync(path.join(ROOT, "app.js"), "utf8"));
 

@@ -116,7 +116,7 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
     expect(readCatalogOfflineStatus()).toBe("offline_ready");
     expect(devPaths).toEqual([]);
     await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
-    await expect(page.locator("#specialty, #chapter-title").first()).not.toHaveText("…", {
+    await expect(page.locator("#shell-breadcrumb .shell-breadcrumb-link")).not.toHaveText("…", {
       timeout: 15_000,
     });
   });
@@ -130,7 +130,7 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
     await context.setOffline(true);
     await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
-    await expect(page.locator("#specialty, #chapter-title").first()).not.toHaveText("…", {
+    await expect(page.locator("#shell-breadcrumb .shell-breadcrumb-link")).not.toHaveText("…", {
       timeout: 15_000,
     });
   });
@@ -305,7 +305,7 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
     await context.setOffline(true);
     await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
-    await expect(page.locator("#specialty, #chapter-title").first()).not.toHaveText("…", {
+    await expect(page.locator("#shell-breadcrumb .shell-breadcrumb-link")).not.toHaveText("…", {
       timeout: 15_000,
     });
     expect(pageErrors).toEqual([]);

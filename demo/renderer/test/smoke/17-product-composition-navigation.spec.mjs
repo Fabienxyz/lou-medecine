@@ -32,6 +32,20 @@ test.describe("CN-P — composition navigation (product mode)", () => {
     expect(labels).toEqual(VIEW_LABELS);
   });
 
+  test("CN-P-00 breadcrumb shows brand, specialty and chapter metadata", async ({
+    page,
+  }) => {
+    const breadcrumb = page.locator("#shell-breadcrumb");
+    await expect(breadcrumb).toBeVisible();
+    await expect(breadcrumb).toContainText("Lou Médecine");
+    await expect(breadcrumb).toContainText("Cardiologie");
+    await expect(
+      breadcrumb.locator('.shell-breadcrumb-item[data-segment="chapter"]')
+    ).toContainText("Item 234 — Insuffisance cardiaque");
+    await expect(page.locator("#local-search-trigger")).toBeVisible();
+    await expect(page.locator("#display-preferences-root")).toBeVisible();
+  });
+
   test("CN-P-02 mental-model aggregates story and overview content", async ({
     page,
   }) => {

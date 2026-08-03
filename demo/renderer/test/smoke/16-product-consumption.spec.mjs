@@ -53,7 +53,7 @@ test.describe("PC — Product consumption (Phase T0)", () => {
 
     expect(devPaths).toEqual([]);
     await expect(page.locator(".tab")).toHaveCount(7);
-    await expect(page.locator("#specialty, #chapter-title").first()).not.toHaveText("…", {
+    await expect(page.locator("#shell-breadcrumb .shell-breadcrumb-link")).not.toHaveText("…", {
       timeout: 15_000,
     });
     await expect(page.locator("#local-search-trigger:not([hidden])")).toBeVisible();

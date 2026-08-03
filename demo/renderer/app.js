@@ -7,11 +7,9 @@
 
     const tabsEl = document.getElementById("tabs");
     const contentEl = document.getElementById("content");
+    const breadcrumbEl = document.getElementById("shell-breadcrumb");
 
-    const headerEls = {
-        chapterLine: document.getElementById("chapter-line"),
-        chapterTitle: document.getElementById("chapter-title"),
-    };
+    let shellBreadcrumb = null;
 
     let currentTab = 0;
     let chapter = null;
@@ -104,6 +102,49 @@
             viewId: tab.viewId,
             index: currentTab,
         };
+    }
+
+    function applyShellBreadcrumb(manifestData) {
+        if (!shellBreadcrumb || !breadcrumbEl || !manifestData) {
+            return;
+        }
+        const segments = shellBreadcrumb.buildReaderBreadcrumbSegments(manifestData);
+        shellBreadcrumb.renderBreadcrumb(breadcrumbEl, segments);
+    }
+
+    function bindShellBreadcrumbNavigation() {
+        if (!shellBreadcrumb || !breadcrumbEl || !sessionService) {
+            return;
+        }
+        shellBreadcrumb.bindBreadcrumbSegmentClicks(breadcrumbEl, async function (kind) {
+            if (kind !== "chapter") {
+                return;
+            }
+            const amorIndex = tabs.findIndex(function (tab) {
+                return tab.viewId === sessionService.AMORCAGE_VIEW_ID;
+            });
+            if (amorIndex < 0) {
+                return;
+            }
+            await showTab(amorIndex, { skipViewCommit: true });
+            if (commitController) {
+                commitController.onInternalNavValidated().catch(function (err) {
+                    console.warn("[LouApp] CE-04 commit failed", err);
+                });
+            }
+        });
+    }
+
+    function initShellBreadcrumb() {
+        if (!breadcrumbEl) {
+            return;
+        }
+        shellBreadcrumb = window.LouShellBreadcrumb || null;
+        if (!shellBreadcrumb) {
+            console.warn("[LouApp] shell breadcrumb module unavailable");
+            return;
+        }
+        bindShellBreadcrumbNavigation();
     }
 
     async function loadChapterMetadata(chapterId) {
@@ -550,7 +591,8 @@
     }
 
     async function boot() {
-        renderer.init(contentEl, headerEls);
+        renderer.init(contentEl, {});
+        initShellBreadcrumb();
         chapter = getChapterFromUrl();
 
         if (!chapter) {
@@ -611,10 +653,7 @@
             traceIndexUrl = manifest.trace_index
                 ? config.resolveAssetPath(chapter, manifest.trace_index)
                 : null;
-            renderer.applyHeaderMetadata({
-                chapterLine: manifest.chapterLine || manifest.chapter,
-                chapterTitle: manifest.title || manifest.chapter,
-            });
+            applyShellBreadcrumb(manifest);
 
             if (!window.LouComposition) {
                 renderer.showMessage(config.ERROR_MESSAGES.loadFailed);

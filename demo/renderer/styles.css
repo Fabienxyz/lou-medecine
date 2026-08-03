@@ -29,21 +29,75 @@ body{
     border-bottom:1px solid #eee;
 }
 
-.shell-header-top{
+.shell-header-row{
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:space-between;
     gap:16px;
-    margin-bottom:20px;
 }
 
-.shell-brand{
+.shell-breadcrumb{
+    flex:1;
+    min-width:0;
+}
+
+.shell-breadcrumb-list{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px 8px;
     margin:0;
-    font-size:13px;
-    font-weight:700;
-    letter-spacing:.04em;
-    text-transform:uppercase;
+    padding:0;
+    list-style:none;
+}
+
+.shell-breadcrumb-item{
+    display:flex;
+    align-items:center;
+    min-width:0;
+    font-size:14px;
+    color:#86868b;
+    font-weight:500;
+}
+
+.shell-breadcrumb-item:not(:last-child)::after{
+    content:"›";
+    margin-left:8px;
+    color:#aeaeb2;
+    font-weight:400;
+}
+
+.shell-breadcrumb-text,
+.shell-breadcrumb-current{
+    color:#86868b;
+}
+
+.shell-breadcrumb-current{
     color:#1d1d1f;
+    font-weight:600;
+}
+
+.shell-breadcrumb-link{
+    margin:0;
+    padding:0;
+    border:none;
+    background:none;
+    font:inherit;
+    color:#2563eb;
+    font-weight:600;
+    cursor:pointer;
+    text-align:left;
+    text-decoration:none;
+}
+
+.shell-breadcrumb-link:hover{
+    text-decoration:underline;
+}
+
+.shell-breadcrumb-link:focus-visible{
+    outline:2px solid #2563eb;
+    outline-offset:2px;
+    border-radius:4px;
 }
 
 .shell-actions{
@@ -52,26 +106,7 @@ body{
     gap:12px;
     flex-wrap:wrap;
     justify-content:flex-end;
-}
-
-.shell-chapter{
-    min-width:0;
-}
-
-.chapter-line{
-    margin:0;
-    font-size:14px;
-    color:#86868b;
-    font-weight:500;
-}
-
-.chapter-title{
-    margin:8px 0 0;
-    font-size:26px;
-    font-weight:700;
-    letter-spacing:-.02em;
-    line-height:1.3;
-    color:#1d1d1f;
+    flex-shrink:0;
 }
 
 .tabs{
@@ -226,17 +261,14 @@ body{
     .shell-header{
         padding:24px 20px 20px;
     }
-    .shell-header-top{
+    .shell-header-row{
         flex-direction:column;
-        align-items:flex-start;
+        align-items:stretch;
         gap:12px;
     }
     .shell-actions{
         width:100%;
         justify-content:flex-start;
-    }
-    .chapter-title{
-        font-size:22px;
     }
     .tabs{
         padding:14px 20px;

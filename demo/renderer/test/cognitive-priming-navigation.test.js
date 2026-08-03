@@ -8,6 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import nodeCrypto from "node:crypto";
 import { JSDOM } from "jsdom";
+import * as LouShellBreadcrumb from "../shell/breadcrumb.mjs";
 import { IDBFactory } from "fake-indexeddb";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -17,11 +18,10 @@ const CHAPTER_220 = "cardio/220";
 
 function buildAppDomHtml() {
   return `<!DOCTYPE html><html><body>
+    <nav id="shell-breadcrumb"></nav>
     <div id="tabs"></div>
     <div id="content"></div>
     <h1 id="specialty"></h1>
-    <p id="chapter-line"></p>
-    <p id="chapter-title"></p>
     <ul id="objectives-list"></ul>
     <span id="read-time"></span>
   </body></html>`;
@@ -182,6 +182,8 @@ async function setupAppHarness(options) {
       return null;
     },
   };
+
+  window.LouShellBreadcrumb = LouShellBreadcrumb;
 
   window.eval(fs.readFileSync(path.join(ROOT, "app.js"), "utf8"));
 

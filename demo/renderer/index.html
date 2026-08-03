@@ -16,17 +16,12 @@
 
 <header class="shell-header">
 
-<div class="shell-header-top">
-<p class="shell-brand">Lou Médecine</p>
+<div class="shell-header-row">
+<nav id="shell-breadcrumb" class="shell-breadcrumb" aria-label="Fil d'Ariane"></nav>
 <div class="shell-actions">
     <button type="button" id="local-search-trigger" class="local-search-trigger" hidden aria-label="Rechercher dans cette Release" aria-expanded="false" aria-controls="local-search-root">Rechercher</button>
     <div id="display-preferences-root" class="display-preferences-root" hidden aria-label="Préférences d'affichage"></div>
 </div>
-</div>
-
-<div class="shell-chapter">
-<p class="chapter-line" id="chapter-line">…</p>
-<h1 class="chapter-title" id="chapter-title">…</h1>
 </div>
 
 </header>
@@ -68,6 +63,10 @@
 <script src="local-search-ui.js"></script>
 <script src="display-preferences-apply.js"></script>
 <script src="display-preferences-ui.js"></script>
+<script type="module">
+import * as LouShellBreadcrumb from "./shell/breadcrumb.mjs";
+window.LouShellBreadcrumb = LouShellBreadcrumb;
+</script>
 <script defer src="app.js"></script>
 
 </body>

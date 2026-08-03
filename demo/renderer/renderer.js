@@ -164,14 +164,7 @@ window.LouRenderer = {
 
         const els = this.headerEls;
 
-        if (data.chapterLine && els.chapterLine) {
-            els.chapterLine.textContent = data.chapterLine;
-        }
-        if (data.chapterTitle && els.chapterTitle) {
-            els.chapterTitle.textContent = data.chapterTitle;
-        }
-
-        // Objectives and read-time remain on manifest for Amorçage / Couche 1 — not Shell chrome.
+        // Shell breadcrumb owns chapter/specialty chrome (PAS-SHELL S2).
     },
 
     prepareLearnerMarkdown(raw) {

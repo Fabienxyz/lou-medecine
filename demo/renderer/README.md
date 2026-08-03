@@ -70,6 +70,16 @@ Legacy slug aliasing: `cardio/234-insuffisance-cardiaque` → `cardio/234`.
 
 ## Local launch
 
+**Product Review (official — published package):**
+
+```bash
+./scripts/product-review-234.sh
+```
+
+See [`docs/renderer/PRODUCT-REVIEW.md`](../../docs/renderer/PRODUCT-REVIEW.md).
+
+**Reader engineering only** (not Product Review — direct CHAPTERS_ROOT):
+
 ```bash
 python3 -m http.server 8765
 # http://localhost:8765/demo/renderer/index.html?chapter=cardio/234

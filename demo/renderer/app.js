@@ -610,9 +610,19 @@
                 loaded = { ok: true, manifest: product.manifest };
                 releaseId = product.releaseId;
                 offlineStatus = product.offlineStatus;
+                if (product.repaired) {
+                    console.info(
+                        "[LouApp] product bootstrap auto-repaired release after digest/runtime drift"
+                    );
+                }
             } catch (err) {
                 console.error("[LouApp] product bootstrap failed", err);
-                loaded = { ok: false, reason: "network", useLegacy: false };
+                loaded = {
+                    ok: false,
+                    reason: "product_bootstrap",
+                    error: err,
+                    useLegacy: false,
+                };
             }
         } else {
             loaded = await loadChapterMetadata(chapter);
@@ -658,10 +668,16 @@
         } else {
             tabs = [];
             buildTabs();
-            renderer.showMessage(
-                renderer.manifestErrorMessage(loaded.reason, config),
-                { state: "manifest_" + loaded.reason }
-            );
+            const message =
+                loaded.reason === "product_bootstrap"
+                    ? renderer.productBootstrapErrorMessage(loaded.error, config)
+                    : renderer.manifestErrorMessage(loaded.reason, config);
+            renderer.showMessage(message, {
+                state:
+                    loaded.reason === "product_bootstrap"
+                        ? "product_bootstrap_failed"
+                        : "manifest_" + loaded.reason,
+            });
             return;
         }
 

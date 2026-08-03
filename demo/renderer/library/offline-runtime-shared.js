@@ -55,6 +55,7 @@ export const SHELL_URLS = [
   "/demo/renderer/composition/navigation.js",
   "/demo/renderer/composition/composition-spec-schema.js",
   "/demo/renderer/library/restore-catalog-facts.js",
+  "/demo/renderer/library/product-bootstrap-errors.js",
   "/demo/renderer/product-bootstrap.mjs",
   "/demo/renderer/library/browser-package-access.js",
   "/demo/renderer/library/browser-offline-manager.js",

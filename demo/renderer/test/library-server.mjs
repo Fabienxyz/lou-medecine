@@ -13,16 +13,27 @@ const REPO_ROOT = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../.."
 );
-const LIBRARY_ROOT = path.join(
+const DEFAULT_LIBRARY_ROOT = path.join(
   REPO_ROOT,
   "demo/renderer/test/fixtures/product-library"
 );
+const LIBRARY_ROOT = process.env.LOU_LIBRARY_ROOT
+  ? path.resolve(process.env.LOU_LIBRARY_ROOT)
+  : DEFAULT_LIBRARY_ROOT;
 const CHAPTER_234 = path.join(REPO_ROOT, "01-learning/chapters/cardio/234");
 const PORT = Number(process.env.LOU_LIBRARY_SERVER_PORT || 8765);
+const IS_FIXTURE_LIBRARY =
+  path.resolve(LIBRARY_ROOT) === path.resolve(DEFAULT_LIBRARY_ROOT);
 
 function ensureProductLibrary() {
   if (!fs.existsSync(path.join(CHAPTER_234, "manifest.json"))) {
     console.warn("[library-server] chapter 234 manifest missing — skip install");
+    return;
+  }
+  if (!IS_FIXTURE_LIBRARY) {
+    console.log(
+      `[library-server] Product Review library (${LIBRARY_ROOT}) — install via scripts/product-review-234.sh`
+    );
     return;
   }
   if (!fs.existsSync(path.join(LIBRARY_ROOT, "library.json"))) {

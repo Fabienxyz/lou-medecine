@@ -418,6 +418,44 @@ describe("browser offline manager lifecycle (D2-H)", () => {
     assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
   });
 
+  test("ensureReleaseReady is idempotent when runtime matches digest", async () => {
+    const { manager } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    const result = await manager.ensureReleaseReady(releaseId);
+    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.repaired, false);
+  });
+
+  test("ensureReleaseReady auto-repairs when runtime digest diverges", async () => {
+    const { manager, runtime } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    const namespace = buildReleaseNamespace(releaseId);
+    const storage = runtime.getStorage();
+    const cache = await storage.open(namespace);
+    const meta = await runtime.getReleaseMetadata(releaseId);
+    assert.ok(meta);
+    meta.content_digest = "sha256:" + "c".repeat(64);
+    await cache.put("__lou-offline-meta.json", {
+      body: new TextEncoder().encode(JSON.stringify(meta)),
+      contentType: "application/json",
+    });
+
+    const result = await manager.ensureReleaseReady(releaseId);
+    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.repaired, true);
+  });
+
+  test("ensureReleaseReady auto-repairs after failed offline_status", async () => {
+    const { manager, runtime } = createTestManager(libraryRoot);
+    await manager.prepareAndCertify(releaseId);
+    await runtime.removeRelease(releaseId);
+    await manager.invalidateIfStale(releaseId);
+
+    const result = await manager.ensureReleaseReady(releaseId);
+    assert.equal(result.status, OFFLINE_STATUS.OFFLINE_READY);
+    assert.equal(result.repaired, true);
+  });
+
   test("installing new active release preserves archived offline_ready and runtime", async () => {
     const { manager, runtime } = createTestManager(libraryRoot);
     const releaseIdV1 = releaseId;

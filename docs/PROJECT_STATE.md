@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-03 (Phase 1 clôturée — Phase 2 en attente)
+**Dernière mise à jour :** 2026-08-03 (Phase 0.1 clôturée — Phase 2 en attente)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -25,7 +25,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Livrable visé** | Amorçage cognitif exploitable dans le Reader — voir Phase 2 |
 | **Chemin critique** | **Phases 2→8 (234)** → **Phase 9 (224)** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
 | **Blocage structurant** | Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
-| **Dernier jalon produit** | **Phase 1 — Modèle mental** — figure MM publiée, walkthrough figure-first, zoom Reader ; 2026-08-03 |
+| **Dernier jalon produit** | **Phase 0.1** — chemin de consommation Fabrique → Reader fiable (Product Review canonique, auto-repair digest) ; 2026-08-03 |
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -43,7 +43,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 2–8 | **Phase 1 clôturée** — figure `MM-pump-decompensation` publiée ; walkthrough figure-first ; zoom Reader ; **Phase 2** (Amorçage) prête à démarrer ([`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md)) |
+| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 2–8 | **Phase 0.1 clôturée** — Product Review canonique ; auto-repair `content_digest` au bootstrap ; **Phase 2** (Amorçage) prête à démarrer |
 | **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
 | **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
@@ -77,7 +77,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
 | Portabilité hors cardio / hors PDF | Latent | Couverture EDN |
 
-**Risques clos récemment :** smoke CN-07 obsolète post-AP-D (CI-01 — test realigné, main verte) · PDR-D2 offline intégral (lots D2-A…I livrés — certification produit, repair/purge/stale, clôture gouvernance D2-I) · incohérence manifest slice vs full-chapter (Étape 0) · SVG MM-pump orphelin dans `figures/` (relocated) · legacy lou-build · migration FIL A Item 234 · écart édition golden master (corrigé — **2022**, [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)).
+**Risques clos récemment :** Phase 0.1 — Product Review fiable (auto-repair digest, procédure canonique, diagnostics explicites) · smoke CN-07 obsolète post-AP-D (CI-01) · PDR-D2 offline intégral · incohérence manifest slice vs full-chapter (Étape 0) · SVG MM-pump orphelin (relocated) · legacy lou-build · migration FIL A Item 234 · écart édition golden master (corrigé — **2022**, [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 ---
 
@@ -124,6 +124,7 @@ Ordre hérité de [`MASTER_ROADMAP.md` § Roadmap opérationnelle](MASTER_ROADMA
 | Phase | Intitulé | Statut |
 |---|---|---|
 | **0** | Compléter la chaîne Fabrique → Reader | **Clôturée** |
+| **0.1** | Fiabiliser le chemin de consommation Fabrique → Reader | **Clôturée** |
 | **1** | Modèle mental | **Clôturée** |
 | **2** | Amorçage cognitif | **Prochaine** |
 | **3** | Notions (11 notions, figures, walkthroughs, développements, points d'attention) | En attente |
@@ -146,7 +147,8 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-08-03 | **Phase 1 clôturée** — figure `MM-pump-decompensation` publiée via Stage G (`visual-spec` causal-graph) ; walkthrough `story`/`overview` figure-first ; zoom figure Reader ; validate/build + CI 234 PASS |
+| 2026-08-03 | **Phase 0.1 clôturée** — Product Review canonique (`scripts/product-review-234.sh`) ; bibliothèque `.local/` gitignored ; `ensureReleaseReady()` auto-repair digest ; diagnostics bootstrap explicites ; tests consommation |
+| 2026-08-03 | **Phase 1 clôturée** — figure `MM-pump-decompensation` publiée via Stage G ; walkthrough figure-first ; zoom Reader |
 | 2026-08-03 | **Phase 0 clôturée** — sync fixture Reader ; Stage G `mental_model`/`confusion` + branchement `visual-spec` ; assainissement moteur SVG V1 ; build/regenerate automatiques |
 | 2026-08-03 | **Roadmap opérationnelle Phases 0–9** — pilotage par les 7 vues Reader ; lots D/AP = acquis ; audit 234 = checklist implémentation ; Phase 0 active |
 | 2026-08-02 | **Nettoyage documentaire Reader V1** publié (`e479e78`) — modèle 7 vues ; doc `00-READER-V1-PRODUCT-MODEL.md` |
@@ -169,7 +171,7 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 | 2026-08-01 | **E-A — Learner Patrimony Component Contract** — [`LEARNER-PATRIMONY-COMPONENT-CONTRACT.md`](contracts/components/LEARNER-PATRIMONY-COMPONENT-CONTRACT.md) en vigueur ; PDR-E1…E6 ; index contrats mis à jour |
 | 2026-08-01 | **Publication PDR-D2** — tag `offline-certification-v1` sur `origin/main` ; commit `docs(governance): finalize PDR-D2 publication state` ; handover synchronisé |
 | 2026-08-01 | **D2-I — clôture PDR-D2** — propagation gouvernance ; lots D2-A…I livrés ; objectif actif → Acceptation Reader V1 ; commit `docs(governance): close PDR-D2 offline implementation` |
-| 2026-08-01 | **D2-H — clarifications contractuelles** — purge administrative hors graphe §5.2 ; détection stale non automatique à l'ouverture Reader ; `offline_ready` = dernier état certifié ; commit `docs(contract): clarify offline lifecycle semantics` |
+| 2026-08-01 | **D2-H — clarifications contractuelles** — purge administrative hors graphe §5.2 ; détection stale **branchée au bootstrap produit** (Phase 0.1) ; `offline_ready` = dernier état certifié |
 | 2026-08-01 | **D2-H — Update / Repair / Archive** — `repair`, `purge`, `detectStale`, `invalidateIfStale` dans Browser Offline Manager ; archivage sans reset offline ; 8 tests unit D2-H PASS |
 | 2026-08-01 | **D2-G — Browser Integration & Offline Certification** — Reader mode produit (`?product=1`) via Browser Package Access ; Browser Offline Manager seul certifiant `offline_ready`/`failed` ; 9 tests Playwright OF-D2-* + 3 unit Browser Offline Manager PASS |
 | 2026-08-01 | **D2-F — Préparation automatique après installation (refactor)** — hook post-install → `OfflineManager.prepare` (Runtime Node interne) ; **sans certification** `offline_ready`/`failed` ; `offline_status` reste `not_prepared` jusqu'à D2-G ; 11 tests adaptés |

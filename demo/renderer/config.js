@@ -52,6 +52,24 @@ window.LouConfig = {
             "Version de schéma d'amorçage cognitif non supportée.",
         cognitivePrimingBadge:
             "Badge de complément IA invalide dans l'artefact d'amorçage cognitif.",
+        productBootstrap: {
+            UNKNOWN_RELEASE:
+                "Release introuvable dans la bibliothèque installée.",
+            INVALID_CATALOG:
+                "Catalogue bibliothèque invalide ou illisible.",
+            MANIFEST_INCOHERENT:
+                "Manifeste incohérent ou artefact déclaré manquant.",
+            ASSET_MISSING:
+                "Artefact du package introuvable dans la bibliothèque.",
+            DIGEST_DIVERGENT:
+                "Le contenu publié a changé (content_digest) — la réparation automatique a échoué.",
+            RUNTIME_PREPARATION_FAILED:
+                "Préparation hors ligne du package impossible.",
+            CERTIFICATION_FAILED:
+                "Certification hors ligne du package impossible.",
+            UNKNOWN:
+                "Échec du démarrage en mode produit (Product Review).",
+        },
     },
 
     /** Legacy prototype tabs — manifest 404 only (ADR-002). */

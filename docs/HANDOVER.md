@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-03 (Phase 1 clôturée ; Phase 2 en attente) |
+| **Statut** | Document d'accueil — 2026-08-03 (Phase 0.1 clôturée ; Phase 2 en attente) |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -35,7 +35,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 |---|---|
 | **Phase** | Execution Mode V1 — Reader Acceptance V1 **clôturé** |
 | **Phase opérationnelle active** | **Phase 2** — Amorçage cognitif (en attente) |
-| **Dernier jalon publié** | **Phase 1** — Modèle mental (2026-08-03) |
+| **Dernier jalon publié** | **Phase 0.1** — chemin consommation Fabrique → Reader (2026-08-03) |
 | **Objectif actif** | **Reference Product Chapter (234)** — **laboratoire produit** (Phases 2–8) |
 | **Chantier actif** | **Phase 2** — Amorçage cognitif (package + vue Reader) |
 | **Chantier suivant (bloqué)** | **Phase 3 — Notions** — après Phase 2 |
@@ -52,7 +52,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 **Checklist implémentation :** [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md).
 
-**Validations de référence :** 632/632 tests unitaires renderer PASS · 122/122 smoke PASS · 14/14 smoke AP-F PASS.
+**Validations de référence :** 640/640 tests unitaires renderer PASS · 122/122 smoke PASS · 14/14 smoke AP-F PASS.
 
 ---
 
@@ -61,9 +61,12 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 **Roadmap opérationnelle** ([`MASTER_ROADMAP.md`](MASTER_ROADMAP.md) · [`PROJECT_STATE.md`](PROJECT_STATE.md)) — pilotée par les **7 vues Reader**, pas par les lots D/AP.
 
 ```
-Phase 1 — Modèle mental                         ← CLÔTURÉE
+Phase 0 — Chaîne Fabrique → Reader                    ← CLÔTURÉE
+Phase 0.1 — Fiabiliser consommation Fabrique → Reader ← CLÔTURÉE
         ↓
-Phase 2 — Amorçage cognitif                     ← PROCHAINE
+Phase 1 — Modèle mental                             ← CLÔTURÉE
+        ↓
+Phase 2 — Amorçage cognitif                         ← PROCHAINE
         ↓
 Phase 3 — Notions
         ↓
@@ -83,6 +86,8 @@ Capitalisation industrielle → Validation Corpus V1 → …
 ```
 
 **Prochain jalon opérationnel :** **Phase 2** — Amorçage cognitif.
+
+**Phase 0.1 clôturée :** Product Review canonique (`./scripts/product-review-234.sh`) ; auto-repair digest au bootstrap (`ensureReleaseReady`) ; diagnostics explicites.
 
 **Phase 1 clôturée :** figure `MM-pump-decompensation` publiée automatiquement ; walkthrough figure-first ; zoom figure Reader.
 
@@ -135,7 +140,7 @@ Learner Patrimony (E-A…E-D)
 | **Amorçage cognitif (AP-A…AP-F)** | Publié — package 234 |
 | **Critères d'acceptation** | **Prononcés** — 2026-08-02 |
 
-**Tests renderer (référence) :** 632 PASS unit · 122 PASS smoke · 14 PASS smoke AP-F.
+**Tests renderer (référence) :** 640 PASS unit · 122 PASS smoke · 14 PASS smoke AP-F.
 
 ---
 
@@ -146,8 +151,9 @@ Ordre = [`PROJECT_STATE.md` § Prochaines étapes](PROJECT_STATE.md#prochaines-�
 | Phase | Intitulé | Statut |
 |---|---|---|
 | **0** | Compléter la chaîne Fabrique → Reader | **Clôturée** |
-| **1** | Modèle mental | **Active** |
-| **2** | Amorçage cognitif | En attente |
+| **0.1** | Fiabiliser consommation Fabrique → Reader | **Clôturée** |
+| **1** | Modèle mental | **Clôturée** |
+| **2** | Amorçage cognitif | **Prochaine** |
 | **3** | Notions | En attente |
 | **4** | Cas cliniques | En attente |
 | **5** | Collège officiel + Notes | En attente |
@@ -163,15 +169,16 @@ Ordre = [`PROJECT_STATE.md` § Prochaines étapes](PROJECT_STATE.md#prochaines-�
 Lorsque le propriétaire dit *« On reprend le lot en cours »* :
 
 1. Lire ce HANDOVER.
-2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md) — **Phase 1 active**.
+2. Lire [`PROJECT_STATE.md`](PROJECT_STATE.md) — **Phase 2 prochaine**.
 3. Lire [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) — Phases 0–9, produit vs production.
-4. Lire [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) — lots L3+ (Phase 1 = publication figure MM).
+4. Lire [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) — checklist Phase 2.
 5. Lire [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md).
-6. **Chantier prioritaire : Phase 1** — publier la figure Modèle mental (`visual_intent`, walkthrough MM court).
-7. **Ne pas démarrer** Phase 9 (224) — conditionnée par Product Freeze (Phase 8).
-8. **Ne pas présenter** le 230 comme prochaine étape — candidat futur non tranché.
-9. **Product Review** (Phase 7) — uniquement quand les 7 vues sont utilisables ; Lou étudie via le Reader.
+6. **Product Review officielle :** [`docs/renderer/PRODUCT-REVIEW.md`](renderer/PRODUCT-REVIEW.md) — `./scripts/product-review-234.sh` (seule entrée valide).
+7. **Chantier prioritaire : Phase 2** — Amorçage cognitif (package + vue Reader).
+8. **Ne pas démarrer** Phase 9 (224) — conditionnée par Product Freeze (Phase 8).
+9. **Ne pas présenter** le 230 comme prochaine étape — candidat futur non tranché.
+10. **Product Review avec Lou** (Phase 7) — uniquement quand les 7 vues sont utilisables.
 
 ---
 
-*Handover — 2026-08-03 — Phase 0 clôturée ; Phase 1 active ; lots D/AP = acquis. Non normatif.*
+*Handover — 2026-08-03 — Phases 0, 0.1 et 1 clôturées ; Phase 2 prochaine ; lots D/AP = acquis. Non normatif.*

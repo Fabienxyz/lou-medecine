@@ -53,7 +53,9 @@ These documents explain the current research and discoveries.
 
 Only after reading the documents above should new product or implementation work begin.
 
-**Objectif actif :** **Reference Product Chapter (234)** — **Phase 0 active** (compléter la chaîne Fabrique → Reader) ; voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md), [`docs/rpc/00-RPC-METHODOLOGY.md`](docs/rpc/00-RPC-METHODOLOGY.md) et [`docs/MASTER_ROADMAP.md` § Roadmap opérationnelle](docs/MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234).
+**Objectif actif :** **Reference Product Chapter (234)** — **Phase 2 prochaine** (Amorçage cognitif) ; voir [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md), [`docs/rpc/00-RPC-METHODOLOGY.md`](docs/rpc/00-RPC-METHODOLOGY.md) et [`docs/MASTER_ROADMAP.md` § Roadmap opérationnelle](docs/MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234).
+
+**Product Review (234) :** procédure officielle — [`docs/renderer/PRODUCT-REVIEW.md`](docs/renderer/PRODUCT-REVIEW.md) · `./scripts/product-review-234.sh`
 
 **Reader V1 :** accepté (tag `reader-acceptance-v1`) — **7 vues** ; modèle produit [`00-READER-V1-PRODUCT-MODEL.md`](docs/renderer/00-READER-V1-PRODUCT-MODEL.md). Lots D/AP **clôturés** — ne pilotent plus la roadmap opérationnelle.
 

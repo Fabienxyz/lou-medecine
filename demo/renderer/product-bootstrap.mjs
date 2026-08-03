@@ -1,5 +1,7 @@
 /**
- * Product mode bootstrap (D2-G) — Browser Package Access + offline certification.
+ * Product mode bootstrap (D2-G + Phase 0.1-B) — Browser Package Access + offline certification.
+ *
+ * Canonical consumption path: installed library, digest-aware auto-repair, no manual cache purge.
  */
 import { createBrowserPackageAccess } from "./library/browser-package-access.js";
 import { createBrowserOfflineManager } from "./library/browser-offline-manager.js";
@@ -7,8 +9,12 @@ import { buildReleaseScopedUrl } from "./library/package-access-shared.js";
 import { loadCatalogFromLibrary } from "./library/library-catalog-browser.js";
 import { OFFLINE_STATUS } from "./library/offline-state.js";
 import { buildRestoreCatalogFacts } from "./library/restore-catalog-facts.js";
+import {
+  classifyProductBootstrapError,
+  formatProductBootstrapError,
+} from "./library/product-bootstrap-errors.js";
 
-export { buildRestoreCatalogFacts };
+export { buildRestoreCatalogFacts, classifyProductBootstrapError, formatProductBootstrapError };
 
 const params = new URLSearchParams(window.location.search);
 
@@ -41,15 +47,17 @@ export async function initProductMode(chapter) {
     packageAccess,
   });
 
-  const certification = await offlineManager.prepareAndCertify(releaseId);
+  const certification = await offlineManager.ensureReleaseReady(releaseId);
   const manifest = await packageAccess.resolveManifest(releaseId);
 
   return {
     releaseId,
     manifest,
     offlineStatus: certification.status,
+    repaired: certification.repaired === true,
     libraryBaseUrl,
     packageAccess,
+    offlineManager,
   };
 }
 
@@ -63,3 +71,5 @@ export async function readOfflineStatus(releaseId) {
   const entry = catalog.entries.find((e) => e && e.release_id === releaseId);
   return entry ? entry.offline_status : null;
 }
+
+export { OFFLINE_STATUS };

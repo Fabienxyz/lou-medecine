@@ -255,6 +255,61 @@ class BrowserOfflineManager {
   }
 
   /**
+   * Bootstrap path (Phase 0.1-B): open release, detect digest/runtime drift, auto-repair.
+   * @param {string} releaseId
+   * @returns {Promise<{ releaseId: string, status: import("../../../tools/lou-build/lib/offline-state.js").OfflineStatus, repaired: boolean }>}
+   */
+  async ensureReleaseReady(releaseId) {
+    const manifest = await this._packageAccess.resolveManifest(releaseId);
+    const contentDigest = manifest.content_digest;
+    if (typeof contentDigest !== "string" || !contentDigest.trim()) {
+      throw new BrowserOfflineManagerError(
+        "MANIFEST_INCOHERENT",
+        `browser offline manager: manifest content_digest missing for ${releaseId}`
+      );
+    }
+
+    const catalog = await loadCatalogFromLibrary(this._libraryBaseUrl, this._fetch);
+    this._requireCatalogEntry(catalog, releaseId);
+    const status = getCatalogOfflineStatus(catalog, releaseId);
+    const hasCompleteRuntime = await this._runtime.hasRelease(
+      releaseId,
+      contentDigest
+    );
+
+    if (hasCompleteRuntime && status === OFFLINE_STATUS.OFFLINE_READY) {
+      return { releaseId, status: OFFLINE_STATUS.OFFLINE_READY, repaired: false };
+    }
+
+    const staleAssessment = await this.detectStale(releaseId);
+    const needsRepair =
+      staleAssessment.stale ||
+      status === OFFLINE_STATUS.FAILED ||
+      (status === OFFLINE_STATUS.OFFLINE_READY && !hasCompleteRuntime);
+
+    try {
+      if (needsRepair) {
+        const result = await this.repair(releaseId);
+        return { ...result, repaired: true };
+      }
+      const result = await this.prepareAndCertify(releaseId);
+      return { ...result, repaired: false };
+    } catch (err) {
+      const normalized = toBrowserOfflineManagerError(err);
+      if (
+        normalized.code === "DIGEST_DIVERGENT" ||
+        normalized.code === "RUNTIME_PREPARATION_FAILED" ||
+        normalized.code === "CERTIFICATION_FAILED" ||
+        normalized.code === "ASSET_MISSING"
+      ) {
+        const result = await this.repair(releaseId);
+        return { ...result, repaired: true };
+      }
+      throw normalized;
+    }
+  }
+
+  /**
    * @param {string} releaseId
    */
   async _repairInternal(releaseId) {

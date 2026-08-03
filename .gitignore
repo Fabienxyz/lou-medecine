@@ -1,6 +1,7 @@
 .DS_Store
 .vscode/
 .cursor/
+.local/
 demo/renderer/node_modules/
 # Node dependencies
 node_modules/

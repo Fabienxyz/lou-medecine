@@ -122,6 +122,28 @@ window.LouRenderer = {
         return messages.loadFailed;
     },
 
+    productBootstrapErrorMessage(err, config) {
+        if (!err) {
+            return config.ERROR_MESSAGES.productBootstrap.UNKNOWN;
+        }
+        const messages = config.ERROR_MESSAGES.productBootstrap || {};
+        const code =
+            typeof err === "object" &&
+            err !== null &&
+            "code" in err &&
+            typeof err.code === "string"
+                ? err.code
+                : null;
+        if (code && messages[code]) {
+            const detail = err instanceof Error ? err.message : String(err);
+            return messages[code] + " (" + code + ") — " + detail;
+        }
+        if (err instanceof Error && err.message) {
+            return messages.UNKNOWN + " — " + err.message;
+        }
+        return messages.UNKNOWN;
+    },
+
     projectionAvailabilityMessage(availability, config) {
         if (availability === "known_absent") {
             return config.ERROR_MESSAGES.knownAbsent;

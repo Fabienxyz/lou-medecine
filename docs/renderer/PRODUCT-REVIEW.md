@@ -33,7 +33,7 @@ La bibliothèque d'exécution est `.local/product-review-library/` (gitignored) 
 |---|---|---|
 | **Product Review** (officiel) | `…&product=1` via script ci-dessus | Vérifier le produit publié après build |
 | Développement Reader | `?chapter=cardio/234` (sans `product=1`) | Ingénierie Reader / CHAPTERS_ROOT direct |
-| Fixture CI | `npm run test:smoke` | Non-régression automatisée (fixture versionnée) |
+| Fixture CI | `npm run test:smoke:product` | Non-régression automatisée mode produit (authoritative) |
 
 ## Republication (même `release_id`, nouveau digest)
 
@@ -49,6 +49,8 @@ En cas d'échec bootstrap, le message affiche un code explicite (`DIGEST_DIVERGE
 
 ## Références
 
+- Architecture validation : [`docs/testing/TEST_ARCHITECTURE_V1.md`](../testing/TEST_ARCHITECTURE_V1.md)
+- Pré-vol automatisé : [`scripts/validate-reader-v1.sh`](../../scripts/validate-reader-v1.sh)
 - [`demo/renderer/product-bootstrap.mjs`](../../demo/renderer/product-bootstrap.mjs)
 - [`demo/renderer/library/browser-offline-manager.js`](../../demo/renderer/library/browser-offline-manager.js) — `ensureReleaseReady()`
 - [`scripts/sync-reader-fixture.mjs`](../../scripts/sync-reader-fixture.mjs)

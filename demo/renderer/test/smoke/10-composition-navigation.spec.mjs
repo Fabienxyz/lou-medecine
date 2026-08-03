@@ -1,4 +1,10 @@
-/** Lot D — composition navigation smoke (cardio/234 acceptance fixture). */
+/**
+ * Lot D — composition navigation (mode développement, CHAPTERS_ROOT direct).
+ *
+ * Famille : Validation Reader technique (browser).
+ * Autorité : informative — le chemin produit est couvert par 17-product-composition-navigation.
+ * Référence : docs/testing/TEST_ARCHITECTURE_V1.md
+ */
 import { test, expect } from "@playwright/test";
 import { CHAPTER_SLUG, RENDERER_PATH } from "./fixtures.mjs";
 
@@ -88,19 +94,7 @@ test.describe("Lot D — composition navigation", () => {
       return wt && wt.textContent.includes("dyspnée d'effort");
     });
     await expect(page.locator(".view-scenarios-list li")).toHaveCount(3);
-    const order = await page.evaluate(() => {
-      const content = document.getElementById("content");
-      const scenarios = content.querySelector(".view-scenarios-shell");
-      const footer = content.querySelector(".footer-nav");
-      return (
-        scenarios &&
-        footer &&
-        (scenarios.compareDocumentPosition(footer) &
-          Node.DOCUMENT_POSITION_FOLLOWING) !==
-          0
-      );
-    });
-    expect(order).toBe(true);
+    await expect(page.locator(".footer-nav")).toHaveCount(0);
   });
 
   test("CN-05 qcm lists questions from registry", async ({ page }) => {

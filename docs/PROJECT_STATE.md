@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-03 (Phase 0.1 clôturée — Phase 2 en attente)
+**Dernière mise à jour :** 2026-08-03 (Phase T0 — architecture validation ; Phase 0.1 clôturée)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -25,7 +25,16 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Livrable visé** | Amorçage cognitif exploitable dans le Reader — voir Phase 2 |
 | **Chemin critique** | **Phases 2→8 (234)** → **Phase 9 (224)** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
 | **Blocage structurant** | Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
-| **Dernier jalon produit** | **Phase 0.1** — chemin de consommation Fabrique → Reader fiable (Product Review canonique, auto-repair digest) ; 2026-08-03 |
+| **Dernier jalon produit** | **Phase 0.1** — chemin de consommation Fabrique → Reader stabilisé (Product Review canonique, auto-repair digest) ; 2026-08-03 |
+
+**Chaîne de consommation Fabrique → Reader (Phase 0.1 clôturée).** La Phase 0.1 a fiabilisé le chemin entre publication du package et observation dans le Reader, sans modifier les contrats Fabrique ni Composition V1. La chaîne de consommation est désormais **considérée comme stabilisée** pour poursuivre les phases éditoriales (Phase 2 et suivantes).
+
+**Décisions d'architecture en vigueur :**
+
+- **`release_id` stable** pendant toute la construction éditoriale d'un chapitre — pas d'incrément automatique de `publication_version` à chaque build intermédiaire.
+- **`content_digest` = vérité matérielle** du contenu publié.
+- **Auto-réparation Reader** — au bootstrap produit, le Reader détecte toute divergence de digest ou de runtime (`detectStale()`), exécute `repair()` si nécessaire, recertifie, puis poursuit — sans vidage manuel de cache ni changement de `release_id`.
+- **Product Review officielle** — procédure exclusive : [`scripts/product-review-234.sh`](../scripts/product-review-234.sh) en mode produit (`?product=1`) ; bibliothèque d'exécution `.local/product-review-library/` (gitignored). Détail : [`docs/renderer/PRODUCT-REVIEW.md`](renderer/PRODUCT-REVIEW.md).
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -48,7 +57,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
-| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Main verte** — CI-01 clôturé (CN-07 realigné) ; workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) ; script local [`scripts/ci-234.sh`](../scripts/ci-234.sh) |
+| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Phase T0 clôturée** — architecture validation [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) ; gate produit `test:smoke:product` ; workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) |
 
 ---
 
@@ -59,7 +68,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | **Reference Product Chapter (234)** | Item **234** — Insuffisance cardiaque — édition Collège **2022** | Release `complete` ; **laboratoire produit** — finalisation en cours ; coût **ne pilote pas** les choix éditoriaux |
 | **Reference Production Chapter (224)** | Item **224** — HTA — édition Collège **2022** | **Non démarré** — industrialisation complète **après** Product Freeze 234 |
 | **Package de capitalisation de référence (normatif)** | Item **234** ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | Understanding + **évaluation complète** — 81 Questions + 3 Scénarios ; `editorial_completeness: complete` ; couverture understanding 91/91 ; validate/build PASS |
-| **Fixture de non-régression** | Item **234** — workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) | **Validée** — run GitHub Actions [#22 / 30732680037](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037) PASS (~5 min) ; validate + `test:ci` + 632 unit + 122 smoke ; intégration slice via `npm run test:integration` |
+| **Fixture de non-régression** | Item **234** — workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) | Gate : validate + `test:ci` + unit + `test:smoke:product` (authoritative) + `test:smoke:engineering` ; script [`scripts/validate-reader-v1.sh`](../scripts/validate-reader-v1.sh) |
 
 ---
 
@@ -99,15 +108,16 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | Indicateur | Mesuré | Notes |
 |---|---|---|
 | **Package de référence complet** | **Oui** — Release `complete` PDR-A3 | 81 QCM + 3 scénarios ; 91/91 KP understanding ; 9/16 deferred mastery |
-| **Reader Composition V1** | **Publiée** — tag `reader-composition-v1` ; Spec, Engine, ViewModel en production ; **632 unit PASS** | Audit indépendant ✅ Conforme |
+| **Reader Composition V1** | **Publiée** — tag `reader-composition-v1` ; Spec, Engine, ViewModel en production ; **651 unit PASS** | Audit indépendant ✅ Conforme |
 | **PDR-D2 — Offline intégral** | **Publié** — tag `offline-certification-v1` ; lots D2-A…I livrés ; Browser Offline Manager seul certifiant ; 9 tests Playwright OF-D2-* PASS | Contrat [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur |
 | **PDR-D6 — Recherche locale** | **Publié** — tag `local-search-v1` ; contrat [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; lots D6-A…G ; indexation Amorçage (C-CP-09, AP-F) | Implémentation Reader validée |
 | **PDR-D7 — Préférences d'affichage** | **Publié** — tag `display-preferences-v1` ; contrat [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) en vigueur ; lots D7-A…G |
-| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 | Acquis clôturé — **Phase 0** = prochain jalon opérationnel |
+| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 | Acquis clôturé — **Phase 2** = prochain jalon opérationnel |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
 | **Complétude source (234)** | Chapitre entier — 109 KPs, réconciliation v3 PASS | Évaluation : 81 QCM (91/91 KP understanding) + 3 scénarios |
 | **Grounding déterministe** | Non consolidé au niveau projet | Facettes évaluation → KP → ancres inventaire (pas encore sidecar ground dédié) |
-| **Reproductibilité du build en CI** | **Validée** — workflow CI — Fixture 234 PASS sur `main` | Run [#22 / 30732680037](https://github.com/Fabienxyz/lou-medecine/actions/runs/30732680037) — validate + `test:ci` + 632 unit + 122 smoke ; slice hors gate via `npm run test:integration` |
+| **Reproductibilité du build en CI** | **Validée** — gate 234 sur `main` | validate + `test:ci` + unit + smoke product (authoritative) + smoke engineering ; slice hors gate via `npm run test:integration` |
+| **Architecture validation Reader V1** | **Publiée** — Phase T0 | [`docs/testing/TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) — six familles ; Product Review alignée |
 | **Décisions humaines / chapitre** | Non suivi en production | — |
 | lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS ; Release `complete` ; **1** package complet PDR-A3 |
 | Tests lou-build | **180/180** PASS | 159 JS + 21 TS (test:ci) ; intégration slice 18 (test:integration) ; 3 tests Browser Offline Manager (D2-G) |
@@ -226,4 +236,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-03 — roadmap opérationnelle Phases 0–9 ; Phase 0 active ; lots D/AP clôturés.*
+*Révision 2026-08-03 — Phase 0.1 clôturée ; chaîne de consommation stabilisée ; Phase 2 prochaine ; lots D/AP clôturés.*

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Point d'entrée opérationnel — **informatif** |
-| **Statut** | Document d'accueil — 2026-08-03 (Phase 0.1 clôturée ; Phase 2 en attente) |
+| **Statut** | Document d'accueil — 2026-08-03 (Phase T0 validation ; Phase 2 en attente) |
 | **Autorité** | **Aucune** — vue synthétique uniquement |
 | **En cas de conflit** | [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md), [`PROJECT_STATE.md`](PROJECT_STATE.md), [`governance/EXECUTION_MODE_V1.md`](governance/EXECUTION_MODE_V1.md), ADR et contrats font foi |
 
@@ -52,7 +52,7 @@ Ce document permet à un agent IA de reprendre le projet **immédiatement** apr�
 
 **Checklist implémentation :** [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md).
 
-**Validations de référence :** 640/640 tests unitaires renderer PASS · 122/122 smoke PASS · 14/14 smoke AP-F PASS.
+**Validations de référence :** architecture [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) · 651 unit PASS · smoke product (authoritative) · gate [`scripts/validate-reader-v1.sh`](../scripts/validate-reader-v1.sh)
 
 ---
 
@@ -87,7 +87,7 @@ Capitalisation industrielle → Validation Corpus V1 → …
 
 **Prochain jalon opérationnel :** **Phase 2** — Amorçage cognitif.
 
-**Phase 0.1 clôturée :** Product Review canonique (`./scripts/product-review-234.sh`) ; auto-repair digest au bootstrap (`ensureReleaseReady`) ; diagnostics explicites.
+**Phase 0.1 clôturée :** chaîne de consommation stabilisée — `release_id` stable, `content_digest` vérité matérielle, auto-repair (`detectStale()` → `repair()`) au bootstrap ; Product Review exclusive via `./scripts/product-review-234.sh` (mode produit).
 
 **Phase 1 clôturée :** figure `MM-pump-decompensation` publiée automatiquement ; walkthrough figure-first ; zoom figure Reader.
 

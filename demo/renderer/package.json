@@ -8,6 +8,8 @@
     "postinstall": "mkdir -p lib && cp node_modules/marked/marked.min.js lib/marked.min.js",
     "test": "node --test test/*.test.js test/smoke/*.unit.test.js",
     "test:smoke": "playwright test",
+    "test:smoke:product": "playwright test --project=product",
+    "test:smoke:engineering": "playwright test --project=engineering",
     "test:all": "npm test && npm run test:smoke"
   },
   "dependencies": {

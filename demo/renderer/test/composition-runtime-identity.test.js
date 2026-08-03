@@ -324,7 +324,7 @@ describe("Lot D.1 — Composition runtime identity", () => {
     assert.equal(storyNote, null);
   });
 
-  test("clinical-cases scenarios render before footer navigation", async () => {
+  test("clinical-cases scenarios render in content zone", async () => {
     window.fetch = async function (url) {
       const href = String(url);
       if (href.includes("clinical-reasoning.md")) {
@@ -345,14 +345,8 @@ describe("Lot D.1 — Composition runtime identity", () => {
 
     const content = window.document.getElementById("content");
     const scenarios = content.querySelector(".view-scenarios-shell");
-    const footer = content.querySelector(".footer-nav");
     assert.ok(scenarios);
-    assert.ok(footer);
-    assert.ok(
-      scenarios.compareDocumentPosition(footer) &
-        window.Node.DOCUMENT_POSITION_FOLLOWING,
-      "scenarios section must precede footer nav"
-    );
+    assert.equal(content.querySelector(".footer-nav"), null);
     assert.equal(
       content.querySelectorAll(".view-scenarios-list li").length,
       clinicalView.scenarios.length

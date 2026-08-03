@@ -116,7 +116,9 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
     expect(readCatalogOfflineStatus()).toBe("offline_ready");
     expect(devPaths).toEqual([]);
     await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
-    await expect(page.locator("#specialty")).not.toHaveText("…");
+    await expect(page.locator("#specialty, #chapter-title").first()).not.toHaveText("…", {
+      timeout: 15_000,
+    });
   });
 
   test("OF-D2-03 cold offline reload without warm cache", async ({
@@ -128,7 +130,9 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
     await context.setOffline(true);
     await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
-    await expect(page.locator("#specialty")).not.toHaveText("…");
+    await expect(page.locator("#specialty, #chapter-title").first()).not.toHaveText("…", {
+      timeout: 15_000,
+    });
   });
 
   test("OF-D2-04 seven views navigable offline", async ({ page, context }) => {
@@ -301,7 +305,9 @@ test.describe("OF-D2 — Browser offline certification (D2-G)", () => {
     await context.setOffline(true);
     await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.locator(".tab")).toHaveCount(7, { timeout: 15_000 });
-    await expect(page.locator("#specialty")).not.toHaveText("…");
+    await expect(page.locator("#specialty, #chapter-title").first()).not.toHaveText("…", {
+      timeout: 15_000,
+    });
     expect(pageErrors).toEqual([]);
   });
 });

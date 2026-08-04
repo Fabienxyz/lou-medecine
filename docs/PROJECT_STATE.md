@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-03 (SVG Highlight Bridge V1 clôturé ; Phase 2 prochaine)
+**Dernière mise à jour :** 2026-08-04 (Phase 1A prototypage éditorial actif ; gate migration Phase 0)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -20,18 +20,22 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | | |
 |---|---|
-| **Objectif actif** | **Phase 2** — Amorçage cognitif ([roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234)) — prochain jalon RPC 234 |
-| **Phase opérationnelle active** | **Phase 2** — Amorçage cognitif — prête à démarrer |
-| **Livrable visé** | Amorçage cognitif exploitable dans le Reader — voir Phase 2 |
-| **Chemin critique** | **Phases 2→8 (234)** → **Phase 9 (224)** → capitalisation industrielle → Validation Corpus V1 → Industrialisation EDN |
+| **Objectif actif** | **Phase 1A** — validation du contrat éditorial cible sur le chapitre 234 ([plan](plans/editorial-prototyping-and-migration-plan.md)) |
+| **Phase opérationnelle active** | **Phase 1A** — prototypage produit hors Reader — MM · Notions · Cas **conjoints** |
+| **Livrable visé** | Prototypes Word mobile-first consultables par Lou (MM, Notions pilotes, Cas pilotes) |
+| **Chemin critique** | **Phase 1A → 1B → … → Product Freeze 234** → Phase 9 (224) → capitalisation → Corpus V1 |
 | **Blocage structurant** | Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
+| **Blocage migration technique** | **Phase 2 intégration/migration bloquée** — gate Phase 0 migration ([`analysis/phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md)) |
 | **Dernier jalon produit** | **SVG Highlight Bridge V1** — highlights SVG opérationnels sur RPC 234 ; UI annotation stabilisée HTML + SVG ; tag `svg-highlight-bridge-v1` ; 2026-08-03 |
+| **Baseline migration Phase 0** | Commit `5734832…` — tag `baseline-phase-0-2026-08-04` ; Phase 1A/1B autorisées ; Phase 2 migration **bloquée** |
 
 **SVG Highlight Bridge V1 clôturé (2026-08-03).** Les **highlights sur texte SVG** sont disponibles sur le chapitre de référence **234** (création, changement de couleur, effacement, restauration) via le moteur **Highlight V2** unique et le backend **LouInlineFormatting**. L'UI annotation est **stabilisée** : toolbar unique — couleurs + gomme sur SVG ; G/S/B masqués en contexte SVG ; walkthrough HTML inchangé.
 
-**UI Reader V1 — Annotation UI Freeze V1 (2026-08-03).** La couche annotation Learner HTML (highlights, inline notes, toolbar) reste **gelée** hors bug bloquant. Prochain jalon opérationnel : **Phase 2 — Amorçage cognitif**.
+**UI Reader V1 — Annotation UI Freeze V1 (2026-08-03).** La couche annotation Learner HTML reste **gelée** hors bug bloquant. **Chantier actif : Phase 1A** — prototypage éditorial hors Reader ([plan](plans/editorial-prototyping-and-migration-plan.md)).
 
-**Chaîne de consommation Fabrique → Reader (Phase 0.1 clôturée).** La Phase 0.1 a fiabilisé le chemin entre publication du package et observation dans le Reader, sans modifier les contrats Fabrique ni Composition V1. La chaîne de consommation est désormais **considérée comme stabilisée** pour poursuivre les phases éditoriales (Phase 2 et suivantes).
+**Chaîne de consommation Fabrique → Reader (Phase 0.1 clôturée).** Acquis technique stabilisé. **Prochaine intégration Reader** conditionnée par validation du contrat éditorial Phase 1A.
+
+**Gate prototypage éditorial et migration — Phase 0 clôturée avec réserves (2026-08-04).** Tag `baseline-phase-0-2026-08-04`. **Phase 1A autorisée** · **Phase 1B conception autorisée** · **Phase 2 migration bloquée** ([gate](analysis/phase-0-baseline-gate-2026-08-04.md)). **RPC Phase 2 Amorçage** et **Phases 3–4 linéaires** : **suspendues** — remplacées par conception conjointe Phase 1A.
 
 **Décisions d'architecture en vigueur :**
 
@@ -56,7 +60,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Reference Product Chapter (234)** | **Laboratoire produit** — Phases 2–8 | **Phases 0–1 clôturées** ; **Phase 2** (Amorçage) **prochaine** |
+| **Prototypage éditorial (Phase 1A)** | Validation contrat MM/Notions/Cas — chapitre 234 | **Actif** — Word mobile-first ; Product Review Lou ; voir [plan](plans/editorial-prototyping-and-migration-plan.md) |
+| **Reference Product Chapter (234)** | Laboratoire produit — Phases 2–8 (intention RPC) | **Intégration Reader suspendue** — RPC Phase 1 MM = baseline historique ; Amorçage Phase 2 **suspendu** |
 | **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
 | **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
 | **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
@@ -103,6 +108,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Rôle (roadmap) | Instance courante | État observé |
 |---|---|---|
 | **Reference Product Chapter (234)** | Item **234** — Insuffisance cardiaque — édition Collège **2022** | Release `complete` ; **laboratoire produit** — finalisation en cours ; coût **ne pilote pas** les choix éditoriaux |
+| **Tranche understanding (330)** | Item **330** — Antithrombotiques — édition Collège **2022** | **Tranche éditoriale uniquement** — sans `publication_version` / `release_id` / `content_digest` ; **non publiable** ; matériau partiel MM/Notions/Collège ; **non** contre-épreuve des 7 vues ; décision compléter vs autre chapitre **différée** |
 | **Reference Production Chapter (224)** | Item **224** — HTA — édition Collège **2022** | **Non démarré** — industrialisation complète **après** Product Freeze 234 |
 | **Package de capitalisation de référence (normatif)** | Item **234** ([PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)) | Understanding + **évaluation complète** — 81 Questions + 3 Scénarios ; `editorial_completeness: complete` ; couverture understanding 91/91 ; validate/build PASS |
 | **Fixture de non-régression** | Item **234** — workflow [`.github/workflows/ci-234.yml`](../.github/workflows/ci-234.yml) | Gate automatisé — PAS via Product Smokes ; voir [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) §5–§6 |
@@ -120,6 +126,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Patrimoine apprenant — export / restauration | **E-D publié** — export (E-C) + import (E-D) ; LP-05 et LP-06 satisfaits ; **PDR-E5 livré** ; Reader Acceptance V1 **prononcé** | Patrimoine · Validation pédagogique Lou |
 | F2 — ordre écriture sidecars G/H vs verdict I | Cohérence disque lou-build | Dette pipeline |
 | Scale-out prématuré (tentation multi-chapitres partiels) | Dispersion — contredit la séquence RPC 234 → Freeze → RPC 224 → Corpus | — (risque de pilotage) |
+| **Phase 2 migration technique** | Bloquée — gate Phase 0 ; Product Review / smokes / 330 release | Prototypage éditorial et migration ([gate](analysis/phase-0-baseline-gate-2026-08-04.md)) |
+| **Item 330 — identité release absente** | Non publiable ; non utilisable comme second package produit complet | Migration corpus — compléter 330 ou autre chapitre post-234 |
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
 | Portabilité hors cardio / hors PDF | Latent | Couverture EDN |
 
@@ -149,7 +157,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **PDR-D2 — Offline intégral** | **Publié** — tag `offline-certification-v1` ; lots D2-A…I livrés ; Browser Offline Manager seul certifiant ; 9 tests Playwright OF-D2-* PASS | Contrat [`OFFLINE-COMPONENT-CONTRACT.md`](contracts/components/OFFLINE-COMPONENT-CONTRACT.md) en vigueur |
 | **PDR-D6 — Recherche locale** | **Publié** — tag `local-search-v1` ; contrat [`LOCAL-SEARCH-COMPONENT-CONTRACT.md`](contracts/components/LOCAL-SEARCH-COMPONENT-CONTRACT.md) en vigueur ; lots D6-A…G ; indexation Amorçage (C-CP-09, AP-F) | Implémentation Reader validée |
 | **PDR-D7 — Préférences d'affichage** | **Publié** — tag `display-preferences-v1` ; contrat [`DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md`](contracts/components/DISPLAY-PREFERENCES-COMPONENT-CONTRACT.md) en vigueur ; lots D7-A…G |
-| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 | Acquis clôturé — **Phase 2** = prochain jalon opérationnel |
+| **Reader V1 — critères d'acceptation** | **Prononcés** — 2026-08-02 ; tag `reader-acceptance-v1` ; **7 vues alimentées** sur package 234 | Acquis clôturé — **Phase 1A** = chantier opérationnel actif |
 | **Reader V1 — UI annotation** | **Gelée** — Annotation UI Freeze V1 ; tag `reader-ui-freeze-v1` ; Product Polish V1 clôturé ; Product Review finale annotation **GO** | Aucun chantier UI ouvert |
 | **Reader V1 — highlights SVG (GLL annotations MVP)** | **Publié** — SVG Highlight Bridge V1 ; tag `svg-highlight-bridge-v1` ; RPC 234 ; Highlight V2 + LouInlineFormatting | Non-régression HTML validée |
 | **Effort humain / chapitre publié** | Non mesuré systématiquement | — |
@@ -158,7 +166,7 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 | **Reproductibilité du build en CI** | **Validée** — gate 234 sur `main` | Pyramide T0 : Lou Build → unit/contrats → Product Smoke (authoritative) ; slice hors gate |
 | **Architecture validation Reader V1** | **Stable — framework consolidé** | [`docs/testing/TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) — DEV / PAS / RELEASE, cartographie §6 |
 | **Décisions humaines / chapitre** | Non suivi en production | — |
-| lou-build validate PASS (packages FIL B) | **2** / 22 (234 full-chapter, 330) | 234 : validate + build PASS ; Release `complete` ; **1** package complet PDR-A3 |
+| lou-build validate PASS (packages produit FIL B) | **1** / 22 — **234** full-chapter uniquement | 234 : validate + build PASS ; Release `complete` ; **1** package produit complet PDR-A3 ; **330** : tranche understanding **sans identité release** — `validate` **FAIL** au 2026-08-04 (absence `publication_version`, `release_id`, `content_digest`) — **non** second package validé |
 | Tests lou-build | **180/180** PASS | 159 JS + 21 TS (test:ci) ; intégration slice 18 (test:integration) ; 3 tests Browser Offline Manager (D2-G) |
 | Références FIL A opérationnelles | **0** | |
 
@@ -166,27 +174,23 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 ## Prochaines étapes
 
-Ordre hérité de [`MASTER_ROADMAP.md` § Roadmap opérationnelle](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234) — **pas une repriorisation locale**.
+**Chantier actif :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) — **Phase 1A**.
 
-**Pilotage :** produit et **7 vues Reader**. Les lots Reader Acceptance (D1, D2, D4, D6, AP-A…AP-F) sont **clôturés** — acquis, pas chemin critique. L'audit [`docs/analysis/rpc-234-execution-audit.md`](analysis/rpc-234-execution-audit.md) = **checklist d'implémentation**.
-
-| Phase | Intitulé | Statut |
+| # | Étape | Statut |
 |---|---|---|
-| **0** | Compléter la chaîne Fabrique → Reader | **Clôturée** |
-| **0.1** | Fiabiliser le chemin de consommation Fabrique → Reader | **Clôturée** |
-| **1** | Modèle mental | **Clôturée** |
-| **2** | Amorçage cognitif | **Prochaine** |
-| **3** | Notions (11 notions, figures, walkthroughs, développements, points d'attention) | En attente |
-| **4** | Cas cliniques | En attente |
-| **5** | Collège officiel + Notes | En attente |
-| **6** | Validation intégrée | En attente |
-| **7** | Product Review avec Lou | En attente |
-| **8** | Corrections + Product Freeze | En attente |
-| **9** | Reference Production Chapter (224) | En attente — après Phase 8 |
+| 1 | Modélisation globale du chapitre 234 | **Prochaine** |
+| 2 | Cartographie MM → Notions → Cas | En attente |
+| 3 | Variantes MM (1 à 3 SVG) | En attente |
+| 4 | Notions pilotes (Lot 2) | En attente |
+| 5 | Cas cliniques pilotes (Lot 3) | En attente |
+| 6 | Product Review Lou (Word iPhone) | En attente |
+| 7 | Consolidation contrat éditorial | En attente |
 
-**Après Phase 9 :** capitalisation industrielle → Validation Corpus V1 ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) → choix chapitres suivants (230 ou autre) → validation pédagogique Lou → industrialisation EDN.
+**Suspendu** tant que contrat non validé : RPC Phase 2 Amorçage · intégration Reader Phases 3–4 linéaires · Phase 2 migration technique ([gate](analysis/phase-0-baseline-gate-2026-08-04.md)).
 
-**Parallèle (non bloquant Phases 0–8) :** patrimoine & publication · CI & fixture 234.
+**Intention RPC Phases 5–9** (Collège, validation intégrée, Product Review, Freeze, 224) : [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234) — sans statut mutable ici.
+
+**Parallèle (non bloquant) :** patrimoine & publication · CI & fixture 234.
 
 ---
 
@@ -196,6 +200,8 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-04 | **Phase 1A prototypage éditorial activée** — plan autoritaire [`editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) ; conception conjointe MM/Notions/Cas ; RPC Amorçage **suspendu** ; MM RPC Phase 1 = baseline historique |
+| 2026-08-04 | **Phase 0 migration clôturée avec réserves** — tag `baseline-phase-0-2026-08-04` — [`phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md) |
 | 2026-08-03 | **SVG Highlight Bridge V1 clôturé** — highlights SVG opérationnels sur RPC 234 ; bridge Highlight V2 + LouInlineFormatting ; Fabrique `data-official-text-id` ; package 234 régénéré ; UI toolbar contextuelle (G/S/B masqués SVG) ; tag `svg-highlight-bridge-v1` ; prochain jalon → Phase 2 Amorçage cognitif |
 | 2026-08-03 | **Annotation UI Freeze V1 prononcé** — Product Polish V1 clôturé ; Product Review finale annotation **GO** ; UI Reader V1 stabilisée ; tag `reader-ui-freeze-v1` |
 | 2026-08-03 | **Phase 0.1 clôturée** — Product Review canonique (`scripts/product-review-234.sh`) ; bibliothèque `.local/` gitignored ; `ensureReleaseReady()` auto-repair digest ; diagnostics bootstrap explicites ; tests consommation |
@@ -273,8 +279,10 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 | Dette Composition (clôturée) | [`governance/COMPOSITION-IMPLEMENTATION-DEBT.md`](governance/COMPOSITION-IMPLEMENTATION-DEBT.md) |
 | Détail migration Reader | [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md) |
 | Détail Reference Product Chapter | [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) |
+| Gate Phase 0 migration (baseline) | [`analysis/phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md) |
+| **Plan chantier actif — Phase 1A** | [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) |
 | Détail industrialisation (ultérieur) | [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) |
 
 ---
 
-*Révision 2026-08-03 — SVG Highlight Bridge V1 clôturé ; highlights SVG RPC 234 ; Phase 2 Amorçage cognitif prochaine.*
+*Révision 2026-08-04 — Phase 1A prototypage éditorial actif ; plan editorial-prototyping-and-migration-plan.md.*

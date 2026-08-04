@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Type** | Documentation RPC — **pilotage produit** |
-| **Statut** | En vigueur — pilotage actif |
+| **Statut** | En vigueur — intention RPC ; **exécution éditoriale courante** → [`plans/editorial-prototyping-and-migration-plan.md`](../plans/editorial-prototyping-and-migration-plan.md) |
 | **Autorité** | **Informatif** — ne remplace ni PDR, ni ADR, ni contrats |
 | **Point d'entrée** | Ce document, puis la roadmap opérationnelle Phases 0–9 |
 
@@ -11,7 +11,9 @@ Ce dossier (`docs/rpc/`) documente la **référence produit** et les **choix éd
 
 Les audits et investigations ponctuelles restent dans [`docs/analysis/`](../analysis/) — **checklist d'implémentation**, pas roadmap.
 
-**Roadmap opérationnelle de référence :** [`MASTER_ROADMAP.md` § Roadmap opérationnelle](../MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234) · état courant dans [`PROJECT_STATE.md`](../PROJECT_STATE.md).
+**Roadmap opérationnelle :** [`MASTER_ROADMAP.md`](../MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234) · [`PROJECT_STATE.md`](../PROJECT_STATE.md) (activité courante) · [`plans/editorial-prototyping-and-migration-plan.md`](../plans/editorial-prototyping-and-migration-plan.md) (lots détaillés).
+
+> **Pilotage éditorial :** le prototypage MM/Notions/Cas conjoints (hors Reader) précède la reprise de la séquence linéaire RPC Phases 2–4. RPC Phase 1 (MM intégré) = baseline historique — non contrat cible validé. **Ne pas** reprendre Amorçage comme chantier autonome sans lire [`PROJECT_STATE.md`](../PROJECT_STATE.md).
 
 ---
 

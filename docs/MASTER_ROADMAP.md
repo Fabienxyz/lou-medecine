@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-03 — SVG Highlight Bridge V1 clôturé ; Graphical Learning Layer V1 (annotations SVG MVP) livré ; Phase 2 Amorçage cognitif prochaine ; roadmap opérationnelle pilotée par les **7 vues Reader** ; 234 = laboratoire produit ; 224 = industrialisation (Phase 9).
+**Dernière révision :** 2026-08-04 — validation du contrat éditorial MM/Notions/Cas sur le chemin Product Freeze 234 ; plan [`editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) ; chantier courant → [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -48,7 +48,7 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 | **SVG Highlight Bridge V1** | ✅ **Clôturé** — prononcé 2026-08-03 ; tag `svg-highlight-bridge-v1` ; highlights SVG RPC 234 |
 | **Graphical Learning Layer V1 (annotations SVG — MVP)** | ✅ **Livré** — highlights SVG via Highlight V2 + LouInlineFormatting ; UI toolbar contextuelle |
 | **Graphical Learning Layer V1 (conception élargie)** | ⏸ **En attente** — figures SVG contenu de première classe (hors annotations MVP) |
-| **Reference Product Chapter (234)** — Phases 0–8 | 🔄 **Phase 2 prochaine** — Amorçage cognitif |
+| **Reference Product Chapter (234)** — contrat éditorial cible | ⏳ En attente — validation Lou (MM · Notions · Cas conjoints) avant poursuite intégration éditoriale — [plan](plans/editorial-prototyping-and-migration-plan.md) |
 | **Product Review 234** (Phase 7) | ⏳ En attente — chapitre utilisable ; **usage réel Lou** dans le Reader |
 | **Product Freeze 234** (Phase 8) | ⏳ En attente — après Product Review |
 | **Reference Production Chapter (224)** (Phase 9) | ⏳ En attente — **après Product Freeze 234** |
@@ -60,7 +60,7 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 
 **Distinction obligatoire :** la clôture **Reader Composition V1** ne signifiait **pas** que le Reader était terminé. L'objectif [Acceptation Reader V1](#acceptation-reader-v1) est **clôturé** depuis le 2026-08-02.
 
-**Principe de pilotage post-acceptation :** *Observer d'abord. Généraliser ensuite.* — le Item **234** est le **laboratoire produit** : y est **découvert** le meilleur produit pédagogique pour Lou (7 vues, notions, figures utiles, walkthroughs complets). Une **légère surproduction est volontaire** — ne pas écarter une idée pédagogique pertinente par crainte du coût. Le **coût et la méthode industrielle** sont **découverts sur le 224** (Phase 9), après [Product Freeze 234](#product-freeze-234). Pilotage détaillé : [Roadmap opérationnelle RPC 234](#roadmap-opérationnelle--reference-product-chapter-234) · [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md).
+**Principe de pilotage post-acceptation :** *Observer d'abord. Généraliser ensuite.* — le Item **234** est le **laboratoire produit**. **Dépendance éditoriale :** la validation du contrat cible MM · Notions · Cas avec Lou **précède** toute poursuite de l'intégration éditoriale du 234 — [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md). **Intention RPC Phases 0–9 :** [§ Roadmap opérationnelle](#roadmap-opérationnelle--reference-product-chapter-234) · [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md). **Activité courante :** [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 ### Séquence produit cible (post-Reader Acceptance)
 
@@ -71,22 +71,22 @@ Product Polish V1 / Annotation UI Freeze V1 ✅
         ↓
 SVG Highlight Bridge V1 ✅
         ↓
-Reference Product Chapter (234) — Phases 0–8  ← Phase 2 prochaine
+Phase 0 migration — baseline et gate              ← prérequis ([gate](analysis/phase-0-baseline-gate-2026-08-04.md))
+        ↓
+Validation contrat éditorial (MM · Notions · Cas) ← avant intégration éditoriale 234
+        ↓
+Conception modèle technique cible               ← après gate sortie prototypage
+        ↓
+Intégration éditoriale Reader (RPC Phases 2–6)    ← après contrat validé
         ↓
 Product Review (Phase 7) → Product Freeze (Phase 8)
         ↓
 Reference Production Chapter (224) — Phase 9
         ↓
-Capitalisation industrielle
-        ↓
-Validation Corpus V1 (Fabrique)
-        ↓
-Choix des chapitres suivants (230 ou autre)
-        ↓
-Validation pédagogique Lou
-        ↓
-Industrialisation EDN
+Capitalisation industrielle → Validation Corpus V1 → …
 ```
+
+**Migration technique** (chaîne parallèle, bascule) : **conditionnée** par les gates Phase 0 — [`phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md). **Lots et gates détaillés :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md).
 
 Le chemin critique effectif et la **phase courante** sont constatés dans [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
@@ -94,7 +94,18 @@ Le chemin critique effectif et la **phase courante** sont constatés dans [`PROJ
 
 ## Roadmap opérationnelle — Reference Product Chapter (234)
 
-**Document de référence unique** pour l'exécution du RPC 234. Une seule roadmap opérationnelle existe dans la documentation ; les prochaines étapes de [`PROJECT_STATE.md`](PROJECT_STATE.md) en héritent sans décalage.
+**Intention** Phases 0–9 — séquencement historique RPC vers [Product Freeze 234](#product-freeze-234). **Lots détaillés :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md). **Activité et blocages :** [`PROJECT_STATE.md`](PROJECT_STATE.md). **Réserves baseline :** [`phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md).
+
+### Dépendances éditoriales (prototypage et migration)
+
+Sur le chemin du Product Freeze, le contrat éditorial cible (Modèle mental · Notions · Cas cliniques, **conçus conjointement**) doit être **validé avec Lou** avant toute poursuite de l'intégration éditoriale du 234 dans le Reader.
+
+| Élément | Règle (intention) |
+|---|---|
+| **Plan d'exécution** | [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) — lots, gates, ordre prototypage |
+| **MM intégré (RPC Phase 1)** | Acquis technique **baseline historique** — **non** contrat éditorial cible validé |
+| **Intégration RPC Phases 2–4** | **Conditionnée** par validation du contrat global MM/Notions/Cas |
+| **Migration technique** | **Conditionnée** par satisfaction des gates Phase 0 ([gate](analysis/phase-0-baseline-gate-2026-08-04.md)) |
 
 ### Principes de pilotage
 
@@ -110,22 +121,22 @@ Le chemin critique effectif et la **phase courante** sont constatés dans [`PROJ
 | Phase | Intitulé | Focus | Vues Reader concernées |
 |---|---|---|---|
 | **0** | Compléter la chaîne Fabrique → Reader | Build entièrement automatique ; aucun manifest manuel ; aucun copier/coller ; aucun traitement spécifique au 234 ; fixture synchronisée ; Stage G compatible `mental_model` / `visual-spec` | Transversal — prérequis toutes vues |
-| **1** | Modèle mental | Figure ; walkthrough ; UX minimale ; navigation | Modèle mental |
-| **2** | Amorçage cognitif | Contenu et expérience Amorçage | Amorçage cognitif |
-| **3** | Notions | 11 notions ; figures ; walkthroughs ; développements ; points d'attention | Notions |
-| **4** | Cas cliniques | Scénarios cliniques jouables | Cas cliniques |
+| **1** | Modèle mental | Figure ; walkthrough ; UX minimale ; navigation | Modèle mental — acquis RPC Phase 1 = **baseline historique** ; contrat cible soumis à validation Lou |
+| **2** | Amorçage cognitif | Contenu et expérience Amorçage | Amorçage cognitif — intégration **après** validation contrat vues prioritaires |
+| **3** | Notions | 11 notions ; figures ; walkthroughs ; développements ; points d'attention | Notions — conception **conjointe** avec MM et Cas (prototypage) |
+| **4** | Cas cliniques | Scénarios cliniques jouables | Cas cliniques — conception **conjointe** avec MM et Notions (prototypage) |
 | **5** | Collège officiel + Notes | Texte source officiel ; notes apprenant | Collège officiel · Notes |
 | **6** | Validation intégrée | validate/build ; parcours complet 7 vues ; fixture CI | Les 7 vues |
 | **7** | Product Review avec Lou | Usage **réel** dans le Reader ; retour valeur pédagogique | Les 7 vues |
 | **8** | Corrections + Product Freeze | Itérations ciblées ; gel produit 234 | — |
 | **9** | Reference Production Chapter (224) | Reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit | — |
 
-**Séquence officielle :**
+**Séquence RPC historique** (intention — prototypage MM/Notions/Cas : [plan](plans/editorial-prototyping-and-migration-plan.md)) :
 
 ```
-Phase 0 — Fabrique → Reader
+Phase 0 — Fabrique → Reader                    ← clôturée (acquis)
         ↓
-Phase 1 — Modèle mental
+Phase 1 — Modèle mental (intégration Reader)   ← clôturée — baseline historique
         ↓
 Phase 2 — Amorçage cognitif
         ↓
@@ -146,7 +157,7 @@ Phase 9 — Reference Production Chapter (224)
 Capitalisation industrielle → Validation Corpus V1 → …
 ```
 
-**Modèle produit de référence :** [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) · **Choix éditoriaux Boucle 1 :** [`docs/rpc/10-BOUCLE-1-COMPREHENSION.md`](rpc/10-BOUCLE-1-COMPREHENSION.md).
+**Modèle produit de référence :** [`renderer/00-READER-V1-PRODUCT-MODEL.md`](renderer/00-READER-V1-PRODUCT-MODEL.md) · **Plan d'exécution prototypage :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md).
 
 ---
 
@@ -340,7 +351,7 @@ Chaque objectif porte une **nature** qui détermine sa rejouabilité. Les critè
 
 **Hors périmètre :** mesure de coûts, optimisation prompts/pipelines, standards industriels — → Reference Production Chapter (224).
 
-**Plan d'exécution détaillé :** [Roadmap opérationnelle RPC 234](#roadmap-opérationnelle--reference-product-chapter-234) · [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) · [`PROJECT_STATE.md`](PROJECT_STATE.md).
+**Plan d'exécution détaillé :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) · [Roadmap opérationnelle RPC 234](#roadmap-opérationnelle--reference-product-chapter-234) · [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 ---
 
@@ -718,6 +729,7 @@ Si la réponse est non, la décision attend.
 | Où en est-on ? | [`PROJECT_STATE.md`](PROJECT_STATE.md) |
 | Pourquoi cette décision ? | [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |
 | Comment organiser le pilotage ? | [`DOCUMENT_ARCHITECTURE.md`](governance/DOCUMENT_ARCHITECTURE.md) |
+| Plan prototypage éditorial et migration (Phase 1A) | [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) |
 | Reference Product Chapter — méthode produit | [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) |
 | Capitalisation gouvernance post-audit (ADR-006, registre produit) | [ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md), [`PRODUCT-DECISION-REGISTRY.md`](governance/PRODUCT-DECISION-REGISTRY.md) |
 | Quelles obligations techniques ? | [`contracts/00-INDEX.md`](contracts/00-INDEX.md) |
@@ -727,4 +739,4 @@ Si la réponse est non, la décision attend.
 
 ---
 
-*Révision 2026-08-03 — SVG Highlight Bridge V1 clôturé ; GLL annotations SVG MVP livré ; Phase 2 prochaine.*
+*Révision 2026-08-04 — contrat éditorial MM/Notions/Cas sur chemin Product Freeze ; plan editorial-prototyping-and-migration-plan.md.*

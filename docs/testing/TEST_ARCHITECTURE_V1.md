@@ -264,12 +264,12 @@ Les AAI **ne créent pas** une nouvelle famille de tests. Ils **réorganisent l'
 | | |
 |---|---|
 | **Responsabilité** | Vue « Amorçage cognitif » — artefact publié, profils, EDN, recherche, session, offline |
-| **Phases roadmap** | 2 *(prochaine)* |
+| **Phases roadmap** | 2 *(RPC — voir [`PROJECT_STATE.md`](../PROJECT_STATE.md) pour chantier actif)* |
 | **Critères d'acceptation** | Onglet publié ; contenu amorçage rendu ; profils Compréhension/Mémorisation ; liens EDN ; recherche vers Amorçage ; reprise session |
 | **Invariants AAI** | [AAI-AP-01](#62-registre-aai--pas--invariants--validations) amorçage provient uniquement du package publié |
 | **Implémentation actuelle** | Product Smoke `15-cognitive-priming-apf` (AP-F-01…12, EDN-SAME/CROSS) ; Contract Tests `cognitive-priming-*` |
 | **Product Review** | Phase 7 — Lou valide l'amorçage comme produit |
-| **Statut** | **Couverture forte** (capacité Reader) — Phase 2 éditoriale **prochaine** ; contenu 234 peut encore évoluer |
+| **Statut** | **Couverture forte** (capacité Reader). Capacité Amorçage existante — pour le chantier actif et l'ordre d'exécution, voir [`PROJECT_STATE.md`](../PROJECT_STATE.md). |
 
 ---
 
@@ -366,7 +366,7 @@ Chaque phase RPC 234 se clôt par la **PAS associée verte** (+ Product Review q
 | **0** | Chaîne Fabrique → Reader | PAS-OFFLINE | Couverture forte | **Clôturée** |
 | **0.1** | Fiabiliser consommation | PAS-OFFLINE | Couverture forte | **Clôturée** |
 | **1** | Modèle mental | PAS-MM | Couverture partielle | **Clôturée** *(éditorial)* |
-| **2** | Amorçage cognitif | PAS-AP | Couverture forte *(Reader)* | **Prochaine** |
+| **2** | Amorçage cognitif | PAS-AP | Couverture forte *(Reader)* | Voir [`PROJECT_STATE.md`](../PROJECT_STATE.md) |
 | **3** | Notions | PAS-NOTIONS | Couverture partielle | Réservée |
 | **4** | Cas cliniques | PAS-CLINICAL | Couverture partielle | Réservée |
 | **5** | Collège officiel + Notes | PAS-COLLEGE, PAS-NOTES | Couverture partielle | Réservée |
@@ -492,7 +492,7 @@ Backlog priorisée des AAI **Partiel** ou **Non couvert**. **Hors périmètre im
 |---|---|
 | **PAS-OFFLINE** *(correctif prioritaire)* | **Clôturé PAS-OFFLINE 2** — valider Product Review visuelle profil persistant |
 | **PAS-SHELL S2** | Livrer breadcrumb **et** AAI-SHL-02 (lint import) + renforcement AAI-SHL-03 lors de la clôture S2 |
-| **PAS-AP** *(Phase 2 — prochaine)* | AAI-AP-01 déjà couvert ; prioriser contenu éditorial ; vérifier qu'aucun fallback dev ne contourne le package en mode produit |
+| **PAS-AP** | Capacité Amorçage existante (AAI-AP-01 couvert). Chantier actif et ordre d'exécution : [`PROJECT_STATE.md`](../PROJECT_STATE.md). Vérifier qu'aucun fallback dev ne contourne le package en mode produit |
 | **PAS-LIBRARY** *(S3+)* | Créer le premier Product Smoke Couche 1 ; AAI-LIB-01 doit devenir **Couvert** avant prononcé PAS-LIBRARY |
 | **PAS-NOTIONS / CLINICAL / COLLEGE** *(Phases 3–5)* | Enrichir les smokes existants (`17`, `12`) pour combler AAI-NOT-01 et AAI-COL-01 lors de l'ouverture éditoriale de chaque phase |
 | **PAS-CONSUME** *(gel 2026-08-03 — **avant PAS-SHELL S3**)* | Ouvrir PAS dédiée nettoyage consommation ; référence [`21-CONTENT-CONSUMPTION-FREEZE.md`](../renderer/21-CONTENT-CONSUMPTION-FREEZE.md) §8 ; clôturer P0 (CONSUME-01, LEGACY-01, SEARCH-DISPLAY-01) avant S3 |

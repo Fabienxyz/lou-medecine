@@ -105,7 +105,7 @@ export function buildW1VisualAuditReport(options = {}) {
     outputRoot,
     ...(options.w1Context || {}),
   });
-  const bitmap = computeW1BitmapProofSummary({ outputRoot });
+  const bitmap = computeW1BitmapProofSummary({ outputRoot, familyResults });
   lines.push("## Preuves bitmap");
   lines.push("");
   lines.push(`- nominalProofCount: ${bitmap.nominalProofCount}`);

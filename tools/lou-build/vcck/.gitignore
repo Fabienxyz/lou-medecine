@@ -1,0 +1,10 @@
+# VCCK generated artifacts — do not commit
+vcck/output/
+vcck/gallery/
+vcck/reports/w1-candidate-hashes.json
+vcck/reports/qualification-results.json
+vcck/reports/qualification-matrix.md
+vcck/reports/w1-mission-verdict.json
+vcck/reports/w1-visual-audit-report.md
+vcck/reports/anti-specialization.json
+vcck/reports/reject-fixtures.json

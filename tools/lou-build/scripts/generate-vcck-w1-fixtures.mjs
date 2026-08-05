@@ -7,7 +7,8 @@ import YAML from "yaml";
 import { VCCK_W1, VCCK_POSITIVE } from "../lib/vcck/paths.js";
 import { loadFamilyRegistry } from "../lib/vcck/registry.js";
 
-const registry = loadFamilyRegistry();
+const TEXT_90_LABEL =
+  "alpha bravo charlie delta echo foxtrot golf hotel india juliet kilo";
 
 function writeYaml(filePath, obj) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
@@ -53,9 +54,7 @@ function chainFixtures(dir, maxNodes) {
     ...short,
     element: "w1-chain-text-90",
     nodes: mkNodes(3, (i) =>
-      i === 1
-        ? "Plateforme régionale intermédiaire logistique"
-        : ["Dépôt central", "Livraison locale"][i === 0 ? 0 : 1],
+      i === 1 ? TEXT_90_LABEL : ["Dépôt central", "Livraison locale"][i === 0 ? 0 : 1],
     ),
   });
 
@@ -119,6 +118,16 @@ function chainFixtures(dir, maxNodes) {
     ...short,
     element: "w1-chain-symbols",
     nodes: mkNodes(3, (i) => (i === 1 ? "A \u2192 B" : ["Source", "Cible"][i === 0 ? 0 : 1])),
+  });
+
+  writeYaml(path.join(dir, "chain-stress-90.yaml"), {
+    ...short,
+    element: "w1-chain-stress-90",
+    question: "Où va l'été — A \u2264 B ?",
+    nodes: mkNodes(cardinalN, (i) =>
+      i === Math.floor(cardinalN / 2) ? TEXT_90_LABEL : `Étape ${i + 1}`,
+    ),
+    edges: mkEdges(cardinalN),
   });
 }
 
@@ -224,11 +233,16 @@ function decisionFixtures(dir, maxNodes) {
   writeYaml(path.join(dir, "dependent-sequence-text-90.yaml"), {
     ...short,
     element: "w1-dependent-sequence-text-90",
-    ...linear(3, [
-      "Entrée",
-      "Plateforme régionale intermédiaire logistique",
-      "Sortie",
-    ]),
+    ...linear(3, ["Entrée", TEXT_90_LABEL, "Sortie"]),
+  });
+
+  writeYaml(path.join(dir, "dependent-sequence-stress-90.yaml"), {
+    ...base,
+    element: "w1-dependent-sequence-stress-90",
+    question: "Procédure été — A \u2192 B",
+    ...linear(n90, Array.from({ length: n90 }, (_, i) =>
+      i === Math.floor(n90 / 2) ? TEXT_90_LABEL : `Étape ${i + 1}`,
+    )),
   });
 }
 
@@ -291,7 +305,7 @@ function twoPoleFixtures(dir) {
     question: "Matrice dense",
     dimensions: Array.from({ length: 8 }, (_, i) =>
       dim(`d${i}`, `Dimension ${i + 1}`, `A${i}`, `B${i}`),
-    ).slice(0, 7),
+    ),
   });
 
   writeYaml(path.join(dir, "two-pole-cardinal-plus1.yaml"), {
@@ -338,6 +352,26 @@ function twoPoleFixtures(dir) {
     ...short,
     element: "w1-two-pole-permutation",
     poles: [base.poles[1], base.poles[0]],
+  });
+
+  writeYaml(path.join(dir, "two-pole-text-90.yaml"), {
+    ...short,
+    element: "w1-two-pole-text-90",
+    dimensions: [dim("d1", TEXT_90_LABEL, "Flexible", "Massifiée")],
+  });
+
+  writeYaml(path.join(dir, "two-pole-stress-90.yaml"), {
+    ...base,
+    element: "w1-two-pole-stress-90",
+    question: "Qu\u2019est-ce qui diffère — A \u2264 B ?",
+    dimensions: Array.from({ length: 8 }, (_, i) =>
+      dim(
+        `d${i}`,
+        i === 4 ? TEXT_90_LABEL : `Dimension ${i + 1}`,
+        i === 1 ? "A \u2192 B" : `A${i}`,
+        `B${i}`,
+      ),
+    ),
   });
 }
 
@@ -397,6 +431,19 @@ function flatConcurrentFixtures(dir, maxItems) {
     ],
   });
 
+  writeYaml(path.join(dir, "flat-concurrent-text-negative.yaml"), {
+    ...base,
+    element: "w1-flat-concurrent-text-negative",
+    question: "Trop long",
+    groups: [
+      group([
+        "Un deux trois quatre cinq six sept huit neuf dix onze douze treize",
+        "Humidité",
+        "Pression",
+      ]),
+    ],
+  });
+
   writeYaml(path.join(dir, "flat-concurrent-cardinal-plus1.yaml"), {
     ...base,
     element: "w1-flat-concurrent-cardinal-plus1",
@@ -410,11 +457,7 @@ function flatConcurrentFixtures(dir, maxItems) {
     element: "w1-flat-concurrent-text-90",
     question: "Liste longue",
     groups: [
-      group([
-        "Alpha bravo charlie delta echo foxtrot golf",
-        "Humidité",
-        "Pression",
-      ]),
+      group([TEXT_90_LABEL, "Humidité", "Pression"]),
     ],
   });
 
@@ -454,9 +497,23 @@ function flatConcurrentFixtures(dir, maxItems) {
     element: "w1-flat-concurrent-symbols",
     groups: [group(["A \u2192 B", "Humidité", "Pression"])],
   });
+
+  writeYaml(path.join(dir, "flat-concurrent-stress-90.yaml"), {
+    ...base,
+    element: "w1-flat-concurrent-stress-90",
+    question: "Capteurs été — A \u2264 B",
+    set: { ...base.set, expected_cardinality: n90 },
+    groups: [
+      group(
+        Array.from({ length: n90 }, (_, i) =>
+          i === Math.floor(n90 / 2) ? TEXT_90_LABEL : `Item ${i + 1}`,
+        ),
+      ),
+    ],
+  });
 }
 
-for (const family of registry.families.filter((f) =>
+for (const family of loadFamilyRegistry().families.filter((f) =>
   ["chain", "dependent-sequence", "two-pole", "flat-concurrent"].includes(f.id),
 )) {
   const dir = path.join(VCCK_W1, family.id);

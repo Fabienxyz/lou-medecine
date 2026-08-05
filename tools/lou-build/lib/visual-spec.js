@@ -266,8 +266,10 @@ export function validateVisualSpec(spec, options = {}) {
     return { ok: false, errors, stats: null };
   }
 
-  const contract =
-    PRIMITIVE_CONTRACTS[spec.primitive] || PRIMITIVE_CONTRACTS["causal-graph"];
+  const contract = {
+    ...(PRIMITIVE_CONTRACTS[spec.primitive] || PRIMITIVE_CONTRACTS["causal-graph"]),
+    ...(options.primitiveContractOverride || {}),
+  };
   const kpMap = inventory ? inventoryById(inventory) : null;
 
   // --- nodes ---------------------------------------------------------------

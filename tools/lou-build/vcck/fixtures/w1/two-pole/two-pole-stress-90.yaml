@@ -15,8 +15,8 @@ poles:
     label: Mode B
     pole_type: entity
     class: scaffolding
-element: w1-two-pole-cardinal-90
-question: Matrice dense
+element: w1-two-pole-stress-90
+question: Qu’est-ce qui diffère — A ≤ B ?
 dimensions:
   - id: d0
     label: Dimension 1
@@ -39,7 +39,7 @@ dimensions:
       - pole: a
         items:
           - id: d1-a
-            label: A1
+            label: A → B
             class: scaffolding
       - pole: b
         items:
@@ -75,7 +75,7 @@ dimensions:
             label: B3
             class: scaffolding
   - id: d4
-    label: Dimension 5
+    label: alpha bravo charlie delta echo foxtrot golf hotel india juliet kilo
     class: scaffolding
     cells:
       - pole: a

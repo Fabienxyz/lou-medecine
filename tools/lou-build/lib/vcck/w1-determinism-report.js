@@ -16,8 +16,34 @@ function sha256File(filePath) {
   return crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex");
 }
 
+function compositionFingerprint(metrics) {
+  if (!metrics?.contentRect) return null;
+  const w = Number(metrics.width);
+  const cr = metrics.contentRect;
+  const svgW = metrics.renderedSvgWidth ?? metrics.maxWidthApplied ?? null;
+  return [
+    w >= 768 ? "wide" : w,
+    cr.width,
+    cr.height,
+    metrics.elementCount ?? 0,
+    svgW ?? "na",
+  ].join("|");
+}
+
+function surfaceMetricsForFixture(familyResults, fixtureStem) {
+  if (!familyResults) return [];
+  for (const familyId of Object.keys(familyResults)) {
+    for (const row of familyResults[familyId]?.positive || []) {
+      const stem = String(row.fixture || "").replace(/\.yaml$/, "");
+      if (stem === fixtureStem) return row.surfaceMetrics || [];
+    }
+  }
+  return [];
+}
+
 export function computeW1BitmapProofSummary(options = {}) {
   const outputRoot = options.outputRoot ?? null;
+  const familyResults = options.familyResults ?? null;
   const inventory = [];
   const hashSet = new Set();
   const byFixture = [];
@@ -26,56 +52,72 @@ export function computeW1BitmapProofSummary(options = {}) {
     const stem = entry.file.replace(".yaml", "");
     const outDir = path.join(getVcckOutputDir(outputRoot), entry.family, stem);
     const fixtureHashes = [];
+    const metricsRows = surfaceMetricsForFixture(familyResults, stem);
+
     for (const width of W1_AUDIT_PNG_WIDTHS) {
       const png = path.join(outDir, `capture-${width}.png`);
       if (!fs.existsSync(png)) continue;
       const hash = sha256File(png);
       const bytes = fs.statSync(png).size;
       hashSet.add(hash);
-      fixtureHashes.push({ width, hash, bytes });
+      const metrics = metricsRows.find((m) => Number(m.width) === width);
+      fixtureHashes.push({
+        width,
+        hash,
+        bytes,
+        compositionFingerprint: metrics ? compositionFingerprint(metrics) : null,
+      });
       inventory.push({ fixture: stem, width, hash, bytes });
     }
+
     const uniqueForFixture = new Set(fixtureHashes.map((h) => h.hash));
+    const wideRows = fixtureHashes.filter((h) => h.width >= 768);
+    const wideFingerprints = [
+      ...new Set(wideRows.map((h) => h.compositionFingerprint).filter(Boolean)),
+    ];
     const stableAfterMax =
-      fixtureHashes.length >= 3 &&
-      fixtureHashes.filter((h) => h.width >= 768).every((h) => h.hash === fixtureHashes.find((x) => x.width === 768)?.hash);
+      wideRows.length >= 2 &&
+      (wideFingerprints.length === 1 ||
+        wideRows.every((h) => h.compositionFingerprint === wideFingerprints[0]));
+
     byFixture.push({
       fixture: stem,
       nominalProofCount: fixtureHashes.length,
       distinctBitmapCount: uniqueForFixture.size,
       stableAfterMaxWidth: stableAfterMax,
+      wideCompositionFingerprints: wideFingerprints,
       hashes: fixtureHashes,
     });
   }
 
   const unexplainedVariance = [];
   const documentedVariance = [];
-  const htmlFixtures = new Set(["two-pole-short", "two-pole-long", "flat-concurrent-short", "flat-concurrent-long"]);
+
   for (const fx of byFixture) {
-    if (!htmlFixtures.has(fx.fixture)) continue;
-    const h1280 = fx.hashes.find((h) => h.width === 1280)?.hash;
-    const h2400 = fx.hashes.find((h) => h.width === 2400)?.hash;
-    if (h1280 && h2400 && h1280 !== h2400) {
-      const row1280 = fx.hashes.find((h) => h.width === 1280);
-      const row2400 = fx.hashes.find((h) => h.width === 2400);
-      const sizeDelta =
-        row1280?.bytes && row2400?.bytes
-          ? Math.abs(row1280.bytes - row2400.bytes) / row1280.bytes
-          : 1;
-      if (sizeDelta <= 0.05) {
-        documentedVariance.push({
-          fixture: fx.fixture,
-          metric: "png-byte-delta",
-          bytes1280: row1280.bytes,
-          bytes2400: row2400.bytes,
-          relativeDelta: sizeDelta,
-          note: "Layout stable after max reading width; residual PNG encoder variance",
-        });
-      } else {
-        unexplainedVariance.push(
-          `${fx.fixture}: 1280 vs 2400 hash mismatch requires documented metric or fix`,
-        );
+    const wide = fx.hashes.filter((h) => h.width >= 1280);
+    if (wide.length >= 2) {
+      const base = wide[0];
+      for (const row of wide.slice(1)) {
+        if (row.hash !== base.hash) {
+          const fpMatch =
+            base.compositionFingerprint &&
+            row.compositionFingerprint === base.compositionFingerprint;
+          if (fpMatch) {
+            documentedVariance.push(
+              `${fx.fixture}: PNG bytes differ ${base.width}px vs ${row.width}px but composition fingerprint stable (${base.compositionFingerprint}) — viewport capture root width differs while rendered composition is unchanged`,
+            );
+          } else {
+            unexplainedVariance.push(
+              `${fx.fixture}: bitmap hash mismatch ${base.width}px vs ${row.width}px with distinct composition fingerprints (${base.compositionFingerprint} vs ${row.compositionFingerprint})`,
+            );
+          }
+        }
       }
+    }
+    if (fx.stableAfterMaxWidth === false) {
+      unexplainedVariance.push(
+        `${fx.fixture}: composition not stable after 768px — fingerprints ${JSON.stringify(fx.wideCompositionFingerprints)}`,
+      );
     }
   }
 

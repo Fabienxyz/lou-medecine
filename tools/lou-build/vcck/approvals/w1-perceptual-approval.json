@@ -1,0 +1,27 @@
+{
+  "contract": "VCCK-W1-PERCEPTUAL-APPROVAL-1",
+  "status": "PASS_CODEX",
+  "authority": "CODEX",
+  "scope": {
+    "families": [
+      "chain",
+      "dependent-sequence",
+      "two-pole",
+      "flat-concurrent"
+    ],
+    "fixtures": [
+      "chain-short",
+      "chain-long",
+      "dependent-sequence-short",
+      "dependent-sequence-long",
+      "two-pole-short",
+      "two-pole-long",
+      "flat-concurrent-short",
+      "flat-concurrent-long"
+    ],
+    "widths": [375, 530, 768, 1280, 2400],
+    "proofCount": 40
+  },
+  "approvedManifest": "vcck/reports/w1-approved-png-hashes.json",
+  "approvedManifestSha256": "e6199a15d5df646463236ee0933612865ba06165691c08fb66d91e11e60f1d3e"
+}

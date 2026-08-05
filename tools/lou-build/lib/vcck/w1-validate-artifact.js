@@ -30,6 +30,34 @@ function countHtmlItems(html, selector) {
   return count;
 }
 
+/** Independent artifact check — title clipped by shrunk viewBox. */
+export function validateW1ArtifactTitleClip(artifact) {
+  const errors = [];
+  const vb = artifact.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/);
+  if (!vb) return { ok: false, errors: ["artifact: missing viewBox"] };
+  const canvasH = parseFloat(vb[2]);
+  const titleTag = artifact.match(/<text\b[^>]*class="vg-title"[^>]*>/);
+  if (!titleTag) return { ok: false, errors: ["artifact: title missing in serialized SVG"] };
+  const yMatch =
+    titleTag[0].match(/\by="(\d+(?:\.\d+)?)"/) ||
+    artifact.match(/<text\b[^>]*\by="(\d+(?:\.\d+)?)"[^>]*class="vg-title"/);
+  if (!yMatch) return { ok: false, errors: ["artifact: title missing y coordinate in serialized SVG"] };
+  const titleBlock = artifact.match(/<text\b[^>]*class="vg-title"[^>]*>[\s\S]*?<\/text>/);
+  let estHeight = parseFloat(yMatch[1]);
+  if (titleBlock) {
+    for (const t of titleBlock[0].matchAll(/<tspan[^>]*dy="(\d+(?:\.\d+)?)"/g)) {
+      estHeight += parseFloat(t[1]);
+    }
+  }
+  if (parseFloat(yMatch[1]) > canvasH) errors.push("artifact: title clipped outside viewBox");
+  if (estHeight > canvasH + 4) errors.push("artifact: title lines overflow viewBox height");
+  return { ok: errors.length === 0, errors };
+}
+
+export function mutateArtifactTitleClip(artifact) {
+  return artifact.replace(/viewBox="0 0 (\d+) (\d+)"/, 'viewBox="0 0 $1 40"');
+}
+
 export function validateW1Artifact(spec, artifact, kind, expectedCounts = {}) {
   const errors = [];
 

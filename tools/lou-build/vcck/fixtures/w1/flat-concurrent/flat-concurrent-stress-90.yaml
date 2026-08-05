@@ -1,0 +1,58 @@
+spec_version: "0.2"
+primitive: enumeration-set
+technology: semantic-html
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+set:
+  id: set
+  label: Capteurs
+  membership_logic: concurrent-set
+  ordering_semantics: none
+  expected_cardinality: 11
+  class: scaffolding
+element: w1-flat-concurrent-stress-90
+question: Capteurs été — A ≤ B
+groups:
+  - id: grp
+    label: Ensemble
+    membership_logic: concurrent-set
+    ordering_semantics: none
+    expected_cardinality: 11
+    class: scaffolding
+    items:
+      - id: i0
+        label: Item 1
+        class: scaffolding
+      - id: i1
+        label: Item 2
+        class: scaffolding
+      - id: i2
+        label: Item 3
+        class: scaffolding
+      - id: i3
+        label: Item 4
+        class: scaffolding
+      - id: i4
+        label: Item 5
+        class: scaffolding
+      - id: i5
+        label: alpha bravo charlie delta echo foxtrot golf hotel india juliet kilo
+        class: scaffolding
+      - id: i6
+        label: Item 7
+        class: scaffolding
+      - id: i7
+        label: Item 8
+        class: scaffolding
+      - id: i8
+        label: Item 9
+        class: scaffolding
+      - id: i9
+        label: Item 10
+        class: scaffolding
+      - id: i10
+        label: Item 11
+        class: scaffolding

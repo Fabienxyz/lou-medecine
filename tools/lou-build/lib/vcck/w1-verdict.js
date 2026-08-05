@@ -10,6 +10,7 @@ import {
   gatesToPublicationPayload,
 } from "./w1-gates.js";
 import { verifyAllW1ArtifactSnapshots } from "./w1-artifact-snapshots.js";
+import { validatePerceptualApproval } from "./w1-perceptual-approval.js";
 
 export const W1_FAMILY_STATUS = Object.freeze({
   EXPERIMENTAL: "EXPERIMENTAL",
@@ -19,6 +20,7 @@ export const W1_FAMILY_STATUS = Object.freeze({
 export const W1_MISSION_VERDICT = Object.freeze({
   CODEX_REAUDIT: "READY_FOR_VCCK_W1_CODEX_REAUDIT",
   GIT_BASELINE: "READY_FOR_VCCK_W1_GIT_BASELINE_APPROVAL",
+  PROOF_BLOCKED: "VCCK_W1_PROOF_INTEGRITY_BLOCKED",
   REMEDIATION_BLOCKED: "VCCK_W1_REMEDIATION_BLOCKED",
   BLOCKED: "VCCK_W1_BLOCKED",
   SURFACE_PROOF: "VCCK_W1_BLOCKED_SURFACE_PROOF",
@@ -52,6 +54,7 @@ export function computeW1MissionVerdictFromPipeline(familyResults, context = {})
       ...verdict,
       negativeErrors: evalResult.negativeErrors,
       structuralCandidates: evalResult.structuralCandidates,
+      pipelineByFixture: evalResult.pipelineByFixture,
     };
   });
 
@@ -61,16 +64,30 @@ export function computeW1MissionVerdictFromPipeline(familyResults, context = {})
 
   const artifactSnapshots =
     context.artifactSnapshots ?? verifyAllW1ArtifactSnapshots();
+  const perceptual =
+    gateEval.perceptualApproval ?? validatePerceptualApproval();
 
-  let missionVerdict = W1_MISSION_VERDICT.REMEDIATION_BLOCKED;
-  if (allGatesPass && noBlocking && gateEval.pngReapproval.ok && artifactSnapshots.ok) {
-    missionVerdict = W1_MISSION_VERDICT.GIT_BASELINE;
+  const responsiveExecuted = gateEval.responsiveTestsExecuted === true;
+  const responsivePass = gateEval.responsiveTestsPass === true;
+  const stressSurfacesOk = gateEval.stressSurfaces?.ok === true;
+
+  let missionVerdict = W1_MISSION_VERDICT.PROOF_BLOCKED;
+  const readyForCodex =
+    allGatesPass &&
+    noBlocking &&
+    artifactSnapshots.ok &&
+    perceptual.ok &&
+    gateEval.pngDrift?.ok &&
+    gateEval.pngReapproval?.ok &&
+    responsiveExecuted &&
+    responsivePass &&
+    stressSurfacesOk;
+
+  if (readyForCodex) {
+    missionVerdict = W1_MISSION_VERDICT.CODEX_REAUDIT;
   } else if (allGatesPass && noBlocking && !artifactSnapshots.ok) {
     missionVerdict = W1_MISSION_VERDICT.SNAPSHOT;
   }
-
-  const responsiveExecuted = context.responsiveTestsExecuted ?? false;
-  const responsivePass = context.responsiveTestsPass ?? false;
 
   return {
     missionVerdict,
@@ -85,13 +102,16 @@ export function computeW1MissionVerdictFromPipeline(familyResults, context = {})
     budgetCoverage: gateEval.budgetCoverage,
     bitmapSummary: gateEval.bitmapSummary,
     artifactSnapshots,
+    perceptualApproval: perceptual,
     responsiveTestsExecuted: responsiveExecuted,
     responsiveTestsPass: responsivePass,
-    perceptualApproval768: gateEval.pngReapproval.ok ? "PASS_CODEX" : "PENDING_CODEX_REVIEW",
-    perceptualApprovalHtmlCandidates: gateEval.pngReapproval.ok ? "PASS_CODEX" : "PENDING_CODEX_REVIEW",
-    approvedPngDrift: gateEval.pngReapproval.ok ? "PASS" : "FAIL",
+    responsiveProof: gateEval.responsiveProof ?? context.responsiveProof,
+    stressSurfaces: gateEval.stressSurfaces ?? context.stressProof,
+    perceptualApproval768: perceptual.ok ? "PASS_CODEX" : "FAIL",
+    perceptualApprovalHtmlCandidates: perceptual.ok ? "PASS_CODEX" : "FAIL",
+    approvedPngDrift: gateEval.pngReapproval?.ok ? "PASS" : "FAIL",
     artifactSnapshotDrift: artifactSnapshots.ok ? "PASS" : "FAIL",
-    gitBaseline: "PENDING_EXPLICIT_GIT_BASELINE_APPROVAL",
+    gitBaseline: "19b2892d6379ae16819c2b9b2dee53e900b59256",
     p0Global: "VCCK_P0_BLOCKED",
     identityDebt: "OUT_OF_SCOPE_W1",
     familiesRemainExperimental: true,

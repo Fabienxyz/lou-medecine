@@ -15,11 +15,34 @@ function snapshotMtime(p) {
 
 const approvedMtimeBefore = snapshotMtime(W1_APPROVED_PNG_MANIFEST);
 
-const candidateCompare = verifyW1CandidateAgainstApproved();
-const outputDrift = verifyW1OutputMatchesCandidate();
-const approvedDrift = verifyW1ApprovedPngDrift();
+const driftOptions = {
+  ...(process.env.VCCK_W1_CANDIDATE_MANIFEST
+    ? { manifestPath: process.env.VCCK_W1_CANDIDATE_MANIFEST }
+    : {}),
+};
+const compareOptions = {
+  ...(process.env.VCCK_W1_CANDIDATE_MANIFEST
+    ? { candidatePath: process.env.VCCK_W1_CANDIDATE_MANIFEST }
+    : {}),
+  ...(process.env.VCCK_W1_APPROVED_MANIFEST
+    ? { approvedPath: process.env.VCCK_W1_APPROVED_MANIFEST }
+    : {}),
+};
+const approvedOptions = {
+  ...(process.env.VCCK_W1_APPROVED_MANIFEST
+    ? { manifestPath: process.env.VCCK_W1_APPROVED_MANIFEST }
+    : {}),
+};
 
-const errors = [...(outputDrift.errors || [])];
+const candidateCompare = verifyW1CandidateAgainstApproved(compareOptions);
+const outputDrift = verifyW1OutputMatchesCandidate(driftOptions);
+const approvedDrift = verifyW1ApprovedPngDrift(approvedOptions);
+
+const errors = [
+  ...(outputDrift.errors || []),
+  ...(candidateCompare.errors || []),
+  ...(approvedDrift.errors || []),
+];
 
 const approvedMtimeAfter = snapshotMtime(W1_APPROVED_PNG_MANIFEST);
 if (approvedMtimeBefore != null && approvedMtimeAfter !== approvedMtimeBefore) {
@@ -27,7 +50,7 @@ if (approvedMtimeBefore != null && approvedMtimeAfter !== approvedMtimeBefore) {
 }
 
 if (errors.length) {
-  console.error(`Verdict: ${candidateCompare.verdict || outputDrift.verdict || "VCCK_W1_BLOCKED_SURFACE_PROOF"}`);
+  console.error(`Verdict: ${outputDrift.verdict || candidateCompare.verdict || "VCCK_W1_BLOCKED_SURFACE_PROOF"}`);
   for (const e of errors) console.error(`  - ${e}`);
   process.exit(1);
 }
@@ -36,11 +59,5 @@ console.log("W1 output vs candidate manifest: PASS");
 console.log(`Candidate manifest: ${W1_CANDIDATE_PNG_MANIFEST}`);
 console.log(`Approved manifest: ${W1_APPROVED_PNG_MANIFEST}`);
 console.log(`Output PNG proofs verified: ${outputDrift.pngProofsVerified}`);
-if (!candidateCompare.ok) {
-  console.log(`Candidate vs approved: PENDING_CODEX_REAPPROVAL (${candidateCompare.errors.length} diffs)`);
-} else {
-  console.log("Candidate vs approved: PASS");
-}
-if (!approvedDrift.ok) {
-  console.log(`Output vs approved: PENDING_CODEX_REAPPROVAL (${approvedDrift.errors.length} diffs)`);
-}
+console.log("Candidate vs approved: PASS");
+console.log("Output vs approved: PASS");

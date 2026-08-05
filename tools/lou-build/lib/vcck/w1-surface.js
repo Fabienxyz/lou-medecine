@@ -54,11 +54,18 @@ body{margin:0;padding:0;overflow-x:hidden;background:#fff}
 .vg-matrix-card{border:1px solid var(--vg-border,#e5e7eb);margin-bottom:0.75rem;padding:0.75rem;border-radius:4px}
 .vg-matrix-card h4{margin:0 0 0.5rem;font-size:0.9375rem;font-weight:600}
 .vg-matrix-card ul{margin:0;padding-left:1.25rem}
-@media (max-width:767px){.vg-matrix-desktop{display:none!important}.vg-matrix-mobile{display:block}}
-@media (min-width:768px){.vg-matrix-mobile{display:none!important}.vg-matrix-desktop{display:table}}
 `;
 
 function evaluateW1SurfaceMetrics() {
+  function isDomVisible(el) {
+    if (!el) return false;
+    const style = window.getComputedStyle(el);
+    if (style.display === "none" || style.visibility === "hidden") return false;
+    const rect = el.getBoundingClientRect();
+    if (rect.width <= 0 && rect.height <= 0) return false;
+    return el.getClientRects().length > 0;
+  }
+
   const root = document.querySelector(".vg-w1-capture-root");
   if (!root) return { error: "missing .vg-w1-capture-root" };
 
@@ -70,9 +77,9 @@ function evaluateW1SurfaceMetrics() {
   let elementCount = 0;
 
   if (svg) {
-    const nodes = svg.querySelectorAll("[data-node-id]");
-    const titles = svg.querySelectorAll(".vg-title");
-    const edges = svg.querySelectorAll('[data-layer="relations"] path[data-edge-id]');
+    const nodes = [...svg.querySelectorAll("[data-node-id]")].filter(isDomVisible);
+    const titles = [...svg.querySelectorAll(".vg-title")].filter(isDomVisible);
+    const edges = [...svg.querySelectorAll('[data-layer="relations"] path[data-edge-id]')].filter(isDomVisible);
     elementCount = nodes.length + titles.length + edges.length;
 
     let minX = Infinity;
@@ -130,9 +137,9 @@ function evaluateW1SurfaceMetrics() {
       }
     }
   } else {
-    const items = root.querySelectorAll(
+    const items = [...root.querySelectorAll(
       "[data-item-id], .vg-matrix-desktop th, .vg-matrix-desktop td, .vg-matrix-card, .vg-question, .vg-enum-frame",
-    );
+    )].filter(isDomVisible);
     elementCount = items.length;
     if (items.length) {
       let minX = Infinity;
@@ -317,4 +324,4 @@ export async function measureW1SvgRenderedWidth(svgContent, viewportWidth) {
   }
 }
 
-export { SVG_VIEWPORT_WIDTHS, W1_VIEWPORT_WIDTHS };
+export { evaluateW1SurfaceMetrics, SVG_VIEWPORT_WIDTHS, W1_VIEWPORT_WIDTHS };

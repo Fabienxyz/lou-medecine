@@ -21,7 +21,7 @@ nodes:
     class: scaffolding
   - id: s1
     kind: test
-    label: Plateforme régionale intermédiaire logistique
+    label: alpha bravo charlie delta echo foxtrot golf hotel india juliet kilo
     class: scaffolding
   - id: s2
     kind: conclusion

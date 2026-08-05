@@ -10,7 +10,7 @@ nodes:
     class: scaffolding
   - id: n1
     kind: state
-    label: Plateforme régionale intermédiaire logistique
+    label: alpha bravo charlie delta echo foxtrot golf hotel india juliet kilo
     class: scaffolding
   - id: n2
     kind: event

@@ -65,19 +65,12 @@ import {
 import { writeW1VisualAuditReport } from "./w1-visual-report.js";
 import { computeW1MissionVerdictFromPipeline } from "./w1-verdict.js";
 import { W1_FAMILIES } from "./w1-constants.js";
-
-function deriveW1ResponsiveProof(familyResults, skipPlaywright) {
-  if (skipPlaywright) {
-    return { responsiveTestsExecuted: false, responsiveTestsPass: false };
-  }
-  let pass = true;
-  for (const familyId of W1_FAMILIES) {
-    for (const row of familyResults[familyId]?.positive || []) {
-      if (row.surfaces !== "PASS" || row.viewports !== "PASS") pass = false;
-    }
-  }
-  return { responsiveTestsExecuted: true, responsiveTestsPass: pass };
-}
+import {
+  runAllW1StressSurfaceProofs,
+  writeW1StressSurfacesReport,
+} from "./w1-stress-surfaces.js";
+import { buildW1ResponsiveProof } from "./w1-responsive-proof.js";
+import { validateW1HtmlReflowAtWidth } from "./w1-reflow-validate.js";
 import { computeVcckVerdict } from "./verdict.js";
 import { checkInterProcessDeterminism } from "./determinism-ipc.js";
 import { VCCK_POSITIVE as POS_DIR } from "./paths.js";
@@ -257,6 +250,7 @@ export async function runPositiveFixture(family, loadPath, options = {}) {
   const vpErrors = [];
   const pngErrors = [];
   const surfaceMetricNotes = [];
+  const reflowMetricNotes = [];
   const kind = artifactKind(spec);
   const w1Family = isW1Family(family.id);
 
@@ -278,6 +272,16 @@ export async function runPositiveFixture(family, loadPath, options = {}) {
               ...metrics,
               ratio: metrics.contentCaptureRatio,
             });
+          }
+          if (rendered.plan && (family.id === "two-pole" || family.id === "flat-concurrent")) {
+            const reflow = await validateW1HtmlReflowAtWidth(
+              rendered.plan,
+              artifactPath,
+              width,
+              family.id,
+            );
+            reflowMetricNotes.push({ width, ok: reflow.ok, detail: reflow.detail, errors: reflow.errors });
+            if (!reflow.ok) pngErrors.push(...reflow.errors.map((e) => `${width}px reflow: ${e}`));
           }
         } else {
           await captureHtmlPng(artifactPath, pngPath, { width });
@@ -380,6 +384,9 @@ export async function runPositiveFixture(family, loadPath, options = {}) {
   }
   if (surfaceMetricNotes.length) {
     result.surfaceMetrics = surfaceMetricNotes;
+  }
+  if (reflowMetricNotes.length) {
+    result.reflowMetrics = reflowMetricNotes;
   }
   if (surfaceCheck.missing.length) {
     result.errors.push(...surfaceCheck.missing.map((m) => `missing: ${m}`));
@@ -538,11 +545,36 @@ export async function runVcckQualification(options = {}) {
     interProcessDeterminism,
   });
 
+  let stressProof = { executed: false, ok: false, totalProofs: 0 };
+  let responsiveProof = buildW1ResponsiveProof(familyResults, {
+    skipPlaywright: true,
+    playwrightLaunched: false,
+    stressProof,
+  });
+
   if (!dryRun) {
     fs.mkdirSync(VCCK_REPORTS, { recursive: true });
     fs.writeFileSync(path.join(VCCK_REPORTS, "qualification-matrix.md"), report.markdown);
-    const responsiveProof = deriveW1ResponsiveProof(familyResults, skipPlaywright);
-    const w1Context = { outputRoot, ...responsiveProof };
+
+    if (!skipPlaywright) {
+      stressProof = await runAllW1StressSurfaceProofs({ outputRoot });
+      writeW1StressSurfacesReport(stressProof);
+    }
+
+    responsiveProof = buildW1ResponsiveProof(familyResults, {
+      skipPlaywright,
+      playwrightLaunched: !skipPlaywright,
+      stressProof,
+    });
+
+    const w1Context = {
+      outputRoot,
+      familyResults,
+      stressProof,
+      responsiveProof,
+      responsiveTestsExecuted: responsiveProof.executed === true,
+      responsiveTestsPass: responsiveProof.ok === true,
+    };
     const w1Visual = writeW1VisualAuditReport({ familyResults, outputRoot, w1Context });
     const w1Verdict =
       w1Visual.structuredVerdict ||
@@ -569,6 +601,8 @@ export async function runVcckQualification(options = {}) {
           surfaces,
           mutants,
           interProcessDeterminism,
+          stressProof: !skipPlaywright ? stressProof : null,
+          responsiveProof,
         },
         null,
         2,
@@ -576,10 +610,14 @@ export async function runVcckQualification(options = {}) {
     );
   }
 
-  const w1MissionVerdict = computeW1MissionVerdictFromPipeline(
+  const w1MissionVerdict = computeW1MissionVerdictFromPipeline(familyResults, {
+    outputRoot,
     familyResults,
-    deriveW1ResponsiveProof(familyResults, skipPlaywright),
-  ).missionVerdict;
+    stressProof,
+    responsiveProof,
+    responsiveTestsExecuted: responsiveProof.executed === true,
+    responsiveTestsPass: responsiveProof.ok === true,
+  }).missionVerdict;
 
   return {
     matrix,

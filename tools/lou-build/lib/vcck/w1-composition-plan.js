@@ -112,6 +112,51 @@ export function validateCompositionPlan(plan) {
   }
 
   if (!plan.budgetConsumed) errors.push("plan: budgetConsumed missing");
+
+  if (isSvg && plan.titleBox) {
+    const tb = plan.titleBox;
+    const canvasW = plan.dimensions?.width ?? 0;
+    const canvasH = plan.dimensions?.height ?? 0;
+    const titleEl = (plan.elements || []).find((e) => e.role === "title" || e.id === "__title__");
+    const titleRect = titleEl?.box
+      ? { x: titleEl.box.x, y: titleEl.box.y, width: titleEl.box.width, height: titleEl.box.height }
+      : {
+          x: (tb.centreX ?? canvasW / 2) - (tb.innerWidth ?? 0) / 2,
+          y: Math.max(0, (tb.startY ?? 0) - (tb.blockHeight ?? tb.lineCount * 24)),
+          width: tb.innerWidth ?? 0,
+          height: tb.blockHeight ?? tb.lineCount * 24,
+        };
+    if (
+      titleRect.y < 0 ||
+      titleRect.x < 0 ||
+      titleRect.y + titleRect.height > canvasH ||
+      titleRect.x + titleRect.width > canvasW
+    ) {
+      errors.push("plan: title outside canvas");
+    }
+    if (titleRect.width > canvasW) errors.push("plan: title exceeds canvas width");
+    const firstNode = (plan.elements || []).find((e) => e.role !== "title" && e.id !== "__title__" && e.box);
+    if (firstNode?.box && boxesOverlap(titleRect, firstNode.box)) {
+      errors.push("plan: title overlaps first node");
+    }
+    for (const route of plan.routes || []) {
+      for (const seg of route.segments || []) {
+        if (segmentIntersectsRect(seg, titleRect)) {
+          errors.push("plan: title crosses route");
+        }
+      }
+    }
+    const titleElement = (plan.elements || []).find((e) => e.role === "title" || e.id === "__title__");
+    if (titleElement && (!titleElement.textLines?.length && plan.titleLines?.length)) {
+      errors.push("plan: title element missing textLines");
+    }
+    if (titleElement?.textLines?.length && tb.lineCount != null && titleElement.textLines.length > tb.lineCount) {
+      errors.push("plan: title lines overflow titleBox");
+    }
+  } else if (isSvg && (plan.titleLines?.length || plan.family)) {
+    errors.push("plan: titleBox missing");
+  }
+
   return { ok: errors.length === 0, errors };
 }
 
@@ -128,7 +173,10 @@ export function mutatePlan(plan, mutantId) {
       if (copy.elements.length) copy.elements.push({ ...copy.elements[0] });
       break;
     case "missing-port":
-      if (copy.elements[0]?.ports) delete copy.elements[0].ports.south;
+      {
+        const nodeEl = copy.elements.find((e) => e.ports);
+        if (nodeEl?.ports) delete nodeEl.ports.south;
+      }
       break;
     case "route-through-box":
       if (copy.routes.length >= 3 && copy.elements.length > 3) {
@@ -142,19 +190,73 @@ export function mutatePlan(plan, mutantId) {
       }
       break;
     case "box-collision":
-      if (copy.elements.length >= 2) {
-        copy.elements[1].box.x = copy.elements[0].box.x;
-        copy.elements[1].box.y = copy.elements[0].box.y;
+      {
+        const nodes = copy.elements.filter((e) => e.role !== "title" && e.id !== "__title__");
+        if (nodes.length >= 2) {
+          nodes[1].box.x = nodes[0].box.x;
+          nodes[1].box.y = nodes[0].box.y;
+        }
       }
       break;
     case "missing-budget":
       delete copy.budgetConsumed;
+      break;
+    case "title-overlaps-node":
+      {
+        const titleEl = copy.elements.find((e) => e.role === "title" || e.id === "__title__");
+        const nodeEl = copy.elements.find((e) => e.role !== "title" && e.id !== "__title__" && e.box);
+        if (titleEl?.box && nodeEl?.box) {
+          nodeEl.box.y = titleEl.box.y;
+          nodeEl.box.x = titleEl.box.x;
+        }
+      }
+      break;
+    case "title-outside-canvas":
+      {
+        const titleEl = copy.elements.find((e) => e.role === "title" || e.id === "__title__");
+        if (titleEl?.box) titleEl.box.y = -50;
+        if (copy.titleBox) copy.titleBox.startY = -40;
+      }
+      break;
+    case "title-crosses-route":
+      if (copy.routes.length && copy.titleBox) {
+        const tb = copy.titleBox;
+        const midY = (copy.elements.find((e) => e.role !== "title")?.box?.y ?? tb.startY) - 10;
+        copy.routes[0].segments.push({
+          x1: 0,
+          y1: midY,
+          x2: copy.dimensions.width,
+          y2: midY,
+        });
+      }
+      break;
+    case "title-missing":
+      copy.elements = copy.elements.filter((e) => e.role !== "title" && e.id !== "__title__");
+      delete copy.titleBox;
+      copy.titleLines = [];
+      break;
+    case "title-lines-overflow":
+      {
+        const titleEl = copy.elements.find((e) => e.role === "title" || e.id === "__title__");
+        if (titleEl) {
+          titleEl.textLines = [...(titleEl.textLines || []), "overflow line one", "overflow line two", "overflow line three"];
+        }
+        if (copy.titleBox) copy.titleBox.lineCount = 1;
+      }
       break;
     default:
       throw new Error(`unknown plan mutant: ${mutantId}`);
   }
   return copy;
 }
+
+export const TITLE_MUTANT_IDS = Object.freeze([
+  "title-overlaps-node",
+  "title-outside-canvas",
+  "title-crosses-route",
+  "title-missing",
+  "title-lines-overflow",
+]);
 
 export const PLAN_MUTANT_IDS = [
   "infinite-width",

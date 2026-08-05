@@ -134,7 +134,20 @@ export function auditAntiSpecializationTransitive(options = {}) {
   };
 }
 
-/** @deprecated use auditAntiSpecializationTransitive */
+/** Inspect explicit file list with the same detection engine — for negative probes. */
+export function auditAntiSpecializationFiles(files, options = {}) {
+  const patterns = options.patterns || FORBIDDEN_PATTERNS;
+  const violations = [];
+  const scanned = [];
+  for (const file of files) {
+    if (!fs.existsSync(file)) continue;
+    scanned.push(path.relative(REPO_ROOT, file));
+    violations.push(...scanFileContent(file, patterns));
+  }
+  return { ok: violations.length === 0, violations, scannedFiles: scanned };
+}
+
+/** Authoritative closure scan — alias for transitive audit. */
 export function auditAntiSpecialization(options = {}) {
   return auditAntiSpecializationTransitive(options);
 }

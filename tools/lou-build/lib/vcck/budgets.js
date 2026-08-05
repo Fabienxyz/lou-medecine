@@ -64,6 +64,39 @@ function maxLabelWords(spec) {
   return max;
 }
 
+/** Max label word count with source location — for budget coverage matrix. */
+export function labelWordMetrics(spec) {
+  const entries = [];
+  const push = (text, location) => {
+    const trimmed = String(text || "").trim();
+    if (!trimmed) return;
+    entries.push({ words: countWords(trimmed), label: trimmed, location });
+  };
+
+  push(spec.question, "question");
+  for (const n of spec.nodes || []) push(n.label, `nodes.${n.id}.label`);
+  for (const e of spec.edges || []) push(e.relation_label, `edges.${e.from}->${e.to}.relation_label`);
+  for (const b of spec.branches || []) push(b.condition, `branches.${b.id}.condition`);
+  for (const p of spec.poles || []) push(p.label, `poles.${p.id}.label`);
+  for (const d of spec.dimensions || []) {
+    push(d.label, `dimensions.${d.id}.label`);
+    for (const c of d.cells || []) {
+      for (const item of c.items || []) push(item.label, `dimensions.${d.id}.cells.${c.pole}.${item.id}.label`);
+    }
+  }
+  for (const g of spec.groups || []) {
+    push(g.label, `groups.${g.id}.label`);
+    for (const item of g.items || []) push(item.label, `groups.${g.id}.items.${item.id}.label`);
+  }
+  if (spec.set?.label) push(spec.set.label, "set.label");
+
+  let peak = { words: 0, label: "", location: null };
+  for (const e of entries) {
+    if (e.words > peak.words) peak = e;
+  }
+  return { maxWords: peak.words, maxLabel: peak.label, maxLabelLocation: peak.location, entries };
+}
+
 function graphDepth(nodeIds, edges) {
   const out = new Map(nodeIds.map((id) => [id, []]));
   for (const e of edges) {

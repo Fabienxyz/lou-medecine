@@ -53,14 +53,14 @@ function detectAmbiguousEdgeOrigin(spec) {
   return false;
 }
 
-function preGateChecks(spec) {
+function preGateChecks(spec, options = {}) {
   if (detectUnsupportedNesting(spec)) {
     return reject("UNSUPPORTED_NESTING", { reason: "nested primitive or fragment" });
   }
   if (detectAmbiguousEdgeOrigin(spec)) {
     return reject("AMBIGUOUS_EDGE_ORIGIN", { reason: "duplicate edge origin routing" });
   }
-  const budget = checkBudgets(spec);
+  const budget = checkBudgets(spec, options.familyId ? { familyId: options.familyId } : {});
   if (!budget.ok) {
     return reject(budget.code, budget.detail);
   }
@@ -558,8 +558,8 @@ export function analyzeSignature(spec) {
 }
 
 /** Gate before render: returns { allowed, code?, analysis } */
-export function gateBeforeRender(spec) {
-  const pre = preGateChecks(spec);
+export function gateBeforeRender(spec, options = {}) {
+  const pre = preGateChecks(spec, options);
   if (pre) {
     return { allowed: false, code: pre.code, analysis: pre, stage: "budget-or-structure" };
   }

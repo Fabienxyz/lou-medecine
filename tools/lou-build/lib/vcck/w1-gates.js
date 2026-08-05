@@ -3,6 +3,7 @@
  */
 
 import path from "node:path";
+import fs from "node:fs";
 import { loadVisualSpec } from "../visual-spec.js";
 import { VCCK_POSITIVE } from "./paths.js";
 import { W1_FAMILIES } from "./w1-constants.js";
@@ -17,6 +18,15 @@ import { verifyW1OutputMatchesCandidate, verifyW1CandidateAgainstApproved } from
 import { snapshotGateStatusForFamily } from "./w1-artifact-snapshots.js";
 import { evaluateW1BudgetCoverage } from "./w1-budget-coverage.js";
 import { computeW1BitmapProofSummary } from "./w1-determinism-report.js";
+import { validatePerceptualApproval } from "./w1-perceptual-approval.js";
+import {
+  W1_PROBATIVE_VARIANTS,
+  probativeFixturePath,
+  listProbativeFixtures,
+} from "./w1-probative-fixtures.js";
+import { validateCompositionPlan } from "./w1-composition-plan.js";
+import { evaluateStressSurfacesGate } from "./w1-stress-surfaces.js";
+import { responsiveProofToGate } from "./w1-responsive-proof.js";
 
 export const W1_REQUIRED_GATES = Object.freeze([
   "contract",
@@ -48,10 +58,34 @@ function allPositives(fr, field) {
   return { ok: failed.length === 0, executed: true, failed };
 }
 
-function evaluateFamilyPipelineGates(familyId) {
-  const shortSpec = loadVisualSpec(path.join(VCCK_POSITIVE, `${familyId}-short.yaml`));
+function evaluatePipelineForFixture(familyId, fixturePath) {
+  if (!fs.existsSync(fixturePath)) {
+    return {
+      fixture: path.basename(fixturePath),
+      plan: BLOCKED,
+      serialize: BLOCKED,
+      artifact: BLOCKED,
+      blocked: true,
+      errors: [`missing fixture ${fixturePath}`],
+    };
+  }
+  let shortSpec;
+  try {
+    shortSpec = loadVisualSpec(fixturePath);
+  } catch (e) {
+    return {
+      fixture: path.basename(fixturePath),
+      plan: BLOCKED,
+      serialize: BLOCKED,
+      artifact: BLOCKED,
+      blocked: true,
+      errors: [String(e.message || e)],
+    };
+  }
+
   const pipeline = runW1Pipeline(shortSpec, { expectedFamily: familyId });
-  const planOk = Boolean(pipeline.ok && pipeline.plan);
+  const planValid = pipeline.plan ? validateCompositionPlan(pipeline.plan) : { ok: false, errors: [] };
+  const planOk = Boolean(pipeline.ok && pipeline.plan && planValid.ok);
   const serializeOk = Boolean(pipeline.ok && pipeline.artifact);
   let artifactOk = false;
   if (pipeline.ok) {
@@ -60,11 +94,41 @@ function evaluateFamilyPipelineGates(familyId) {
     artifactOk = art.ok;
   }
   return {
-    plan: planOk ? PASS : FAIL,
+    fixture: path.basename(fixturePath),
+    plan: planOk ? PASS : pipeline.plan ? FAIL : FAIL,
     serialize: serializeOk ? PASS : FAIL,
     artifact: artifactOk ? PASS : FAIL,
-    pipelineErrors: pipeline.errors || [],
+    blocked: false,
+    pipelineErrors: [...(pipeline.errors || []), ...(planValid.errors || [])],
   };
+}
+
+function evaluateFamilyPipelineGates(familyId) {
+  const byFixture = {};
+  const probative = listProbativeFixtures(familyId);
+  let plan = PASS;
+  let serialize = PASS;
+  let artifact = PASS;
+  const pipelineErrors = [];
+
+  for (const variant of W1_PROBATIVE_VARIANTS) {
+    const fx = probative.find((p) => p.variant === variant);
+    const fixturePath = fx?.path ?? probativeFixturePath(familyId, variant);
+    const result = evaluatePipelineForFixture(familyId, fixturePath);
+    byFixture[variant] = result;
+    for (const gate of ["plan", "serialize", "artifact"]) {
+      if (result[gate] === BLOCKED) {
+        plan = serialize = artifact = BLOCKED;
+      } else if (result[gate] !== PASS) {
+        if (gate === "plan") plan = FAIL;
+        if (gate === "serialize") serialize = FAIL;
+        if (gate === "artifact") artifact = FAIL;
+      }
+    }
+    pipelineErrors.push(...(result.pipelineErrors || []));
+  }
+
+  return { plan, serialize, artifact, pipelineErrors, byFixture };
 }
 
 function evaluateSnapshotsGate(familyId) {
@@ -113,6 +177,7 @@ export function evaluateW1FamilyGates(familyId, context = {}) {
     failed,
     negativeErrors,
     pipelineErrors: pipelineGates.pipelineErrors,
+    pipelineByFixture: pipelineGates.byFixture,
     structuralCandidates: (() => {
       try {
         const shortSpec = loadVisualSpec(path.join(VCCK_POSITIVE, `${familyId}-short.yaml`));
@@ -161,6 +226,33 @@ export function evaluateW1MissionGates(context = {}) {
     allFailed.push(...bitmap.unexplainedVariance);
   }
 
+  const perceptual = context.perceptualApproval ?? validatePerceptualApproval();
+  if (!perceptual.ok) {
+    blockingGates.push("perceptual-attestation");
+    allFailed.push(...(perceptual.errors || []));
+  }
+
+  const responsiveProof = context.responsiveProof;
+  const responsiveGate = responsiveProofToGate(responsiveProof);
+  if (!responsiveGate.executed) {
+    blockingGates.push("responsive-tests");
+    allFailed.push("responsive-tests: BLOCKED (not executed)");
+  } else if (!responsiveGate.pass) {
+    blockingGates.push("responsive-tests");
+    allFailed.push("responsive-tests: FAIL");
+    allFailed.push(...(responsiveProof?.errors || []));
+  }
+
+  const stressGate = evaluateStressSurfacesGate(context.stressProof);
+  if (!stressGate.executed) {
+    blockingGates.push("stress-surfaces");
+    allFailed.push("stress-surfaces: BLOCKED (not executed)");
+  } else if (!stressGate.ok) {
+    blockingGates.push("stress-surfaces");
+    allFailed.push("stress-surfaces: FAIL");
+    allFailed.push(...(stressGate.errors || []));
+  }
+
   return {
     perFamily,
     allFailed,
@@ -170,6 +262,11 @@ export function evaluateW1MissionGates(context = {}) {
     pngReapproval,
     budgetCoverage: budget,
     bitmapSummary: bitmap,
+    perceptualApproval: perceptual,
+    responsiveTestsExecuted: responsiveGate.executed,
+    responsiveTestsPass: responsiveGate.pass,
+    responsiveProof,
+    stressSurfaces: stressGate,
   };
 }
 

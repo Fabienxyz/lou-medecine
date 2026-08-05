@@ -206,7 +206,7 @@
       "expected_signature": "linear-branches,no-skip,no-loop",
       "budgets": {
         "maxNodes": 12,
-        "maxBranches": 16,
+        "maxBranches": 11,
         "maxLabelWords": 12
       },
       "required_surfaces": [

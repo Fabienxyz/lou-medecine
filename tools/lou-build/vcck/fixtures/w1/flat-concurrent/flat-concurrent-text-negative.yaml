@@ -13,8 +13,8 @@ set:
   ordering_semantics: none
   expected_cardinality: 3
   class: scaffolding
-element: w1-flat-concurrent-text-90
-question: Liste longue
+element: w1-flat-concurrent-text-negative
+question: Trop long
 groups:
   - id: grp
     label: Ensemble
@@ -24,7 +24,7 @@ groups:
     class: scaffolding
     items:
       - id: i0
-        label: alpha bravo charlie delta echo foxtrot golf hotel india juliet kilo
+        label: Un deux trois quatre cinq six sept huit neuf dix onze douze treize
         class: scaffolding
       - id: i1
         label: Humidité

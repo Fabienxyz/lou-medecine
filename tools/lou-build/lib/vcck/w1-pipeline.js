@@ -6,17 +6,33 @@
 
 import { validateVisualSpec } from "../visual-spec.js";
 import { loadVcckInventory } from "./inventory.js";
+import { loadFamilyRegistry } from "./registry.js";
 import { isW1Family } from "./w1-constants.js";
 import { enforceFamilyContract } from "./w1-contracts.js";
 import { buildCompositionPlan } from "./w1-build-plan.js";
 import { validateCompositionPlan } from "./w1-composition-plan.js";
 import { serializeArtifact, wrapHtmlDocument } from "./w1-serialize.js";
 
+function w1PrimitiveContractOverride(spec, expectedFamily) {
+  if (!String(spec.chapter || "").includes("vcck/w1") || !expectedFamily) return {};
+  const family = loadFamilyRegistry().families.find((f) => f.id === expectedFamily);
+  if (!family?.budgets) return {};
+  const b = family.budgets;
+  return {
+    ...(b.maxNodes != null ? { maxNodes: b.maxNodes } : {}),
+    ...(b.maxEdges != null ? { maxEdges: b.maxEdges } : {}),
+    ...(b.maxLabelWords != null ? { maxLabelWords: b.maxLabelWords } : {}),
+  };
+}
+
 export function runW1Pipeline(spec, options = {}) {
   const inventory = options.inventory || loadVcckInventory();
   const expectedFamily = options.expectedFamily || null;
 
-  const validation = validateVisualSpec(spec, { inventory });
+  const validation = validateVisualSpec(spec, {
+    inventory,
+    primitiveContractOverride: w1PrimitiveContractOverride(spec, expectedFamily),
+  });
   if (!validation.ok) {
     return { ok: false, stage: "validation", errors: validation.errors, plan: null, artifact: null };
   }

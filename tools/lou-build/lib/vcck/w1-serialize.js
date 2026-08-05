@@ -92,6 +92,7 @@ function serializeSvgFromPlan(spec, plan) {
 
   parts.push('  <g data-layer="entities">');
   for (const el of plan.elements) {
+    if (el.role === "title" || el.id === "__title__") continue;
     const style = nodeStyle(el.kind, plan.family);
     const dash = style.dash ? ` stroke-dasharray="${style.dash}"` : "";
     parts.push(`    <g data-node-id="${escapeXml(el.id)}" data-node-kind="${escapeXml(el.kind)}"${el.terminal ? ' data-terminal="true"' : ""}>`);
@@ -108,6 +109,17 @@ function serializeSvgFromPlan(spec, plan) {
   }
   parts.push("  </g></svg>");
   return parts.join("\n");
+}
+
+function twoPoleReflowCss(plan) {
+  const widths = Object.keys(plan.reflowByWidth || {})
+    .map(Number)
+    .sort((a, b) => a - b);
+  let tableBreakpoint = widths.find((w) => plan.reflowByWidth[w]?.mode === "table") ?? 768;
+  return `
+@media (max-width:${tableBreakpoint - 1}px){.vg-matrix-desktop{display:none!important}.vg-matrix-mobile{display:block}}
+@media (min-width:${tableBreakpoint}px){.vg-matrix-mobile{display:none!important}.vg-matrix-desktop{display:table}}
+`;
 }
 
 function serializeTwoPoleHtml(spec, plan) {
@@ -147,10 +159,11 @@ function serializeTwoPoleHtml(spec, plan) {
   mobile.push("</div>");
 
   return [
-    `<figure class="vg-visual vg-comparison-matrix" data-primitive="comparison-matrix" data-family="two-pole" data-contract="${plan.contractVersion}">`,
+    `<figure class="vg-visual vg-comparison-matrix" data-primitive="comparison-matrix" data-family="two-pole" data-contract="${plan.contractVersion}" data-reflow-breakpoint="${Object.keys(plan.reflowByWidth || {}).find((w) => plan.reflowByWidth[w]?.mode === "table") ?? 768}">`,
     renderQuestionCaption(spec.question),
     desktop.join("\n"),
     mobile.join("\n"),
+    `<style>${twoPoleReflowCss(plan)}</style>`,
     "</figure>",
   ].join("\n");
 }

@@ -95,6 +95,7 @@ function buildVerticalSvgPlan(spec, contract, options) {
     innerWidth,
     blockHeight: titleBlockHeight,
     lineCount: title.lines.length,
+    role: "title",
   };
   plan.canonicalOrder = [...order];
 
@@ -122,7 +123,21 @@ function buildVerticalSvgPlan(spec, contract, options) {
     y += s.height + cfg.rowGap;
   }
 
-  plan.elements = elements;
+  plan.elements = [
+    {
+      id: "__title__",
+      role: "title",
+      kind: "title",
+      box: {
+        x: centreX - innerWidth / 2,
+        y: cfg.margin,
+        width: innerWidth,
+        height: titleBlockHeight,
+      },
+      textLines: title.lines,
+    },
+    ...elements,
+  ];
   plan.slots = slots;
 
   const routes = [];

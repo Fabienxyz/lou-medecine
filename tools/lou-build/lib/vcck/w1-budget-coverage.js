@@ -199,6 +199,27 @@ function evaluateTextNegative(spec, familyId) {
   return { code, result: pass ? "PASS" : "FAIL", gateBlocked: !gate.allowed, rendererBlocked: !pipeline.ok };
 }
 
+export function evaluateTopoNegative(spec, familyId) {
+  const enforced = enforceFamilyContract(spec, familyId);
+  const pipeline = runW1Pipeline(spec, { expectedFamily: familyId });
+  const code = enforced.code;
+  const positiveRecognition = enforced.ok === true && enforced.family === familyId;
+  const pass =
+    enforced.ok === false &&
+    code === "UNSUPPORTED_TOPOLOGY" &&
+    pipeline.ok === false &&
+    !positiveRecognition;
+
+  return {
+    code,
+    result: pass ? "PASS" : "FAIL",
+    contractBlocked: enforced.ok === false,
+    rendererBlocked: pipeline.ok === false,
+    positiveRecognition,
+    contract: enforced.contract,
+  };
+}
+
 function evaluateText90(spec, familyId, budgets) {
   const budget = checkBudgets(spec, { familyId });
   const metrics = labelWordMetrics(spec);
@@ -350,17 +371,13 @@ export function evaluateW1BudgetCoverage() {
             errors.push(`${familyId}:${fx.file} text-negative expected UNSUPPORTED_TEXT_LOAD got ${evalNeg.code}`);
           }
         } else if (fx.role === "topo-negative") {
-          const gate = gateBeforeRender(spec, { familyId });
-          const enforced = enforceFamilyContract(spec, familyId);
-          const code = gate.code || enforced.code;
-          row.result =
-            (!gate.allowed && gate.code) || !enforced.ok
-              ? "PASS"
-              : gate.allowed && enforced.ok
-                ? "UNEXPECTED_PASS"
-                : "FAIL";
-          row.code = code;
-          if (row.result !== "PASS") errors.push(`${familyId}:${fx.file} negative ${row.result}`);
+          const evalTopo = evaluateTopoNegative(spec, familyId);
+          row = { ...row, code: evalTopo.code, result: evalTopo.result };
+          if (evalTopo.result !== "PASS") {
+            errors.push(
+              `${familyId}:${fx.file} topo-negative expected UNSUPPORTED_TOPOLOGY got ${evalTopo.code ?? "none"}`,
+            );
+          }
         } else if (fx.role?.startsWith("char-") || fx.role === "permutation") {
           const pipeline = runW1Pipeline(spec, { expectedFamily: familyId });
           row.result = pipeline.ok ? "PASS" : "FAIL";

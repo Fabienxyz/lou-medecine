@@ -11,6 +11,12 @@ import {
 } from "./w1-gates.js";
 import { verifyAllW1ArtifactSnapshots } from "./w1-artifact-snapshots.js";
 import { validatePerceptualApproval } from "./w1-perceptual-approval.js";
+import {
+  computeOperationalStatus,
+  getFamilyQualificationStatus,
+  OPERATIONAL_STATUS,
+  summarizeRegistryQualification,
+} from "./w1-qualification.js";
 
 export const W1_FAMILY_STATUS = Object.freeze({
   EXPERIMENTAL: "EXPERIMENTAL",
@@ -29,16 +35,20 @@ export const W1_MISSION_VERDICT = Object.freeze({
   SNAPSHOT: "VCCK_W1_BLOCKED_SNAPSHOT",
 });
 
-/** Per-family verdict from eight gates — all must be strictly PASS. */
+/** Per-family operational verdict from eight gates — registry qualification is separate. */
 export function computeW1FamilyVerdict(familyId, gates) {
   const failed = W1_REQUIRED_GATES.filter((g) => gates[g] !== "PASS");
+  const qualificationStatus = getFamilyQualificationStatus(familyId);
+  const operationalStatus = computeOperationalStatus(gates, W1_REQUIRED_GATES);
   return {
     familyId,
-    status: W1_FAMILY_STATUS.EXPERIMENTAL,
-    qualificationStatus: "EXPERIMENTAL",
+    status: operationalStatus,
+    qualificationStatus,
+    operationalStatus,
     gates,
     failed,
     ready: failed.length === 0,
+    blockedForUse: operationalStatus === OPERATIONAL_STATUS.BLOCKED_FOR_USE,
   };
 }
 
@@ -114,7 +124,10 @@ export function computeW1MissionVerdictFromPipeline(familyResults, context = {})
     gitBaseline: "19b2892d6379ae16819c2b9b2dee53e900b59256",
     p0Global: "VCCK_P0_BLOCKED",
     identityDebt: "OUT_OF_SCOPE_W1",
-    familiesRemainExperimental: true,
+    registryQualification: summarizeRegistryQualification(),
+    qualifiedW1Families: W1_FAMILIES.filter(
+      (id) => getFamilyQualificationStatus(id) === "QUALIFIED",
+    ).length,
   };
 }
 
@@ -127,8 +140,22 @@ export function assertW1VerdictPublicationCoherence(structuredVerdict, surfaces 
     if (!W1_FAMILIES.includes(familyId)) continue;
     const familyVerdict = structuredVerdict.perFamily.find((f) => f.familyId === familyId);
     if (!familyVerdict) continue;
-    if (payload.verdict && payload.verdict !== familyVerdict.status && payload.verdict !== "EXPERIMENTAL") {
-      if (familyVerdict.failed.length > 0) {
+    if (payload.verdict && payload.verdict !== familyVerdict.status) {
+      const allowedOperational = new Set([
+        familyVerdict.operationalStatus,
+        familyVerdict.status,
+        "EXPERIMENTAL",
+        "READY_FOR_USE",
+        "BLOCKED_FOR_USE",
+      ]);
+      const allowedQualification = new Set([
+        familyVerdict.qualificationStatus,
+        "EXPERIMENTAL",
+        "QUALIFIED",
+      ]);
+      const verdictOk =
+        allowedOperational.has(payload.verdict) || allowedQualification.has(payload.verdict);
+      if (!verdictOk && familyVerdict.failed.length > 0) {
         errors.push(`${familyId}: surface verdict ${payload.verdict} more favorable than ${familyVerdict.status}`);
       }
     }

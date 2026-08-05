@@ -424,11 +424,9 @@ function flatConcurrentFixtures(dir, maxItems) {
   writeYaml(path.join(dir, "flat-concurrent-topo-negative.yaml"), {
     ...base,
     element: "w1-flat-concurrent-topo-negative",
-    question: "Grouped",
-    groups: [
-      group(["A", "B"]),
-      { ...group(["C", "D"]), id: "grp2", label: "G2", expected_cardinality: 2 },
-    ],
+    question: "Cardinalité incompatible",
+    set: { ...base.set, expected_cardinality: 5 },
+    groups: [group(["Température", "Humidité", "Pression"])],
   });
 
   writeYaml(path.join(dir, "flat-concurrent-text-negative.yaml"), {

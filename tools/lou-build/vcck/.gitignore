@@ -1,10 +1,13 @@
-# VCCK generated artifacts — do not commit
-vcck/output/
-vcck/gallery/
-vcck/reports/w1-candidate-hashes.json
-vcck/reports/qualification-results.json
-vcck/reports/qualification-matrix.md
-vcck/reports/w1-mission-verdict.json
-vcck/reports/w1-visual-audit-report.md
-vcck/reports/anti-specialization.json
-vcck/reports/reject-fixtures.json
+# VCCK generated artifacts — patterns relative to this directory (vcck/)
+output/
+gallery/
+reports/w1-candidate-hashes.json
+reports/qualification-results.json
+reports/qualification-matrix.md
+reports/w1-mission-verdict.json
+reports/w1-visual-audit-report.md
+reports/anti-specialization.json
+reports/reject-fixtures.json
+reports/w1-stress-surfaces-report.json
+reports/w1-budget-coverage-matrix.json
+reports/w1-determinism-report.json

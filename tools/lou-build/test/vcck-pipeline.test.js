@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { loadFamilyRegistry, allFamilyIds } from "../lib/vcck/registry.js";
+import { assertRegistryQualificationContract } from "../lib/vcck/w1-qualification.js";
 import { runVcckQualification } from "../lib/vcck/pipeline.js";
 import { buildGalleryHtml } from "../lib/vcck/gallery.js";
 import { VCCK_POSITIVE, VCCK_NEGATIVE } from "../lib/vcck/paths.js";
@@ -10,10 +11,11 @@ import { renderVcckSpec, checkDeterminism } from "../lib/vcck/render-bridge.js";
 import { loadVisualSpec } from "../lib/visual-spec.js";
 import { loadVcckInventory } from "../lib/vcck/inventory.js";
 
-test("registry contains 18 EXPERIMENTAL families", () => {
+test("registry contains 18 families with 4 QUALIFIED W1 contracts", () => {
   const reg = loadFamilyRegistry({ reload: true });
   assert.equal(reg.families.length, 18);
-  assert.ok(reg.families.every((f) => f.qualification_status === "EXPERIMENTAL"));
+  const check = assertRegistryQualificationContract(reg);
+  assert.equal(check.ok, true, check.errors.join("; "));
   assert.deepEqual(allFamilyIds(reg).sort(), [
     "binary-rule-out",
     "chain",

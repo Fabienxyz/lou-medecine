@@ -7,7 +7,7 @@
       "id": "chain",
       "primitive": "causal-graph",
       "technology": "svg",
-      "qualification_status": "EXPERIMENTAL",
+      "qualification_status": "QUALIFIED",
       "expected_signature": "linear-dag:in<=1,out<=1,single-source,single-sink,no-feedback",
       "budgets": {
         "maxNodes": 8,
@@ -202,7 +202,7 @@
       "id": "dependent-sequence",
       "primitive": "decision-algorithm",
       "technology": "svg",
-      "qualification_status": "EXPERIMENTAL",
+      "qualification_status": "QUALIFIED",
       "expected_signature": "linear-branches,no-skip,no-loop",
       "budgets": {
         "maxNodes": 12,
@@ -479,7 +479,7 @@
       "id": "two-pole",
       "primitive": "comparison-matrix",
       "technology": "semantic-html",
-      "qualification_status": "EXPERIMENTAL",
+      "qualification_status": "QUALIFIED",
       "expected_signature": "poles=2,complete-dimensions",
       "budgets": {
         "maxPoles": 2,
@@ -559,7 +559,7 @@
       "id": "flat-concurrent",
       "primitive": "enumeration-set",
       "technology": "semantic-html",
-      "qualification_status": "EXPERIMENTAL",
+      "qualification_status": "QUALIFIED",
       "expected_signature": "exhaustive-set,no-subgroups",
       "budgets": {
         "maxItems": 12,

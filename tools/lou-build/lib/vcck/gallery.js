@@ -121,7 +121,9 @@ function renderGalleryHtml(sections, galleryDir, results = null, outputRoot = nu
         f.familyId,
         {
           gates: f.gates,
-          verdict: f.status,
+          qualificationStatus: f.qualificationStatus,
+          operationalStatus: f.operationalStatus,
+          verdict: f.operationalStatus,
         },
       ]),
     );

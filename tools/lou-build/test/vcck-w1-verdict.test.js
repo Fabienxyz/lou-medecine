@@ -28,11 +28,15 @@ describe("vcck-w1-verdict", () => {
     const v = computeW1FamilyVerdict("chain", pass);
     assert.equal(v.ready, true);
     assert.equal(v.failed.length, 0);
+    assert.equal(v.qualificationStatus, "QUALIFIED");
+    assert.equal(v.operationalStatus, "READY_FOR_USE");
 
     const partial = { ...pass, snapshots: "FAIL" };
     const v2 = computeW1FamilyVerdict("chain", partial);
     assert.equal(v2.ready, false);
     assert.deepEqual(v2.failed, ["snapshots"]);
+    assert.equal(v2.qualificationStatus, "QUALIFIED");
+    assert.equal(v2.operationalStatus, "BLOCKED_FOR_USE");
   });
 
   it("blocks mission when any gate is not PASS", () => {

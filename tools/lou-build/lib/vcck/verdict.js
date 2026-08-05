@@ -9,6 +9,7 @@ import {
   deriveMissionVerdict,
 } from "./status.js";
 import { computeRejectFixturesOk } from "./reject-fixtures.js";
+import { loadFamilyRegistry, familyById } from "./registry.js";
 
 export { deriveMissionVerdict };
 
@@ -94,7 +95,8 @@ function summarizeFamilyResults(detailRows) {
     const negStrict = negatives.every(strictNegativeControlsPass);
     summary.push({
       family: familyId,
-      qualification_status: "EXPERIMENTAL",
+      qualification_status:
+        familyById(loadFamilyRegistry(), familyId)?.qualification_status ?? "EXPERIMENTAL",
       positiveStrictPass: posStrict,
       negativeStrictPass: negStrict,
       harnessPass: posStrict && negStrict,

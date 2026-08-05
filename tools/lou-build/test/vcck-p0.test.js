@@ -39,6 +39,7 @@ import {
 } from "../lib/vcck/reject-fixtures.js";
 import { computeVcckVerdict, isInterProcessDeterminismOk } from "../lib/vcck/verdict.js";
 import { loadFamilyRegistry } from "../lib/vcck/registry.js";
+import { assertRegistryQualificationContract } from "../lib/vcck/w1-qualification.js";
 import {
   VCCK_NEGATIVE,
   VCCK_REJECT,
@@ -347,9 +348,9 @@ for (const [file, code] of REJECT_CODES) {
   });
 }
 
-test("all families remain EXPERIMENTAL in registry", () => {
-  const reg = loadFamilyRegistry({ reload: true });
-  assert.ok(reg.families.every((f) => f.qualification_status === "EXPERIMENTAL"));
+test("registry qualification matrix: 4 QUALIFIED, 14 EXPERIMENTAL, 0 FROZEN", () => {
+  const check = assertRegistryQualificationContract(loadFamilyRegistry({ reload: true }));
+  assert.equal(check.ok, true, check.errors.join("; "));
 });
 
 test("P0.6 — dry-run mission verdict always blocked", () => {

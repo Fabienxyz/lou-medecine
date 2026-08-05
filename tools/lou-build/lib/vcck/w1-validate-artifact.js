@@ -58,6 +58,91 @@ export function mutateArtifactTitleClip(artifact) {
   return artifact.replace(/viewBox="0 0 (\d+) (\d+)"/, 'viewBox="0 0 $1 40"');
 }
 
+function parseViewBox(artifact) {
+  const vb = artifact.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/);
+  if (!vb) return null;
+  return { width: parseFloat(vb[1]), height: parseFloat(vb[2]) };
+}
+
+/** Independent artifact check — observed node boxes contained in serialized viewBox. */
+export function validateW1ArtifactNodeClip(artifact) {
+  const errors = [];
+  const viewBox = parseViewBox(artifact);
+  if (!viewBox) return { ok: false, errors: ["artifact: missing viewBox"] };
+
+  const nodes = extractNodeBoxesFromSvg(artifact);
+  if (nodes.length === 0) {
+    return { ok: false, errors: ["artifact: zero observable nodes in serialized SVG"] };
+  }
+
+  for (const node of nodes) {
+    const dims = [node.x, node.y, node.width, node.height];
+    if (dims.some((v) => !Number.isFinite(v))) {
+      errors.push(`artifact: node ${node.id} has non-finite box dimensions`);
+      continue;
+    }
+    if (node.width <= 0 || node.height <= 0) {
+      errors.push(`artifact: node ${node.id} has non-positive box dimensions`);
+      continue;
+    }
+    if (node.x < 0) errors.push(`artifact: node ${node.id} extends left of viewBox`);
+    if (node.y < 0) errors.push(`artifact: node ${node.id} extends above viewBox`);
+    if (node.x + node.width > viewBox.width + 0.5) {
+      errors.push(`artifact: node ${node.id} extends right of viewBox`);
+    }
+    if (node.y + node.height > viewBox.height + 0.5) {
+      errors.push(`artifact: node ${node.id} extends below viewBox`);
+    }
+  }
+
+  return { ok: errors.length === 0, errors };
+}
+
+export const NODE_CLIP_MUTANT_IDS = Object.freeze([
+  "node-bottom-out",
+  "node-right-out",
+  "viewbox-halved",
+  "node-nonpositive-box",
+  "node-missing",
+]);
+
+export const NODE_CLIP_MUTANT_EXPECTED = Object.freeze({
+  "node-bottom-out": "artifact: node delivery extends below viewBox",
+  "node-right-out": "artifact: node delivery extends right of viewBox",
+  "viewbox-halved": "extends below viewBox",
+  "node-nonpositive-box": "artifact: node delivery has non-positive box dimensions",
+  "node-missing": "artifact: zero observable nodes in serialized SVG",
+});
+
+export function mutateArtifactNodeClip(artifact, mutantId) {
+  switch (mutantId) {
+    case "node-bottom-out":
+      return artifact.replace(
+        /(<g[^>]*data-node-id="delivery"[^>]*>[\s\S]*?<rect[^>]*\sy=")([^"]+)(")/,
+        `$1${999}$3`,
+      );
+    case "node-right-out":
+      return artifact.replace(
+        /(<g[^>]*data-node-id="delivery"[^>]*>[\s\S]*?<rect[^>]*\swidth=")([^"]+)(")/,
+        `$1${9999}$3`,
+      );
+    case "viewbox-halved":
+      return artifact.replace(
+        /viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/,
+        (_, w, h) => `viewBox="0 0 ${Math.floor(parseFloat(w) / 2)} ${Math.floor(parseFloat(h) / 2)}"`,
+      );
+    case "node-nonpositive-box":
+      return artifact.replace(
+        /(<g[^>]*data-node-id="delivery"[^>]*>[\s\S]*?<rect[^>]*\swidth=")([^"]+)(")/,
+        (_m, p1, _w, p3) => `${p1}0${p3}`,
+      );
+    case "node-missing":
+      return artifact.replace(/<g[^>]*data-node-id="[^"]+"[^>]*>[\s\S]*?<\/g>\s*/g, "");
+    default:
+      return artifact;
+  }
+}
+
 export function validateW1Artifact(spec, artifact, kind, expectedCounts = {}) {
   const errors = [];
 
@@ -87,6 +172,9 @@ export function validateW1Artifact(spec, artifact, kind, expectedCounts = {}) {
 
     const geom = validateSvgGeometryIndependent(artifact);
     if (!geom.ok) errors.push(...geom.errors);
+
+    const nodeClip = validateW1ArtifactNodeClip(artifact);
+    if (!nodeClip.ok) errors.push(...nodeClip.errors);
   }
 
   if (kind === "html") {

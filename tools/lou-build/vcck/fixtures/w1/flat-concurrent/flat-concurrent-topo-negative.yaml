@@ -11,34 +11,24 @@ set:
   label: Capteurs
   membership_logic: concurrent-set
   ordering_semantics: none
-  expected_cardinality: 3
+  expected_cardinality: 5
   class: scaffolding
 element: w1-flat-concurrent-topo-negative
-question: Grouped
+question: Cardinalité incompatible
 groups:
   - id: grp
     label: Ensemble
     membership_logic: concurrent-set
     ordering_semantics: none
-    expected_cardinality: 2
+    expected_cardinality: 3
     class: scaffolding
     items:
       - id: i0
-        label: A
+        label: Température
         class: scaffolding
       - id: i1
-        label: B
+        label: Humidité
         class: scaffolding
-  - id: grp2
-    label: G2
-    membership_logic: concurrent-set
-    ordering_semantics: none
-    expected_cardinality: 2
-    class: scaffolding
-    items:
-      - id: i0
-        label: C
-        class: scaffolding
-      - id: i1
-        label: D
+      - id: i2
+        label: Pression
         class: scaffolding

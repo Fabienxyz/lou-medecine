@@ -1,0 +1,83 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-reject-budget
+question: Reject BUDGET_EXCEEDED
+nodes:
+  - id: n0
+    kind: state
+    label: N0
+    class: scaffolding
+  - id: n1
+    kind: state
+    label: N1
+    class: scaffolding
+  - id: n2
+    kind: state
+    label: N2
+    class: scaffolding
+  - id: n3
+    kind: state
+    label: N3
+    class: scaffolding
+  - id: n4
+    kind: state
+    label: N4
+    class: scaffolding
+  - id: n5
+    kind: state
+    label: N5
+    class: scaffolding
+  - id: n6
+    kind: state
+    label: N6
+    class: scaffolding
+  - id: n7
+    kind: state
+    label: N7
+    class: scaffolding
+  - id: n8
+    kind: state
+    label: N8
+    class: scaffolding
+  - id: n9
+    kind: state
+    label: N9
+    class: scaffolding
+edges:
+  - from: n0
+    to: n1
+    relation: causes
+    class: scaffolding
+  - from: n1
+    to: n2
+    relation: causes
+    class: scaffolding
+  - from: n2
+    to: n3
+    relation: causes
+    class: scaffolding
+  - from: n3
+    to: n4
+    relation: causes
+    class: scaffolding
+  - from: n4
+    to: n5
+    relation: causes
+    class: scaffolding
+  - from: n5
+    to: n6
+    relation: causes
+    class: scaffolding
+  - from: n6
+    to: n7
+    relation: causes
+    class: scaffolding
+  - from: n7
+    to: n8
+    relation: causes
+    class: scaffolding
+  - from: n8
+    to: n9
+    relation: causes
+    class: scaffolding

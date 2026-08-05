@@ -1,0 +1,146 @@
+spec_version: "0.2"
+primitive: comparison-matrix
+technology: semantic-html
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+poles:
+  - id: a
+    label: Mode A
+    pole_type: entity
+    class: scaffolding
+  - id: b
+    label: Mode B
+    pole_type: entity
+    class: scaffolding
+element: w1-two-pole-cardinal-plus1
+question: Trop de dimensions
+dimensions:
+  - id: d0
+    label: Dim 1
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d0-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d0-b
+            label: Y
+            class: scaffolding
+  - id: d1
+    label: Dim 2
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d1-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d1-b
+            label: Y
+            class: scaffolding
+  - id: d2
+    label: Dim 3
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d2-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d2-b
+            label: Y
+            class: scaffolding
+  - id: d3
+    label: Dim 4
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d3-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d3-b
+            label: Y
+            class: scaffolding
+  - id: d4
+    label: Dim 5
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d4-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d4-b
+            label: Y
+            class: scaffolding
+  - id: d5
+    label: Dim 6
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d5-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d5-b
+            label: Y
+            class: scaffolding
+  - id: d6
+    label: Dim 7
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d6-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d6-b
+            label: Y
+            class: scaffolding
+  - id: d7
+    label: Dim 8
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d7-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d7-b
+            label: Y
+            class: scaffolding
+  - id: d8
+    label: Dim 9
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d8-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d8-b
+            label: Y
+            class: scaffolding

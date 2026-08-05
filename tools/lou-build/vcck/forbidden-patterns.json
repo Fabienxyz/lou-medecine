@@ -1,0 +1,15 @@
+[
+  { "id": "chapter-234", "token": "234" },
+  { "id": "notion-N02", "token": "N02" },
+  { "id": "notion-N09", "token": "N09" },
+  { "id": "notion-N10", "token": "N10" },
+  { "id": "notion-N11", "token": "N11" },
+  { "id": "notion-N17", "token": "N17" },
+  { "id": "notion-N22", "token": "N22" },
+  { "id": "mm-1", "token": "MM-1" },
+  { "id": "mm-2", "token": "MM-2" },
+  { "id": "mm-3", "token": "MM-3" },
+  { "id": "cardio-chapter-path", "token": "chapters/cardio/234" },
+  { "id": "mm-pump-spec", "token": "mm-pump-decompensation" },
+  { "id": "n09-diagnostic", "token": "n09-diagnostic-algorithm" }
+]

@@ -1,0 +1,27 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-fan-out-short
+question: Que déclenche une vanne ouverte ?
+nodes:
+  - id: valve
+    kind: state
+    label: Vanne ouverte
+    class: scaffolding
+  - id: flow-a
+    kind: response
+    label: Débit canal A
+    class: scaffolding
+  - id: flow-b
+    kind: response
+    label: Débit canal B
+    class: scaffolding
+edges:
+  - from: valve
+    to: flow-a
+    relation: causes
+    class: scaffolding
+  - from: valve
+    to: flow-b
+    relation: causes
+    class: scaffolding

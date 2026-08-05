@@ -1,0 +1,32 @@
+spec_version: "0.2"
+primitive: enumeration-set
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-flat-concurrent-negative
+question: Negative — logique exclusive dans un groupe unique
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+set:
+  id: set-negative
+  label: Ensemble incompatible
+  membership_logic: exclusive-set
+  ordering_semantics: none
+  expected_cardinality: 2
+  class: scaffolding
+groups:
+  - id: grp-single
+    label: Groupe unique exclusif
+    purpose: Rejet — non concurrent
+    membership_logic: exclusive-set
+    ordering_semantics: none
+    expected_cardinality: 2
+    class: scaffolding
+    items:
+      - id: i1
+        label: Option A
+        class: scaffolding
+      - id: i2
+        label: Option B
+        class: scaffolding

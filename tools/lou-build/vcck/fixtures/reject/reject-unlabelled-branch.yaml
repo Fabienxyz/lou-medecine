@@ -1,0 +1,31 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-reject-unlabelled-branch
+question: Negative — aucun terminal dead-end
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+nodes:
+  - id: start
+    kind: entry
+    label: Start
+    class: scaffolding
+  - id: end
+    kind: dead-end
+    label: Stop
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: end
+    condition: ""
+    class: scaffolding
+annotations:
+  - id: ann
+    label: Note
+    placement: out-of-flow
+    class: scaffolding

@@ -1,0 +1,27 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-fan-in-short
+question: Qu'est-ce qui alimente la ligne ?
+nodes:
+  - id: sensor-a
+    kind: state
+    label: Capteur A
+    class: scaffolding
+  - id: sensor-b
+    kind: state
+    label: Capteur B
+    class: scaffolding
+  - id: line
+    kind: event
+    label: Ligne alimentée
+    class: scaffolding
+edges:
+  - from: sensor-a
+    to: line
+    relation: causes
+    class: scaffolding
+  - from: sensor-b
+    to: line
+    relation: causes
+    class: scaffolding

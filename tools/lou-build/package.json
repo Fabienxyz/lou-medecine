@@ -8,6 +8,14 @@
     "test:ci": "node --test --test-concurrency=1 --test-timeout=300000 test/*.test.js && node --import tsx --test --test-concurrency=1 --test-timeout=300000 test/pipeline-runner.test.ts test/pipeline-config.test.ts test/visuals-stage.test.ts",
     "test:integration": "node --import tsx --test --test-concurrency=1 --test-timeout=600000 test/slice.test.ts",
     "test": "npm run test:ci && npm run test:integration",
+    "test:wave2-viewport": "node --test --test-timeout=600000 test/html-viewport.test.js",
+    "wave2": "node scripts/run-wave2.mjs",
+    "wave2:lotb": "node scripts/run-wave2-lot-b.mjs",
+    "wave2:lotc1": "node scripts/run-wave2-lot-c1.mjs",
+    "vcck": "node scripts/run-vcck.mjs",
+    "vcck:dry-run": "node scripts/run-vcck.mjs --dry-run",
+    "vcck:fixtures": "node scripts/generate-vcck-fixtures.mjs",
+    "playwright:install": "playwright install chromium",
     "typecheck": "tsc --noEmit",
     "validate": "tsx src/cli/build.ts validate",
     "build": "tsx src/cli/build.ts build",
@@ -18,6 +26,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "playwright": "^1.49.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }

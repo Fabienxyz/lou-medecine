@@ -1,0 +1,34 @@
+spec_version: "0.2"
+primitive: quantity-model
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-identity-long
+question: Quelle identité lie débit, volume et durée sur un canal d'irrigation ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+target:
+  id: vol
+  label: Volume V
+  unit: m³
+  class: sourced
+  kp: &a1
+    - KP-VCK-001
+identities:
+  - id: id1
+    expression: V = Q × t
+    relation_type: identity-product
+    class: sourced
+    kp: *a1
+  - id: id2
+    expression: Q = V / t
+    relation_type: identity-ratio
+    class: sourced
+    kp: *a1
+states: []
+insights:
+  - id: ins1
+    label: V augmente proportionnellement à Q
+    class: sourced
+    kp: *a1

@@ -1,0 +1,54 @@
+spec_version: "0.2"
+primitive: comparison-matrix
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-two-pole-long
+question: Quelle différence entre transport routier et ferroviaire pour un hub
+  logistique ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+poles:
+  - id: road
+    label: Camion porteur
+    pole_type: entity
+    class: scaffolding
+  - id: rail
+    label: Train complet
+    pole_type: entity
+    class: scaffolding
+dimensions:
+  - id: dim-speed
+    label: Vitesse effective
+    class: scaffolding
+    cells:
+      - pole: road
+        items:
+          - id: r1
+            label: Flexible dernier km
+            class: sourced
+            kp: &a1
+              - KP-VCK-001
+      - pole: rail
+        items:
+          - id: t1
+            label: Massifiée longue distance
+            class: sourced
+            kp: *a1
+  - id: dim-cost
+    label: Coût variable
+    class: scaffolding
+    cells:
+      - pole: road
+        items:
+          - id: r2
+            label: Élevé par palette
+            class: sourced
+            kp: *a1
+      - pole: rail
+        items:
+          - id: t2
+            label: Bas par tonne
+            class: sourced
+            kp: *a1

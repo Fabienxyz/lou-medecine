@@ -1,0 +1,67 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/w1
+element: w1-chain-cardinal-90
+question: Comment progresse un colis ?
+nodes:
+  - id: n0
+    kind: state
+    label: Étape 1
+    class: scaffolding
+  - id: n1
+    kind: state
+    label: Étape 2
+    class: scaffolding
+  - id: n2
+    kind: state
+    label: Étape 3
+    class: scaffolding
+  - id: n3
+    kind: state
+    label: Étape 4
+    class: scaffolding
+  - id: n4
+    kind: state
+    label: Étape 5
+    class: scaffolding
+  - id: n5
+    kind: state
+    label: Étape 6
+    class: scaffolding
+  - id: n6
+    kind: state
+    label: Étape 7
+    class: scaffolding
+  - id: n7
+    kind: event
+    label: Étape 8
+    class: scaffolding
+edges:
+  - from: n0
+    to: n1
+    relation: causes
+    class: scaffolding
+  - from: n1
+    to: n2
+    relation: causes
+    class: scaffolding
+  - from: n2
+    to: n3
+    relation: causes
+    class: scaffolding
+  - from: n3
+    to: n4
+    relation: causes
+    class: scaffolding
+  - from: n4
+    to: n5
+    relation: causes
+    class: scaffolding
+  - from: n5
+    to: n6
+    relation: causes
+    class: scaffolding
+  - from: n6
+    to: n7
+    relation: causes
+    class: scaffolding

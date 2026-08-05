@@ -1,0 +1,63 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-skip-level-branch-short
+question: Peut-on sauter une étape ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+nodes:
+  - id: start
+    kind: entry
+    label: Entrée
+    class: scaffolding
+  - id: fork
+    kind: decision
+    label: Choix route
+    class: scaffolding
+  - id: middle
+    kind: test
+    label: Étape intermédiaire
+    class: scaffolding
+  - id: end
+    kind: conclusion
+    label: Sortie
+    class: scaffolding
+  - id: stop
+    kind: dead-end
+    label: Abandon
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: fork
+    condition: Commencer
+    class: scaffolding
+  - id: b2
+    from: fork
+    to: middle
+    condition: Route standard
+    class: scaffolding
+  - id: b3
+    from: fork
+    to: end
+    condition: Raccourci direct
+    class: scaffolding
+  - id: b4
+    from: middle
+    to: end
+    condition: Après étape
+    class: scaffolding
+  - id: b5
+    from: fork
+    to: stop
+    condition: Annuler
+    class: scaffolding
+annotations:
+  - id: ann-note
+    label: Note hors flux
+    placement: out-of-flow
+    class: scaffolding

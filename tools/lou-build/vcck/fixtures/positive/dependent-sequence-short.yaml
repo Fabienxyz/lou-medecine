@@ -1,0 +1,40 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-dependent-sequence-short
+question: Quel enchaînement pour ouvrir une bibliothèque ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+nodes:
+  - id: start
+    kind: entry
+    label: Ouverture
+    class: scaffolding
+  - id: check
+    kind: test
+    label: Vérifier accès
+    class: scaffolding
+  - id: end
+    kind: conclusion
+    label: Accueil lecteurs
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: check
+    condition: Démarrer
+    class: scaffolding
+  - id: b2
+    from: check
+    to: end
+    condition: Accès validé
+    class: scaffolding
+annotations:
+  - id: ann-note
+    label: Note hors flux
+    placement: out-of-flow
+    class: scaffolding

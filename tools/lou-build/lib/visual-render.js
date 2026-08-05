@@ -53,6 +53,8 @@ export const TOKENS = {
     causes: { stroke: "#9ca3af", width: 2.5, dash: null, marker: "vg-arrow-solid" },
     transmits: { stroke: "#9ca3af", width: 2.5, dash: null, marker: "vg-arrow-flow" },
     feeds_back: { stroke: "#2563eb", width: 2.5, dash: "8 6", marker: "vg-arrow-accent" },
+    contributes_to: { stroke: "#6b7280", width: 2.5, dash: "5 5", marker: "vg-arrow-solid" },
+    triggers_response: { stroke: "#6b7280", width: 2.5, dash: "3 4", marker: "vg-arrow-solid" },
   },
   relationFallback: {
     stroke: "#9ca3af",
@@ -71,6 +73,8 @@ const RELATION_CONNECTIVE = {
   causes: "entraîne",
   transmits: "se transmet à",
   feeds_back: "rétroagit sur",
+  contributes_to: "contribue à",
+  triggers_response: "déclenche la réponse",
 };
 
 const GENERIC = {
@@ -108,7 +112,7 @@ export function describeCausalGraph(spec) {
     ".";
 
   const sentences = spec.edges.map((e) => {
-    const connective = RELATION_CONNECTIVE[e.relation] || e.relation;
+    const connective = e.relation_label || RELATION_CONNECTIVE[e.relation] || e.relation;
     return `${labels.get(e.from)} ${connective} ${labels.get(e.to)}`;
   });
 
@@ -123,25 +127,37 @@ function edgeClaimId(spec, edge) {
   return `cb-vis-${String(spec.element).toLowerCase()}-e-${edge.from}-to-${edge.to}`;
 }
 
-function markerDefs() {
-  const shape = (id, fill) =>
+function relationLabelClaimId(spec, edge) {
+  return `cb-vis-${String(spec.element).toLowerCase()}-rl-${edge.from}-to-${edge.to}`;
+}
+
+const roundCoord = (n) => Math.round(n * 100) / 100;
+
+function markerShape(id, fill) {
+  return (
     `    <marker id="${id}" markerWidth="7" markerHeight="7" refX="7" refY="3.5" ` +
     `orient="auto" markerUnits="strokeWidth">\n` +
-    `      <path d="M0,0.5 L7,3.5 L0,6.5 Z" fill="${fill}"/>\n    </marker>`;
-  // A double chevron reads as propagation rather than as production, and stays
-  // as visually strong as the filled head so that kind is not mistaken for rank.
-  const doubleChevron = (id, stroke) =>
+    `      <path d="M0,0.5 L7,3.5 L0,6.5 Z" fill="${fill}"/>\n    </marker>`
+  );
+}
+
+function markerDoubleChevron(id, stroke) {
+  return (
     `    <marker id="${id}" markerWidth="9" markerHeight="8" refX="8.5" refY="4" ` +
     `orient="auto" markerUnits="strokeWidth">\n` +
     `      <path d="M0.6,1 L3.4,4 L0.6,7 M4.8,1 L7.6,4 L4.8,7" fill="none" ` +
     `stroke="${stroke}" stroke-width="1.9" stroke-linecap="round" ` +
-    `stroke-linejoin="round"/>\n    </marker>`;
+    `stroke-linejoin="round"/>\n    </marker>`
+  );
+}
 
-  return [
-    shape("vg-arrow-solid", TOKENS.connector),
-    doubleChevron("vg-arrow-flow", TOKENS.connector),
-    shape("vg-arrow-accent", TOKENS.accent),
-  ].join("\n");
+function markerDefs(usedRelations) {
+  const need = (r) => !usedRelations || usedRelations.has(r);
+  const parts = [];
+  if (need("causes")) parts.push(markerShape("vg-arrow-solid", TOKENS.connector));
+  if (need("transmits")) parts.push(markerDoubleChevron("vg-arrow-flow", TOKENS.connector));
+  if (need("feeds_back")) parts.push(markerShape("vg-arrow-accent", TOKENS.accent));
+  return parts.join("\n");
 }
 
 /** Emit SVG from an already-validated spec and a computed layout. */
@@ -151,6 +167,7 @@ export function renderCausalGraphSvg(spec, layout) {
 
   const title = spec.question;
   const desc = describeCausalGraph(spec);
+  const usedRelations = new Set(spec.edges.map((e) => e.relation));
 
   const parts = [];
   parts.push('<?xml version="1.0" encoding="UTF-8"?>');
@@ -164,7 +181,7 @@ export function renderCausalGraphSvg(spec, layout) {
   parts.push(`  <title id="vg-title">${escapeXml(title)}</title>`);
   parts.push(`  <desc id="vg-desc">${escapeXml(desc)}</desc>`);
   parts.push("  <defs>");
-  parts.push(markerDefs());
+  parts.push(markerDefs(usedRelations));
   parts.push("    <style>");
   parts.push(
     `      .vg-title { font-family: ${TOKENS.fontStack}; font-size: ${cfg.titleFontSize}px; ` +
@@ -174,6 +191,12 @@ export function renderCausalGraphSvg(spec, layout) {
     `      .vg-label { font-family: ${TOKENS.fontStack}; font-size: ${cfg.fontSize}px; ` +
       `font-weight: ${cfg.fontWeight}; fill: ${TOKENS.nodeText}; }`
   );
+  if (usedRelations.has("contributes_to") || usedRelations.has("triggers_response")) {
+    parts.push(
+      `      .vg-relation-label { font-family: ${TOKENS.fontStack}; font-size: ${cfg.relationLabelFontSize}px; ` +
+        `font-weight: ${cfg.relationLabelFontWeight}; fill: ${TOKENS.nodeText}; }`
+    );
+  }
   parts.push("    </style>");
   parts.push("  </defs>");
 
@@ -217,6 +240,27 @@ export function renderCausalGraphSvg(spec, layout) {
         (style.dash ? ` stroke-dasharray="${style.dash}"` : "") +
         ` marker-end="url(#${style.marker})"/>`
     );
+    if (edge.labelBox) {
+      const lb = edge.labelBox;
+      const labelAttrs = [
+        `data-relation-label="${escapeXml(edge.relation_label)}"`,
+        `data-claim="${escapeXml(relationLabelClaimId(spec, edge))}"`,
+        `data-claim-class="${escapeXml(edge.class)}"`,
+        kp ? `data-kp="${escapeXml(kp)}"` : null,
+      ].filter(Boolean);
+      parts.push(`      <g ${labelAttrs.join(" ")}>`);
+      parts.push(
+        `        <rect x="${lb.x}" y="${lb.y}" width="${lb.width}" height="${lb.height}" ` +
+          `rx="4" fill="${TOKENS.canvas}" fill-opacity="0.92" stroke="${style.stroke}" stroke-width="1"/>`
+      );
+      parts.push(
+        `        <text x="${roundCoord(lb.x + lb.width / 2)}" y="${roundCoord(lb.y + lb.height / 2 + cfg.relationLabelFontSize * 0.35)}" ` +
+          `text-anchor="middle" class="vg-relation-label" ` +
+          `data-official-text-id="${escapeXml(officialTextId(spec.element, `rl-${edge.from}-${edge.to}`))}">` +
+          `${escapeXml(lb.text)}</text>`
+      );
+      parts.push("      </g>");
+    }
     parts.push("    </g>");
   }
   parts.push("  </g>");

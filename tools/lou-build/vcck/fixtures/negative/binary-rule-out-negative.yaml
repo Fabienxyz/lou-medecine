@@ -1,0 +1,40 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-binary-rule-out-negative
+question: Negative — aucun terminal dead-end
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+nodes:
+  - id: start
+    kind: entry
+    label: Start
+    class: scaffolding
+  - id: mid
+    kind: test
+    label: Mid
+    class: scaffolding
+  - id: end
+    kind: test
+    label: End
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: mid
+    condition: A
+    class: scaffolding
+  - id: b2
+    from: mid
+    to: end
+    condition: B
+    class: scaffolding
+annotations:
+  - id: ann
+    label: Note
+    placement: out-of-flow
+    class: scaffolding

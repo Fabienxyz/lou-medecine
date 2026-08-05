@@ -1,0 +1,47 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-diamond-long
+question: Comment deux voies logistiques rejoignent-elles une fusion contrôlée ?
+nodes:
+  - id: sort
+    kind: state
+    label: Tri initial entrepôt
+    class: scaffolding
+  - id: lane-a
+    kind: response
+    label: Voie express fragile
+    class: scaffolding
+  - id: lane-b
+    kind: response
+    label: Voie standard lourde
+    class: scaffolding
+  - id: check
+    kind: response
+    label: Contrôle poids
+    class: scaffolding
+  - id: merge
+    kind: event
+    label: Fusion contrôlée
+    class: scaffolding
+edges:
+  - from: sort
+    to: lane-a
+    relation: causes
+    class: scaffolding
+  - from: sort
+    to: lane-b
+    relation: causes
+    class: scaffolding
+  - from: lane-a
+    to: check
+    relation: causes
+    class: scaffolding
+  - from: lane-b
+    to: check
+    relation: causes
+    class: scaffolding
+  - from: check
+    to: merge
+    relation: causes
+    class: scaffolding

@@ -1,0 +1,62 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-embedded-fragment-long
+question: Quand intégrer un fragment de seuil dans un flux logistique ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+nodes:
+  - id: start
+    kind: entry
+    label: Entrée contrôle stock
+    class: scaffolding
+  - id: test
+    kind: test
+    label: Mesure niveau palette
+    class: scaffolding
+  - id: end
+    kind: conclusion
+    label: Lancer réapprovisionnement
+    class: scaffolding
+  - id: stop
+    kind: dead-end
+    label: Attente prochain cycle
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: test
+    condition: Contrôler niveau
+    class: scaffolding
+  - id: b2
+    from: test
+    to: end
+    condition: Stock bas selon seuil
+    class: scaffolding
+    threshold_fragment:
+      context: Entrepôt frigorifique zone B
+      low_band_meaning: Réapprovisionner avant rupture
+      scales:
+        - id: sf1
+          analyte: Niveau palette
+          cutoff_label: < 10 caisses
+          comparator: <
+          value: 10
+          unit: caisses
+          class: sourced
+          kp:
+            - KP-VCK-001
+  - id: b3
+    from: test
+    to: stop
+    condition: Stock suffisant
+    class: scaffolding
+annotations:
+  - id: ann-note
+    label: Note hors flux
+    placement: out-of-flow
+    class: scaffolding

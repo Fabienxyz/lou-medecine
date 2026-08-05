@@ -1,0 +1,717 @@
+{
+  "kit_version": "VCCK-V0-DRAFT",
+  "registry_version": "0.1.0",
+  "renderer_version": "lou-build-visual-0.2",
+  "families": [
+    {
+      "id": "chain",
+      "primitive": "causal-graph",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "linear-dag:in<=1,out<=1,single-source,single-sink,no-feedback",
+      "budgets": {
+        "maxNodes": 8,
+        "maxEdges": 12,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "chain-short.yaml",
+        "long": "chain-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "chain-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "chain-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "fan-out",
+      "primitive": "causal-graph",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "single-source,multi-target,no-reconvergence",
+      "budgets": {
+        "maxNodes": 8,
+        "maxEdges": 12,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "fan-out-short.yaml",
+        "long": "fan-out-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "fan-out-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "fan-out-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "fan-in",
+      "primitive": "causal-graph",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "multi-source,single-sink,no-divergence",
+      "budgets": {
+        "maxNodes": 8,
+        "maxEdges": 12,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "fan-in-short.yaml",
+        "long": "fan-in-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "fan-in-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "fan-in-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "diamond",
+      "primitive": "causal-graph",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "split-node,join-node,planar-diamond,no-feedback",
+      "budgets": {
+        "maxNodes": 8,
+        "maxEdges": 12,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "diamond-short.yaml",
+        "long": "diamond-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "diamond-negative.yaml",
+          "expected_code": "NON_PLANAR_REQUIRED_CROSSING"
+        },
+        {
+          "path": "diamond-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "NON_PLANAR_REQUIRED_CROSSING",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "lateral-feedback",
+      "primitive": "causal-graph",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "declared-feeds-back,lateral-route",
+      "budgets": {
+        "maxNodes": 8,
+        "maxEdges": 12,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "lateral-feedback-short.yaml",
+        "long": "lateral-feedback-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "lateral-feedback-negative.yaml",
+          "expected_code": "TEMPORAL_AS_CAUSAL"
+        },
+        {
+          "path": "lateral-feedback-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "TEMPORAL_AS_CAUSAL",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "dependent-sequence",
+      "primitive": "decision-algorithm",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "linear-branches,no-skip,no-loop",
+      "budgets": {
+        "maxNodes": 12,
+        "maxBranches": 16,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "dependent-sequence-short.yaml",
+        "long": "dependent-sequence-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "dependent-sequence-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "dependent-sequence-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "binary-rule-out",
+      "primitive": "decision-algorithm",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "binary-split,explicit-dead-end",
+      "budgets": {
+        "maxNodes": 12,
+        "maxBranches": 16,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "binary-rule-out-short.yaml",
+        "long": "binary-rule-out-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "binary-rule-out-negative.yaml",
+          "expected_code": "MISSING_TERMINAL"
+        },
+        {
+          "path": "binary-rule-out-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "MISSING_TERMINAL",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "skip-level-branch",
+      "primitive": "decision-algorithm",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "lateral-branch,level-gap>1",
+      "budgets": {
+        "maxNodes": 12,
+        "maxBranches": 16,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "skip-level-branch-short.yaml",
+        "long": "skip-level-branch-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "skip-level-branch-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "skip-level-branch-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "monitoring-loop",
+      "primitive": "decision-algorithm",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "surveillance-alert-action-resume-cycle",
+      "budgets": {
+        "maxNodes": 12,
+        "maxBranches": 16,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "monitoring-loop-short.yaml",
+        "long": "monitoring-loop-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "monitoring-loop-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "monitoring-loop-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": [
+        "Renderer support for loop routing is heuristic"
+      ]
+    },
+    {
+      "id": "single-context",
+      "primitive": "threshold-scale",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "one-context,one-or-more-cutoffs",
+      "budgets": {
+        "maxContexts": 1,
+        "maxScalesPerContext": 4,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "single-context-short.yaml",
+        "long": "single-context-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "single-context-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "single-context-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": [
+        "Schema validator currently requires ≥2 contexts — fixture blocked at validation"
+      ]
+    },
+    {
+      "id": "dual-context",
+      "primitive": "threshold-scale",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "two-separated-contexts,same-analyte-family",
+      "budgets": {
+        "maxContexts": 4,
+        "maxScalesPerContext": 4,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "dual-context-short.yaml",
+        "long": "dual-context-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "dual-context-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "dual-context-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "embedded-fragment",
+      "primitive": "decision-algorithm",
+      "technology": "svg",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "branch-with-threshold-fragment",
+      "budgets": {
+        "maxNodes": 12,
+        "maxBranches": 16,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "embedded-fragment-short.yaml",
+        "long": "embedded-fragment-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "embedded-fragment-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "embedded-fragment-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "two-pole",
+      "primitive": "comparison-matrix",
+      "technology": "semantic-html",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "poles=2,complete-dimensions",
+      "budgets": {
+        "maxPoles": 2,
+        "maxDimensions": 8,
+        "maxItemsPerCell": 6,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "two-pole-short.yaml",
+        "long": "two-pole-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "two-pole-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "two-pole-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "three-pole-reflow",
+      "primitive": "comparison-matrix",
+      "technology": "semantic-html",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "poles=3,mobile-reflow-table",
+      "budgets": {
+        "maxPoles": 3,
+        "maxDimensions": 8,
+        "maxItemsPerCell": 6,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "three-pole-reflow-short.yaml",
+        "long": "three-pole-reflow-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "three-pole-reflow-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "three-pole-reflow-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "flat-concurrent",
+      "primitive": "enumeration-set",
+      "technology": "semantic-html",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "exhaustive-set,no-subgroups",
+      "budgets": {
+        "maxItems": 12,
+        "maxGroups": 1,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "flat-concurrent-short.yaml",
+        "long": "flat-concurrent-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "flat-concurrent-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "flat-concurrent-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "grouped-concurrent",
+      "primitive": "enumeration-set",
+      "technology": "semantic-html",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "multiple-groups,declared-cardinalities",
+      "budgets": {
+        "maxItems": 24,
+        "maxGroups": 6,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "grouped-concurrent-short.yaml",
+        "long": "grouped-concurrent-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "grouped-concurrent-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "grouped-concurrent-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    },
+    {
+      "id": "identity",
+      "primitive": "quantity-model",
+      "technology": "semantic-html",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "identity-relations,determinants,no-two-state",
+      "budgets": {
+        "maxIdentities": 4,
+        "maxStates": 1,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "identity-short.yaml",
+        "long": "identity-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "identity-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "identity-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": [
+        "Schema validator requires ≥2 states — identity-only fixture blocked at validation"
+      ]
+    },
+    {
+      "id": "two-state",
+      "primitive": "quantity-model",
+      "technology": "semantic-html",
+      "qualification_status": "EXPERIMENTAL",
+      "expected_signature": "two-aligned-states,sourced-insight",
+      "budgets": {
+        "maxStates": 2,
+        "maxValuesPerState": 8,
+        "maxLabelWords": 12
+      },
+      "required_surfaces": [
+        "svg",
+        "375",
+        "530",
+        "768",
+        "1280",
+        "2400",
+        "word-insert",
+        "png"
+      ],
+      "positive_fixtures": {
+        "short": "two-state-short.yaml",
+        "long": "two-state-long.yaml"
+      },
+      "negative_fixtures": [
+        {
+          "path": "two-state-negative.yaml",
+          "expected_code": "UNSUPPORTED_TOPOLOGY"
+        },
+        {
+          "path": "two-state-text-negative.yaml",
+          "expected_code": "UNSUPPORTED_TEXT_LOAD"
+        }
+      ],
+      "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
+      "test_status": "experimental-p0",
+      "known_limitations": []
+    }
+  ]
+}

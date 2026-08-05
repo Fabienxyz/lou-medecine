@@ -1,4 +1,5 @@
 import { measureText, wrapText } from "./text-fit.js";
+import { samplePathSegments } from "./svg-causal-validate.js";
 
 /**
  * Deterministic layered layout for the causal-graph primitive.
@@ -36,6 +37,11 @@ export const LAYOUT = {
   titleBlock: 74,
   gutter: 68,
   cornerRadius: 14,
+
+  relationLabelFontSize: 13,
+  relationLabelFontWeight: 600,
+  relationLabelPaddingX: 8,
+  relationLabelPaddingY: 4,
 };
 
 /** Relation kinds lifted out of the DAG before layering. */
@@ -232,6 +238,13 @@ export function layoutCausalGraph(spec, overrides = {}) {
     });
   }
 
+  for (const edge of edges) {
+    edge.segments = samplePathSegments(edge.path);
+    if (edge.relation_label) {
+      edge.labelBox = placeEdgeLabel(edge, cfg);
+    }
+  }
+
   return {
     ok: true,
     errors: [],
@@ -248,6 +261,42 @@ export function layoutCausalGraph(spec, overrides = {}) {
 }
 
 const round = (n) => Math.round(n * 100) / 100;
+
+function midpointAlongSegments(segments) {
+  if (!segments.length) return { x: 0, y: 0 };
+  let total = 0;
+  for (const s of segments) {
+    total += Math.hypot(s.x2 - s.x1, s.y2 - s.y1);
+  }
+  let half = total / 2;
+  for (const s of segments) {
+    const len = Math.hypot(s.x2 - s.x1, s.y2 - s.y1);
+    if (half <= len) {
+      const t = len > 0 ? half / len : 0;
+      return {
+        x: s.x1 + (s.x2 - s.x1) * t,
+        y: s.y1 + (s.y2 - s.y1) * t,
+      };
+    }
+    half -= len;
+  }
+  const last = segments[segments.length - 1];
+  return { x: last.x2, y: last.y2 };
+}
+
+function placeEdgeLabel(edge, cfg) {
+  const mid = midpointAlongSegments(edge.segments);
+  const textW = measureText(edge.relation_label, cfg.relationLabelFontSize, cfg.relationLabelFontWeight);
+  const width = Math.ceil(textW + 2 * cfg.relationLabelPaddingX);
+  const height = cfg.relationLabelFontSize + 2 * cfg.relationLabelPaddingY;
+  return {
+    text: edge.relation_label,
+    x: round(mid.x - width / 2),
+    y: round(mid.y - height / 2),
+    width,
+    height,
+  };
+}
 
 /** Straight when vertically aligned, otherwise a vertical-tangent cubic. */
 function forwardPath(a, b) {

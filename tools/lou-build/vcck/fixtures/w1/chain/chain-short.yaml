@@ -1,0 +1,27 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/w1
+element: w1-chain-short
+question: Comment progresse un colis ?
+nodes:
+  - id: n0
+    kind: state
+    label: Dépôt
+    class: scaffolding
+  - id: n1
+    kind: state
+    label: Plateforme
+    class: scaffolding
+  - id: n2
+    kind: event
+    label: Livraison
+    class: scaffolding
+edges:
+  - from: n0
+    to: n1
+    relation: causes
+    class: scaffolding
+  - from: n1
+    to: n2
+    relation: causes
+    class: scaffolding

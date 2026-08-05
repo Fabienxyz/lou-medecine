@@ -1,0 +1,63 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-skip-level-branch-long
+question: Peut-on sauter une étape intermédiaire sur la ligne d'expédition ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+nodes:
+  - id: start
+    kind: entry
+    label: Entrée entrepôt
+    class: scaffolding
+  - id: fork
+    kind: decision
+    label: Choix route expédition
+    class: scaffolding
+  - id: middle
+    kind: test
+    label: Étape contrôle poids obligatoire
+    class: scaffolding
+  - id: end
+    kind: conclusion
+    label: Expédition validée
+    class: scaffolding
+  - id: stop
+    kind: dead-end
+    label: Colis retenu
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: fork
+    condition: Commencer tri
+    class: scaffolding
+  - id: b2
+    from: fork
+    to: middle
+    condition: Route standard avec pesée
+    class: scaffolding
+  - id: b3
+    from: fork
+    to: end
+    condition: Raccourci sans pesée autorisée
+    class: scaffolding
+  - id: b4
+    from: middle
+    to: end
+    condition: Après pesée conforme
+    class: scaffolding
+  - id: b5
+    from: fork
+    to: stop
+    condition: Colis non conforme
+    class: scaffolding
+annotations:
+  - id: ann-note
+    label: Note hors flux
+    placement: out-of-flow
+    class: scaffolding

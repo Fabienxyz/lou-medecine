@@ -1,0 +1,39 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-lateral-feedback-long
+question: Comment un stock bas entretient-il une boucle de réapprovisionnement ?
+nodes:
+  - id: low-stock
+    kind: state
+    label: Stock bas entrepôt
+    class: scaffolding
+  - id: reorder
+    kind: response
+    label: Commande urgente lancée
+    class: scaffolding
+  - id: delay
+    kind: event
+    label: Délai fournisseur allongé
+    class: scaffolding
+  - id: backlog
+    kind: state
+    label: Commandes en attente
+    class: scaffolding
+edges:
+  - from: low-stock
+    to: reorder
+    relation: causes
+    class: scaffolding
+  - from: reorder
+    to: delay
+    relation: causes
+    class: scaffolding
+  - from: delay
+    to: backlog
+    relation: causes
+    class: scaffolding
+  - from: backlog
+    to: low-stock
+    relation: feeds_back
+    class: scaffolding

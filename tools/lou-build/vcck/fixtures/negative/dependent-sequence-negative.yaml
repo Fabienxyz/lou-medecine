@@ -1,0 +1,44 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-dependent-sequence-negative
+question: Negative — embranchement non linéaire
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+nodes:
+  - id: start
+    kind: entry
+    label: Start
+    class: scaffolding
+  - id: mid
+    kind: test
+    label: Mid
+    class: scaffolding
+  - id: end_a
+    kind: conclusion
+    label: Fin A
+    class: scaffolding
+  - id: end_b
+    kind: conclusion
+    label: Fin B
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: mid
+    condition: A
+    class: scaffolding
+  - id: b2
+    from: mid
+    to: end_a
+    condition: B
+    class: scaffolding
+  - id: b3
+    from: mid
+    to: end_b
+    condition: C
+    class: scaffolding

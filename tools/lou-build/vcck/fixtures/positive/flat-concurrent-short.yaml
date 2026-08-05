@@ -1,0 +1,40 @@
+spec_version: "0.2"
+primitive: enumeration-set
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-flat-concurrent-short
+question: Quels capteurs sont actifs ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+set:
+  id: set-sensors
+  label: Capteurs actifs
+  membership_logic: concurrent-set
+  ordering_semantics: none
+  expected_cardinality: 3
+  class: scaffolding
+groups:
+  - id: grp-all
+    label: Ensemble
+    purpose: Liste concurrente
+    coverage: exhaustive
+    membership_logic: concurrent-set
+    ordering_semantics: none
+    expected_cardinality: 3
+    class: scaffolding
+    items:
+      - id: i1
+        label: Température
+        class: sourced
+        kp: &a1
+          - KP-VCK-001
+      - id: i2
+        label: Humidité
+        class: sourced
+        kp: *a1
+      - id: i3
+        label: Pression
+        class: sourced
+        kp: *a1

@@ -1,0 +1,130 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+annotations:
+  - id: ann-urgency
+    label: Note technique
+    placement: out-of-flow
+    class: scaffolding
+element: w1-dependent-sequence-cardinal-plus1
+question: Trop long
+nodes:
+  - id: s0
+    kind: entry
+    label: N0
+    class: scaffolding
+  - id: s1
+    kind: test
+    label: N1
+    class: scaffolding
+  - id: s2
+    kind: test
+    label: N2
+    class: scaffolding
+  - id: s3
+    kind: test
+    label: N3
+    class: scaffolding
+  - id: s4
+    kind: test
+    label: N4
+    class: scaffolding
+  - id: s5
+    kind: test
+    label: N5
+    class: scaffolding
+  - id: s6
+    kind: test
+    label: N6
+    class: scaffolding
+  - id: s7
+    kind: test
+    label: N7
+    class: scaffolding
+  - id: s8
+    kind: test
+    label: N8
+    class: scaffolding
+  - id: s9
+    kind: test
+    label: N9
+    class: scaffolding
+  - id: s10
+    kind: test
+    label: N10
+    class: scaffolding
+  - id: s11
+    kind: test
+    label: N11
+    class: scaffolding
+  - id: s12
+    kind: conclusion
+    label: N12
+    class: scaffolding
+branches:
+  - id: b0
+    from: s0
+    to: s1
+    condition: Étape 1
+    class: scaffolding
+  - id: b1
+    from: s1
+    to: s2
+    condition: Étape 2
+    class: scaffolding
+  - id: b2
+    from: s2
+    to: s3
+    condition: Étape 3
+    class: scaffolding
+  - id: b3
+    from: s3
+    to: s4
+    condition: Étape 4
+    class: scaffolding
+  - id: b4
+    from: s4
+    to: s5
+    condition: Étape 5
+    class: scaffolding
+  - id: b5
+    from: s5
+    to: s6
+    condition: Étape 6
+    class: scaffolding
+  - id: b6
+    from: s6
+    to: s7
+    condition: Étape 7
+    class: scaffolding
+  - id: b7
+    from: s7
+    to: s8
+    condition: Étape 8
+    class: scaffolding
+  - id: b8
+    from: s8
+    to: s9
+    condition: Étape 9
+    class: scaffolding
+  - id: b9
+    from: s9
+    to: s10
+    condition: Étape 10
+    class: scaffolding
+  - id: b10
+    from: s10
+    to: s11
+    condition: Étape 11
+    class: scaffolding
+  - id: b11
+    from: s11
+    to: s12
+    condition: Étape 12
+    class: scaffolding

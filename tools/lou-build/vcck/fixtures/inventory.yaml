@@ -1,0 +1,21 @@
+# Generic inventory for VCCK fixtures — no medical chapter content.
+chapter: vcck/fixtures
+kps:
+  - id: KP-VCK-001
+    label: "Seuil de référence A"
+    disposition: understanding
+    anchors:
+      - section_path: "A. Référence"
+        quote: "valeur de référence A pour les fixtures VCCK"
+  - id: KP-VCK-002
+    label: "Seuil de référence B"
+    disposition: understanding
+    anchors:
+      - section_path: "B. Référence"
+        quote: "valeur de référence B pour les fixtures VCCK"
+  - id: KP-VCK-003
+    label: "Relation logistique"
+    disposition: understanding
+    anchors:
+      - section_path: "C. Logistique"
+        quote: "relation logistique générique pour les fixtures VCCK"

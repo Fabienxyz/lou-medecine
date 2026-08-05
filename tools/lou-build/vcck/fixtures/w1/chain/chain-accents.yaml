@@ -1,0 +1,27 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/w1
+element: w1-chain-accents
+question: Où va l'été français ?
+nodes:
+  - id: n0
+    kind: state
+    label: Été
+    class: scaffolding
+  - id: n1
+    kind: state
+    label: Automne
+    class: scaffolding
+  - id: n2
+    kind: event
+    label: Hiver
+    class: scaffolding
+edges:
+  - from: n0
+    to: n1
+    relation: causes
+    class: scaffolding
+  - from: n1
+    to: n2
+    relation: causes
+    class: scaffolding

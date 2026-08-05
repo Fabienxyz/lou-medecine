@@ -1,0 +1,76 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-monitoring-loop-negative
+question: Negative — branchement non supporté
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+nodes:
+  - id: start
+    kind: entry
+    label: Entrée
+    class: scaffolding
+  - id: a
+    kind: test
+    label: Test A
+    class: scaffolding
+  - id: b
+    kind: test
+    label: Test B
+    class: scaffolding
+  - id: c
+    kind: test
+    label: Test C
+    class: scaffolding
+  - id: d
+    kind: dead-end
+    label: Arrêt D
+    class: scaffolding
+  - id: e
+    kind: dead-end
+    label: Arrêt E
+    class: scaffolding
+  - id: f
+    kind: conclusion
+    label: Fin F
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: a
+    condition: Cas alpha
+    class: scaffolding
+  - id: b2
+    from: start
+    to: b
+    condition: Cas beta
+    class: scaffolding
+  - id: b3
+    from: start
+    to: c
+    condition: Cas gamma
+    class: scaffolding
+  - id: b4
+    from: a
+    to: d
+    condition: Vers D
+    class: scaffolding
+  - id: b5
+    from: b
+    to: e
+    condition: Vers E
+    class: scaffolding
+  - id: b6
+    from: c
+    to: f
+    condition: Vers F
+    class: scaffolding
+annotations:
+  - id: ann
+    label: Note
+    placement: out-of-flow
+    class: scaffolding

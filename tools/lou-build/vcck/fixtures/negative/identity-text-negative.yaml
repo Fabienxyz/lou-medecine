@@ -1,0 +1,20 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-identity-text-negative
+question: Negative texte — charge excessive identity
+nodes:
+  - id: a
+    kind: state
+    label: Un libellé volontairement trop long pour dépasser le budget de mots
+      autorisé ici
+    class: scaffolding
+  - id: b
+    kind: state
+    label: B
+    class: scaffolding
+edges:
+  - from: a
+    to: b
+    relation: causes
+    class: scaffolding

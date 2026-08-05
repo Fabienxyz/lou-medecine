@@ -1,0 +1,31 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-lateral-feedback-negative
+question: Negative — cycle sans feeds_back
+nodes:
+  - id: a
+    kind: state
+    label: A
+    class: scaffolding
+  - id: b
+    kind: state
+    label: B
+    class: scaffolding
+  - id: c
+    kind: state
+    label: C
+    class: scaffolding
+edges:
+  - from: a
+    to: b
+    relation: causes
+    class: scaffolding
+  - from: b
+    to: c
+    relation: causes
+    class: scaffolding
+  - from: c
+    to: a
+    relation: causes
+    class: scaffolding

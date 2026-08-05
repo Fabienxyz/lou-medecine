@@ -1,0 +1,64 @@
+spec_version: "0.2"
+primitive: enumeration-set
+technology: semantic-html
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+set:
+  id: set
+  label: Capteurs
+  membership_logic: concurrent-set
+  ordering_semantics: none
+  expected_cardinality: 13
+  class: scaffolding
+element: w1-flat-concurrent-cardinal-plus1
+question: Trop
+groups:
+  - id: grp
+    label: Ensemble
+    membership_logic: concurrent-set
+    ordering_semantics: none
+    expected_cardinality: 13
+    class: scaffolding
+    items:
+      - id: i0
+        label: X0
+        class: scaffolding
+      - id: i1
+        label: X1
+        class: scaffolding
+      - id: i2
+        label: X2
+        class: scaffolding
+      - id: i3
+        label: X3
+        class: scaffolding
+      - id: i4
+        label: X4
+        class: scaffolding
+      - id: i5
+        label: X5
+        class: scaffolding
+      - id: i6
+        label: X6
+        class: scaffolding
+      - id: i7
+        label: X7
+        class: scaffolding
+      - id: i8
+        label: X8
+        class: scaffolding
+      - id: i9
+        label: X9
+        class: scaffolding
+      - id: i10
+        label: X10
+        class: scaffolding
+      - id: i11
+        label: X11
+        class: scaffolding
+      - id: i12
+        label: X12
+        class: scaffolding

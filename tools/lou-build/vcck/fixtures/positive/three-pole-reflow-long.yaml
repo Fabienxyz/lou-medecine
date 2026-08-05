@@ -1,0 +1,69 @@
+spec_version: "0.2"
+primitive: comparison-matrix
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-three-pole-reflow-long
+question: Comparer trois modes d'irrigation pour une parcelle fictive ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+poles:
+  - id: drip
+    label: Goutte-à-goutte
+    pole_type: entity
+    class: scaffolding
+  - id: sprink
+    label: Aspersion
+    pole_type: entity
+    class: scaffolding
+  - id: flood
+    label: Submersion
+    pole_type: entity
+    class: scaffolding
+dimensions:
+  - id: dim-water
+    label: Eau utilisée
+    class: scaffolding
+    cells:
+      - pole: drip
+        items:
+          - id: d1
+            label: Faible consommation
+            class: sourced
+            kp: &a1
+              - KP-VCK-001
+      - pole: sprink
+        items:
+          - id: s1
+            label: Consommation moyenne
+            class: sourced
+            kp: *a1
+      - pole: flood
+        items:
+          - id: f1
+            label: Forte consommation
+            class: sourced
+            kp: *a1
+  - id: dim-labor
+    label: Main-d'œuvre
+    class: scaffolding
+    cells:
+      - pole: drip
+        items:
+          - id: d2
+            label: Installation initiale
+            class: sourced
+            kp: *a1
+      - pole: sprink
+        items:
+          - id: s2
+            label: Entretien régulier
+            class: sourced
+            kp: *a1
+      - pole: flood
+        items:
+          - id: f2
+            label: Surveillance continue
+            class: sourced
+            kp: *a1

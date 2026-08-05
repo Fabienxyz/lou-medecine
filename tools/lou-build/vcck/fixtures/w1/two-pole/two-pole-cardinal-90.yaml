@@ -1,0 +1,118 @@
+spec_version: "0.2"
+primitive: comparison-matrix
+technology: semantic-html
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+poles:
+  - id: a
+    label: Mode A
+    pole_type: entity
+    class: scaffolding
+  - id: b
+    label: Mode B
+    pole_type: entity
+    class: scaffolding
+element: w1-two-pole-cardinal-90
+question: Matrice dense
+dimensions:
+  - id: d0
+    label: Dimension 1
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d0-a
+            label: A0
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d0-b
+            label: B0
+            class: scaffolding
+  - id: d1
+    label: Dimension 2
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d1-a
+            label: A1
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d1-b
+            label: B1
+            class: scaffolding
+  - id: d2
+    label: Dimension 3
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d2-a
+            label: A2
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d2-b
+            label: B2
+            class: scaffolding
+  - id: d3
+    label: Dimension 4
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d3-a
+            label: A3
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d3-b
+            label: B3
+            class: scaffolding
+  - id: d4
+    label: Dimension 5
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d4-a
+            label: A4
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d4-b
+            label: B4
+            class: scaffolding
+  - id: d5
+    label: Dimension 6
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d5-a
+            label: A5
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d5-b
+            label: B5
+            class: scaffolding
+  - id: d6
+    label: Dimension 7
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d6-a
+            label: A6
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d6-b
+            label: B6
+            class: scaffolding

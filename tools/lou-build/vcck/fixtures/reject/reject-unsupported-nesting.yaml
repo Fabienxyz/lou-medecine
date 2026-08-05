@@ -1,0 +1,32 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-reject-unsupported-nesting
+question: Reject UNSUPPORTED_NESTING
+nodes:
+  - id: a
+    kind: state
+    label: Composant A
+    class: scaffolding
+  - id: b
+    kind: state
+    label: Composant B
+    class: scaffolding
+  - id: c
+    kind: state
+    label: Composant C
+    class: scaffolding
+  - id: d
+    kind: state
+    label: Composant D
+    class: scaffolding
+edges:
+  - from: a
+    to: b
+    relation: causes
+    class: scaffolding
+  - from: c
+    to: d
+    relation: causes
+    class: scaffolding
+nested_primitive: threshold-scale

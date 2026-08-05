@@ -1,0 +1,68 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-monitoring-loop-short
+question: Comment surveiller une serre ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+nodes:
+  - id: start
+    kind: entry
+    label: Démarrage
+    class: scaffolding
+  - id: monitor
+    kind: test
+    label: Lecture capteur
+    class: scaffolding
+  - id: alert
+    kind: decision
+    label: Seuil dépassé ?
+    class: scaffolding
+  - id: action
+    kind: conclusion
+    label: Ouvrir vanne
+    class: scaffolding
+  - id: stop
+    kind: dead-end
+    label: Maintenance
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: monitor
+    condition: Initialiser
+    class: scaffolding
+  - id: b2
+    from: monitor
+    to: alert
+    condition: Mesure reçue
+    class: scaffolding
+  - id: b3
+    from: alert
+    to: action
+    condition: Humidité > 80 %
+    class: scaffolding
+  - id: b4
+    from: action
+    to: monitor
+    condition: Reprendre surveillance
+    class: scaffolding
+  - id: b5
+    from: alert
+    to: monitor
+    condition: Humidité ≤ 80 %
+    class: scaffolding
+  - id: b6
+    from: alert
+    to: stop
+    condition: Capteur défaillant
+    class: scaffolding
+annotations:
+  - id: ann-note
+    label: Note hors flux
+    placement: out-of-flow
+    class: scaffolding

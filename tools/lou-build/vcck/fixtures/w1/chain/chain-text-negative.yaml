@@ -1,0 +1,11 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/w1
+element: w1-chain-text-negative
+question: Comment progresse un colis ?
+nodes:
+  - id: n0
+    kind: state
+    label: Un deux trois quatre cinq six sept huit neuf dix onze douze treize
+    class: scaffolding
+edges: []

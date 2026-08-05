@@ -1,0 +1,29 @@
+spec_version: "0.2"
+primitive: quantity-model
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-identity-short
+question: Quelle identité lie débit et volume ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+target:
+  id: vol
+  label: Volume V
+  unit: m³
+  class: sourced
+  kp: &a1
+    - KP-VCK-001
+identities:
+  - id: id1
+    expression: V = Q × t
+    relation_type: identity-product
+    class: sourced
+    kp: *a1
+states: []
+insights:
+  - id: ins1
+    label: V augmente si Q augmente
+    class: sourced
+    kp: *a1

@@ -1,0 +1,47 @@
+spec_version: "0.2"
+primitive: threshold-scale
+variant: numeric-contextual
+technology: svg
+chapter: vcck/fixtures
+element: vcck-single-context-short
+question: Comment lire un seuil de vent ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+contexts:
+  - id: ctx-wind
+    label: Observatoire côtier
+    class: scaffolding
+    scales:
+      - id: s1
+        analyte: Vitesse vent
+        cutoff_label: < 25 km/h
+        comparator: <
+        value: 25
+        unit: km/h
+        low_band_label: Calme
+        not_low_band_label: Alerte
+        class: sourced
+        kp:
+          - KP-VCK-001
+interpretations:
+  - id: interp-1
+    label: Une valeur haute ne suffit pas seule
+    attach_to: not-low-band
+    class: sourced
+    kp:
+      - KP-VCK-001
+confounders:
+  increase:
+    - id: cf-up
+      label: Facteur augmentant
+      class: sourced
+      kp:
+        - KP-VCK-001
+  decrease:
+    - id: cf-down
+      label: Facteur diminuant
+      class: sourced
+      kp:
+        - KP-VCK-002

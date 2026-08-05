@@ -1,0 +1,27 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-chain-short
+question: Comment progresse un colis ?
+nodes:
+  - id: depot
+    kind: state
+    label: Dépôt central
+    class: scaffolding
+  - id: hub
+    kind: state
+    label: Plateforme régionale
+    class: scaffolding
+  - id: delivery
+    kind: event
+    label: Livraison locale
+    class: scaffolding
+edges:
+  - from: depot
+    to: hub
+    relation: causes
+    class: scaffolding
+  - from: hub
+    to: delivery
+    relation: causes
+    class: scaffolding

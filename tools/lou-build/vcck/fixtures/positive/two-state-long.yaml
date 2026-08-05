@@ -1,0 +1,65 @@
+spec_version: "0.2"
+primitive: quantity-model
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-two-state-long
+question: Comment évolue le stock d'un entrepôt fictif entre matin et soir ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+target:
+  id: stock
+  label: Stock S
+  unit: caisses
+  class: sourced
+  kp: &a1
+    - KP-VCK-001
+identities:
+  - id: id1
+    expression: S = entrées − sorties
+    relation_type: identity-difference
+    class: sourced
+    kp: *a1
+states:
+  - id: state-a
+    label: Matin — après réception
+    values:
+      - quantity: entrées
+        value: 10
+        unit: caisses
+        class: sourced
+        kp: *a1
+      - quantity: sorties
+        value: 4
+        unit: caisses
+        class: sourced
+        kp: *a1
+      - quantity: S
+        value: 6
+        unit: caisses
+        class: sourced
+        kp: *a1
+  - id: state-b
+    label: Soir — après expéditions
+    values:
+      - quantity: entrées
+        value: 10
+        unit: caisses
+        class: sourced
+        kp: *a1
+      - quantity: sorties
+        value: 9
+        unit: caisses
+        class: sourced
+        kp: *a1
+      - quantity: S
+        value: 1
+        unit: caisses
+        class: sourced
+        kp: *a1
+insights:
+  - id: ins1
+    label: S baisse lorsque sorties augmentent
+    class: sourced
+    kp: *a1

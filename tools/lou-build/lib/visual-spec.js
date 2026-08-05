@@ -3,6 +3,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import YAML from "yaml";
 import { inventoryById } from "./inventory.js";
+import { validateVisualSpecV02, visualSpecClaimUnitsV02 } from "./visual-spec-v02.js";
 
 /**
  * visualSpec v0.1 — EXPERIMENTAL.
@@ -24,7 +25,16 @@ export const CLAIM_CLASSES = new Set(["sourced", "bridging", "scaffolding"]);
 
 export const NODE_KINDS = new Set(["state", "event", "response"]);
 
-export const EDGE_RELATIONS = new Set(["causes", "transmits", "feeds_back"]);
+export const EDGE_RELATIONS = new Set([
+  "causes",
+  "transmits",
+  "feeds_back",
+  "contributes_to",
+  "triggers_response",
+]);
+
+/** Relations that require a learner-visible relation_label on the edge. */
+export const RELATION_LABEL_REQUIRED = new Set(["contributes_to", "triggers_response"]);
 
 /**
  * Structural budgets belong to the primitive contract, never to the instance,
@@ -52,7 +62,7 @@ const SPEC_KEYS = new Set([
 
 const NODE_KEYS = new Set(["id", "kind", "label", "class", "kp"]);
 
-const EDGE_KEYS = new Set(["from", "to", "relation", "class", "kp"]);
+const EDGE_KEYS = new Set(["from", "to", "relation", "relation_label", "class", "kp"]);
 
 const PROVENANCE_KEYS = new Set([
   "source_edition",
@@ -65,7 +75,7 @@ const PROVENANCE_KEYS = new Set([
  * Any key here is rejected with a specific message rather than a generic one,
  * because this is the invariant most likely to be violated by habit.
  */
-const FORBIDDEN_GEOMETRY_KEYS = new Set([
+export const FORBIDDEN_GEOMETRY_KEYS = new Set([
   "x", "y", "x1", "y1", "x2", "y2", "cx", "cy", "dx", "dy", "rx", "ry", "r",
   "width", "height", "w", "h", "size", "scale", "viewbox", "viewBox",
   "top", "left", "right", "bottom", "row", "column", "col", "grid",
@@ -199,6 +209,14 @@ export function validateVisualSpec(spec, options = {}) {
     return { ok: false, errors: ["visualSpec must be a mapping"], stats: null };
   }
 
+  if (String(spec.spec_version) === "0.2") {
+    const inv = inventory?.kps ? inventory.kps : inventory;
+    return validateVisualSpecV02(spec, {
+      inventory: inv,
+      n09Reference: options.n09Reference || null,
+    });
+  }
+
   // --- A. schema shape + H. forbidden geometry (top level) -----------------
   checkKeys(spec, SPEC_KEYS, "spec", errors);
 
@@ -330,8 +348,28 @@ export function validateVisualSpec(spec, options = {}) {
       errors.push(`${where}: unknown relation "${edge.relation}"`);
     }
 
+    if (RELATION_LABEL_REQUIRED.has(edge.relation)) {
+      if (!edge.relation_label || !String(edge.relation_label).trim()) {
+        errors.push(`${where}: relation "${edge.relation}" requires relation_label`);
+      } else if (countWords(edge.relation_label) > contract.maxLabelWords) {
+        errors.push(
+          `${where}: relation_label exceeds ${contract.maxLabelWords} words (${countWords(edge.relation_label)})`,
+        );
+      }
+    } else if (edge.relation_label) {
+      errors.push(`${where}: relation_label is only allowed on contributes_to or triggers_response`);
+    }
+
     validateGrounding(edge, where, "edge", kpMap, errors);
   });
+
+  const k32 = detectK32Subgraph(nodeIds, edges);
+  if (k32.found) {
+    errors.push(
+      `spec: topology contains K3,2 subgraph (${k32.sources.join(", ")} → ${k32.targets.join(", ")}) — ` +
+        `forces edge crossings or exceeds allowed readability`,
+    );
+  }
 
   // --- I. structural budget -------------------------------------------------
   if (nodes.length > contract.maxNodes) {
@@ -419,6 +457,34 @@ function countClasses(nodes, edges) {
 }
 
 /**
+ * Detect a K3,2 complete bipartite subgraph: three sources each linked to the
+ * same two targets. Such topologies are non-planar in layered layout and force
+ * crossings or illegible edge density.
+ */
+export function detectK32Subgraph(nodeIds, edges) {
+  const forward = (edges || []).filter((e) => e?.relation !== "feeds_back");
+  const hasEdge = (from, to) => forward.some((e) => e.from === from && e.to === to);
+
+  for (let i = 0; i < nodeIds.length; i++) {
+    for (let j = i + 1; j < nodeIds.length; j++) {
+      const t1 = nodeIds[i];
+      const t2 = nodeIds[j];
+      const sources = nodeIds.filter(
+        (s) => s !== t1 && s !== t2 && hasEdge(s, t1) && hasEdge(s, t2),
+      );
+      if (sources.length >= 3) {
+        return {
+          found: true,
+          sources: sources.slice(0, 3),
+          targets: [t1, t2],
+        };
+      }
+    }
+  }
+  return { found: false };
+}
+
+/**
  * Contract invariant I2: every learner-visible semantic unit is traced to
  * Knowledge Points or explicitly classified as scaffolding. There is no third
  * state, and absence is a failure rather than a default.
@@ -490,6 +556,9 @@ export function semanticDigest(parts) {
  * class handling in mergeSemanticGrounding(). Nothing here writes or renders.
  */
 export function visualSpecClaimUnits(spec) {
+  if (String(spec?.spec_version) === "0.2") {
+    return visualSpecClaimUnitsV02(spec);
+  }
   const slug = String(spec.element).toLowerCase();
   const units = [];
 
@@ -530,9 +599,31 @@ export function visualSpecClaimUnits(spec) {
         edge.to,
         edge.relation,
         edge.class,
+        edge.relation_label || "",
         [...kp].join(","),
       ]),
     });
+
+    if (edge.relation_label) {
+      units.push({
+        id: `cb-vis-${slug}-rl-${edge.from}-to-${edge.to}`,
+        class: edge.class,
+        kp,
+        element: spec.element,
+        unit: "relation-label",
+        ref: `${edge.from}->${edge.to}`,
+        text: edge.relation_label,
+        digest: semanticDigest([
+          "relation-label",
+          edge.from,
+          edge.to,
+          edge.relation,
+          edge.relation_label,
+          edge.class,
+          [...kp].join(","),
+        ]),
+      });
+    }
   }
 
   return units;

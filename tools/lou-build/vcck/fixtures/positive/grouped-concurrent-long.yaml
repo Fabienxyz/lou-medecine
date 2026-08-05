@@ -1,0 +1,57 @@
+spec_version: "0.2"
+primitive: enumeration-set
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-grouped-concurrent-long
+question: Quels groupes concurrents alimentent un entrepôt régional fictif ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+set:
+  id: set-supply
+  label: Alimentation entrepôt régional
+  membership_logic: concurrent-set
+  ordering_semantics: none
+  expected_cardinality: 5
+  class: scaffolding
+groups:
+  - id: grp-inbound
+    label: Entrées fournisseurs
+    purpose: Flux entrants
+    coverage: exhaustive
+    membership_logic: concurrent-set
+    ordering_semantics: none
+    expected_cardinality: 3
+    class: scaffolding
+    items:
+      - id: i1
+        label: Fournisseur A — sec
+        class: sourced
+        kp: &a1
+          - KP-VCK-001
+      - id: i2
+        label: Fournisseur B — frais
+        class: sourced
+        kp: *a1
+      - id: i3
+        label: Fournisseur C — urgent
+        class: sourced
+        kp: *a1
+  - id: grp-internal
+    label: Flux internes
+    purpose: Réappro interne
+    coverage: exhaustive
+    membership_logic: concurrent-set
+    ordering_semantics: none
+    expected_cardinality: 2
+    class: scaffolding
+    items:
+      - id: i4
+        label: Retour magasin
+        class: sourced
+        kp: *a1
+      - id: i5
+        label: Transfert dépôt voisin
+        class: sourced
+        kp: *a1

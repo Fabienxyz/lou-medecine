@@ -1,0 +1,34 @@
+spec_version: "0.2"
+primitive: enumeration-set
+technology: semantic-html
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+set:
+  id: set
+  label: Capteurs
+  membership_logic: concurrent-set
+  ordering_semantics: none
+  expected_cardinality: 3
+  class: scaffolding
+element: w1-flat-concurrent-accents
+question: Capteurs été
+groups:
+  - id: grp
+    label: Ensemble
+    membership_logic: concurrent-set
+    ordering_semantics: none
+    expected_cardinality: 3
+    class: scaffolding
+    items:
+      - id: i0
+        label: Été
+        class: scaffolding
+      - id: i1
+        label: Automne
+        class: scaffolding
+      - id: i2
+        label: Hiver
+        class: scaffolding

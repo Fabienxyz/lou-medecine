@@ -1,0 +1,22 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+annotations:
+  - id: ann-urgency
+    label: Note technique
+    placement: out-of-flow
+    class: scaffolding
+element: w1-dependent-sequence-text-negative
+question: Quel enchaînement ?
+nodes:
+  - id: s0
+    kind: entry
+    label: Un deux trois quatre cinq six sept huit neuf dix onze douze treize
+    class: scaffolding
+branches: []

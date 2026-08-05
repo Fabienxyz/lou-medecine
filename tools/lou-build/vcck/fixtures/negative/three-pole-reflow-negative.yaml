@@ -1,0 +1,27 @@
+spec_version: "0.2"
+primitive: comparison-matrix
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-three-pole-negative
+question: Negative — un seul pôle
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+poles:
+  - id: a
+    label: A
+    pole_type: entity
+    class: scaffolding
+dimensions:
+  - id: d1
+    label: Dim
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: i1
+            label: X
+            class: sourced
+            kp:
+              - KP-VCK-001

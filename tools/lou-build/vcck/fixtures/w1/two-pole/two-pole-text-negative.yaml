@@ -1,0 +1,34 @@
+spec_version: "0.2"
+primitive: comparison-matrix
+technology: semantic-html
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+poles:
+  - id: a
+    label: Mode A
+    pole_type: entity
+    class: scaffolding
+  - id: b
+    label: Mode B
+    pole_type: entity
+    class: scaffolding
+element: w1-two-pole-text-negative
+question: Trop long
+dimensions:
+  - id: d1
+    label: Un deux trois quatre cinq six sept huit neuf dix onze douze treize
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d1-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d1-b
+            label: Y
+            class: scaffolding

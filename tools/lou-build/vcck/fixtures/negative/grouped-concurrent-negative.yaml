@@ -1,0 +1,22 @@
+spec_version: "0.2"
+primitive: enumeration-set
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-grouped-concurrent-negative
+question: Negative — un seul groupe
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+set:
+  label: Set
+  membership_logic: exclusive-set
+groups:
+  - id: g1
+    label: G1
+    items:
+      - id: i1
+        label: Item
+        class: sourced
+        kp:
+          - KP-VCK-001

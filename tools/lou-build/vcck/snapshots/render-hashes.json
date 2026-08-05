@@ -1,0 +1,58 @@
+{
+  "chain-short.yaml": {
+    "family": "chain",
+    "contractVersion": "W1-1",
+    "technology": "svg",
+    "hash": "fc8f03aedc7a7568ca66bbc6be3778bd52c95f9a6fa0e7fbe3ce3d255c5a9792",
+    "pngManifest": "vcck/reports/w1-candidate-hashes.json"
+  },
+  "chain-long.yaml": {
+    "family": "chain",
+    "contractVersion": "W1-1",
+    "technology": "svg",
+    "hash": "23c6f27ed7e9d24feffb84fc3d1e1a8948d9ee4103192499612c43d7bad5e257",
+    "pngManifest": "vcck/reports/w1-candidate-hashes.json"
+  },
+  "dependent-sequence-short.yaml": {
+    "family": "dependent-sequence",
+    "contractVersion": "W1-2",
+    "technology": "svg",
+    "hash": "4aee94551b6bb58a7c316ab85db3c1c41092214581c44b5ba0be8f7faa3f388b",
+    "pngManifest": "vcck/reports/w1-candidate-hashes.json"
+  },
+  "dependent-sequence-long.yaml": {
+    "family": "dependent-sequence",
+    "contractVersion": "W1-2",
+    "technology": "svg",
+    "hash": "2651e2b1fcf5555eb772b4c401eab4252b044f569399fcc3c83626bbdb4eaf18",
+    "pngManifest": "vcck/reports/w1-candidate-hashes.json"
+  },
+  "two-pole-short.yaml": {
+    "family": "two-pole",
+    "contractVersion": "W1-3",
+    "technology": "html",
+    "hash": "63f1f4c5299404e1133e33c4807f8f2a79f008111da4bc229a5b81d36c3fc813",
+    "pngManifest": "vcck/reports/w1-candidate-hashes.json"
+  },
+  "two-pole-long.yaml": {
+    "family": "two-pole",
+    "contractVersion": "W1-3",
+    "technology": "html",
+    "hash": "9743ded00d38ba575d11e3fcaaa9825d7607af460e270af19b9b13333e4da3ff",
+    "pngManifest": "vcck/reports/w1-candidate-hashes.json"
+  },
+  "flat-concurrent-short.yaml": {
+    "family": "flat-concurrent",
+    "contractVersion": "W1-4",
+    "technology": "html",
+    "hash": "8f210e1d5d341fcdf3015c4d5f7000999d93db8888641761a139104f30b513f8",
+    "pngManifest": "vcck/reports/w1-candidate-hashes.json"
+  },
+  "flat-concurrent-long.yaml": {
+    "family": "flat-concurrent",
+    "contractVersion": "W1-4",
+    "technology": "html",
+    "hash": "e5b11f8a7d658273300504e87788a24f5a25104d0c9598e836bcccf07ed6ce8a",
+    "pngManifest": "vcck/reports/w1-candidate-hashes.json"
+  }
+}

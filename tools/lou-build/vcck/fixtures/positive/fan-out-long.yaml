@@ -1,0 +1,38 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-fan-out-long
+question: Que déclenche une vanne principale ouverte sur l'irrigation ?
+nodes:
+  - id: valve
+    kind: state
+    label: Vanne principale ouverte
+    class: scaffolding
+  - id: flow-a
+    kind: response
+    label: Débit canal nord-est
+    class: scaffolding
+  - id: flow-b
+    kind: response
+    label: Débit canal sud-ouest
+    class: scaffolding
+  - id: alarm
+    kind: event
+    label: Capteur pression actif
+    class: scaffolding
+edges:
+  - from: valve
+    to: flow-a
+    relation: causes
+    class: scaffolding
+  - from: valve
+    to: flow-b
+    relation: causes
+    class: scaffolding
+  - from: valve
+    to: alarm
+    relation: triggers_response
+    relation_label: Active la surveillance
+    class: sourced
+    kp:
+      - KP-VCK-001

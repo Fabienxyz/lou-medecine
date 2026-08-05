@@ -1,0 +1,26 @@
+spec_version: "0.2"
+primitive: quantity-model
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-identity-negative
+question: Negative — deux états sans identité
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+target:
+  label: Cible
+  class: scaffolding
+states:
+  - id: s1
+    label: S1
+    values:
+      - value: 1
+        unit: u
+  - id: s2
+    label: S2
+    values:
+      - value: 2
+        unit: u
+identities: []
+insights: []

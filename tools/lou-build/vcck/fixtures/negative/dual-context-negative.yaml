@@ -1,0 +1,22 @@
+spec_version: "0.2"
+primitive: threshold-scale
+variant: numeric-contextual
+technology: svg
+chapter: vcck/fixtures
+element: vcck-dual-context-negative
+question: Negative — zéro contexte
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-p0
+contexts: []
+interpretations:
+  - id: i1
+    label: Note
+    attach_to: not-low-band
+    class: sourced
+    kp:
+      - KP-VCK-001
+confounders:
+  increase: []
+  decrease: []

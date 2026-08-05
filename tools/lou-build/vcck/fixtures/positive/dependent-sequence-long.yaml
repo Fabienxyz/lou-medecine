@@ -1,0 +1,49 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-dependent-sequence-long
+question: Quel enchaînement pour ouvrir une bibliothèque municipale un matin de semaine ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+nodes:
+  - id: start
+    kind: entry
+    label: Ouverture matinale
+    class: scaffolding
+  - id: check
+    kind: test
+    label: Vérifier accès et personnel
+    class: scaffolding
+  - id: prep
+    kind: test
+    label: Préparer salle lecture
+    class: scaffolding
+  - id: end
+    kind: conclusion
+    label: Accueil lecteurs
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: check
+    condition: Démarrer procédure
+    class: scaffolding
+  - id: b2
+    from: check
+    to: prep
+    condition: Accès et personnel OK
+    class: scaffolding
+  - id: b3
+    from: prep
+    to: end
+    condition: Salle prête
+    class: scaffolding
+annotations:
+  - id: ann-note
+    label: Note hors flux
+    placement: out-of-flow
+    class: scaffolding

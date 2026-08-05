@@ -1,0 +1,62 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/fixtures
+element: vcck-embedded-fragment-short
+question: Quand intégrer un seuil ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+nodes:
+  - id: start
+    kind: entry
+    label: Entrée
+    class: scaffolding
+  - id: test
+    kind: test
+    label: Mesure stock
+    class: scaffolding
+  - id: end
+    kind: conclusion
+    label: Réappro
+    class: scaffolding
+  - id: stop
+    kind: dead-end
+    label: Attente
+    class: scaffolding
+branches:
+  - id: b1
+    from: start
+    to: test
+    condition: Contrôler
+    class: scaffolding
+  - id: b2
+    from: test
+    to: end
+    condition: Stock bas
+    class: scaffolding
+    threshold_fragment:
+      context: Entrepôt frigorifique
+      low_band_meaning: Réapprovisionner
+      scales:
+        - id: sf1
+          analyte: Niveau palette
+          cutoff_label: < 10 caisses
+          comparator: <
+          value: 10
+          unit: caisses
+          class: sourced
+          kp:
+            - KP-VCK-001
+  - id: b3
+    from: test
+    to: stop
+    condition: Stock suffisant
+    class: scaffolding
+annotations:
+  - id: ann-note
+    label: Note hors flux
+    placement: out-of-flow
+    class: scaffolding

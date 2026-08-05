@@ -1,0 +1,37 @@
+spec_version: "0.2"
+primitive: comparison-matrix
+technology: semantic-html
+chapter: vcck/fixtures
+element: vcck-two-pole-short
+question: Quelle différence entre camion et train ?
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK
+  methodology_version: vcck-0
+poles:
+  - id: road
+    label: Camion
+    pole_type: entity
+    class: scaffolding
+  - id: rail
+    label: Train
+    pole_type: entity
+    class: scaffolding
+dimensions:
+  - id: dim-speed
+    label: Vitesse
+    class: scaffolding
+    cells:
+      - pole: road
+        items:
+          - id: r1
+            label: Flexible
+            class: sourced
+            kp: &a1
+              - KP-VCK-001
+      - pole: rail
+        items:
+          - id: t1
+            label: Massifiée
+            class: sourced
+            kp: *a1

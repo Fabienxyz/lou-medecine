@@ -1,0 +1,287 @@
+{
+  "contract": "W1-S1",
+  "approved": [
+    {
+      "family": "chain",
+      "fixture": "chain-short",
+      "width": 375,
+      "hash": "a99002e430f4cba9ca74dac2baeaa440cefcac36550af17b8ebd04a8593ce6bd",
+      "bytes": 18134
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-short",
+      "width": 530,
+      "hash": "c6b1e0b297d7bb1e11a1348f5b81299fffa40680653d4102c611ee45c58cc322",
+      "bytes": 27021
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-short",
+      "width": 768,
+      "hash": "e7c212278a514db25803d32e45bd50a52160bc44b3439e5792a41e87935ae2f2",
+      "bytes": 35606
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-short",
+      "width": 1280,
+      "hash": "7bd6d2cf436d13b3892eee90d54dc0439d7b7c17e909aa39849575702fdccaf3",
+      "bytes": 38231
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-short",
+      "width": 2400,
+      "hash": "676a350ce4c2aa21d5cc3b7c4570388d09e7f4e19c9135cf66bdcaea4ad036ef",
+      "bytes": 42133
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-long",
+      "width": 375,
+      "hash": "76e47ee73881b2be6aaf2aff9fab194cf807b270f31ddb31eea1946f83bf5c21",
+      "bytes": 27739
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-long",
+      "width": 530,
+      "hash": "e5452077f682260ba0feca931f81924aca945baab20f8bdbd1d2b47069b22326",
+      "bytes": 43860
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-long",
+      "width": 768,
+      "hash": "b0a9e1662186238a91e7e8192c458e8ae515502978eb5a37688600255e29c8af",
+      "bytes": 57911
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-long",
+      "width": 1280,
+      "hash": "40320c360e903326d31fc15d4df056093bf214981468270a6b76a32038acac70",
+      "bytes": 61508
+    },
+    {
+      "family": "chain",
+      "fixture": "chain-long",
+      "width": 2400,
+      "hash": "ac5398ec927d2ea14407cb078f8345a7a5bd3b0accf01a60fc220664dd49746a",
+      "bytes": 67429
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-short",
+      "width": 375,
+      "hash": "e6bd901b51894936ea840d6f8f3889a05955349581810ae0798e8e5160249603",
+      "bytes": 18609
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-short",
+      "width": 530,
+      "hash": "1f32e20ff3a58c76be8eda199e0ea2333264284b85089cad8398d38bd1d60f7c",
+      "bytes": 28421
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-short",
+      "width": 768,
+      "hash": "84d5100a278e1933ac524e51042b14b4630d7421d8bc3b458fa56d4722e94e57",
+      "bytes": 36576
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-short",
+      "width": 1280,
+      "hash": "ea7ce2f2e6eaa35575e0d0e034ea1a8ee6eb3a3be39255d1e8dc5309c42d324d",
+      "bytes": 39248
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-short",
+      "width": 2400,
+      "hash": "752cf4b5a497e3df203bf35e0f3ef3c22c74fec88f102d072eccaddd94fbe1fe",
+      "bytes": 43310
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-long",
+      "width": 375,
+      "hash": "af888d1654fa165c50f50df847e4d171a102c97ab6e2f7177b15242751ed30b8",
+      "bytes": 31815
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-long",
+      "width": 530,
+      "hash": "abfb83c60974bb0885c318c98b7698336057018ccf3c197c8e42244f8f0eb773",
+      "bytes": 47050
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-long",
+      "width": 768,
+      "hash": "7a6041dbc952e9b9525727481401bfdabfab51bd6c3034c5454417b43a0097dc",
+      "bytes": 63205
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-long",
+      "width": 1280,
+      "hash": "3637fb4c816f8781c008155be82e2a1bc31e9f17f6390f098ab6ce04aa3c0d81",
+      "bytes": 67110
+    },
+    {
+      "family": "dependent-sequence",
+      "fixture": "dependent-sequence-long",
+      "width": 2400,
+      "hash": "0b207c8f4fbf01756919087b26e7d78f5c80762f65d189855f14025ba039cd18",
+      "bytes": 73433
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-short",
+      "width": 375,
+      "hash": "0f861f3103db13148599ea533fe4c9031117bd5ad5748a9e432da370a1e44357",
+      "bytes": 11913
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-short",
+      "width": 530,
+      "hash": "02827ff7acdb7aa7817d652659d52c9a4a060fa5612992d11e3f0abd9fdeabbf",
+      "bytes": 12333
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-short",
+      "width": 768,
+      "hash": "eae88ddfabe055c1ed24c9541b2732f8be68fcd3789635a13a8a4dc8a8ac9934",
+      "bytes": 10725
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-short",
+      "width": 1280,
+      "hash": "eae88ddfabe055c1ed24c9541b2732f8be68fcd3789635a13a8a4dc8a8ac9934",
+      "bytes": 10725
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-short",
+      "width": 2400,
+      "hash": "eae88ddfabe055c1ed24c9541b2732f8be68fcd3789635a13a8a4dc8a8ac9934",
+      "bytes": 10725
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-long",
+      "width": 375,
+      "hash": "df39d7485b5dc2e0a0e83ec638c2662999b2455a4d235117634adc9656aced5c",
+      "bytes": 31446
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-long",
+      "width": 530,
+      "hash": "bec27d3e96278c524c21572fabf2104e7a58d3801654576092e729d4f1681d85",
+      "bytes": 33275
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-long",
+      "width": 768,
+      "hash": "b9a053b7a1ddab294be2c47ec0de3f856e1c4d2581ff90db1d4745751fec51d5",
+      "bytes": 25627
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-long",
+      "width": 1280,
+      "hash": "b9a053b7a1ddab294be2c47ec0de3f856e1c4d2581ff90db1d4745751fec51d5",
+      "bytes": 25627
+    },
+    {
+      "family": "two-pole",
+      "fixture": "two-pole-long",
+      "width": 2400,
+      "hash": "b9a053b7a1ddab294be2c47ec0de3f856e1c4d2581ff90db1d4745751fec51d5",
+      "bytes": 25627
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-short",
+      "width": 375,
+      "hash": "14c49efd46ae5d2148b9d333b51cbcc245a008c9c53c452c446a3c26939246e2",
+      "bytes": 11642
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-short",
+      "width": 530,
+      "hash": "6afef25425bff4cfae59e20774d2e320b996eb11a89f9d1718bdd91e41a8dfbd",
+      "bytes": 11429
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-short",
+      "width": 768,
+      "hash": "955f2b82a617edbac9f4e0093fffe8268d906b763385eb7e843be46361919adc",
+      "bytes": 10901
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-short",
+      "width": 1280,
+      "hash": "76ae020d57e2a38214f0b55a47ab4c7691a4633ad8f3c3660b82aac0a2f90a93",
+      "bytes": 10920
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-short",
+      "width": 2400,
+      "hash": "e835ca8c6069de8d36ed98411d5fc7db2175ca5433f2db3568ce39bd745b986a",
+      "bytes": 10883
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-long",
+      "width": 375,
+      "hash": "4031cf87e9f7959e0b6b7dac9e0881f3a50aa76a0f7b161c4f26bc43d174760d",
+      "bytes": 19017
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-long",
+      "width": 530,
+      "hash": "a9aa1bb055131bd44ae6fe10034e6b77468065acb9415791f97d471afd9e13a5",
+      "bytes": 19594
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-long",
+      "width": 768,
+      "hash": "cc08ba00d02a301c74e10a99d6a85795358eedbe815bb2d07d526e0f0ace566f",
+      "bytes": 19814
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-long",
+      "width": 1280,
+      "hash": "cc08ba00d02a301c74e10a99d6a85795358eedbe815bb2d07d526e0f0ace566f",
+      "bytes": 19814
+    },
+    {
+      "family": "flat-concurrent",
+      "fixture": "flat-concurrent-long",
+      "width": 2400,
+      "hash": "cc08ba00d02a301c74e10a99d6a85795358eedbe815bb2d07d526e0f0ace566f",
+      "bytes": 19814
+    }
+  ],
+  "updatedAt": "2026-08-05T11:15:59.922Z",
+  "source": "vcck/reports/w1-candidate-hashes.json"
+}

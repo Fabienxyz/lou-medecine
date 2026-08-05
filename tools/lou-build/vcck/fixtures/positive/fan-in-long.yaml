@@ -1,0 +1,35 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-fan-in-long
+question: Qu'est-ce qui alimente la ligne de production industrielle ?
+nodes:
+  - id: sensor-a
+    kind: state
+    label: Capteur pression amont
+    class: scaffolding
+  - id: sensor-b
+    kind: state
+    label: Capteur débit auxiliaire
+    class: scaffolding
+  - id: sensor-c
+    kind: state
+    label: Capteur réserve tampon
+    class: scaffolding
+  - id: line
+    kind: event
+    label: Ligne alimentée
+    class: scaffolding
+edges:
+  - from: sensor-a
+    to: line
+    relation: causes
+    class: scaffolding
+  - from: sensor-b
+    to: line
+    relation: causes
+    class: scaffolding
+  - from: sensor-c
+    to: line
+    relation: causes
+    class: scaffolding

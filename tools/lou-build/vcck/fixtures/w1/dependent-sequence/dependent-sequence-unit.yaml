@@ -1,0 +1,40 @@
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+technology: svg
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+annotations:
+  - id: ann-urgency
+    label: Note technique
+    placement: out-of-flow
+    class: scaffolding
+element: w1-dependent-sequence-unit
+question: Quel enchaînement ?
+nodes:
+  - id: s0
+    kind: entry
+    label: Mesure
+    class: scaffolding
+  - id: s1
+    kind: test
+    label: 12 kg
+    class: scaffolding
+  - id: s2
+    kind: conclusion
+    label: Résultat
+    class: scaffolding
+branches:
+  - id: b0
+    from: s0
+    to: s1
+    condition: Étape 1
+    class: scaffolding
+  - id: b1
+    from: s1
+    to: s2
+    condition: Étape 2
+    class: scaffolding

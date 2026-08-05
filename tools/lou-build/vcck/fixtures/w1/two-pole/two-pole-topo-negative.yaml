@@ -1,0 +1,30 @@
+spec_version: "0.2"
+primitive: comparison-matrix
+technology: semantic-html
+chapter: vcck/w1
+provenance:
+  source_edition: 2022
+  walkthrough: VCCK-W1
+  methodology_version: w1
+poles:
+  - id: a
+    label: A
+    pole_type: entity
+    class: scaffolding
+element: w1-two-pole-topo-negative
+question: Incomplete
+dimensions:
+  - id: d1
+    label: D
+    class: scaffolding
+    cells:
+      - pole: a
+        items:
+          - id: d1-a
+            label: X
+            class: scaffolding
+      - pole: b
+        items:
+          - id: d1-b
+            label: Y
+            class: scaffolding

@@ -1,0 +1,31 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-lateral-feedback-short
+question: Comment un stock bas se renforce ?
+nodes:
+  - id: low-stock
+    kind: state
+    label: Stock bas
+    class: scaffolding
+  - id: reorder
+    kind: response
+    label: Commande urgente
+    class: scaffolding
+  - id: delay
+    kind: event
+    label: Délai fournisseur
+    class: scaffolding
+edges:
+  - from: low-stock
+    to: reorder
+    relation: causes
+    class: scaffolding
+  - from: reorder
+    to: delay
+    relation: causes
+    class: scaffolding
+  - from: delay
+    to: low-stock
+    relation: feeds_back
+    class: scaffolding

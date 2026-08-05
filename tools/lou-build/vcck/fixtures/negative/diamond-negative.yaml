@@ -1,0 +1,51 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-diamond-negative
+question: Negative — topologie K3,2 non planaire
+nodes:
+  - id: s1
+    kind: response
+    label: S1
+    class: scaffolding
+  - id: s2
+    kind: response
+    label: S2
+    class: scaffolding
+  - id: s3
+    kind: response
+    label: S3
+    class: scaffolding
+  - id: t1
+    kind: state
+    label: T1
+    class: scaffolding
+  - id: t2
+    kind: state
+    label: T2
+    class: scaffolding
+edges:
+  - from: s1
+    to: t1
+    relation: causes
+    class: scaffolding
+  - from: s1
+    to: t2
+    relation: causes
+    class: scaffolding
+  - from: s2
+    to: t1
+    relation: causes
+    class: scaffolding
+  - from: s2
+    to: t2
+    relation: causes
+    class: scaffolding
+  - from: s3
+    to: t1
+    relation: causes
+    class: scaffolding
+  - from: s3
+    to: t2
+    relation: causes
+    class: scaffolding

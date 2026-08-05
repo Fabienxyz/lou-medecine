@@ -1,0 +1,35 @@
+spec_version: "0.1"
+primitive: causal-graph
+chapter: vcck/fixtures
+element: vcck-chain-long
+question: Comment progresse un colis sur le réseau logistique complet ?
+nodes:
+  - id: depot
+    kind: state
+    label: Dépôt central saturé
+    class: scaffolding
+  - id: hub
+    kind: state
+    label: Plateforme régionale triée
+    class: scaffolding
+  - id: route
+    kind: response
+    label: Camion affecté tôt
+    class: scaffolding
+  - id: delivery
+    kind: event
+    label: Livraison locale confirmée
+    class: scaffolding
+edges:
+  - from: depot
+    to: hub
+    relation: causes
+    class: scaffolding
+  - from: hub
+    to: route
+    relation: causes
+    class: scaffolding
+  - from: route
+    to: delivery
+    relation: causes
+    class: scaffolding

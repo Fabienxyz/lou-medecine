@@ -1,7 +1,7 @@
 # Lou Médecine — Architecture Decision Records
 
 **Type :** index documentaire — **informatif**  
-**Dernière mise à jour :** 2026-07-30
+**Dernière mise à jour :** 2026-08-06
 
 Ce document recense les ADR du projet. Il ne remplace aucun ADR et n'énonce aucune règle métier.
 
@@ -25,6 +25,8 @@ Les ADR évoluent lentement et capturent les **décisions architecturales fondat
 | [004](ADR-004-acquisition-architecture-frozen.md) | Acquisition Architecture Frozen | **Accepted** | 2026-07-28 | Gel Tool 01/02 ; mode maintenance acquisition |
 | [005](ADR-005-learner-layer-annotation-anchoring.md) | Learner-layer annotation anchoring | **Accepted** | 2026-07-28 | CaretAnchor pour notes walkthrough ; supersede ADR-002 §4 |
 | [006](ADR-006-pedagogical-patrimony-and-edition-lineage.md) | Patrimoine pédagogique et lignée éditoriale | **Accepted** | 2026-07-30 | Patrimoine sources / packages publiés / données d'apprentissage ; lignée éditoriale |
+| [007](ADR-007-visual-centrality-for-mental-models-and-notions.md) | Centralité visuelle des Modèles mentaux et des Notions | **Accepted** | 2026-08-05 | Visuel obligatoire et central ; walkthrough canonique médical ; accès dégradé distinct de la complétude |
+| [008](ADR-008-vcck-industrial-composition-pipeline.md) | Pipeline industriel de composition visuelle (VCCK) | **Accepted** | 2026-08-06 | Capacités, reconnaissance, composition abstraite ; pipeline éditorial → artefact |
 
 ---
 
@@ -39,6 +41,8 @@ Les ADR évoluent lentement et capturent les **décisions architecturales fondat
 | **005** | **006 étend 005** — ancrage caret + obligation de lier les données d'apprentissage à une *version* de package |
 | **006** | **Complète 003–005** — triple ancrage apprenant détaillé : [contrat 02](../contracts/02-IDENTITY-AND-ANCHORS.md) §11.1 |
 | **001** | **Indépendant** — grammaire visuelle ; cohérent avec 006 (visuels dans packages patrimoniaux) |
+| **007** | **Supersède** pour les MM et Notions le régime « visuel optionnel / bloc complet sans visuel » issu de l'amendement du 2026-07-25 ; conserve grounding, traçabilité et états techniques de dégradation |
+| **008** | **Complète 001 et 007** — couche composition (capacités, reconnaissance) en aval du catalogue de primitives ; opérationnalise l'obligation de centralité visuelle ; complète **006** (I16 traçabilité de production) ; renforce **002** (surfaces non décisionnelles) |
 
 ---
 

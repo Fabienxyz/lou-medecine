@@ -1,0 +1,107 @@
+package_version: EDITORIAL-INDUSTRIALIZATION-V0
+chapter: cardio-234
+status: E2_ACTIVE
+principle: "industrialize by chapter and qualify by family"
+architecture_decision: ADR-008
+architecture_principle: "visualSpec = semantic authority; ADR-008 = composition authority; four frozen layers"
+
+# Architecture VCCK — chantier terminé (2026-08-06).
+# Références : ADR-008 (composition) · contrat 05 (visualSpec) · ADR-001 (primitives)
+architecture_vcck:
+  status: TERMINÉE
+  closed_date: 2026-08-06
+  references:
+    composition: docs/adr/ADR-008-vcck-industrial-composition-pipeline.md
+    visual_spec: docs/contracts/05-VISUAL-GRAMMAR.md
+    primitives: docs/adr/ADR-001-freeze-svg-grammar-catalogue.md
+  note: "Ne pas rouvrir l'architecture ; industrialisation éditoriale en cours"
+
+# Chantier actif
+active_phase: E2
+active_objective: "Production industrielle des visualSpecs — 29 restantes + audit 30 ; signature par spec"
+
+# Jalon d'implémentation pré-W2 — intention, pas statut mutable.
+# Voir tools/lou-build/vcck/decisions/D-VCCK-STACK-EXTENSION-STRATEGY.md
+pre_w2_architecture:
+  objective: "Audit ciblé couche surface + standardisation interfaces de preuve avant qualification W2"
+  dependency: E1
+  blocks: "implémentation qualification W2"
+  extraction_schedule:
+    surface: "extraction mécanique après audit — avant W2"
+    proof_interfaces: "standardisation sans fusion — avant W2"
+    pipeline: "réévaluation après W2"
+    plan_serialize_validate: "réévaluation après W3"
+    internal_gates_verdict: "peuvent rester distincts durablement"
+
+qualification_waves:
+  W2: { families: [grouped-concurrent, three-pole-reflow], anchor_primitives: [flat-concurrent, two-pole] }
+  W3: { families: [fan-out, lateral-feedback, diamond], anchor_primitive: chain }
+  W4: { families: [skip-level-branch, binary-rule-out, monitoring-loop], anchor_primitive: dependent-sequence }
+  W5: { note: "primitives sans ancre — après arbitrage explicite" }
+
+phases:
+  - id: E0
+    owner: Codex
+    objective: "Geler le paquet éditorial V0 et ses 30 cartes de production"
+    inputs: [chapter-manifest.yaml, production-cards.yaml, kp-traceability.yaml]
+    exit: EDITORIAL_PACKAGE_V0_AUDITED
+  - id: E1
+    owner: Cursor
+    status: CLOSED
+    closed_date: 2026-08-06
+    objective: "Qualifier la famille générique chapter-master-map"
+    dependency: E0
+    exit: READY_FOR_CHAPTER_MASTER_MAP_CODEX_AUDIT
+  - id: E2
+    owner: Codex
+    status: ACTIVE
+    objective: "Production industrielle — rédiger en lot les 29 visualSpecs restantes et auditer les 30 ; calculer et vérifier la signature par spec"
+    dependency: E0
+    exit: 30_SEMANTIC_SPECS_READY
+    per_spec_exit: "signature calculée et vérifiée ; famille reconnue ou signal TO_RECOGNIZE explicite"
+  - id: E3
+    owner: Cursor
+    objective: "Consolider la matrice d'admission 30/30 depuis les signatures produites en E2"
+    dependency: [E1, E2]
+    exit: ROUTING_COMPUTED_30_OF_30
+    note: "Phase de consolidation — les signatures ne sont plus un gate autonome ; critère de sortie par spec en E2"
+  - id: E4
+    owner: Cursor
+    objective: "Fermer les qualifications par vagues (W2→W5) en étendant les piles existantes par primitive"
+    dependency: [E3, pre_w2_architecture]
+    exit: ALL_REQUIRED_FAMILIES_READY_FOR_USE
+    strategy: "extension de pile — aucune nouvelle pile autonome pour familles sœurs ; voir D-VCCK-STACK-EXTENSION"
+  - id: E5
+    owner: Cursor
+    objective: "Rendre les 30 contributions en un run protégé"
+    dependency: E4
+    exit: 30_RENDER_PROOFS_PASS
+  - id: E6
+    owner: Codex
+    objective: "Écrire ou consolider les 25 walkthroughs depuis les visuels gelés et l'Inventory"
+    dependency: E5
+    exit: 25_WALKTHROUGHS_CONGRUENT
+  - id: E7
+    owner: Cursor
+    objective: "Assembler automatiquement Word et Reader"
+    dependency: E6
+    exit: PUBLICATION_CANDIDATE_BUILT
+  - id: E8
+    owner: Codex
+    objective: "Auditer les 30 visuels, la congruence et le Word natif"
+    dependency: E7
+    exit: READY_FOR_PRODUCT_REVIEW_OR_REMEDIATION
+
+remediation_policy:
+  isolated_asset_retouch_forbidden: true
+  fix_lowest_shared_layer_first: true
+  required_differential_report: true
+  rerun_all_impacted_families: true
+  rerun_complete_chapter_before_publication: true
+
+industrial_metrics:
+  target_reuse_of_qualified_families_after_pilot: ">= 80%"
+  renderer_changes_during_chapter_run: 0
+  manual_content_rewrites_by_renderer: 0
+  missing_required_visuals: 0
+  skipped_required_proofs: 0

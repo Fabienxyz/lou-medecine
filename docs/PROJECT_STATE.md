@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-04 (Phase 1A prototypage éditorial actif ; gate migration Phase 0)
+**Dernière mise à jour :** 2026-08-06 (architecture VCCK stabilisée — ADR-008 + contrat 05 ; **E2** chantier actif)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -22,16 +22,23 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 |---|---|
 | **Objectif actif** | **Phase 1A** — validation du contrat éditorial cible sur le chapitre 234 ([plan](plans/editorial-prototyping-and-migration-plan.md)) |
 | **Phase opérationnelle active** | **Phase 1A** — prototypage produit hors Reader — MM · Notions · Cas **conjoints** |
+| **Micro-chantier industriel V0** | **E2 active** — production industrielle des visualSpecs 234 : rédaction des 29 restantes + audit des 30 ([roadmap](../editorial-industrialization/v0/chapters/234/execution-roadmap.yaml)) ; **E1 clôturée** ; **architecture VCCK terminée** |
 | **Livrable visé** | Prototypes Word mobile-first consultables par Lou (MM, Notions pilotes, Cas pilotes) |
 | **Chemin critique** | **Phase 1A → 1B → … → Product Freeze 234** → Phase 9 (224) → capitalisation → Corpus V1 |
 | **Blocage structurant** | Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
 | **Blocage migration technique** | **Phase 2 intégration/migration bloquée** — gate Phase 0 migration ([`analysis/phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md)) |
-| **Dernier jalon produit** | **SVG Highlight Bridge V1** — highlights SVG opérationnels sur RPC 234 ; UI annotation stabilisée HTML + SVG ; tag `svg-highlight-bridge-v1` ; 2026-08-03 |
+| **Dernier jalon architectural** | **ADR-008 publié** — architecture industrielle VCCK stabilisée ; contrat 05 = référence canonique visualSpec ; 2026-08-06 |
+| **Dernier jalon qualification VCCK** | **E1 / CMM-0.3** — famille `chapter-master-map` **qualifiée V1** (CMM-R3) ; audit `PASS_WITH_MINOR_RECOMMENDATIONS` ; 2026-08-06 |
+| **Dernier jalon produit Reader** | **SVG Highlight Bridge V1** — highlights SVG opérationnels sur RPC 234 ; tag `svg-highlight-bridge-v1` ; 2026-08-03 |
 | **Baseline migration Phase 0** | Commit `5734832…` — tag `baseline-phase-0-2026-08-04` ; Phase 1A/1B autorisées ; Phase 2 migration **bloquée** |
 
 **SVG Highlight Bridge V1 clôturé (2026-08-03).** Les **highlights sur texte SVG** sont disponibles sur le chapitre de référence **234** (création, changement de couleur, effacement, restauration) via le moteur **Highlight V2** unique et le backend **LouInlineFormatting**. L'UI annotation est **stabilisée** : toolbar unique — couleurs + gomme sur SVG ; G/S/B masqués en contexte SVG ; walkthrough HTML inchangé.
 
-**UI Reader V1 — Annotation UI Freeze V1 (2026-08-03).** La couche annotation Learner HTML reste **gelée** hors bug bloquant. **Chantier actif : Phase 1A** — prototypage éditorial hors Reader ([plan](plans/editorial-prototyping-and-migration-plan.md)).
+**UI Reader V1 — Annotation UI Freeze V1 (2026-08-03).** La couche annotation Learner HTML reste **gelée** hors bug bloquant. **Chantier macro actif : Phase 1A** — prototypage éditorial hors Reader ([plan](plans/editorial-prototyping-and-migration-plan.md)).
+
+**Architecture VCCK stabilisée (2026-08-06).** [ADR-008](adr/ADR-008-vcck-industrial-composition-pipeline.md) **Accepted** — pipeline industriel : contrat éditorial → visualSpec → signature → reconnaissance → capacité → composition abstraite → surface → artefact. [Contrat 05](contracts/05-VISUAL-GRAMMAR.md) refondu — **visualSpec = autorité sémantique** ; **ADR-008 = autorité de composition**. Quatre couches gelées : Primitives ([ADR-001](adr/ADR-001-freeze-svg-grammar-catalogue.md)) · visualSpec (contrat 05) · Composition VCCK (ADR-008) · Chapter Package / Reader (contrats 04 et 06). **Chantier d'architecture VCCK clôturé** — le principal risque architectural (couche composition sous-spécifiée) est **levé**. Le projet bascule de **l'architecture en construction** vers **l'industrialisation éditoriale**.
+
+**Industrialisation éditoriale V0 — E2 active (2026-08-06).** Famille `chapter-master-map` qualifiée (E1 / CMM-R3) — rapport : [`cmm-qualification-report.md`](../tools/lou-build/vcck/reports/cmm-qualification-report.md). **Chantier actif : E2** — Codex — 29 visualSpecs restantes + audit des 30, signature par spec. **Prochain jalon implémentation VCCK : pré-W2** (audit couche `surface` + standardisation interfaces de preuve) avant qualification **W2**. Stratégie d'extension : [`D-VCCK-STACK-EXTENSION-STRATEGY.md`](../tools/lou-build/vcck/decisions/D-VCCK-STACK-EXTENSION-STRATEGY.md). Aucune génération MM-1 réel 234 tant que la séquence E2–E5 ne l'autorise pas.
 
 **Chaîne de consommation Fabrique → Reader (Phase 0.1 clôturée).** Acquis technique stabilisé. **Prochaine intégration Reader** conditionnée par validation du contrat éditorial Phase 1A.
 
@@ -43,6 +50,16 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 - **`content_digest` = vérité matérielle** du contenu publié.
 - **Auto-réparation Reader** — au bootstrap produit, le Reader détecte toute divergence de digest ou de runtime (`detectStale()`), exécute `repair()` si nécessaire, recertifie, puis poursuit — sans vidage manuel de cache ni changement de `release_id`.
 - **Product Review officielle** — procédure exclusive : [`scripts/product-review-234.sh`](../scripts/product-review-234.sh) en mode produit (`?product=1`) ; bibliothèque d'exécution `.local/product-review-library/` (gitignored). Détail : [`docs/renderer/PRODUCT-REVIEW.md`](renderer/PRODUCT-REVIEW.md).
+
+**Stratégie VCCK révisée (2026-08-06) — [`D-VCCK-STACK-EXTENSION-STRATEGY.md`](../tools/lou-build/vcck/decisions/D-VCCK-STACK-EXTENSION-STRATEGY.md) :**
+
+- **Pas d'extraction immédiate** d'un grand noyau VCCK global — les piles `w1-*` et `cmm-*` divergent ; seule la couche `surface` est candidate à extraction mécanique après audit.
+- **Extension des piles par primitive** — familles sœurs étendent la pile ancre qualifiée (`grouped-concurrent` ← `flat-concurrent`, `three-pole-reflow` ← `two-pole`, `fan-out` ← `chain`, etc.) ; **aucune nouvelle pile autonome** pour familles sœurs.
+- **Extraction progressive** — couche commune extraite uniquement après convergence observée de ≥ 2 implémentations réelles ; similitude de nom insuffisante.
+- **Rigueur des preuves inchangée** — contrat perceptuel, fixtures, budgets, responsive, déterminisme, mutants, audit perceptuel pour chaque qualification.
+- **CMM gelée** — pile exceptionnelle pour primitive nouvelle ; non réplicable ; non migrée sans bénéfice démontré.
+- **Signatures en E2** — calculées et vérifiées par visualSpec ; E3 devient consolidation de la matrice d'admission.
+- **Vagues de qualification** — W2 → W3 → W4 → W5 ; réévaluation extraction `pipeline` après W2, `plan/serialize/validate` après W3.
 
 **Constats factuels (acquis pipeline, non confondus avec la Fabrique productrice) :**
 
@@ -60,7 +77,8 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Prototypage éditorial (Phase 1A)** | Validation contrat MM/Notions/Cas — chapitre 234 | **Actif** — Word mobile-first ; Product Review Lou ; voir [plan](plans/editorial-prototyping-and-migration-plan.md) |
+| **Prototypage éditorial (Phase 1A)** | Validation contrat MM/Notions/Cas — chapitre 234 | **Actif (macro)** — Word mobile-first ; Product Review Lou ; voir [plan](plans/editorial-prototyping-and-migration-plan.md) |
+| **Industrialisation éditoriale V0 (234)** | Paquet `editorial-industrialization/v0` — séquence E0–E8 | **Architecture VCCK terminée** (ADR-008 + contrat 05) · **E1 clôturée** · **E2 active** (production industrielle visualSpecs) · jalon **pré-W2** avant qualification W2 |
 | **Reference Product Chapter (234)** | Laboratoire produit — Phases 2–8 (intention RPC) | **Intégration Reader suspendue** — RPC Phase 1 MM = baseline historique ; Amorçage Phase 2 **suspendu** |
 | **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
 | **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
@@ -131,7 +149,7 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 | Formats structurés EDN non évalués | Latent — nouveau pipeline si requis ([ADR-004](adr/ADR-004-acquisition-architecture-frozen.md) §6) | Couverture EDN |
 | Portabilité hors cardio / hors PDF | Latent | Couverture EDN |
 
-**Risques clos récemment :** Phase 0.1 — Product Review fiable (auto-repair digest, procédure canonique, diagnostics explicites) · smoke CN-07 obsolète post-AP-D (CI-01) · PDR-D2 offline intégral · incohérence manifest slice vs full-chapter (Étape 0) · SVG MM-pump orphelin (relocated) · legacy lou-build · migration FIL A Item 234 · écart édition golden master (corrigé — **2022**, [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)).
+**Risques clos récemment :** **Architecture VCCK sous-spécifiée** — ADR-008 publié + contrat 05 réaligné (2026-08-06) · Phase 0.1 — Product Review fiable · smoke CN-07 obsolète post-AP-D (CI-01) · PDR-D2 offline intégral · incohérence manifest slice vs full-chapter (Étape 0) · SVG MM-pump orphelin (relocated) · legacy lou-build · migration FIL A Item 234 · écart édition golden master (corrigé — **2022**, [PDR-B2](governance/PRODUCT-DECISION-REGISTRY.md)).
 
 ---
 
@@ -174,16 +192,27 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 ## Prochaines étapes
 
-**Chantier actif :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) — **Phase 1A**.
+**Chantier macro :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) — **Phase 1A**.
 
-| # | Étape | Statut |
+**Micro-chantier industriel (actif) :** [`execution-roadmap.yaml`](../editorial-industrialization/v0/chapters/234/execution-roadmap.yaml) — **E2**.
+
+| # | Étape industrielle V0 | Owner | Statut |
+|---|---|---|---|
+| E0 | Geler paquet éditorial V0 | Codex | Largement fait |
+| E1 | Qualifier `chapter-master-map` (CMM-R3 / CMM-0.3) | Cursor | **Clôturée** — 2026-08-06 |
+| E2 | Rédiger 29 visualSpecs restantes + auditer les 30 ; signature par spec | Codex | **Active — prochaine** |
+| PRE-W2 | Audit couche `surface` + standardisation interfaces de preuve | Cursor | **Prochain jalon architecture** — avant W2 |
+| E3 | Consolider matrice d'admission 30/30 (signatures produites en E2) | Cursor | En attente (après E2) |
+| E4 | Qualifier familles par vagues W2→W5 (extension piles existantes) | Cursor | En attente (après PRE-W2 + E3) |
+
+| # | Étape Phase 1A (macro) | Statut |
 |---|---|---|
-| 1 | Modélisation globale du chapitre 234 | **Prochaine** |
+| 1 | Modélisation globale du chapitre 234 | En cours (via industrialisation V0) |
 | 2 | Cartographie MM → Notions → Cas | En attente |
-| 3 | Variantes MM (1 à 3 SVG) | En attente |
+| 3 | Variantes MM (1 à 3 SVG) | En attente — **pas de MM-1 réel avant autorisation séquence E** |
 | 4 | Notions pilotes (Lot 2) | En attente |
 | 5 | Cas cliniques pilotes (Lot 3) | En attente |
-| 6 | Product Review Lou (Word iPhone) | En attente |
+| 6 | Product Review Lou (Word iPhone) | En attente (E8) |
 | 7 | Consolidation contrat éditorial | En attente |
 
 **Suspendu** tant que contrat non validé : RPC Phase 2 Amorçage · intégration Reader Phases 3–4 linéaires · Phase 2 migration technique ([gate](analysis/phase-0-baseline-gate-2026-08-04.md)).
@@ -200,6 +229,9 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
+| 2026-08-06 | **ADR-008 publié — architecture industrielle VCCK stabilisée** — visualSpec = autorité sémantique (contrat 05) ; ADR-008 = autorité de composition ; chantier architecture clôturé ; **E2** = chantier actif (production industrielle visualSpecs 234) |
+| 2026-08-06 | **Stratégie VCCK révisée — D-VCCK-STACK-EXTENSION** — pas de noyau global immédiat ; extension piles par primitive ; extraction progressive ; signatures en E2 ; jalon pré-W2 avant qualification W2 ; CMM gelée non réplicable |
+| 2026-08-06 | **E1 clôturée — `chapter-master-map` qualifiée V1** — CMM-0.3 / CMM-R3 ; 17/17 tests · 11 gates PASS · audit `PASS_WITH_MINOR_RECOMMENDATIONS` · gel famille autorisé ; prochain micro-lot **E2** (29 visualSpecs + audit 30) |
 | 2026-08-04 | **Phase 1A prototypage éditorial activée** — plan autoritaire [`editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) ; conception conjointe MM/Notions/Cas ; RPC Amorçage **suspendu** ; MM RPC Phase 1 = baseline historique |
 | 2026-08-04 | **Phase 0 migration clôturée avec réserves** — tag `baseline-phase-0-2026-08-04` — [`phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md) |
 | 2026-08-03 | **SVG Highlight Bridge V1 clôturé** — highlights SVG opérationnels sur RPC 234 ; bridge Highlight V2 + LouInlineFormatting ; Fabrique `data-official-text-id` ; package 234 régénéré ; UI toolbar contextuelle (G/S/B masqués SVG) ; tag `svg-highlight-bridge-v1` ; prochain jalon → Phase 2 Amorçage cognitif |
@@ -280,9 +312,15 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 | Détail migration Reader | [`renderer/10-MIGRATION_PLAN.md`](renderer/10-MIGRATION_PLAN.md) |
 | Détail Reference Product Chapter | [`docs/rpc/00-RPC-METHODOLOGY.md`](rpc/00-RPC-METHODOLOGY.md) |
 | Gate Phase 0 migration (baseline) | [`analysis/phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md) |
-| **Plan chantier actif — Phase 1A** | [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) |
+| **Plan chantier macro — Phase 1A** | [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) |
+| **Roadmap industrielle V0 (E0–E8)** | [`../editorial-industrialization/v0/chapters/234/execution-roadmap.yaml`](../editorial-industrialization/v0/chapters/234/execution-roadmap.yaml) |
+| **Qualification E1 CMM** | [`../tools/lou-build/vcck/reports/cmm-qualification-report.md`](../tools/lou-build/vcck/reports/cmm-qualification-report.md) |
+| **Stratégie VCCK (extension piles)** | [`../tools/lou-build/vcck/decisions/D-VCCK-STACK-EXTENSION-STRATEGY.md`](../tools/lou-build/vcck/decisions/D-VCCK-STACK-EXTENSION-STRATEGY.md) |
+| **ADR-008 — pipeline composition VCCK** | [`adr/ADR-008-vcck-industrial-composition-pipeline.md`](adr/ADR-008-vcck-industrial-composition-pipeline.md) |
+| **Contrat 05 — visualSpec (canonique)** | [`contracts/05-VISUAL-GRAMMAR.md`](contracts/05-VISUAL-GRAMMAR.md) |
+| Reprise agent | [`HANDOVER.md`](HANDOVER.md) |
 | Détail industrialisation (ultérieur) | [`acquisition/industrialization-plan.md`](acquisition/industrialization-plan.md) |
 
 ---
 
-*Révision 2026-08-04 — Phase 1A prototypage éditorial actif ; plan editorial-prototyping-and-migration-plan.md.*
+*Révision 2026-08-06 — ADR-008 publié ; contrat 05 réaligné ; architecture VCCK stabilisée ; E2 chantier actif ; industrialisation éditoriale ; jalon implémentation pré-W2 avant W2.*

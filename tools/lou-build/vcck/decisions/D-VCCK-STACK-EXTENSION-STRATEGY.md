@@ -24,8 +24,8 @@ Extensions autorisées par primitive :
 
 | Famille cible | Famille ancre | Pile |
 |---|---|---|
-| `grouped-concurrent` | `flat-concurrent` | W1 (semantic-html) |
-| `three-pole-reflow` | `two-pole` | W1 (semantic-html) |
+| `grouped-concurrent` | `flat-concurrent` | W1 (svg) |
+| `three-pole-reflow` | `two-pole` | W1 (svg) |
 | `fan-out` | `chain` | W1 (svg) |
 | `lateral-feedback` | `chain` | W1 (svg) |
 | `diamond` | `chain` | W1 (svg) |

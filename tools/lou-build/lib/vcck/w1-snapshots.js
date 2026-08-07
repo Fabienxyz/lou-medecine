@@ -36,25 +36,25 @@ export const W1_APPROVED_POSITIVES = Object.freeze([
     file: "two-pole-short.yaml",
     family: "two-pole",
     contractVersion: W1_CONTRACT_VERSION["two-pole"],
-    technology: "html",
+    technology: "svg",
   },
   {
     file: "two-pole-long.yaml",
     family: "two-pole",
     contractVersion: W1_CONTRACT_VERSION["two-pole"],
-    technology: "html",
+    technology: "svg",
   },
   {
     file: "flat-concurrent-short.yaml",
     family: "flat-concurrent",
     contractVersion: W1_CONTRACT_VERSION["flat-concurrent"],
-    technology: "html",
+    technology: "svg",
   },
   {
     file: "flat-concurrent-long.yaml",
     family: "flat-concurrent",
     contractVersion: W1_CONTRACT_VERSION["flat-concurrent"],
-    technology: "html",
+    technology: "svg",
   },
 ]);
 

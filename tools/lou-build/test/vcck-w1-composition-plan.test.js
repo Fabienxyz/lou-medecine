@@ -60,10 +60,10 @@ describe("vcck-w1-composition-plan", () => {
     assert.equal(v.ok, true, v.errors.join("; "));
   });
 
-  it("HTML plan passes technology-specific validation", () => {
+  it("two-pole plan passes technology-specific validation", () => {
     const spec = loadVisualSpec(path.join(VCCK_POSITIVE, "two-pole-short.yaml"));
     const result = runW1Pipeline(spec, { expectedFamily: "two-pole" });
-    assert.equal(result.plan.technology, "html");
+    assert.equal(result.plan.technology, "svg");
     const v = validateCompositionPlan(result.plan);
     assert.equal(v.ok, true, v.errors.join("; "));
   });

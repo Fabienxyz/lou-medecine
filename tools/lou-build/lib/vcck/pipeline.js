@@ -5,19 +5,16 @@
 import fs from "node:fs";
 import path from "node:path";
 import { loadVisualSpec, validateVisualSpec } from "../visual-spec.js";
-import { validateHtmlViewport } from "../html-viewport-validate.js";
 import {
   validateSvgViewport,
   captureResponsiveSvgPng,
   SVG_VIEWPORT_WIDTHS,
 } from "../svg-viewport-validate.js";
-import { captureHtmlPng } from "../html-capture.js";
 import { validatePngCapture } from "../svg-png-validate.js";
 import { isW1Family } from "./w1-constants.js";
 import {
   validateW1SvgViewport,
   captureW1SvgPngs,
-  captureW1HtmlPng,
   validateW1SurfaceMetrics,
 } from "./w1-surface.js";
 import {
@@ -37,7 +34,6 @@ import {
   renderVcckSpec,
   validateRenderedArtifact,
   checkDeterminism,
-  artifactKind,
 } from "./render-bridge.js";
 import { loadVcckInventory } from "./inventory.js";
 import {
@@ -70,7 +66,6 @@ import {
   writeW1StressSurfacesReport,
 } from "./w1-stress-surfaces.js";
 import { buildW1ResponsiveProof } from "./w1-responsive-proof.js";
-import { validateW1HtmlReflowAtWidth } from "./w1-reflow-validate.js";
 import { computeVcckVerdict } from "./verdict.js";
 import { checkInterProcessDeterminism } from "./determinism-ipc.js";
 import { VCCK_POSITIVE as POS_DIR } from "./paths.js";
@@ -238,7 +233,7 @@ export async function runPositiveFixture(family, loadPath, options = {}) {
   }
 
   fs.mkdirSync(outDir, { recursive: true });
-  const artifactName = rendered.kind === "svg" ? "artifact.svg" : "artifact.html";
+  const artifactName = "artifact.svg";
   const artifactPath = path.join(outDir, artifactName);
   fs.writeFileSync(artifactPath, rendered.artifact);
 
@@ -250,46 +245,10 @@ export async function runPositiveFixture(family, loadPath, options = {}) {
   const vpErrors = [];
   const pngErrors = [];
   const surfaceMetricNotes = [];
-  const reflowMetricNotes = [];
-  const kind = artifactKind(spec);
   const w1Family = isW1Family(family.id);
 
   try {
-    if (kind === "html") {
-      for (const width of VCCK_VIEWPORT_WIDTHS) {
-        const vp = await validateHtmlViewport(artifactPath, { widths: [width] });
-        if (!vp.ok) vpErrors.push(`${width}px: ${vp.errors.join("; ")}`);
-        const pngPath = path.join(outDir, `capture-${width}.png`);
-        if (w1Family) {
-          const metrics = await captureW1HtmlPng(artifactPath, pngPath, { width });
-          const surfVal = validateW1SurfaceMetrics(metrics);
-          if (!surfVal.ok) {
-            pngErrors.push(`${width}px surface: ${surfVal.errors.join("; ")}`);
-          }
-          if (metrics) {
-            surfaceMetricNotes.push({
-              width,
-              ...metrics,
-              ratio: metrics.contentCaptureRatio,
-            });
-          }
-          if (rendered.plan && (family.id === "two-pole" || family.id === "flat-concurrent")) {
-            const reflow = await validateW1HtmlReflowAtWidth(
-              rendered.plan,
-              artifactPath,
-              width,
-              family.id,
-            );
-            reflowMetricNotes.push({ width, ok: reflow.ok, detail: reflow.detail, errors: reflow.errors });
-            if (!reflow.ok) pngErrors.push(...reflow.errors.map((e) => `${width}px reflow: ${e}`));
-          }
-        } else {
-          await captureHtmlPng(artifactPath, pngPath, { width });
-        }
-        const pngVal = await validatePngCapture(pngPath);
-        if (!pngVal.ok) pngErrors.push(`${width}px: ${pngVal.errors.join("; ")}`);
-      }
-    } else if (kind === "svg") {
+    if (rendered.kind === "svg") {
       if (w1Family) {
         const vpResult = await validateW1SvgViewport(artifactPath, { widths: VCCK_VIEWPORT_WIDTHS });
         if (!vpResult.ok) vpErrors.push(...vpResult.errors);
@@ -384,9 +343,6 @@ export async function runPositiveFixture(family, loadPath, options = {}) {
   }
   if (surfaceMetricNotes.length) {
     result.surfaceMetrics = surfaceMetricNotes;
-  }
-  if (reflowMetricNotes.length) {
-    result.reflowMetrics = reflowMetricNotes;
   }
   if (surfaceCheck.missing.length) {
     result.errors.push(...surfaceCheck.missing.map((m) => `missing: ${m}`));

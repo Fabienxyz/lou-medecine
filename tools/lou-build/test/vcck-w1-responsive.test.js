@@ -16,7 +16,7 @@ import {
   validateW1SurfaceMetrics,
   validateW1SvgViewport,
   measureW1SvgRenderedWidth,
-  captureW1HtmlPng,
+  captureW1SvgPngs,
 } from "../lib/vcck/w1-surface.js";
 import { W1_FAMILIES, W1_SVG_MAX_DISPLAY_WIDTH } from "../lib/vcck/w1-constants.js";
 
@@ -116,19 +116,21 @@ describe("vcck-w1-responsive", () => {
   });
 
   for (const family of ["two-pole", "flat-concurrent"]) {
-    it(`${family} HTML capture has healthy content ratio`, async () => {
+    it(`${family} SVG capture has healthy content ratio`, async () => {
       const spec = loadVisualSpec(path.join(VCCK_POSITIVE, `${family}-short.yaml`));
       const rendered = renderVcckSpec(spec);
       assert.equal(rendered.ok, true);
-      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "w1-html-"));
-      const htmlPath = path.join(tmpDir, "artifact.html");
-      fs.writeFileSync(htmlPath, rendered.artifact);
-      const pngPath = path.join(tmpDir, "capture-530.png");
-      const metrics = await captureW1HtmlPng(htmlPath, pngPath, { width: 530 });
+      assert.equal(rendered.kind, "svg");
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "w1-svg-"));
+      const svgPath = path.join(tmpDir, "artifact.svg");
+      fs.writeFileSync(svgPath, rendered.artifact);
+      const { paths, metricsByWidth } = await captureW1SvgPngs(svgPath, tmpDir, "capture", [530]);
+      const metrics = metricsByWidth[530];
       const surf = validateW1SurfaceMetrics(metrics);
       assert.equal(surf.ok, true, surf.errors.join("; "));
       assert.ok(metrics.elementCount >= 3);
       assert.ok(metrics.contentCaptureRatio >= W1_SURFACE_CONTRACT.minContentCaptureRatio);
+      assert.ok(fs.existsSync(paths[530]));
       fs.rmSync(tmpDir, { recursive: true, force: true });
     });
   }

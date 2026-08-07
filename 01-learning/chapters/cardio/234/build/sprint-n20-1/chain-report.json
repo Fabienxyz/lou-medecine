@@ -1,0 +1,82 @@
+{
+  "mission": "E2-SPRINT2-N20-1",
+  "block": "n20-1",
+  "element": "N20-1-crt-dai-comparison",
+  "visual_v0": "N20-1",
+  "primitive_declared": "comparison-matrix",
+  "contract05": {
+    "noTechnologyField": true,
+    "validationPass": true
+  },
+  "steps": {
+    "visualSpec": {
+      "status": "PASS",
+      "errors": []
+    },
+    "signature": {
+      "status": "recognized",
+      "computed": {
+        "primitive": "comparison-matrix",
+        "family": "two-pole",
+        "poleCount": 2,
+        "dimensionCount": 3
+      },
+      "family": "two-pole"
+    },
+    "recognition": {
+      "verdict": "ADMITTED",
+      "family": "two-pole",
+      "qualification_status": "QUALIFIED",
+      "justification": "Structure reconnue comme \"two-pole\" (QUALIFIED)"
+    },
+    "capacity": {
+      "id": "two-pole",
+      "primitive": "comparison-matrix",
+      "qualification_status": "QUALIFIED",
+      "budgets": {
+        "maxPoles": 2,
+        "maxDimensions": 8,
+        "maxItemsPerCell": 6,
+        "maxLabelWords": 12
+      }
+    },
+    "budget": {
+      "status": "PASS",
+      "detail": {
+        "primitive": "comparison-matrix",
+        "budgets": {
+          "maxPoles": 3,
+          "maxDimensions": 8,
+          "maxItemsPerCell": 6,
+          "maxLabelWords": 12
+        },
+        "labelWords": 10,
+        "poleCount": 2,
+        "dimensionCount": 3
+      }
+    },
+    "gate": {
+      "allowed": true,
+      "code": null
+    },
+    "composition": {
+      "status": "PRODUCED",
+      "pipeline": "W1",
+      "explicitCompositionPlan": true,
+      "canonicalOrder": [
+        "pole-crt",
+        "pole-dai",
+        "dim-indication",
+        "dim-morphology",
+        "dim-nyha"
+      ]
+    },
+    "figure": {
+      "status": "PASS",
+      "kind": "svg",
+      "hash": "c43da378108767b3bfdff92f24041652c9c945f8a55f971ca850e6f08e8e1564",
+      "determinism": "PASS",
+      "errors": []
+    }
+  }
+}

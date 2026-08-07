@@ -1,0 +1,11 @@
+{
+  "id": "two-pole",
+  "primitive": "comparison-matrix",
+  "qualification_status": "QUALIFIED",
+  "budgets": {
+    "maxPoles": 2,
+    "maxDimensions": 8,
+    "maxItemsPerCell": 6,
+    "maxLabelWords": 12
+  }
+}

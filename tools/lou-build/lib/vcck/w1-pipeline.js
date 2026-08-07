@@ -11,7 +11,7 @@ import { isW1Family } from "./w1-constants.js";
 import { enforceFamilyContract } from "./w1-contracts.js";
 import { buildCompositionPlan } from "./w1-build-plan.js";
 import { validateCompositionPlan } from "./w1-composition-plan.js";
-import { serializeArtifact, wrapHtmlDocument } from "./w1-serialize.js";
+import { serializeArtifact } from "./w1-serialize.js";
 
 function w1PrimitiveContractOverride(spec, expectedFamily) {
   if (!String(spec.chapter || "").includes("vcck/w1") || !expectedFamily) return {};
@@ -71,9 +71,6 @@ export function runW1Pipeline(spec, options = {}) {
   }
 
   let artifact = serialized.artifact;
-  if (serialized.kind === "html") {
-    artifact = wrapHtmlDocument(spec, artifact);
-  }
 
   return {
     ok: true,

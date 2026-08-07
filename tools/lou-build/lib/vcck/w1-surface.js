@@ -283,25 +283,6 @@ export async function captureW1SvgPngs(svgPath, outDir, base, widths = W1_VIEWPO
   return { paths, metricsByWidth };
 }
 
-export async function captureW1HtmlPng(htmlPath, pngPath, { width }) {
-  const { chromium } = resolvePlaywright();
-  const browser = await chromium.launch();
-  let metrics = null;
-  try {
-    const page = await browser.newPage({ viewport: { width, height: 600 } });
-    await page.goto(pathToFileURL(path.resolve(htmlPath)).href, { waitUntil: "networkidle" });
-    await page.evaluate(({ vw }) => {
-      document.body.style.width = `${vw}px`;
-      document.body.style.margin = "0 auto";
-    }, { vw: width });
-    const root = page.locator(".vg-w1-capture-root");
-    await root.screenshot({ path: pngPath, type: "png" });
-    metrics = await page.evaluate(evaluateW1SurfaceMetrics);
-  } finally {
-    await browser.close();
-  }
-  return metrics;
-}
 
 /** Measure rendered SVG width at a viewport — for responsive regression tests. */
 export async function measureW1SvgRenderedWidth(svgContent, viewportWidth) {

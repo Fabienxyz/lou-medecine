@@ -545,7 +545,7 @@ function matrix(id, question, poles, dimensions) {
   return {
     spec_version: "0.2",
     primitive: "comparison-matrix",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: BASE.chapter,
     element: `vcck-${id}`,
     question,
@@ -559,7 +559,7 @@ function enumeration(id, question, set, groups) {
   return {
     spec_version: "0.2",
     primitive: "enumeration-set",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: BASE.chapter,
     element: `vcck-${id}`,
     question,
@@ -573,7 +573,7 @@ function quantity(id, question, target, identities, states, insights) {
   return {
     spec_version: "0.2",
     primitive: "quantity-model",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: BASE.chapter,
     element: `vcck-${id}`,
     question,

@@ -43,10 +43,9 @@ export function validateCompositionPlan(plan) {
   const tech = plan?.technology;
   if (!tech) {
     errors.push("plan: missing technology");
-  } else if (tech !== "svg" && tech !== "html") {
+  } else if (tech !== "svg") {
     errors.push(`plan: unknown technology "${tech}"`);
   }
-  const isHtml = tech === "html";
   const isSvg = tech === "svg";
 
   if (!plan?.family || !plan?.contractVersion) {

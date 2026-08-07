@@ -1,0 +1,84 @@
+# visualSpec v0.2 — Contrat 05 (sémantique seule)
+#
+# Visuel V0 : N20-1 — comparaison CRT / DAI
+# KP cœur : KP-091, KP-092 (KP-093–095 Maîtrise exclus)
+# Patrimoine : production-cards · kp-traceability · contrat N20
+
+spec_version: "0.2"
+primitive: comparison-matrix
+chapter: cardio/234
+element: N20-1-crt-dai-comparison
+question: "Quand choisir CRT ou DAI ?"
+
+provenance:
+  source_edition: 2022
+  walkthrough: WT-N20
+  methodology_version: e2-sprint2-n20-1
+
+poles:
+  - id: pole-crt
+    label: Resynchronisation (CRT)
+    pole_type: entity
+    class: sourced
+    kp: [KP-091]
+
+  - id: pole-dai
+    label: DAI
+    pole_type: entity
+    class: sourced
+    kp: [KP-092]
+
+dimensions:
+  - id: dim-indication
+    label: Indication principale
+    class: sourced
+    kp: [KP-091, KP-092]
+    cells:
+      - pole: pole-crt
+        items:
+          - id: crt-indic
+            label: "IC symptomatique, FEVG ≤ 35 %, QRS ≥ 130 ms"
+            class: sourced
+            kp: [KP-091]
+      - pole: pole-dai
+        items:
+          - id: dai-indic
+            label: "Prévention FV/TV ou FEVG ≤ 35 %"
+            class: sourced
+            kp: [KP-092]
+
+  - id: dim-morphology
+    label: Morphologie électrique
+    class: sourced
+    kp: [KP-091]
+    cells:
+      - pole: pole-crt
+        items:
+          - id: crt-qrs
+            label: "Efficacité meilleure si BBG, QRS ≥ 150 ms"
+            class: sourced
+            kp: [KP-091]
+      - pole: pole-dai
+        items:
+          - id: dai-qrs
+            label: "Pas de critère QRS spécifique"
+            class: sourced
+            kp: [KP-092]
+
+  - id: dim-nyha
+    label: Stade fonctionnel
+    class: sourced
+    kp: [KP-091, KP-092]
+    cells:
+      - pole: pole-crt
+        items:
+          - id: crt-nyha
+            label: "NYHA II à IV"
+            class: sourced
+            kp: [KP-091]
+      - pole: pole-dai
+        items:
+          - id: dai-nyha
+            label: "Non indiqué NYHA IV sauf greffe ou assistance"
+            class: sourced
+            kp: [KP-092]

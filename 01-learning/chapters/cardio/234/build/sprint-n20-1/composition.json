@@ -1,0 +1,436 @@
+{
+  "family": "two-pole",
+  "contractVersion": "W1-3",
+  "technology": "svg",
+  "canonicalOrder": [
+    "pole-crt",
+    "pole-dai",
+    "dim-indication",
+    "dim-morphology",
+    "dim-nyha"
+  ],
+  "levels": [
+    {
+      "level": 0,
+      "slot": 0,
+      "elementId": "pole-crt"
+    },
+    {
+      "level": 1,
+      "slot": 1,
+      "elementId": "pole-dai"
+    },
+    {
+      "level": 2,
+      "slot": 2,
+      "elementId": "dim-indication"
+    },
+    {
+      "level": 3,
+      "slot": 3,
+      "elementId": "crt-indic"
+    },
+    {
+      "level": 4,
+      "slot": 4,
+      "elementId": "dai-indic"
+    },
+    {
+      "level": 5,
+      "slot": 5,
+      "elementId": "dim-morphology"
+    },
+    {
+      "level": 6,
+      "slot": 6,
+      "elementId": "crt-qrs"
+    },
+    {
+      "level": 7,
+      "slot": 7,
+      "elementId": "dai-qrs"
+    },
+    {
+      "level": 8,
+      "slot": 8,
+      "elementId": "dim-nyha"
+    },
+    {
+      "level": 9,
+      "slot": 9,
+      "elementId": "crt-nyha"
+    },
+    {
+      "level": 10,
+      "slot": 10,
+      "elementId": "dai-nyha"
+    }
+  ],
+  "slots": [
+    {
+      "id": "slot-0",
+      "level": 0,
+      "centreX": 137,
+      "y": 72,
+      "width": 226
+    },
+    {
+      "id": "slot-1",
+      "level": 1,
+      "centreX": 383,
+      "y": 72,
+      "width": 226
+    },
+    {
+      "id": "slot-2",
+      "level": 2,
+      "centreX": 260,
+      "y": 140,
+      "width": 472
+    },
+    {
+      "id": "slot-3",
+      "level": 3,
+      "centreX": 137,
+      "y": 176,
+      "width": 218
+    },
+    {
+      "id": "slot-4",
+      "level": 4,
+      "centreX": 383,
+      "y": 176,
+      "width": 218
+    },
+    {
+      "id": "slot-5",
+      "level": 5,
+      "centreX": 260,
+      "y": 264,
+      "width": 472
+    },
+    {
+      "id": "slot-6",
+      "level": 6,
+      "centreX": 137,
+      "y": 300,
+      "width": 218
+    },
+    {
+      "id": "slot-7",
+      "level": 7,
+      "centreX": 383,
+      "y": 300,
+      "width": 218
+    },
+    {
+      "id": "slot-8",
+      "level": 8,
+      "centreX": 260,
+      "y": 388,
+      "width": 472
+    },
+    {
+      "id": "slot-9",
+      "level": 9,
+      "centreX": 137,
+      "y": 424,
+      "width": 218
+    },
+    {
+      "id": "slot-10",
+      "level": 10,
+      "centreX": 383,
+      "y": 424,
+      "width": 218
+    }
+  ],
+  "elements": [
+    {
+      "id": "__title__",
+      "role": "title",
+      "kind": "title",
+      "box": {
+        "x": 24,
+        "y": 24,
+        "width": 472,
+        "height": 32
+      },
+      "textLines": [
+        "Quand choisir CRT ou DAI ?"
+      ]
+    },
+    {
+      "id": "pole-crt",
+      "role": "pole-header",
+      "kind": "pole",
+      "label": "Resynchronisation (CRT)",
+      "textLines": [
+        "Resynchronisation (CRT)"
+      ],
+      "box": {
+        "x": 24,
+        "y": 72,
+        "width": 226,
+        "height": 52
+      }
+    },
+    {
+      "id": "pole-dai",
+      "role": "pole-header",
+      "kind": "pole",
+      "label": "DAI",
+      "textLines": [
+        "DAI"
+      ],
+      "box": {
+        "x": 270,
+        "y": 72,
+        "width": 226,
+        "height": 52
+      }
+    },
+    {
+      "id": "dim-indication",
+      "role": "dimension-label",
+      "label": "Indication principale",
+      "textLines": [
+        "Indication principale"
+      ],
+      "box": {
+        "x": 24,
+        "y": 140,
+        "width": 472,
+        "height": 24
+      }
+    },
+    {
+      "id": "crt-indic",
+      "role": "comparison-cell",
+      "poleId": "pole-crt",
+      "dimensionId": "dim-indication",
+      "dimensionLabel": "Indication principale",
+      "dimLabelLines": [
+        "Indication principale"
+      ],
+      "bandY": 140,
+      "rowH": 114,
+      "label": "IC symptomatique, FEVG ≤ 35 %, QRS ≥ 130 ms",
+      "textLines": [
+        "IC symptomatique, FEVG ≤",
+        "35 %, QRS ≥ 130 ms"
+      ],
+      "box": {
+        "x": 28,
+        "y": 176,
+        "width": 218,
+        "height": 70
+      }
+    },
+    {
+      "id": "dai-indic",
+      "role": "comparison-cell",
+      "poleId": "pole-dai",
+      "dimensionId": "dim-indication",
+      "dimensionLabel": "Indication principale",
+      "dimLabelLines": [
+        "Indication principale"
+      ],
+      "bandY": 140,
+      "rowH": 114,
+      "label": "Prévention FV/TV ou FEVG ≤ 35 %",
+      "textLines": [
+        "Prévention FV/TV ou",
+        "FEVG ≤ 35 %"
+      ],
+      "box": {
+        "x": 274,
+        "y": 176,
+        "width": 218,
+        "height": 70
+      }
+    },
+    {
+      "id": "dim-morphology",
+      "role": "dimension-label",
+      "label": "Morphologie électrique",
+      "textLines": [
+        "Morphologie électrique"
+      ],
+      "box": {
+        "x": 24,
+        "y": 264,
+        "width": 472,
+        "height": 24
+      }
+    },
+    {
+      "id": "crt-qrs",
+      "role": "comparison-cell",
+      "poleId": "pole-crt",
+      "dimensionId": "dim-morphology",
+      "dimensionLabel": "Morphologie électrique",
+      "dimLabelLines": [
+        "Morphologie électrique"
+      ],
+      "bandY": 264,
+      "rowH": 114,
+      "label": "Efficacité meilleure si BBG, QRS ≥ 150 ms",
+      "textLines": [
+        "Efficacité meilleure si",
+        "BBG, QRS ≥ 150 ms"
+      ],
+      "box": {
+        "x": 28,
+        "y": 300,
+        "width": 218,
+        "height": 70
+      }
+    },
+    {
+      "id": "dai-qrs",
+      "role": "comparison-cell",
+      "poleId": "pole-dai",
+      "dimensionId": "dim-morphology",
+      "dimensionLabel": "Morphologie électrique",
+      "dimLabelLines": [
+        "Morphologie électrique"
+      ],
+      "bandY": 264,
+      "rowH": 114,
+      "label": "Pas de critère QRS spécifique",
+      "textLines": [
+        "Pas de critère QRS",
+        "spécifique"
+      ],
+      "box": {
+        "x": 274,
+        "y": 300,
+        "width": 218,
+        "height": 70
+      }
+    },
+    {
+      "id": "dim-nyha",
+      "role": "dimension-label",
+      "label": "Stade fonctionnel",
+      "textLines": [
+        "Stade fonctionnel"
+      ],
+      "box": {
+        "x": 24,
+        "y": 388,
+        "width": 472,
+        "height": 24
+      }
+    },
+    {
+      "id": "crt-nyha",
+      "role": "comparison-cell",
+      "poleId": "pole-crt",
+      "dimensionId": "dim-nyha",
+      "dimensionLabel": "Stade fonctionnel",
+      "dimLabelLines": [
+        "Stade fonctionnel"
+      ],
+      "bandY": 388,
+      "rowH": 114,
+      "label": "NYHA II à IV",
+      "textLines": [
+        "NYHA II à IV"
+      ],
+      "box": {
+        "x": 28,
+        "y": 424,
+        "width": 218,
+        "height": 70
+      }
+    },
+    {
+      "id": "dai-nyha",
+      "role": "comparison-cell",
+      "poleId": "pole-dai",
+      "dimensionId": "dim-nyha",
+      "dimensionLabel": "Stade fonctionnel",
+      "dimLabelLines": [
+        "Stade fonctionnel"
+      ],
+      "bandY": 388,
+      "rowH": 114,
+      "label": "Non indiqué NYHA IV sauf greffe ou assistance",
+      "textLines": [
+        "Non indiqué NYHA IV sauf",
+        "greffe ou assistance"
+      ],
+      "box": {
+        "x": 274,
+        "y": 424,
+        "width": 218,
+        "height": 70
+      }
+    }
+  ],
+  "ports": [],
+  "routes": [],
+  "dimensions": {
+    "width": 520,
+    "height": 526
+  },
+  "titleLines": [
+    "Quand choisir CRT ou DAI ?"
+  ],
+  "budgetConsumed": {
+    "primitive": "comparison-matrix",
+    "budgets": {
+      "maxPoles": 2,
+      "maxDimensions": 8,
+      "maxItemsPerCell": 6,
+      "maxLabelWords": 12
+    },
+    "labelWords": 10,
+    "poleCount": 2,
+    "dimensionCount": 3,
+    "maxLabelWords": 10
+  },
+  "reflowByWidth": {
+    "375": {
+      "mode": "comparison-bands",
+      "columns": 2
+    },
+    "530": {
+      "mode": "comparison-bands",
+      "columns": 2
+    },
+    "768": {
+      "mode": "comparison-bands",
+      "columns": 2
+    },
+    "1280": {
+      "mode": "comparison-bands",
+      "columns": 2
+    },
+    "2400": {
+      "mode": "comparison-bands",
+      "columns": 2
+    }
+  },
+  "diagnostics": [],
+  "titleBox": {
+    "centreX": 260,
+    "startY": 42,
+    "innerWidth": 472,
+    "blockHeight": 32,
+    "lineCount": 1,
+    "role": "title"
+  },
+  "typography": {
+    "fontSize": 14,
+    "fontWeight": 600,
+    "lineHeight": 19,
+    "titleFontSize": 18,
+    "titleFontWeight": 600,
+    "titleLineHeight": 24,
+    "cornerRadius": 12,
+    "textBaselineFactor": 0.75
+  }
+}

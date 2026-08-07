@@ -1,0 +1,10 @@
+{
+  "status": "recognized",
+  "computed": {
+    "primitive": "comparison-matrix",
+    "family": "two-pole",
+    "poleCount": 2,
+    "dimensionCount": 3
+  },
+  "family": "two-pole"
+}

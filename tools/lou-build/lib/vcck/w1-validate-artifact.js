@@ -23,14 +23,75 @@ export function extractIdentifiedEdgePaths(svgText) {
   return edges;
 }
 
-function countHtmlItems(html, selector) {
-  const re = new RegExp(selector, "g");
-  let count = 0;
-  while (re.exec(html)) count++;
-  return count;
+export function validateW1Artifact(spec, artifact, kind, expectedCounts = {}) {
+  const errors = [];
+
+  if (kind === "svg") {
+    const ser = validateSvgSerialized(artifact);
+    if (!ser.ok) errors.push(...ser.errors);
+
+    const nodes = extractNodeBoxesFromSvg(artifact);
+    const edges = extractIdentifiedEdgePaths(artifact);
+
+    if (expectedCounts.nodes != null && nodes.length !== expectedCounts.nodes) {
+      errors.push(`artifact: expected ${expectedCounts.nodes} nodes, observed ${nodes.length}`);
+    }
+    if (expectedCounts.edges != null && edges.length !== expectedCounts.edges) {
+      errors.push(`artifact: expected ${expectedCounts.edges} edges, observed ${edges.length}`);
+    }
+    if (nodes.length === 0) errors.push("artifact: zero nodes observed");
+    if (expectedCounts.edges != null && expectedCounts.edges > 0 && edges.length === 0) {
+      errors.push("artifact: relation paths missing data-edge-id");
+    }
+
+    for (const edge of edges) {
+      if (/[QqCcAa]/.test(edge.path)) {
+        errors.push(`artifact: curved edge detected in ${edge.id}`);
+      }
+    }
+
+    const geom = validateSvgGeometryIndependent(artifact);
+    if (!geom.ok) errors.push(...geom.errors);
+
+    const nodeClip = validateW1ArtifactNodeClip(artifact);
+    if (!nodeClip.ok) errors.push(...nodeClip.errors);
+  }
+
+  return { ok: errors.length === 0, errors };
 }
 
-/** Independent artifact check — title clipped by shrunk viewBox. */
+export function expectedCountsFromSpec(spec, family) {
+  switch (family) {
+    case "chain":
+      return {
+        nodes: (spec.nodes || []).length,
+        edges: (spec.edges || []).filter((e) => e.relation !== "feeds_back").length,
+      };
+    case "dependent-sequence": {
+      const connected = new Set();
+      for (const b of spec.branches || []) {
+        connected.add(b.from);
+        connected.add(b.to);
+      }
+      return { nodes: connected.size, edges: (spec.branches || []).length };
+    }
+    case "two-pole": {
+      const poles = (spec.poles || []).length;
+      let items = 0;
+      for (const d of spec.dimensions || []) {
+        for (const c of d.cells || []) items += (c.items || []).length;
+      }
+      return { nodes: poles + items, edges: 0 };
+    }
+    case "flat-concurrent": {
+      const g = spec.groups || [];
+      const items = g.length === 1 ? (g[0].items || []).length : 0;
+      return { nodes: items, edges: 0 };
+    }
+    default:
+      return {};
+  }
+}
 export function validateW1ArtifactTitleClip(artifact) {
   const errors = [];
   const vb = artifact.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/);
@@ -140,97 +201,5 @@ export function mutateArtifactNodeClip(artifact, mutantId) {
       return artifact.replace(/<g[^>]*data-node-id="[^"]+"[^>]*>[\s\S]*?<\/g>\s*/g, "");
     default:
       return artifact;
-  }
-}
-
-export function validateW1Artifact(spec, artifact, kind, expectedCounts = {}) {
-  const errors = [];
-
-  if (kind === "svg") {
-    const ser = validateSvgSerialized(artifact);
-    if (!ser.ok) errors.push(...ser.errors);
-
-    const nodes = extractNodeBoxesFromSvg(artifact);
-    const edges = extractIdentifiedEdgePaths(artifact);
-
-    if (expectedCounts.nodes != null && nodes.length !== expectedCounts.nodes) {
-      errors.push(`artifact: expected ${expectedCounts.nodes} nodes, observed ${nodes.length}`);
-    }
-    if (expectedCounts.edges != null && edges.length !== expectedCounts.edges) {
-      errors.push(`artifact: expected ${expectedCounts.edges} edges, observed ${edges.length}`);
-    }
-    if (nodes.length === 0) errors.push("artifact: zero nodes observed");
-    if (expectedCounts.edges != null && expectedCounts.edges > 0 && edges.length === 0) {
-      errors.push("artifact: relation paths missing data-edge-id");
-    }
-
-    for (const edge of edges) {
-      if (/[QqCcAa]/.test(edge.path)) {
-        errors.push(`artifact: curved edge detected in ${edge.id}`);
-      }
-    }
-
-    const geom = validateSvgGeometryIndependent(artifact);
-    if (!geom.ok) errors.push(...geom.errors);
-
-    const nodeClip = validateW1ArtifactNodeClip(artifact);
-    if (!nodeClip.ok) errors.push(...nodeClip.errors);
-  }
-
-  if (kind === "html") {
-    if (!artifact.includes("vg-question")) errors.push("artifact: missing vg-question");
-    if (spec.primitive === "comparison-matrix") {
-      const tableCells = countHtmlItems(artifact, 'data-item-id="');
-      const mobileCells = countHtmlItems(artifact, 'class="vg-matrix-card"');
-      if (expectedCounts.items != null && tableCells !== expectedCounts.items * 2) {
-        errors.push(`artifact: table/mobile item parity mismatch (${tableCells} li, expected ${expectedCounts.items * 2})`);
-      }
-      if (mobileCells !== expectedCounts.dimensions) {
-        errors.push(`artifact: expected ${expectedCounts.dimensions} mobile cards, found ${mobileCells}`);
-      }
-    }
-    if (spec.primitive === "enumeration-set") {
-      const items = countHtmlItems(artifact, 'data-item-id="');
-      if (expectedCounts.items != null && items !== expectedCounts.items) {
-        errors.push(`artifact: expected ${expectedCounts.items} items, observed ${items}`);
-      }
-      if (items === 0) errors.push("artifact: zero list items observed");
-    }
-  }
-
-  return { ok: errors.length === 0, errors };
-}
-
-export function expectedCountsFromSpec(spec, family) {
-  switch (family) {
-    case "chain":
-      return {
-        nodes: (spec.nodes || []).length,
-        edges: (spec.edges || []).filter((e) => e.relation !== "feeds_back").length,
-      };
-    case "dependent-sequence": {
-      const connected = new Set();
-      for (const b of spec.branches || []) {
-        connected.add(b.from);
-        connected.add(b.to);
-      }
-      return { nodes: connected.size, edges: (spec.branches || []).length };
-    }
-    case "two-pole": {
-      const dims = (spec.dimensions || []).length;
-      const poles = (spec.poles || []).length;
-      let items = 0;
-      for (const d of spec.dimensions || []) {
-        for (const c of d.cells || []) items += (c.items || []).length;
-      }
-      return { dimensions: dims * poles, items };
-    }
-    case "flat-concurrent": {
-      const g = spec.groups || [];
-      const items = g.length === 1 ? (g[0].items || []).length : 0;
-      return { items };
-    }
-    default:
-      return {};
   }
 }

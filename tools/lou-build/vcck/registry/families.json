@@ -478,7 +478,7 @@
     {
       "id": "two-pole",
       "primitive": "comparison-matrix",
-      "technology": "semantic-html",
+      "technology": "svg",
       "qualification_status": "QUALIFIED",
       "expected_signature": "poles=2,complete-dimensions",
       "budgets": {
@@ -518,7 +518,7 @@
     {
       "id": "three-pole-reflow",
       "primitive": "comparison-matrix",
-      "technology": "semantic-html",
+      "technology": "svg",
       "qualification_status": "EXPERIMENTAL",
       "expected_signature": "poles=3,mobile-reflow-table",
       "budgets": {
@@ -558,7 +558,7 @@
     {
       "id": "flat-concurrent",
       "primitive": "enumeration-set",
-      "technology": "semantic-html",
+      "technology": "svg",
       "qualification_status": "QUALIFIED",
       "expected_signature": "exhaustive-set,no-subgroups",
       "budgets": {
@@ -597,7 +597,7 @@
     {
       "id": "grouped-concurrent",
       "primitive": "enumeration-set",
-      "technology": "semantic-html",
+      "technology": "svg",
       "qualification_status": "EXPERIMENTAL",
       "expected_signature": "multiple-groups,declared-cardinalities",
       "budgets": {
@@ -636,7 +636,7 @@
     {
       "id": "identity",
       "primitive": "quantity-model",
-      "technology": "semantic-html",
+      "technology": "svg",
       "qualification_status": "EXPERIMENTAL",
       "expected_signature": "identity-relations,determinants,no-two-state",
       "budgets": {
@@ -677,7 +677,7 @@
     {
       "id": "two-state",
       "primitive": "quantity-model",
-      "technology": "semantic-html",
+      "technology": "svg",
       "qualification_status": "EXPERIMENTAL",
       "expected_signature": "two-aligned-states,sourced-insight",
       "budgets": {

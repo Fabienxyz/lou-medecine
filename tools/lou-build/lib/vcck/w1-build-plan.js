@@ -5,6 +5,8 @@
 import { measureText, wrapText } from "../text-fit.js";
 import { createPlanShell } from "./w1-composition-plan.js";
 import { W1_VERTICAL_LAYOUT, W1_DECISION_LAYOUT, W1_VIEWPORT_WIDTHS } from "./w1-constants.js";
+import { layoutTwoPoleSvgPlan } from "./w1-two-pole-svg.js";
+import { layoutFlatConcurrentSvgPlan } from "./w1-flat-concurrent-svg.js";
 import { checkBudgets } from "./budgets.js";
 
 function countWords(text) {
@@ -217,7 +219,7 @@ export function buildCompositionPlan(spec, family, contract) {
 function buildTwoPolePlan(spec, contract) {
   const poles = spec.poles || [];
   const dimensions = spec.dimensions || [];
-  const plan = createPlanShell("two-pole", "html");
+  const plan = createPlanShell("two-pole", "svg");
   plan.canonicalOrder = [...contract.poleOrder, ...contract.dimensionOrder];
   plan.titleLines = [spec.question];
 
@@ -248,10 +250,9 @@ function buildTwoPolePlan(spec, contract) {
 
   const reflow = {};
   for (const w of W1_VIEWPORT_WIDTHS) {
-    reflow[w] = { mode: w >= 768 ? "table" : "card-pairs", columns: w >= 768 ? poles.length + 1 : 1 };
+    reflow[w] = { mode: "comparison-bands", columns: poles.length };
   }
   plan.reflowByWidth = reflow;
-  plan.dimensions = { width: 0, height: 0 };
 
   const budget = checkBudgets(spec, { familyId: "two-pole" });
   plan.budgetConsumed = {
@@ -261,7 +262,7 @@ function buildTwoPolePlan(spec, contract) {
     dimensionCount: dimensions.length,
   };
 
-  return { ok: true, plan };
+  return layoutTwoPoleSvgPlan(spec, plan);
 }
 
 function buildFlatConcurrentPlan(spec, contract) {
@@ -270,7 +271,7 @@ function buildFlatConcurrentPlan(spec, contract) {
   const orderedIds = contract.canonicalOrder;
   const itemById = new Map(items.map((i) => [i.id, i]));
 
-  const plan = createPlanShell("flat-concurrent", "html");
+  const plan = createPlanShell("flat-concurrent", "svg");
   plan.canonicalOrder = orderedIds;
   plan.titleLines = [spec.question];
   plan.elements = orderedIds.map((id) => {
@@ -285,7 +286,6 @@ function buildFlatConcurrentPlan(spec, contract) {
     reflow[w] = { mode: "grid", columns: Math.min(cols, items.length || 1) };
   }
   plan.reflowByWidth = reflow;
-  plan.dimensions = { width: 0, height: 0 };
 
   const budget = checkBudgets(spec, { familyId: "flat-concurrent" });
   plan.budgetConsumed = {
@@ -294,5 +294,5 @@ function buildFlatConcurrentPlan(spec, contract) {
     itemCount: items.length,
   };
 
-  return { ok: true, plan };
+  return layoutFlatConcurrentSvgPlan(spec, plan);
 }

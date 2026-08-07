@@ -18,11 +18,8 @@ import {
   validateW1SurfaceMetrics,
   validateW1SvgViewport,
   captureW1SvgPngs,
-  captureW1HtmlPng,
 } from "./w1-surface.js";
-import { validateHtmlViewport } from "../html-viewport-validate.js";
 import { validatePngCapture } from "../svg-png-validate.js";
-import { validateW1HtmlReflowAtWidth } from "./w1-reflow-validate.js";
 import { loadVcckInventory } from "./inventory.js";
 
 export const W1_STRESS_FIXTURES = Object.freeze(
@@ -100,93 +97,44 @@ export async function runW1StressFixtureProof(familyId, options = {}) {
   const outDir = stressOutDir(familyId, stem, options.outputRoot);
   fs.mkdirSync(outDir, { recursive: true });
 
-  const artifactName = pipeline.kind === "svg" ? "artifact.svg" : "artifact.html";
-  const artifactPath = path.join(outDir, artifactName);
+  const artifactPath = path.join(outDir, "artifact.svg");
   fs.writeFileSync(artifactPath, pipeline.artifact);
 
   try {
-    if (pipeline.kind === "svg") {
-      const vp = await validateW1SvgViewport(artifactPath, { widths: W1_VIEWPORT_WIDTHS });
-      if (!vp.ok) errors.push(...vp.errors.map((e) => `viewport: ${e}`));
+    const vp = await validateW1SvgViewport(artifactPath, { widths: W1_VIEWPORT_WIDTHS });
+    if (!vp.ok) errors.push(...vp.errors.map((e) => `viewport: ${e}`));
 
-      const { paths, metricsByWidth } = await captureW1SvgPngs(
-        artifactPath,
-        outDir,
-        `${stem}-stress`,
-        W1_VIEWPORT_WIDTHS,
-      );
+    const { paths, metricsByWidth } = await captureW1SvgPngs(
+      artifactPath,
+      outDir,
+      `${stem}-stress`,
+      W1_VIEWPORT_WIDTHS,
+    );
 
-      for (const width of W1_VIEWPORT_WIDTHS) {
-        const pngPath = path.join(outDir, `stress-capture-${width}.png`);
-        const src = paths[width];
-        if (src && src !== pngPath && fs.existsSync(src)) fs.copyFileSync(src, pngPath);
+    for (const width of W1_VIEWPORT_WIDTHS) {
+      const pngPath = path.join(outDir, `stress-capture-${width}.png`);
+      const src = paths[width];
+      if (src && src !== pngPath && fs.existsSync(src)) fs.copyFileSync(src, pngPath);
 
-        const row = { width, png: pngPath, viewport: "PASS", surfaces: "PASS", metrics: null };
-        if (!fs.existsSync(pngPath)) {
+      const row = { width, png: pngPath, viewport: "PASS", surfaces: "PASS", metrics: null };
+      if (!fs.existsSync(pngPath)) {
+        row.surfaces = "FAIL";
+        errors.push(`${fx.file} @ ${width}px: missing stress capture`);
+      } else {
+        const pngVal = await validatePngCapture(pngPath);
+        if (!pngVal.ok) {
           row.surfaces = "FAIL";
-          errors.push(`${fx.file} @ ${width}px: missing stress capture`);
-        } else {
-          const pngVal = await validatePngCapture(pngPath);
-          if (!pngVal.ok) {
-            row.surfaces = "FAIL";
-            errors.push(`${fx.file} @ ${width}px: ${pngVal.errors.join("; ")}`);
-          }
+          errors.push(`${fx.file} @ ${width}px: ${pngVal.errors.join("; ")}`);
         }
-        const metrics = metricsByWidth[width];
-        const surf = validateW1SurfaceMetrics(metrics);
-        row.metrics = metrics;
-        if (!surf.ok) {
-          row.surfaces = "FAIL";
-          errors.push(`${fx.file} @ ${width}px surface: ${surf.errors.join("; ")}`);
-        }
-        widths[width] = row;
       }
-    } else {
-      for (const width of W1_VIEWPORT_WIDTHS) {
-        const pngPath = path.join(outDir, `stress-capture-${width}.png`);
-        const vp = await validateHtmlViewport(artifactPath, { widths: [width] });
-        const row = {
-          width,
-          png: pngPath,
-          viewport: vp.ok ? "PASS" : "FAIL",
-          surfaces: "PASS",
-          reflow: "PASS",
-          metrics: null,
-        };
-        if (!vp.ok) {
-          errors.push(...vp.errors.map((e) => `${fx.file} @ ${width}px: ${e}`));
-        }
-
-        const metrics = await captureW1HtmlPng(artifactPath, pngPath, { width });
-        row.metrics = metrics;
-        const surf = validateW1SurfaceMetrics(metrics);
-        if (!surf.ok) {
-          row.surfaces = "FAIL";
-          errors.push(`${fx.file} @ ${width}px surface: ${surf.errors.join("; ")}`);
-        }
-
-        const reflow = await validateW1HtmlReflowAtWidth(
-          pipeline.plan,
-          artifactPath,
-          width,
-          familyId,
-        );
-        row.reflow = reflow.ok ? "PASS" : "FAIL";
-        row.reflowDetail = reflow.detail;
-        if (!reflow.ok) errors.push(...reflow.errors.map((e) => `${fx.file} @ ${width}px reflow: ${e}`));
-
-        if (!fs.existsSync(pngPath)) {
-          row.surfaces = "FAIL";
-          errors.push(`${fx.file} @ ${width}px: missing stress capture`);
-        } else {
-          const pngVal = await validatePngCapture(pngPath);
-          if (!pngVal.ok) {
-            row.surfaces = "FAIL";
-            errors.push(`${fx.file} @ ${width}px: ${pngVal.errors.join("; ")}`);
-          }
-        }
-        widths[width] = row;
+      const metrics = metricsByWidth[width];
+      const surf = validateW1SurfaceMetrics(metrics);
+      row.metrics = metrics;
+      if (!surf.ok) {
+        row.surfaces = "FAIL";
+        errors.push(`${fx.file} @ ${width}px surface: ${surf.errors.join("; ")}`);
       }
+      widths[width] = row;
     }
   } catch (e) {
     errors.push(`stress surfaces execution error: ${e.message}`);

@@ -1,5 +1,5 @@
 /**
- * VCCK HTML gallery — optional write for dry-run/tests.
+ * VCCK qualification gallery — optional write for dry-run/tests.
  */
 
 import fs from "node:fs";
@@ -82,9 +82,7 @@ function collectImages(outDir) {
   const candidate = path.join(outDir, "word-insert-candidate.html");
   if (fs.existsSync(candidate)) imgs.wordCandidate = candidate;
   const artifactSvg = path.join(outDir, "artifact.svg");
-  const artifactHtml = path.join(outDir, "artifact.html");
   if (fs.existsSync(artifactSvg)) imgs.artifact = artifactSvg;
-  if (fs.existsSync(artifactHtml)) imgs.artifact = artifactHtml;
   return imgs;
 }
 

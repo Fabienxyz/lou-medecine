@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 526" width="520" height="526" role="img" data-primitive="comparison-matrix" data-family="two-pole" data-contract="W1-3" data-element="N20-1-crt-dai-comparison">
+  <title>Quand choisir CRT ou DAI ?</title>
+  <defs>
+    <marker id="vg-compare-left" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#d1d5db"/></marker>
+    <marker id="vg-compare-right" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#d1d5db"/></marker>
+    <style>
+      .vg-title{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:18px;font-weight:600;fill:#1d1d1f}
+      .vg-pole{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:15px;font-weight:600;fill:#1d1d1f}
+      .vg-dim{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:13px;font-weight:600;fill:#6b7280}
+      .vg-cell{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:14px;font-weight:600;fill:#1d1d1f}
+    </style></defs>
+  <rect width="520" height="526" fill="#ffffff"/>
+  <text x="260" y="42" text-anchor="middle" class="vg-title">
+    <tspan x="260" dy="0">Quand choisir CRT ou DAI ?</tspan>
+  </text>
+  <g data-layer="comparison-structure">
+    <g data-node-id="pole-crt" data-role="pole-header">
+      <rect x="24" y="72" width="226" height="52" rx="12" fill="#f0f6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="137" y="103" text-anchor="middle" class="vg-pole" data-official-text-id="n20-1-crt-dai-comparison-pole-crt-header-1">Resynchronisation (CRT)</text>
+    </g>
+    <g data-node-id="pole-dai" data-role="pole-header">
+      <rect x="270" y="72" width="226" height="52" rx="12" fill="#f5f7fa" stroke="#2563eb" stroke-width="2"/>
+      <text x="383" y="103" text-anchor="middle" class="vg-pole" data-official-text-id="n20-1-crt-dai-comparison-pole-dai-header-1">DAI</text>
+    </g>
+    <line x1="232" y1="98" x2="288" y2="98" stroke="#d1d5db" stroke-width="1.5" marker-start="url(#vg-compare-left)" marker-end="url(#vg-compare-right)"/>
+    <line x1="260" y1="128" x2="260" y2="502" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+    <g data-dimension-id="dim-indication" data-layer="comparison-band">
+      <rect x="24" y="140" width="472" height="114" rx="8" fill="#f9fafb" stroke="#e5e5ea" stroke-width="1"/>
+      <text x="36" y="161" class="vg-dim">Indication principale</text>
+      <g data-node-id="crt-indic" data-pole-id="pole-crt" data-dimension-id="dim-indication">
+        <rect x="28" y="176" width="218" height="70" rx="10" fill="#ffffff" stroke="#e5e5ea" stroke-width="1"/>
+        <text x="137" y="199.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-crt-indic-1">IC symptomatique, FEVG ≤</text>
+        <text x="137" y="218.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-crt-indic-2">35 %, QRS ≥ 130 ms</text>
+      </g>
+      <g data-node-id="dai-indic" data-pole-id="pole-dai" data-dimension-id="dim-indication">
+        <rect x="274" y="176" width="218" height="70" rx="10" fill="#ffffff" stroke="#e5e5ea" stroke-width="1"/>
+        <text x="383" y="199.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-dai-indic-1">Prévention FV/TV ou</text>
+        <text x="383" y="218.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-dai-indic-2">FEVG ≤ 35 %</text>
+      </g>
+      <line x1="246" y1="211" x2="274" y2="211" stroke="#d1d5db" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+    </g>
+    <g data-dimension-id="dim-morphology" data-layer="comparison-band">
+      <rect x="24" y="264" width="472" height="114" rx="8" fill="#f9fafb" stroke="#e5e5ea" stroke-width="1"/>
+      <text x="36" y="285" class="vg-dim">Morphologie électrique</text>
+      <g data-node-id="crt-qrs" data-pole-id="pole-crt" data-dimension-id="dim-morphology">
+        <rect x="28" y="300" width="218" height="70" rx="10" fill="#ffffff" stroke="#e5e5ea" stroke-width="1"/>
+        <text x="137" y="323.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-crt-qrs-1">Efficacité meilleure si</text>
+        <text x="137" y="342.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-crt-qrs-2">BBG, QRS ≥ 150 ms</text>
+      </g>
+      <g data-node-id="dai-qrs" data-pole-id="pole-dai" data-dimension-id="dim-morphology">
+        <rect x="274" y="300" width="218" height="70" rx="10" fill="#ffffff" stroke="#e5e5ea" stroke-width="1"/>
+        <text x="383" y="323.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-dai-qrs-1">Pas de critère QRS</text>
+        <text x="383" y="342.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-dai-qrs-2">spécifique</text>
+      </g>
+      <line x1="246" y1="335" x2="274" y2="335" stroke="#d1d5db" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+    </g>
+    <g data-dimension-id="dim-nyha" data-layer="comparison-band">
+      <rect x="24" y="388" width="472" height="114" rx="8" fill="#f9fafb" stroke="#e5e5ea" stroke-width="1"/>
+      <text x="36" y="409" class="vg-dim">Stade fonctionnel</text>
+      <g data-node-id="crt-nyha" data-pole-id="pole-crt" data-dimension-id="dim-nyha">
+        <rect x="28" y="424" width="218" height="70" rx="10" fill="#ffffff" stroke="#e5e5ea" stroke-width="1"/>
+        <text x="137" y="447.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-crt-nyha-1">NYHA II à IV</text>
+      </g>
+      <g data-node-id="dai-nyha" data-pole-id="pole-dai" data-dimension-id="dim-nyha">
+        <rect x="274" y="424" width="218" height="70" rx="10" fill="#ffffff" stroke="#e5e5ea" stroke-width="1"/>
+        <text x="383" y="447.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-dai-nyha-1">Non indiqué NYHA IV sauf</text>
+        <text x="383" y="466.9" text-anchor="middle" class="vg-cell" data-official-text-id="n20-1-crt-dai-comparison-dai-nyha-2">greffe ou assistance</text>
+      </g>
+      <line x1="246" y1="459" x2="274" y2="459" stroke="#d1d5db" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+    </g>
+  </g></svg>

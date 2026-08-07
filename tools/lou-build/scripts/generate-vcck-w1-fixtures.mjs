@@ -250,7 +250,7 @@ function twoPoleFixtures(dir) {
   const base = {
     spec_version: "0.2",
     primitive: "comparison-matrix",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: "vcck/w1",
     provenance: { source_edition: 2022, walkthrough: "VCCK-W1", methodology_version: "w1" },
     poles: [
@@ -391,7 +391,7 @@ function flatConcurrentFixtures(dir, maxItems) {
   const base = {
     spec_version: "0.2",
     primitive: "enumeration-set",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: "vcck/w1",
     provenance: { source_edition: 2022, walkthrough: "VCCK-W1", methodology_version: "w1" },
     set: {

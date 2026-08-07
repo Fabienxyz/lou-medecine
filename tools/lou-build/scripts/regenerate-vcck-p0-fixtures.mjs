@@ -172,7 +172,7 @@ const TOPO_NEGATIVES = {
   "two-pole-negative": {
     spec_version: "0.2",
     primitive: "comparison-matrix",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: "vcck/fixtures",
     element: "vcck-two-pole-negative",
     question: "Negative — un seul pôle",
@@ -183,7 +183,7 @@ const TOPO_NEGATIVES = {
   "three-pole-reflow-negative": {
     spec_version: "0.2",
     primitive: "comparison-matrix",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: "vcck/fixtures",
     element: "vcck-three-pole-negative",
     question: "Negative — un seul pôle",
@@ -194,7 +194,7 @@ const TOPO_NEGATIVES = {
   "flat-concurrent-negative": {
     spec_version: "0.2",
     primitive: "enumeration-set",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: "vcck/fixtures",
     element: "vcck-flat-concurrent-negative",
     question: "Negative — logique non concurrente",
@@ -205,7 +205,7 @@ const TOPO_NEGATIVES = {
   "grouped-concurrent-negative": {
     spec_version: "0.2",
     primitive: "enumeration-set",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: "vcck/fixtures",
     element: "vcck-grouped-concurrent-negative",
     question: "Negative — un seul groupe",
@@ -216,7 +216,7 @@ const TOPO_NEGATIVES = {
   "identity-negative": {
     spec_version: "0.2",
     primitive: "quantity-model",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: "vcck/fixtures",
     element: "vcck-identity-negative",
     question: "Negative — deux états sans identité",
@@ -232,7 +232,7 @@ const TOPO_NEGATIVES = {
   "two-state-negative": {
     spec_version: "0.2",
     primitive: "quantity-model",
-    technology: "semantic-html",
+    technology: "svg",
     chapter: "vcck/fixtures",
     element: "vcck-two-state-negative",
     question: "Negative — un seul état",

@@ -2,19 +2,25 @@ import crypto from "node:crypto";
 import { validateVisualSpec, visualSpecClaimUnits } from "../visual-spec.js";
 import { renderVisualSpec } from "../visual-render.js";
 import { renderVisualSpecSvgV02 } from "../visual-render-svg-v02.js";
-import { renderVisualSpecHtml } from "../visual-render-html.js";
 import { validateSvgSerialized } from "../svg-dimension-validate.js";
 import { validateSvgGeometryIndependent } from "./svg-geom-independent.js";
+import { validateDecisionBranchLabelAttachment } from "./w2a-branch-label-validate.js";
+import { validateThresholdBandLabels } from "../threshold-band-validate.js";
 import { loadVcckInventory, vcckSourceMeta } from "./inventory.js";
 import { gateBeforeRender } from "./signature-analyzer.js";
 import { isW1Family, renderW1Spec } from "./w1-pipeline.js";
 
-const SVG_PRIMITIVES = new Set(["causal-graph", "decision-algorithm", "threshold-scale"]);
-const HTML_PRIMITIVES = new Set(["comparison-matrix", "enumeration-set", "quantity-model"]);
+const SVG_PRIMITIVES = new Set([
+  "causal-graph",
+  "decision-algorithm",
+  "threshold-scale",
+  "comparison-matrix",
+  "enumeration-set",
+  "quantity-model",
+]);
 
 export function artifactKind(spec) {
   if (SVG_PRIMITIVES.has(spec.primitive)) return "svg";
-  if (HTML_PRIMITIVES.has(spec.primitive)) return "html";
   return null;
 }
 
@@ -22,7 +28,10 @@ export function renderVcckSpec(spec, options = {}) {
   const inventory = options.inventory || loadVcckInventory();
   const fullReview = buildScaffoldingReviewFromUnits(spec);
 
-  const gate = gateBeforeRender(spec);
+  const gate = gateBeforeRender(spec, {
+    familyId: options.expectedFamily,
+    w2aLabelBudget: options.w2aLabelBudget,
+  });
   if (!gate.allowed) {
     return {
       ok: false,
@@ -66,15 +75,6 @@ export function renderVcckSpec(spec, options = {}) {
     return { ok: true, stage: "rendered", errors: [], artifact: r.svg, layout: r.layout, kind: "svg" };
   }
 
-  if (HTML_PRIMITIVES.has(spec.primitive)) {
-    const validation = validateVisualSpec(spec, { inventory });
-    if (!validation.ok) {
-      return { ok: false, stage: "validation", errors: validation.errors, artifact: null, layout: null };
-    }
-    const r = renderVisualSpecHtml(spec);
-    return { ok: true, stage: "rendered", errors: [], artifact: r.html, layout: null, kind: "html", meta: r };
-  }
-
   return { ok: false, stage: "renderer", errors: [`unsupported primitive ${spec.primitive}`], artifact: null, layout: null };
 }
 
@@ -100,16 +100,27 @@ export function validateRenderedArtifact(spec, rendered) {
     const ser = validateSvgSerialized(rendered.artifact);
     if (!ser.ok) errors.push(...ser.errors);
 
-    const geom = validateSvgGeometryIndependent(rendered.artifact);
-    if (!geom.ok) errors.push(...geom.errors);
-    if (geom.stats?.nodeCount === 0) {
-      errors.push("independent geom: zero node elements observed");
-    }
-  }
-
-  if (rendered.kind === "html") {
-    if (!rendered.artifact.includes("vg-question")) {
-      errors.push("html: missing vg-question block");
+    if (spec.primitive === "threshold-scale") {
+      const ctxCount = (rendered.artifact.match(/data-context="/g) || []).length;
+      const expected = (spec.contexts || []).length;
+      if (expected > 0 && ctxCount !== expected) {
+        errors.push(`threshold: expected ${expected} contexts, observed ${ctxCount}`);
+      }
+      if (ctxCount === 0) {
+        errors.push("threshold: missing data-context markers");
+      }
+      const bands = validateThresholdBandLabels(rendered.artifact);
+      if (!bands.ok) errors.push(...bands.errors);
+    } else {
+      const geom = validateSvgGeometryIndependent(rendered.artifact);
+      if (!geom.ok) errors.push(...geom.errors);
+      if (geom.stats?.nodeCount === 0) {
+        errors.push("independent geom: zero node elements observed");
+      }
+      if (spec.primitive === "decision-algorithm") {
+        const labels = validateDecisionBranchLabelAttachment(rendered.artifact);
+        if (!labels.ok) errors.push(...labels.errors);
+      }
     }
   }
 

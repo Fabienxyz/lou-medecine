@@ -4,44 +4,81 @@
 
 import { measureText, wrapText } from "./text-fit.js";
 import { TOKENS, escapeXml } from "./visual-render.js";
+import { officialTextId } from "./svg.js";
+import {
+  loadSvgGraphicLanguage,
+  getDecisionNodeKindStyle,
+  markerSvg,
+} from "./svg-graphic-language.js";
+import { roleGraphicVariantLabel } from "./role-graphic-language.js";
+import {
+  BRANCH_LABEL_ANCHORS,
+  branchLabelAnchorMode,
+  branchingPattern,
+  calloutPlacementPriority,
+  decisionLateralSeparationClass,
+  diamondInternalPadding,
+  isDecisionLateralFanOut,
+  isVerticalDescentFanOut,
+  nodeShape,
+  requiresStrictTextContainment,
+} from "./visual-grammar-runtime.js";
 
-export const DECISION_LAYOUT = {
-  fontSize: 14,
-  fontWeight: 600,
-  lineHeight: 19,
-  titleFontSize: 18,
-  titleFontWeight: 600,
-  titleLineHeight: 24,
-  nodeMinWidth: 140,
-  nodeMaxWidth: 260,
-  nodePaddingX: 16,
-  nodePaddingY: 14,
-  subitemFontSize: 12,
-  subitemLineHeight: 17,
-  layerGapY: 110,
-  nodeGapX: 64,
-  branchLabelFontSize: 12,
-  branchLabelMaxWidth: 180,
-  branchLabelLineHeight: 16,
-  margin: 36,
-  titleBlock: 72,
-  cornerRadius: 12,
-  annotationFontSize: 12,
-  annotationLineHeight: 17,
-  fragmentFontSize: 11,
-  fragmentLineHeight: 14,
-  fragmentPadding: 8,
-  minBottomMargin: 24,
-  lateralCorridorPad: 28,
-};
+/** Maps qualitative VG diamond padding to measurable clearance (Theme-derived base × scale). VG §8.1 */
+const DIAMOND_CLEARANCE = Object.freeze({
+  generous: { widthScale: 1.32, heightScale: 1.42, minAspect: 1.15 },
+  moderate: { widthScale: 1.2, heightScale: 1.25, minAspect: 1.1 },
+});
 
-const NODE_STYLES = {
-  entry: { fill: "#f5f7fa", stroke: "#2563eb", strokeWidth: 2, dash: null },
-  decision: { fill: "#ffffff", stroke: "#2563eb", strokeWidth: 2, dash: null },
-  test: { fill: "#f9fafb", stroke: "#6b7280", strokeWidth: 1.5, dash: "5 4" },
-  "dead-end": { fill: "#f3f4f6", stroke: "#9ca3af", strokeWidth: 1.5, dash: "4 3" },
-  conclusion: { fill: "#f0f6ff", stroke: "#2563eb", strokeWidth: 2, dash: null },
-};
+/** Theme-derived layout metrics for VG composition rules (qualitative → measurable). */
+function compositionLayoutMetrics(cfg) {
+  const separationClass = decisionLateralSeparationClass();
+  const decisionLateralMinDx =
+    separationClass === "moderate" ? Math.round(cfg.nodeGapX * 0.44) : Math.round(cfg.nodeGapX * 0.3);
+  return {
+    decisionLateralMinDx,
+    fanOutStubY: Math.max(cfg.nodePaddingY * 2, Math.round(cfg.layerGapY * 0.22)),
+    calloutCorridorPad: Math.round(cfg.fragmentPadding * 1.2),
+    calloutMinInnerWidth: Math.round(cfg.nodeMinWidth * 0.75),
+  };
+}
+
+/** @deprecated use loadSvgGraphicLanguage().decisionAlgorithmLayout */
+export function getDecisionAlgorithmLayout() {
+  return loadSvgGraphicLanguage().decisionAlgorithmLayout;
+}
+
+export const DECISION_LAYOUT = new Proxy(
+  {},
+  {
+    get(_target, prop) {
+      return getDecisionAlgorithmLayout()[prop];
+    },
+  },
+);
+
+function decisionNodeStyle(kind) {
+  return getDecisionNodeKindStyle(kind);
+}
+
+function nodeShapeMarkup(box, kind, style, cfg) {
+  const dash = style.dash ? ` stroke-dasharray="${style.dash}"` : "";
+  const strokeOpacity =
+    style.groupOpacity != null && style.dash ? ` stroke-opacity="${Math.min(1, style.groupOpacity + 0.08)}"` : "";
+  if (nodeShape(kind) === "diamond") {
+    const cx = box.x + box.width / 2;
+    const cy = box.y + box.height / 2;
+    const points = `${cx},${box.y} ${box.x + box.width},${cy} ${cx},${box.y + box.height} ${box.x},${cy}`;
+    return (
+      `      <polygon points="${points}" fill="${style.fill}" stroke="${style.stroke}" ` +
+      `stroke-width="${style.strokeWidth}"${dash}${strokeOpacity}/>`
+    );
+  }
+  return (
+    `      <rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="${cfg.cornerRadius}" ` +
+    `fill="${style.fill}" stroke="${style.stroke}" stroke-width="${style.strokeWidth}"${dash}${strokeOpacity}/>`
+  );
+}
 
 function sizeNode(node, cfg) {
   const lines = wrapText(node.label, cfg.nodeMaxWidth - 2 * cfg.nodePaddingX, cfg.fontSize, cfg.fontWeight, {
@@ -66,6 +103,36 @@ function sizeNode(node, cfg) {
     lines.width,
     ...subLines.map((l) => measureText(l, cfg.subitemFontSize, 500)),
   );
+
+  if (requiresStrictTextContainment(node.kind)) {
+    const paddingClass = diamondInternalPadding(node.kind) || "generous";
+    const factors = DIAMOND_CLEARANCE[paddingClass] || DIAMOND_CLEARANCE.generous;
+    let width = Math.min(
+      cfg.nodeMaxWidth,
+      Math.max(cfg.nodeMinWidth, Math.ceil(contentW + 2 * cfg.nodePaddingX)),
+    );
+    let height = Math.ceil(lines.lines.length * cfg.lineHeight + 2 * cfg.nodePaddingY);
+    if (subLines.length) {
+      height += 8 + subLines.length * cfg.subitemLineHeight;
+    }
+    width = Math.ceil(width * factors.widthScale);
+    height = Math.ceil(height * factors.heightScale);
+    if (width < height * factors.minAspect) {
+      width = Math.ceil(height * factors.minAspect);
+    }
+    return {
+      ok: true,
+      box: {
+        id: node.id,
+        kind: node.kind,
+        width,
+        height,
+        lines: lines.lines,
+        subLines,
+      },
+    };
+  }
+
   const width = Math.min(
     cfg.nodeMaxWidth,
     Math.max(cfg.nodeMinWidth, Math.ceil(contentW + 2 * cfg.nodePaddingX)),
@@ -114,36 +181,69 @@ function assignLayers(nodeIds, branches) {
   return { layer, incoming, outgoing };
 }
 
-function layoutFragmentBox(frag, cfg, anchorX, anchorY, placed, obstacles) {
-  const scaleLines = (frag.scales || []).map(
-    (s) => `${s.analyte} ${s.cutoff_label}`,
-  );
+function layoutCallout(frag, cfg, routed, labelBox, placed, obstacles) {
+  const metrics = compositionLayoutMetrics(cfg);
+  const scaleLines = (frag.scales || []).map((s) => `${s.analyte} ${s.cutoff_label}`);
   const allLines = [frag.context, ...scaleLines];
   const innerW = Math.max(
     ...allLines.map((l) => measureText(l, cfg.fragmentFontSize, 500)),
-    120,
+    metrics.calloutMinInnerWidth,
   );
   const width = Math.ceil(innerW + 2 * cfg.fragmentPadding);
-  const height = Math.ceil(
-    cfg.fragmentPadding * 2 + allLines.length * cfg.fragmentLineHeight,
-  );
+  const height = Math.ceil(cfg.fragmentPadding * 2 + allLines.length * cfg.fragmentLineHeight);
 
-  const candidates = [
-    { x: anchorX - width / 2, y: anchorY - height - 16 },
-    { x: anchorX + 32, y: anchorY - height / 2 },
-    { x: anchorX - width - 32, y: anchorY - height / 2 },
-    { x: anchorX - width / 2, y: anchorY + 20 },
-  ];
+  const corridorPad = metrics.calloutCorridorPad;
+  const corridorObstacle = {
+    x: Math.min(routed.x1, routed.x2) - corridorPad,
+    y: routed.midY - corridorPad,
+    width: Math.abs(routed.x2 - routed.x1) + corridorPad * 2,
+    height: corridorPad * 2,
+  };
 
+  const labelCenterX = labelBox.x + labelBox.width / 2;
+  const candidateMap = {
+    "below-branch-label": {
+      x: labelCenterX - width / 2,
+      y: labelBox.y + labelBox.height + cfg.fragmentPadding,
+    },
+    "lateral-clear": {
+      x: labelBox.x + labelBox.width + cfg.fragmentPadding,
+      y: labelBox.y,
+    },
+    "below-corridor": {
+      x: labelCenterX - width / 2,
+      y: routed.midY + corridorPad + 4,
+    },
+  };
+
+  const candidates = [];
+  for (const key of calloutPlacementPriority()) {
+    if (candidateMap[key]) candidates.push(candidateMap[key]);
+  }
+  candidates.push({
+    x: labelBox.x - width - cfg.fragmentPadding,
+    y: labelBox.y,
+  });
+  candidates.push({
+    x: labelCenterX - width / 2,
+    y: labelBox.y - height - cfg.fragmentPadding,
+  });
+
+  const blockers = [...obstacles, ...placed, corridorObstacle, labelBox];
   for (const c of candidates) {
     const box = { x: c.x, y: c.y, width, height };
-    const blocked =
-      placed.some((p) => rectsOverlap(box, p, 6)) ||
-      obstacles.some((p) => rectsOverlap(box, p, 6));
-    if (!blocked) return { ...box, lines: allLines };
+    if (!blockers.some((o) => rectsOverlap(box, o, 6))) {
+      return { ...box, lines: allLines };
+    }
   }
 
-  return { x: anchorX - width / 2, y: anchorY - height - 16, width, height, lines: allLines };
+  return {
+    x: labelCenterX - width / 2,
+    y: routed.midY + corridorPad + 4,
+    width,
+    height,
+    lines: allLines,
+  };
 }
 
 function rectsOverlap(a, b, pad = 2) {
@@ -153,6 +253,10 @@ function rectsOverlap(a, b, pad = 2) {
     a.y < b.y + b.height + pad &&
     a.y + a.height + pad > b.y
   );
+}
+
+function rectsHorizontalOverlap(a, b, pad = 0) {
+  return a.x < b.x + b.width + pad && a.x + a.width + pad > b.x;
 }
 
 function layoutBranchLabel(branch, cfg, x1, x2, midY, placed, obstacles, options = {}) {
@@ -168,27 +272,48 @@ function layoutBranchLabel(branch, cfg, x1, x2, midY, placed, obstacles, options
   const labelH = lines.length * cfg.branchLabelLineHeight + 8;
   const centerX = options.preferX ?? (x1 + x2) / 2;
 
-  const candidates = options.preferX != null
-    ? [
-        { x: centerX - labelW - 8, y: midY - labelH / 2 },
-        { x: centerX + 12, y: midY - labelH / 2 },
-        { x: centerX - labelW / 2 - 4, y: midY - labelH - 8 },
-        { x: centerX - labelW / 2 - 4, y: midY + 10 },
-      ]
-    : [
-        { x: centerX - labelW / 2 - 4, y: midY - labelH - 6 },
-        { x: x2 - labelW / 2 - 4, y: midY + 10 },
-        { x: x1 - labelW - 20, y: midY - labelH / 2 },
-        { x: x2 + 16, y: midY - labelH / 2 },
-        { x: x1 + 16, y: midY - labelH - 6 },
-      ];
+  const isCorridor = options.preferX != null && options.corridorSide;
+  const candidates = [];
+  if (isCorridor) {
+    const corridorX = options.preferX;
+    const boxW = labelW + 8;
+    for (const yOff of [0, -labelH - 6, labelH + 6]) {
+      candidates.push({ x: corridorX - boxW / 2, y: midY - labelH / 2 + yOff });
+    }
+  } else if (options.preferX != null) {
+    candidates.push({
+      x: options.preferX - (labelW + 8) / 2,
+      y: midY - labelH / 2,
+    });
+  }
+  if (!isCorridor) {
+    candidates.push(
+      ...(options.preferX != null
+        ? [
+            { x: centerX - labelW - 8, y: midY - labelH / 2 },
+            { x: centerX + 12, y: midY - labelH / 2 },
+            { x: centerX - labelW / 2 - 4, y: midY - labelH - 8 },
+            { x: centerX - labelW / 2 - 4, y: midY + 10 },
+          ]
+        : [
+            { x: centerX - labelW / 2 - 4, y: midY - labelH - 6 },
+            { x: x2 - labelW / 2 - 4, y: midY + 10 },
+            { x: x1 - labelW - 20, y: midY - labelH / 2 },
+            { x: x2 + 16, y: midY - labelH / 2 },
+            { x: x1 + 16, y: midY - labelH - 6 },
+          ]),
+    );
+  }
 
   let box = { x: candidates[0].x, y: candidates[0].y, width: labelW + 8, height: labelH };
   for (const c of candidates) {
     const candidate = { x: c.x, y: c.y, width: labelW + 8, height: labelH };
+    const relevantObstacles = isCorridor
+      ? obstacles.filter((o) => rectsHorizontalOverlap(candidate, o, 4))
+      : obstacles;
     const blocked =
       placed.some((p) => rectsOverlap(candidate, p, 4)) ||
-      obstacles.some((p) => rectsOverlap(candidate, p, 4));
+      relevantObstacles.some((p) => rectsOverlap(candidate, p, 4));
     if (!blocked) {
       box = candidate;
       break;
@@ -198,10 +323,48 @@ function layoutBranchLabel(branch, cfg, x1, x2, midY, placed, obstacles, options
 
   return {
     labelX: box.x + box.width / 2,
-    labelY: box.y + 12,
+    labelY: box.y + cfg.branchLabelFontSize + 5,
     labelLines: lines,
     labelBoxes: [box],
   };
+}
+
+function relayoutEdgeLabels(laidEdges, positions, layer, nodeById, cfg, outgoingCounts) {
+  const placed = [];
+  const nodeObstacles = [...positions.values()].map((n) => ({
+    x: n.x,
+    y: n.y,
+    width: n.width,
+    height: n.height,
+  }));
+  const posOf = (id) => positions.get(id);
+
+  for (const edge of laidEdges) {
+    const from = posOf(edge.from);
+    const to = posOf(edge.to);
+    const outCount = outgoingCounts.get(edge.from) || 1;
+    const routed = edgePath(from, to, edge, layer, positions, cfg, nodeById, outCount);
+    edge.path = routed.path;
+    edge.segments = routed.segments;
+    edge.routeKind = routed.routeKind;
+    const fromKind = nodeById.get(edge.from)?.kind;
+    const pattern = branchingPattern(fromKind, outCount);
+    const labelOpts = { preferX: routed.labelPreferX, corridorSide: routed.corridorSide };
+    if (branchLabelAnchorMode(pattern) === BRANCH_LABEL_ANCHORS.TARGET_CENTER) {
+      labelOpts.preferX = to.x + to.width / 2;
+    }
+    const label = layoutBranchLabel(
+      edge,
+      cfg,
+      routed.x1,
+      routed.x2,
+      routed.midY,
+      placed,
+      nodeObstacles,
+      labelOpts,
+    );
+    Object.assign(edge, label);
+  }
 }
 
 function buildPathFromSegments(segments) {
@@ -226,6 +389,91 @@ function getIntermediateNodes(fromId, toId, layer, positions) {
   return result;
 }
 
+function routeDecisionLateral(from, to, side, cfg) {
+  const y1 = from.y + from.height;
+  const y2 = to.y;
+  const midY = y1 + Math.max(28, (y2 - y1) * 0.42);
+  const exitX = side === "left" ? from.x : from.x + from.width;
+  const enterX = to.x + to.width / 2;
+
+  const segments = [
+    { x1: exitX, y1, x2: exitX, y2: midY },
+    { x1: exitX, y1: midY, x2: enterX, y2: midY },
+    { x1: enterX, y1: midY, x2: enterX, y2: y2 },
+  ];
+
+  return {
+    path: buildPathFromSegments(segments),
+    segments,
+    x1: exitX,
+    x2: enterX,
+    midY,
+    labelPreferX: (exitX + enterX) / 2,
+    routeKind: "decision-lateral",
+  };
+}
+
+function routeResumeMonitoring(from, to, positions, cfg) {
+  const pad = cfg.lateralCorridorPad;
+  const blockMaxX = Math.max(...[...positions.values()].map((n) => n.x + n.width));
+  const corridorX = blockMaxX + pad;
+  const x1 = from.x + from.width / 2;
+  const y1 = from.y + from.height;
+  const x2 = to.x + to.width / 2;
+  const y2 = to.y;
+  const stubY = y1 + 20;
+  const approachY = y2 - 14;
+
+  const segments = [
+    { x1, y1, x2: x1, y2: stubY },
+    { x1, y1: stubY, x2: corridorX, y2: stubY },
+    { x1: corridorX, y1: stubY, x2: corridorX, y2: approachY },
+    { x1: corridorX, y1: approachY, x2: x2, y2: approachY },
+    { x1: x2, y1: approachY, x2, y2: y2 },
+  ];
+
+  return {
+    path: buildPathFromSegments(segments),
+    segments,
+    x1,
+    x2,
+    midY: (stubY + approachY) / 2,
+    labelPreferX: corridorX,
+    routeKind: "resume-monitoring",
+  };
+}
+
+function routeBackwardLoop(from, to, positions, cfg) {
+  const pad = cfg.lateralCorridorPad;
+  const blockMinX = Math.min(...[...positions.values()].map((n) => n.x));
+  const blockMaxX = Math.max(...[...positions.values()].map((n) => n.x + n.width));
+  const corridorX = blockMinX - pad;
+  const x1 = from.x + from.width / 2;
+  const y1 = from.y + from.height;
+  const x2 = to.x + to.width / 2;
+  const y2 = to.y;
+  const stubY = y1 + 18;
+  const approachY = y2 - 12;
+
+  const segments = [
+    { x1, y1, x2: x1, y2: stubY },
+    { x1, y1: stubY, x2: corridorX, y2: stubY },
+    { x1: corridorX, y1: stubY, x2: corridorX, y2: approachY },
+    { x1: corridorX, y1: approachY, x2: x2, y2: approachY },
+    { x1: x2, y1: approachY, x2, y2: y2 },
+  ];
+
+  return {
+    path: buildPathFromSegments(segments),
+    segments,
+    x1,
+    x2,
+    midY: (stubY + approachY) / 2,
+    labelPreferX: corridorX,
+    routeKind: "backward-loop",
+  };
+}
+
 function routeSkipLevel(from, to, intermediate, cfg) {
   const pad = cfg.lateralCorridorPad;
   const blockMinX = Math.min(from.x, ...intermediate.map((n) => n.x));
@@ -234,7 +482,8 @@ function routeSkipLevel(from, to, intermediate, cfg) {
   const targetCx = to.x + to.width / 2;
 
   const routeRight = targetCx >= sourceCx;
-  const corridorX = routeRight ? blockMaxX + pad : blockMinX - pad;
+  const labelHalf = (cfg.branchLabelMaxWidth || 180) / 2 + 12;
+  const corridorX = routeRight ? blockMaxX + pad + labelHalf : blockMinX - pad - labelHalf;
   const exitX = routeRight ? from.x + from.width : from.x;
   const exitY = from.y + from.height / 2;
   const approachY = to.y - 10;
@@ -255,14 +504,45 @@ function routeSkipLevel(from, to, intermediate, cfg) {
     x2: enterX,
     midY: labelY,
     labelPreferX: corridorX,
+    corridorSide: routeRight ? "right" : "left",
     routeKind: "skip-level",
   };
 }
 
-function edgePath(from, to, branch, layer, positions, cfg) {
+function routeFanOut(from, to, cfg) {
+  const metrics = compositionLayoutMetrics(cfg);
+  const x1 = from.x + from.width / 2;
+  const y1 = from.y + from.height;
+  const x2 = to.x + to.width / 2;
+  const y2 = to.y;
+  const splitY = y1 + metrics.fanOutStubY;
+  const segments = [
+    { x1, y1, x2: x1, y2: splitY },
+    { x1, y1: splitY, x2, y2: splitY },
+    { x1: x2, y1: splitY, x2, y2: y2 },
+  ];
+  return {
+    path: buildPathFromSegments(segments),
+    segments,
+    x1,
+    x2,
+    midY: splitY,
+    routeKind: "fan-out",
+  };
+}
+
+function edgePath(from, to, branch, layer, positions, cfg, nodeById, outgoingCount = 1) {
   const fromLayer = layer.get(branch.from);
   const toLayer = layer.get(branch.to);
   const layerGap = toLayer - fromLayer;
+
+  if (branch.relation === "resumes_monitoring") {
+    return routeResumeMonitoring(from, to, positions, cfg);
+  }
+
+  if (toLayer < fromLayer) {
+    return routeBackwardLoop(from, to, positions, cfg);
+  }
 
   if (layerGap > 1) {
     const intermediate = getIntermediateNodes(branch.from, branch.to, layer, positions);
@@ -273,6 +553,22 @@ function edgePath(from, to, branch, layer, positions, cfg) {
   const y1 = from.y + from.height;
   const x2 = to.x + to.width / 2;
   const y2 = to.y;
+
+  const fromNode = nodeById?.get(branch.from);
+  const pattern = branchingPattern(fromNode?.kind, outgoingCount);
+
+  if (isVerticalDescentFanOut(pattern) && layerGap === 1) {
+    return routeFanOut(from, to, cfg);
+  }
+
+  if (isDecisionLateralFanOut(pattern) && layerGap === 1) {
+    const metrics = compositionLayoutMetrics(cfg);
+    const targetCx = to.x + to.width / 2;
+    const sourceCx = from.x + from.width / 2;
+    if (Math.abs(targetCx - sourceCx) > metrics.decisionLateralMinDx) {
+      return routeDecisionLateral(from, to, targetCx < sourceCx ? "left" : "right", cfg);
+    }
+  }
 
   if (Math.abs(y2 - from.y) < 12) {
     const routeY = from.y - 28;
@@ -308,7 +604,7 @@ function edgePath(from, to, branch, layer, positions, cfg) {
 }
 
 export function layoutDecisionAlgorithm(spec) {
-  const cfg = { ...DECISION_LAYOUT };
+  const cfg = { ...getDecisionAlgorithmLayout() };
   const errors = [];
   const nodes = spec.nodes || [];
   const branches = spec.branches || [];
@@ -375,10 +671,21 @@ export function layoutDecisionAlgorithm(spec) {
   }));
   const posOf = (id) => positions.get(id);
   const placed = [];
+  const outgoingCounts = new Map();
+  for (const branch of branches) {
+    outgoingCounts.set(branch.from, (outgoingCounts.get(branch.from) || 0) + 1);
+  }
   const laidEdges = branches.map((branch) => {
     const from = posOf(branch.from);
     const to = posOf(branch.to);
-    const routed = edgePath(from, to, branch, layer, positions, cfg);
+    const outCount = outgoingCounts.get(branch.from) || 1;
+    const routed = edgePath(from, to, branch, layer, positions, cfg, nodeById, outCount);
+    const fromKind = nodeById.get(branch.from)?.kind;
+    const pattern = branchingPattern(fromKind, outCount);
+    const labelOpts = { preferX: routed.labelPreferX, corridorSide: routed.corridorSide };
+    if (branchLabelAnchorMode(pattern) === BRANCH_LABEL_ANCHORS.TARGET_CENTER) {
+      labelOpts.preferX = to.x + to.width / 2;
+    }
     const label = layoutBranchLabel(
       branch,
       cfg,
@@ -387,7 +694,7 @@ export function layoutDecisionAlgorithm(spec) {
       routed.midY,
       placed,
       nodeObstacles,
-      { preferX: routed.labelPreferX },
+      labelOpts,
     );
     const edge = {
       ...branch,
@@ -399,13 +706,12 @@ export function layoutDecisionAlgorithm(spec) {
     };
 
     if (branch.threshold_fragment) {
-      const fragAnchorX = (from.x + from.width + to.x) / 2;
-      const fragAnchorY = Math.min(from.y, to.y) - 36;
-      const fragBox = layoutFragmentBox(
+      const labelBox = edge.labelBoxes[0];
+      const fragBox = layoutCallout(
         branch.threshold_fragment,
         cfg,
-        fragAnchorX,
-        fragAnchorY,
+        routed,
+        labelBox,
         placed,
         nodeObstacles,
       );
@@ -488,21 +794,12 @@ export function layoutDecisionAlgorithm(spec) {
       ann.y += padTop + padBottom;
     }
     for (const edge of laidEdges) {
-      for (const box of edge.labelBoxes || []) {
-        box.x += padLeft;
-        box.y += padTop;
-      }
       for (const frag of edge.fragments || []) {
         frag.x += padLeft;
         frag.y += padTop;
       }
     }
-    for (const edge of laidEdges) {
-      const routed = edgePath(posOf(edge.from), posOf(edge.to), edge, layer, positions, cfg);
-      edge.path = routed.path;
-      edge.segments = routed.segments;
-      edge.routeKind = routed.routeKind;
-    }
+    relayoutEdgeLabels(laidEdges, positions, layer, nodeById, cfg, outgoingCounts);
   }
 
   width = Math.ceil(width);
@@ -525,22 +822,21 @@ export function layoutDecisionAlgorithm(spec) {
 }
 
 function markerDef() {
-  return (
-    `    <marker id="vg-arrow-decision" markerWidth="7" markerHeight="7" refX="7" refY="3.5" ` +
-    `orient="auto" markerUnits="strokeWidth">\n` +
-    `      <path d="M0,0.5 L7,3.5 L0,6.5 Z" fill="${TOKENS.connector}"/>\n    </marker>`
-  );
+  return `    ${markerSvg("arrow_solid", loadSvgGraphicLanguage(), { id: "vg-arrow-decision", markerUnits: "strokeWidth" })}`;
 }
 
 export function renderDecisionAlgorithmSvg(spec, layout) {
   const cfg = layout.config;
+  const lang = loadSvgGraphicLanguage();
   const parts = [];
   parts.push('<?xml version="1.0" encoding="UTF-8"?>');
+  const roleGl = roleGraphicVariantLabel();
   parts.push(
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${layout.width} ${layout.height}" ` +
       `width="${layout.width}" height="${layout.height}" role="img" ` +
       `aria-labelledby="vg-title vg-desc" data-primitive="${escapeXml(spec.primitive)}" ` +
-      `data-element="${escapeXml(spec.element)}" data-variant="${escapeXml(spec.variant)}">`,
+      `data-element="${escapeXml(spec.element)}" data-variant="${escapeXml(spec.variant)}"` +
+      `${roleGl ? ` data-role-gl-variant="${roleGl}"` : ""}>`,
   );
   parts.push(`  <title id="vg-title">${escapeXml(spec.question)}</title>`);
   parts.push(`  <desc id="vg-desc">${escapeXml(spec.primitive)} ${escapeXml(spec.variant)}</desc>`);
@@ -560,14 +856,14 @@ export function renderDecisionAlgorithmSvg(spec, layout) {
     `      .vg-branch{font-family:${TOKENS.fontStack};font-size:${cfg.branchLabelFontSize}px;fill:${TOKENS.titleText}}`,
   );
   parts.push(
-    `      .vg-ann{font-family:${TOKENS.fontStack};font-size:${cfg.annotationFontSize}px;fill:#6b7280}`,
+    `      .vg-ann{font-family:${TOKENS.fontStack};font-size:${cfg.annotationFontSize}px;fill:${lang.typography.annotation.color}}`,
   );
   parts.push("    </style>");
   parts.push("  </defs>");
   parts.push(`  <rect width="${layout.width}" height="${layout.height}" fill="${TOKENS.canvas}"/>`);
 
   const cx = layout.width / 2;
-  parts.push(`  <text x="${cx}" y="36" text-anchor="middle" class="vg-title">`);
+  parts.push(`  <text x="${cx}" y="36" text-anchor="middle" class="vg-title" data-official-text-id="${escapeXml(officialTextId(spec.element, "title"))}">`);
   layout.titleLines.forEach((line, i) => {
     parts.push(
       `    <tspan x="${cx}" dy="${i === 0 ? 0 : cfg.titleLineHeight}">${escapeXml(line)}</tspan>`,
@@ -577,17 +873,18 @@ export function renderDecisionAlgorithmSvg(spec, layout) {
 
   parts.push('  <g data-layer="branches">');
   for (const edge of layout.edges) {
+    const dash = edge.relation === "resumes_monitoring" ? ` stroke-dasharray="8 5"` : "";
     parts.push(
-      `    <path d="${edge.path}" fill="none" stroke="${TOKENS.connector}" stroke-width="2" ` +
-        `marker-end="url(#vg-arrow-decision)"/>`,
+      `    <path data-branch-id="${escapeXml(edge.id || "")}" d="${edge.path}" fill="none" ` +
+        `stroke="${TOKENS.connector}" stroke-width="${lang.stroke.connector_decision}"${dash} marker-end="url(#vg-arrow-decision)"/>`,
     );
     for (const box of edge.labelBoxes || []) {
       parts.push(`    <g data-branch-label="${escapeXml(edge.id || "")}">`);
       parts.push(
-        `    <rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" fill="#ffffff" opacity="0.92" rx="4"/>`,
+        `    <rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" fill="${lang.colors.branch_label_backdrop}" opacity="${lang.opacity.branch_label_backdrop}" rx="${lang.radius.branch_label}"/>`,
       );
       parts.push(
-        `    <text x="${edge.labelX}" y="${edge.labelY}" text-anchor="middle" class="vg-branch">`,
+        `    <text x="${edge.labelX}" y="${edge.labelY}" text-anchor="middle" class="vg-branch" data-official-text-id="${escapeXml(officialTextId(spec.element, `branch-${edge.id || "edge"}-label`))}">`,
       );
       edge.labelLines.forEach((line, i) => {
         parts.push(
@@ -601,12 +898,14 @@ export function renderDecisionAlgorithmSvg(spec, layout) {
     for (const frag of edge.fragments || []) {
       parts.push(
         `    <g data-fragment="threshold-scale"><rect x="${frag.x}" y="${frag.y}" width="${frag.width}" height="${frag.height}" ` +
-          `rx="6" fill="#f9fafb" stroke="#e5e7eb"/>`,
+          `rx="${cfg.fragmentRadius}" fill="${lang.colors.surface_muted}" stroke="${lang.colors.rule_light}"/>`,
       );
       let fy = frag.y + cfg.fragmentPadding + cfg.fragmentFontSize;
+      let lineIndex = 0;
       for (const line of frag.lines) {
+        lineIndex += 1;
         parts.push(
-          `    <text x="${frag.x + cfg.fragmentPadding}" y="${fy}" class="vg-sub">${escapeXml(line)}</text>`,
+          `    <text x="${frag.x + cfg.fragmentPadding}" y="${fy}" class="vg-sub" data-official-text-id="${escapeXml(officialTextId(spec.element, `frag-${edge.id || "edge"}-${lineIndex}`))}">${escapeXml(line)}</text>`,
         );
         fy += cfg.fragmentLineHeight;
       }
@@ -618,21 +917,16 @@ export function renderDecisionAlgorithmSvg(spec, layout) {
   parts.push('  <g data-layer="nodes">');
   for (const box of layout.nodes) {
     const node = layout.nodeById.get(box.id);
-    const style = NODE_STYLES[node.kind] || NODE_STYLES.entry;
-    parts.push(`    <g data-node-id="${escapeXml(box.id)}" data-node-kind="${escapeXml(node.kind)}">`);
-    parts.push(
-      `      <rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" rx="${cfg.cornerRadius}" ` +
-        `fill="${style.fill}" stroke="${style.stroke}" stroke-width="${style.strokeWidth}"` +
-        (style.dash ? ` stroke-dasharray="${style.dash}"` : "") +
-        "/>",
-    );
+    const style = decisionNodeStyle(node.kind);
+    parts.push(`    <g data-node-id="${escapeXml(box.id)}" data-node-kind="${escapeXml(node.kind)}"${style.groupOpacity != null ? ` opacity="${style.groupOpacity}"` : ""}>`);
+    parts.push(nodeShapeMarkup(box, node.kind, style, cfg));
     const textX = box.x + box.width / 2;
     let ty =
       box.y +
       box.height / 2 -
       ((box.lines.length + box.subLines.length) * cfg.lineHeight) / 2 +
       cfg.fontSize * 0.35;
-    parts.push(`      <text x="${textX}" y="${ty}" text-anchor="middle" class="vg-label">`);
+    parts.push(`      <text x="${textX}" y="${ty}" text-anchor="middle" class="vg-label" data-official-text-id="${escapeXml(officialTextId(spec.element, `node-${box.id}-label`))}">`);
     box.lines.forEach((line, i) => {
       parts.push(
         `        <tspan x="${textX}" dy="${i === 0 ? 0 : cfg.lineHeight}">${escapeXml(line)}</tspan>`,
@@ -641,7 +935,7 @@ export function renderDecisionAlgorithmSvg(spec, layout) {
     parts.push("      </text>");
     if (box.subLines.length) {
       ty += box.lines.length * cfg.lineHeight + 4;
-      parts.push(`      <text x="${box.x + cfg.nodePaddingX}" y="${ty}" class="vg-sub">`);
+      parts.push(`      <text x="${box.x + cfg.nodePaddingX}" y="${ty}" class="vg-sub" data-official-text-id="${escapeXml(officialTextId(spec.element, `node-${box.id}-sub`))}">`);
       box.subLines.forEach((line, i) => {
         parts.push(
           `          <tspan x="${box.x + cfg.nodePaddingX}" dy="${i === 0 ? 0 : cfg.subitemLineHeight}">${escapeXml(line)}</tspan>`,
@@ -654,7 +948,7 @@ export function renderDecisionAlgorithmSvg(spec, layout) {
   parts.push("  </g>");
 
   for (const ann of layout.annotations || []) {
-    parts.push(`  <text x="${ann.x}" y="${ann.y}" class="vg-ann" data-placement="${escapeXml(ann.placement)}">`);
+    parts.push(`  <text x="${ann.x}" y="${ann.y}" class="vg-ann" data-placement="${escapeXml(ann.placement)}" data-official-text-id="${escapeXml(officialTextId(spec.element, `ann-${ann.id}`))}">`);
     ann.lines.forEach((line, i) => {
       parts.push(
         `    <tspan x="${ann.x}" dy="${i === 0 ? 0 : cfg.annotationLineHeight}">${escapeXml(line)}</tspan>`,

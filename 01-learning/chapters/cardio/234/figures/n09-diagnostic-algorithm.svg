@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 887 1192" width="887" height="1192" role="img" aria-labelledby="vg-title vg-desc" data-primitive="decision-algorithm" data-element="N09-diagnostic-algorithm" data-variant="diagnostic">
+  <title id="vg-title">Dans quel ordre confirmer une IC hors urgence ?</title>
+  <desc id="vg-desc">decision-algorithm diagnostic</desc>
+  <defs>
+    <marker id="vg-arrow-decision" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0.5 L7,3.5 L0,6.5 Z" fill="#9ca3af"/></marker>
+    <style>
+      .vg-title{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:23px;font-weight:600;fill:#1d1d1f}
+      .vg-label{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:17.9px;font-weight:600;fill:#1d1d1f}
+      .vg-sub{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:15.4px;fill:#1d1d1f}
+      .vg-branch{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:15.4px;fill:#1d1d1f}
+      .vg-ann{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:12px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect width="887" height="1192" fill="#ffffff"/>
+  <text x="443.5" y="36" text-anchor="middle" class="vg-title" data-official-text-id="n09-diagnostic-algorithm-title">
+    <tspan x="443.5" dy="0">Dans quel ordre confirmer une IC</tspan>
+    <tspan x="443.5" dy="30.7">hors urgence ?</tspan>
+  </text>
+  <g data-layer="branches">
+    <path data-branch-id="br-entry-suspicion" d="M 428.36944600000004 221.2 L 428.36944600000004 276.2 L 428.36944600000004 276.2 L 428.36944600000004 331.2" fill="none" stroke="#9ca3af" stroke-width="2" marker-end="url(#vg-arrow-decision)"/>
+    <g data-branch-label="br-entry-suspicion">
+    <rect x="310.85479860000004" y="246.2" width="235.02929479999997" height="24" fill="#ffffff" opacity="0.92" rx="4"/>
+    <text x="428.36944600000004" y="266.59999999999997" text-anchor="middle" class="vg-branch" data-official-text-id="n09-diagnostic-algorithm-branch-br-entry-suspicion-label">
+      <tspan x="428.36944600000004" dy="0">Évaluer la probabilité clinique</tspan>
+    </text>
+    </g>
+    <path data-branch-id="br-suspicion-peptides" d="M 428.36944600000004 410.2 L 428.36944600000004 465.20000000000005 L 428.36944600000004 465.20000000000005 L 428.36944600000004 520.2" fill="none" stroke="#9ca3af" stroke-width="2" marker-end="url(#vg-arrow-decision)"/>
+    <g data-branch-label="br-suspicion-peptides">
+    <rect x="336.95285520000004" y="435.20000000000005" width="182.8331816" height="24" fill="#ffffff" opacity="0.92" rx="4"/>
+    <text x="428.36944600000004" y="455.6" text-anchor="middle" class="vg-branch" data-official-text-id="n09-diagnostic-algorithm-branch-br-suspicion-peptides-label">
+      <tspan x="428.36944600000004" dy="0">Parcours hors urgence</tspan>
+    </text>
+    </g>
+    <path data-branch-id="br-peptides-unlikely" d="M 428.36944600000004 575.2 L 428.36944600000004 611 L 280.86944600000004 611 L 280.86944600000004 685.2" fill="none" stroke="#9ca3af" stroke-width="2" marker-end="url(#vg-arrow-decision)"/>
+    <g data-branch-label="br-peptides-unlikely">
+    <rect x="238.00000000000003" y="599" width="85.738892" height="24" fill="#ffffff" opacity="0.92" rx="4"/>
+    <text x="280.86944600000004" y="619.4" text-anchor="middle" class="vg-branch" data-official-text-id="n09-diagnostic-algorithm-branch-br-peptides-unlikely-label">
+      <tspan x="280.86944600000004" dy="0">Seuils bas</tspan>
+    </text>
+    </g>
+    <g data-fragment="threshold-scale"><rect x="36" y="599" width="192" height="74" rx="6" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="46" y="623" class="vg-sub" data-official-text-id="n09-diagnostic-algorithm-frag-br-peptides-unlikely-1">hors urgence</text>
+    <text x="46" y="641" class="vg-sub" data-official-text-id="n09-diagnostic-algorithm-frag-br-peptides-unlikely-2">BNP &lt; 35 pg/mL</text>
+    <text x="46" y="659" class="vg-sub" data-official-text-id="n09-diagnostic-algorithm-frag-br-peptides-unlikely-3">NT-proBNP &lt; 125 pg/mL</text>
+    </g>
+    <path data-branch-id="br-peptides-echo" d="M 428.36944600000004 575.2 L 428.36944600000004 611 L 561.869446 611 L 561.869446 685.2" fill="none" stroke="#9ca3af" stroke-width="2" marker-end="url(#vg-arrow-decision)"/>
+    <g data-branch-label="br-peptides-echo">
+    <rect x="447.52781460000006" y="591" width="228.68326279999994" height="40" fill="#ffffff" opacity="0.92" rx="4"/>
+    <text x="561.869446" y="611.4" text-anchor="middle" class="vg-branch" data-official-text-id="n09-diagnostic-algorithm-branch-br-peptides-echo-label">
+      <tspan x="561.869446" dy="0">Valeurs au-dessus des seuils</tspan>
+      <tspan x="561.869446" dy="16">ou peptides indisponibles</tspan>
+    </text>
+    </g>
+    <path data-branch-id="br-suspicion-echo" d="M 590.869446 370.7 L 756.369446 370.7 L 756.369446 675.2 L 561.869446 675.2 L 561.869446 685.2" fill="none" stroke="#9ca3af" stroke-width="2" marker-end="url(#vg-arrow-decision)"/>
+    <g data-branch-label="br-suspicion-echo">
+    <rect x="662.0178154" y="510.95000000000005" width="188.70326119999996" height="24" fill="#ffffff" opacity="0.92" rx="4"/>
+    <text x="756.369446" y="531.35" text-anchor="middle" class="vg-branch" data-official-text-id="n09-diagnostic-algorithm-branch-br-suspicion-echo-label">
+      <tspan x="756.369446" dy="0">Suspicion clinique forte</tspan>
+    </text>
+    </g>
+    <path data-branch-id="br-echo-characterize" d="M 561.869446 740.2 L 561.869446 795.2 L 428.36944600000004 795.2 L 428.36944600000004 850.2" fill="none" stroke="#9ca3af" stroke-width="2" marker-end="url(#vg-arrow-decision)"/>
+    <g data-branch-label="br-echo-characterize">
+    <rect x="392.51797380000005" y="749.2" width="205.20294440000004" height="40" fill="#ffffff" opacity="0.92" rx="4"/>
+    <text x="495.11944600000004" y="769.6" text-anchor="middle" class="vg-branch" data-official-text-id="n09-diagnostic-algorithm-branch-br-echo-characterize-label">
+      <tspan x="495.11944600000004" dy="0">Objectiver et caractériser</tspan>
+      <tspan x="495.11944600000004" dy="16">l'anomalie cardiaque</tspan>
+    </text>
+    </g>
+  </g>
+  <g data-layer="nodes">
+    <g data-node-id="n09-entry" data-node-kind="entry">
+      <rect x="308.36944600000004" y="128.2" width="240" height="93" rx="15.4" fill="#f5f7fa" stroke="#2563eb" stroke-width="2"/>
+      <text x="428.36944600000004" y="152.46499999999997" text-anchor="middle" class="vg-label" data-official-text-id="n09-diagnostic-algorithm-node-n09-entry-label">
+        <tspan x="428.36944600000004" dy="0">Facteurs de risque +</tspan>
+        <tspan x="428.36944600000004" dy="19">symptômes ou signes</tspan>
+        <tspan x="428.36944600000004" dy="19">± ECG anormal</tspan>
+      </text>
+    </g>
+    <g data-node-id="n09-suspicion" data-node-kind="decision">
+      <polygon points="428.36944600000004,331.2 590.869446,370.7 428.36944600000004,410.2 265.86944600000004,370.7" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+      <text x="428.36944600000004" y="367.465" text-anchor="middle" class="vg-label" data-official-text-id="n09-diagnostic-algorithm-node-n09-suspicion-label">
+        <tspan x="428.36944600000004" dy="0">Suspicion clinique d'IC</tspan>
+      </text>
+    </g>
+    <g data-node-id="n09-peptides" data-node-kind="test">
+      <rect x="320.36944600000004" y="520.2" width="216" height="55" rx="15.4" fill="#f9fafb" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text x="428.36944600000004" y="544.465" text-anchor="middle" class="vg-label" data-official-text-id="n09-diagnostic-algorithm-node-n09-peptides-label">
+        <tspan x="428.36944600000004" dy="0">BNP ou NT-proBNP</tspan>
+      </text>
+    </g>
+    <g data-node-id="n09-unlikely" data-node-kind="dead-end">
+      <rect x="188.369446" y="685.2" width="185" height="55" rx="15.4" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="280.86944600000004" y="709.465" text-anchor="middle" class="vg-label" data-official-text-id="n09-diagnostic-algorithm-node-n09-unlikely-label">
+        <tspan x="280.86944600000004" dy="0">IC peu probable</tspan>
+      </text>
+    </g>
+    <g data-node-id="n09-echo" data-node-kind="test">
+      <rect x="455.36944600000004" y="685.2" width="213" height="55" rx="15.4" fill="#f9fafb" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text x="561.869446" y="709.465" text-anchor="middle" class="vg-label" data-official-text-id="n09-diagnostic-algorithm-node-n09-echo-label">
+        <tspan x="561.869446" dy="0">Échocardiographie</tspan>
+      </text>
+    </g>
+    <g data-node-id="n09-characterize" data-node-kind="conclusion">
+      <rect x="284.36944600000004" y="850.2" width="288" height="173" rx="15.4" fill="#f0f6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="428.36944600000004" y="885.965" text-anchor="middle" class="vg-label" data-official-text-id="n09-diagnostic-algorithm-node-n09-characterize-label">
+        <tspan x="428.36944600000004" dy="0">Caractériser l'IC</tspan>
+      </text>
+      <text x="304.86944600000004" y="908.965" class="vg-sub" data-official-text-id="n09-diagnostic-algorithm-node-n09-characterize-sub">
+          <tspan x="304.86944600000004" dy="0">• Phénotype selon la FE</tspan>
+          <tspan x="304.86944600000004" dy="21.9">• Cause</tspan>
+          <tspan x="304.86944600000004" dy="21.9">• Retentissement et gravité</tspan>
+          <tspan x="304.86944600000004" dy="21.9">• Examens</tspan>
+          <tspan x="304.86944600000004" dy="21.9">complémentaires si nécessaires</tspan>
+      </text>
+    </g>
+  </g>
+  <text x="36" y="1146" class="vg-ann" data-placement="out-of-flow" data-official-text-id="n09-diagnostic-algorithm-ann-ann-urgency">
+    <tspan x="36" dy="0">En urgence : ne pas retarder la prise en charge</tspan>
+  </text>
+</svg>

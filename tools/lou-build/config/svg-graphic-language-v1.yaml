@@ -1,0 +1,318 @@
+# SVG Graphic Language V1 — Theme officiel
+# Contrat : docs/contracts/components/SVG-GRAPHIC-LANGUAGE-V1.md
+# Architecture : docs/architecture/GRAPHICAL-ARCHITECTURE.md
+# Vocabulaire kind : docs/architecture/KIND-VOCABULARY-MIGRATION.md
+#
+# G3 — Structure Theme :
+#   • Sections Theme pures     : canvas, typography, colors, stroke, radius, dash,
+#                                opacity, connectors, spacing, node_kinds
+#   • families.* (theme_*)   : paramètres graphiques par famille (typo, surfaces)
+#   • families.* (layout_*)  : consommés par le loader moteur — cible G4 renderer
+#   • density                : seuils indicatifs Product Review (non layout)
+#
+# Le Theme ne porte pas : formes sémantiques (shape), hiérarchie perceptive,
+# patterns de composition — voir Visual Grammar v0.1.
+
+version: "1.0.0-draft"
+contract: SVG-GRAPHIC-LANGUAGE-V1
+
+# ── Surface ───────────────────────────────────────────────────────────────────
+
+canvas:
+  background: "#ffffff"
+
+# ── Typographie (paramètres mesurables) ───────────────────────────────────────
+
+typography:
+  font_stack: "Inter, system-ui, -apple-system, sans-serif"
+  title:
+    size_px: 18
+    weight: 600
+    line_height_px: 24
+    color: "#1d1d1f"
+  label:
+    size_px: 14
+    weight: 600
+    line_height_px: 19
+    color: "#1d1d1f"
+  sub:
+    size_px: 12
+    weight: 400
+    line_height_px: 17
+    color: "#1d1d1f"
+  annotation:
+    size_px: 12
+    weight: 400
+    line_height_px: 17
+    color: "#6b7280"
+  branch_label:
+    size_px: 12
+    weight: 400
+    line_height_px: 16
+    color: "#1d1d1f"
+  dimension_label:
+    size_px: 13
+    weight: 600
+    line_height_px: 16
+    color: "#6b7280"
+  pole_header:
+    size_px: 15
+    weight: 600
+    line_height_px: 20
+    color: "#1d1d1f"
+  cell:
+    size_px: 14
+    weight: 600
+    line_height_px: 19
+    color: "#1d1d1f"
+
+# ── Palette Theme (valeurs concrètes) ─────────────────────────────────────────
+
+colors:
+  accent: "#2563eb"
+  accent_muted: "#c7dbfb"
+  operational_fill: "#fffbeb"
+  operational_stroke: "#d97706"
+  text_primary: "#1d1d1f"
+  text_muted: "#6b7280"
+  connector: "#9ca3af"
+  divider: "#d1d5db"
+  rule: "#e5e5ea"
+  rule_light: "#e5e7eb"
+  surface_neutral: "#f5f7fa"
+  surface_muted: "#f9fafb"
+  surface_conclusion: "#f0f6ff"
+  surface_dead_end: "#f3f4f6"
+  branch_label_backdrop: "#ffffff"
+
+# ── Traits, rayons, opacités ──────────────────────────────────────────────────
+
+stroke:
+  connector_w1: 2.5
+  connector_decision: 2
+  connector_compare: 1.5
+  connector_compare_dashed: 1
+  node_primary: 2
+  node_secondary: 1.5
+  node_neutral: 1
+
+radius:
+  node_w1: 12
+  node_chain: 14
+  node_decision: 15.4
+  cell: 10
+  band: 8
+  pole_header: 12
+  branch_label: 4
+
+dash:
+  test_node: &dash_test "5 4"
+  dead_end_node: &dash_dead_end "4 3"
+  resume_node: &dash_resume "6 3"
+  compare_divider: "4 4"
+  compare_cell_link: "3 3"
+
+opacity:
+  branch_label_backdrop: 0.92
+  compare_center_divider: 0.6
+  compare_cell_link: 0.5
+
+# ── Connecteurs & markers ─────────────────────────────────────────────────────
+
+connectors:
+  arrow_solid:
+    marker_width: 7
+    marker_height: 7
+    ref_x: 7
+    ref_y: 3.5
+    fill: "#9ca3af"
+    path: "M0,0.5 L7,3.5 L0,6.5 Z"
+  arrow_compare_left:
+    marker_width: 6
+    marker_height: 6
+    ref_x: 0
+    ref_y: 3
+    fill: "#d1d5db"
+    path: "M6,0 L0,3 L6,6 Z"
+  arrow_compare_right:
+    marker_width: 6
+    marker_height: 6
+    ref_x: 6
+    ref_y: 3
+    fill: "#d1d5db"
+    path: "M0,0 L6,3 L0,6 Z"
+
+# ── Espacements (paramètres mesurables) ───────────────────────────────────────
+
+spacing:
+  margin_w1: 36
+  margin_two_pole: 24
+  margin_decision: 36
+  title_block_w1: 72
+  title_block_chain: 74
+  title_padding_top: 8
+  title_padding_bottom: 12
+  node_padding_x_w1: 16
+  node_padding_y_w1: 14
+  node_padding_x_chain: 18
+  node_padding_y_chain: 16
+  row_gap_w1: 56
+  row_gap_decision_layer: 72
+  cell_padding_x: 14
+  cell_padding_y: 12
+  band_padding_y: 8
+  band_inner_gap: 12
+  pole_header_gap: 16
+  compare_gutter: 20
+
+# ── node_kinds : paramètres graphiques par kind (sans forme sémantique) ───────
+# Formes (losange decision, etc.) → Visual Grammar v0.1 — appliquées par le loader.
+
+node_kinds:
+  # Visual Grammar v0.1
+  entry:
+    fill: "#f5f7fa"
+    stroke: "#2563eb"
+    stroke_width: 2
+  action:
+    fill: "#fffbeb"
+    stroke: "#d97706"
+    stroke_width: 2
+  test:
+    fill: "#f9fafb"
+    stroke: "#6b7280"
+    stroke_width: 1.5
+    dash: *dash_test
+  decision:
+    fill: "#ffffff"
+    stroke: "#2563eb"
+    stroke_width: 2
+  conclusion:
+    fill: "#f0f6ff"
+    stroke: "#2563eb"
+    stroke_width: 2
+  dead-end:
+    fill: "#f3f4f6"
+    stroke: "#9ca3af"
+    stroke_width: 1.5
+    dash: *dash_dead_end
+  # Extensions visualSpec v0.2 — entrées Theme dédiées (spec n22)
+  continuation:
+    fill: "#f9fafb"
+    stroke: "#6b7280"
+    stroke_width: 1.5
+    dash: *dash_test
+  human-review:
+    fill: "#fff7ed"
+    stroke: "#ea580c"
+    stroke_width: 2
+  resume:
+    fill: "#ecfdf5"
+    stroke: "#059669"
+    stroke_width: 2
+    dash: *dash_resume
+  # Chain / causal-graph
+  state:
+    fill: "#f5f7fa"
+    stroke: "#e5e7eb"
+    stroke_width: 1
+  event:
+    fill: "#ffffff"
+    stroke: "#2563eb"
+    stroke_width: 2.5
+  response:
+    fill: "#f0f6ff"
+    stroke: "#c7dbfb"
+    stroke_width: 1
+
+# ── Profils par famille ───────────────────────────────────────────────────────
+# theme_* : paramètres graphiques Theme
+# layout_* : consommés par svg-graphic-language.js → layouts moteur (G4 : renderer)
+
+families:
+
+  decision_algorithm:
+    theme_title:
+      size_px: 23
+      line_height_px: 30.7
+    theme_label:
+      size_px: 17.9
+    theme_sub:
+      size_px: 15.4
+    theme_branch_label:
+      size_px: 15.4
+    theme_corner_radius: 15.4
+    theme_fragment:
+      size_px: 14
+      line_height_px: 18
+      padding: 10
+      radius: 6
+    layout_node_min_width: 185
+    layout_node_max_width: 300
+    layout_layer_gap_y: 110
+    layout_branch_label_max_width: 235
+    layout_node_gap_x: 82
+    layout_min_bottom_margin: 31
+    layout_lateral_corridor_pad: 36
+
+  dependent_sequence:
+    theme_title:
+      size_px: 18
+      line_height_px: 24
+    theme_label:
+      size_px: 14
+      line_height_px: 19
+    theme_corner_radius: 12
+    layout_node_min_width: 140
+    layout_node_max_width: 260
+    layout_node_max_lines: 4
+    layout_row_gap: 72
+    layout_margin: 36
+    layout_title_block: 72
+    layout_title_max_lines: 4
+    layout_branch_label_max_width: 220
+
+  chain:
+    theme_title:
+      size_px: 19
+      line_height_px: 26
+    theme_label:
+      size_px: 15
+      line_height_px: 21
+    theme_corner_radius: 14
+    layout_node_min_width: 148
+    layout_node_max_width: 264
+    layout_node_max_lines: 3
+    layout_row_gap: 56
+    layout_margin: 40
+    layout_title_block: 74
+    layout_title_max_lines: 3
+
+  two_pole:
+    theme_title:
+      size_px: 18
+    theme_pole_primary:
+      fill: "#f0f6ff"
+      stroke: "#2563eb"
+    theme_pole_secondary:
+      fill: "#f5f7fa"
+      stroke: "#2563eb"
+    theme_band:
+      fill: "#f9fafb"
+      stroke: "#e5e5ea"
+    theme_cell:
+      fill: "#ffffff"
+      stroke: "#e5e5ea"
+    layout_canvas_width: 520
+    layout_pole_header_height: 52
+    layout_row_gap: 10
+
+# ── Seuils Product Review (indicatifs, non layout moteur) ────────────────────
+
+density:
+  max_label_lines_w1: 4
+  max_label_lines_chain: 3
+  max_title_lines: 4
+  max_items_per_list: 6
+  min_vertical_gap_px: 48
+  max_nodes_before_review: 8

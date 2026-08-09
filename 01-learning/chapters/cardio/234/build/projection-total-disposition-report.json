@@ -1,0 +1,4087 @@
+{
+  "mission": "TOTAL-DISPOSITION",
+  "phase": "TOTAL-DISPOSITION",
+  "generatedAt": "2026-08-09T20:19:12.864Z",
+  "authoritativeFactSource": "visualSpecClaimUnits",
+  "chapter": "01-learning/chapters/cardio/234",
+  "checkpoint": {
+    "verdict": "PASS",
+    "reason": "Limited gap categories extensible via visualSpecClaimUnits: question, subitem",
+    "gapCategories": [
+      "question",
+      "subitem"
+    ]
+  },
+  "auditMatrix": [
+    {
+      "familyId": "chain",
+      "factType": "annotation",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "branch",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "dimension",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "edge",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "DISCARDED",
+      "evidence": "families.json#chain.fact_dispositions.edge → discardReason:NON_LEARNER_VISIBLE",
+      "declared": {
+        "disposition": "DISCARDED",
+        "discardReason": "NON_LEARNER_VISIBLE"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "matrix-cell",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "node",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#chain.fact_dispositions.node",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "chain",
+      "factType": "pole",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "question",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#chain.fact_dispositions.question",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "chain",
+      "factType": "relation-label",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "subitem",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "threshold-fragment-context",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "threshold-fragment-interpretation",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "threshold-fragment-low-band-meaning",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "chain",
+      "factType": "threshold-fragment-scale-line",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "annotation",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#dependent-sequence.fact_dispositions.annotation",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "branch",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#dependent-sequence.fact_dispositions.branch",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "dimension",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "edge",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "DISCARDED",
+      "evidence": "families.json#dependent-sequence.fact_dispositions.edge → discardReason:NON_LEARNER_VISIBLE",
+      "declared": {
+        "disposition": "DISCARDED",
+        "discardReason": "NON_LEARNER_VISIBLE"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "matrix-cell",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "node",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#dependent-sequence.fact_dispositions.node",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "pole",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "question",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#dependent-sequence.fact_dispositions.question",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "relation-label",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "subitem",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#dependent-sequence.fact_dispositions.subitem",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "threshold-fragment-context",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "threshold-fragment-interpretation",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "threshold-fragment-low-band-meaning",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "dependent-sequence",
+      "factType": "threshold-fragment-scale-line",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "annotation",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#skip-level-branch.fact_dispositions.annotation",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "branch",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#skip-level-branch.fact_dispositions.branch",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "dimension",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "edge",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "DISCARDED",
+      "evidence": "families.json#skip-level-branch.fact_dispositions.edge → discardReason:NON_LEARNER_VISIBLE",
+      "declared": {
+        "disposition": "DISCARDED",
+        "discardReason": "NON_LEARNER_VISIBLE"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "matrix-cell",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "node",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#skip-level-branch.fact_dispositions.node",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "pole",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "question",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#skip-level-branch.fact_dispositions.question",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "relation-label",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "subitem",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#skip-level-branch.fact_dispositions.subitem",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "threshold-fragment-context",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "threshold-fragment-interpretation",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "threshold-fragment-low-band-meaning",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "skip-level-branch",
+      "factType": "threshold-fragment-scale-line",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "annotation",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.annotation",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "branch",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.branch",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "dimension",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "edge",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "DISCARDED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.edge → discardReason:NON_LEARNER_VISIBLE",
+      "declared": {
+        "disposition": "DISCARDED",
+        "discardReason": "NON_LEARNER_VISIBLE"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "matrix-cell",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "node",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.node",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "pole",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "question",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.question",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "relation-label",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "subitem",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.subitem",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "threshold-fragment-context",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.threshold-fragment-context",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "threshold-fragment-interpretation",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "DISCARDED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.threshold-fragment-interpretation → discardReason:OUT_OF_SCOPE_FOR_CAPABILITY",
+      "declared": {
+        "disposition": "DISCARDED",
+        "discardReason": "OUT_OF_SCOPE_FOR_CAPABILITY"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "threshold-fragment-low-band-meaning",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "DERIVED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.threshold-fragment-low-band-meaning → derivedFrom:node",
+      "declared": {
+        "disposition": "DERIVED",
+        "derivedFrom": "node"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "embedded-fragment",
+      "factType": "threshold-fragment-scale-line",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#embedded-fragment.fact_dispositions.threshold-fragment-scale-line",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "annotation",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "branch",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "dimension",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#two-pole.fact_dispositions.dimension",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "edge",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "matrix-cell",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#two-pole.fact_dispositions.matrix-cell",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "node",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "pole",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#two-pole.fact_dispositions.pole",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "question",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#two-pole.fact_dispositions.question",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "relation-label",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "DISCARDED",
+      "evidence": "families.json#two-pole.fact_dispositions.relation-label → discardReason:NON_LEARNER_VISIBLE",
+      "declared": {
+        "disposition": "DISCARDED",
+        "discardReason": "NON_LEARNER_VISIBLE"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "subitem",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "threshold-fragment-context",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "threshold-fragment-interpretation",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "threshold-fragment-low-band-meaning",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "two-pole",
+      "factType": "threshold-fragment-scale-line",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "annotation",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "branch",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "dimension",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "edge",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "matrix-cell",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#flat-concurrent.fact_dispositions.matrix-cell",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "node",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "pole",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "question",
+      "currentBehavior": "explicitly declared",
+      "currentInferredDisposition": "MATERIALIZED",
+      "evidence": "families.json#flat-concurrent.fact_dispositions.question",
+      "declared": {
+        "disposition": "MATERIALIZED"
+      },
+      "inConsumes": true
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "relation-label",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "subitem",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "threshold-fragment-context",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "threshold-fragment-interpretation",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "threshold-fragment-low-band-meaning",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    },
+    {
+      "familyId": "flat-concurrent",
+      "factType": "threshold-fragment-scale-line",
+      "currentBehavior": "not declared",
+      "currentInferredDisposition": "UNKNOWN",
+      "evidence": "no fact_dispositions entry; not in consumes",
+      "declared": null,
+      "inConsumes": false
+    }
+  ],
+  "corpus": {
+    "figureCount": 6,
+    "totalFacts": 53,
+    "exactlyOnce": 44,
+    "missing": 7,
+    "duplicated": 2,
+    "orphan": 9,
+    "dispositionMismatches": 9,
+    "dispositions": {
+      "materialized": 45,
+      "derived": 1,
+      "discarded": 0,
+      "unknown": 7
+    },
+    "totalDispositionMetrics": {
+      "materialized": 45,
+      "derived": 1,
+      "discarded": 0,
+      "unknown": 7,
+      "mismatches": 9,
+      "duplicated": 2,
+      "missing": 7,
+      "orphan": 9,
+      "undeclared": 0,
+      "byFamily": {
+        "skip-level-branch": {
+          "facts": 21,
+          "mismatches": 5,
+          "declaredDiscarded": 1,
+          "declaredTotal": 6,
+          "discardRate": 0.16666666666666666
+        },
+        "embedded-fragment": {
+          "facts": 21,
+          "mismatches": 5,
+          "declaredDiscarded": 2,
+          "declaredTotal": 10,
+          "discardRate": 0.2
+        },
+        "dependent-sequence": {
+          "facts": 15,
+          "mismatches": 2,
+          "declaredDiscarded": 1,
+          "declaredTotal": 6,
+          "discardRate": 0.16666666666666666
+        },
+        "two-pole": {
+          "facts": 12,
+          "mismatches": 1,
+          "declaredDiscarded": 1,
+          "declaredTotal": 5,
+          "discardRate": 0.2
+        },
+        "chain": {
+          "facts": 5,
+          "mismatches": 1,
+          "declaredDiscarded": 1,
+          "declaredTotal": 3,
+          "discardRate": 0.3333333333333333
+        }
+      }
+    },
+    "byType": {
+      "node": {
+        "total": 19,
+        "exactlyOnce": 18,
+        "missing": 1,
+        "duplicated": 0,
+        "materialized": 18,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "subitem": {
+        "total": 4,
+        "exactlyOnce": 3,
+        "missing": 1,
+        "duplicated": 0,
+        "materialized": 3,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "branch": {
+        "total": 12,
+        "exactlyOnce": 8,
+        "missing": 4,
+        "duplicated": 0,
+        "materialized": 8,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 4
+      },
+      "threshold-fragment-context": {
+        "total": 1,
+        "exactlyOnce": 0,
+        "missing": 0,
+        "duplicated": 1,
+        "materialized": 1,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "threshold-fragment-low-band-meaning": {
+        "total": 1,
+        "exactlyOnce": 1,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 0,
+        "derived": 1,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "threshold-fragment-scale-line": {
+        "total": 2,
+        "exactlyOnce": 2,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "annotation": {
+        "total": 1,
+        "exactlyOnce": 1,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 1,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "question": {
+        "total": 2,
+        "exactlyOnce": 1,
+        "missing": 1,
+        "duplicated": 0,
+        "materialized": 1,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "pole": {
+        "total": 2,
+        "exactlyOnce": 1,
+        "missing": 0,
+        "duplicated": 1,
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "dimension": {
+        "total": 3,
+        "exactlyOnce": 3,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 3,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "matrix-cell": {
+        "total": 6,
+        "exactlyOnce": 6,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 6,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      }
+    },
+    "figures": [
+      {
+        "figureId": "N09",
+        "element": "N09-diagnostic-algorithm",
+        "familyIds": [
+          "skip-level-branch",
+          "embedded-fragment"
+        ],
+        "summary": {
+          "totalFacts": 21,
+          "exactlyOnce": 16,
+          "missing": 4,
+          "duplicated": 1,
+          "orphanMarks": 3,
+          "dispositionMismatches": 5,
+          "undeclaredFactTypes": 0,
+          "materialized": 16,
+          "derived": 1,
+          "discarded": 0,
+          "unknown": 4
+        },
+        "dispositions": {
+          "materialized": 16,
+          "derived": 1,
+          "discarded": 0,
+          "unknown": 4
+        },
+        "totalDisposition": {
+          "summary": {
+            "totalFacts": 21,
+            "declared": 21,
+            "undeclared": 0,
+            "conformant": 16,
+            "mismatched": 5,
+            "discardRate": 0.2,
+            "declaredDiscarded": 2
+          },
+          "mismatchCount": 5
+        }
+      },
+      {
+        "figureId": "N13-2",
+        "element": "N13-2-oap-actions",
+        "familyIds": [
+          "dependent-sequence"
+        ],
+        "summary": {
+          "totalFacts": 3,
+          "exactlyOnce": 2,
+          "missing": 1,
+          "duplicated": 0,
+          "orphanMarks": 2,
+          "dispositionMismatches": 1,
+          "undeclaredFactTypes": 0,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "dispositions": {
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "totalDisposition": {
+          "summary": {
+            "totalFacts": 3,
+            "declared": 3,
+            "undeclared": 0,
+            "conformant": 2,
+            "mismatched": 1,
+            "discardRate": 0.16666666666666666,
+            "declaredDiscarded": 1
+          },
+          "mismatchCount": 1
+        }
+      },
+      {
+        "figureId": "N15-1",
+        "element": "N15-1-shock-support",
+        "familyIds": [
+          "dependent-sequence"
+        ],
+        "summary": {
+          "totalFacts": 5,
+          "exactlyOnce": 4,
+          "missing": 1,
+          "duplicated": 0,
+          "orphanMarks": 2,
+          "dispositionMismatches": 1,
+          "undeclaredFactTypes": 0,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "dispositions": {
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "totalDisposition": {
+          "summary": {
+            "totalFacts": 5,
+            "declared": 5,
+            "undeclared": 0,
+            "conformant": 4,
+            "mismatched": 1,
+            "discardRate": 0.16666666666666666,
+            "declaredDiscarded": 1
+          },
+          "mismatchCount": 1
+        }
+      },
+      {
+        "figureId": "N18-1",
+        "element": "N18-1-treatment-sequence",
+        "familyIds": [
+          "dependent-sequence"
+        ],
+        "summary": {
+          "totalFacts": 7,
+          "exactlyOnce": 7,
+          "missing": 0,
+          "duplicated": 0,
+          "orphanMarks": 1,
+          "dispositionMismatches": 0,
+          "undeclaredFactTypes": 0,
+          "materialized": 7,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "dispositions": {
+          "materialized": 7,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "totalDisposition": {
+          "summary": {
+            "totalFacts": 7,
+            "declared": 7,
+            "undeclared": 0,
+            "conformant": 7,
+            "mismatched": 0,
+            "discardRate": 0.16666666666666666,
+            "declaredDiscarded": 1
+          },
+          "mismatchCount": 0
+        }
+      },
+      {
+        "figureId": "N20-1",
+        "element": "N20-1-crt-dai-comparison",
+        "familyIds": [
+          "two-pole"
+        ],
+        "summary": {
+          "totalFacts": 12,
+          "exactlyOnce": 11,
+          "missing": 0,
+          "duplicated": 1,
+          "orphanMarks": 0,
+          "dispositionMismatches": 1,
+          "undeclaredFactTypes": 0,
+          "materialized": 12,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "dispositions": {
+          "materialized": 12,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "totalDisposition": {
+          "summary": {
+            "totalFacts": 12,
+            "declared": 12,
+            "undeclared": 0,
+            "conformant": 11,
+            "mismatched": 1,
+            "discardRate": 0.2,
+            "declaredDiscarded": 1
+          },
+          "mismatchCount": 1
+        }
+      },
+      {
+        "figureId": "N21-1",
+        "element": "N21-1-natural-history",
+        "familyIds": [
+          "chain"
+        ],
+        "summary": {
+          "totalFacts": 5,
+          "exactlyOnce": 4,
+          "missing": 1,
+          "duplicated": 0,
+          "orphanMarks": 1,
+          "dispositionMismatches": 1,
+          "undeclaredFactTypes": 0,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "dispositions": {
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "totalDisposition": {
+          "summary": {
+            "totalFacts": 5,
+            "declared": 5,
+            "undeclared": 0,
+            "conformant": 4,
+            "mismatched": 1,
+            "discardRate": 0.3333333333333333,
+            "declaredDiscarded": 1
+          },
+          "mismatchCount": 1
+        }
+      }
+    ]
+  },
+  "figures": [
+    {
+      "figureId": "N09",
+      "element": "N09-diagnostic-algorithm",
+      "primitive": "decision-algorithm",
+      "familyIds": [
+        "skip-level-branch",
+        "embedded-fragment"
+      ],
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 21,
+        "exactlyOnce": 16,
+        "missing": 4,
+        "duplicated": 1,
+        "orphanMarks": 3,
+        "dispositionMismatches": 5,
+        "undeclaredFactTypes": 0,
+        "materialized": 16,
+        "derived": 1,
+        "discarded": 0,
+        "unknown": 4
+      },
+      "dispositions": {
+        "materialized": 16,
+        "derived": 1,
+        "discarded": 0,
+        "unknown": 4
+      },
+      "totalDisposition": {
+        "familyIds": [
+          "skip-level-branch",
+          "embedded-fragment"
+        ],
+        "declaredFactTypes": [
+          "question",
+          "node",
+          "subitem",
+          "branch",
+          "annotation",
+          "edge",
+          "threshold-fragment-context",
+          "threshold-fragment-scale-line",
+          "threshold-fragment-low-band-meaning",
+          "threshold-fragment-interpretation"
+        ],
+        "summary": {
+          "totalFacts": 21,
+          "declared": 21,
+          "undeclared": 0,
+          "conformant": 16,
+          "mismatched": 5,
+          "discardRate": 0.2,
+          "declaredDiscarded": 2
+        },
+        "comparisons": [
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-entry",
+            "factType": "node",
+            "ref": "n09-entry",
+            "text": "Facteurs de risque + symptômes ou signes ± ECG anormal",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-suspicion",
+            "factType": "node",
+            "ref": "n09-suspicion",
+            "text": "Suspicion clinique d'IC",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-peptides",
+            "factType": "node",
+            "ref": "n09-peptides",
+            "text": "BNP ou NT-proBNP",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-unlikely",
+            "factType": "node",
+            "ref": "n09-unlikely",
+            "text": "IC peu probable",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-echo",
+            "factType": "node",
+            "ref": "n09-echo",
+            "text": "Échocardiographie",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-characterize",
+            "factType": "node",
+            "ref": "n09-characterize",
+            "text": "Caractériser l'IC",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-phenotype",
+            "factType": "subitem",
+            "ref": "n09-characterize/char-phenotype",
+            "text": "Phénotype selon la FE",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "subitem",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-cause",
+            "factType": "subitem",
+            "ref": "n09-characterize/char-cause",
+            "text": "Cause",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "subitem",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-severity",
+            "factType": "subitem",
+            "ref": "n09-characterize/char-severity",
+            "text": "Retentissement et gravité",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "subitem",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-exams",
+            "factType": "subitem",
+            "ref": "n09-characterize/char-exams",
+            "text": "Examens complémentaires si nécessaires",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "subitem",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-entry-suspicion",
+            "factType": "branch",
+            "ref": "n09-entry->n09-suspicion",
+            "text": "Évaluer la probabilité clinique",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-peptides",
+            "factType": "branch",
+            "ref": "n09-suspicion->n09-peptides",
+            "text": "Parcours hors urgence",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-unlikely",
+            "factType": "branch",
+            "ref": "n09-peptides->n09-unlikely",
+            "text": "Seuils bas",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+            "factType": "threshold-fragment-context",
+            "ref": "br-peptides-unlikely/context",
+            "text": "hors urgence",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [
+              "MATERIALIZED_BUT_DUPLICATED"
+            ],
+            "declared": {
+              "factType": "threshold-fragment-context",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "duplicated"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-lbm-br-peptides-unlikely",
+            "factType": "threshold-fragment-low-band-meaning",
+            "ref": "br-peptides-unlikely/low_band_meaning",
+            "text": "IC peu probable",
+            "conformant": true,
+            "declaredDisposition": "DERIVED",
+            "observedDisposition": "DERIVED",
+            "mismatches": [],
+            "declared": {
+              "factType": "threshold-fragment-low-band-meaning",
+              "disposition": "DERIVED",
+              "derivedFrom": "node",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-bnp",
+            "factType": "threshold-fragment-scale-line",
+            "ref": "frag-bnp",
+            "text": "BNP < 35 pg/mL",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "threshold-fragment-scale-line",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-ntprobnp",
+            "factType": "threshold-fragment-scale-line",
+            "ref": "frag-ntprobnp",
+            "text": "NT-proBNP < 125 pg/mL",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "threshold-fragment-scale-line",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-echo",
+            "factType": "branch",
+            "ref": "n09-peptides->n09-echo",
+            "text": "Valeurs au-dessus des seuils ou peptides indisponibles",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-echo",
+            "factType": "branch",
+            "ref": "n09-suspicion->n09-echo",
+            "text": "Suspicion clinique forte",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-echo-characterize",
+            "factType": "branch",
+            "ref": "n09-echo->n09-characterize",
+            "text": "Objectiver et caractériser l'anomalie cardiaque",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-ann-ann-urgency",
+            "factType": "annotation",
+            "ref": "ann-urgency",
+            "text": "En urgence : ne pas retarder la prise en charge",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "annotation",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "exactly-once"
+          }
+        ],
+        "mismatches": [
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-entry",
+            "factType": "node",
+            "ref": "n09-entry",
+            "text": "Facteurs de risque + symptômes ou signes ± ECG anormal",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-exams",
+            "factType": "subitem",
+            "ref": "n09-characterize/char-exams",
+            "text": "Examens complémentaires si nécessaires",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "subitem",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+            "factType": "threshold-fragment-context",
+            "ref": "br-peptides-unlikely/context",
+            "text": "hors urgence",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [
+              "MATERIALIZED_BUT_DUPLICATED"
+            ],
+            "declared": {
+              "factType": "threshold-fragment-context",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "duplicated"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-echo",
+            "factType": "branch",
+            "ref": "n09-peptides->n09-echo",
+            "text": "Valeurs au-dessus des seuils ou peptides indisponibles",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-echo-characterize",
+            "factType": "branch",
+            "ref": "n09-echo->n09-characterize",
+            "text": "Objectiver et caractériser l'anomalie cardiaque",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "embedded-fragment"
+            },
+            "multiplicity": "missing"
+          }
+        ]
+      },
+      "byType": {
+        "node": {
+          "total": 6,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 5,
+          "materialized": 5,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "subitem": {
+          "total": 4,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "branch": {
+          "total": 6,
+          "missing": 2,
+          "duplicated": 0,
+          "exactlyOnce": 4,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 2
+        },
+        "threshold-fragment-context": {
+          "total": 1,
+          "missing": 0,
+          "duplicated": 1,
+          "exactlyOnce": 0,
+          "materialized": 1,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "threshold-fragment-low-band-meaning": {
+          "total": 1,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 1,
+          "materialized": 0,
+          "derived": 1,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "threshold-fragment-scale-line": {
+          "total": 2,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 2,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "annotation": {
+          "total": 1,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 1,
+          "materialized": 1,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      "violations": {
+        "missing": [
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-entry",
+            "type": "node",
+            "text": "Facteurs de risque + symptômes ou signes ± ECG anormal",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-exams",
+            "type": "subitem",
+            "text": "Examens complémentaires si nécessaires",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-echo",
+            "type": "branch",
+            "text": "Valeurs au-dessus des seuils ou peptides indisponibles",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-echo-characterize",
+            "type": "branch",
+            "text": "Objectiver et caractériser l'anomalie cardiaque",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          }
+        ],
+        "duplicated": [
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+            "type": "threshold-fragment-context",
+            "text": "hors urgence",
+            "occurrenceCount": 3,
+            "disposition": "MATERIALIZED",
+            "justification": "fragment callout context line",
+            "evidence": {
+              "role": "fragment callout context line",
+              "locations": [
+                "title",
+                "branch:br-suspicion-peptides",
+                "fragment:br-peptides-unlikely"
+              ]
+            }
+          }
+        ],
+        "orphans": [
+          {
+            "text": "Valeurs au-dessus des seuilsou peptides indisponibles",
+            "officialTextId": "n09-diagnostic-algorithm-branch-br-peptides-echo-label"
+          },
+          {
+            "text": "Objectiver et caractériserl'anomalie cardiaque",
+            "officialTextId": "n09-diagnostic-algorithm-branch-br-echo-characterize-label"
+          },
+          {
+            "text": "Facteurs de risque +symptômes ou signes± ECG anormal",
+            "officialTextId": "n09-diagnostic-algorithm-node-n09-entry-label"
+          }
+        ],
+        "dispositionMismatches": [
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-entry",
+            "factType": "node",
+            "ref": "n09-entry",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-exams",
+            "factType": "subitem",
+            "ref": "n09-characterize/char-exams",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+            "factType": "threshold-fragment-context",
+            "ref": "br-peptides-unlikely/context",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [
+              "MATERIALIZED_BUT_DUPLICATED"
+            ],
+            "multiplicity": "duplicated"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-echo",
+            "factType": "branch",
+            "ref": "n09-peptides->n09-echo",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-echo-characterize",
+            "factType": "branch",
+            "ref": "n09-echo->n09-characterize",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "multiplicity": "missing"
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-entry",
+          "unit": "node",
+          "type": "node",
+          "text": "Facteurs de risque + symptômes ou signes ± ECG anormal",
+          "ref": "n09-entry",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "node label",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-suspicion",
+          "unit": "node",
+          "type": "node",
+          "text": "Suspicion clinique d'IC",
+          "ref": "n09-suspicion",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-suspicion",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-peptides",
+          "unit": "node",
+          "type": "node",
+          "text": "BNP ou NT-proBNP",
+          "ref": "n09-peptides",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-peptides",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-unlikely",
+          "unit": "node",
+          "type": "node",
+          "text": "IC peu probable",
+          "ref": "n09-unlikely",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-unlikely",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-echo",
+          "unit": "node",
+          "type": "node",
+          "text": "Échocardiographie",
+          "ref": "n09-echo",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-echo",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-characterize",
+          "unit": "node",
+          "type": "node",
+          "text": "Caractériser l'IC",
+          "ref": "n09-characterize",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-characterize",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-phenotype",
+          "unit": "subitem",
+          "type": "subitem",
+          "text": "Phénotype selon la FE",
+          "ref": "n09-characterize/char-phenotype",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node subitem (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-phenotype",
+          "evidence": {
+            "role": "node subitem",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-cause",
+          "unit": "subitem",
+          "type": "subitem",
+          "text": "Cause",
+          "ref": "n09-characterize/char-cause",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node subitem (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-cause",
+          "evidence": {
+            "role": "node subitem",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-severity",
+          "unit": "subitem",
+          "type": "subitem",
+          "text": "Retentissement et gravité",
+          "ref": "n09-characterize/char-severity",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node subitem (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-severity",
+          "evidence": {
+            "role": "node subitem",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-exams",
+          "unit": "subitem",
+          "type": "subitem",
+          "text": "Examens complémentaires si nécessaires",
+          "ref": "n09-characterize/char-exams",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "node subitem",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-entry-suspicion",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Évaluer la probabilité clinique",
+          "ref": "n09-entry->n09-suspicion",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-branch-br-entry-suspicion",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-entry-suspicion"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-peptides",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Parcours hors urgence",
+          "ref": "n09-suspicion->n09-peptides",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-peptides",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-suspicion-peptides",
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-unlikely",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Seuils bas",
+          "ref": "n09-peptides->n09-unlikely",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-unlikely",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+          "unit": "threshold-fragment-context",
+          "type": "threshold-fragment-context",
+          "text": "hors urgence",
+          "ref": "br-peptides-unlikely/context",
+          "occurrenceCount": 3,
+          "status": "duplicated",
+          "linkedMarkCount": 3,
+          "disposition": "MATERIALIZED",
+          "justification": "fragment callout context line",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+          "evidence": {
+            "role": "fragment callout context line",
+            "locations": [
+              "title",
+              "branch:br-suspicion-peptides",
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-lbm-br-peptides-unlikely",
+          "unit": "threshold-fragment-low-band-meaning",
+          "type": "threshold-fragment-low-band-meaning",
+          "text": "IC peu probable",
+          "ref": "br-peptides-unlikely/low_band_meaning",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "DERIVED",
+          "justification": "represented by node n09-unlikely",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-unlikely",
+          "evidence": {
+            "role": "fragment low_band_meaning field",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ],
+            "derivedFrom": "n09-unlikely"
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-bnp",
+          "unit": "threshold-fragment-scale-line",
+          "type": "threshold-fragment-scale-line",
+          "text": "BNP < 35 pg/mL",
+          "ref": "frag-bnp",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "fragment callout scale line",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-bnp",
+          "evidence": {
+            "role": "fragment callout scale line",
+            "locations": [
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-ntprobnp",
+          "unit": "threshold-fragment-scale-line",
+          "type": "threshold-fragment-scale-line",
+          "text": "NT-proBNP < 125 pg/mL",
+          "ref": "frag-ntprobnp",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "fragment callout scale line",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-ntprobnp",
+          "evidence": {
+            "role": "fragment callout scale line",
+            "locations": [
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-echo",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Valeurs au-dessus des seuils ou peptides indisponibles",
+          "ref": "n09-peptides->n09-echo",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-echo",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Suspicion clinique forte",
+          "ref": "n09-suspicion->n09-echo",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-echo",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "fragment:br-suspicion-echo"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-echo-characterize",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Objectiver et caractériser l'anomalie cardiaque",
+          "ref": "n09-echo->n09-characterize",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-ann-ann-urgency",
+          "unit": "annotation",
+          "type": "annotation",
+          "text": "En urgence : ne pas retarder la prise en charge",
+          "ref": "ann-urgency",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "annotation (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-ann-ann-urgency",
+          "evidence": {
+            "role": "annotation",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N13-2",
+      "element": "N13-2-oap-actions",
+      "primitive": "decision-algorithm",
+      "familyIds": [
+        "dependent-sequence"
+      ],
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 3,
+        "exactlyOnce": 2,
+        "missing": 1,
+        "duplicated": 0,
+        "orphanMarks": 2,
+        "dispositionMismatches": 1,
+        "undeclaredFactTypes": 0,
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "dispositions": {
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "totalDisposition": {
+        "familyIds": [
+          "dependent-sequence"
+        ],
+        "declaredFactTypes": [
+          "question",
+          "node",
+          "subitem",
+          "branch",
+          "annotation",
+          "edge"
+        ],
+        "summary": {
+          "totalFacts": 3,
+          "declared": 3,
+          "undeclared": 0,
+          "conformant": 2,
+          "mismatched": 1,
+          "discardRate": 0.16666666666666666,
+          "declaredDiscarded": 1
+        },
+        "comparisons": [
+          {
+            "id": "cb-vis-n13-2-oap-actions-node-n13-domicile",
+            "factType": "node",
+            "ref": "n13-domicile",
+            "text": "Position assise, furosémide IV 1 mg/kg, nitrés si HTA",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n13-2-oap-actions-node-n13-hopital",
+            "factType": "node",
+            "ref": "n13-hopital",
+            "text": "O2 SaO2 > 90 %, furosémide IV, nitrés si HTA",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n13-2-oap-actions-branch-br-domicile-hopital",
+            "factType": "branch",
+            "ref": "n13-domicile->n13-hopital",
+            "text": "SAMU / hospitalisation",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "missing"
+          }
+        ],
+        "mismatches": [
+          {
+            "id": "cb-vis-n13-2-oap-actions-branch-br-domicile-hopital",
+            "factType": "branch",
+            "ref": "n13-domicile->n13-hopital",
+            "text": "SAMU / hospitalisation",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "missing"
+          }
+        ]
+      },
+      "byType": {
+        "node": {
+          "total": 2,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 2,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "branch": {
+          "total": 1,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 0,
+          "materialized": 0,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        }
+      },
+      "violations": {
+        "missing": [
+          {
+            "id": "cb-vis-n13-2-oap-actions-branch-br-domicile-hopital",
+            "type": "branch",
+            "text": "SAMU / hospitalisation",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          }
+        ],
+        "duplicated": [],
+        "orphans": [
+          {
+            "text": "Quelles actions ordonner dudomicile à l'hôpital ?",
+            "officialTextId": null
+          },
+          {
+            "text": "SAMU /hospitalisation",
+            "officialTextId": null
+          }
+        ],
+        "dispositionMismatches": [
+          {
+            "id": "cb-vis-n13-2-oap-actions-branch-br-domicile-hopital",
+            "factType": "branch",
+            "ref": "n13-domicile->n13-hopital",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "multiplicity": "missing"
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n13-2-oap-actions-node-n13-domicile",
+          "unit": "node",
+          "type": "node",
+          "text": "Position assise, furosémide IV 1 mg/kg, nitrés si HTA",
+          "ref": "n13-domicile",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 3,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n13-2-oap-actions-node-n13-domicile",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-domicile-hopital"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n13-2-oap-actions-node-n13-hopital",
+          "unit": "node",
+          "type": "node",
+          "text": "O2 SaO2 > 90 %, furosémide IV, nitrés si HTA",
+          "ref": "n13-hopital",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n13-2-oap-actions-node-n13-hopital",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-domicile-hopital"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n13-2-oap-actions-branch-br-domicile-hopital",
+          "unit": "branch",
+          "type": "branch",
+          "text": "SAMU / hospitalisation",
+          "ref": "n13-domicile->n13-hopital",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N15-1",
+      "element": "N15-1-shock-support",
+      "primitive": "decision-algorithm",
+      "familyIds": [
+        "dependent-sequence"
+      ],
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 5,
+        "exactlyOnce": 4,
+        "missing": 1,
+        "duplicated": 0,
+        "orphanMarks": 2,
+        "dispositionMismatches": 1,
+        "undeclaredFactTypes": 0,
+        "materialized": 4,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "dispositions": {
+        "materialized": 4,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "totalDisposition": {
+        "familyIds": [
+          "dependent-sequence"
+        ],
+        "declaredFactTypes": [
+          "question",
+          "node",
+          "subitem",
+          "branch",
+          "annotation",
+          "edge"
+        ],
+        "summary": {
+          "totalFacts": 5,
+          "declared": 5,
+          "undeclared": 0,
+          "conformant": 4,
+          "mismatched": 1,
+          "discardRate": 0.16666666666666666,
+          "declaredDiscarded": 1
+        },
+        "comparisons": [
+          {
+            "id": "cb-vis-n15-1-shock-support-node-n15-recognize",
+            "factType": "node",
+            "ref": "n15-recognize",
+            "text": "Hypoperfusion : PAS < 90 ou chute > 30 mmHg",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n15-1-shock-support-node-n15-inotrope",
+            "factType": "node",
+            "ref": "n15-inotrope",
+            "text": "Dobutamine IV ou inhibiteur phosphodiestérases",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n15-1-shock-support-node-n15-assist",
+            "factType": "node",
+            "ref": "n15-assist",
+            "text": "Assistance circulatoire si échec",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n15-1-shock-support-branch-br-recognize-inotrope",
+            "factType": "branch",
+            "ref": "n15-recognize->n15-inotrope",
+            "text": "Reconnaître le choc cardiogénique",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n15-1-shock-support-branch-br-inotrope-assist",
+            "factType": "branch",
+            "ref": "n15-inotrope->n15-assist",
+            "text": "Escalade de support hémodynamique",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "missing"
+          }
+        ],
+        "mismatches": [
+          {
+            "id": "cb-vis-n15-1-shock-support-branch-br-inotrope-assist",
+            "factType": "branch",
+            "ref": "n15-inotrope->n15-assist",
+            "text": "Escalade de support hémodynamique",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "missing"
+          }
+        ]
+      },
+      "byType": {
+        "node": {
+          "total": 3,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "branch": {
+          "total": 2,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 1,
+          "materialized": 1,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        }
+      },
+      "violations": {
+        "missing": [
+          {
+            "id": "cb-vis-n15-1-shock-support-branch-br-inotrope-assist",
+            "type": "branch",
+            "text": "Escalade de support hémodynamique",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          }
+        ],
+        "duplicated": [],
+        "orphans": [
+          {
+            "text": "Comment reconnaître etprendre en charge unchoc cardiogénique ?",
+            "officialTextId": null
+          },
+          {
+            "text": "Escaladede support hémodynamique",
+            "officialTextId": null
+          }
+        ],
+        "dispositionMismatches": [
+          {
+            "id": "cb-vis-n15-1-shock-support-branch-br-inotrope-assist",
+            "factType": "branch",
+            "ref": "n15-inotrope->n15-assist",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "multiplicity": "missing"
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n15-1-shock-support-node-n15-recognize",
+          "unit": "node",
+          "type": "node",
+          "text": "Hypoperfusion : PAS < 90 ou chute > 30 mmHg",
+          "ref": "n15-recognize",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n15-1-shock-support-node-n15-recognize",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-inotrope-assist"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n15-1-shock-support-node-n15-inotrope",
+          "unit": "node",
+          "type": "node",
+          "text": "Dobutamine IV ou inhibiteur phosphodiestérases",
+          "ref": "n15-inotrope",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n15-1-shock-support-node-n15-inotrope",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-inotrope-assist"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n15-1-shock-support-node-n15-assist",
+          "unit": "node",
+          "type": "node",
+          "text": "Assistance circulatoire si échec",
+          "ref": "n15-assist",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n15-1-shock-support-node-n15-assist",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-inotrope-assist"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n15-1-shock-support-branch-br-recognize-inotrope",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Reconnaître le choc cardiogénique",
+          "ref": "n15-recognize->n15-inotrope",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n15-1-shock-support-branch-br-recognize-inotrope",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-recognize-inotrope"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n15-1-shock-support-branch-br-inotrope-assist",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Escalade de support hémodynamique",
+          "ref": "n15-inotrope->n15-assist",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N18-1",
+      "element": "N18-1-treatment-sequence",
+      "primitive": "decision-algorithm",
+      "familyIds": [
+        "dependent-sequence"
+      ],
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 7,
+        "exactlyOnce": 7,
+        "missing": 0,
+        "duplicated": 0,
+        "orphanMarks": 1,
+        "dispositionMismatches": 0,
+        "undeclaredFactTypes": 0,
+        "materialized": 7,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "dispositions": {
+        "materialized": 7,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "totalDisposition": {
+        "familyIds": [
+          "dependent-sequence"
+        ],
+        "declaredFactTypes": [
+          "question",
+          "node",
+          "subitem",
+          "branch",
+          "annotation",
+          "edge"
+        ],
+        "summary": {
+          "totalFacts": 7,
+          "declared": 7,
+          "undeclared": 0,
+          "conformant": 7,
+          "mismatched": 0,
+          "discardRate": 0.16666666666666666,
+          "declaredDiscarded": 1
+        },
+        "comparisons": [
+          {
+            "id": "cb-vis-n18-1-treatment-sequence-node-n18-sra",
+            "factType": "node",
+            "ref": "n18-sra",
+            "text": "IEC, ARA2 ou ARNI : introduction progressive",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n18-1-treatment-sequence-node-n18-bb",
+            "factType": "node",
+            "ref": "n18-bb",
+            "text": "Bêtabloquant : titration lente si stabilisé",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n18-1-treatment-sequence-node-n18-complete",
+            "factType": "node",
+            "ref": "n18-complete",
+            "text": "ARM, gliflozine, diurétique selon profil",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n18-1-treatment-sequence-node-n18-adapt",
+            "factType": "node",
+            "ref": "n18-adapt",
+            "text": "FE 41–49 % : mêmes traitements possibles",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n18-1-treatment-sequence-branch-br-sra-bb",
+            "factType": "branch",
+            "ref": "n18-sra->n18-bb",
+            "text": "Patient stabilisé hors poussée aiguë",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n18-1-treatment-sequence-branch-br-bb-complete",
+            "factType": "branch",
+            "ref": "n18-bb->n18-complete",
+            "text": "Compléter le traitement de fond",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n18-1-treatment-sequence-branch-br-complete-adapt",
+            "factType": "branch",
+            "ref": "n18-complete->n18-adapt",
+            "text": "Surveiller et adapter selon FE",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "branch",
+              "disposition": "MATERIALIZED",
+              "familyId": "dependent-sequence"
+            },
+            "multiplicity": "exactly-once"
+          }
+        ],
+        "mismatches": []
+      },
+      "byType": {
+        "node": {
+          "total": 4,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 4,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "branch": {
+          "total": 3,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      "violations": {
+        "missing": [],
+        "duplicated": [],
+        "orphans": [
+          {
+            "text": "Comment introduire,surveiller et adapterles médicaments ?",
+            "officialTextId": null
+          }
+        ],
+        "dispositionMismatches": []
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-node-n18-sra",
+          "unit": "node",
+          "type": "node",
+          "text": "IEC, ARA2 ou ARNI : introduction progressive",
+          "ref": "n18-sra",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-node-n18-sra",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-node-n18-bb",
+          "unit": "node",
+          "type": "node",
+          "text": "Bêtabloquant : titration lente si stabilisé",
+          "ref": "n18-bb",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-node-n18-bb",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-node-n18-complete",
+          "unit": "node",
+          "type": "node",
+          "text": "ARM, gliflozine, diurétique selon profil",
+          "ref": "n18-complete",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-node-n18-complete",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-node-n18-adapt",
+          "unit": "node",
+          "type": "node",
+          "text": "FE 41–49 % : mêmes traitements possibles",
+          "ref": "n18-adapt",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-node-n18-adapt",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-branch-br-sra-bb",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Patient stabilisé hors poussée aiguë",
+          "ref": "n18-sra->n18-bb",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-branch-br-sra-bb",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-sra-bb"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-branch-br-bb-complete",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Compléter le traitement de fond",
+          "ref": "n18-bb->n18-complete",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-branch-br-bb-complete",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-bb-complete"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-branch-br-complete-adapt",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Surveiller et adapter selon FE",
+          "ref": "n18-complete->n18-adapt",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-branch-br-complete-adapt",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N20-1",
+      "element": "N20-1-crt-dai-comparison",
+      "primitive": "comparison-matrix",
+      "familyIds": [
+        "two-pole"
+      ],
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 12,
+        "exactlyOnce": 11,
+        "missing": 0,
+        "duplicated": 1,
+        "orphanMarks": 0,
+        "dispositionMismatches": 1,
+        "undeclaredFactTypes": 0,
+        "materialized": 12,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "dispositions": {
+        "materialized": 12,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "totalDisposition": {
+        "familyIds": [
+          "two-pole"
+        ],
+        "declaredFactTypes": [
+          "question",
+          "pole",
+          "dimension",
+          "matrix-cell",
+          "relation-label"
+        ],
+        "summary": {
+          "totalFacts": 12,
+          "declared": 12,
+          "undeclared": 0,
+          "conformant": 11,
+          "mismatched": 1,
+          "discardRate": 0.2,
+          "declaredDiscarded": 1
+        },
+        "comparisons": [
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-question",
+            "factType": "question",
+            "ref": "question",
+            "text": "Quand choisir CRT ou DAI ?",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "question",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-crt",
+            "factType": "pole",
+            "ref": "pole-crt",
+            "text": "Resynchronisation (CRT)",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "pole",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+            "factType": "pole",
+            "ref": "pole-dai",
+            "text": "DAI",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [
+              "MATERIALIZED_BUT_DUPLICATED"
+            ],
+            "declared": {
+              "factType": "pole",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "duplicated"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-indication",
+            "factType": "dimension",
+            "ref": "dim-indication",
+            "text": "Indication principale",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "dimension",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-crt-indic",
+            "factType": "matrix-cell",
+            "ref": "dim-indication/pole-crt/crt-indic",
+            "text": "IC symptomatique, FEVG ≤ 35 %, QRS ≥ 130 ms",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "matrix-cell",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-dai-indic",
+            "factType": "matrix-cell",
+            "ref": "dim-indication/pole-dai/dai-indic",
+            "text": "Prévention FV/TV ou FEVG ≤ 35 %",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "matrix-cell",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-morphology",
+            "factType": "dimension",
+            "ref": "dim-morphology",
+            "text": "Morphologie électrique",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "dimension",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-crt-qrs",
+            "factType": "matrix-cell",
+            "ref": "dim-morphology/pole-crt/crt-qrs",
+            "text": "Efficacité meilleure si BBG, QRS ≥ 150 ms",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "matrix-cell",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-dai-qrs",
+            "factType": "matrix-cell",
+            "ref": "dim-morphology/pole-dai/dai-qrs",
+            "text": "Pas de critère QRS spécifique",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "matrix-cell",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-nyha",
+            "factType": "dimension",
+            "ref": "dim-nyha",
+            "text": "Stade fonctionnel",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "dimension",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-crt-nyha",
+            "factType": "matrix-cell",
+            "ref": "dim-nyha/pole-crt/crt-nyha",
+            "text": "NYHA II à IV",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "matrix-cell",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-dai-nyha",
+            "factType": "matrix-cell",
+            "ref": "dim-nyha/pole-dai/dai-nyha",
+            "text": "Non indiqué NYHA IV sauf greffe ou assistance",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "matrix-cell",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "exactly-once"
+          }
+        ],
+        "mismatches": [
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+            "factType": "pole",
+            "ref": "pole-dai",
+            "text": "DAI",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [
+              "MATERIALIZED_BUT_DUPLICATED"
+            ],
+            "declared": {
+              "factType": "pole",
+              "disposition": "MATERIALIZED",
+              "familyId": "two-pole"
+            },
+            "multiplicity": "duplicated"
+          }
+        ]
+      },
+      "byType": {
+        "question": {
+          "total": 1,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 1,
+          "materialized": 1,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "pole": {
+          "total": 2,
+          "missing": 0,
+          "duplicated": 1,
+          "exactlyOnce": 1,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "dimension": {
+          "total": 3,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "matrix-cell": {
+          "total": 6,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 6,
+          "materialized": 6,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      "violations": {
+        "missing": [],
+        "duplicated": [
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+            "type": "pole",
+            "text": "DAI",
+            "occurrenceCount": 2,
+            "disposition": "MATERIALIZED",
+            "justification": "pole header (text present in artifact)",
+            "evidence": {
+              "role": "pole header",
+              "locations": [
+                "title",
+                "node:pole-dai"
+              ]
+            }
+          }
+        ],
+        "orphans": [],
+        "dispositionMismatches": [
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+            "factType": "pole",
+            "ref": "pole-dai",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [
+              "MATERIALIZED_BUT_DUPLICATED"
+            ],
+            "multiplicity": "duplicated"
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-question",
+          "unit": "question",
+          "type": "question",
+          "text": "Quand choisir CRT ou DAI ?",
+          "ref": "question",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "figure title",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-question",
+          "evidence": {
+            "role": "figure title",
+            "locations": [
+              "title",
+              "node:pole-dai"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-crt",
+          "unit": "pole",
+          "type": "pole",
+          "text": "Resynchronisation (CRT)",
+          "ref": "pole-crt",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "pole header (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-pole-pole-crt",
+          "evidence": {
+            "role": "pole header",
+            "locations": [
+              "node:pole-crt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+          "unit": "pole",
+          "type": "pole",
+          "text": "DAI",
+          "ref": "pole-dai",
+          "occurrenceCount": 2,
+          "status": "duplicated",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "pole header (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+          "evidence": {
+            "role": "pole header",
+            "locations": [
+              "title",
+              "node:pole-dai"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-indication",
+          "unit": "dimension",
+          "type": "dimension",
+          "text": "Indication principale",
+          "ref": "dim-indication",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "dimension label (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-dim-dim-indication",
+          "evidence": {
+            "role": "dimension label",
+            "locations": [
+              "node:pole-dai"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-crt-indic",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "IC symptomatique, FEVG ≤ 35 %, QRS ≥ 130 ms",
+          "ref": "dim-indication/pole-crt/crt-indic",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 3,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-crt-indic",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:crt-indic",
+              "node:dai-indic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-dai-indic",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "Prévention FV/TV ou FEVG ≤ 35 %",
+          "ref": "dim-indication/pole-dai/dai-indic",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-dai-indic",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:dai-indic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-morphology",
+          "unit": "dimension",
+          "type": "dimension",
+          "text": "Morphologie électrique",
+          "ref": "dim-morphology",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "dimension label (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-dim-dim-morphology",
+          "evidence": {
+            "role": "dimension label",
+            "locations": [
+              "node:dai-indic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-crt-qrs",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "Efficacité meilleure si BBG, QRS ≥ 150 ms",
+          "ref": "dim-morphology/pole-crt/crt-qrs",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-crt-qrs",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:crt-qrs"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-dai-qrs",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "Pas de critère QRS spécifique",
+          "ref": "dim-morphology/pole-dai/dai-qrs",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-dai-qrs",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:dai-qrs"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-nyha",
+          "unit": "dimension",
+          "type": "dimension",
+          "text": "Stade fonctionnel",
+          "ref": "dim-nyha",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "dimension label (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-dim-dim-nyha",
+          "evidence": {
+            "role": "dimension label",
+            "locations": [
+              "node:dai-qrs"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-crt-nyha",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "NYHA II à IV",
+          "ref": "dim-nyha/pole-crt/crt-nyha",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-crt-nyha",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:crt-nyha"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-dai-nyha",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "Non indiqué NYHA IV sauf greffe ou assistance",
+          "ref": "dim-nyha/pole-dai/dai-nyha",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-dai-nyha",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:dai-nyha"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N21-1",
+      "element": "N21-1-natural-history",
+      "primitive": "causal-graph",
+      "familyIds": [
+        "chain"
+      ],
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 5,
+        "exactlyOnce": 4,
+        "missing": 1,
+        "duplicated": 0,
+        "orphanMarks": 1,
+        "dispositionMismatches": 1,
+        "undeclaredFactTypes": 0,
+        "materialized": 4,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "dispositions": {
+        "materialized": 4,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "totalDisposition": {
+        "familyIds": [
+          "chain"
+        ],
+        "declaredFactTypes": [
+          "question",
+          "node",
+          "edge"
+        ],
+        "summary": {
+          "totalFacts": 5,
+          "declared": 5,
+          "undeclared": 0,
+          "conformant": 4,
+          "mismatched": 1,
+          "discardRate": 0.3333333333333333,
+          "declaredDiscarded": 1
+        },
+        "comparisons": [
+          {
+            "id": "cb-vis-n21-1-natural-history-question",
+            "factType": "question",
+            "ref": "question",
+            "text": "Comment évolue l'IC entre stabilité et décompensation ?",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "question",
+              "disposition": "MATERIALIZED",
+              "familyId": "chain"
+            },
+            "multiplicity": "missing"
+          },
+          {
+            "id": "cb-vis-n21-1-natural-history-n-n21-asymptomatic",
+            "factType": "node",
+            "ref": "n21-asymptomatic",
+            "text": "Dysfonction cardiaque asymptomatique",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "chain"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n21-1-natural-history-n-n21-ic",
+            "factType": "node",
+            "ref": "n21-ic",
+            "text": "IC installée",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "chain"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n21-1-natural-history-n-n21-oscillation",
+            "factType": "node",
+            "ref": "n21-oscillation",
+            "text": "Oscillations stabilité / décompensation",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "chain"
+            },
+            "multiplicity": "exactly-once"
+          },
+          {
+            "id": "cb-vis-n21-1-natural-history-n-n21-remodeling",
+            "factType": "node",
+            "ref": "n21-remodeling",
+            "text": "Remodelage inverse possible sous traitement",
+            "conformant": true,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "MATERIALIZED",
+            "mismatches": [],
+            "declared": {
+              "factType": "node",
+              "disposition": "MATERIALIZED",
+              "familyId": "chain"
+            },
+            "multiplicity": "exactly-once"
+          }
+        ],
+        "mismatches": [
+          {
+            "id": "cb-vis-n21-1-natural-history-question",
+            "factType": "question",
+            "ref": "question",
+            "text": "Comment évolue l'IC entre stabilité et décompensation ?",
+            "conformant": false,
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "declared": {
+              "factType": "question",
+              "disposition": "MATERIALIZED",
+              "familyId": "chain"
+            },
+            "multiplicity": "missing"
+          }
+        ]
+      },
+      "byType": {
+        "question": {
+          "total": 1,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 0,
+          "materialized": 0,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "node": {
+          "total": 4,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 4,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      "violations": {
+        "missing": [
+          {
+            "id": "cb-vis-n21-1-natural-history-question",
+            "type": "question",
+            "text": "Comment évolue l'IC entre stabilité et décompensation ?",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          }
+        ],
+        "duplicated": [],
+        "orphans": [
+          {
+            "text": "Comment évolue l'IC entrestabilitéet décompensation ?",
+            "officialTextId": null
+          }
+        ],
+        "dispositionMismatches": [
+          {
+            "id": "cb-vis-n21-1-natural-history-question",
+            "factType": "question",
+            "ref": "question",
+            "declaredDisposition": "MATERIALIZED",
+            "observedDisposition": "UNKNOWN",
+            "mismatches": [
+              "MATERIALIZED_BUT_MISSING"
+            ],
+            "multiplicity": "missing"
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n21-1-natural-history-question",
+          "unit": "question",
+          "type": "question",
+          "text": "Comment évolue l'IC entre stabilité et décompensation ?",
+          "ref": "question",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "figure title",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n21-1-natural-history-n-n21-asymptomatic",
+          "unit": "node",
+          "type": "node",
+          "text": "Dysfonction cardiaque asymptomatique",
+          "ref": "n21-asymptomatic",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label",
+          "materializationSource": "cb-vis-n21-1-natural-history-n-n21-asymptomatic",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "node:n21-asymptomatic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n21-1-natural-history-n-n21-ic",
+          "unit": "node",
+          "type": "node",
+          "text": "IC installée",
+          "ref": "n21-ic",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label",
+          "materializationSource": "cb-vis-n21-1-natural-history-n-n21-ic",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "node:n21-ic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n21-1-natural-history-n-n21-oscillation",
+          "unit": "node",
+          "type": "node",
+          "text": "Oscillations stabilité / décompensation",
+          "ref": "n21-oscillation",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label",
+          "materializationSource": "cb-vis-n21-1-natural-history-n-n21-oscillation",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "node:n21-oscillation"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n21-1-natural-history-n-n21-remodeling",
+          "unit": "node",
+          "type": "node",
+          "text": "Remodelage inverse possible sous traitement",
+          "ref": "n21-remodeling",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label",
+          "materializationSource": "cb-vis-n21-1-natural-history-n-n21-remodeling",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "node:n21-remodeling"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

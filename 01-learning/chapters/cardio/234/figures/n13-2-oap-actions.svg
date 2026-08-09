@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331 344" width="331" height="344" role="img" data-primitive="decision-algorithm" data-family="dependent-sequence" data-contract="W1-2" data-element="N13-2-oap-actions">
+  <title>Quelles actions ordonner du domicile à l'hôpital ?</title>
+  <defs>
+    <marker id="vg-arrow-solid" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto"><path d="M0,0.5 L7,3.5 L0,6.5 Z" fill="#9ca3af"/></marker>
+    <style>
+      .vg-title{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:18px;font-weight:600;fill:#1d1d1f}
+      .vg-label{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:14px;font-weight:600;fill:#1d1d1f}
+      .vg-branch{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:12px;font-weight:400;fill:#1d1d1f}
+      .vg-sub{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:12px;font-weight:400;fill:#4b5563}
+      .vg-phase{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:14px;font-weight:700;fill:#1d1d1f}
+      .vg-ann{font-family:Inter, system-ui, -apple-system, sans-serif;font-size:12px;font-weight:400;font-style:italic;fill:#6b7280}
+    </style></defs>
+  <rect width="331" height="344" fill="#ffffff"/>
+  <text x="165.5" y="62" text-anchor="middle" class="vg-title">
+    <tspan x="165.5" dy="0">Quelles actions ordonner du</tspan>
+    <tspan x="165.5" dy="24">domicile à l'hôpital ?</tspan>
+  </text>
+  <g data-layer="branches">
+    <g data-edge-id="n13-domicile-&gt;n13-hopital">
+      <path data-branch-id="br-domicile-hopital" d="M 165.5 170 L 165.5 242" fill="none" stroke="#9ca3af" stroke-width="2.5" marker-end="url(#vg-arrow-solid)" data-edge-id="n13-domicile-&gt;n13-hopital"/>
+    <g data-branch-label="br-domicile-hopital">
+    <rect x="95.098" y="194" width="140.804" height="24" fill="#ffffff" opacity="0.92" rx="4"/>
+    <text x="165.5" y="211" text-anchor="middle" class="vg-branch">
+      <tspan x="165.5" dy="0">SAMU /hospitalisation</tspan>
+    </text>
+    </g>
+    </g>
+  </g>
+  <g data-layer="entities">
+    <g data-node-id="n13-domicile" data-node-kind="entry">
+      <rect x="36" y="104" width="259" height="66" rx="12" fill="#f5f7fa" stroke="#2563eb" stroke-width="2"/>
+      <text x="165.5" y="129" text-anchor="middle" class="vg-label" data-official-text-id="n13-2-oap-actions-n13-domicile-1">Position assise, furosémide IV 1</text>
+      <text x="165.5" y="148" text-anchor="middle" class="vg-label" data-official-text-id="n13-2-oap-actions-n13-domicile-2">mg/kg, nitrés si HTA</text>
+    </g>
+    <g data-node-id="n13-hopital" data-node-kind="conclusion" data-terminal="true">
+      <rect x="37" y="242" width="257" height="66" rx="12" fill="#f0f6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="165.5" y="267" text-anchor="middle" class="vg-label" data-official-text-id="n13-2-oap-actions-n13-hopital-1">O2 SaO2 &gt; 90 %, furosémide IV,</text>
+      <text x="165.5" y="286" text-anchor="middle" class="vg-label" data-official-text-id="n13-2-oap-actions-n13-hopital-2">nitrés si HTA</text>
+    </g>
+  </g>
+</svg>

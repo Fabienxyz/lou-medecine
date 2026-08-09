@@ -2,7 +2,7 @@
 
 Document de pilotage officiel — **intention et séquencement produit**.
 
-**Dernière révision :** 2026-08-04 — validation du contrat éditorial MM/Notions/Cas sur le chemin Product Freeze 234 ; plan [`editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) ; chantier courant → [`PROJECT_STATE.md`](PROJECT_STATE.md).
+**Dernière révision :** 2026-08-09 — Architecture Foundations V1 **terminée** ; architecture graphique **gelée** ; prochain chantier **Golden Corpus V1** ; activité courante → [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
 Ce document répond à une seule question : **que cherche-t-on à obtenir, dans quel ordre, et à quelle condition saura-t-on que c'est obtenu ?**
 
@@ -46,23 +46,24 @@ Synthèse des jalons structurants — détail opérationnel dans [`PROJECT_STATE
 | **Reader Acceptance V1** | ✅ **Clôturé** — prononcé 2026-08-02 ; tag `reader-acceptance-v1` |
 | **Product Polish V1 / Annotation UI Freeze V1** | ✅ **Clôturé** — prononcé 2026-08-03 ; tag `reader-ui-freeze-v1` ; UI annotation gelée |
 | **SVG Highlight Bridge V1** | ✅ **Clôturé** — prononcé 2026-08-03 ; tag `svg-highlight-bridge-v1` ; highlights SVG RPC 234 |
+| **Architecture Foundations V1** | ✅ **Clôturé** — 2026-08-09 ; Visual Grammar · Runtime · Theme · Projection Foundation ; tag proposé `architecture-foundations-v1` |
 | **Graphical Learning Layer V1 (annotations SVG — MVP)** | ✅ **Livré** — highlights SVG via Highlight V2 + LouInlineFormatting ; UI toolbar contextuelle |
 | **Graphical Learning Layer V1 (conception élargie)** | ⏸ **En attente** — figures SVG contenu de première classe (hors annotations MVP) |
-| **Reference Product Chapter (234)** — contrat éditorial cible | ⏳ En attente — validation Lou (MM · Notions · Cas conjoints) avant poursuite intégration éditoriale — [plan](plans/editorial-prototyping-and-migration-plan.md) |
-| **Product Review 234** (Phase 7) | ⏳ En attente — chapitre utilisable ; **usage réel Lou** dans le Reader |
-| **Product Freeze 234** (Phase 8) | ⏳ En attente — après Product Review |
+| **Golden Corpus V1** | ⏳ **Prochain** — consolidation corpus figures 234 post-Architecture Foundations |
+| **Walkthroughs** | ⏳ En attente — après Golden Corpus V1 |
+| **Product Review Lou V1** | ⏳ En attente — après Walkthroughs ; usage réel Lou |
+| **Reference Product Chapter (234)** — contrat éditorial cible | ⏳ En attente — validation Lou avant poursuite intégration éditoriale |
+| **Product Freeze 234** (Phase 8) | ⏳ En attente — après Product Review Lou V1 |
 | **Reference Production Chapter (224)** (Phase 9) | ⏳ En attente — **après Product Freeze 234** |
 | **Capitalisation industrielle (post-224)** | ⏳ En attente — après Reference Production Chapter 224 |
-| **Validation Corpus V1 (Fabrique)** | ⏳ En attente — **après validation complète du 224** |
-| **Choix chapitres suivants (230 ou autre)** | ⏳ En attente — après Validation Corpus V1 |
-| **Validation pédagogique Lou** | ⏳ En attente — conditionnée par Validation Corpus V1 |
+| **Validation pédagogique Lou** | ⏳ En attente — conditionnée par Product Review et capitalisation |
 | **Industrialisation EDN** | ⏳ En attente |
 
 **Distinction obligatoire :** la clôture **Reader Composition V1** ne signifiait **pas** que le Reader était terminé. L'objectif [Acceptation Reader V1](#acceptation-reader-v1) est **clôturé** depuis le 2026-08-02.
 
 **Principe de pilotage post-acceptation :** *Observer d'abord. Généraliser ensuite.* — le Item **234** est le **laboratoire produit**. **Dépendance éditoriale :** la validation du contrat cible MM · Notions · Cas avec Lou **précède** toute poursuite de l'intégration éditoriale du 234 — [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md). **Intention RPC Phases 0–9 :** [§ Roadmap opérationnelle](#roadmap-opérationnelle--reference-product-chapter-234) · [`docs/rpc/`](rpc/00-RPC-METHODOLOGY.md). **Activité courante :** [`PROJECT_STATE.md`](PROJECT_STATE.md).
 
-### Séquence produit cible (post-Reader Acceptance)
+### Séquence produit cible (post-Architecture Foundations)
 
 ```
 Reader Acceptance V1 ✅
@@ -71,20 +72,22 @@ Product Polish V1 / Annotation UI Freeze V1 ✅
         ↓
 SVG Highlight Bridge V1 ✅
         ↓
-Phase 0 migration — baseline et gate              ← prérequis ([gate](analysis/phase-0-baseline-gate-2026-08-04.md))
+Architecture Foundations V1 ✅          ← Visual Grammar · Runtime · Theme · Projection Foundation
         ↓
-Validation contrat éditorial (MM · Notions · Cas) ← avant intégration éditoriale 234
+Golden Corpus V1                      ← PROCHAIN
         ↓
-Conception modèle technique cible               ← après gate sortie prototypage
+Walkthroughs
         ↓
-Intégration éditoriale Reader (RPC Phases 2–6)    ← après contrat validé
+Product Review Lou V1
         ↓
-Product Review (Phase 7) → Product Freeze (Phase 8)
+Product Freeze 234 (Phase 8)
         ↓
 Reference Production Chapter (224) — Phase 9
         ↓
-Capitalisation industrielle → Validation Corpus V1 → …
+Capitalisation industrielle → …
 ```
+
+**Architecture graphique gelée** depuis Architecture Foundations V1 — aucun chantier d'architecture ouvert. Détail : [`architecture/GRAPHICAL-ARCHITECTURE.md`](architecture/GRAPHICAL-ARCHITECTURE.md).
 
 **Migration technique** (chaîne parallèle, bascule) : **conditionnée** par les gates Phase 0 — [`phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md). **Lots et gates détaillés :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md).
 

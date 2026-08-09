@@ -14,6 +14,9 @@ node "$ROOT/scripts/sync-reader-fixture.mjs"
 echo "==> [Contrats] Lou Build tests (gate — excludes test:integration)"
 (cd "$ROOT/tools/lou-build" && npm run test:ci)
 
+echo "==> [Report] Projection Verification / Total Disposition (report-only — never blocks)"
+(cd "$ROOT/tools/lou-build" && npm run projection:report)
+
 echo "==> [Fondation] Renderer unit tests"
 (cd "$ROOT/demo/renderer" && npm ci && npm test)
 

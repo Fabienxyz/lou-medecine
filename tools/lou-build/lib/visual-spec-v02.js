@@ -148,10 +148,6 @@ export function validateComparisonMatrix(spec, kpMap, errors) {
   checkKeys(spec, MATRIX_KEYS, "spec", errors);
   rejectEdges(spec, errors);
 
-  if (spec.technology !== "semantic-html") {
-    errors.push(`spec: technology must be semantic-html for comparison-matrix`);
-  }
-
   const poles = Array.isArray(spec.poles) ? spec.poles : [];
   if (poles.length < 2 || poles.length > 4) {
     errors.push(`spec: comparison-matrix requires 2–4 poles (found ${poles.length})`);
@@ -215,10 +211,6 @@ export function validateComparisonMatrix(spec, kpMap, errors) {
 export function validateEnumerationSet(spec, kpMap, errors) {
   checkKeys(spec, ENUM_KEYS, "spec", errors);
   rejectEdges(spec, errors);
-
-  if (spec.technology !== "semantic-html") {
-    errors.push(`spec: technology must be semantic-html for enumeration-set`);
-  }
 
   const set = spec.set;
   if (!set || typeof set !== "object") {
@@ -299,10 +291,6 @@ export function validateEnumerationSet(spec, kpMap, errors) {
 export function validateQuantityModel(spec, kpMap, errors) {
   checkKeys(spec, QUANTITY_KEYS, "spec", errors);
   rejectEdges(spec, errors);
-
-  if (spec.technology !== "semantic-html") {
-    errors.push(`spec: technology must be semantic-html for quantity-model`);
-  }
 
   const target = spec.target;
   if (!target || typeof target !== "object") {
@@ -390,7 +378,8 @@ export function validateVisualSpecV02(spec, options = {}) {
   if (!spec.chapter) errors.push("spec: missing chapter");
   if (!spec.element) errors.push("spec: missing element");
   if (!spec.question?.trim()) errors.push("spec: missing question");
-  if (!spec.technology) errors.push("spec: missing technology");
+  // technology is optional on the canonical path (Contrat 05 — no execution surface in visualSpec).
+  // Legacy specs may still carry it; renderers infer surface from primitive.
 
   if (spec.provenance != null) {
     if (typeof spec.provenance !== "object" || Array.isArray(spec.provenance)) {
@@ -441,6 +430,12 @@ export function visualSpecClaimUnitsV02(spec) {
       digest: semanticDigest(digestParts),
     });
   };
+
+  if (spec.question?.trim()) {
+    push("question", "question", "question", spec.question, "scaffolding", [], [
+      "question", spec.question,
+    ]);
+  }
 
   if (spec.primitive === "comparison-matrix") {
     for (const pole of spec.poles || []) {

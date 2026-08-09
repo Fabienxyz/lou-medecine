@@ -3,16 +3,17 @@
  */
 
 import { CLAIM_CLASSES, FORBIDDEN_GEOMETRY_KEYS, semanticDigest } from "./visual-spec.js";
+import {
+  conditionRedundantWithThresholdFragment,
+  thresholdFragmentScaleClaimEntries,
+} from "./visual-spec-projection-normalize.js";
+import { DECISION_ALGORITHM_SPEC_KINDS } from "./kind-vocabulary.js";
 
-export const DECISION_VARIANTS = new Set(["diagnostic", "compact"]);
-export const DECISION_NODE_KINDS = new Set([
-  "entry",
-  "decision",
-  "test",
-  "dead-end",
-  "conclusion",
-]);
-export const ANNOTATION_PLACEMENTS = new Set(["out-of-flow", "scope-note"]);
+export const DECISION_VARIANTS = new Set(["diagnostic", "compact", "management-monitoring"]);
+/** @deprecated use DECISION_ALGORITHM_SPEC_KINDS from kind-vocabulary.js */
+export const DECISION_NODE_KINDS = DECISION_ALGORITHM_SPEC_KINDS;
+export const ANNOTATION_PLACEMENTS = new Set(["out-of-flow", "scope-note", "attached-to-human-review"]);
+export const BRANCH_RELATIONS = new Set(["resumes_monitoring"]);
 export const COMPARATORS = new Set(["<", "<=", ">", ">="]);
 export const THRESHOLD_VARIANTS = new Set(["numeric-contextual", "numeric", "ordinal", "fragment"]);
 export const CONFOUNDER_DIRECTIONS = new Set(["increase", "decrease"]);
@@ -85,8 +86,9 @@ const BRANCH_KEYS = new Set([
   "class",
   "kp",
   "threshold_fragment",
+  "relation",
 ]);
-const FRAGMENT_KEYS = new Set(["context", "scales", "low_band_meaning"]);
+const FRAGMENT_KEYS = new Set(["context", "scales", "low_band_meaning", "interpretation"]);
 const FRAG_SCALE_KEYS = new Set([
   "id",
   "analyte",
@@ -94,10 +96,11 @@ const FRAG_SCALE_KEYS = new Set([
   "comparator",
   "value",
   "unit",
+  "relation",
   "class",
   "kp",
 ]);
-const ANNOTATION_KEYS = new Set(["id", "label", "placement", "class", "kp"]);
+const ANNOTATION_KEYS = new Set(["id", "label", "placement", "class", "kp", "attach_to"]);
 
 const THRESHOLD_KEYS = new Set([
   ...BASE,
@@ -129,14 +132,21 @@ export function validateThresholdFragment(fragment, where, kpMap, errors, option
   }
   checkKeys(fragment, FRAGMENT_KEYS, where, errors);
   if (!fragment.context?.trim()) errors.push(`${where}: missing context`);
-  if (!fragment.low_band_meaning?.trim()) errors.push(`${where}: missing low_band_meaning`);
+  if (!fragment.low_band_meaning?.trim() && !fragment.interpretation?.trim()) {
+    errors.push(`${where}: missing low_band_meaning`);
+  }
   const scales = Array.isArray(fragment.scales) ? fragment.scales : [];
   if (scales.length === 0) errors.push(`${where}: scales must be non-empty`);
   scales.forEach((scale, i) => {
     const sw = `${where}.scale[${i}]`;
     checkKeys(scale, FRAG_SCALE_KEYS, sw, errors);
-    validateCutoffVerbatim(scale, sw, errors, options);
-    validateGrounding(scale, sw, kpMap, errors);
+    if (scale.relation === "increase-over-time") {
+      if (!scale.cutoff_label?.trim()) errors.push(`${sw}: missing cutoff_label`);
+      validateGrounding(scale, sw, kpMap, errors);
+    } else {
+      validateCutoffVerbatim(scale, sw, errors, options);
+      validateGrounding(scale, sw, kpMap, errors);
+    }
   });
 }
 
@@ -165,9 +175,6 @@ export function validateDecisionAlgorithm(spec, kpMap, errors, options = {}) {
   checkKeys(spec, DECISION_KEYS, "spec", errors);
   rejectCausalEdges(spec, errors);
 
-  if (spec.technology !== "svg") {
-    errors.push(`spec: technology must be svg for decision-algorithm`);
-  }
   if (!DECISION_VARIANTS.has(spec.variant)) {
     errors.push(`spec: invalid variant "${spec.variant}"`);
   }
@@ -198,7 +205,11 @@ export function validateDecisionAlgorithm(spec, kpMap, errors, options = {}) {
   });
 
   if (!hasDeadEnd && !nodes.some((n) => n.kind === "conclusion")) {
-    errors.push("spec: decision-algorithm requires at least one dead-end or conclusion node");
+    if (spec.variant !== "management-monitoring") {
+      errors.push("spec: decision-algorithm requires at least one dead-end or conclusion node");
+    } else if (!nodes.some((n) => n.kind === "resume")) {
+      errors.push("spec: management-monitoring requires a resume node");
+    }
   }
 
   const branchKeys = new Set();
@@ -218,10 +229,28 @@ export function validateDecisionAlgorithm(spec, kpMap, errors, options = {}) {
         errors.push(`${bw}: compact variant must not embed numeric threshold_fragment`);
       } else {
         validateThresholdFragment(branch.threshold_fragment, `${bw}.threshold_fragment`, kpMap, errors, {
-          forbidAcute: true,
+          forbidAcute: spec.variant !== "management-monitoring",
         });
+        if (conditionRedundantWithThresholdFragment(branch.condition, branch.threshold_fragment)) {
+          errors.push(
+            `${bw}: branch condition duplicates threshold_fragment scales; use a qualitative condition and keep numeric thresholds in threshold_fragment.scales only`,
+          );
+        }
       }
     }
+    if (branch.relation && !BRANCH_RELATIONS.has(branch.relation)) {
+      errors.push(`${bw}: unknown branch relation "${branch.relation}"`);
+    }
+  });
+
+  (spec.annotations || []).forEach((ann, i) => {
+    const aw = `annotation[${i}]`;
+    checkKeys(ann, ANNOTATION_KEYS, aw, errors);
+    if (!ANNOTATION_PLACEMENTS.has(ann.placement)) errors.push(`${aw}: invalid placement`);
+    if (ann.placement === "attached-to-human-review" && !ann.attach_to) {
+      errors.push(`${aw}: attach_to required for attached-to-human-review`);
+    }
+    validateGrounding(ann, aw, kpMap, errors);
   });
 
   if (options.requireUrgencyAnnotation) {
@@ -235,9 +264,6 @@ export function validateThresholdScale(spec, kpMap, errors) {
   checkKeys(spec, THRESHOLD_KEYS, "spec", errors);
   rejectCausalEdges(spec, errors);
 
-  if (spec.technology !== "svg") {
-    errors.push(`spec: technology must be svg for threshold-scale`);
-  }
   if (!THRESHOLD_VARIANTS.has(spec.variant)) {
     errors.push(`spec: invalid variant "${spec.variant}"`);
   }
@@ -338,17 +364,7 @@ export function visualSpecClaimUnitsLotB(spec) {
       );
       const frag = branch.threshold_fragment;
       if (frag) {
-        for (const scale of frag.scales || []) {
-          push(
-            `frag-${scale.id}`,
-            "threshold-cutoff",
-            scale.id,
-            scale.cutoff_label,
-            scale.class,
-            scale.kp || [],
-            ["cutoff", scale.analyte, scale.cutoff_label, scale.class, (scale.kp || []).join(",")],
-          );
-        }
+        thresholdFragmentScaleClaimEntries(branch, spec, push);
       }
     }
     for (const ann of spec.annotations || []) {

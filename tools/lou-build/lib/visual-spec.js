@@ -4,6 +4,8 @@ import crypto from "node:crypto";
 import YAML from "yaml";
 import { inventoryById } from "./inventory.js";
 import { validateVisualSpecV02, visualSpecClaimUnitsV02 } from "./visual-spec-v02.js";
+import { normalizeVisualSpecForProjection } from "./visual-spec-projection-normalize.js";
+import { CAUSAL_GRAPH_SPEC_KINDS } from "./kind-vocabulary.js";
 
 /**
  * visualSpec v0.1 — EXPERIMENTAL.
@@ -23,7 +25,7 @@ export const SUPPORTED_PRIMITIVES = new Set(["causal-graph"]);
 /** Reused verbatim from the existing claim-block vocabulary (claims.js / ground.js). */
 export const CLAIM_CLASSES = new Set(["sourced", "bridging", "scaffolding"]);
 
-export const NODE_KINDS = new Set(["state", "event", "response"]);
+export const NODE_KINDS = CAUSAL_GRAPH_SPEC_KINDS;
 
 export const EDGE_RELATIONS = new Set([
   "causes",
@@ -559,10 +561,23 @@ export function semanticDigest(parts) {
  */
 export function visualSpecClaimUnits(spec) {
   if (String(spec?.spec_version) === "0.2") {
-    return visualSpecClaimUnitsV02(spec);
+    return visualSpecClaimUnitsV02(normalizeVisualSpecForProjection(spec));
   }
   const slug = String(spec.element).toLowerCase();
   const units = [];
+
+  if (spec.question?.trim()) {
+    units.push({
+      id: `cb-vis-${slug}-question`,
+      class: "scaffolding",
+      kp: [],
+      element: spec.element,
+      unit: "question",
+      ref: "question",
+      text: spec.question,
+      digest: semanticDigest(["question", spec.question]),
+    });
+  }
 
   for (const node of spec.nodes || []) {
     const kp = node.kp || [];

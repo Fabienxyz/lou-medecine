@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import { validateVisualSpec, visualSpecClaimUnits } from "../visual-spec.js";
+import { normalizeVisualSpecForProjection } from "../visual-spec-projection-normalize.js";
 import { renderVisualSpec } from "../visual-render.js";
 import { renderVisualSpecSvgV02 } from "../visual-render-svg-v02.js";
 import { validateSvgSerialized } from "../svg-dimension-validate.js";
@@ -26,9 +27,10 @@ export function artifactKind(spec) {
 
 export function renderVcckSpec(spec, options = {}) {
   const inventory = options.inventory || loadVcckInventory();
-  const fullReview = buildScaffoldingReviewFromUnits(spec);
+  const projectionSpec = normalizeVisualSpecForProjection(spec);
+  const fullReview = buildScaffoldingReviewFromUnits(projectionSpec);
 
-  const gate = gateBeforeRender(spec, {
+  const gate = gateBeforeRender(projectionSpec, {
     familyId: options.expectedFamily,
     w2aLabelBudget: options.w2aLabelBudget,
   });
@@ -70,7 +72,7 @@ export function renderVcckSpec(spec, options = {}) {
     if (!validation.ok) {
       return { ok: false, stage: "validation", errors: validation.errors, artifact: null, layout: null };
     }
-    const r = renderVisualSpecSvgV02(spec);
+    const r = renderVisualSpecSvgV02(projectionSpec);
     if (!r.ok) return { ok: false, stage: "render", errors: r.errors, artifact: null, layout: null };
     return { ok: true, stage: "rendered", errors: [], artifact: r.svg, layout: r.layout, kind: "svg" };
   }

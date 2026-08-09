@@ -3,7 +3,7 @@
 **Photographie opérationnelle** — document vivant.
 
 **Version projet :** 0.1.0  
-**Dernière mise à jour :** 2026-08-06 (architecture VCCK stabilisée — ADR-008 + contrat 05 ; **E2** chantier actif)
+**Dernière mise à jour :** 2026-08-09 (Architecture Foundations V1 **terminée** ; architecture graphique **gelée** ; prochain chantier **Golden Corpus V1**)
 
 Ce document répond à une seule question : **où en est le projet aujourd'hui, et qu'est-ce qui empêche ou conditionne la progression ?**
 
@@ -20,25 +20,25 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | | |
 |---|---|
-| **Objectif actif** | **Phase 1A** — validation du contrat éditorial cible sur le chapitre 234 ([plan](plans/editorial-prototyping-and-migration-plan.md)) |
-| **Phase opérationnelle active** | **Phase 1A** — prototypage produit hors Reader — MM · Notions · Cas **conjoints** |
-| **Micro-chantier industriel V0** | **E2 active** — production industrielle des visualSpecs 234 : rédaction des 29 restantes + audit des 30 ([roadmap](../editorial-industrialization/v0/chapters/234/execution-roadmap.yaml)) ; **E1 clôturée** ; **architecture VCCK terminée** |
-| **Livrable visé** | Prototypes Word mobile-first consultables par Lou (MM, Notions pilotes, Cas pilotes) |
-| **Chemin critique** | **Phase 1A → 1B → … → Product Freeze 234** → Phase 9 (224) → capitalisation → Corpus V1 |
+| **Objectif actif** | **Golden Corpus V1** — consolidation du corpus figures 234 post-Architecture Foundations |
+| **Phase opérationnelle active** | **Phase B produit** — Golden Corpus V1 → Walkthroughs → Product Review Lou V1 |
+| **Architecture graphique** | **GELÉE** — Visual Grammar v0.1 · Runtime · Theme V1 · Projection Foundation · ADR-008 + contrat 05 |
+| **Dernier jalon architectural** | **Architecture Foundations V1** — 2026-08-09 ; tag proposé `architecture-foundations-v1` |
+| **Livrable visé (séquence)** | Golden Corpus V1 → Walkthroughs → Product Review Lou V1 → Product Freeze 234 |
+| **Chemin critique** | Golden Corpus V1 → Walkthroughs → Product Review Lou V1 → Product Freeze 234 → Phase 9 (224) |
 | **Blocage structurant** | Reference Production Chapter 224 **non démarré** — Phase 9, après Product Freeze |
 | **Blocage migration technique** | **Phase 2 intégration/migration bloquée** — gate Phase 0 migration ([`analysis/phase-0-baseline-gate-2026-08-04.md`](analysis/phase-0-baseline-gate-2026-08-04.md)) |
-| **Dernier jalon architectural** | **ADR-008 publié** — architecture industrielle VCCK stabilisée ; contrat 05 = référence canonique visualSpec ; 2026-08-06 |
-| **Dernier jalon qualification VCCK** | **E1 / CMM-0.3** — famille `chapter-master-map` **qualifiée V1** (CMM-R3) ; audit `PASS_WITH_MINOR_RECOMMENDATIONS` ; 2026-08-06 |
+| **Dernier jalon qualification VCCK** | **E1 / CMM-0.3** — famille `chapter-master-map` **qualifiée V1** (CMM-R3) ; 2026-08-06 |
 | **Dernier jalon produit Reader** | **SVG Highlight Bridge V1** — highlights SVG opérationnels sur RPC 234 ; tag `svg-highlight-bridge-v1` ; 2026-08-03 |
-| **Baseline migration Phase 0** | Commit `5734832…` — tag `baseline-phase-0-2026-08-04` ; Phase 1A/1B autorisées ; Phase 2 migration **bloquée** |
+| **Baseline migration Phase 0** | Commit `5734832…` — tag `baseline-phase-0-2026-08-04` ; Phase 2 migration **bloquée** |
 
 **SVG Highlight Bridge V1 clôturé (2026-08-03).** Les **highlights sur texte SVG** sont disponibles sur le chapitre de référence **234** (création, changement de couleur, effacement, restauration) via le moteur **Highlight V2** unique et le backend **LouInlineFormatting**. L'UI annotation est **stabilisée** : toolbar unique — couleurs + gomme sur SVG ; G/S/B masqués en contexte SVG ; walkthrough HTML inchangé.
 
-**UI Reader V1 — Annotation UI Freeze V1 (2026-08-03).** La couche annotation Learner HTML reste **gelée** hors bug bloquant. **Chantier macro actif : Phase 1A** — prototypage éditorial hors Reader ([plan](plans/editorial-prototyping-and-migration-plan.md)).
+**UI Reader V1 — Annotation UI Freeze V1 (2026-08-03).** La couche annotation Learner HTML reste **gelée** hors bug bloquant.
 
-**Architecture VCCK stabilisée (2026-08-06).** [ADR-008](adr/ADR-008-vcck-industrial-composition-pipeline.md) **Accepted** — pipeline industriel : contrat éditorial → visualSpec → signature → reconnaissance → capacité → composition abstraite → surface → artefact. [Contrat 05](contracts/05-VISUAL-GRAMMAR.md) refondu — **visualSpec = autorité sémantique** ; **ADR-008 = autorité de composition**. Quatre couches gelées : Primitives ([ADR-001](adr/ADR-001-freeze-svg-grammar-catalogue.md)) · visualSpec (contrat 05) · Composition VCCK (ADR-008) · Chapter Package / Reader (contrats 04 et 06). **Chantier d'architecture VCCK clôturé** — le principal risque architectural (couche composition sous-spécifiée) est **levé**. Le projet bascule de **l'architecture en construction** vers **l'industrialisation éditoriale**.
+**Architecture Foundations V1 — terminée (2026-08-09).** Chaîne graphique **gelée** : VisualSpec → Projection Foundation → Visual Grammar v0.1 → Runtime → Theme V1 → Renderer. Livrables : [Graphical Architecture](architecture/GRAPHICAL-ARCHITECTURE.md) · [Projection Foundation](architecture/PROJECTION-FOUNDATION.md) · [Visual Grammar Runtime](architecture/VISUAL-GRAMMAR-RUNTIME.md) · Theme [`svg-graphic-language-v1.yaml`](../tools/lou-build/config/svg-graphic-language-v1.yaml) · normalisation VisualSpec phase 1 · `fact_dispositions` alignés · CI `projection:report` (report-only, exit 0). **Aucun chantier d'architecture ouvert.**
 
-**Industrialisation éditoriale V0 — E2 active (2026-08-06).** Famille `chapter-master-map` qualifiée (E1 / CMM-R3) — rapport : [`cmm-qualification-report.md`](../tools/lou-build/vcck/reports/cmm-qualification-report.md). **Chantier actif : E2** — Codex — 29 visualSpecs restantes + audit des 30, signature par spec. **Prochain jalon implémentation VCCK : pré-W2** (audit couche `surface` + standardisation interfaces de preuve) avant qualification **W2**. Stratégie d'extension : [`D-VCCK-STACK-EXTENSION-STRATEGY.md`](../tools/lou-build/vcck/decisions/D-VCCK-STACK-EXTENSION-STRATEGY.md). Aucune génération MM-1 réel 234 tant que la séquence E2–E5 ne l'autorise pas.
+**Prochain chantier : Golden Corpus V1** — consolidation corpus figures 234 ; puis Walkthroughs ; puis Product Review Lou V1.
 
 **Chaîne de consommation Fabrique → Reader (Phase 0.1 clôturée).** Acquis technique stabilisé. **Prochaine intégration Reader** conditionnée par validation du contrat éditorial Phase 1A.
 
@@ -77,16 +77,17 @@ Mis à jour lorsqu'un jalon est franchi, qu'un blocage apparaît ou disparaît, 
 
 | Chantier | Objectif de rattachement | Focus actuel |
 |---|---|---|
-| **Prototypage éditorial (Phase 1A)** | Validation contrat MM/Notions/Cas — chapitre 234 | **Actif (macro)** — Word mobile-first ; Product Review Lou ; voir [plan](plans/editorial-prototyping-and-migration-plan.md) |
-| **Industrialisation éditoriale V0 (234)** | Paquet `editorial-industrialization/v0` — séquence E0–E8 | **Architecture VCCK terminée** (ADR-008 + contrat 05) · **E1 clôturée** · **E2 active** (production industrielle visualSpecs) · jalon **pré-W2** avant qualification W2 |
-| **Reference Product Chapter (234)** | Laboratoire produit — Phases 2–8 (intention RPC) | **Intégration Reader suspendue** — RPC Phase 1 MM = baseline historique ; Amorçage Phase 2 **suspendu** |
-| **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 ; reprend produit figé ; mesure coûts/temps/LLM ; optimise **méthode**, pas produit |
-| **Validation Corpus V1 (Fabrique)** | Qualification corpus Fabrique V1 | **Différée** — **après validation complète du 224** ; chapitres suivants (230 ou autre) **non tranchés** ([PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
-| **Validation pédagogique Lou** | Validation pédagogique de la méthode | **En attente** — conditionnée par Validation Corpus V1 ([PDR-B4](governance/PRODUCT-DECISION-REGISTRY.md), [PDR-C8](governance/PRODUCT-DECISION-REGISTRY.md)) |
-| **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — import / restauration patrimoniale (LP-06, PDR-E5 §8–§9) ; E-C export ; E-B persistance ; lots E-A…E-D **clôturés** |
-| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | **Framework validation consolidé — stable** — DEV / PAS / RELEASE [`TEST_ARCHITECTURE_V1.md`](testing/TEST_ARCHITECTURE_V1.md) §2.4 |
+| **Golden Corpus V1** | Consolidation corpus figures 234 post-Architecture Foundations | **Actif (prochain)** — figures normalisées N09/N13/N20 + extension corpus |
+| **Walkthroughs** | Parcours apprenant Word mobile-first | **En attente** — après Golden Corpus V1 |
+| **Product Review Lou V1** | Validation usage réel Lou | **En attente** — après Walkthroughs |
+| **Reference Product Chapter (234)** | Laboratoire produit — Phases 2–8 (intention RPC) | **Intégration Reader suspendue** — baseline historique |
+| **Reference Production Chapter (224)** | Industrialisation production — Phase 9 | **Non démarré** — après Product Freeze 234 |
+| **Patrimoine & publication** | Patrimoine V1 ([ADR-006](adr/ADR-006-pedagogical-patrimony-and-edition-lineage.md)) | **E-D publié** — lots E-A…E-D **clôturés** |
+| **CI & maintenabilité** | Maintenabilité et CI ([PDR-G6](governance/PRODUCT-DECISION-REGISTRY.md)) | Gate Architecture Foundations : suite minimale § ci-dessous |
 
-**Chantiers UI Reader — aucun ouvert.** Annotation UI Freeze V1 : corrections UI annotation réservées aux **bugs bloquants** uniquement. **SVG Highlight Bridge V1 clôturé** — pas de lot d'implémentation SVG highlight ouvert.
+**Chantiers architecture — aucun ouvert.** Visual Grammar · Runtime · Theme · Projection Foundation **gelés**.
+
+**Chantiers UI Reader — aucun ouvert.** Annotation UI Freeze V1 : corrections UI annotation réservées aux **bugs bloquants** uniquement.
 
 ### Acquis annotation Learner (Product Polish V1 — clôturé)
 
@@ -192,34 +193,105 @@ Valeurs courantes — définitions dans [`MASTER_ROADMAP.md` § Indicateurs stru
 
 ## Prochaines étapes
 
-**Chantier macro :** [`plans/editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) — **Phase 1A**.
+**Chantier actif : Golden Corpus V1** — consolidation corpus figures 234.
 
-**Micro-chantier industriel (actif) :** [`execution-roadmap.yaml`](../editorial-industrialization/v0/chapters/234/execution-roadmap.yaml) — **E2**.
-
-| # | Étape industrielle V0 | Owner | Statut |
-|---|---|---|---|
-| E0 | Geler paquet éditorial V0 | Codex | Largement fait |
-| E1 | Qualifier `chapter-master-map` (CMM-R3 / CMM-0.3) | Cursor | **Clôturée** — 2026-08-06 |
-| E2 | Rédiger 29 visualSpecs restantes + auditer les 30 ; signature par spec | Codex | **Active — prochaine** |
-| PRE-W2 | Audit couche `surface` + standardisation interfaces de preuve | Cursor | **Prochain jalon architecture** — avant W2 |
-| E3 | Consolider matrice d'admission 30/30 (signatures produites en E2) | Cursor | En attente (après E2) |
-| E4 | Qualifier familles par vagues W2→W5 (extension piles existantes) | Cursor | En attente (après PRE-W2 + E3) |
-
-| # | Étape Phase 1A (macro) | Statut |
+| # | Étape | Statut |
 |---|---|---|
-| 1 | Modélisation globale du chapitre 234 | En cours (via industrialisation V0) |
-| 2 | Cartographie MM → Notions → Cas | En attente |
-| 3 | Variantes MM (1 à 3 SVG) | En attente — **pas de MM-1 réel avant autorisation séquence E** |
-| 4 | Notions pilotes (Lot 2) | En attente |
-| 5 | Cas cliniques pilotes (Lot 3) | En attente |
-| 6 | Product Review Lou (Word iPhone) | En attente (E8) |
-| 7 | Consolidation contrat éditorial | En attente |
+| 1 | Golden Corpus V1 — figures et specs normalisées 234 | **Prochaine** |
+| 2 | Walkthroughs — parcours Word mobile-first | En attente |
+| 3 | Product Review Lou V1 — usage réel | En attente |
+| 4 | Product Freeze 234 | En attente |
 
-**Suspendu** tant que contrat non validé : RPC Phase 2 Amorçage · intégration Reader Phases 3–4 linéaires · Phase 2 migration technique ([gate](analysis/phase-0-baseline-gate-2026-08-04.md)).
+**Suspendu** : Phase 2 migration technique ([gate](analysis/phase-0-baseline-gate-2026-08-04.md)) · intégration Reader Phases 3–4.
 
-**Intention RPC Phases 5–9** (Collège, validation intégrée, Product Review, Freeze, 224) : [`MASTER_ROADMAP.md`](MASTER_ROADMAP.md#roadmap-opérationnelle--reference-product-chapter-234) — sans statut mutable ici.
+---
 
-**Parallèle (non bloquant) :** patrimoine & publication · CI & fixture 234.
+## Freeze Architecture Foundations V1 — inventaire commit
+
+**Stratégie Git :** commit local `d315f83` (HTML→SVG migration) **conservé tel quel** ; second commit de freeze Architecture Foundations V1 par-dessus. Pas de squash préparé.
+
+### IN — à inclure dans le commit de freeze
+
+**Documentation architecture :** `docs/architecture/GRAPHICAL-ARCHITECTURE.md` · `VISUAL-GRAMMAR-V0.1.md` · `VISUAL-GRAMMAR-RUNTIME.md` · `PROJECTION-FOUNDATION.md` · `FACT-DISPOSITIONS-AUDIT.md` · `KIND-VOCABULARY-MIGRATION.md` · `docs/contracts/components/SVG-GRAPHIC-LANGUAGE-V1.md` · `docs/adr/ADR-008-vcck-industrial-composition-pipeline.md` · `docs/HANDOVER.md` · `docs/PROJECT_STATE.md` · `docs/MASTER_ROADMAP.md`
+
+**Runtime + Theme + Projection :** `tools/lou-build/config/svg-graphic-language-v1.yaml` · `lib/visual-grammar-runtime.js` · `lib/svg-graphic-language.js` · `lib/role-graphic-language.js` · `lib/kind-vocabulary.js` · `lib/svg-geom-validate.js` · `lib/threshold-band-validate.js` · `lib/visual-centrality.js` · `lib/projection-verification.js` · `lib/total-disposition.js` · `lib/visual-spec-projection-normalize.js` · `lib/vcck/capability-coverage.js` · `lib/vcck/consumption-paths.js`
+
+**Hooks VisualSpec / Renderer (modified) :** `lib/visual-spec.js` · `lib/visual-spec-v02.js` · `lib/visual-spec-v02-lotb.js` · `lib/vcck/render-bridge.js` · `lib/visual-decision-svg.js` · `vcck/registry/families.json`
+
+**CI report-only :** `scripts/run-projection-baseline.mjs` · `scripts/run-projection-report.mjs` · `package.json` · `package-lock.json` · `scripts/validate-reader-v1.sh`
+
+**Tests Architecture Foundations :** `test/visual-grammar-runtime.test.js` · `test/svg-graphic-language.test.js` · `test/projection-verification.test.js` · `test/visual-spec-projection-normalize.test.js` · `test/kind-vocabulary.test.js` · `test/threshold-band-validate.test.js` · `test/visual-centrality.test.js` · `test/capability-coverage.test.js`
+
+**Golden corpus + rapports Projection Foundation :** `01-learning/chapters/cardio/234/build/visual-specs/n09-diagnostic-algorithm.yaml` · `figures/n09-diagnostic-algorithm.svg` · `figures/n13-2-oap-actions.svg` · `figures/n20-1-crt-dai-comparison.svg` · `build/projection-foundation-report.md` · `build/projection-normalization-report.md` · `build/projection-total-disposition-audit.md` · `build/projection-foundation-baseline-p0a.json` · `build/projection-foundation-baseline-p0b.json` · `build/projection-total-disposition-report.json` · `build/projection-dispositions-report.json`
+
+### OUT — ne pas inclure
+
+**Phase B / produit :** `editorial-industrialization/v0/**` · `docs/analysis/**` · figures N15/N18/N21 · visual-specs N13/N15/N18/N21 (hors golden corpus freeze)
+
+**Expérimental :** `tools/lou-build/lib/vcck/cmm-*` · `w2a-*` · `scripts/run-w2a.mjs` · `run-cmm-*` · `run-wave2-*` · `test/vcck-cmm-*` · `test/vcck-w2a*` · `test/vcck-w1-replay.test.js` · `demo/renderer/library/visual-centrality-runtime.js`
+
+**Build temporaires :** `build/review/` · `build/sprint-n20-1/` (artefacts sprint) · `build/visual-specs/n13-2-*` etc. · `vcck/reports/*` (regénérables)
+
+**WIP doc racine :** `IMPLEMENTATION_CONTRACT.md` · `REFERENCE_IMPLEMENTATION_DESIGN.md` · `VISUAL-*` (racine) · `docs/contracts/**` modifiés (hors ADR-008) · `docs/renderer/**` modifiés
+
+### À ARBITRER
+
+| Élément | Recommandation |
+|---|---|
+| Commit `d315f83` | **Conserver tel quel** — prérequis renderer ; freeze = commit #2 |
+| `visual-decision-svg.js` (+528 lignes WIP) | **IN** — contient P0b `data-official-text-id` ; vérifier diff avant add |
+| Figures N15/N18/N21 | **OUT** du freeze Architecture Foundations — Golden Corpus V1 |
+| `docx` dans package.json | **IN** — dépendance transitoire W2A ; sans impact freeze |
+| Modified `test:ci` failures (19) | **Hors gate freeze** — suite minimale Architecture Foundations suffit |
+
+---
+
+## Classification des suites de tests
+
+### A. Architecture Foundations V1 (gate du tag `architecture-foundations-v1`)
+
+| Suite | Fichier |
+|---|---|
+| Visual Grammar Runtime | `visual-grammar-runtime.test.js` |
+| SVG Graphic Language / Theme | `svg-graphic-language.test.js` |
+| Projection Verification | `projection-verification.test.js` |
+| VisualSpec normalization | `visual-spec-projection-normalize.test.js` |
+| Kind vocabulary | `kind-vocabulary.test.js` |
+| Threshold band validate | `threshold-band-validate.test.js` |
+| Visual centrality | `visual-centrality.test.js` |
+| Capability coverage | `capability-coverage.test.js` |
+| Report-only CI | `npm run projection:report` |
+
+**Attendu :** 74 tests PASS · `projection:report` exit 0.
+
+### B. Reader
+
+| Suite | Fichier / emplacement |
+|---|---|
+| Renderer unit | `demo/renderer/` — `npm test` |
+| Visual centrality reader | `demo/renderer/test/visual-centrality-reader.test.js` (expérimental — hors gate freeze) |
+
+### C. Product
+
+| Suite | Fichier / emplacement |
+|---|---|
+| Pipeline validate/build | `tools/lou-build/src/cli/build.ts` |
+| Product smokes | `scripts/ci-234.sh` · `scripts/product-review-234.sh` |
+| Slice integration | `test/slice.test.ts` (hors gate CI standard) |
+
+### D. Experimental (hors gate freeze)
+
+| Suite | Nature |
+|---|---|
+| `vcck-w1-replay.test.js` | W1 replay — 2 FAIL connus |
+| `vcck-w1-responsive.test.js` | Viewport — 6 FAIL connus |
+| `vcck-w1-surfaces.test.js` | Manifest fingerprints — 1 FAIL |
+| `vcck-w2a.test.js` | Walkthrough prep — Phase B |
+| `vcck-cmm-qualification.test.js` | CMM — Phase B |
+| Playwright gate matrix | Env Playwright — 1 FAIL |
+| Hash frozen / Lot C1 | Drift renderer — KNOWN FAIL |
+
+**Note :** `test:ci` complet (570 tests) n'est **pas** le gate du tag Architecture Foundations V1.
 
 ---
 
@@ -229,7 +301,8 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 | Date | Événement |
 |---|---|
-| 2026-08-06 | **ADR-008 publié — architecture industrielle VCCK stabilisée** — visualSpec = autorité sémantique (contrat 05) ; ADR-008 = autorité de composition ; chantier architecture clôturé ; **E2** = chantier actif (production industrielle visualSpecs 234) |
+| 2026-08-09 | **Architecture Foundations V1 terminée** — Visual Grammar v0.1 · Runtime · Theme V1 · Projection Foundation · normalisation VisualSpec · `fact_dispositions` · CI `projection:report` report-only ; architecture graphique **gelée** ; prochain chantier **Golden Corpus V1** ; tag proposé `architecture-foundations-v1` |
+| 2026-08-06 | **ADR-008 publié — architecture industrielle VCCK stabilisée** — visualSpec = autorité sémantique (contrat 05) ; ADR-008 = autorité de composition |
 | 2026-08-06 | **Stratégie VCCK révisée — D-VCCK-STACK-EXTENSION** — pas de noyau global immédiat ; extension piles par primitive ; extraction progressive ; signatures en E2 ; jalon pré-W2 avant qualification W2 ; CMM gelée non réplicable |
 | 2026-08-06 | **E1 clôturée — `chapter-master-map` qualifiée V1** — CMM-0.3 / CMM-R3 ; 17/17 tests · 11 gates PASS · audit `PASS_WITH_MINOR_RECOMMENDATIONS` · gel famille autorisé ; prochain micro-lot **E2** (29 visualSpecs + audit 30) |
 | 2026-08-04 | **Phase 1A prototypage éditorial activée** — plan autoritaire [`editorial-prototyping-and-migration-plan.md`](plans/editorial-prototyping-and-migration-plan.md) ; conception conjointe MM/Notions/Cas ; RPC Amorçage **suspendu** ; MM RPC Phase 1 = baseline historique |
@@ -323,4 +396,4 @@ Fenêtre utile à la lecture immédiate. Détail antérieur → [`docs/releases/
 
 ---
 
-*Révision 2026-08-06 — ADR-008 publié ; contrat 05 réaligné ; architecture VCCK stabilisée ; E2 chantier actif ; industrialisation éditoriale ; jalon implémentation pré-W2 avant W2.*
+*Révision 2026-08-09 — Architecture Foundations V1 terminée ; architecture graphique gelée ; Golden Corpus V1 prochain.*

@@ -155,7 +155,8 @@ L'architecture repose sur une séparation stricte de trois domaines. Aucun domai
 ┌─────────────────────────────────────────────────────────────────┐
 │  DOMAINE COMPOSITION (VCCK)                                     │
 │  Signature · RECONNAISSANCE · capacité · contrat perceptuel ·   │
-│  composition abstraite · preuves · registre des capacités       │
+│  composition abstraite · champs supportés · preuves ·           │
+│  registre des capacités                                         │
 │  Autorité : admission structurelle, conformité perceptuelle     │
 │  Objet gouverné : la CAPACITÉ                                   │
 └────────────────────────────┬────────────────────────────────────┘
@@ -187,7 +188,7 @@ VCCK ne gouverne pas directement les primitives (ADR-001), ni les renderers (dom
 |---|---|---|
 | **Primitive sémantique** | Slot du catalogue gelé ([ADR-001](ADR-001-freeze-svg-grammar-catalogue.md)) — type de structure cognitive | Contexte sémantique de la visualSpec ; **non gouverné** par VCCK |
 | **Famille** | Description structurelle fermée rattachée à une primitive — enveloppe de signatures admissibles | **Candidate** à la qualification ; objet de conception, pas d'usage industriel |
-| **Capacité** | Famille **qualifiée** — contrat perceptuel, preuves, verdict, statut QUALIFIED | **Unité gouvernée** : admission, registre, réutilisation, immutabilité en production |
+| **Capacité** | Famille **qualifiée** — contrat perceptuel, champs supportés, preuves, verdict, statut QUALIFIED | **Unité gouvernée** : admission, registre, réutilisation, immutabilité en production |
 | **Composition instanciée** | Plan abstrait produit pour **une** visualSpec via **une** capacité reconnue | Produit jetable du cycle de production ; entrée des surfaces de matérialisation |
 
 **Relations :**
@@ -200,7 +201,35 @@ Capacité (1) ──< (N) Compositions instanciées   [en production]
 
 Une **famille** décrit *ce qu'une structure peut être*. Une **capacité** atteste *qu'une famille est prouvée pour usage industriel*. Seule une capacité peut être **reconnue** lors de la production.
 
-### 6.2 Registre des capacités
+### 6.2 Propriétés d'une capacité qualifiée
+
+Outre son enveloppe structurelle (§7), une capacité **QUALIFIED** publie les propriétés suivantes :
+
+| Propriété | Rôle |
+|---|---|
+| **Contrat perceptuel** | Hiérarchie visuelle, reflow, interdits multi-surface |
+| **Champs supportés** (`consumes`) | Chemins visualSpec matérialisés fidèlement dans l'artefact |
+| **Dispositions de projection** (`fact_dispositions`) | Déclaration explicite par type de fait : MATERIALIZED, DERIVED, DISCARDED — vérifiée en report-only par Projection Foundation |
+| **Preuves** | Fixtures, déterminisme, mutants, audit perceptuel |
+
+**Champs supportés** — une capacité déclare explicitement quels éléments d'une visualSpec elle sait matérialiser fidèlement dans l'artefact (SVG ou toute surface de matérialisation). La déclaration vit dans le **registre des capacités** — clé `consumes`, chemins en notation pointée (ex. `nodes.label`, `branches.condition`).
+
+Principes (non négociables) :
+
+- **Aucune interprétation médicale** — les libellés proviennent verbatim de la visualSpec.
+- **Aucune création de contenu** — tout texte visible apprenant provient d'un champ supporté.
+- **Aucune modification de la structure pédagogique** — pas de fusion, scission ou réordonnancement sémantique.
+- **Matérialisation fidèle uniquement** — mise en forme des champs **déclarés**, sans enrichissement des champs non déclarés.
+
+Un champ présent dans la visualSpec mais **absent** de `consumes` n'est pas une violation de qualification en l'état actuel du pipeline. Un champ **listé** dans `consumes` mais absent ou altéré dans l'artefact de référence **est** une violation de qualification (§9.1).
+
+Les **`fact_dispositions`** déclarent, par type de fait learner-visible, si la capacité le matérialise (MATERIALIZED), le dérive (DERIVED) ou l'exclut (DISCARDED). Projection Foundation compare déclaration et artefact en **mode report-only** — sans gate bloquant sur le corpus de production. L'activation d'un gate bloquant sur les dispositions est un jalon post-Phase A.
+
+La déclaration ne remplace pas la composition abstraite : elle fixe le **contrat de projection** entre visualSpec et artefact. Le renderer projette la composition admise ; il ne décide pas des champs supportés.
+
+Inventaire des champs par famille et figure (état du dépôt) : [`visualspec-structure-audit.md`](../analysis/visualspec-structure-audit.md) §10.
+
+### 6.3 Registre des capacités
 
 Le registre des capacités qualifiées est le **seul point de convergence** entre le cycle de qualification (§9.1) et le cycle de production (§9.2). La reconnaissance consulte exclusivement ce registre. Aucune production ne contourne le registre.
 
@@ -303,7 +332,7 @@ VCCK distingue deux cycles de vie qui ne partagent ni autorité, ni calendrier, 
 
 **Objet :** transformer une **famille** (description structurelle) en **capacité qualifiée**.
 
-**Entrées :** contrat perceptuel ; enveloppe structurelle ; fixtures génériques ; budgets ; mutants.
+**Entrées :** contrat perceptuel ; enveloppe structurelle ; **champs supportés** (`consumes`) ; fixtures génériques ; budgets ; mutants.
 
 **Sortie :** capacité **QUALIFIED** inscrite au registre.
 
@@ -313,12 +342,14 @@ VCCK distingue deux cycles de vie qui ne partagent ni autorité, ni calendrier, 
 - Antérieur ou parallèle à toute production qui en dépend.
 - Immuable pendant un run de production (invariant I11).
 - Évolue par **nouvelle campagne de qualification**, jamais par retouche en production.
+- Inclut une preuve que les **champs supportés** déclarés apparaissent fidèlement dans les artefacts de référence (§6.2).
 
 ```text
 famille (description structurelle)
 → contrat perceptuel
+→ champs supportés (consumes)
 → fixtures génériques (positives, négatives, stress)
-→ preuves (responsive, déterminisme, mutants, audit perceptuel)
+→ preuves (responsive, déterminisme, mutants, audit perceptuel, vérification champs supportés)
 → verdict de qualification
 → capacité QUALIFIED → registre
 ```
@@ -396,7 +427,7 @@ VCCK est conçu pour **refuser explicitement** plutôt que dégrader silencieuse
 | **Signature** | Composition | Empreinte structurelle **calculée** depuis la visualSpec | Être déclarée par l'auteur ; remplacer la validation sémantique |
 | **Reconnaissance** | Composition | Verdict ADMITTED / REJECTED / UNRECOGNIZED depuis signature + registre | Forcer une admission ; modifier la visualSpec ; consulter un renderer |
 | **Famille** | Composition | Description structurelle candidate — enveloppe, budgets théoriques | Être confondue avec une capacité ; porter une autorité médicale |
-| **Capacité** | Composition | Famille qualifiée — contrat perceptuel, preuves, statut QUALIFIED | Être choisie par l'auteur ; être qualifiée par chapitre |
+| **Capacité** | Composition | Famille qualifiée — contrat perceptuel, **champs supportés**, preuves, statut QUALIFIED | Être choisie par l'auteur ; être qualifiée par chapitre ; inventer du contenu |
 | **Contrat perceptuel** | Composition | Hiérarchie visuelle, références, interdits multi-surface | Décider du fond médical ; remplacer la visualSpec |
 | **Composition abstraite** | Composition | Plan instancié pour une visualSpec admise via une capacité reconnue | Inventer des nœuds, relations ou claims |
 | **Surface de matérialisation** | Exécution | Projeter la composition abstraite en artefact (SVG, HTML, Word, …) | Décider de l'admission ; altérer le sens ; choisir une capacité |
@@ -505,6 +536,7 @@ Règles qui survivent à toute implémentation, toute surface de matérialisatio
 | **I15** | **Stabilité patrimoniale sémantique** — une visualSpec validée conserve son identité éditoriale indépendamment des capacités, surfaces ou évolutions VCCK futures |
 | **I16** | **Traçabilité de production** — un artefact publié conserve l'identité de la **capacité** ayant produit la composition et la **version du contrat perceptuel** associé, permettant l'audit post-publication |
 | **I17** | **Neutralité de domaine** — aucune capacité, composition ou surface ne dépend d'un chapitre, d'une spécialité, d'identifiants KP, d'un inventaire ou d'un contenu médical particulier ; VCCK reste totalement indépendant du domaine médical |
+| **I18** | **Matérialisation déclarée** — toute capacité qualifiée publie les chemins visualSpec qu'elle matérialise (`consumes`) ; la qualification vérifie leur présence fidèle dans l'artefact, sans création ni interprétation médicale |
 
 ## Conséquences
 
@@ -559,7 +591,7 @@ Points **réellement non arbitrés** — à trancher dans des contrats ou décis
 
 **Enjeu :** gouvernance de l'admission, auditabilité, séparation production / évolution.
 
-**État :** registre **conceptuellement requis** (§6.2) ; forme normative exacte **différée**.
+**État :** registre **conceptuellement requis** (§6.3) ; forme normative exacte **différée**.
 
 ---
 
@@ -570,6 +602,7 @@ Points **réellement non arbitrés** — à trancher dans des contrats ou décis
 |---|---|
 | [`VISUAL_GRAMMAR_LIBRARY.md`](../../VISUAL_GRAMMAR_LIBRARY.md) | Catalogue des primitives (ADR-001) |
 | [`VISUAL-COMPOSITION-CONFORMANCE-KIT.md`](../../VISUAL-COMPOSITION-CONFORMANCE-KIT.md) | Spécification opérationnelle VCCK — complète cette ADR, non substitut |
+| [`docs/analysis/visualspec-structure-audit.md`](../analysis/visualspec-structure-audit.md) | Inventaire champs supportés par famille — état du dépôt (§10) |
 | [`docs/contracts/05-VISUAL-GRAMMAR.md`](../contracts/05-VISUAL-GRAMMAR.md) | Contrat sémantique du visuel officiel |
 | [`docs/adr/ADR-007-visual-centrality-for-mental-models-and-notions.md`](ADR-007-visual-centrality-for-mental-models-and-notions.md) | Obligation éditoriale que VCCK opérationnalise |
 | [`docs/governance/DOCUMENT_ARCHITECTURE.md`](../governance/DOCUMENT_ARCHITECTURE.md) | Organisation du pilotage documentaire |

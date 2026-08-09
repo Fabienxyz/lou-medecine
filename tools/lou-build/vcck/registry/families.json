@@ -40,7 +40,17 @@
       ],
       "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
       "test_status": "experimental-p0",
-      "known_limitations": []
+      "known_limitations": [],
+      "consumes": [
+        "question",
+        "nodes.label",
+        "nodes.kind"
+      ],
+      "fact_dispositions": {
+        "question": { "disposition": "MATERIALIZED" },
+        "node": { "disposition": "MATERIALIZED" },
+        "edge": { "disposition": "DISCARDED", "discardReason": "NON_LEARNER_VISIBLE" }
+      }
     },
     {
       "id": "fan-out",
@@ -235,7 +245,23 @@
       ],
       "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
       "test_status": "experimental-p0",
-      "known_limitations": []
+      "known_limitations": [],
+      "consumes": [
+        "question",
+        "nodes.label",
+        "nodes.kind",
+        "branches.condition",
+        "nodes.subitems.label",
+        "annotations.label"
+      ],
+      "fact_dispositions": {
+        "question": { "disposition": "MATERIALIZED" },
+        "node": { "disposition": "MATERIALIZED" },
+        "subitem": { "disposition": "MATERIALIZED" },
+        "branch": { "disposition": "MATERIALIZED" },
+        "annotation": { "disposition": "MATERIALIZED" },
+        "edge": { "disposition": "DISCARDED", "discardReason": "NON_LEARNER_VISIBLE" }
+      }
     },
     {
       "id": "binary-rule-out",
@@ -313,7 +339,15 @@
       ],
       "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
       "test_status": "experimental-p0",
-      "known_limitations": []
+      "known_limitations": [],
+      "fact_dispositions": {
+        "question": { "disposition": "MATERIALIZED" },
+        "node": { "disposition": "MATERIALIZED" },
+        "subitem": { "disposition": "MATERIALIZED" },
+        "branch": { "disposition": "MATERIALIZED" },
+        "annotation": { "disposition": "MATERIALIZED" },
+        "edge": { "disposition": "DISCARDED", "discardReason": "NON_LEARNER_VISIBLE" }
+      }
     },
     {
       "id": "monitoring-loop",
@@ -473,7 +507,25 @@
       ],
       "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
       "test_status": "experimental-p0",
-      "known_limitations": []
+      "known_limitations": [],
+      "fact_dispositions": {
+        "question": { "disposition": "MATERIALIZED" },
+        "node": { "disposition": "MATERIALIZED" },
+        "subitem": { "disposition": "MATERIALIZED" },
+        "branch": { "disposition": "MATERIALIZED" },
+        "annotation": { "disposition": "MATERIALIZED" },
+        "threshold-fragment-context": { "disposition": "MATERIALIZED" },
+        "threshold-fragment-scale-line": { "disposition": "MATERIALIZED" },
+        "threshold-fragment-low-band-meaning": {
+          "disposition": "DERIVED",
+          "derivedFrom": "node"
+        },
+        "threshold-fragment-interpretation": {
+          "disposition": "DISCARDED",
+          "discardReason": "OUT_OF_SCOPE_FOR_CAPABILITY"
+        },
+        "edge": { "disposition": "DISCARDED", "discardReason": "NON_LEARNER_VISIBLE" }
+      }
     },
     {
       "id": "two-pole",
@@ -513,7 +565,23 @@
       ],
       "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
       "test_status": "experimental-p0",
-      "known_limitations": []
+      "known_limitations": [],
+      "consumes": [
+        "question",
+        "poles.label",
+        "dimensions.label",
+        "dimensions.cells.items.label"
+      ],
+      "fact_dispositions": {
+        "question": { "disposition": "MATERIALIZED" },
+        "pole": { "disposition": "MATERIALIZED" },
+        "dimension": { "disposition": "MATERIALIZED" },
+        "matrix-cell": { "disposition": "MATERIALIZED" },
+        "relation-label": {
+          "disposition": "DISCARDED",
+          "discardReason": "NON_LEARNER_VISIBLE"
+        }
+      }
     },
     {
       "id": "three-pole-reflow",
@@ -592,7 +660,16 @@
       ],
       "expected_negative_code": "UNSUPPORTED_TOPOLOGY",
       "test_status": "experimental-p0",
-      "known_limitations": []
+      "known_limitations": [],
+      "consumes": [
+        "question",
+        "groups.items.label",
+        "set.label"
+      ],
+      "fact_dispositions": {
+        "question": { "disposition": "MATERIALIZED" },
+        "matrix-cell": { "disposition": "MATERIALIZED" }
+      }
     },
     {
       "id": "grouped-concurrent",

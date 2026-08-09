@@ -1,0 +1,1907 @@
+{
+  "mission": "PROJECTION-DISPOSITIONS",
+  "phase": "DISPOSITIONS",
+  "generatedAt": "2026-08-09T19:43:15.895Z",
+  "authoritativeFactSource": "visualSpecClaimUnits",
+  "chapter": "01-learning/chapters/cardio/234",
+  "checkpoint": {
+    "verdict": "PASS",
+    "reason": "Limited gap categories extensible via visualSpecClaimUnits: question, subitem",
+    "gapCategories": [
+      "question",
+      "subitem"
+    ]
+  },
+  "corpus": {
+    "figureCount": 6,
+    "totalFacts": 55,
+    "exactlyOnce": 41,
+    "missing": 8,
+    "duplicated": 6,
+    "orphan": 9,
+    "dispositions": {
+      "materialized": 46,
+      "derived": 1,
+      "discarded": 0,
+      "unknown": 8
+    },
+    "byType": {
+      "node": {
+        "total": 19,
+        "exactlyOnce": 18,
+        "missing": 1,
+        "duplicated": 0,
+        "materialized": 18,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "subitem": {
+        "total": 4,
+        "exactlyOnce": 3,
+        "missing": 1,
+        "duplicated": 0,
+        "materialized": 3,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "branch": {
+        "total": 12,
+        "exactlyOnce": 7,
+        "missing": 5,
+        "duplicated": 0,
+        "materialized": 7,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 5
+      },
+      "threshold-fragment-context": {
+        "total": 1,
+        "exactlyOnce": 0,
+        "missing": 0,
+        "duplicated": 1,
+        "materialized": 1,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "threshold-fragment-low-band-meaning": {
+        "total": 1,
+        "exactlyOnce": 1,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 0,
+        "derived": 1,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "threshold-cutoff": {
+        "total": 2,
+        "exactlyOnce": 0,
+        "missing": 0,
+        "duplicated": 2,
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "threshold-fragment-scale-line": {
+        "total": 2,
+        "exactlyOnce": 0,
+        "missing": 0,
+        "duplicated": 2,
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "annotation": {
+        "total": 1,
+        "exactlyOnce": 1,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 1,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "question": {
+        "total": 2,
+        "exactlyOnce": 1,
+        "missing": 1,
+        "duplicated": 0,
+        "materialized": 1,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "pole": {
+        "total": 2,
+        "exactlyOnce": 1,
+        "missing": 0,
+        "duplicated": 1,
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "dimension": {
+        "total": 3,
+        "exactlyOnce": 3,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 3,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "matrix-cell": {
+        "total": 6,
+        "exactlyOnce": 6,
+        "missing": 0,
+        "duplicated": 0,
+        "materialized": 6,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      }
+    },
+    "figures": [
+      {
+        "figureId": "N09",
+        "element": "N09-diagnostic-algorithm",
+        "summary": {
+          "totalFacts": 23,
+          "exactlyOnce": 13,
+          "missing": 5,
+          "duplicated": 5,
+          "orphanMarks": 3,
+          "materialized": 17,
+          "derived": 1,
+          "discarded": 0,
+          "unknown": 5
+        },
+        "dispositions": {
+          "materialized": 17,
+          "derived": 1,
+          "discarded": 0,
+          "unknown": 5
+        }
+      },
+      {
+        "figureId": "N13-2",
+        "element": "N13-2-oap-actions",
+        "summary": {
+          "totalFacts": 3,
+          "exactlyOnce": 2,
+          "missing": 1,
+          "duplicated": 0,
+          "orphanMarks": 2,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "dispositions": {
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        }
+      },
+      {
+        "figureId": "N15-1",
+        "element": "N15-1-shock-support",
+        "summary": {
+          "totalFacts": 5,
+          "exactlyOnce": 4,
+          "missing": 1,
+          "duplicated": 0,
+          "orphanMarks": 2,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "dispositions": {
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        }
+      },
+      {
+        "figureId": "N18-1",
+        "element": "N18-1-treatment-sequence",
+        "summary": {
+          "totalFacts": 7,
+          "exactlyOnce": 7,
+          "missing": 0,
+          "duplicated": 0,
+          "orphanMarks": 1,
+          "materialized": 7,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "dispositions": {
+          "materialized": 7,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      {
+        "figureId": "N20-1",
+        "element": "N20-1-crt-dai-comparison",
+        "summary": {
+          "totalFacts": 12,
+          "exactlyOnce": 11,
+          "missing": 0,
+          "duplicated": 1,
+          "orphanMarks": 0,
+          "materialized": 12,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "dispositions": {
+          "materialized": 12,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      {
+        "figureId": "N21-1",
+        "element": "N21-1-natural-history",
+        "summary": {
+          "totalFacts": 5,
+          "exactlyOnce": 4,
+          "missing": 1,
+          "duplicated": 0,
+          "orphanMarks": 1,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "dispositions": {
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        }
+      }
+    ]
+  },
+  "figures": [
+    {
+      "figureId": "N09",
+      "element": "N09-diagnostic-algorithm",
+      "primitive": "decision-algorithm",
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 23,
+        "exactlyOnce": 13,
+        "missing": 5,
+        "duplicated": 5,
+        "orphanMarks": 3,
+        "materialized": 17,
+        "derived": 1,
+        "discarded": 0,
+        "unknown": 5
+      },
+      "dispositions": {
+        "materialized": 17,
+        "derived": 1,
+        "discarded": 0,
+        "unknown": 5
+      },
+      "byType": {
+        "node": {
+          "total": 6,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 5,
+          "materialized": 5,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "subitem": {
+          "total": 4,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "branch": {
+          "total": 6,
+          "missing": 3,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 3
+        },
+        "threshold-fragment-context": {
+          "total": 1,
+          "missing": 0,
+          "duplicated": 1,
+          "exactlyOnce": 0,
+          "materialized": 1,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "threshold-fragment-low-band-meaning": {
+          "total": 1,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 1,
+          "materialized": 0,
+          "derived": 1,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "threshold-cutoff": {
+          "total": 2,
+          "missing": 0,
+          "duplicated": 2,
+          "exactlyOnce": 0,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "threshold-fragment-scale-line": {
+          "total": 2,
+          "missing": 0,
+          "duplicated": 2,
+          "exactlyOnce": 0,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "annotation": {
+          "total": 1,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 1,
+          "materialized": 1,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      "violations": {
+        "missing": [
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-node-n09-entry",
+            "type": "node",
+            "text": "Facteurs de risque + symptômes ou signes ± ECG anormal",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-exams",
+            "type": "subitem",
+            "text": "Examens complémentaires si nécessaires",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-unlikely",
+            "type": "branch",
+            "text": "BNP < 35 pg/mL ou NT-proBNP < 125 pg/mL",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-echo",
+            "type": "branch",
+            "text": "Valeurs au-dessus des seuils ou peptides indisponibles",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-branch-br-echo-characterize",
+            "type": "branch",
+            "text": "Objectiver et caractériser l'anomalie cardiaque",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          }
+        ],
+        "duplicated": [
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+            "type": "threshold-fragment-context",
+            "text": "hors urgence",
+            "occurrenceCount": 3,
+            "disposition": "MATERIALIZED",
+            "justification": "fragment callout context line",
+            "evidence": {
+              "role": "fragment callout context line",
+              "locations": [
+                "title",
+                "branch:br-suspicion-peptides",
+                "fragment:br-peptides-unlikely"
+              ]
+            }
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-frag-bnp",
+            "type": "threshold-cutoff",
+            "text": "< 35 pg/mL",
+            "occurrenceCount": 2,
+            "disposition": "MATERIALIZED",
+            "justification": "threshold cutoff text",
+            "evidence": {
+              "role": "threshold cutoff text",
+              "locations": [
+                "branch:br-peptides-unlikely",
+                "fragment:br-peptides-unlikely"
+              ]
+            }
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-bnp",
+            "type": "threshold-fragment-scale-line",
+            "text": "BNP < 35 pg/mL",
+            "occurrenceCount": 2,
+            "disposition": "MATERIALIZED",
+            "justification": "fragment callout scale line",
+            "evidence": {
+              "role": "fragment callout scale line",
+              "locations": [
+                "branch:br-peptides-unlikely",
+                "fragment:br-peptides-unlikely"
+              ]
+            }
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-frag-ntprobnp",
+            "type": "threshold-cutoff",
+            "text": "< 125 pg/mL",
+            "occurrenceCount": 2,
+            "disposition": "MATERIALIZED",
+            "justification": "threshold cutoff text",
+            "evidence": {
+              "role": "threshold cutoff text",
+              "locations": [
+                "branch:br-peptides-unlikely",
+                "fragment:br-peptides-unlikely"
+              ]
+            }
+          },
+          {
+            "id": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-ntprobnp",
+            "type": "threshold-fragment-scale-line",
+            "text": "NT-proBNP < 125 pg/mL",
+            "occurrenceCount": 2,
+            "disposition": "MATERIALIZED",
+            "justification": "fragment callout scale line",
+            "evidence": {
+              "role": "fragment callout scale line",
+              "locations": [
+                "branch:br-peptides-unlikely",
+                "fragment:br-peptides-unlikely"
+              ]
+            }
+          }
+        ],
+        "orphans": [
+          {
+            "text": "Valeurs au-dessus des seuilsou peptides indisponibles",
+            "officialTextId": null
+          },
+          {
+            "text": "Objectiver et caractériserl'anomalie cardiaque",
+            "officialTextId": null
+          },
+          {
+            "text": "Facteurs de risque +symptômes ou signes± ECG anormal",
+            "officialTextId": null
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-entry",
+          "unit": "node",
+          "type": "node",
+          "text": "Facteurs de risque + symptômes ou signes ± ECG anormal",
+          "ref": "n09-entry",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "node label",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-suspicion",
+          "unit": "node",
+          "type": "node",
+          "text": "Suspicion clinique d'IC",
+          "ref": "n09-suspicion",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-suspicion",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-peptides",
+          "unit": "node",
+          "type": "node",
+          "text": "BNP ou NT-proBNP",
+          "ref": "n09-peptides",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-peptides",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-unlikely",
+          "unit": "node",
+          "type": "node",
+          "text": "IC peu probable",
+          "ref": "n09-unlikely",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-unlikely",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-echo",
+          "unit": "node",
+          "type": "node",
+          "text": "Échocardiographie",
+          "ref": "n09-echo",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-echo",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-node-n09-characterize",
+          "unit": "node",
+          "type": "node",
+          "text": "Caractériser l'IC",
+          "ref": "n09-characterize",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-characterize",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-phenotype",
+          "unit": "subitem",
+          "type": "subitem",
+          "text": "Phénotype selon la FE",
+          "ref": "n09-characterize/char-phenotype",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node subitem (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-phenotype",
+          "evidence": {
+            "role": "node subitem",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-cause",
+          "unit": "subitem",
+          "type": "subitem",
+          "text": "Cause",
+          "ref": "n09-characterize/char-cause",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node subitem (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-cause",
+          "evidence": {
+            "role": "node subitem",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-severity",
+          "unit": "subitem",
+          "type": "subitem",
+          "text": "Retentissement et gravité",
+          "ref": "n09-characterize/char-severity",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node subitem (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-severity",
+          "evidence": {
+            "role": "node subitem",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-sub-n09-characterize-char-exams",
+          "unit": "subitem",
+          "type": "subitem",
+          "text": "Examens complémentaires si nécessaires",
+          "ref": "n09-characterize/char-exams",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "node subitem",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-entry-suspicion",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Évaluer la probabilité clinique",
+          "ref": "n09-entry->n09-suspicion",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-branch-br-entry-suspicion",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-entry-suspicion"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-peptides",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Parcours hors urgence",
+          "ref": "n09-suspicion->n09-peptides",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-peptides",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-suspicion-peptides",
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-unlikely",
+          "unit": "branch",
+          "type": "branch",
+          "text": "BNP < 35 pg/mL ou NT-proBNP < 125 pg/mL",
+          "ref": "n09-peptides->n09-unlikely",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 2,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+          "unit": "threshold-fragment-context",
+          "type": "threshold-fragment-context",
+          "text": "hors urgence",
+          "ref": "br-peptides-unlikely/context",
+          "occurrenceCount": 3,
+          "status": "duplicated",
+          "linkedMarkCount": 3,
+          "disposition": "MATERIALIZED",
+          "justification": "fragment callout context line",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-frag-ctx-br-peptides-unlikely",
+          "evidence": {
+            "role": "fragment callout context line",
+            "locations": [
+              "title",
+              "branch:br-suspicion-peptides",
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-lbm-br-peptides-unlikely",
+          "unit": "threshold-fragment-low-band-meaning",
+          "type": "threshold-fragment-low-band-meaning",
+          "text": "IC peu probable",
+          "ref": "br-peptides-unlikely/low_band_meaning",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "DERIVED",
+          "justification": "represented by node n09-unlikely",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-node-n09-unlikely",
+          "evidence": {
+            "role": "fragment low_band_meaning field",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ],
+            "derivedFrom": "n09-unlikely"
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-frag-bnp",
+          "unit": "threshold-cutoff",
+          "type": "threshold-cutoff",
+          "text": "< 35 pg/mL",
+          "ref": "frag-bnp",
+          "occurrenceCount": 2,
+          "status": "duplicated",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "threshold cutoff text",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-frag-frag-bnp",
+          "evidence": {
+            "role": "threshold cutoff text",
+            "locations": [
+              "branch:br-peptides-unlikely",
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-bnp",
+          "unit": "threshold-fragment-scale-line",
+          "type": "threshold-fragment-scale-line",
+          "text": "BNP < 35 pg/mL",
+          "ref": "frag-bnp",
+          "occurrenceCount": 2,
+          "status": "duplicated",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "fragment callout scale line",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-bnp",
+          "evidence": {
+            "role": "fragment callout scale line",
+            "locations": [
+              "branch:br-peptides-unlikely",
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-frag-ntprobnp",
+          "unit": "threshold-cutoff",
+          "type": "threshold-cutoff",
+          "text": "< 125 pg/mL",
+          "ref": "frag-ntprobnp",
+          "occurrenceCount": 2,
+          "status": "duplicated",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "threshold cutoff text",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-frag-frag-ntprobnp",
+          "evidence": {
+            "role": "threshold cutoff text",
+            "locations": [
+              "branch:br-peptides-unlikely",
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-ntprobnp",
+          "unit": "threshold-fragment-scale-line",
+          "type": "threshold-fragment-scale-line",
+          "text": "NT-proBNP < 125 pg/mL",
+          "ref": "frag-ntprobnp",
+          "occurrenceCount": 2,
+          "status": "duplicated",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "fragment callout scale line",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-frag-line-frag-ntprobnp",
+          "evidence": {
+            "role": "fragment callout scale line",
+            "locations": [
+              "branch:br-peptides-unlikely",
+              "fragment:br-peptides-unlikely"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-peptides-echo",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Valeurs au-dessus des seuils ou peptides indisponibles",
+          "ref": "n09-peptides->n09-echo",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-echo",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Suspicion clinique forte",
+          "ref": "n09-suspicion->n09-echo",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-branch-br-suspicion-echo",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "fragment:br-suspicion-echo"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-branch-br-echo-characterize",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Objectiver et caractériser l'anomalie cardiaque",
+          "ref": "n09-echo->n09-characterize",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n09-diagnostic-algorithm-ann-ann-urgency",
+          "unit": "annotation",
+          "type": "annotation",
+          "text": "En urgence : ne pas retarder la prise en charge",
+          "ref": "ann-urgency",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "annotation (text present in artifact)",
+          "materializationSource": "cb-vis-n09-diagnostic-algorithm-ann-ann-urgency",
+          "evidence": {
+            "role": "annotation",
+            "locations": [
+              "fragment:br-echo-characterize"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N13-2",
+      "element": "N13-2-oap-actions",
+      "primitive": "decision-algorithm",
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 3,
+        "exactlyOnce": 2,
+        "missing": 1,
+        "duplicated": 0,
+        "orphanMarks": 2,
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "dispositions": {
+        "materialized": 2,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "byType": {
+        "node": {
+          "total": 2,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 2,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "branch": {
+          "total": 1,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 0,
+          "materialized": 0,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        }
+      },
+      "violations": {
+        "missing": [
+          {
+            "id": "cb-vis-n13-2-oap-actions-branch-br-domicile-hopital",
+            "type": "branch",
+            "text": "SAMU / hospitalisation",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          }
+        ],
+        "duplicated": [],
+        "orphans": [
+          {
+            "text": "Quelles actions ordonner dudomicile à l'hôpital ?",
+            "officialTextId": null
+          },
+          {
+            "text": "SAMU /hospitalisation",
+            "officialTextId": null
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n13-2-oap-actions-node-n13-domicile",
+          "unit": "node",
+          "type": "node",
+          "text": "Position assise, furosémide IV 1 mg/kg, nitrés si HTA",
+          "ref": "n13-domicile",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 3,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n13-2-oap-actions-node-n13-domicile",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-domicile-hopital"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n13-2-oap-actions-node-n13-hopital",
+          "unit": "node",
+          "type": "node",
+          "text": "O2 SaO2 > 90 %, furosémide IV, nitrés si HTA",
+          "ref": "n13-hopital",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n13-2-oap-actions-node-n13-hopital",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-domicile-hopital"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n13-2-oap-actions-branch-br-domicile-hopital",
+          "unit": "branch",
+          "type": "branch",
+          "text": "SAMU / hospitalisation",
+          "ref": "n13-domicile->n13-hopital",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N15-1",
+      "element": "N15-1-shock-support",
+      "primitive": "decision-algorithm",
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 5,
+        "exactlyOnce": 4,
+        "missing": 1,
+        "duplicated": 0,
+        "orphanMarks": 2,
+        "materialized": 4,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "dispositions": {
+        "materialized": 4,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "byType": {
+        "node": {
+          "total": 3,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "branch": {
+          "total": 2,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 1,
+          "materialized": 1,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        }
+      },
+      "violations": {
+        "missing": [
+          {
+            "id": "cb-vis-n15-1-shock-support-branch-br-inotrope-assist",
+            "type": "branch",
+            "text": "Escalade de support hémodynamique",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          }
+        ],
+        "duplicated": [],
+        "orphans": [
+          {
+            "text": "Comment reconnaître etprendre en charge unchoc cardiogénique ?",
+            "officialTextId": null
+          },
+          {
+            "text": "Escaladede support hémodynamique",
+            "officialTextId": null
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n15-1-shock-support-node-n15-recognize",
+          "unit": "node",
+          "type": "node",
+          "text": "Hypoperfusion : PAS < 90 ou chute > 30 mmHg",
+          "ref": "n15-recognize",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n15-1-shock-support-node-n15-recognize",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-inotrope-assist"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n15-1-shock-support-node-n15-inotrope",
+          "unit": "node",
+          "type": "node",
+          "text": "Dobutamine IV ou inhibiteur phosphodiestérases",
+          "ref": "n15-inotrope",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n15-1-shock-support-node-n15-inotrope",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-inotrope-assist"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n15-1-shock-support-node-n15-assist",
+          "unit": "node",
+          "type": "node",
+          "text": "Assistance circulatoire si échec",
+          "ref": "n15-assist",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n15-1-shock-support-node-n15-assist",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-inotrope-assist"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n15-1-shock-support-branch-br-recognize-inotrope",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Reconnaître le choc cardiogénique",
+          "ref": "n15-recognize->n15-inotrope",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n15-1-shock-support-branch-br-recognize-inotrope",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-recognize-inotrope"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n15-1-shock-support-branch-br-inotrope-assist",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Escalade de support hémodynamique",
+          "ref": "n15-inotrope->n15-assist",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "branch label",
+            "locations": []
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N18-1",
+      "element": "N18-1-treatment-sequence",
+      "primitive": "decision-algorithm",
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 7,
+        "exactlyOnce": 7,
+        "missing": 0,
+        "duplicated": 0,
+        "orphanMarks": 1,
+        "materialized": 7,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "dispositions": {
+        "materialized": 7,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "byType": {
+        "node": {
+          "total": 4,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 4,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "branch": {
+          "total": 3,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      "violations": {
+        "missing": [],
+        "duplicated": [],
+        "orphans": [
+          {
+            "text": "Comment introduire,surveiller et adapterles médicaments ?",
+            "officialTextId": null
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-node-n18-sra",
+          "unit": "node",
+          "type": "node",
+          "text": "IEC, ARA2 ou ARNI : introduction progressive",
+          "ref": "n18-sra",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-node-n18-sra",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-node-n18-bb",
+          "unit": "node",
+          "type": "node",
+          "text": "Bêtabloquant : titration lente si stabilisé",
+          "ref": "n18-bb",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-node-n18-bb",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-node-n18-complete",
+          "unit": "node",
+          "type": "node",
+          "text": "ARM, gliflozine, diurétique selon profil",
+          "ref": "n18-complete",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-node-n18-complete",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-node-n18-adapt",
+          "unit": "node",
+          "type": "node",
+          "text": "FE 41–49 % : mêmes traitements possibles",
+          "ref": "n18-adapt",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label (text present in artifact)",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-node-n18-adapt",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-branch-br-sra-bb",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Patient stabilisé hors poussée aiguë",
+          "ref": "n18-sra->n18-bb",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-branch-br-sra-bb",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-sra-bb"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-branch-br-bb-complete",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Compléter le traitement de fond",
+          "ref": "n18-bb->n18-complete",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-branch-br-bb-complete",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-bb-complete"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n18-1-treatment-sequence-branch-br-complete-adapt",
+          "unit": "branch",
+          "type": "branch",
+          "text": "Surveiller et adapter selon FE",
+          "ref": "n18-complete->n18-adapt",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "branch label",
+          "materializationSource": "cb-vis-n18-1-treatment-sequence-branch-br-complete-adapt",
+          "evidence": {
+            "role": "branch label",
+            "locations": [
+              "branch:br-complete-adapt"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N20-1",
+      "element": "N20-1-crt-dai-comparison",
+      "primitive": "comparison-matrix",
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 12,
+        "exactlyOnce": 11,
+        "missing": 0,
+        "duplicated": 1,
+        "orphanMarks": 0,
+        "materialized": 12,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "dispositions": {
+        "materialized": 12,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 0
+      },
+      "byType": {
+        "question": {
+          "total": 1,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 1,
+          "materialized": 1,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "pole": {
+          "total": 2,
+          "missing": 0,
+          "duplicated": 1,
+          "exactlyOnce": 1,
+          "materialized": 2,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "dimension": {
+          "total": 3,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 3,
+          "materialized": 3,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        },
+        "matrix-cell": {
+          "total": 6,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 6,
+          "materialized": 6,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      "violations": {
+        "missing": [],
+        "duplicated": [
+          {
+            "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+            "type": "pole",
+            "text": "DAI",
+            "occurrenceCount": 2,
+            "disposition": "MATERIALIZED",
+            "justification": "pole header (text present in artifact)",
+            "evidence": {
+              "role": "pole header",
+              "locations": [
+                "title",
+                "node:pole-dai"
+              ]
+            }
+          }
+        ],
+        "orphans": []
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-question",
+          "unit": "question",
+          "type": "question",
+          "text": "Quand choisir CRT ou DAI ?",
+          "ref": "question",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "figure title",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-question",
+          "evidence": {
+            "role": "figure title",
+            "locations": [
+              "title",
+              "node:pole-dai"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-crt",
+          "unit": "pole",
+          "type": "pole",
+          "text": "Resynchronisation (CRT)",
+          "ref": "pole-crt",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "pole header (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-pole-pole-crt",
+          "evidence": {
+            "role": "pole header",
+            "locations": [
+              "node:pole-crt"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+          "unit": "pole",
+          "type": "pole",
+          "text": "DAI",
+          "ref": "pole-dai",
+          "occurrenceCount": 2,
+          "status": "duplicated",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "pole header (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-pole-pole-dai",
+          "evidence": {
+            "role": "pole header",
+            "locations": [
+              "title",
+              "node:pole-dai"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-indication",
+          "unit": "dimension",
+          "type": "dimension",
+          "text": "Indication principale",
+          "ref": "dim-indication",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "dimension label (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-dim-dim-indication",
+          "evidence": {
+            "role": "dimension label",
+            "locations": [
+              "node:pole-dai"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-crt-indic",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "IC symptomatique, FEVG ≤ 35 %, QRS ≥ 130 ms",
+          "ref": "dim-indication/pole-crt/crt-indic",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 3,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-crt-indic",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:crt-indic",
+              "node:dai-indic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-dai-indic",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "Prévention FV/TV ou FEVG ≤ 35 %",
+          "ref": "dim-indication/pole-dai/dai-indic",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-indication-dai-indic",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:dai-indic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-morphology",
+          "unit": "dimension",
+          "type": "dimension",
+          "text": "Morphologie électrique",
+          "ref": "dim-morphology",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "dimension label (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-dim-dim-morphology",
+          "evidence": {
+            "role": "dimension label",
+            "locations": [
+              "node:dai-indic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-crt-qrs",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "Efficacité meilleure si BBG, QRS ≥ 150 ms",
+          "ref": "dim-morphology/pole-crt/crt-qrs",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-crt-qrs",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:crt-qrs"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-dai-qrs",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "Pas de critère QRS spécifique",
+          "ref": "dim-morphology/pole-dai/dai-qrs",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-morphology-dai-qrs",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:dai-qrs"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-dim-dim-nyha",
+          "unit": "dimension",
+          "type": "dimension",
+          "text": "Stade fonctionnel",
+          "ref": "dim-nyha",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "dimension label (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-dim-dim-nyha",
+          "evidence": {
+            "role": "dimension label",
+            "locations": [
+              "node:dai-qrs"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-crt-nyha",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "NYHA II à IV",
+          "ref": "dim-nyha/pole-crt/crt-nyha",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-crt-nyha",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:crt-nyha"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-dai-nyha",
+          "unit": "matrix-cell",
+          "type": "matrix-cell",
+          "text": "Non indiqué NYHA IV sauf greffe ou assistance",
+          "ref": "dim-nyha/pole-dai/dai-nyha",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "matrix cell (text present in artifact)",
+          "materializationSource": "cb-vis-n20-1-crt-dai-comparison-cell-dim-nyha-dai-nyha",
+          "evidence": {
+            "role": "matrix cell",
+            "locations": [
+              "node:dai-nyha"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "figureId": "N21-1",
+      "element": "N21-1-natural-history",
+      "primitive": "causal-graph",
+      "authoritativeSource": "visualSpecClaimUnits",
+      "summary": {
+        "totalFacts": 5,
+        "exactlyOnce": 4,
+        "missing": 1,
+        "duplicated": 0,
+        "orphanMarks": 1,
+        "materialized": 4,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "dispositions": {
+        "materialized": 4,
+        "derived": 0,
+        "discarded": 0,
+        "unknown": 1
+      },
+      "byType": {
+        "question": {
+          "total": 1,
+          "missing": 1,
+          "duplicated": 0,
+          "exactlyOnce": 0,
+          "materialized": 0,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 1
+        },
+        "node": {
+          "total": 4,
+          "missing": 0,
+          "duplicated": 0,
+          "exactlyOnce": 4,
+          "materialized": 4,
+          "derived": 0,
+          "discarded": 0,
+          "unknown": 0
+        }
+      },
+      "violations": {
+        "missing": [
+          {
+            "id": "cb-vis-n21-1-natural-history-question",
+            "type": "question",
+            "text": "Comment évolue l'IC entre stabilité et décompensation ?",
+            "disposition": "UNKNOWN",
+            "justification": "no learner-visible text match in artifact"
+          }
+        ],
+        "duplicated": [],
+        "orphans": [
+          {
+            "text": "Comment évolue l'IC entrestabilitéet décompensation ?",
+            "officialTextId": null
+          }
+        ]
+      },
+      "facts": [
+        {
+          "id": "cb-vis-n21-1-natural-history-question",
+          "unit": "question",
+          "type": "question",
+          "text": "Comment évolue l'IC entre stabilité et décompensation ?",
+          "ref": "question",
+          "occurrenceCount": 0,
+          "status": "missing",
+          "linkedMarkCount": 0,
+          "disposition": "UNKNOWN",
+          "justification": "no learner-visible text match in artifact",
+          "materializationSource": null,
+          "evidence": {
+            "role": "figure title",
+            "locations": []
+          }
+        },
+        {
+          "id": "cb-vis-n21-1-natural-history-n-n21-asymptomatic",
+          "unit": "node",
+          "type": "node",
+          "text": "Dysfonction cardiaque asymptomatique",
+          "ref": "n21-asymptomatic",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label",
+          "materializationSource": "cb-vis-n21-1-natural-history-n-n21-asymptomatic",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "node:n21-asymptomatic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n21-1-natural-history-n-n21-ic",
+          "unit": "node",
+          "type": "node",
+          "text": "IC installée",
+          "ref": "n21-ic",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 1,
+          "disposition": "MATERIALIZED",
+          "justification": "node label",
+          "materializationSource": "cb-vis-n21-1-natural-history-n-n21-ic",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "node:n21-ic"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n21-1-natural-history-n-n21-oscillation",
+          "unit": "node",
+          "type": "node",
+          "text": "Oscillations stabilité / décompensation",
+          "ref": "n21-oscillation",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label",
+          "materializationSource": "cb-vis-n21-1-natural-history-n-n21-oscillation",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "node:n21-oscillation"
+            ]
+          }
+        },
+        {
+          "id": "cb-vis-n21-1-natural-history-n-n21-remodeling",
+          "unit": "node",
+          "type": "node",
+          "text": "Remodelage inverse possible sous traitement",
+          "ref": "n21-remodeling",
+          "occurrenceCount": 1,
+          "status": "exactly-once",
+          "linkedMarkCount": 2,
+          "disposition": "MATERIALIZED",
+          "justification": "node label",
+          "materializationSource": "cb-vis-n21-1-natural-history-n-n21-remodeling",
+          "evidence": {
+            "role": "node label",
+            "locations": [
+              "node:n21-remodeling"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+# visualSpec v0.2 — Contrat 05 (sémantique seule)
+#
+# Élément pédagogique : N09 — Confirmation diagnostique hors urgence
+# Visuel V0 : N09-1
+# Patrimoine source : tools/lou-build/vcck/specs/234-w2a/n09-diagnostic-algorithm.yaml (TRANSFORM)
+# Walkthrough : phase1a-234-wt-wave1-v2-frozen.md §N09 (KEEP_AFTER_ALIGNMENT)
+#
+# Sprint 0 E2 — golden path N09
+
+spec_version: "0.2"
+primitive: decision-algorithm
+variant: diagnostic
+chapter: cardio/234
+element: N09-diagnostic-algorithm
+question: "Dans quel ordre confirmer une IC hors urgence ?"
+
+provenance:
+  source_edition: 2022
+  walkthrough: WT-WAVE1-V2-FROZEN
+  methodology_version: e2-sprint0-n09-golden-path
+
+nodes:
+  - id: n09-entry
+    kind: entry
+    label: Facteurs de risque + symptômes ou signes ± ECG anormal
+    class: sourced
+    kp: [KP-003, KP-043]
+
+  - id: n09-suspicion
+    kind: decision
+    label: Suspicion clinique d'IC
+    class: sourced
+    kp: [KP-003, KP-043]
+
+  - id: n09-peptides
+    kind: test
+    label: BNP ou NT-proBNP
+    class: sourced
+    kp: [KP-043]
+
+  - id: n09-unlikely
+    kind: dead-end
+    label: IC peu probable
+    class: sourced
+    kp: [KP-043]
+
+  - id: n09-echo
+    kind: test
+    label: Échocardiographie
+    class: sourced
+    kp: [KP-039, KP-043]
+
+  - id: n09-characterize
+    kind: conclusion
+    label: Caractériser l'IC
+    class: sourced
+    kp: [KP-014, KP-015, KP-016, KP-029, KP-045, KP-050, KP-051, KP-052, KP-053, KP-054, KP-056, KP-057, KP-067, KP-068, KP-069, KP-070, KP-072]
+    subitems:
+      - id: char-phenotype
+        label: Phénotype selon la FE
+        class: sourced
+        kp: [KP-014, KP-015, KP-016]
+      - id: char-cause
+        label: Cause
+        class: sourced
+        kp: [KP-050, KP-051, KP-052, KP-053, KP-054, KP-056, KP-057, KP-072]
+      - id: char-severity
+        label: Retentissement et gravité
+        class: sourced
+        kp: [KP-029, KP-067, KP-068, KP-069, KP-070]
+      - id: char-exams
+        label: Examens complémentaires si nécessaires
+        class: sourced
+        kp: [KP-045]
+
+branches:
+  - id: br-entry-suspicion
+    from: n09-entry
+    to: n09-suspicion
+    condition: Évaluer la probabilité clinique
+    class: sourced
+    kp: [KP-003, KP-043]
+
+  - id: br-suspicion-peptides
+    from: n09-suspicion
+    to: n09-peptides
+    condition: Parcours hors urgence
+    class: sourced
+    kp: [KP-043]
+
+  - id: br-peptides-unlikely
+    from: n09-peptides
+    to: n09-unlikely
+    condition: Seuils bas
+    class: sourced
+    kp: [KP-043]
+    threshold_fragment:
+      context: hors urgence
+      low_band_meaning: IC peu probable
+      scales:
+        - id: frag-bnp
+          analyte: BNP
+          cutoff_label: "< 35 pg/mL"
+          comparator: <
+          value: 35
+          unit: pg/mL
+          class: sourced
+          kp: [KP-043]
+        - id: frag-ntprobnp
+          analyte: NT-proBNP
+          cutoff_label: "< 125 pg/mL"
+          comparator: <
+          value: 125
+          unit: pg/mL
+          class: sourced
+          kp: [KP-043]
+
+  - id: br-peptides-echo
+    from: n09-peptides
+    to: n09-echo
+    condition: Valeurs au-dessus des seuils ou peptides indisponibles
+    class: sourced
+    kp: [KP-043]
+
+  - id: br-suspicion-echo
+    from: n09-suspicion
+    to: n09-echo
+    condition: Suspicion clinique forte
+    class: sourced
+    kp: [KP-043]
+
+  - id: br-echo-characterize
+    from: n09-echo
+    to: n09-characterize
+    condition: Objectiver et caractériser l'anomalie cardiaque
+    class: sourced
+    kp: [KP-039, KP-043]
+
+annotations:
+  - id: ann-urgency
+    label: "En urgence : ne pas retarder la prise en charge"
+    placement: out-of-flow
+    class: sourced
+    kp: [KP-060]

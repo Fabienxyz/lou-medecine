@@ -15,9 +15,11 @@
     "typecheck": "tsc --noEmit",
     "validate": "tsx src/cli/build.ts validate",
     "build": "tsx src/cli/build.ts build",
-    "library:install": "tsx src/cli/library.ts install"
+    "library:install": "tsx src/cli/library.ts install",
+    "projection:report": "node scripts/run-projection-report.mjs"
   },
   "dependencies": {
+    "docx": "^9.7.1",
     "yaml": "^2.7.0"
   },
   "devDependencies": {
